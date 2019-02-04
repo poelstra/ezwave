@@ -62,7 +62,7 @@ interface CommandClass {
 	name: string;
 	help: string;
 	read_only: boolean;
-	comment: string;
+	comment: string; // Only contains "[DEPRECATED]", "[OBSOLETED]", or nothing
 	cmd: MaybeArray<Command>;
 }
 
@@ -136,7 +136,7 @@ interface ByteParam extends ParamBase {
 	type: "BYTE";
 	typehashcode: ParamType.BYTE;
 	valueattrib: Valueattrib;
-	bitflag: MaybeArray<BitflagElement>; // Present if valueattrib.hasdefines === true
+	bitflag: MaybeArray<ValueDef>; // Present if valueattrib.hasdefines === true
 	optionaloffs?: number;
 	optionalmask?: number;
 }
@@ -190,13 +190,16 @@ interface BitmaskParam extends ParamBase {
 	type: "BITMASK";
 	typehashcode: ParamType.BITMASK;
 	bitmask: Bitmask;
-	bitflag: MaybeArray<BitflagElement>;
+	bitflag: MaybeArray<ValueDef>;
 }
 
-interface BitflagElement {
+/**
+ * Common type used for both 'enum-like' and 'bitmask-like' values.
+ */
+interface ValueDef {
 	key: number; // Defines order among other fields in same param
 	flagname: string; // Name, e.g. "External Alarm"
-	flagmask: number; // Value of bit as mask (i.e. 1, 2, 4, 8, ...)
+	flagmask: number; // Value of bit as mask, or 'raw' index, depending on context
 }
 
 interface Bitmask {
@@ -211,7 +214,7 @@ interface StructByteParam extends ParamBase {
 	type: "STRUCT_BYTE";
 	typehashcode: ParamType.STRUCT_BYTE;
 	// Bitfield, bitflag and fieldenum can all be present, `key` property determines order
-	bitflag: MaybeArray<BitflagElement>; // Represents a number of single-bit flags
+	bitflag: MaybeArray<ValueDef>; // Represents a number of single-bit flags
 	bitfield: MaybeArray<Bitfield>; // Represents a number of multi-bit fields
 	fieldenum: MaybeArray<Fieldenum>;
 	cmd_mask?: number;
@@ -276,13 +279,13 @@ interface Paramdescloc {
 }
 
 interface MultiArrayParamBitFlags {
-	bitflag: MaybeArray<BitflagElement>;
+	bitflag: MaybeArray<ValueDef>;
 }
 
 interface ConstParam extends ParamBase {
 	type: "CONST";
 	typehashcode: ParamType.CONST;
-	const: MaybeArray<BitflagElement>;
+	const: MaybeArray<ValueDef>;
 }
 
 interface VariantParam extends ParamBase {
@@ -332,7 +335,7 @@ interface SimpleStructByteElement {
 	type: StructByteElementType;
 	name: string;
 	shift: number;
-	mask: number;
+	mask: number; // TODO double-check whether mask is applied before or after shift
 	values?: Map<number, string>; // Present if type is Enum
 }
 
@@ -411,14 +414,18 @@ async function generateCommandClass(outDir: string, cmdClass: CommandClass): Pro
 	contents.push(strip(`
 		/* Auto-generated */
 
-		// ${cmdClass.comment}
+		${cmdClass.comment ? "// " + cmdClass.comment : ""}
 		export class ${className} {
 			readonly commandClass = 0x${cmdClass.key.toString(16)}; // (${cmdClass.key});
 		}
 	`));
 
+	if (cmdClass.comment)
+		console.log(cmdClass.name, cmdClass.comment);
 	// Output command frames
 	for (const cmd of toArray(cmdClass.cmd)) {
+		/*if (cmd.comment)
+			console.log(cmdClass.name, cmd.name, cmd.comment);*/
 		// Convert params and VariantGroups to a single array of params, in the right order
 		let params: Array<Param | VariantGroup> = [];
 		for (const param of toArray(cmd.param)) {
@@ -441,8 +448,8 @@ async function generateCommandClass(outDir: string, cmdClass: CommandClass): Pro
 				switch (param.typehashcode) {
 					case ParamType.BYTE:
 					case ParamType.WORD:
-					case ParamType.DWORD:
 					case ParamType.BIT_24:
+					case ParamType.DWORD:
 					case ParamType.ENUM:
 					case ParamType.CONST:
 						{
@@ -483,10 +490,14 @@ async function generateCommandClass(outDir: string, cmdClass: CommandClass): Pro
 						break;
 					case ParamType.ARRAY:
 						{
-							let arrayType = param.arrayattrib.is_ascii ? "string" : "Buffer";
+							const attr = param.arrayattrib;
+							let arrayType = attr.is_ascii ? "string" : "Buffer";
 							if (param.arraylen !== undefined) {
 								throw new Error("unsupported `arraylen`");
 							}
+							assert(attr.key === 0);
+							assert(attr.is_ascii === !attr.showhex);
+							assert(attr.len > 0 && attr.len < 255);
 							contents.push(`${indent}${Case.camel(param.name)}: ${arrayType}; // ${param.type}, ${param.arrayattrib.len} bytes`);
 						}
 						break;
@@ -498,7 +509,7 @@ async function generateCommandClass(outDir: string, cmdClass: CommandClass): Pro
 							// - If len === 1, and first element !== 0, all flags are mask style
 							// - If len === undefined, all flags are mask style (even if first value !== 0)
 							// - If len !== undefined (and not 1), error (because we don't know what may happen)
-							// This is verified by hand, by looking at all bitmasks in current XML
+							// This is verified by hand, by looking at all bitmasks in current XML vs docs
 							const values = new Map<number, string>();
 							for (const flag of toArray(param.bitflag)) {
 								values.set(flag.flagmask, flag.flagname);
@@ -566,9 +577,8 @@ async function generateCommandClass(outDir: string, cmdClass: CommandClass): Pro
 						break;
 					case ParamType.ENUM_ARRAY:
 						{
-							// TODO Not sure this is the right interpretation, but it seems it's
-							// basically just a hardcoded list of enums, and only used once in a
-							// kind of placeholder command class (i.e 0x01, ZWAVE_CMD_CLASS)
+							// This is only used in (ZWAVE_CMD_CLASS:NODE_INFO), and is basically equivalent
+							// to a VARIANT with paramoffs==255 and encaptype CMD_CLASS_REF
 							const values = new Map<number, string>();
 							for (const enm of toArray(param.enum)) {
 								values.set(enm.key, enm.name);
@@ -591,6 +601,10 @@ async function generateCommandClass(outDir: string, cmdClass: CommandClass): Pro
 					case ParamType.VARIANT:
 						{
 							const v = param.variant;
+							assert(v.signed === true); // Seems to be unused?
+							if (v.paramoffs === 255) {
+								assert(v.sizemask === 0 && v.sizeoffs === 0);
+							}
 							// This is basically a variable-length Buffer or string
 							// TODO Handle sizechange (can be e.g. -1 or -2), apparently means to
 							// include that number of previous bytes into the payload
