@@ -5,7 +5,7 @@ import { Protocol } from "./protocol";
 import { packetToString, SerialAPICommand, bufferToString, DataPacket, DataType } from "./codec";
 import { defer, Timer } from "./util";
 import { EventEmitter } from "events";
-import CommandClasses from "../../generated/CommandClasses";
+import CommandClasses from "../generated/CommandClasses";
 
 export interface SerialAPICapabilities {
 	applVersion: number;

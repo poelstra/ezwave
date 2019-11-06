@@ -4,22 +4,46 @@ import * as SerialPort from "serialport";
 import main from "async-main";
 import * as stream from "stream";
 import { EventEmitter } from "events";
-import { FrameType, Codec, Packet, LineError, DataType, DataPacket, SerialAPICommand, packetToString } from "./codec";
+import {
+	FrameType,
+	Codec,
+	Packet,
+	LineError,
+	DataType,
+	DataPacket,
+	SerialAPICommand,
+	packetToString,
+} from "./codec";
 import { delay } from "./util";
 import { Protocol } from "./protocol";
 import { Host, Command } from "./host";
 
+const SUPPORTED_USB_IDS = [
+	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
+];
+
 async function open(): Promise<SerialPort> {
+	const ports = await SerialPort.list();
+	const zwaveSticks = ports.filter(port =>
+		SUPPORTED_USB_IDS.some(
+			id => id === `${port.vendorId}:${port.productId}`
+		)
+	);
+	if (zwaveSticks.length === 0) {
+		throw new Error("no supported Z-Wave controller found");
+	}
+	const portName = zwaveSticks[0].comName; // TODO support multiple sticks?
 	return new Promise<SerialPort>((resolve, reject) => {
 		const port: SerialPort = new SerialPort(
-			"/dev/ttyACM0", 
+			portName,
 			{
 				baudRate: 115200,
 				parity: "none",
 				dataBits: 8,
 				stopBits: 1,
 			},
-			(err) => err ? reject(err) : resolve(port));
+			err => (err ? reject(err) : resolve(port))
+		);
 	});
 }
 
@@ -68,7 +92,7 @@ main(async () => {
 	const host = new Host(protocol);
 
 	await host.init();
-	host.on("event", (event) => console.log(event));
+	host.on("event", event => console.log(event));
 
 	const COMMAND_CLASS_BASIC = 0x20;
 	const COMMAND_CLASS_BINARY = 0x25;

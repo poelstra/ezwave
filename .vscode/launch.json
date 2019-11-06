@@ -7,11 +7,8 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch Program",
-			"program": "${workspaceFolder}/index.js",
-			"outFiles": [
-				"${workspaceFolder}/**/*.js"
-			]
+			"name": "Launch xml2json",
+			"program": "${workspaceFolder}/dist/codegen/xml2json.js"
 		}
 	]
 }
