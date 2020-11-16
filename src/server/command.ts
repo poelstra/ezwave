@@ -51,13 +51,14 @@ function decodeParam(
 	pos: number,
 	param: types.Parameter | types.ParameterGroup,
 	result: DecodedPacket,
-	context: number[],
-	parentContext?: number[]
+	context: Context,
+	parentContext?: Context
 ): number {
 	// Skip optional param if necessary
 	if (param.optional) {
-		const ctx = (param.optional.isParentIndex && parentContext) || context;
-		if ((ctx[param.optional.index] & param.optional.mask) === 0) {
+		const ctx =
+			(param.optional.isParentReference && parentContext) || context;
+		if ((ctx[param.optional.name] & param.optional.mask) === 0) {
 			return 0;
 		}
 	}
@@ -69,8 +70,9 @@ function decodeParam(
 	} else if (typeof param.length === "number") {
 		length = param.length;
 	} else {
-		const ctx = (param.length.isParentIndex && parentContext) || context;
-		length = ctx[param.length.index];
+		const ctx =
+			(param.length.isParentReference && parentContext) || context;
+		length = ctx[param.length.name];
 		if (length === undefined) {
 			throw new Error("cannot determine parameter length");
 		}
@@ -91,7 +93,7 @@ function decodeParam(
 					throw new Error("unexpected end of packet");
 				}
 				result[param.name] = value;
-				context[param.index] = value;
+				context[param.name] = value;
 				return length;
 			}
 			break;
@@ -106,11 +108,14 @@ function decodeParam(
 
 		case "group":
 			{
+				if (parentContext) {
+					throw new Error("nested groups not supported");
+				}
 				let processed = 0;
 				const groupResult: any[] = [];
 				const nextElement = () => {
 					const groupElement = Object.create(null);
-					const groupContext: number[] = [];
+					const groupContext: Context = Object.create(null);
 					for (const groupParam of param.params) {
 						processed += decodeParam(
 							packet,
@@ -132,9 +137,9 @@ function decodeParam(
 							break;
 						}
 					} else if (typeof param.length === "object") {
-						assert(param.length.isParentIndex === false);
+						assert(param.length.isParentReference === false);
 						const count =
-							(context[param.length.index] & param.length.mask) >>
+							(context[param.length.name] & param.length.mask) >>
 							param.length.shift;
 						if (groupResult.length === count) {
 							break;
@@ -148,7 +153,7 @@ function decodeParam(
 					if (param.moreToFollow) {
 						// i.e. param.length === "auto"
 						if (
-							(groupContext[param.moreToFollow.index] &
+							(groupContext[param.moreToFollow.name] &
 								param.moreToFollow.mask) ===
 							0
 						) {
@@ -187,7 +192,7 @@ export function decodePacket(
 	if (!command || command.id !== commandId) {
 		// Most common path failed, do manual search
 		command = cmdClass.commands.find(
-			cmd => cmd.id === (commandId & (cmd.cmdMask || 0xff))
+			(cmd) => cmd.id === (commandId & (cmd.cmdMask || 0xff))
 		);
 	}
 	if (!command) {
@@ -200,7 +205,7 @@ export function decodePacket(
 		(isSingleByteClass ? 0 : 1) +
 		(command.cmdMask !== undefined ? -1 : 0);
 	const result = Object.create(null);
-	const context: number[] = [];
+	const context: Context = Object.create(null);
 	for (const param of command.params) {
 		pos += decodeParam(packet, pos, param, result, context);
 	}

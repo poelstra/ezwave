@@ -406,39 +406,39 @@ function generateBitfields(param: StructByteParam): types.BitfieldElement[] {
 
 function buildParamRef(
 	key: number,
-	mainMap: Map<number, number>,
-	groupMap?: Map<number, number>
+	mainMap: Map<number, string>,
+	groupMap?: Map<number, string>
 ): types.ParameterReference {
-	const isParentIndex = key >= 128 ? true : undefined; // Less noisy in JSON
-	if (isParentIndex && !groupMap) {
+	const isParentReference = key >= 128 ? true : undefined; // Less noisy in JSON
+	if (isParentReference && !groupMap) {
 		throw new Error(`invalid parent parameter reference, not in a group`);
 	}
 
-	if (isParentIndex) {
+	if (isParentReference) {
 		key -= 128;
 	}
 
-	const map = groupMap && !isParentIndex ? groupMap : mainMap;
+	const map = groupMap && !isParentReference ? groupMap : mainMap;
 
-	const index = map.get(key);
-	if (index === undefined) {
+	const name = map.get(key);
+	if (name === undefined) {
 		throw new Error(
-			`cannot find key ${key} in ${
+			`cannot find parameter ${key} in ${
 				map === groupMap ? "group" : "main"
 			} map`
 		);
 	}
 
 	return {
-		index,
-		isParentIndex,
+		name,
+		isParentReference,
 	};
 }
 
 function generateParameter(
 	param: Param | VariantGroup,
-	mainIdMap: Map<number, number>,
-	groupIdMap?: Map<number, number>
+	mainIdMap: Map<number, string>,
+	groupIdMap?: Map<number, string>
 ): types.Parameter | types.ParameterGroup {
 	let optional: types.OptionalInfo | undefined;
 	if (
@@ -454,7 +454,6 @@ function generateParameter(
 
 	const paramBase = {
 		name: param.name,
-		index: buildParamRef(param.key, mainIdMap, groupIdMap).index,
 		optional,
 	};
 
@@ -785,9 +784,9 @@ function generateParameter(
 					"only single groups supported yet"
 				); // TODO Check what happens if we have more than one
 
-				const groupIdMap = new Map<number, number>();
-				toArray(param.param).forEach((p, index) =>
-					groupIdMap.set(p.key, index)
+				const groupIdMap = new Map<number, string>();
+				toArray(param.param).forEach(p =>
+					groupIdMap.set(p.key, p.name)
 				);
 
 				const params = toArray(param.param).map(p =>
@@ -802,11 +801,11 @@ function generateParameter(
 						typeof param.moretofollowmask === "number"
 					) {
 						moreToFollow = {
-							index: buildParamRef(
+							name: buildParamRef(
 								param.moretofollowoffs,
 								mainIdMap,
 								groupIdMap
-							).index,
+							).name,
 							mask: param.moretofollowmask,
 						};
 					}
@@ -873,8 +872,8 @@ function generateCommand(cmdClass: CommandClass, cmd: Command): types.Command {
 	// Note: each param carries a 'key' to keep the references correct
 	params = params.filter(elem => elem);
 
-	const idMap = new Map<number, number>();
-	params.forEach((param, index) => idMap.set(param.key, index));
+	const idMap = new Map<number, string>();
+	params.forEach(param => idMap.set(param.key, param.name));
 
 	let command: types.Command = {
 		id: cmd.key,

@@ -10,7 +10,10 @@ import * as types from "./types";
 /**
  * 'Map' over all key/values of a Map, and return an array of all the results.
  */
-function mapMap<K, V, R>(map: Map<K, V>, cb: (value: V, key: K, map: Map<K, V>) => R): R[] {
+function mapMap<K, V, R>(
+	map: Map<K, V>,
+	cb: (value: V, key: K, map: Map<K, V>) => R
+): R[] {
 	let result: R[] = [];
 	map.forEach((v, k, m) => result.push(cb(v, k, m)));
 	return result;
@@ -59,29 +62,40 @@ class CommandClassGenerator {
 			}
 			// Renumber, starting with ....2 seems to make more sense
 			name = `${origName}${i}Enum`;
-			console.log("### NOT SAME", this._class.name, name);
+			// TODO check whether these enums are indeed really different, and if so,
+			// need a proper name, or they are actually quite similar and need to be
+			// merged into one
+			//console.log("### NOT SAME", this._class.name, name);
 		}
 		this._enumsCanonical.set(name, canonicalEnum);
 		this._enums.set(name, values);
 		return name;
-	};
+	}
 
 	private _generate(): Lines {
-		const className = `${Case.pascal(this._class.name)}V${this._class.version}`;
+		const className = `${Case.pascal(this._class.name)}V${
+			this._class.version
+		}`;
 		const contents: Lines = [];
 
+		const definition = JSON.stringify(this._class);
 		contents.push(
 			`/* Auto-generated */`,
 			``,
-			this._class.status !== types.Status.Active ? "// " + types.STATUS_REVERSED[this._class.status] : undefined,
+			this._class.status !== types.Status.Active
+				? "// " + types.STATUS_REVERSED[this._class.status]
+				: undefined,
 			`export class ${className} {`,
-			`	readonly commandClass = 0x${this._class.id.toString(16)}; // (${this._class.id});`,
+			`\tpublic static readonly commandClass = 0x${this._class.id.toString(
+				16
+			)}; // (${this._class.id});`,
+			`\tpublic static readonly definition = ${definition};`,
 			`}`,
-			``,
+			``
 		);
 
 		for (const cmd of this._class.commands) {
-			contents.push(...this._generateCommand(cmd));
+			contents.push(...this._generateCommandInterface(cmd));
 		}
 
 		// Output enums
@@ -104,23 +118,26 @@ class CommandClassGenerator {
 
 				contents.push(`\t${uniqueName} = 0x${index.toString(16)},`);
 			}
-			contents.push(
-				`}`,
-				``
-			);
+			contents.push(`}`, ``);
 		}
 
 		return contents;
 	}
 
-	private _generateCommand(cmd: types.Command): Lines {
+	private _generateCommandInterface(cmd: types.Command): Lines {
 		const contents: Lines = [];
 
 		if (cmd.status !== types.Status.Active) {
 			contents.push("// " + types.STATUS_REVERSED[cmd.status]);
 		}
 
-		contents.push(`export interface ${Case.pascal(cmd.name)} { // Command 0x${cmd.id.toString(16)} (${cmd.id})`);
+		contents.push(
+			`export interface ${Case.pascal(cmd.name)} {`,
+			`\t_commandClass: 0x${this._class.id.toString(16)}; // (${
+				this._class.id
+			})`,
+			`\t_command: 0x${cmd.id.toString(16)}; // (${cmd.id})`
+		);
 		for (const param of cmd.params) {
 			contents.push(...this._generateParam(param));
 		}
@@ -129,21 +146,34 @@ class CommandClassGenerator {
 		return contents;
 	}
 
-	private _generateParam(param: types.Parameter | types.ParameterGroup): Lines {
+	private _generateParam(
+		param: types.Parameter | types.ParameterGroup
+	): Lines {
 		const contents: Lines = [];
 
 		const isOptional = param.optional !== undefined;
 		switch (param.type) {
 			case "integer":
-				contents.push(`\t${Case.camel(param.name)}${isOptional ? "?" : ""}: number; // ${param.length} byte unsigned integer`);
+				contents.push(
+					`\t${Case.camel(param.name)}${
+						isOptional ? "?" : ""
+					}: number; // ${param.length} byte unsigned integer`
+				);
 				break;
 			case "enum":
 				{
-					const enumName = this._registerEnum(param.name, param.values);
-					contents.push(`\t${Case.camel(param.name)}${isOptional ? "?" : ""}: ${enumName}; // 1 byte enum value`);
+					const enumName = this._registerEnum(
+						param.name,
+						param.values
+					);
+					contents.push(
+						`\t${Case.camel(param.name)}${
+							isOptional ? "?" : ""
+						}: ${enumName}; // 1 byte enum value`
+					);
 				}
 				break;
-/*			case ParamType.ARRAY:
+			/*			case ParamType.ARRAY:
 				{
 					const attr = param.arrayattrib;
 					let arrayType = attr.is_ascii ? "string" : "Buffer";
@@ -288,7 +318,9 @@ class CommandClassGenerator {
 				break;
 			case ParamType.MARKER:*/
 			default:
-				contents.push(`\t// TODO param type ${param.type}`);
+				contents.push(
+					`\t// TODO param ${param.name} type ${param.type}`
+				);
 		}
 		return contents;
 	}
@@ -299,10 +331,16 @@ main(async () => {
 	const outDir = path.resolve(rootDir, "src", "generated");
 
 	// Read JSON ZWave specification
-	const jsonText = await pfs.readFile(path.resolve(rootDir, "src", "generated", "zwave.json"), "utf8");
+	const jsonText = await pfs.readFile(
+		path.resolve(rootDir, "src", "generated", "zwave.json"),
+		"utf8"
+	);
 	const spec = JSON.parse(jsonText) as types.ZwaveSpec;
 
-	assert(spec.jsonVersion === types.JSON_VERSION, "Unsupported JSON spec version");
+	assert(
+		spec.jsonVersion === types.JSON_VERSION,
+		"Unsupported JSON spec version"
+	);
 
 	// Iterate over JSON structure, generate our own structure
 	for (const cmdClass of spec.classes) {
@@ -310,9 +348,11 @@ main(async () => {
 
 		const className = `${Case.pascal(cmdClass.name)}V${cmdClass.version}`;
 		const filename = path.resolve(outDir, `${className}.ts`);
-		await pfs.writeFile(filename, lines.filter(l => l !== undefined).join("\n"));
+		await pfs.writeFile(
+			filename,
+			lines.filter(l => l !== undefined).join("\n")
+		);
 	}
-
 
 	// Build an enum of all available command classes.
 	// Note: COMMAND_CLASS_ALARM was renamed to COMMAND_CLASS_NOTIFICATION,
@@ -324,9 +364,15 @@ main(async () => {
 	const classesContents = [
 		`/* Auto-generated */`,
 		`enum CommandClasses {`,
-		`\t${mapMap(classes, (v, k) => `${k} = 0x${v.toString(16).padStart(2, "0")}`).join(",\n\t")}`,
+		`\t${mapMap(
+			classes,
+			(v, k) => `${k} = 0x${v.toString(16).padStart(2, "0")}`
+		).join(",\n\t")}`,
 		`};`,
 		`export default CommandClasses;`,
 	].join("\n");
-	await pfs.writeFile(path.resolve(outDir, "CommandClasses.ts"), classesContents);
+	await pfs.writeFile(
+		path.resolve(outDir, "CommandClasses.ts"),
+		classesContents
+	);
 });

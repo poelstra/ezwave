@@ -76,11 +76,6 @@ export interface ParameterBase {
 	name: string;
 
 	/**
-	 * Index of this parameter in its Command or ParameterGroup array.
-	 */
-	// index: number;
-
-	/**
 	 * Length of this field.
 	 * Some fields have a fixed length (e.g. a BYTE has length 1), some
 	 * are determined by the contents of another field, and some span until
@@ -224,8 +219,8 @@ export interface EnumArrayParameter extends ParameterBase {
 export type LengthInfo = number | "auto" | DynamicLengthInfo;
 
 export interface ParameterReference {
-	index: number; // Parameter index (in Command or current ParameterGroup)
-	isParentIndex?: boolean; // True if `index` refers to an index in the command, even when currently in a ParameterGroup
+	name: string; // Parameter name (in Command or current ParameterGroup)
+	isParentReference?: boolean; // True if `name` refers to a parameter name in the command, even when currently in a ParameterGroup
 }
 
 /**
@@ -261,10 +256,10 @@ export interface OptionalInfo extends ParameterReference {
  * Used in ParameterGroup (when length is "auto").
  * Each record will indicate whether another record is
  * expected after this one.
- * If (param[index] & mask > 0), another record will follow.
+ * If (param[name] & mask > 0), another record will follow.
  */
 export interface MoreToFollowInfo {
-	index: number; // Parameter index in current ParameterGroup
+	name: string; // Parameter name in current ParameterGroup
 	mask: number; // Mask to apply to byte at index
 }
 
