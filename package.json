@@ -4,9 +4,9 @@
 	"description": "Z-Wave controller daemon and protocol parser",
 	"main": "index.js",
 	"scripts": {
-		"start": "node dist/server/index",
+		"start": "node dist/src/server/index",
 		"test": "mocha dist/test/**.js",
-		"regenerate": "node dist/codegen/xml2json && node dist/codegen/generate_commands"
+		"regenerate": "node dist/src/codegen/xml2json && node dist/src/codegen/generate_commands"
 	},
 	"keywords": [],
 	"author": "Martin Poelstra <martin@beryllium.net>",
@@ -29,6 +29,6 @@
 		"@types/mocha": "^5.2.7",
 		"chai": "^4.2.0",
 		"mocha": "^6.2.2",
-		"typescript": "3.6.4"
+		"typescript": "4.0.5"
 	}
 }
