@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node dist/src/server/index",
-		"test": "mocha dist/test/**.js",
+		"test": "mocha",
 		"regenerate": "node dist/src/codegen/xml2json && node dist/src/codegen/generate_commands"
 	},
 	"keywords": [],
