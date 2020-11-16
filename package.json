@@ -5,8 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node dist/server/index",
+		"build": "tsc",
 		"test": "mocha",
-		"regenerate": "node dist/codegen/xml2json && node dist/codegen/generate_commands"
+		"regenerate": "node dist/codegen/xml2json && node dist/codegen/generate_commands",
+		"prepare": "npm run -s build"
 	},
 	"keywords": [],
 	"author": "Martin Poelstra <martin@beryllium.net>",
