@@ -123,7 +123,7 @@ export class Home {
 		]);
 		await this._sendS0Encrypted(HomeDevices.KeukenAanrecht, message);
 		const reply = await this.host.waitFor(
-			3000,
+			10000,
 			(event) =>
 				event.sourceNode === HomeDevices.KeukenAanrecht &&
 				event.commandClass ===
