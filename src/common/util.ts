@@ -91,3 +91,26 @@ export class Timer {
 		}
 	}
 }
+
+export async function timeout<T>(
+	promise: PromiseLike<T>,
+	timeoutInMs: number,
+	message?: string
+): Promise<T> {
+	// Create the error early (i.e. not inside timeout handler), to get good stack trace on timeout
+	const error = new Error(message ?? "request timed out");
+	return new Promise((resolve, reject) => {
+		const timer = new Timer(timeoutInMs, () => reject(error));
+		timer.start();
+		promise.then(
+			(value) => {
+				timer.stop();
+				resolve(value);
+			},
+			(err) => {
+				timer.stop();
+				reject(err);
+			}
+		);
+	});
+}

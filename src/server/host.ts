@@ -3,7 +3,7 @@ import { EventEmitter } from "events";
 import * as Queue from "promise-queue";
 import { Protocol, SerialAPICommand } from "../serial/protocol";
 import { Command, CommandClassInfo, parseCommandClasses } from "./command";
-import { bufferToString, defer, Timer } from "../common/util";
+import { bufferToString, defer, timeout, Timer } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
 	BasicDeviceClassEnum,
@@ -238,22 +238,16 @@ export class Host extends EventEmitter implements HostEvents {
 		matcher: (event: HostEvent) => boolean
 	): Promise<HostEvent> {
 		const d = defer<HostEvent>();
-		const timer = new Timer(timeoutMs, () =>
-			d.reject(new Error("request timed out"))
-		);
 		const handle = (event: HostEvent) => {
 			if (matcher(event)) d.resolve(event);
 		};
 		// TODO don't attach to ourselves, put it in a proper dispatch mechanism
 		this.on("event", handle);
-		timer.start();
 		try {
-			await d.promise;
+			return await timeout(d.promise, timeoutMs, "request timed out");
 		} finally {
-			timer.stop();
 			this.off("event", handle);
 		}
-		return d.promise;
 	}
 
 	public async zwRequestNodeInfo(nodeId: number): Promise<NodeInfo> {
