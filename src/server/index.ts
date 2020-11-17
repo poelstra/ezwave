@@ -20,20 +20,22 @@ const SUPPORTED_USB_IDS = [
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
 ];
 
-async function open(): Promise<SerialPort> {
-	const ports = await SerialPort.list();
-	const zwaveSticks = ports.filter((port) =>
-		SUPPORTED_USB_IDS.some(
-			(id) => id === `${port.vendorId}:${port.productId}`
-		)
-	);
-	if (zwaveSticks.length === 0) {
-		throw new Error("no supported Z-Wave controller found");
+async function open(portName?: string): Promise<SerialPort> {
+	if (!portName) {
+		const ports = await SerialPort.list();
+		const zwaveSticks = ports.filter((port) =>
+			SUPPORTED_USB_IDS.some(
+				(id) => id === `${port.vendorId}:${port.productId}`
+			)
+		);
+		if (zwaveSticks.length === 0) {
+			throw new Error("no supported Z-Wave controller found");
+		}
+		portName = zwaveSticks[0].comName; // TODO support multiple sticks?
 	}
-	const portName = zwaveSticks[0].comName; // TODO support multiple sticks?
 	return new Promise<SerialPort>((resolve, reject) => {
 		const port: SerialPort = new SerialPort(
-			portName,
+			portName!,
 			{
 				baudRate: 115200,
 				parity: "none",
@@ -160,6 +162,7 @@ function prefixTimestamp(console: Console, method: keyof Console): void {
 }
 
 interface Config {
+	serial?: string;
 	mhub: {
 		url: string;
 		user: string;
@@ -173,13 +176,15 @@ main(async () => {
 	prefixTimestamp(console, "warn");
 	prefixTimestamp(console, "error");
 
+	console.log("Reading configuration...");
+
 	const config = require("../../config.json") as Config;
 	const networkKey = require("../../networkkey.json") as string;
 
 	let port: SerialPort | undefined;
 	const getCodec = async () => {
-		console.log("connecting to Z-Wave controller...");
-		port = await open();
+		console.log("Connecting to Z-Wave controller...");
+		port = await open(config.serial);
 		port.on("close", () => console.log("port closed"));
 		console.log("port opened");
 		return new Codec(port);

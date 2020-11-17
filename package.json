@@ -24,7 +24,7 @@
 		"fast-xml-parser": "^3.12.7",
 		"mhub": "^2.1.0",
 		"promise-queue": "^2.2.5",
-		"serialport": "^7.1.5",
+		"serialport": "^9.0.2",
 		"source-map-support": "^0.5.9"
 	},
 	"devDependencies": {
