@@ -21,6 +21,12 @@ export function defer<T>(): Deferred<T> {
 	};
 }
 
+export function never(): Promise<never> {
+	return new Promise(() => {
+		/* no op */
+	});
+}
+
 export function bufferToString(buffer: Buffer): string {
 	return [...buffer].map((n) => n.toString(16).padStart(2, "0")).join(" ");
 }
