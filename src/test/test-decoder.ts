@@ -2,7 +2,7 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 
 import * as types from "../codegen/types";
-import { decodePacket } from "../server/command";
+import { decodePacket } from "../server/decode";
 
 function createCommand(
 	cmdClass: number,
