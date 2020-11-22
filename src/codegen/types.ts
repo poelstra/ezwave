@@ -23,13 +23,13 @@ export interface CommandClass {
 	name: string;
 	version: number;
 	commands: Command[];
-	status: Status;
+	status: keyof typeof STATUS_REVERSED;
 }
 
 export interface Command {
 	id: number;
 	name: string;
-	status: Status;
+	status: keyof typeof STATUS_REVERSED;
 	params: Array<Parameter | ParameterGroup>;
 	/**
 	 * If set, indicates a mask to apply to the command byte.
