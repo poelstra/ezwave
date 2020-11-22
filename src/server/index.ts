@@ -9,7 +9,7 @@ import {
 } from "../generated/ZwaveCmdClassV1";
 import { Codec } from "../serial/codec";
 import { Protocol } from "../serial/protocol";
-import { parseCommandClasses } from "./command";
+import { parseCommandClasses } from "./commandClassInfo";
 import { CryptoManager, NonceStore } from "./crypto";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";

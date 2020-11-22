@@ -2,7 +2,11 @@ import { Parser } from "binary-parser";
 import { EventEmitter } from "events";
 import * as Queue from "promise-queue";
 import { Protocol, SerialAPICommand } from "../serial/protocol";
-import { Command, CommandClassInfo, parseCommandClasses } from "./command";
+import {
+	Command,
+	CommandClassInfo,
+	parseCommandClasses,
+} from "./commandClassInfo";
 import { bufferToString, defer, timeout, Timer } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
