@@ -2,8 +2,12 @@ import { randomBytes } from "crypto";
 import { bufferToString } from "../common/util";
 
 import CommandClasses from "../generated/CommandClasses";
+import { SecurityV1 } from "./classes/SecurityV1";
+import { BasicV1 } from "./classes/SwitchBasicV1";
+import { SwitchMultilevelV1 } from "./classes/SwitchMultilevelV1";
 import { CryptoManager, NonceStore } from "./crypto";
 import { Host, HostEvent } from "./host";
+import { Packet } from "./packet";
 
 export enum HomeDevices {
 	Controller = 1, // *LB, Static Controller, Static PC Controller, AEON Labs ZW090 Z-Stick Gen5 EU, Stick, Meterkast, , 9:42:29 PM, Ready
@@ -35,12 +39,8 @@ export class Home {
 	}
 
 	private async _handleHostEvent(event: HostEvent): Promise<void> {
-		if (
-			event.commandClass ===
-				CommandClasses.COMMAND_CLASS_SWITCH_MULTILEVEL &&
-			event.command === 3 /* report */
-		) {
-			const level = event.payload[0];
+		if (event.packet.is(SwitchMultilevelV1.Report)) {
+			const level = event.packet.as(SwitchMultilevelV1.Report).data.value;
 			console.log(
 				`-> received SWITCH_MULTILEVEL_REPORT, node=${event.sourceNode} level=${level}`
 			);
@@ -97,30 +97,30 @@ export class Home {
 	}
 
 	async setKeukenAanrecht(level: number): Promise<void> {
+		const switchCmd = new SwitchMultilevelV1.Set({
+			value: level < 100 ? level : 99,
+		});
 		// prettier-ignore
-		const message = Buffer.from([
+		const message = Packet.from(Buffer.from([
 			CommandClasses.COMMAND_CLASS_MULTI_CHANNEL,
 			0x0d, /* MULTI_CHANNEL_CMD_ENCAP */
 			0x01, /* source */
 			0x01, /* dest */
-			CommandClasses.COMMAND_CLASS_SWITCH_MULTILEVEL,
-			0x01 /* SET */,
-			level < 100 ? level : 99,
-		]);
+			...switchCmd.serialize(),
+		]));
 		await this._sendS0Encrypted(HomeDevices.KeukenAanrecht, message);
 		this._lastAanrecht = level;
 	}
 
 	async getKeukenAanrecht(): Promise<number> {
 		// prettier-ignore
-		const message = Buffer.from([
+		const message = Packet.from(Buffer.from([
 			CommandClasses.COMMAND_CLASS_MULTI_CHANNEL,
 			0x0d, /* MULTI_CHANNEL_CMD_ENCAP */
 			0x01, /* source */
 			0x01, /* dest */
-			CommandClasses.COMMAND_CLASS_SWITCH_MULTILEVEL,
-			0x02 /* GET */
-		]);
+			...new SwitchMultilevelV1.Get().serialize()
+		]));
 		await this._sendS0Encrypted(HomeDevices.KeukenAanrecht, message);
 		const reply = await this.host.waitFor(
 			10000,
@@ -142,39 +142,33 @@ export class Home {
 
 	private async _sendS0Encrypted(
 		node: number,
-		payload: Buffer
+		packet: Packet
 	): Promise<void> {
+		// TODO Improve log message: don't log bytestream if possible
 		console.log(
 			`-> sending encrypted node=${node}, payload=[${bufferToString(
-				payload
+				packet.serialize()
 			)}]`
 		);
-		await this.host.zwSendData(
-			node,
-			Buffer.from([
-				CommandClasses.COMMAND_CLASS_SECURITY,
-				0x40 /* SECURITY_NONCE_GET */,
-			])
-		);
+		await this.host.sendCommand(node, new SecurityV1.NonceGet());
 		const nonce = await this.host.waitFor(
 			3000,
 			(event) =>
 				event.sourceNode === node &&
-				event.commandClass === CommandClasses.COMMAND_CLASS_SECURITY &&
-				event.command === 0x80 /* SECURITY_NONCE_REPORT */
+				event.packet.is(SecurityV1.NonceReport)
 		);
 
 		const destination = node;
 		const senderNonce = randomBytes(8);
 		const encapsulated = this.crypto.encapsulateS0(
-			payload,
+			packet,
 			1,
 			destination,
 			senderNonce,
 			nonce.payload,
 			false
 		);
-		await this.host.zwSendData(destination, encapsulated);
+		await this.host.sendCommand(destination, encapsulated);
 	}
 
 	async setKeukenKoelkast(level: number): Promise<void> {
@@ -190,24 +184,16 @@ export class Home {
 			// Z-Wave maximum value is 99...
 			level = 99;
 		}
-		await this.host.zwSendData(
+		await this.host.sendCommand(
 			node,
-			Buffer.from([
-				CommandClasses.COMMAND_CLASS_SWITCH_MULTILEVEL,
-				0x01 /* SET */,
-				level,
-			])
+			new SwitchMultilevelV1.Set({ value: level })
 		);
 	}
 
 	async _setBasic(node: number, on: boolean): Promise<void> {
-		await this.host.zwSendData(
+		await this.host.sendCommand(
 			node,
-			Buffer.from([
-				CommandClasses.COMMAND_CLASS_BASIC,
-				0x01 /* SET */,
-				on ? 0xff : 0x00,
-			])
+			new BasicV1.Set({ value: on ? 0xff : 0x00 })
 		);
 	}
 }

@@ -2,6 +2,8 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 
 import { CryptoManager } from "../server/crypto";
+import { Packet } from "../server/packet";
+import { SecurityV1 } from "../server/classes/SecurityV1";
 
 const networkKey = Buffer.from("101112131415161718191a1b1c1d1e1f", "hex");
 
@@ -35,18 +37,20 @@ describe("Crypto", () => {
 		const senderNonce = Buffer.from([0x83, 0xb1, 0x84, 0x5f, 0x7f, 0x3c, 0xd6, 0x9f]);
 		// prettier-ignore
 		const receiverNonce = Buffer.from([0x3a, 0xc5, 0xe3, 0xb8, 0x74, 0xcd, 0x30, 0xc6]);
-		const message = Buffer.from([
-			0x60, // COMMAND_CLASS_MULTI_CHANNEL
-			0x0d, // MULTI_CHANNEL_CMD_ENCAP
-			0x01, // source
-			0x01, // destination
-			0x26, // class: COMMAND_CLASS_SWITCH_MULTILEVEL
-			0x03, // command: SWITCH_MULTILEVEL_REPORT
-			0x00, // data: level 0
-		]);
+		const packet = Packet.from(
+			Buffer.from([
+				0x60, // COMMAND_CLASS_MULTI_CHANNEL
+				0x0d, // MULTI_CHANNEL_CMD_ENCAP
+				0x01, // source
+				0x01, // destination
+				0x26, // class: COMMAND_CLASS_SWITCH_MULTILEVEL
+				0x03, // command: SWITCH_MULTILEVEL_REPORT
+				0x00, // data: level 0
+			])
+		);
 
 		const actual = crypto.encapsulateS0(
-			message,
+			packet,
 			23,
 			1,
 			senderNonce,
@@ -63,7 +67,7 @@ describe("Crypto", () => {
 			0x3a, // nonce id
 			0xcf, 0xd3, 0x66, 0xfd, 0xf2, 0xee, 0x19, 0x49, // mac
 		]);
-		expect(actual.toString("hex")).to.equal(expected.toString("hex"));
+		expect(actual.serialize()).to.deep.equal(expected);
 	});
 
 	it("decrypts packet correctly", () => {
@@ -74,14 +78,14 @@ describe("Crypto", () => {
 		// prettier-ignore
 		const receiverNonce = Buffer.from([0x3a, 0xc5, 0xe3, 0xb8, 0x74, 0xcd, 0x30, 0xc6]);
 		// prettier-ignore
-		const encrypted = Buffer.from([
+		const encrypted = Packet.from(Buffer.from([
 			0x98, // COMMAND_CLASS_SECURITY = 0x98
 			0x81, // SECURITY_MESSAGE_ENCAPSULATION
 			0x83, 0xb1, 0x84, 0x5f, 0x7f, 0x3c, 0xd6, 0x9f, // sender nonce
 			0x99, 0xdd, 0xbc, 0xd0, 0xfb, 0x8b, 0xc1, 0x66, // encrypted seq info + data
 			0x3a, // nonce id
 			0xcf, 0xd3, 0x66, 0xfd, 0xf2, 0xee, 0x19, 0x49, // mac
-		]);
+		])).as(SecurityV1.MessageEncapsulation);
 		const nonceLookup = (id: number) => {
 			if (id !== 0x3a) throw new Error("unexpected receiverNonceId");
 			return receiverNonce;
@@ -98,6 +102,6 @@ describe("Crypto", () => {
 			0x00, // data: level 0
 		]);
 
-		expect(actual.toString("hex")).to.equal(expected.toString("hex"));
+		expect(actual.serialize()).to.deep.equal(expected);
 	});
 });

@@ -15,6 +15,7 @@ import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Host, HostEvent } from "./host";
 import { Hub } from "./hub";
+import { SecurityV1 } from "./classes/SecurityV1";
 
 const SUPPORTED_USB_IDS = [
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
@@ -45,39 +46,6 @@ async function open(portName?: string): Promise<SerialPort> {
 			(err) => (err ? reject(err) : resolve(port))
 		);
 	});
-}
-
-interface CommandClassFrame {
-	cmdClass: CommandClass;
-}
-
-interface CommandClassCommandFrame extends CommandClassFrame {
-	cmd: number;
-}
-
-interface SwitchBinary_Set_v1 extends CommandClassCommandFrame {
-	cmdClass: CommandClass.SwitchBinary;
-	cmd: SwitchBinaryCommand.Set;
-	switchValue: number;
-}
-
-enum SwitchBinaryCommand {
-	Get,
-	Set,
-	Report,
-}
-
-enum CommandClass {
-	Basic = 0x20,
-	SwitchBinary = 0x25,
-}
-
-export class Client {
-	protected _host: Host;
-
-	constructor(host: Host) {
-		this._host = host;
-	}
 }
 
 async function dumpMultiInstanceInfo(host: Host, node: number): Promise<void> {
@@ -203,21 +171,17 @@ main(async () => {
 		if (nonceStore.canGenerateNonce()) {
 			const nonce = nonceStore.generate(event.sourceNode);
 			console.log(
-				`-> received COMMAND_CLASS_SECURITY:SECURITY_NONCE_GET, sending SECURITY_NONCE_REPORT nonce=[${bufferToString(
+				`-> received S0 nonce get request, sending SECURITY_NONCE_REPORT nonce=[${bufferToString(
 					nonce.data
 				)}]`
 			);
-			host.zwSendData(
+			host.sendCommand(
 				event.sourceNode,
-				Buffer.from([
-					CommandClasses.COMMAND_CLASS_SECURITY,
-					0x80 /* SECURITY_NONCE_REPORT */,
-					...nonce.data,
-				])
+				new SecurityV1.NonceReport({ nonce: nonce.data })
 			);
 		} else {
 			console.log(
-				`-> received COMMAND_CLASS_SECURITY:SECURITY_NONCE_GET, but nonce store is full, ignoring request`
+				`-> received S0 nonce get request, but nonce store is full, ignoring request`
 			);
 		}
 	}
@@ -229,36 +193,33 @@ main(async () => {
 			} cmd=${event.command} payload=[${bufferToString(event.payload)}]`
 		);
 		if (
-			event.commandClass === CommandClasses.COMMAND_CLASS_SECURITY &&
-			event.command === 0x40 /* SECURITY_NONCE_GET */
+			event.packet.is(SecurityV1.NonceGet) ||
+			event.packet.is(SecurityV1.MessageEncapsulationNonceGet)
 		) {
+			// TODO: prevent sending back response to message in encapsulated request in case of MessageEncapsulationNonceGet?
+			// Seems at least the single S0 device I have doesn't e.g. answer a SwitchMultilevel.Get when it is inside a
+			// MessageEncapsulationNonceGet. Could be a bug in that device.
 			handleSecurityNonceGet(event);
 		}
 		if (
-			event.commandClass === CommandClasses.COMMAND_CLASS_SECURITY &&
-			(event.command ===
-				0xc0 /* SECURITY_MESSAGE_ENCAPSULATION_NONCE_GET */ ||
-				event.command === 0x81) /* SECURITY_MESSAGE_ENCAPSULATION */
+			event.packet.is(SecurityV1.MessageEncapsulation) ||
+			event.packet.is(SecurityV1.MessageEncapsulationNonceGet)
 		) {
+			const packet = event.packet.is(SecurityV1.MessageEncapsulation)
+				? event.packet.as(SecurityV1.MessageEncapsulation)
+				: event.packet.as(SecurityV1.MessageEncapsulationNonceGet);
 			const decoded = crypto.decapsulateS0(
-				Buffer.from([
-					event.commandClass,
-					event.command,
-					...event.payload,
-				]),
+				packet,
 				event.sourceNode,
 				1,
 				(id) => nonceStore.getAndRelease(id)?.data
 			);
-			const isSimpleClass = decoded[0] <= 0xf0;
-			const decodedClass = isSimpleClass
-				? decoded[0]
-				: decoded.readUInt16BE(0);
 			const decodedEvent: HostEvent = {
 				sourceNode: event.sourceNode,
-				commandClass: decodedClass,
-				command: isSimpleClass ? decoded[1] : decoded[2],
-				payload: decoded.slice(isSimpleClass ? 2 : 3),
+				packet: decoded,
+				commandClass: decoded.commandClass,
+				command: decoded.command,
+				payload: decoded.payload,
 				rxStatus: event.rxStatus,
 			};
 			// TODO Don't fake a host event, needs to be replaced with proper security layer

@@ -4,9 +4,17 @@
  * Reference: SDS10865-Z-Wave-Application-Security-Layer-S0
  */
 
-import { createCipheriv, randomBytes, createDecipheriv } from "crypto";
+import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
 import { bufferToString } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
+import {
+	SecurityV1,
+	SecurityV1MessageEncapsulation,
+	SecurityV1MessageEncapsulationData,
+	SecurityV1MessageEncapsulationNonceGet,
+	SecurityV1MessageEncapsulationNonceGetData,
+} from "./classes/SecurityV1";
+import { Packet } from "./packet";
 
 export type NonceId = number;
 
@@ -360,22 +368,25 @@ export class CryptoManager {
 	}
 
 	public encapsulateS0(
-		message: Buffer,
+		packet: Packet,
 		sourceNode: number,
 		destNode: number,
 		senderNonce: Buffer,
 		receiverNonce: Buffer,
 		requestNextNonce: boolean
-	): Buffer {
+	): SecurityV1MessageEncapsulation | SecurityV1MessageEncapsulationNonceGet {
 		const initVector = Buffer.concat([senderNonce, receiverNonce]);
 
-		const sequenceInfo = 0; // no sequence stuff
-		const plainPayload = Buffer.from([sequenceInfo, ...message]);
+		const sequenceInfo = 0; // TODO sequence stuff
+		const plainPayload = Buffer.concat([
+			Buffer.from([sequenceInfo]),
+			packet.serialize(),
+		]);
 		const encryptedPayload = this.aesEncrypt(initVector, plainPayload);
 
 		const secCmd = requestNextNonce
-			? 0xc0 /* SECURITY_MESSAGE_ENCAPSULATION_NONCE_GET */
-			: 0x81; /* SECURITY_MESSAGE_ENCAPSULATION */
+			? SecurityV1.MessageEncapsulationNonceGet.command
+			: SecurityV1.MessageEncapsulation.command;
 		const authenticationDataRaw = Buffer.from([
 			...initVector,
 			secCmd,
@@ -387,30 +398,40 @@ export class CryptoManager {
 		const nonceIdentifier = receiverNonce[0];
 		const mac = this.computeMac(authenticationDataRaw);
 
-		return Buffer.from([
-			CommandClasses.COMMAND_CLASS_SECURITY,
-			secCmd,
-			...senderNonce,
-			...encryptedPayload,
-			nonceIdentifier,
-			...mac,
-		]);
+		const data:
+			| SecurityV1MessageEncapsulationData
+			| SecurityV1MessageEncapsulationNonceGetData = {
+			initializationVector: senderNonce,
+			encryptedPayload,
+			receiversNonceIdentifier: nonceIdentifier,
+			messageAuthenticationCode: mac,
+		};
+		return requestNextNonce
+			? new SecurityV1.MessageEncapsulationNonceGet(data)
+			: new SecurityV1.MessageEncapsulation(data);
 	}
 
 	public decapsulateS0(
-		encrypted: Buffer,
+		packet:
+			| SecurityV1MessageEncapsulation
+			| SecurityV1MessageEncapsulationNonceGet,
 		sourceNode: number,
 		destNode: number,
 		nonceLookup: (id: number) => Buffer | undefined
-	): Buffer {
-		const secCmd = encrypted[1];
-		const senderNonce = encrypted.slice(2, 10);
-		const encryptedPayload = encrypted.slice(10, -9);
-		const nonceIdAndMac = encrypted.slice(-9);
-		const nonceIdentifier = nonceIdAndMac[0];
+	): Packet {
+		const secCmd = packet.command;
+		const senderNonce = packet.data.initializationVector;
+		const encryptedPayload = packet.data.encryptedPayload;
+		const nonceIdentifier = packet.data.receiversNonceIdentifier;
 		const receiverNonce = nonceLookup(nonceIdentifier);
 		if (!receiverNonce) {
-			throw new Error("cannot decode: missing receiver nonce");
+			// If the packet is retransmitted (e.g. because the ack was lost),
+			// we will already have expired the previous nonce.
+			// Perhaps we need to make an explicit check for this in the future,
+			// just for better error/warning reporting.
+			throw new Error(
+				"cannot decode: missing receiver nonce (could be retransmission)"
+			);
 		}
 		const initVector = Buffer.concat([senderNonce, receiverNonce]);
 
@@ -424,7 +445,7 @@ export class CryptoManager {
 		]);
 		const mac = this.computeMac(authenticationDataRaw);
 
-		if (!mac.equals(nonceIdAndMac.slice(1))) {
+		if (!mac.equals(packet.data.messageAuthenticationCode)) {
 			throw new Error("cannot decode: mac mismatch");
 		}
 
@@ -432,6 +453,6 @@ export class CryptoManager {
 		const sequenceInfo = decryptedPayload[0];
 		const message = decryptedPayload.slice(1);
 
-		return message;
+		return Packet.from(message);
 	}
 }

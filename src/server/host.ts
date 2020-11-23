@@ -2,17 +2,14 @@ import { Parser } from "binary-parser";
 import { EventEmitter } from "events";
 import * as Queue from "promise-queue";
 import { Protocol, SerialAPICommand } from "../serial/protocol";
-import {
-	Command,
-	CommandClassInfo,
-	parseCommandClasses,
-} from "./commandClassInfo";
+import { CommandClassInfo, parseCommandClasses } from "./commandClassInfo";
 import { bufferToString, defer, timeout, Timer } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
 	BasicDeviceClassEnum,
 	GenericDeviceClassEnum,
 } from "../generated/ZwaveCmdClassV1";
+import { Packet } from "./packet";
 
 export interface SerialAPICapabilities {
 	applVersion: number;
@@ -75,6 +72,7 @@ const ZW_SEND_DATA_TIMEOUT = 10 * 1000; // TODO magic number
 export interface HostEvent {
 	rxStatus: number;
 	sourceNode: number;
+	packet: Packet;
 	commandClass: CommandClasses;
 	command: number;
 	payload: Buffer;
@@ -183,15 +181,14 @@ export class Host extends EventEmitter implements HostEvents {
 		);
 		if (command === SerialAPICommand.FUNC_ID_APPLICATION_COMMAND_HANDLER) {
 			const payload = params.slice(3, 3 + params[2]);
-			const isSimpleClass = payload[0] <= 0xf0;
+			const packet = Packet.from(payload);
 			const event: HostEvent = {
 				rxStatus: params[0],
 				sourceNode: params[1],
-				commandClass: isSimpleClass
-					? payload[0]
-					: payload.readUInt16BE(0),
-				command: payload[isSimpleClass ? 1 : 2],
-				payload: payload.slice(isSimpleClass ? 2 : 3),
+				packet,
+				commandClass: packet.commandClass,
+				command: packet.command,
+				payload: packet.payload,
 			};
 			process.nextTick(() => this.emit("event", event));
 		}
@@ -333,9 +330,9 @@ export class Host extends EventEmitter implements HostEvents {
 		});
 	}
 
-	public async sendCommand(nodeId: number, command: Command): Promise<void> {
+	public async sendCommand(nodeId: number, command: Packet): Promise<void> {
 		const result = this._requests.add(() =>
-			this._internalZwSendData(nodeId, command.getBuffer())
+			this._internalZwSendData(nodeId, command.serialize())
 		);
 		if (!result) {
 			throw new Error("command failed");
@@ -344,10 +341,10 @@ export class Host extends EventEmitter implements HostEvents {
 
 	public async sendCommandRequest(
 		nodeId: number,
-		command: Command
+		command: Packet
 	): Promise<boolean> {
 		return this._requests.add(() =>
-			this._internalZwSendData(nodeId, command.getBuffer())
+			this._internalZwSendData(nodeId, command.serialize())
 		);
 	}
 
