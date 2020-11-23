@@ -96,3 +96,9 @@ export class SwitchMultilevelV1 extends CommandClassPacket {
 	public static Get = SwitchMultilevelV1Get;
 	public static Report = SwitchMultilevelV1Report;
 }
+
+export namespace SwitchMultilevelV1 {
+	export type Set = SwitchMultilevelV1Set;
+	export type Get = SwitchMultilevelV1Get;
+	export type Report = SwitchMultilevelV1Report;
+}

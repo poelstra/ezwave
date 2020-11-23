@@ -6,12 +6,9 @@
 
 import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
 import { bufferToString } from "../common/util";
-import CommandClasses from "../generated/CommandClasses";
 import {
 	SecurityV1,
-	SecurityV1MessageEncapsulation,
 	SecurityV1MessageEncapsulationData,
-	SecurityV1MessageEncapsulationNonceGet,
 	SecurityV1MessageEncapsulationNonceGetData,
 } from "./classes/SecurityV1";
 import { Packet } from "./packet";
@@ -374,7 +371,9 @@ export class CryptoManager {
 		senderNonce: Buffer,
 		receiverNonce: Buffer,
 		requestNextNonce: boolean
-	): SecurityV1MessageEncapsulation | SecurityV1MessageEncapsulationNonceGet {
+	):
+		| SecurityV1.MessageEncapsulation
+		| SecurityV1.MessageEncapsulationNonceGet {
 		const initVector = Buffer.concat([senderNonce, receiverNonce]);
 
 		const sequenceInfo = 0; // TODO sequence stuff
@@ -413,8 +412,8 @@ export class CryptoManager {
 
 	public decapsulateS0(
 		packet:
-			| SecurityV1MessageEncapsulation
-			| SecurityV1MessageEncapsulationNonceGet,
+			| SecurityV1.MessageEncapsulation
+			| SecurityV1.MessageEncapsulationNonceGet,
 		sourceNode: number,
 		destNode: number,
 		nonceLookup: (id: number) => Buffer | undefined

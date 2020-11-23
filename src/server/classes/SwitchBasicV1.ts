@@ -88,3 +88,9 @@ export class BasicV1 extends CommandClassPacket {
 	public static Get = BasicV1Get;
 	public static Report = BasicV1Report;
 }
+
+export namespace BasicV1 {
+	export type Set = BasicV1Set;
+	export type Get = BasicV1Get;
+	export type Report = BasicV1Report;
+}

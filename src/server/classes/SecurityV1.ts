@@ -25,9 +25,7 @@ export interface SecurityV1MessageEncapsulationData {
 	messageAuthenticationCode: Buffer; // 8 bytes blob
 }
 
-// TODO: These classes now need to be exported, because directly referring
-// to their type is too cumbersome otherwise: InstanceType<typeof SecurityV1["MessageEncapsulation"]>
-export class SecurityV1MessageEncapsulation extends CommandPacket<
+class SecurityV1MessageEncapsulation extends CommandPacket<
 	SecurityV1MessageEncapsulationData
 > {
 	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
@@ -56,7 +54,7 @@ export class SecurityV1MessageEncapsulation extends CommandPacket<
 // This will be 'expanded' on auto-generation
 export type SecurityV1MessageEncapsulationNonceGetData = SecurityV1MessageEncapsulationData;
 
-export class SecurityV1MessageEncapsulationNonceGet extends CommandPacket<
+class SecurityV1MessageEncapsulationNonceGet extends CommandPacket<
 	SecurityV1MessageEncapsulationNonceGetData
 > {
 	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
@@ -74,9 +72,7 @@ export interface SecurityV1NonceReportData {
 	nonce: Buffer; // 8 byte blob
 }
 
-export class SecurityV1NonceReport extends CommandPacket<
-	SecurityV1NonceReportData
-> {
+class SecurityV1NonceReport extends CommandPacket<SecurityV1NonceReportData> {
 	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
 	static command = 0x80; // (128)
 	static version = 1;
@@ -100,7 +96,7 @@ export class SecurityV1NonceReport extends CommandPacket<
 
 export type SecurityV1NonceGetData = void;
 
-export class SecurityV1NonceGet extends CommandPacket<SecurityV1NonceGetData> {
+class SecurityV1NonceGet extends CommandPacket<SecurityV1NonceGetData> {
 	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
 	static command = 0x40; // (64)
 	static version = 1;
@@ -125,4 +121,11 @@ export class SecurityV1 extends CommandClassPacket {
 	public static MessageEncapsulationNonceGet = SecurityV1MessageEncapsulationNonceGet;
 	public static NonceGet = SecurityV1NonceGet;
 	public static NonceReport = SecurityV1NonceReport;
+}
+
+export namespace SecurityV1 {
+	export type MessageEncapsulation = SecurityV1MessageEncapsulation;
+	export type MessageEncapsulationNonceGet = SecurityV1MessageEncapsulationNonceGet;
+	export type NonceGet = SecurityV1NonceGet;
+	export type NonceReport = SecurityV1NonceReport;
 }
