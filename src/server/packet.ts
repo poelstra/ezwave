@@ -96,29 +96,43 @@ export class Packet {
 		return true;
 	}
 
-	public as<
+	public tryAs<
 		C extends
 			| SpecificCommand<InstanceType<C>>
 			| SpecificCommandClass<InstanceType<C>>
-	>(SpecificCommandOrClass: C): InstanceType<C> {
+	>(SpecificCommandOrClass: C): InstanceType<C> | undefined {
+		if (!this.is(SpecificCommandOrClass)) {
+			return undefined;
+		}
+
 		if (isSpecificCommand(SpecificCommandOrClass)) {
 			const SpecificCommand = SpecificCommandOrClass;
-			if (!this.is(SpecificCommand)) {
-				throw new Error(
-					`cannot convert command ${this.commandClass}.${this.command} into command ${SpecificCommand.commandClass}.${SpecificCommand.command}`
-				);
-			}
 			return new SpecificCommand(this.payload);
 		} else {
 			const SpecificCommandClass = SpecificCommandOrClass as SpecificCommandClass<
 				InstanceType<C>
 			>;
-			if (!this.is(SpecificCommandClass)) {
-				throw new Error(
-					`cannot convert command class ${this.commandClass} into command class ${SpecificCommandClass.commandClass}`
-				);
-			}
 			return new SpecificCommandClass(this.command, this.payload);
+		}
+	}
+
+	public as<
+		C extends
+			| SpecificCommand<InstanceType<C>>
+			| SpecificCommandClass<InstanceType<C>>
+	>(SpecificCommandOrClass: C): InstanceType<C> {
+		const instance = this.tryAs(SpecificCommandOrClass);
+		if (instance) {
+			return instance;
+		}
+		if (isSpecificCommand(SpecificCommandOrClass)) {
+			throw new Error(
+				`cannot convert command ${this.commandClass}.${this.command} into command ${SpecificCommandOrClass.commandClass}.${SpecificCommandOrClass.command}`
+			);
+		} else {
+			throw new Error(
+				`cannot convert command class ${this.commandClass} into command class ${SpecificCommandOrClass.commandClass}`
+			);
 		}
 	}
 }

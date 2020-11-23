@@ -201,15 +201,12 @@ main(async () => {
 			// MessageEncapsulationNonceGet. Could be a bug in that device.
 			handleSecurityNonceGet(event);
 		}
-		if (
-			event.packet.is(SecurityV1.MessageEncapsulation) ||
-			event.packet.is(SecurityV1.MessageEncapsulationNonceGet)
-		) {
-			const packet = event.packet.is(SecurityV1.MessageEncapsulation)
-				? event.packet.as(SecurityV1.MessageEncapsulation)
-				: event.packet.as(SecurityV1.MessageEncapsulationNonceGet);
+		const encapPacket =
+			event.packet.tryAs(SecurityV1.MessageEncapsulation) ??
+			event.packet.tryAs(SecurityV1.MessageEncapsulationNonceGet);
+		if (encapPacket) {
 			const decoded = crypto.decapsulateS0(
-				packet,
+				encapPacket,
 				event.sourceNode,
 				1,
 				(id) => nonceStore.getAndRelease(id)?.data
