@@ -2,6 +2,7 @@ import { randomBytes } from "crypto";
 import { bufferToString } from "../common/util";
 
 import CommandClasses from "../generated/CommandClasses";
+import { MultiChannelV3 } from "./classes/MultiChannelV3";
 import { SecurityV1 } from "./classes/SecurityV1";
 import { BasicV1 } from "./classes/SwitchBasicV1";
 import { SwitchMultilevelV1 } from "./classes/SwitchMultilevelV1";
@@ -74,17 +75,19 @@ export class Home {
 	}
 
 	async setZolderAfzuiging(level: 0 | 1): Promise<void> {
-		await this.host.zwSendData(
+		await this.host.sendCommand(
 			HomeDevices.ZolderAfzuiging,
-			Buffer.from([
-				CommandClasses.COMMAND_CLASS_MULTI_INSTANCE,
-				0x0d /* MULTI_CHANNEL_CMD_ENCAP */,
-				0 /* source */,
-				1 /* destination */,
-				CommandClasses.COMMAND_CLASS_SWITCH_BINARY,
-				0x01 /* SET */,
-				level === 1 ? 0xff : 0x00,
-			])
+			new MultiChannelV3.CmdEncap({
+				sourceEndPoint: 0,
+				res: false,
+				destinationEndPoint: 1,
+				bitAddress: false,
+				encapsulated: Buffer.from([
+					CommandClasses.COMMAND_CLASS_SWITCH_BINARY,
+					0x01 /* SET */,
+					level === 1 ? 0xff : 0x00,
+				]),
+			})
 		);
 	}
 
@@ -101,40 +104,43 @@ export class Home {
 			value: level < 100 ? level : 99,
 		});
 		// prettier-ignore
-		const message = Packet.from(Buffer.from([
-			CommandClasses.COMMAND_CLASS_MULTI_CHANNEL,
-			0x0d, /* MULTI_CHANNEL_CMD_ENCAP */
-			0x01, /* source */
-			0x01, /* dest */
-			...switchCmd.serialize(),
-		]));
+		const message = new MultiChannelV3.CmdEncap({
+			sourceEndPoint: 1,
+			res: false,
+			destinationEndPoint: 1,
+			bitAddress: false,
+			encapsulated: switchCmd.serialize(),
+		});
 		await this._sendS0Encrypted(HomeDevices.KeukenAanrecht, message);
 		this._lastAanrecht = level;
 	}
 
 	async getKeukenAanrecht(): Promise<number> {
 		// prettier-ignore
-		const message = Packet.from(Buffer.from([
-			CommandClasses.COMMAND_CLASS_MULTI_CHANNEL,
-			0x0d, /* MULTI_CHANNEL_CMD_ENCAP */
-			0x01, /* source */
-			0x01, /* dest */
-			...new SwitchMultilevelV1.Get().serialize()
-		]));
+		const message = new MultiChannelV3.CmdEncap({
+			sourceEndPoint: 1,
+			res: false,
+			destinationEndPoint: 1,
+			bitAddress: false,
+			encapsulated: new SwitchMultilevelV1.Get().serialize()
+		});
 		await this._sendS0Encrypted(HomeDevices.KeukenAanrecht, message);
-		const reply = await this.host.waitFor(
-			10000,
-			(event) =>
-				event.sourceNode === HomeDevices.KeukenAanrecht &&
-				event.commandClass ===
-					CommandClasses.COMMAND_CLASS_MULTI_CHANNEL &&
-				event.command === 13 &&
-				event.payload[0] === 1 /* source */ &&
-				event.payload[1] === 1 /* destination */ &&
-				event.payload[2] ===
-					CommandClasses.COMMAND_CLASS_SWITCH_MULTILEVEL &&
-				event.payload[3] === 3 /* report */
-		);
+		const reply = await this.host.waitFor(10000, (event) => {
+			const packet = event.packet.tryAs(MultiChannelV3.CmdEncap);
+			if (!packet) {
+				return false;
+			}
+			if (
+				!(
+					packet.data.sourceEndPoint === 1 &&
+					packet.data.destinationEndPoint === 1
+				)
+			) {
+				return false;
+			}
+			const decap = Packet.from(packet.data.encapsulated);
+			return decap.is(SwitchMultilevelV1.Report);
+		});
 		const level = reply.payload[4];
 		this._lastAanrecht = level;
 		return level;
