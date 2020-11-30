@@ -10,8 +10,8 @@ import {
 	SecurityV1,
 	SecurityV1MessageEncapsulationData,
 	SecurityV1MessageEncapsulationNonceGetData,
-} from "./classes/SecurityV1";
-import { Packet } from "./packet";
+} from "../classes/SecurityV1";
+import { Packet } from "../commands/packet";
 
 export type NonceId = number;
 

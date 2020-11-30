@@ -15,7 +15,7 @@ import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Host, HostEvent } from "./host";
 import { Hub } from "./hub";
-import { SecurityV1 } from "./classes/SecurityV1";
+import { SecurityV1 } from "../classes/SecurityV1";
 
 const SUPPORTED_USB_IDS = [
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB

@@ -2,8 +2,8 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 
 import { CryptoManager } from "../server/crypto";
-import { Packet } from "../server/packet";
-import { SecurityV1 } from "../server/classes/SecurityV1";
+import { Packet } from "../commands/packet";
+import { SecurityV1 } from "../classes/SecurityV1";
 
 const networkKey = Buffer.from("101112131415161718191a1b1c1d1e1f", "hex");
 

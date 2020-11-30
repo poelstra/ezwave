@@ -9,7 +9,7 @@ import {
 	BasicDeviceClassEnum,
 	GenericDeviceClassEnum,
 } from "../generated/ZwaveCmdClassV1";
-import { Packet } from "./packet";
+import { Packet } from "../commands/packet";
 
 export interface SerialAPICapabilities {
 	applVersion: number;

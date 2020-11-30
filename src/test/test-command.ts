@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import CommandClasses from "../generated/CommandClasses";
-import { SwitchMultilevelV1 } from "../server/classes/SwitchMultilevelV1";
-import { Packet } from "../server/packet";
+import { SwitchMultilevelV1 } from "../classes/SwitchMultilevelV1";
+import { Packet } from "../commands/packet";
 
 describe("command", () => {
 	it("can encode payload", () => {

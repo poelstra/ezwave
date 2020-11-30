@@ -10,8 +10,8 @@
  * automatically start working correctly when auto-generated.
  */
 
-import CommandClasses from "../../generated/CommandClasses";
-import { CommandPacket, CommandClassPacket } from "../command";
+import CommandClasses from "../generated/CommandClasses";
+import { CommandPacket, CommandClassPacket } from "../commands/command";
 
 const emptyBuffer = Buffer.alloc(0);
 

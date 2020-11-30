@@ -2,13 +2,13 @@ import { randomBytes } from "crypto";
 import { bufferToString } from "../common/util";
 
 import CommandClasses from "../generated/CommandClasses";
-import { MultiChannelV3 } from "./classes/MultiChannelV3";
-import { SecurityV1 } from "./classes/SecurityV1";
-import { BasicV1 } from "./classes/SwitchBasicV1";
-import { SwitchMultilevelV1 } from "./classes/SwitchMultilevelV1";
+import { MultiChannelV3 } from "../classes/MultiChannelV3";
+import { SecurityV1 } from "../classes/SecurityV1";
+import { BasicV1 } from "../classes/SwitchBasicV1";
+import { SwitchMultilevelV1 } from "../classes/SwitchMultilevelV1";
 import { CryptoManager, NonceStore } from "./crypto";
 import { Host, HostEvent } from "./host";
-import { Packet } from "./packet";
+import { Packet } from "../commands/packet";
 
 export enum HomeDevices {
 	Controller = 1, // *LB, Static Controller, Static PC Controller, AEON Labs ZW090 Z-Stick Gen5 EU, Stick, Meterkast, , 9:42:29 PM, Ready
