@@ -1,6 +1,7 @@
 import main from "async-main";
 import * as SerialPort from "serialport";
 import "source-map-support/register";
+import { Duplex } from "stream";
 import { bufferToString } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
@@ -149,9 +150,14 @@ main(async () => {
 	const config = require("../../config.json") as Config;
 	const networkKey = require("../../networkkey.json") as string;
 
-	let port: SerialPort | undefined;
+	let port: Duplex | undefined;
 	const getCodec = async () => {
 		console.log("Connecting to Z-Wave controller...");
+		// if (!config.serial) {
+		// 	throw new Error(
+		// 		"missing serial port in config, please set `serial` property in `config.json`"
+		// 	);
+		// }
 		port = await open(config.serial);
 		port.on("close", () => console.log("port closed"));
 		console.log("port opened");
