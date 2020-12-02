@@ -1,16 +1,24 @@
 import { Message } from "mhub";
+import { LayerEvent } from "../commands/layer";
+import { Packet } from "../commands/packet";
 import CommandClasses from "../generated/CommandClasses";
+import { Controller } from "./controller";
 import { Home } from "./home";
-import { HostEvent } from "./host";
 import { Hub } from "./hub";
 
 export class HomeHub {
 	private _hub: Hub;
 	private _home: Home;
 
-	constructor(home: Home, hub: Hub) {
+	constructor(home: Home, hub: Hub, controller: Controller) {
 		this._home = home;
-		this._home.host.on("event", (event: HostEvent) =>
+		this._home.on("value", (name: string, value: number) =>
+			this._handleValue(name, value).catch((err) =>
+				console.warn("Value update failed", err)
+			)
+		);
+
+		controller.on("event", (event: LayerEvent<Packet>) =>
 			this._handleEvent(event).catch((err) =>
 				console.warn("Event dispatch failed", err)
 			)
@@ -26,6 +34,13 @@ export class HomeHub {
 		this._hub.subscribe("command", "/home/afzuiging", (message) =>
 			this._handleAfzuiging(message)
 		);
+	}
+
+	private async _handleValue(name: string, value: number): Promise<void> {
+		if (value >= 99) {
+			value = 100;
+		}
+		await this._hub.publish("state", `/home/lights/${name}`, value / 100);
 	}
 
 	private async _handleLights(message: Message): Promise<void> {
@@ -96,11 +111,11 @@ export class HomeHub {
 		await this._hub.publish("command", "/home/scene", name);
 	}
 
-	async _handleSceneActivationSet(event: HostEvent): Promise<void> {
+	async _handleSceneActivationSet(event: LayerEvent<Packet>): Promise<void> {
 		console.log(
-			`-> scene activation from=${event.sourceNode} scene=${event.payload[0]} duration=${event.payload[1]}`
+			`-> scene activation from=${event.endpoint.nodeId} scene=${event.packet.payload[0]} duration=${event.packet.payload[1]}`
 		);
-		const scene = event.payload[0];
+		const scene = event.packet.payload[0];
 		switch (scene) {
 			case 0x1a:
 				//home.sceneKeuken1();
@@ -117,11 +132,12 @@ export class HomeHub {
 		}
 	}
 
-	private async _handleEvent(event: HostEvent): Promise<void> {
+	private async _handleEvent(event: LayerEvent<Packet>): Promise<void> {
 		if (
-			event.commandClass ===
-				CommandClasses.COMMAND_CLASS_SCENE_ACTIVATION &&
-			event.command === 0x1 /* SCENE_ACTIVATION_SET */
+			event.packet.is(
+				CommandClasses.COMMAND_CLASS_SCENE_ACTIVATION,
+				0x1 /* SCENE_ACTIVATION_SET */
+			)
 		) {
 			await this._handleSceneActivationSet(event);
 		}

@@ -2,7 +2,6 @@ import main from "async-main";
 import * as SerialPort from "serialport";
 import "source-map-support/register";
 import { Duplex } from "stream";
-import { bufferToString } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
 	BasicDeviceClassEnum,
@@ -11,12 +10,12 @@ import {
 import { Codec } from "../serial/codec";
 import { Protocol } from "../serial/protocol";
 import { parseCommandClasses } from "./commandClassInfo";
+import { Controller } from "./controller";
 import { CryptoManager, NonceStore } from "./crypto";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
-import { Host, HostEvent } from "./host";
+import { Host } from "./host";
 import { Hub } from "./hub";
-import { SecurityV1 } from "../classes/SecurityV1";
 
 const SUPPORTED_USB_IDS = [
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
@@ -168,68 +167,12 @@ main(async () => {
 
 	const nonceStore = new NonceStore();
 	const crypto = new CryptoManager(Buffer.from(networkKey, "hex"));
-	const home = new Home(host, crypto, nonceStore);
+	const controller = new Controller(host, crypto, nonceStore);
+	const home = new Home(controller);
 
 	const mhub = new Hub(config.mhub.url, config.mhub.user, config.mhub.pass);
-	const homeHub = new HomeHub(home, mhub);
-
-	function handleSecurityNonceGet(event: HostEvent): void {
-		if (nonceStore.canGenerateNonce()) {
-			const nonce = nonceStore.generate(event.sourceNode);
-			console.log(
-				`-> received S0 nonce get request, sending SECURITY_NONCE_REPORT nonce=[${bufferToString(
-					nonce.data
-				)}]`
-			);
-			host.sendCommand(
-				event.sourceNode,
-				new SecurityV1.NonceReport({ nonce: nonce.data })
-			);
-		} else {
-			console.log(
-				`-> received S0 nonce get request, but nonce store is full, ignoring request`
-			);
-		}
-	}
-
-	host.on("event", (event: HostEvent) => {
-		console.log(
-			`EVENT fromNode=${event.sourceNode} cmdClass=${
-				CommandClasses[event.commandClass]
-			} cmd=${event.command} payload=[${bufferToString(event.payload)}]`
-		);
-		if (
-			event.packet.is(SecurityV1.NonceGet) ||
-			event.packet.is(SecurityV1.MessageEncapsulationNonceGet)
-		) {
-			// TODO: prevent sending back response to message in encapsulated request in case of MessageEncapsulationNonceGet?
-			// Seems at least the single S0 device I have doesn't e.g. answer a SwitchMultilevel.Get when it is inside a
-			// MessageEncapsulationNonceGet. Could be a bug in that device.
-			handleSecurityNonceGet(event);
-		}
-		const encapPacket =
-			event.packet.tryAs(SecurityV1.MessageEncapsulation) ??
-			event.packet.tryAs(SecurityV1.MessageEncapsulationNonceGet);
-		if (encapPacket) {
-			const decoded = crypto.decapsulateS0(
-				encapPacket,
-				event.sourceNode,
-				1,
-				(id) => nonceStore.getAndRelease(id)?.data
-			);
-			const decodedEvent: HostEvent = {
-				sourceNode: event.sourceNode,
-				packet: decoded,
-				commandClass: decoded.commandClass,
-				command: decoded.command,
-				payload: decoded.payload,
-				rxStatus: event.rxStatus,
-			};
-			// TODO Don't fake a host event, needs to be replaced with proper security layer
-			console.log("-> re-emitting decoded event");
-			host.emit("event", decodedEvent);
-		}
-	});
+	const homeHub = new HomeHub(home, mhub, controller);
+	void homeHub;
 
 	main(() => mhub.run());
 	await host.init();
@@ -237,7 +180,7 @@ main(async () => {
 	console.log("initialized");
 
 	//await dumpMultiInstanceInfo(host, HomeDevices.KeukenKoelkast);
-	await home.getKeukenAanrecht();
+	console.log("aanrecht =", await home.getKeukenAanrecht());
 
 	// SDS13783-14 - Encapsulation order overview
 	// 1. Encapsulated Command Class (payload), .e.g Basic Set

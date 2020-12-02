@@ -10,8 +10,8 @@
  * automatically start working correctly when auto-generated.
  */
 
+import { CommandClassPacket, CommandPacket } from "../commands/command";
 import CommandClasses from "../generated/CommandClasses";
-import { CommandPacket, CommandClassPacket } from "../commands/command";
 
 const emptyBuffer = Buffer.alloc(0);
 
@@ -19,9 +19,9 @@ enum MultiChannelV3CommandsEnum {
 	CmdEncap = 0x0d,
 }
 
+// TODO res is omitted out of this type, as it probably should
 export interface MultiChannelV3CmdEncapData {
 	sourceEndPoint: number;
-	res: boolean; // TODO reserved: omit from auto-gen?
 	destinationEndPoint: number;
 	bitAddress: boolean;
 	encapsulated: Buffer; // TODO written as 3 separate fields in original spec, tweak auto-gen?
@@ -34,7 +34,7 @@ class MultiChannelV3CmdEncap extends CommandPacket<MultiChannelV3CmdEncapData> {
 	static encode = (payload: MultiChannelV3CmdEncapData) => {
 		// TODO input validation
 		return Buffer.from([
-			(payload.sourceEndPoint & 0x7f) | (payload.res ? 0x80 : 0),
+			payload.sourceEndPoint & 0x7f, // | (payload.res ? 0x80 : 0)
 			(payload.destinationEndPoint & 0x7f) |
 				(payload.bitAddress ? 0x80 : 0),
 			...payload.encapsulated,
@@ -42,7 +42,7 @@ class MultiChannelV3CmdEncap extends CommandPacket<MultiChannelV3CmdEncapData> {
 	};
 	static decode = (buffer: Buffer): MultiChannelV3CmdEncapData => ({
 		sourceEndPoint: buffer[0] & 0x7f,
-		res: (buffer[0] & 0x80) > 0 ? true : false,
+		// res: (buffer[0] & 0x80) > 0 ? true : false,
 		destinationEndPoint: buffer[1] & 0x7f,
 		bitAddress: (buffer[1] & 0x80) > 0 ? true : false,
 		encapsulated: buffer.slice(2),

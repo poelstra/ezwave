@@ -5,13 +5,13 @@
  */
 
 import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
-import { bufferToString } from "../common/util";
 import {
 	SecurityV1,
 	SecurityV1MessageEncapsulationData,
 	SecurityV1MessageEncapsulationNonceGetData,
 } from "../classes/SecurityV1";
 import { Packet } from "../commands/packet";
+import { bufferToString } from "../common/util";
 
 export type NonceId = number;
 
@@ -364,6 +364,7 @@ export class CryptoManager {
 		return macEncoded.slice(-16, -8);
 	}
 
+	// TODO move to SecurityS0 layer
 	public encapsulateS0(
 		packet: Packet,
 		sourceNode: number,
@@ -410,6 +411,7 @@ export class CryptoManager {
 			: new SecurityV1.MessageEncapsulation(data);
 	}
 
+	// TODO move to SecurityS0 layer
 	public decapsulateS0(
 		packet:
 			| SecurityV1.MessageEncapsulation

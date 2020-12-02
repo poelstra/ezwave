@@ -1,15 +1,15 @@
 import { Parser } from "binary-parser";
 import { EventEmitter } from "events";
 import * as Queue from "promise-queue";
-import { Protocol, SerialAPICommand } from "../serial/protocol";
-import { CommandClassInfo, parseCommandClasses } from "./commandClassInfo";
+import { Packet } from "../commands/packet";
 import { bufferToString, defer, timeout, Timer } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
 	BasicDeviceClassEnum,
 	GenericDeviceClassEnum,
 } from "../generated/ZwaveCmdClassV1";
-import { Packet } from "../commands/packet";
+import { Protocol, SerialAPICommand } from "../serial/protocol";
+import { CommandClassInfo, parseCommandClasses } from "./commandClassInfo";
 
 export interface SerialAPICapabilities {
 	applVersion: number;
@@ -67,15 +67,55 @@ export interface NodeInfo {
 }
 
 const MAX_NODES = 232; // Maximum number of nodes in one Z-Wave network
-const ZW_SEND_DATA_TIMEOUT = 10 * 1000; // TODO magic number
+const ZW_SEND_DATA_TIMEOUT = 65 * 1000; // See INS13954-Instruction-Z-Wave-500-Series-Appl-Programmers-Guide-v6_81_0x.pdf, fig 9
+
+export enum DestinationType {
+	Singlecast,
+	Broadcast,
+	Multicast,
+}
+
+export interface RxStatus {
+	routedBusy: boolean; // A response route is locked by the application
+	lowPower: boolean; // Received at low output power level
+	destinationType: DestinationType; // Single/broadcast/multicast frame received
+	explore: boolean; // Received an explore frame
+	foreignFrame: boolean; // The received frame is not addressed to this node (Only valid in promiscuous mode)
+	foreignHomeId: boolean; // The received frame is received from a foreign HomeID. Only Controllers in Smart Start AddNode mode can receive this status
+}
 
 export interface HostEvent {
-	rxStatus: number;
+	rxStatus: RxStatus;
 	sourceNode: number;
+	data: Buffer;
+
+	// TODO remove all of the below
 	packet: Packet;
 	commandClass: CommandClasses;
 	command: number;
 	payload: Buffer;
+}
+
+export function rxStatusToString(rxStatus: RxStatus): string {
+	return [
+		DestinationType[rxStatus.destinationType],
+		rxStatus.routedBusy ? ",routedBusy" : "",
+		rxStatus.lowPower ? ",lowPower" : "",
+		rxStatus.explore ? ",explore" : "",
+		rxStatus.foreignFrame ? ",foreignFrame" : "",
+		rxStatus.foreignHomeId ? ",foreignHomeId" : "",
+	].join("");
+}
+
+function parseRxStatus(value: number): RxStatus {
+	return {
+		routedBusy: (value & 0b00000001) > 0,
+		lowPower: (value & 0b00000010) > 0,
+		destinationType: (value & 0b00001100) >> 2,
+		explore: (value & 0b00011000) === 0b00010000,
+		foreignFrame: (value & 0b01000000) > 0,
+		foreignHomeId: (value & 0b10000000) > 0,
+	};
 }
 
 export interface HostEvents {
@@ -173,55 +213,12 @@ export class Host extends EventEmitter implements HostEvents {
 		});
 	}
 
-	private _handleEvent(command: SerialAPICommand, params: Buffer): void {
-		console.log(
-			`\tEVENT command=${
-				SerialAPICommand[command]
-			} params=[${bufferToString(params)}]`
-		);
-		if (command === SerialAPICommand.FUNC_ID_APPLICATION_COMMAND_HANDLER) {
-			const payload = params.slice(3, 3 + params[2]);
-			const packet = Packet.from(payload);
-			const event: HostEvent = {
-				rxStatus: params[0],
-				sourceNode: params[1],
-				packet,
-				commandClass: packet.commandClass,
-				command: packet.command,
-				payload: packet.payload,
-			};
-			process.nextTick(() => this.emit("event", event));
-		}
-	}
-
-	private async _waitForREQ<T>(
-		timeout: number,
-		handler: (command: SerialAPICommand, params: Buffer) => T | undefined
-	): Promise<T> {
-		const waiter = defer<T>();
-		const eventHandler = (command: SerialAPICommand, params: Buffer) => {
-			try {
-				const result = handler(command, params);
-				if (result !== undefined) {
-					waiter.resolve(result);
-				}
-			} catch (err) {
-				waiter.reject(err);
-			}
-		};
-		this._protocol.on("event", eventHandler);
-		const timer = new Timer(timeout, () =>
-			waiter.reject(new Error("timeout"))
-		);
-		timer.start();
-		let result;
-		try {
-			result = await waiter.promise;
-		} finally {
-			timer.stop();
-			this._protocol.removeListener("event", eventHandler);
-		}
-		return result;
+	public async zwGetVersion(): Promise<Buffer> {
+		return this._requests.add(async () => {
+			return await this._protocol.request(
+				SerialAPICommand.FUNC_ID_ZW_GET_VERSION
+			);
+		});
 	}
 
 	/**
@@ -234,6 +231,7 @@ export class Host extends EventEmitter implements HostEvents {
 		return this._requests.add(() => this._internalZwSendData(nodeId, data));
 	}
 
+	// TODO remove
 	public async waitFor(
 		timeoutMs: number,
 		matcher: (event: HostEvent) => boolean
@@ -330,6 +328,7 @@ export class Host extends EventEmitter implements HostEvents {
 		});
 	}
 
+	// TODO remove
 	public async sendCommand(nodeId: number, command: Packet): Promise<void> {
 		const result = this._requests.add(() =>
 			this._internalZwSendData(nodeId, command.serialize())
@@ -339,13 +338,62 @@ export class Host extends EventEmitter implements HostEvents {
 		}
 	}
 
-	public async sendCommandRequest(
-		nodeId: number,
-		command: Packet
-	): Promise<boolean> {
-		return this._requests.add(() =>
-			this._internalZwSendData(nodeId, command.serialize())
+	private _handleEvent(command: SerialAPICommand, params: Buffer): void {
+		console.log(
+			`\tSERIALAPI CALLBACK command=${
+				SerialAPICommand[command]
+			} params=[${bufferToString(params)}]`
 		);
+		if (command === SerialAPICommand.FUNC_ID_APPLICATION_COMMAND_HANDLER) {
+			const rxStatus = parseRxStatus(params[0]);
+			const sourceNode = params[1];
+			const cmdLength = params[2];
+			const payload = params.slice(3, 3 + cmdLength);
+			// const rxRSSIVal = params[params.length - 2];
+			// const securityKey = params[params.length - 1];
+			const packet = Packet.from(payload);
+			const event: HostEvent = {
+				rxStatus,
+				sourceNode,
+				data: payload,
+				// TODO remove stuff below
+				packet,
+				commandClass: packet.commandClass,
+				command: packet.command,
+				payload: packet.payload,
+			};
+			process.nextTick(() => this.emit("event", event));
+		}
+	}
+
+	private async _waitForREQ<T>(
+		timeout: number,
+		handler: (command: SerialAPICommand, params: Buffer) => T | undefined
+	): Promise<T> {
+		const waiter = defer<T>();
+		const eventHandler = (command: SerialAPICommand, params: Buffer) => {
+			try {
+				const result = handler(command, params);
+				if (result !== undefined) {
+					waiter.resolve(result);
+				}
+			} catch (err) {
+				waiter.reject(err);
+			}
+		};
+		this._protocol.on("event", eventHandler);
+		const timer = new Timer(timeout, () =>
+			waiter.reject(new Error("timeout"))
+		);
+		timer.start();
+		let result;
+		try {
+			result = await waiter.promise;
+		} finally {
+			timer.stop();
+			this._protocol.removeListener("event", eventHandler);
+		}
+		return result;
 	}
 
 	private async _internalZwSendData(
@@ -438,14 +486,6 @@ export class Host extends EventEmitter implements HostEvents {
 
 		console.log("\tEND ZW_SEND_DATA", `sendResult=${sendResult}`);
 		return sendResult;
-	}
-
-	public async zwGetVersion(): Promise<Buffer> {
-		return this._requests.add(async () => {
-			return await this._protocol.request(
-				SerialAPICommand.FUNC_ID_ZW_GET_VERSION
-			);
-		});
 	}
 
 	private _getNextCallbackId(): number {

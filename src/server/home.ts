@@ -1,14 +1,10 @@
-import { randomBytes } from "crypto";
-import { bufferToString } from "../common/util";
-
-import CommandClasses from "../generated/CommandClasses";
-import { MultiChannelV3 } from "../classes/MultiChannelV3";
-import { SecurityV1 } from "../classes/SecurityV1";
+import { EventEmitter } from "events";
 import { BasicV1 } from "../classes/SwitchBasicV1";
 import { SwitchMultilevelV1 } from "../classes/SwitchMultilevelV1";
-import { CryptoManager, NonceStore } from "./crypto";
-import { Host, HostEvent } from "./host";
+import { LayerEvent } from "../commands/layer";
 import { Packet } from "../commands/packet";
+import CommandClasses from "../generated/CommandClasses";
+import { Controller } from "./controller";
 
 export enum HomeDevices {
 	Controller = 1, // *LB, Static Controller, Static PC Controller, AEON Labs ZW090 Z-Stick Gen5 EU, Stick, Meterkast, , 9:42:29 PM, Ready
@@ -24,32 +20,42 @@ export enum HomeDevices {
 	EetkamerLamp = 25, // LBR+, Z-Wave+ node Always On Slave, Light Dimmer Switch, FIBARO System FGD212 Dimmer 2, Lamp tafel, Eetkamer, 0, 3:30:57 PM, Ready
 }
 
-export class Home {
+export class Home extends EventEmitter {
 	private _lastAanrecht = 0;
 
-	constructor(
-		public host: Host,
-		public crypto: CryptoManager,
-		public nonceStore: NonceStore
-	) {
-		this.host.on("event", (event: HostEvent) => {
-			this._handleHostEvent(event).catch((err: unknown) =>
+	constructor(public controller: Controller) {
+		super();
+		this.controller.on("event", (event: LayerEvent<Packet>) => {
+			this._handleControllerEvent(event).catch((err: unknown) =>
 				console.warn("Home host event dispatch failed for", event, err)
 			);
 		});
 	}
 
-	private async _handleHostEvent(event: HostEvent): Promise<void> {
+	private async _handleControllerEvent(
+		event: LayerEvent<Packet>
+	): Promise<void> {
 		if (event.packet.is(SwitchMultilevelV1.Report)) {
 			const level = event.packet.as(SwitchMultilevelV1.Report).data.value;
 			console.log(
-				`-> received SWITCH_MULTILEVEL_REPORT, node=${event.sourceNode} level=${level}`
+				`-> received SWITCH_MULTILEVEL_REPORT, node=${
+					event.endpoint.nodeId
+				}${
+					event.endpoint.channel
+						? `, channel=${event.endpoint.channel}`
+						: ""
+				} level=${level}`
 			);
-			if (event.sourceNode === HomeDevices.KeukenAanrecht) {
+			if (
+				event.endpoint.nodeId === HomeDevices.KeukenAanrecht &&
+				(event.endpoint.channel === undefined ||
+					event.endpoint.channel === 1)
+			) {
 				// TODO Sometimes, the node sends an unsollicited SWITCH_MULTILEVEL_REPORT,
 				// but sometimes it only does that encapsulated in a MULTI_CHANNEL message.
 				// Figure out when/why.
 				this._lastAanrecht === level;
+				this.emit("value", "aanrecht", level);
 			}
 		}
 	}
@@ -75,20 +81,16 @@ export class Home {
 	}
 
 	async setZolderAfzuiging(level: 0 | 1): Promise<void> {
-		await this.host.sendCommand(
-			HomeDevices.ZolderAfzuiging,
-			new MultiChannelV3.CmdEncap({
-				sourceEndPoint: 0,
-				res: false,
-				destinationEndPoint: 1,
-				bitAddress: false,
-				encapsulated: Buffer.from([
+		await this.controller.send({
+			endpoint: { nodeId: HomeDevices.ZolderAfzuiging, channel: 1 },
+			packet: Packet.from(
+				Buffer.from([
 					CommandClasses.COMMAND_CLASS_SWITCH_BINARY,
 					0x01 /* SET */,
 					level === 1 ? 0xff : 0x00,
-				]),
-			})
-		);
+				])
+			),
+		});
 	}
 
 	async setKeukenBar(level: number): Promise<void> {
@@ -103,78 +105,27 @@ export class Home {
 		const switchCmd = new SwitchMultilevelV1.Set({
 			value: level < 100 ? level : 99,
 		});
-		// prettier-ignore
-		const message = new MultiChannelV3.CmdEncap({
-			sourceEndPoint: 1,
-			res: false,
-			destinationEndPoint: 1,
-			bitAddress: false,
-			encapsulated: switchCmd.serialize(),
+		await this.controller.send({
+			endpoint: { nodeId: HomeDevices.KeukenAanrecht, channel: 1 },
+			packet: switchCmd,
+			secure: true,
 		});
-		await this._sendS0Encrypted(HomeDevices.KeukenAanrecht, message);
 		this._lastAanrecht = level;
 	}
 
 	async getKeukenAanrecht(): Promise<number> {
 		// prettier-ignore
-		const message = new MultiChannelV3.CmdEncap({
-			sourceEndPoint: 1,
-			res: false,
-			destinationEndPoint: 1,
-			bitAddress: false,
-			encapsulated: new SwitchMultilevelV1.Get().serialize()
-		});
-		await this._sendS0Encrypted(HomeDevices.KeukenAanrecht, message);
-		const reply = await this.host.waitFor(10000, (event) => {
-			const packet = event.packet.tryAs(MultiChannelV3.CmdEncap);
-			if (!packet) {
-				return false;
-			}
-			if (
-				!(
-					packet.data.sourceEndPoint === 1 &&
-					packet.data.destinationEndPoint === 1
-				)
-			) {
-				return false;
-			}
-			const decap = Packet.from(packet.data.encapsulated);
-			return decap.is(SwitchMultilevelV1.Report);
-		});
-		const level = reply.payload[4];
+		const reply = await this.controller.sendAndWaitFor(
+			{
+				endpoint: { channel: 1, nodeId: HomeDevices.KeukenAanrecht },
+				packet: new SwitchMultilevelV1.Get(),
+				secure: true,
+			},
+			(event) => event.packet.tryAs(SwitchMultilevelV1.Report)
+		);
+		const level = reply.packet.data.value;
 		this._lastAanrecht = level;
 		return level;
-	}
-
-	private async _sendS0Encrypted(
-		node: number,
-		packet: Packet
-	): Promise<void> {
-		// TODO Improve log message: don't log bytestream if possible
-		console.log(
-			`-> sending encrypted node=${node}, payload=[${bufferToString(
-				packet.serialize()
-			)}]`
-		);
-		await this.host.sendCommand(node, new SecurityV1.NonceGet());
-		const nonce = await this.host.waitFor(
-			3000,
-			(event) =>
-				event.sourceNode === node &&
-				event.packet.is(SecurityV1.NonceReport)
-		);
-
-		const destination = node;
-		const senderNonce = randomBytes(8);
-		const encapsulated = this.crypto.encapsulateS0(
-			packet,
-			1,
-			destination,
-			senderNonce,
-			nonce.payload,
-			false
-		);
-		await this.host.sendCommand(destination, encapsulated);
 	}
 
 	async setKeukenKoelkast(level: number): Promise<void> {
@@ -190,16 +141,16 @@ export class Home {
 			// Z-Wave maximum value is 99...
 			level = 99;
 		}
-		await this.host.sendCommand(
-			node,
-			new SwitchMultilevelV1.Set({ value: level })
-		);
+		await this.controller.send({
+			endpoint: { nodeId: node },
+			packet: new SwitchMultilevelV1.Set({ value: level }),
+		});
 	}
 
 	async _setBasic(node: number, on: boolean): Promise<void> {
-		await this.host.sendCommand(
-			node,
-			new BasicV1.Set({ value: on ? 0xff : 0x00 })
-		);
+		await this.controller.send({
+			endpoint: { nodeId: node },
+			packet: new BasicV1.Set({ value: on ? 0xff : 0x00 }),
+		});
 	}
 }

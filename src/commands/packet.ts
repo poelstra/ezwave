@@ -32,9 +32,9 @@ function isSpecificCommand<T extends SpecificCommand<any>>(
 }
 
 export class Packet {
-	public commandClass: number;
-	public command: number;
-	public payload: Buffer;
+	public readonly commandClass: number;
+	public readonly command: number;
+	public readonly payload: Buffer;
 
 	public static from(packet: Buffer): Packet {
 		const isSimpleClass = packet[0] <= 0xf0;
