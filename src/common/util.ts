@@ -1,3 +1,7 @@
+export function noop(): void {
+	/* no-operation */
+}
+
 export function delay(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -8,23 +12,25 @@ export interface Deferred<T> {
 	promise: Promise<T>;
 }
 
+// There can only be one simultaneous call to defer() at any
+// one time, so we can create the closure once and re-use it.
+let deferResolve: Deferred<any>["resolve"];
+let deferReject: Deferred<any>["reject"];
+let deferExecutor = (res: typeof deferResolve, rej: typeof deferReject) => {
+	deferResolve = res;
+	deferReject = rej;
+};
+
 export function defer<T>(): Deferred<T> {
-	let resolve: Deferred<T>["resolve"];
-	let reject: Deferred<T>["reject"];
 	return {
-		promise: new Promise((res, rej) => {
-			resolve = res;
-			reject = rej;
-		}),
-		resolve: resolve!,
-		reject: reject!,
+		promise: new Promise(deferExecutor),
+		resolve: deferResolve,
+		reject: deferReject,
 	};
 }
 
 export function never(): Promise<never> {
-	return new Promise(() => {
-		/* no op */
-	});
+	return new Promise(noop);
 }
 
 export function bufferToString(buffer: Buffer): string {
