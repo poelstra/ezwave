@@ -1,12 +1,13 @@
 import {
-	Codec,
+	Framer,
 	DataType,
-	Packet,
+	Frame,
 	FrameType,
 	LineError,
-	DataPacket,
-	SimplePacket,
-} from "./codec";
+	DataFrame,
+	SimpleFrame,
+	IFramer,
+} from "./framer";
 import { EventEmitter } from "events";
 import * as Queue from "promise-queue";
 import { Timer, delay, Deferred, defer, bufferToString } from "../common/util";
@@ -66,7 +67,7 @@ export enum SerialAPICommand {
 	FUNC_ID_PROMISCUOUS_APPLICATION_COMMAND_HANDLER = 0xd1,
 }
 
-function packetToString(packet: Packet): string {
+function packetToString(packet: Frame): string {
 	switch (packet.frameType) {
 		case FrameType.ACK:
 		case FrameType.NAK:
@@ -83,13 +84,13 @@ function packetToString(packet: Packet): string {
 	}
 }
 
-const ACK_PACKET: SimplePacket = { frameType: FrameType.ACK };
-const NAK_PACKET: SimplePacket = { frameType: FrameType.NAK };
+const ACK_PACKET: SimpleFrame = { frameType: FrameType.ACK };
+const NAK_PACKET: SimpleFrame = { frameType: FrameType.NAK };
 
 function createDataPacket(
 	command: SerialAPICommand,
 	params?: Buffer
-): DataPacket {
+): DataFrame {
 	return {
 		frameType: FrameType.SOF,
 		dataType: DataType.REQ,
@@ -105,27 +106,31 @@ const MAX_RETRANSMISSIONS = 3;
 const HARD_RESET_DELAY = 500; // INS12350 6.1.1 With hard reset
 const SOFT_RESET_DELAY = 1500; // INS12350 6.1.2 Without hard reset
 
-export interface ProtocolEvents {
+export interface Protocol {
 	on(
 		event: "event",
 		listener: (command: number, params: Buffer) => void
 	): this;
 }
 
-export type HardResetHandler = () => Codec | Promise<Codec> | void | undefined;
+export type HardResetHandler = () =>
+	| Framer
+	| Promise<Framer>
+	| void
+	| undefined;
 
 export class Protocol extends EventEmitter {
-	private _codec!: Codec;
+	private _codec!: IFramer;
 	private _hardResetHandler: HardResetHandler | undefined;
 	private _invalidPackets = 0;
 	private _requests = new Queue(1, Infinity);
-	private _ackResult: ((packet: SimplePacket) => void) | undefined;
+	private _ackResult: ((packet: SimpleFrame) => void) | undefined;
 	private _ackTimer: Timer;
-	private _reqResult: Deferred<DataPacket> | undefined;
-	private _reqPacket: DataPacket | undefined;
+	private _reqResult: Deferred<DataFrame> | undefined;
+	private _reqPacket: DataFrame | undefined;
 	private _reqTimer: Timer;
 
-	constructor(codec: Codec, hardResetHandler?: HardResetHandler) {
+	constructor(codec: IFramer, hardResetHandler?: HardResetHandler) {
 		super();
 
 		this._hardResetHandler = hardResetHandler;
@@ -146,14 +151,14 @@ export class Protocol extends EventEmitter {
 		this._reqTimer = new Timer(REQ_TIMEOUT, () => this._handleReqTimeout());
 	}
 
-	private _assignCodec(codec: Codec): void {
+	private _assignCodec(framer: IFramer): void {
 		if (this._codec) {
-			this._codec.off("data", this._handlePacket);
+			this._codec.off("frame", this._handleFrame);
 			this._codec.off("lineError", this._handleLineError);
 			this._codec.off("close", this._handleClose);
 		}
-		this._codec = codec;
-		this._codec.on("data", this._handlePacket);
+		this._codec = framer;
+		this._codec.on("frame", this._handleFrame);
 		this._codec.on("lineError", this._handleLineError);
 		this._codec.on("close", this._handleClose);
 	}
@@ -178,7 +183,7 @@ export class Protocol extends EventEmitter {
 		cmd: SerialAPICommand,
 		params?: Buffer
 	): Promise<Buffer> {
-		const request: DataPacket = {
+		const request: DataFrame = {
 			frameType: FrameType.SOF,
 			dataType: DataType.REQ,
 			command: cmd,
@@ -191,7 +196,7 @@ export class Protocol extends EventEmitter {
 					`cmd=${cmd}`,
 					`params=[${params ? bufferToString(params) : ""}]`
 				);
-				this._reqResult = defer<DataPacket>();
+				this._reqResult = defer<DataFrame>();
 				const result = this._reqResult.promise;
 				this._reqPacket = request;
 				this._reqTimer.start();
@@ -206,7 +211,7 @@ export class Protocol extends EventEmitter {
 		);
 	}
 
-	private _handlePacket = (packet: Packet): void => {
+	private _handleFrame = (packet: Frame): void => {
 		console.log("\t\tRECV", packetToString(packet));
 		switch (packet.frameType) {
 			case FrameType.ACK:
@@ -291,7 +296,7 @@ export class Protocol extends EventEmitter {
 		}
 	}
 
-	private async _send(packet: DataPacket): Promise<void> {
+	private async _send(packet: DataFrame): Promise<void> {
 		for (let i = 0; i <= MAX_RETRANSMISSIONS; i++) {
 			const result = await this._sendDataAndWaitForACK(packet);
 			if (result.frameType === FrameType.ACK) {
@@ -307,9 +312,9 @@ export class Protocol extends EventEmitter {
 	}
 
 	private async _sendDataAndWaitForACK(
-		packet: DataPacket
-	): Promise<SimplePacket> {
-		return new Promise<SimplePacket>((resolve) => {
+		packet: DataFrame
+	): Promise<SimpleFrame> {
+		return new Promise<SimpleFrame>((resolve) => {
 			if (this._ackResult) {
 				throw new Error(
 					"internal error: previous request still pending"
@@ -321,9 +326,9 @@ export class Protocol extends EventEmitter {
 		});
 	}
 
-	private _sendRaw(packet: Packet): void {
-		console.log("\t\tSEND", packetToString(packet));
-		this._codec.write(packet);
+	private _sendRaw(frame: Frame): void {
+		console.log("\t\tSEND", packetToString(frame));
+		this._codec.send(frame);
 	}
 
 	private async _hardReset(): Promise<void> {

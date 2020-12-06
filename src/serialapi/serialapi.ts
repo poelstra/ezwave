@@ -8,8 +8,11 @@ import {
 	BasicDeviceClassEnum,
 	GenericDeviceClassEnum,
 } from "../generated/ZwaveCmdClassV1";
-import { Protocol, SerialAPICommand } from "../serial/protocol";
-import { CommandClassInfo, parseCommandClasses } from "./commandClassInfo";
+import { Protocol, SerialAPICommand } from "./protocol";
+import {
+	CommandClassInfo,
+	parseCommandClasses,
+} from "../server/commandClassInfo";
 
 export interface SerialAPICapabilities {
 	applVersion: number;
@@ -49,10 +52,10 @@ enum ApplicationSlaveUpdateStatus {
 }
 
 export class Node {
-	private _host: Host;
+	private _host: SerialApi;
 	private _id: number;
 
-	constructor(host: Host, id: number) {
+	constructor(host: SerialApi, id: number) {
 		this._host = host;
 		this._id = id;
 	}
@@ -118,11 +121,11 @@ function parseRxStatus(value: number): RxStatus {
 	};
 }
 
-export interface HostEvents {
+export interface SerialApi {
 	on(event: "event", listener: (event: HostEvent) => void): this;
 }
 
-export class Host extends EventEmitter implements HostEvents {
+export class SerialApi extends EventEmitter {
 	private _protocol: Protocol;
 	private _capabilities?: SerialAPICapabilities;
 	private _initData?: SerialAPIInitData;
@@ -138,7 +141,6 @@ export class Host extends EventEmitter implements HostEvents {
 		this._protocol.on("event", (command, params) =>
 			this._handleEvent(command, params)
 		);
-		this._protocol.on("reset", () => console.log("\tRESET"));
 	}
 
 	public async init(): Promise<void> {

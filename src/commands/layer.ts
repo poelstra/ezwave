@@ -1,5 +1,5 @@
 import { Packet } from "../commands/packet";
-import { DestinationType } from "../server/host";
+import { DestinationType } from "../serialapi/serialapi";
 
 export interface Endpoint {
 	nodeId: number;

@@ -8,7 +8,7 @@ import CommandClasses from "../generated/CommandClasses";
 import { MultiChannelLayer } from "../layers/multiChannel";
 import { SecurityS0Layer } from "../layers/securityS0";
 import { CryptoManager, NonceStore } from "./crypto";
-import { Host, HostEvent, rxStatusToString } from "./host";
+import { SerialApi, HostEvent, rxStatusToString } from "../serialapi/serialapi";
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {
@@ -22,7 +22,11 @@ export class Controller extends EventEmitter implements ControllerEvents {
 	private _stack: Stack;
 	private _requester: Requester;
 
-	constructor(host: Host, crypto: CryptoManager, nonceStore: NonceStore) {
+	constructor(
+		host: SerialApi,
+		crypto: CryptoManager,
+		nonceStore: NonceStore
+	) {
 		super();
 		const sender: Sender = {
 			send(command: LayerCommand): Promise<boolean> {

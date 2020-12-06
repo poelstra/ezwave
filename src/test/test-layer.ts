@@ -14,7 +14,7 @@ import {
 import { Packet } from "../commands/packet";
 import { Requester } from "../commands/requester";
 import { Stack } from "../commands/stack";
-import { DestinationType } from "../server/host";
+import { DestinationType } from "../serialapi/serialapi";
 
 class FakeSecurityLayer implements Layer {
 	private _requester = new Requester();

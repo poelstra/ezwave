@@ -7,14 +7,14 @@ import {
 	BasicDeviceClassEnum,
 	GenericDeviceClassEnum,
 } from "../generated/ZwaveCmdClassV1";
-import { Codec } from "../serial/codec";
-import { Protocol } from "../serial/protocol";
+import { Framer } from "../serialapi/framer";
+import { Protocol } from "../serialapi/protocol";
 import { parseCommandClasses } from "./commandClassInfo";
 import { Controller } from "./controller";
 import { CryptoManager, NonceStore } from "./crypto";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
-import { Host } from "./host";
+import { SerialApi } from "../serialapi/serialapi";
 import { Hub } from "./hub";
 
 const SUPPORTED_USB_IDS = [
@@ -48,7 +48,10 @@ async function open(portName?: string): Promise<SerialPort> {
 	});
 }
 
-async function dumpMultiInstanceInfo(host: Host, node: number): Promise<void> {
+async function dumpMultiInstanceInfo(
+	host: SerialApi,
+	node: number
+): Promise<void> {
 	// Fetch number of endpoints
 	await host.zwSendData(
 		node,
@@ -104,7 +107,7 @@ async function dumpMultiInstanceInfo(host: Host, node: number): Promise<void> {
 	}
 }
 
-async function dumpNodeInfo(host: Host, node: number): Promise<void> {
+async function dumpNodeInfo(host: SerialApi, node: number): Promise<void> {
 	const nodeInfo = await host.zwRequestNodeInfo(node);
 	console.log(
 		"NodeInfo",
@@ -160,10 +163,10 @@ main(async () => {
 		port = await open(config.serial);
 		port.on("close", () => console.log("port closed"));
 		console.log("port opened");
-		return new Codec(port);
+		return new Framer(port);
 	};
 	const protocol = new Protocol(await getCodec(), getCodec);
-	const host = new Host(protocol);
+	const host = new SerialApi(protocol);
 
 	const nonceStore = new NonceStore();
 	const crypto = new CryptoManager(Buffer.from(networkKey, "hex"));
