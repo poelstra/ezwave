@@ -22,7 +22,7 @@ export enum DataType {
 	RES = 0x01,
 }
 
-export enum LineError {
+export enum FrameError {
 	/**
 	 * Unexpected data bytes received. Only emitted on the first
 	 * unexpected byte in a sequence, until a valid frame is received.
@@ -91,10 +91,11 @@ export interface IFramer extends EventEmitter {
 	on(event: "frame", listener: (frame: Frame) => void): this;
 
 	/**
-	 * Line error occurred.
-	 * This is a non-fatal error: the framer will automatically re-sync.
+	 * Frame error occurred.
+	 * This is a non-fatal error, but the protocol should handle it
+	 * to correctly re-sync.
 	 */
-	on(event: "lineError", listener: (lineError: LineError) => void): this;
+	on(event: "frameError", listener: (frameError: FrameError) => void): this;
 
 	/**
 	 * Source stream has indicated end-of-file.
@@ -140,7 +141,7 @@ export interface IFramer extends EventEmitter {
  * Events emitted from Framer.
  */
 export interface Framer {
-	on(event: "lineError", listener: (lineError: LineError) => void): this;
+	on(event: "frameError", listener: (frameError: FrameError) => void): this;
 	on(event: "frame", listener: (frame: Frame) => void): this;
 	on(event: "error", listener: (err: Error) => void): this;
 	on(event: "end", listener: () => void): this;
@@ -226,7 +227,7 @@ export class Framer extends EventEmitter implements IFramer {
 			// Data can only remain in buffer when we're waiting for
 			// further data to arrive for a data frame.
 			// Indicate a truncated frame.
-			this.emit("lineError", LineError.FrameTooSmall);
+			this.emit("frameError", FrameError.FrameTooSmall);
 		}
 		this._clear();
 	}
@@ -248,7 +249,7 @@ export class Framer extends EventEmitter implements IFramer {
 
 	private _handleTimeout(): void {
 		this._clear();
-		this.emit("lineError", LineError.ReadDataFrameTimeout);
+		this.emit("frameError", FrameError.ReadDataFrameTimeout);
 	}
 
 	private _handleData(chunk: Buffer): void {
@@ -316,7 +317,7 @@ export class Framer extends EventEmitter implements IFramer {
 					this._buf = this._buf.slice(1);
 					if (this._inSync) {
 						this._inSync = false;
-						this.emit("lineError", LineError.SyncLost);
+						this.emit("frameError", FrameError.SyncLost);
 					}
 			}
 		}
@@ -351,7 +352,7 @@ export class Framer extends EventEmitter implements IFramer {
 			// Parameters (payload) must be at least 1 byte, so length must
 			// be at least 4 bytes.
 			this._clear();
-			this.emit("lineError", LineError.FrameTooSmall);
+			this.emit("frameError", FrameError.FrameTooSmall);
 			return false;
 		}
 
@@ -377,14 +378,14 @@ export class Framer extends EventEmitter implements IFramer {
 		}
 		const soll = frame[length + 1];
 		if (ist !== soll) {
-			this.emit("lineError", LineError.ChecksumFailed);
+			this.emit("frameError", FrameError.ChecksumFailed);
 			return false;
 		}
 
 		const dataType: DataType = frame[2];
 		if (dataType !== DataType.REQ && dataType !== DataType.RES) {
 			// INS12350 5.4.3 Data frame type
-			this.emit("lineError", LineError.UnknownDataType);
+			this.emit("frameError", FrameError.UnknownDataType);
 			return false;
 		}
 

@@ -16,6 +16,7 @@ import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { SerialApi } from "../serialapi/serialapi";
 import { Hub } from "./hub";
+import { promisify } from "util";
 
 const SUPPORTED_USB_IDS = [
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
@@ -153,7 +154,7 @@ main(async () => {
 	const networkKey = require("../../networkkey.json") as string;
 
 	let port: Duplex | undefined;
-	const getCodec = async () => {
+	const getFramer = async () => {
 		console.log("Connecting to Z-Wave controller...");
 		// if (!config.serial) {
 		// 	throw new Error(
@@ -165,7 +166,9 @@ main(async () => {
 		console.log("port opened");
 		return new Framer(port);
 	};
-	const protocol = new Protocol(await getCodec(), getCodec);
+	const framer = await getFramer();
+	const protocol = new Protocol(framer);
+	await protocol.hardResetted();
 	const host = new SerialApi(protocol);
 
 	const nonceStore = new NonceStore();

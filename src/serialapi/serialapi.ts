@@ -138,8 +138,8 @@ export class SerialApi extends EventEmitter {
 		super();
 		this._protocol = protocol;
 
-		this._protocol.on("event", (command, params) =>
-			this._handleEvent(command, params)
+		this._protocol.on("message", (command, params) =>
+			this._handleMessage(command, params)
 		);
 	}
 
@@ -254,7 +254,6 @@ export class SerialApi extends EventEmitter {
 	public async zwRequestNodeInfo(nodeId: number): Promise<NodeInfo> {
 		return this._requests.add(async () => {
 			console.log("\tBEGIN ZW_REQUEST_NODE_INFO", `node=${nodeId}`);
-			const funcId = this._getNextCallbackId();
 			const params = Buffer.from([nodeId]);
 
 			const returnValue = await this._protocol.request(
@@ -340,7 +339,7 @@ export class SerialApi extends EventEmitter {
 		}
 	}
 
-	private _handleEvent(command: SerialAPICommand, params: Buffer): void {
+	private _handleMessage(command: SerialAPICommand, params: Buffer): void {
 		console.log(
 			`\tSERIALAPI CALLBACK command=${
 				SerialAPICommand[command]
@@ -373,7 +372,7 @@ export class SerialApi extends EventEmitter {
 		handler: (command: SerialAPICommand, params: Buffer) => T | undefined
 	): Promise<T> {
 		const waiter = defer<T>();
-		const eventHandler = (command: SerialAPICommand, params: Buffer) => {
+		const messageHandler = (command: SerialAPICommand, params: Buffer) => {
 			try {
 				const result = handler(command, params);
 				if (result !== undefined) {
@@ -383,7 +382,7 @@ export class SerialApi extends EventEmitter {
 				waiter.reject(err);
 			}
 		};
-		this._protocol.on("event", eventHandler);
+		this._protocol.on("message", messageHandler);
 		const timer = new Timer(timeout, () =>
 			waiter.reject(new Error("timeout"))
 		);
@@ -393,7 +392,7 @@ export class SerialApi extends EventEmitter {
 			result = await waiter.promise;
 		} finally {
 			timer.stop();
-			this._protocol.removeListener("event", eventHandler);
+			this._protocol.removeListener("message", messageHandler);
 		}
 		return result;
 	}

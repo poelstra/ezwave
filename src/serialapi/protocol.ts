@@ -1,17 +1,25 @@
+/**
+ * Z-Wave Serial API protocol encoder/decoder.
+ *
+ * Handles frame-level handshaking of requests and responses
+ * to and from the Z-Wave chip, including timeout handling
+ * of requests sent to the chip, and detecting unresponsive
+ * chip / serial port.
+ */
+
+import { EventEmitter } from "events";
+import { bufferToString, defer, Deferred, delay, Timer } from "../common/util";
 import {
-	Framer,
+	DataFrame,
 	DataType,
 	Frame,
+	FrameError,
 	FrameType,
-	LineError,
-	DataFrame,
-	SimpleFrame,
 	IFramer,
+	SimpleFrame,
 } from "./framer";
-import { EventEmitter } from "events";
-import * as Queue from "promise-queue";
-import { Timer, delay, Deferred, defer, bufferToString } from "../common/util";
 
+// TODO move to SerialAPI
 export enum SerialAPICommand {
 	FUNC_ID_SERIAL_API_GET_INIT_DATA = 0x02,
 	FUNC_ID_SERIAL_API_APPL_NODE_INFORMATION = 0x03,
@@ -67,27 +75,31 @@ export enum SerialAPICommand {
 	FUNC_ID_PROMISCUOUS_APPLICATION_COMMAND_HANDLER = 0xd1,
 }
 
-function packetToString(packet: Frame): string {
-	switch (packet.frameType) {
+function frameToString(frame: Frame): string {
+	switch (frame.frameType) {
 		case FrameType.ACK:
 		case FrameType.NAK:
 		case FrameType.CAN:
-			return `<Packet ${FrameType[packet.frameType]}>`;
+			return `<Frame ${FrameType[frame.frameType]}>`;
 		case FrameType.SOF:
 			const cmd =
-				SerialAPICommand[packet.command] ||
-				`0x${packet.command.toString(16)}`;
-			const params = `[${bufferToString(packet.params)}]`;
-			return `<Packet DATA type=${
-				DataType[packet.dataType]
+				SerialAPICommand[frame.command] ||
+				`0x${frame.command.toString(16)}`;
+			const params = `[${bufferToString(frame.params)}]`;
+			return `<Frame DATA type=${
+				DataType[frame.dataType]
 			} cmd=${cmd} params=${params}>`;
 	}
 }
 
-const ACK_PACKET: SimpleFrame = { frameType: FrameType.ACK };
-const NAK_PACKET: SimpleFrame = { frameType: FrameType.NAK };
+const ACK_FRAME: SimpleFrame = { frameType: FrameType.ACK };
+const NAK_FRAME: SimpleFrame = { frameType: FrameType.NAK };
+const ONE_BYTE_DUMMY_BUFFER = Buffer.alloc(1);
 
-function createDataPacket(
+const ACK_TIMEOUT_SENTINEL = "ACK_TIMEOUT_SENTINEL";
+type AckTimeoutSentinel = typeof ACK_TIMEOUT_SENTINEL;
+
+function createDataFrame(
 	command: SerialAPICommand,
 	params?: Buffer
 ): DataFrame {
@@ -95,152 +107,384 @@ function createDataPacket(
 		frameType: FrameType.SOF,
 		dataType: DataType.REQ,
 		command,
-		params: params ? params : Buffer.alloc(1),
+		params: params ? params : ONE_BYTE_DUMMY_BUFFER,
 	};
 }
 
 const ACK_TIMEOUT = 1600; // INS12350 6.2.2 Data frame delivery timeout
-const REQ_TIMEOUT = 5000; // TODO: random value for now, should depend on specific call? See INS12350 6.4.3 Missing callbacks
+const DEFAULT_RES_TIMEOUT = 65 * 1000; // Maximum timeout for ZW_SendData callback, although very unlikely (see INS13954 section 4.3.3.1)
 const MAX_RETRANSMISSIONS = 3;
 
 const HARD_RESET_DELAY = 500; // INS12350 6.1.1 With hard reset
 const SOFT_RESET_DELAY = 1500; // INS12350 6.1.2 Without hard reset
 
 export interface Protocol {
+	/**
+	 * Emitted whenever the device is initialized after a soft
+	 * or hard reset.
+	 */
+	on(event: "init", listener: () => void): this;
+
+	/**
+	 * Emitted when a request message is received from the
+	 * Z-Wave chip. For example, due to a Z-Wave command addressed
+	 * to us.
+	 */
 	on(
-		event: "event",
+		event: "message",
 		listener: (command: number, params: Buffer) => void
 	): this;
+
+	/**
+	 * Emitted when the Z-Wave chip is detected as being stuck.
+	 * It is recommended to issue a hard reset upon receiving
+	 * this event, or a soft reset if a hard reset is not available.
+	 */
+	on(event: "stuck", listener: () => void): this;
+
+	/**
+	 * Emitted when a non-recoverable error is detected.
+	 * The protocol will be closed immediately afterwards.
+	 *
+	 * Typically emitted when e.g. event dispatch threw an
+	 * error, or the framer failed with an error.
+	 */
+	on(event: "error", listener: (error: Error) => void): this;
+
+	/**
+	 * Emitted when the protocol is closed.
+	 *
+	 * Typically emitted when the framer is closed, or a
+	 * non-recoverable error occurred.
+	 */
+	on(event: "close", listener: () => void): this;
 }
 
-export type HardResetHandler = () =>
-	| Framer
-	| Promise<Framer>
-	| void
-	| undefined;
+enum ProtocolState {
+	/**
+	 * Waiting for reset sequence to complete.
+	 */
+	Uninitialized,
 
+	/**
+	 * Waiting for new send()/request() or unsollicited message.
+	 */
+	Idle,
+
+	/**
+	 * Sending a REQ from send()/request().
+	 */
+	Sending,
+
+	/**
+	 * Waiting for RES from request().
+	 */
+	Receiving,
+
+	/**
+	 * Protocol closed, no further send/request possible,
+	 * no further events will be emitted.
+	 * Because framer closed, and/or error occurred.
+	 */
+	Closed,
+}
+
+/**
+ * Z-Wave Serial API protocol encoder/decoder.
+ *
+ * Handles frame-level handshaking of requests and responses
+ * to and from the Z-Wave chip, including timeout handling
+ * of requests sent to the chip, and detecting unresponsive
+ * chip / serial port.
+ */
 export class Protocol extends EventEmitter {
-	private _codec!: IFramer;
-	private _hardResetHandler: HardResetHandler | undefined;
-	private _invalidPackets = 0;
-	private _requests = new Queue(1, Infinity);
-	private _ackResult: ((packet: SimpleFrame) => void) | undefined;
-	private _ackTimer: Timer;
-	private _reqResult: Deferred<DataFrame> | undefined;
-	private _reqPacket: DataFrame | undefined;
-	private _reqTimer: Timer;
+	/**
+	 * Convert frames into serial byte stream and vice-versa.
+	 * Detects checksum errors and low-level frame read time-outs.
+	 */
+	private _framer: IFramer;
 
-	constructor(codec: IFramer, hardResetHandler?: HardResetHandler) {
+	/**
+	 * State of protocol encoder/decoder.
+	 */
+	private _state: ProtocolState = ProtocolState.Uninitialized;
+
+	/**
+	 * Number of consecutive data frames with errors.
+	 * When it becomes too large, a "stuck" event is emitted to trigger
+	 * a soft or hard reset.
+	 */
+	private _invalidFrames = 0;
+
+	/**
+	 * Resolved to result of ACK/NAK/CAN/timeout when sending a REQ.
+	 */
+	private _ackResult: Deferred<SimpleFrame | AckTimeoutSentinel> | undefined;
+
+	/**
+	 * Detect timeout of ACK/NAK/CAN when sending a REQ.
+	 * Resolves _ackResult with ACK_TIMEOUT_SENTINEL if it triggers.
+	 */
+	private _ackTimer: Timer;
+
+	/**
+	 * Resolved to RES frame after sending REQ (and getting ACK).
+	 */
+	private _resResult: Deferred<DataFrame> | undefined;
+
+	/**
+	 * Original frame sent as REQ when waiting for RES, to verify whether
+	 * RES command indeed matches the request.
+	 */
+	private _reqFrame: DataFrame | undefined;
+
+	/**
+	 * Detect timeout of REQ/RES pair.
+	 */
+	private _resTimer: Timer | undefined;
+
+	/**
+	 * Construct new Z-Wave Serial API protocol encoder/decoder.
+	 *
+	 * Before the protocol can be used, either:
+	 * - await `hardResetted()`, in case port was opened after a hard reset, or
+	 * - await `softReset()`, to soft-reset the chip in case a hard reset is not available.
+	 *
+	 * @param framer IFramer to convert frames to serial byte stream and vice-versa.
+	 */
+	constructor(framer: IFramer) {
 		super();
 
-		this._hardResetHandler = hardResetHandler;
-		this._assignCodec(codec);
-
-		if (this._hardResetHandler) {
-			// Assume port was hard-resetted, so we only need to
-			// apply the 'boot delay'
-			this._requests.add(() => delay(HARD_RESET_DELAY));
-		} else {
-			// Assume port was attached, but because no hard-reset
-			// was possible, wait for the soft-reset delay in case
-			// the device was freshly booted.
-			this._requests.add(() => delay(SOFT_RESET_DELAY));
-		}
+		this._framer = framer;
+		this._framer.on("frame", (frame) => this._handleFrame(frame)); // TODO handle async
+		this._framer.on("frameError", (frameError) =>
+			this._handleFrameError(frameError)
+		);
+		this._framer.on("close", () => this._handleClose());
+		this._framer.on("error", (error) => this._handleError(error));
 
 		this._ackTimer = new Timer(ACK_TIMEOUT, () => this._handleAckTimeout());
-		this._reqTimer = new Timer(REQ_TIMEOUT, () => this._handleReqTimeout());
-	}
-
-	private _assignCodec(framer: IFramer): void {
-		if (this._codec) {
-			this._codec.off("frame", this._handleFrame);
-			this._codec.off("lineError", this._handleLineError);
-			this._codec.off("close", this._handleClose);
-		}
-		this._codec = framer;
-		this._codec.on("frame", this._handleFrame);
-		this._codec.on("lineError", this._handleLineError);
-		this._codec.on("close", this._handleClose);
 	}
 
 	/**
-	 * Reset ZWave chip using hard or soft reset as necessary.
+	 * Indicate that Z-Wave chip was hard-resetted, by triggering
+	 * any external reset mechanism.
+	 *
+	 * Any pending request will be cancelled.
+	 * Will wait for necessary hard-reset time before issueing
+	 * new requests.
+	 *
+	 * Either hardResetted() or softReset is required before data
+	 * can be transmitted after constructing this class.
 	 */
-	public async reset(): Promise<void> {
-		if (this._hardResetHandler) {
-			return this._hardReset();
-		} else {
-			return this._softReset();
+	public async hardResetted(): Promise<void> {
+		// TODO handle nested reset
+		if (this._state === ProtocolState.Closed) {
+			throw new Error("cannot reset protocol: already closed");
+		}
+		this._abort(new Error("request aborted: hard reset"));
+		this._state = ProtocolState.Uninitialized;
+		// Assume port was hard-resetted, so we only need to
+		// apply the 'boot delay'
+		await delay(HARD_RESET_DELAY);
+		this._invalidFrames = 0;
+		this._state = ProtocolState.Idle;
+		this._safeEmit("init");
+	}
+
+	/**
+	 * Perform soft-reset of Z-Wave chip.
+	 *
+	 * Any pending request will be cancelled.
+	 * Note: sending a soft-reset to a USB device will cause its
+	 * serial port to be closed, which will in turn cause this
+	 * protocol instance to be closed.
+	 *
+	 * Either hardResetted() or softReset is required before data
+	 * can be transmitted after constructing this class.
+	 */
+	public async softReset(): Promise<void> {
+		// TODO handle nested reset
+		if (this._state === ProtocolState.Closed) {
+			throw new Error("cannot reset protocol: already closed");
+		}
+		this._state = ProtocolState.Uninitialized;
+		this._abort(new Error("request aborted: soft reset"));
+		this._invalidFrames = 0;
+		// INS12350 6.1.2 Without hard reset
+		// Warning: when sent to a USB ZWave device, this will trigger a
+		// USB disconnect, and will cause the underlying file descriptor
+		// to be closed.
+		await this._sendRaw(NAK_FRAME);
+		await this._sendRaw(
+			createDataFrame(SerialAPICommand.FUNC_ID_SERIAL_API_SOFT_RESET)
+		);
+		await delay(SOFT_RESET_DELAY);
+		this._state = ProtocolState.Idle;
+		this._safeEmit("init");
+	}
+
+	/**
+	 * Send REQ command to Z-Wave chip that does not return a RES result.
+	 *
+	 * Only a single send() or request() can be ongoing at the same time.
+	 */
+	public async send(cmd: SerialAPICommand, params?: Buffer): Promise<void> {
+		if (this._state !== ProtocolState.Idle) {
+			throw new Error("cannot send command: protocol not idle");
+		}
+		this._state = ProtocolState.Sending;
+		try {
+			const request = createDataFrame(cmd, params);
+			console.log(
+				"\tSEND",
+				`cmd=${SerialAPICommand[cmd]}`,
+				`params=[${params ? bufferToString(params) : ""}]`
+			);
+			await this._send(request);
+			console.log("\tSEND ACK");
+		} finally {
+			// Only go back to Idle if we weren't interrupted somehow
+			if (this._state === ProtocolState.Sending) {
+				this._state = ProtocolState.Idle;
+			}
 		}
 	}
 
-	public async send(cmd: SerialAPICommand, params?: Buffer): Promise<void> {
-		const packet = createDataPacket(cmd, params);
-		return this._requests.add(() => this._send(packet));
-	}
-
+	/**
+	 * Send REQ command to Z-Wave chip and wait for corresponding RES result
+	 * to be returned.
+	 *
+	 * Only a single send() or request() can be ongoing at the same time,
+	 * and the protocol must be initialized and not closed yet.
+	 *
+	 * Note: unsollicited messages can still be received while a request
+	 * is ongoing.
+	 */
 	public async request(
 		cmd: SerialAPICommand,
-		params?: Buffer
+		params?: Buffer,
+		timeout?: number
 	): Promise<Buffer> {
-		const request: DataFrame = {
-			frameType: FrameType.SOF,
-			dataType: DataType.REQ,
-			command: cmd,
-			params: params ? params : Buffer.alloc(1),
-		};
-		return this._requests.add(
-			async (): Promise<Buffer> => {
-				console.log(
-					"\tBEGIN REQUEST",
-					`cmd=${cmd}`,
-					`params=[${params ? bufferToString(params) : ""}]`
-				);
-				this._reqResult = defer<DataFrame>();
-				const result = this._reqResult.promise;
-				this._reqPacket = request;
-				this._reqTimer.start();
-				await this._send(request);
-				const resultPacket = await result;
-				console.log(
-					"\tEND REQUEST",
-					`result=[${bufferToString(resultPacket.params)}]`
-				);
-				return resultPacket.params;
+		if (this._state !== ProtocolState.Idle) {
+			throw new Error("cannot send request: protocol not idle");
+		}
+		this._state = ProtocolState.Sending;
+		try {
+			const request = createDataFrame(cmd, params);
+			console.log(
+				"\tREQUEST SEND",
+				`cmd=${SerialAPICommand[cmd]}`,
+				`params=[${params ? bufferToString(params) : ""}]`
+			);
+			this._resResult = defer<DataFrame>();
+			const result = this._resResult.promise;
+			this._reqFrame = request;
+			this._resTimer = new Timer(timeout ?? DEFAULT_RES_TIMEOUT, () =>
+				this._handleResTimeout()
+			);
+			this._resTimer.start(); // According to spec, RES timer needs to be started before the send
+			await this._send(request);
+			console.log("\tREQUEST SEND ACK");
+			// @ts-ignore Typescript thinks this._state must be Sending by now, but see explanation below
+			if (this._state === ProtocolState.Uninitialized) {
+				// There's a small window where ack is received, but the
+				// send() above did not return yet, and *then* the protocol
+				// is reset. In this case, protocol state will be Uninitialized.
+				// However, the overal request (waiting for RES) will have been
+				// aborted correctly, so just return that early.
+				await result; // should throw with original reset reason
+				// otherwise, explicitly throw
+				throw new Error("internal error: unexpected protocol state");
 			}
-		);
+			if (this._state !== ProtocolState.Sending) {
+				throw new Error("internal error: unexpected protocol state");
+			}
+			this._state = ProtocolState.Receiving;
+			const resultFrame = await result;
+			console.log(
+				"\tREQUEST RESULT",
+				`result=[${bufferToString(resultFrame.params)}]`
+			);
+			return resultFrame.params;
+		} finally {
+			if (this._resTimer) {
+				this._resTimer.stop();
+				this._resTimer = undefined;
+			}
+			// Only go back to Idle if we weren't interrupted somehow
+			if (
+				this._state === ProtocolState.Sending ||
+				this._state === ProtocolState.Receiving
+			) {
+				this._state = ProtocolState.Idle;
+			}
+		}
 	}
 
-	private _handleFrame = (packet: Frame): void => {
-		console.log("\t\tRECV", packetToString(packet));
-		switch (packet.frameType) {
+	private _abort(error: Error): void {
+		if (this._ackResult) {
+			this._ackTimer.stop();
+			this._ackResult.reject(error);
+			this._ackResult = undefined;
+		}
+		this._reqFrame = undefined;
+		if (this._resResult) {
+			this._resResult.reject(error);
+			this._resResult = undefined;
+		}
+		if (this._resTimer) {
+			this._resTimer.stop();
+			this._resTimer = undefined;
+		}
+	}
+
+	private async _handleFrame(frame: Frame): Promise<void> {
+		console.log("\t\tRECV", frameToString(frame));
+		if (this._state === ProtocolState.Uninitialized) {
+			console.warn(
+				"WARN",
+				"Discarding received frame, not initialized yet"
+			);
+			return;
+		}
+		if (this._state === ProtocolState.Closed) {
+			console.warn("WARN", "Discarding received frame, protocol closed");
+			return;
+		}
+		switch (frame.frameType) {
 			case FrameType.ACK:
 			case FrameType.NAK:
 			case FrameType.CAN:
 				// Retransmissions are handled in _send()
 				if (this._ackResult) {
-					this._ackResult(packet);
-					this._ackResult = undefined;
 					this._ackTimer.stop();
+					this._ackResult.resolve(frame);
+					this._ackResult = undefined;
 				}
 				break;
 			case FrameType.SOF:
-				switch (packet.dataType) {
+				switch (frame.dataType) {
 					case DataType.REQ:
-						this._sendRaw(ACK_PACKET);
-						this.emit("event", packet.command, packet.params);
+						this._invalidFrames = 0;
+						await this._sendRaw(ACK_FRAME);
+						this._safeEmit("message", frame.command, frame.params);
 						break;
 					case DataType.RES:
-						this._sendRaw(ACK_PACKET);
+						this._invalidFrames = 0;
+						await this._sendRaw(ACK_FRAME);
 						if (
-							this._reqResult &&
-							this._reqPacket &&
-							this._reqPacket.command === packet.command
+							this._resResult &&
+							this._reqFrame &&
+							this._reqFrame.command === frame.command
 						) {
-							this._reqResult.resolve(packet);
-							this._reqResult = undefined;
-							this._reqPacket = undefined;
-							this._reqTimer.stop();
+							this._reqFrame = undefined;
+							this._resResult.resolve(frame);
+							this._resResult = undefined;
+							if (this._resTimer) {
+								this._resTimer.stop();
+								this._resTimer = undefined;
+							}
 						} else {
 							console.warn(
 								"WARN",
@@ -249,109 +493,179 @@ export class Protocol extends EventEmitter {
 						}
 						break;
 					default:
-					// INS12350 5.4.3 Type
-					// A receiving end MUST ignore reserved Type values
+						// INS12350 5.4.3 Type
+						// A receiving end MUST ignore reserved Type values
+						console.warn(
+							"WARN",
+							`received unsupported data type ${frame.dataType}`
+						);
 				}
 				break;
 		}
-	};
+	}
 
-	private _handleLineError = (lineError: LineError): void => {
-		console.warn("WARN", LineError[lineError]);
-		this._sendRaw(NAK_PACKET);
+	private _handleFrameError(frameError: FrameError): void {
+		console.warn("WARN", FrameError[frameError]);
 
-		// INS12350 6.4.2 Persistent CRC errors
-		this._invalidPackets++;
-		if (this._invalidPackets === 3) {
-			this._hardReset(); // TODO Catch rejected promise, convert to error event?
+		if (
+			this._state === ProtocolState.Uninitialized ||
+			this._state === ProtocolState.Closed
+		) {
+			// Ignore frame errors during reset or close
 			return;
 		}
-	};
 
-	private _handleClose = (): void => {
-		if (!this._hardResetHandler) {
-			// Port is closed, but we can only do a soft-reset,
-			// for which we'd need to send data. Stuck.
-			// TODO Emit error/close event?
+		// Send back NAK on checksum error, and frame-too-small error (which
+		// is something the 'normal' protocol would detect as a checksum error
+		// or timeout instead).
+		switch (frameError) {
+			case FrameError.ChecksumFailed:
+			case FrameError.FrameTooSmall:
+				this._sendRaw(NAK_FRAME);
+
+				// INS12350 6.4.2 Persistent CRC errors
+				// SHOULD issue a hard reset, or soft reset if hard reset is not available.
+				this._invalidFrames++;
+				if (this._invalidFrames === 3) {
+					console.warn(
+						"WARN Persistent CRC errors detected, Z-Wave chip stuck"
+					);
+					this._safeEmit("stuck");
+				}
+				break;
+		}
+	}
+
+	private _handleClose(): void {
+		if (this._state === ProtocolState.Closed) {
 			return;
 		}
-		this._hardReset(); // TODO Catch rejected promise, convert to error event?
-	};
+		this._state = ProtocolState.Closed;
+		this._abort(new Error("framer closed"));
+		this._safeEmit("close");
+	}
+
+	private _handleError(error: Error): void {
+		if (this._state === ProtocolState.Closed) {
+			return;
+		}
+		const protocolError = new Error(
+			`framer errored: ${error.name}: ${error.message}`
+		);
+		this._state = ProtocolState.Closed;
+		this._abort(protocolError);
+		this._safeEmit("error", protocolError);
+		this._safeEmit("close");
+	}
 
 	private _handleAckTimeout(): void {
 		console.warn("WARN", "ACK timeout");
 		if (this._ackResult) {
-			// INS12350 6.2.2
-			// The loss of a Data frame MUST be treated as the reception of a NAK frame; refer to 6.3.
-			this._ackResult(NAK_PACKET);
+			this._ackResult.resolve(ACK_TIMEOUT_SENTINEL);
 			this._ackResult = undefined;
 		}
 	}
 
-	private _handleReqTimeout(): void {
-		console.warn("WARN", "REQ timeout");
-		if (this._reqResult) {
-			this._reqResult.reject(new Error("timeout"));
-			this._reqResult = undefined;
+	private _handleResTimeout(): void {
+		console.warn("WARN", "RES timeout");
+		this._reqFrame = undefined;
+		if (this._resResult) {
+			// TODO Create the error somewhere in the stack of request() to
+			// give a more meaningful backtrace
+			this._resResult.reject(
+				new Error(
+					"request timeout: Z-Wave chip did not respond with result"
+				)
+			);
+			this._resResult = undefined;
 		}
 	}
 
-	private async _send(packet: DataFrame): Promise<void> {
-		for (let i = 0; i <= MAX_RETRANSMISSIONS; i++) {
-			const result = await this._sendDataAndWaitForACK(packet);
-			if (result.frameType === FrameType.ACK) {
+	private async _send(frame: DataFrame): Promise<void> {
+		let retransmissions = 0;
+		while (true) {
+			const result = await this._sendDataFrameAndWaitForResponse(frame);
+			if (
+				result !== ACK_TIMEOUT_SENTINEL &&
+				result.frameType === FrameType.ACK
+			) {
 				// Done
 				return;
 			}
-			// Retransmit after waiting period
-			// TODO To speed up retransmissions, it is allowed to subtract
-			// any time already passed waiting for the ACK from this timeout.
-			await delay(100 + i * 1000);
-		}
-		this.reset();
-	}
 
-	private async _sendDataAndWaitForACK(
-		packet: DataFrame
-	): Promise<SimpleFrame> {
-		return new Promise<SimpleFrame>((resolve) => {
-			if (this._ackResult) {
-				throw new Error(
-					"internal error: previous request still pending"
-				);
+			// CAN / NAK / Timeout
+			if (retransmissions === MAX_RETRANSMISSIONS) {
+				break;
 			}
-			this._ackTimer.start();
-			this._ackResult = resolve;
-			this._sendRaw(packet);
-		});
-	}
 
-	private _sendRaw(frame: Frame): void {
-		console.log("\t\tSEND", packetToString(frame));
-		this._codec.send(frame);
-	}
+			// Retransmit after waiting period
+			let backOffDelay = 100 + retransmissions * 1000;
+			retransmissions++;
 
-	private async _hardReset(): Promise<void> {
-		if (!this._hardResetHandler) {
-			throw new Error("cannot hard reset: not available");
+			// In case of timeout, the timeout waiting period may be subtracted
+			// from the backOffDelay.
+			if (result === ACK_TIMEOUT_SENTINEL) {
+				backOffDelay -= ACK_TIMEOUT;
+			}
+
+			if (backOffDelay > 0) {
+				await delay(backOffDelay);
+			}
 		}
 
-		const newCodec = await this._hardResetHandler();
-		if (newCodec && newCodec !== this._codec) {
-			this._assignCodec(newCodec);
-		}
-
-		await delay(HARD_RESET_DELAY);
-	}
-
-	private async _softReset(): Promise<void> {
-		// INS12350 6.1.2 Without hard reset
-		// Warning: when sent to a USB ZWave device, this will trigger a USB disconnect,
-		// and will cause the underlying file descriptor to be closed.
-		await this._sendRaw(NAK_PACKET);
-		await this._sendRaw(
-			createDataPacket(SerialAPICommand.FUNC_ID_SERIAL_API_SOFT_RESET)
+		// Spec recommends to reset chip after it 3 failed retransmissions.
+		console.warn(
+			"WARN Persistent ACK timeouts detected, Z-Wave chip stuck"
 		);
-		await delay(SOFT_RESET_DELAY);
+		this._safeEmit("stuck");
+
+		// 3 consecutive failed retransmissions, abort send
+		throw new Error("send failed: Z-Wave chip did not acknowledge");
+	}
+
+	private async _sendDataFrameAndWaitForResponse(
+		frame: DataFrame
+	): Promise<SimpleFrame | AckTimeoutSentinel> {
+		this._ackResult = defer();
+		const result = this._ackResult.promise;
+		this._ackTimer.start();
+		try {
+			await this._sendRaw(frame);
+		} catch (err) {
+			this._ackTimer.stop();
+			this._ackResult = undefined;
+			throw err;
+		}
+		return result;
+	}
+
+	private async _sendRaw(frame: Frame): Promise<void> {
+		console.log("\t\tSEND", frameToString(frame));
+		await this._framer.send(frame);
+	}
+
+	private _safeEmit(event: string, ...args: any[]): void {
+		try {
+			this.emit(event, ...args);
+		} catch (err) {
+			if (this._state === ProtocolState.Closed) {
+				// No way to catch it anymore, let it explode as uncaught error
+				process.nextTick(() => {
+					throw err;
+				});
+				return;
+			}
+			const error =
+				typeof err === "object" && err instanceof Error
+					? err
+					: new Error("unknown error");
+			const eventHandlerError = new Error(
+				`error in protocol event handler for '${event}': ${error.name}: ${error.message}`
+			);
+			this._state = ProtocolState.Closed;
+			this._abort(eventHandlerError);
+			this._safeEmit("error", eventHandlerError);
+			this._safeEmit("close");
+		}
 	}
 }

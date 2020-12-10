@@ -1,14 +1,14 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import * as sinon from "sinon";
-import { DuplexSink, DuplexSource } from "../test/util";
-import { DataType, Frame, Framer, FrameType, LineError } from "./framer";
+import { DuplexSource } from "../test/util";
+import { DataType, Frame, FrameError, Framer, FrameType } from "./framer";
 
-describe("Framer", () => {
+describe("SerialAPI Framer", () => {
 	let clock: sinon.SinonFakeTimers;
 	let chip: DuplexSource<Buffer>;
 	let framer: Framer;
-	let lineErrors: LineError[];
+	let frameErrors: FrameError[];
 	let framerReceived: Frame[];
 	let framerEvents: string[];
 
@@ -16,10 +16,10 @@ describe("Framer", () => {
 		clock = sinon.useFakeTimers();
 		chip = new DuplexSource();
 		framer = new Framer(chip);
-		lineErrors = [];
+		frameErrors = [];
 		framerReceived = [];
 		framerEvents = [];
-		framer.on("lineError", (lineError) => lineErrors.push(lineError));
+		framer.on("frameError", (frameError) => frameErrors.push(frameError));
 		framer.on("frame", (frame) => framerReceived.push(frame));
 		framer.on("end", () => framerEvents.push("end"));
 		framer.on("close", () => framerEvents.push("close"));
@@ -30,7 +30,7 @@ describe("Framer", () => {
 		await clock.runAllAsync();
 		clock.restore();
 		expect(
-			lineErrors.map((le) => LineError[le]),
+			frameErrors.map((le) => FrameError[le]),
 			"Unexpected line errors"
 		).to.deep.equal([]);
 	});
@@ -160,11 +160,11 @@ describe("Framer", () => {
 				params: Buffer.from([0x55]),
 			},
 		]);
-		expect(lineErrors).to.deep.equal([
-			LineError.SyncLost,
-			LineError.SyncLost,
+		expect(frameErrors).to.deep.equal([
+			FrameError.SyncLost,
+			FrameError.SyncLost,
 		]);
-		lineErrors = [];
+		frameErrors = [];
 	});
 
 	it("ignores unknown data type", async () => {
@@ -185,8 +185,8 @@ describe("Framer", () => {
 				frameType: FrameType.CAN,
 			},
 		]);
-		expect(lineErrors).to.deep.equal([LineError.UnknownDataType]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.UnknownDataType]);
+		frameErrors = [];
 	});
 
 	it("discards too short packet", async () => {
@@ -203,8 +203,8 @@ describe("Framer", () => {
 		);
 		await clock.tickAsync(0);
 		expect(framerReceived).to.deep.equal([]);
-		expect(lineErrors).to.deep.equal([LineError.FrameTooSmall]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.FrameTooSmall]);
+		frameErrors = [];
 	});
 
 	it("handles checksum failure", async () => {
@@ -234,8 +234,8 @@ describe("Framer", () => {
 				params: Buffer.from([0x55]),
 			},
 		]);
-		expect(lineErrors).to.deep.equal([LineError.ChecksumFailed]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.ChecksumFailed]);
+		frameErrors = [];
 	});
 
 	it("detects read timeout since SOF", async () => {
@@ -256,20 +256,20 @@ describe("Framer", () => {
 		// So if we wait 999 ms, we should just NOT have timed out,
 		// but after 1 ms more, it should have.
 		await clock.tickAsync(999);
-		expect(lineErrors).to.deep.equal([]);
+		expect(frameErrors).to.deep.equal([]);
 		expect(framerReceived).to.deep.equal([]);
 		await clock.tickAsync(1);
 		expect(framerReceived).to.deep.equal([]);
-		expect(lineErrors).to.deep.equal([LineError.ReadDataFrameTimeout]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.ReadDataFrameTimeout]);
+		frameErrors = [];
 	});
 
 	it("recovers from read timeout", async () => {
 		chip.send(Buffer.from([FrameType.SOF]));
 		await clock.tickAsync(1500);
 		expect(framerReceived).to.deep.equal([]);
-		expect(lineErrors).to.deep.equal([LineError.ReadDataFrameTimeout]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.ReadDataFrameTimeout]);
+		frameErrors = [];
 
 		const okFrame = Buffer.from([
 			FrameType.SOF,
@@ -289,7 +289,7 @@ describe("Framer", () => {
 				params: Buffer.from([0x55]),
 			},
 		]);
-		expect(lineErrors).to.deep.equal([]);
+		expect(frameErrors).to.deep.equal([]);
 	});
 
 	it("detects and forwards chip to host close", async () => {
@@ -299,8 +299,8 @@ describe("Framer", () => {
 		await clock.tickAsync(0);
 		expect(framerEvents).to.deep.equal(["end"]);
 		expect(chip.events).to.deep.equal([]);
-		expect(lineErrors).to.deep.equal([LineError.FrameTooSmall]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.FrameTooSmall]);
+		frameErrors = [];
 
 		// Host received EOF, but can still send Frames
 		await framer.send({ frameType: FrameType.ACK });
@@ -330,8 +330,8 @@ describe("Framer", () => {
 		await framer.close();
 		expect(chip.events).to.deep.equal(["end"]);
 		expect(framerEvents).to.deep.equal(["close"]);
-		expect(lineErrors).to.deep.equal([LineError.FrameTooSmall]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.FrameTooSmall]);
+		frameErrors = [];
 
 		// Host received EOF, but could still emit Frames.
 		// They won't be processed anymore though.
@@ -363,7 +363,7 @@ describe("Framer", () => {
 
 		expect(framerEvents).to.deep.equal(["error", "close"]);
 		expect(chip.events).to.deep.equal(["error", "close"]);
-		expect(lineErrors).to.deep.equal([LineError.FrameTooSmall]);
-		lineErrors = [];
+		expect(frameErrors).to.deep.equal([FrameError.FrameTooSmall]);
+		frameErrors = [];
 	});
 });
