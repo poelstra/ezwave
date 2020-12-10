@@ -1,6 +1,6 @@
 import MHubClient, { Message } from "mhub";
 import { EventEmitter, once } from "events";
-import { delay } from "../common/util";
+import { defer, Deferred, delay } from "../common/util";
 
 export interface HubEvents {
 	on(event: "subscribe", listener: () => void): void;
@@ -23,6 +23,7 @@ export class Hub extends EventEmitter implements HubEvents {
 	private _pass: string;
 	private _subscriptions: Subscription[] = [];
 	private _connected: boolean = false;
+	private _connectedDeferred: Deferred<void> = defer();
 	private _callbacks = new Map<string, SubscribeCallback>();
 
 	constructor(url: string, user: string, pass: string) {
@@ -76,6 +77,7 @@ export class Hub extends EventEmitter implements HubEvents {
 	): Promise<void>;
 	public publish(nodeName: string, message: Message): Promise<void>;
 	public async publish(nodeName: string, ...args: any[]): Promise<void> {
+		await this._connectedDeferred.promise;
 		await (this._hub.publish as any)(nodeName, ...args);
 	}
 
@@ -89,6 +91,8 @@ export class Hub extends EventEmitter implements HubEvents {
 				await this._hub.login(this._user, this._pass);
 				console.log(`Hub subscribing...`);
 				this._connected = true;
+				this._connectedDeferred.resolve();
+				this._connectedDeferred = defer();
 				for (const sub of this._subscriptions) {
 					await this._hub.subscribe(sub.node, sub.pattern, sub.id);
 				}
