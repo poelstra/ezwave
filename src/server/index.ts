@@ -17,6 +17,7 @@ import { HomeHub } from "./homehub";
 import { SerialApi } from "../serialapi/serialapi";
 import { Hub } from "./hub";
 import { promisify } from "util";
+import { delay } from "../common/util";
 
 const SUPPORTED_USB_IDS = [
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
@@ -153,7 +154,6 @@ main(async () => {
 	const config = require("../../config.json") as Config;
 	const networkKey = require("../../networkkey.json") as string;
 
-	let port: Duplex | undefined;
 	const getFramer = async () => {
 		console.log("Connecting to Z-Wave controller...");
 		// if (!config.serial) {
@@ -161,13 +161,31 @@ main(async () => {
 		// 		"missing serial port in config, please set `serial` property in `config.json`"
 		// 	);
 		// }
-		port = await open(config.serial);
-		port.on("close", () => console.log("port closed"));
-		console.log("port opened");
+		let port: Duplex | undefined;
+		let shownWarning = false;
+		while (!port) {
+			try {
+				port = await open(config.serial);
+			} catch (err) {
+				if (!shownWarning) {
+					console.warn(
+						`Error opening Z-Wave port, retrying: ${err.message}`
+					);
+					shownWarning = true;
+				}
+				await delay(3000);
+			}
+		}
+		port.on("close", () => console.log("serial port closed"));
+		console.log("serial port opened");
 		return new Framer(port);
 	};
 	const framer = await getFramer();
 	const protocol = new Protocol(framer);
+	protocol.on("close", () => {
+		console.log("Protocol closed, shutting down...");
+		process.exit(0);
+	});
 	await protocol.hardResetted();
 	const host = new SerialApi(protocol);
 
@@ -201,6 +219,11 @@ main(async () => {
 
 	// Wait forever
 	console.log("---- DONE");
+
+	// await protocol.softReset();
+
+	// console.log("---- RESETTED");
+
 	await new Promise(() => {});
 	console.log("wait returned?!");
 });
