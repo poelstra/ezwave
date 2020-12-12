@@ -92,7 +92,6 @@ export class Hub extends EventEmitter implements HubEvents {
 				console.log(`Hub subscribing...`);
 				this._connected = true;
 				this._connectedDeferred.resolve();
-				this._connectedDeferred = defer();
 				for (const sub of this._subscriptions) {
 					await this._hub.subscribe(sub.node, sub.pattern, sub.id);
 				}
@@ -100,19 +99,20 @@ export class Hub extends EventEmitter implements HubEvents {
 				await once(this._hub, "close");
 				console.log(`Hub disconnected.`);
 			} catch (err) {
-				this._connected = false;
 				console.error("Hub connect error", err);
-				try {
-					await this._hub.close();
-				} catch {
-					// ignore follow-up error
-				}
-				if (!lastSuccess) {
-					// Quick reconnect on first error, otherwise wait a bit
-					await delay(3000);
-				}
-				lastSuccess = false;
 			}
+			this._connected = false;
+			this._connectedDeferred = defer();
+			try {
+				await this._hub.close();
+			} catch {
+				// ignore follow-up error
+			}
+			if (!lastSuccess) {
+				// Quick reconnect on first error, otherwise wait a bit
+				await delay(3000);
+			}
+			lastSuccess = false;
 		}
 	}
 }
