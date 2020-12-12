@@ -5,10 +5,14 @@
  * low-level byte stream and vice-versa.
  */
 
+import debug from "debug";
 import { EventEmitter } from "events";
 import * as stream from "stream";
 import { promisify } from "util";
-import { Timer } from "../common/util";
+import { bufferToString, Timer } from "../common/util";
+
+const log = debug("zwave:framer");
+const logData = log.extend("data");
 
 export enum FrameType {
 	ACK = 0x06,
@@ -154,6 +158,16 @@ enum FramerState {
 	Closed,
 }
 
+function frameToString(frame: Frame): string {
+	if (frame.frameType === FrameType.SOF) {
+		return `<Frame ${FrameType[frame.frameType]} type=${
+			DataType[frame.frameType]
+		} command=${frame.command} params=[${bufferToString(frame.params)}]>`;
+	} else {
+		return `<Frame ${FrameType[frame.frameType]}>`;
+	}
+}
+
 /**
  * Z-Wave Serial API stream framer.
  *
@@ -186,11 +200,15 @@ export class Framer extends EventEmitter implements IFramer {
 		this._stream.on("close", () => this._handleClose());
 		this._stream.on("error", (err: Error) => this._handleError(err));
 		this._writer = promisify(this._stream.write).bind(this._stream);
+		log("constructed");
 	}
 
 	public async send(frame: Frame): Promise<void> {
 		if (this._state !== FramerState.Open) {
 			throw new FramerError("cannot send frame: not open");
+		}
+		if (logData.enabled) {
+			logData(`send ${frameToString(frame)}`);
 		}
 		const buffer = this._encodeFrame(frame);
 		await this._writer(buffer);
@@ -200,6 +218,7 @@ export class Framer extends EventEmitter implements IFramer {
 		if (this._state !== FramerState.Open) {
 			throw new FramerError("cannot close framer: not open");
 		}
+		log("closing");
 		this._state = FramerState.Closing;
 		// Tell stream we'll no longer be sending stuff
 		if (!this._stream.destroyed) {
@@ -214,6 +233,7 @@ export class Framer extends EventEmitter implements IFramer {
 		// unprocessed data.
 		this._clearAndEmitFrameTooSmallIfNecessary();
 		this._state = FramerState.Closed;
+		log("close");
 		this._safeEmit("close");
 	}
 
@@ -227,6 +247,7 @@ export class Framer extends EventEmitter implements IFramer {
 			// Data can only remain in buffer when we're waiting for
 			// further data to arrive for a data frame.
 			// Indicate a truncated frame.
+			log("frameError", FrameError[FrameError.FrameTooSmall]);
 			this._safeEmit("frameError", FrameError.FrameTooSmall);
 		}
 		this._clear();
@@ -244,11 +265,13 @@ export class Framer extends EventEmitter implements IFramer {
 		}
 		this._ended = true;
 		this._clearAndEmitFrameTooSmallIfNecessary();
+		log("end");
 		this._safeEmit("end");
 	}
 
 	private _handleTimeout(): void {
 		this._clear();
+		log("frameError", FrameError[FrameError.ReadDataFrameTimeout]);
 		this._safeEmit("frameError", FrameError.ReadDataFrameTimeout);
 	}
 
@@ -260,6 +283,9 @@ export class Framer extends EventEmitter implements IFramer {
 		this._buf = Buffer.concat([this._buf, chunk]);
 		let frame;
 		while ((frame = this._decodeFrame())) {
+			if (logData.enabled) {
+				logData("receive", frameToString(frame));
+			}
 			this._safeEmit("frame", frame);
 		}
 	}
@@ -281,11 +307,13 @@ export class Framer extends EventEmitter implements IFramer {
 			return;
 		}
 		this._errored = true;
+		log("error", err);
 		this._safeEmit("error", err);
 
 		if (this._state === FramerState.Open) {
-			this.close().catch(() => {
+			this.close().catch((ignoredErr) => {
 				/* ignore follow-up errors */
+				log("swallow error", ignoredErr);
 			});
 		}
 	}
@@ -317,6 +345,7 @@ export class Framer extends EventEmitter implements IFramer {
 					this._buf = this._buf.slice(1);
 					if (this._inSync) {
 						this._inSync = false;
+						log("frameError", FrameError[FrameError.SyncLost]);
 						this._safeEmit("frameError", FrameError.SyncLost);
 					}
 			}
@@ -352,6 +381,7 @@ export class Framer extends EventEmitter implements IFramer {
 			// Parameters (payload) must be at least 1 byte, so length must
 			// be at least 4 bytes.
 			this._clear();
+			log("frameError", FrameError[FrameError.FrameTooSmall]);
 			this._safeEmit("frameError", FrameError.FrameTooSmall);
 			return false;
 		}
@@ -378,6 +408,7 @@ export class Framer extends EventEmitter implements IFramer {
 		}
 		const soll = frame[length + 1];
 		if (ist !== soll) {
+			log("frameError", FrameError[FrameError.ChecksumFailed]);
 			this._safeEmit("frameError", FrameError.ChecksumFailed);
 			return false;
 		}
@@ -385,6 +416,7 @@ export class Framer extends EventEmitter implements IFramer {
 		const dataType: DataType = frame[2];
 		if (dataType !== DataType.REQ && dataType !== DataType.RES) {
 			// INS12350 5.4.3 Data frame type
+			log("frameError", FrameError[FrameError.UnknownDataType]);
 			this._safeEmit("frameError", FrameError.UnknownDataType);
 			return false;
 		}
@@ -460,6 +492,7 @@ export class Framer extends EventEmitter implements IFramer {
 		} catch (err) {
 			if (this._state === FramerState.Closed || this._errored) {
 				// No way to report it anymore, let it explode as uncaught error
+				log("unhandled error", err);
 				process.nextTick(() => {
 					throw err;
 				});
