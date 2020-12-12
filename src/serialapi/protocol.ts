@@ -649,7 +649,7 @@ export class Protocol extends EventEmitter {
 			this.emit(event, ...args);
 		} catch (err) {
 			if (this._state === ProtocolState.Closed) {
-				// No way to catch it anymore, let it explode as uncaught error
+				// No way to report it anymore, let it explode as uncaught error
 				process.nextTick(() => {
 					throw err;
 				});

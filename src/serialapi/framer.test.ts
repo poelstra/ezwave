@@ -366,4 +366,28 @@ describe("SerialAPI Framer", () => {
 		expect(frameErrors).to.deep.equal([FrameError.FrameTooSmall]);
 		frameErrors = [];
 	});
+
+	it("survives error thrown in event handler", async () => {
+		let errors: Error[] = [];
+		framer.on("frame", (frame) => {
+			throw new Error("boom");
+		});
+		framer.on("error", (err) => errors.push(err));
+
+		const dataFrame = Buffer.from([
+			FrameType.SOF,
+			4,
+			DataType.REQ,
+			1,
+			0x55,
+			0xaf,
+		]);
+		chip.send(dataFrame);
+		await clock.tickAsync(0);
+
+		expect(errors).to.have.length(1);
+		expect(errors[0].message).to.match(/boom/);
+		expect(framerEvents).to.deep.equal(["error", "close"]);
+		framerEvents = [];
+	});
 });
