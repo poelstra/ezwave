@@ -85,6 +85,10 @@ export type Frame = SimpleFrame | DataFrame;
 
 const FRAME_READ_TIMEOUT = 1500; // INS12350 6.2.1 Data frame reception timeout
 
+const ACK_FRAME = Buffer.from([FrameType.ACK]);
+const NAK_FRAME = Buffer.from([FrameType.NAK]);
+const CAN_FRAME = Buffer.from([FrameType.CAN]);
+
 /**
  * Framer interface.
  */
@@ -436,11 +440,11 @@ export class Framer extends EventEmitter implements IFramer {
 	private _encodeFrame(frame: Frame): Buffer {
 		switch (frame.frameType) {
 			case FrameType.ACK:
-				return Buffer.from([FrameType.ACK]);
+				return ACK_FRAME;
 			case FrameType.NAK:
-				return Buffer.from([FrameType.NAK]);
+				return NAK_FRAME;
 			case FrameType.CAN:
-				return Buffer.from([FrameType.CAN]);
+				return CAN_FRAME;
 			case FrameType.SOF:
 				if (
 					frame.dataType !== DataType.REQ &&
