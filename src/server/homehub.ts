@@ -40,6 +40,7 @@ export class HomeHub {
 		if (value >= 99) {
 			value = 100;
 		}
+		console.log(`HomeHub update light=${name} level=${value}`);
 		await this._hub.publish("state", `/home/lights/${name}`, value / 100);
 	}
 
