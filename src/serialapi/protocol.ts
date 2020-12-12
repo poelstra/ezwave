@@ -379,6 +379,9 @@ export class Protocol extends EventEmitter {
 			);
 			this._resResult = defer<DataFrame>();
 			const result = this._resResult.promise;
+			// Prevent unhandled rejection when send is aborted. The actual error
+			// will be returned from this._send(), so it will be handled correctly.
+			result.catch(noop);
 			this._reqFrame = request;
 			this._resTimer = new Timer(timeout ?? DEFAULT_RES_TIMEOUT, () =>
 				this._handleResTimeout()
@@ -630,7 +633,10 @@ export class Protocol extends EventEmitter {
 		const result = this._ackResult.promise;
 		this._ackTimer.start();
 		try {
-			await this._sendRaw(frame);
+			// Await both promises to:
+			//   1) allow early return on abort
+			//   2) prevent unhandled rejection when sendRaw blocks while result is rejected
+			await Promise.all([this._sendRaw(frame), result]);
 		} catch (err) {
 			this._ackTimer.stop();
 			this._ackResult = undefined;

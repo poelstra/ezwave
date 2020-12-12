@@ -4,6 +4,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { EventEmitter } from "events";
 import { describe, it } from "mocha";
 import * as sinon from "sinon";
+import { never } from "../common/util";
 import {
 	DataFrame,
 	DataType,
@@ -518,6 +519,17 @@ describe("SerialAPI protocol", () => {
 		framer.received = [];
 		framer.emitAck();
 		await send2Result;
+	});
+
+	it("handles abort while framer's send is pending", async () => {
+		framer.send = never;
+		const sendResult = expect(
+			protocol.send(1)
+		).to.eventually.be.rejectedWith("reset");
+		const reset = protocol.hardResetted();
+		await clock.runAllAsync();
+		await reset;
+		await sendResult;
 	});
 
 	it("handles soft reset while request, during send", async () => {
