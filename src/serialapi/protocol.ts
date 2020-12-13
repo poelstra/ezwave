@@ -7,8 +7,16 @@
  * chip / serial port.
  */
 
+import debug from "debug";
 import { EventEmitter } from "events";
-import { bufferToString, defer, Deferred, delay, Timer } from "../common/util";
+import {
+	bufferToString,
+	defer,
+	Deferred,
+	delay,
+	noop,
+	Timer,
+} from "../common/util";
 import {
 	DataFrame,
 	DataType,
@@ -18,6 +26,9 @@ import {
 	IFramer,
 	SimpleFrame,
 } from "./framer";
+
+const log = debug("zwave:protocol");
+const logData = log.extend("data");
 
 // TODO move to SerialAPI
 export enum SerialAPICommand {
@@ -75,23 +86,6 @@ export enum SerialAPICommand {
 	FUNC_ID_PROMISCUOUS_APPLICATION_COMMAND_HANDLER = 0xd1,
 }
 
-function frameToString(frame: Frame): string {
-	switch (frame.frameType) {
-		case FrameType.ACK:
-		case FrameType.NAK:
-		case FrameType.CAN:
-			return `<Frame ${FrameType[frame.frameType]}>`;
-		case FrameType.SOF:
-			const cmd =
-				SerialAPICommand[frame.command] ||
-				`0x${frame.command.toString(16)}`;
-			const params = `[${bufferToString(frame.params)}]`;
-			return `<Frame DATA type=${
-				DataType[frame.dataType]
-			} cmd=${cmd} params=${params}>`;
-	}
-}
-
 const ACK_FRAME: SimpleFrame = { frameType: FrameType.ACK };
 const NAK_FRAME: SimpleFrame = { frameType: FrameType.NAK };
 const ONE_BYTE_DUMMY_BUFFER = Buffer.alloc(1);
@@ -134,6 +128,19 @@ export interface Protocol {
 		event: "message",
 		listener: (command: number, params: Buffer) => void
 	): this;
+
+	/**
+	 * Emitted when an unexpected event is detected, such
+	 * as line errors from the framer.
+	 *
+	 * The event can be used to aid in troubleshooting low-level
+	 * protocol issues, and is informational only.
+	 *
+	 * The event is not emitted for situations which can already
+	 * be observed from method calls to the protocol, e.g. a
+	 * `send()` time out.
+	 */
+	on(event: "warning", listener: (message: string) => void): this;
 
 	/**
 	 * Emitted when the Z-Wave chip is detected as being stuck.
@@ -333,16 +340,26 @@ export class Protocol extends EventEmitter {
 		if (this._state !== ProtocolState.Idle) {
 			throw new Error("cannot send command: protocol not idle");
 		}
+		if (logData.enabled) {
+			logData(
+				"send",
+				`cmd=${cmd} params=[${params ? bufferToString(params) : ""}]`
+			);
+		}
 		this._state = ProtocolState.Sending;
 		try {
 			const request = createDataFrame(cmd, params);
-			console.log(
-				"\tSEND",
-				`cmd=${SerialAPICommand[cmd]}`,
-				`params=[${params ? bufferToString(params) : ""}]`
-			);
 			await this._send(request);
-			console.log("\tSEND ACK");
+			logData("send ok");
+		} catch (err) {
+			// Keep info together, but do show errors in 'normal' log if
+			// it would otherwise be hidden
+			if (logData.enabled) {
+				logData("send error", err);
+			} else {
+				log("send error", err);
+			}
+			throw err;
 		} finally {
 			// Only go back to Idle if we weren't interrupted somehow
 			if (this._state === ProtocolState.Sending) {
@@ -369,14 +386,15 @@ export class Protocol extends EventEmitter {
 		if (this._state !== ProtocolState.Idle) {
 			throw new Error("cannot send request: protocol not idle");
 		}
+		if (logData.enabled) {
+			logData(
+				"request",
+				`cmd=${cmd} params=[${params ? bufferToString(params) : ""}]`
+			);
+		}
 		this._state = ProtocolState.Sending;
 		try {
 			const request = createDataFrame(cmd, params);
-			console.log(
-				"\tREQUEST SEND",
-				`cmd=${SerialAPICommand[cmd]}`,
-				`params=[${params ? bufferToString(params) : ""}]`
-			);
 			this._resResult = defer<DataFrame>();
 			const result = this._resResult.promise;
 			// Prevent unhandled rejection when send is aborted. The actual error
@@ -388,7 +406,6 @@ export class Protocol extends EventEmitter {
 			);
 			this._resTimer.start(); // According to spec, RES timer needs to be started before the send
 			await this._send(request);
-			console.log("\tREQUEST SEND ACK");
 			// @ts-ignore Typescript thinks this._state must be Sending by now, but see explanation below
 			if (this._state === ProtocolState.Uninitialized) {
 				// There's a small window where ack is received, but the
@@ -405,11 +422,20 @@ export class Protocol extends EventEmitter {
 			}
 			this._state = ProtocolState.Receiving;
 			const resultFrame = await result;
-			console.log(
-				"\tREQUEST RESULT",
-				`result=[${bufferToString(resultFrame.params)}]`
-			);
+			if (logData.enabled) {
+				logData(
+					"request ok",
+					`result=[${bufferToString(resultFrame.params)}]`
+				);
+			}
 			return resultFrame.params;
+		} catch (err) {
+			if (logData.enabled) {
+				logData("request error", err);
+			} else {
+				log("request error", err);
+			}
+			throw err;
 		} finally {
 			if (this._resTimer) {
 				this._resTimer.stop();
@@ -443,16 +469,12 @@ export class Protocol extends EventEmitter {
 	}
 
 	private async _handleFrame(frame: Frame): Promise<void> {
-		console.log("\t\tRECV", frameToString(frame));
 		if (this._state === ProtocolState.Uninitialized) {
-			console.warn(
-				"WARN",
-				"Discarding received frame, not initialized yet"
-			);
+			log("info", "Discarding received frame, not initialized yet");
 			return;
 		}
 		if (this._state === ProtocolState.Closed) {
-			console.warn("WARN", "Discarding received frame, protocol closed");
+			log("info", "Discarding received frame, protocol closed");
 			return;
 		}
 		switch (frame.frameType) {
@@ -471,6 +493,16 @@ export class Protocol extends EventEmitter {
 					case DataType.REQ:
 						this._invalidFrames = 0;
 						await this._sendRaw(ACK_FRAME);
+						if (logData.enabled) {
+							logData(
+								"message",
+								`cmd=${frame.command} params=[${
+									frame.params
+										? bufferToString(frame.params)
+										: ""
+								}]`
+							);
+						}
 						this._safeEmit("message", frame.command, frame.params);
 						break;
 					case DataType.RES:
@@ -489,27 +521,27 @@ export class Protocol extends EventEmitter {
 								this._resTimer = undefined;
 							}
 						} else {
-							console.warn(
-								"WARN",
-								"received response, but no corresponding request found"
+							log(
+								"info",
+								"received response, but no request pending"
 							);
 						}
 						break;
 					default:
 						// INS12350 5.4.3 Type
 						// A receiving end MUST ignore reserved Type values
-						console.warn(
-							"WARN",
-							`received unsupported data type ${frame.dataType}`
-						);
+						const dataType = frame.dataType as number;
+						const msg = `received unsupported data type 0x${dataType.toString(
+							16
+						)}`;
+						log("warning", msg);
+						this._safeEmit("warning", msg);
 				}
 				break;
 		}
 	}
 
 	private _handleFrameError(frameError: FrameError): void {
-		console.warn("WARN", FrameError[frameError]);
-
 		if (
 			this._state === ProtocolState.Uninitialized ||
 			this._state === ProtocolState.Closed
@@ -517,6 +549,9 @@ export class Protocol extends EventEmitter {
 			// Ignore frame errors during reset or close
 			return;
 		}
+		const frameErrorMsg = `frameError ${FrameError[frameError]}`;
+		log("warning", frameErrorMsg);
+		this._safeEmit("warning", frameErrorMsg);
 
 		// Send back NAK on checksum error, and frame-too-small error (which
 		// is something the 'normal' protocol would detect as a checksum error
@@ -530,8 +565,9 @@ export class Protocol extends EventEmitter {
 				// SHOULD issue a hard reset, or soft reset if hard reset is not available.
 				this._invalidFrames++;
 				if (this._invalidFrames === 3) {
-					console.warn(
-						"WARN Persistent CRC errors detected, Z-Wave chip stuck"
+					log(
+						"stuck",
+						"Persistent CRC errors detected, Z-Wave chip stuck"
 					);
 					this._safeEmit("stuck");
 				}
@@ -543,6 +579,7 @@ export class Protocol extends EventEmitter {
 		if (this._state === ProtocolState.Closed) {
 			return;
 		}
+		log("close");
 		this._state = ProtocolState.Closed;
 		this._abort(new Error("framer closed"));
 		this._safeEmit("close");
@@ -555,24 +592,27 @@ export class Protocol extends EventEmitter {
 		const protocolError = new Error(
 			`framer errored: ${error.name}: ${error.message}`
 		);
+		log("error", protocolError);
 		this._state = ProtocolState.Closed;
 		this._abort(protocolError);
 		this._safeEmit("error", protocolError);
+		log("close");
 		this._safeEmit("close");
 	}
 
 	private _handleAckTimeout(): void {
-		console.warn("WARN", "ACK timeout");
 		if (this._ackResult) {
+			log("warning", "ACK timeout");
+			this._safeEmit("warning", "ACK timeout");
 			this._ackResult.resolve(ACK_TIMEOUT_SENTINEL);
 			this._ackResult = undefined;
 		}
 	}
 
 	private _handleResTimeout(): void {
-		console.warn("WARN", "RES timeout");
 		this._reqFrame = undefined;
 		if (this._resResult) {
+			log("warning", "RES timeout"); // no emit of event, already observable through request()
 			// TODO Create the error somewhere in the stack of request() to
 			// give a more meaningful backtrace
 			this._resResult.reject(
@@ -617,9 +657,7 @@ export class Protocol extends EventEmitter {
 		}
 
 		// Spec recommends to reset chip after it 3 failed retransmissions.
-		console.warn(
-			"WARN Persistent ACK timeouts detected, Z-Wave chip stuck"
-		);
+		log("stuck", "Persistent ACK timeouts detected, Z-Wave chip stuck");
 		this._safeEmit("stuck");
 
 		// 3 consecutive failed retransmissions, abort send
@@ -645,9 +683,8 @@ export class Protocol extends EventEmitter {
 		return result;
 	}
 
-	private async _sendRaw(frame: Frame): Promise<void> {
-		console.log("\t\tSEND", frameToString(frame));
-		await this._framer.send(frame);
+	private _sendRaw(frame: Frame): Promise<void> {
+		return this._framer.send(frame);
 	}
 
 	private _safeEmit(event: string, ...args: any[]): void {
@@ -668,9 +705,11 @@ export class Protocol extends EventEmitter {
 			const eventHandlerError = new Error(
 				`error in protocol event handler for '${event}': ${error.name}: ${error.message}`
 			);
+			log("error", eventHandlerError);
 			this._state = ProtocolState.Closed;
 			this._abort(eventHandlerError);
 			this._safeEmit("error", eventHandlerError);
+			log("close");
 			this._safeEmit("close");
 		}
 	}
