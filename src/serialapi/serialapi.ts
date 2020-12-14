@@ -8,11 +8,12 @@ import {
 	BasicDeviceClassEnum,
 	GenericDeviceClassEnum,
 } from "../generated/ZwaveCmdClassV1";
-import { Protocol, SerialAPICommand } from "./protocol";
 import {
 	CommandClassInfo,
 	parseCommandClasses,
 } from "../server/commandClassInfo";
+import { Protocol } from "./protocol";
+import { SerialAPICommand } from "./serialApiCommand";
 
 export interface SerialAPICapabilities {
 	applVersion: number;
