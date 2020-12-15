@@ -165,7 +165,7 @@ enum FramerState {
 function frameToString(frame: Frame): string {
 	if (frame.frameType === FrameType.SOF) {
 		return `<Frame ${FrameType[frame.frameType]} type=${
-			DataType[frame.frameType]
+			DataType[frame.dataType]
 		} command=${frame.command} params=[${bufferToString(frame.params)}]>`;
 	} else {
 		return `<Frame ${FrameType[frame.frameType]}>`;
