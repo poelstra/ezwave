@@ -1,8 +1,8 @@
 {
 	"name": "ezwave",
 	"version": "1.0.0",
-	"description": "Z-Wave controller daemon and protocol parser",
-	"main": "index.js",
+	"description": "Z-Wave controller daemon and protocol parser written in Typescript",
+	"main": "dist/server/index.js",
 	"scripts": {
 		"start": "node dist/server/index",
 		"build": "tsc",
@@ -10,7 +10,11 @@
 		"regenerate": "node dist/codegen/xml2json && node dist/codegen/generate_commands",
 		"prepare": "npm run -s build"
 	},
-	"keywords": [],
+	"keywords": [
+		"zwave",
+		"z-wave",
+		"typescript"
+	],
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",
 	"dependencies": {
