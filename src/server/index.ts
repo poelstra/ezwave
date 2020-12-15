@@ -129,7 +129,7 @@ async function dumpNodeInfo(host: SerialApi, node: number): Promise<void> {
 function prefixTimestamp(console: Console, method: keyof Console): void {
 	const origMethod = console[method];
 	console[method] = function (this: any, ...args: any[]) {
-		args.unshift(`[${new Date().toISOString()}] [${method}]`);
+		args.unshift(`${new Date().toISOString()} [${method}]`);
 		return origMethod.apply(this, args);
 	} as any;
 }
