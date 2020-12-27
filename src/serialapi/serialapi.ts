@@ -1,16 +1,14 @@
 import { Parser } from "binary-parser";
+import debug from "debug";
 import { EventEmitter } from "events";
 import * as Queue from "promise-queue";
-import { Packet } from "../commands/packet";
 import { bufferToString, defer, Timer } from "../common/util";
-import CommandClasses from "../generated/CommandClasses";
 import {
 	CommandClassInfo,
 	parseCommandClasses,
 } from "../server/commandClassInfo";
 import { Protocol } from "./protocol";
 import { SerialAPICommand } from "./serialApiCommand";
-import debug from "debug";
 
 const log = debug("zwave:serialapi");
 const logData = log.extend("data");
@@ -94,12 +92,6 @@ export interface HostEvent {
 	rxStatus: RxStatus;
 	sourceNode: number;
 	data: Buffer;
-
-	// TODO remove all of the below
-	packet: Packet;
-	commandClass: CommandClasses;
-	command: number;
-	payload: Buffer;
 }
 
 export function rxStatusToString(rxStatus: RxStatus): string {
@@ -324,16 +316,6 @@ export class SerialApi extends EventEmitter {
 		});
 	}
 
-	// TODO remove
-	public async sendCommand(nodeId: number, command: Packet): Promise<void> {
-		const result = this._requests.add(() =>
-			this._internalZwSendData(nodeId, command.serialize())
-		);
-		if (!result) {
-			throw new Error("command failed");
-		}
-	}
-
 	private _handleMessage(command: SerialAPICommand, params: Buffer): void {
 		console.log(
 			`\tSERIALAPI CALLBACK command=${
@@ -347,16 +329,10 @@ export class SerialApi extends EventEmitter {
 			const payload = params.slice(3, 3 + cmdLength);
 			// const rxRSSIVal = params[params.length - 2];
 			// const securityKey = params[params.length - 1];
-			const packet = Packet.from(payload);
 			const event: HostEvent = {
 				rxStatus,
 				sourceNode,
 				data: payload,
-				// TODO remove stuff below
-				packet,
-				commandClass: packet.commandClass,
-				command: packet.command,
-				payload: packet.payload,
 			};
 			process.nextTick(() => this.emit("event", event));
 		}

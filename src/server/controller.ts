@@ -89,11 +89,12 @@ export class Controller extends EventEmitter implements ControllerEvents {
 	}
 
 	private async _handleHostEvent(event: HostEvent): Promise<void> {
+		const packet = Packet.from(event.data);
 		console.log(
 			`EVENT fromNode=${event.sourceNode} cmdClass=${
-				CommandClasses[event.commandClass]
-			} cmd=${event.command} payload=[${bufferToString(
-				event.payload
+				CommandClasses[packet.commandClass]
+			} cmd=${packet.command} payload=[${bufferToString(
+				packet.payload
 			)}] rxStatus=${rxStatusToString(event.rxStatus)}`
 		);
 		await this._stack.dispatch({
@@ -101,7 +102,7 @@ export class Controller extends EventEmitter implements ControllerEvents {
 			endpoint: {
 				nodeId: event.sourceNode,
 			},
-			packet: event.packet,
+			packet: packet,
 		});
 	}
 }
