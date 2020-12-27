@@ -2,22 +2,15 @@ import main from "async-main";
 import * as SerialPort from "serialport";
 import "source-map-support/register";
 import { Duplex } from "stream";
-import CommandClasses from "../generated/CommandClasses";
-import {
-	BasicDeviceClassEnum,
-	GenericDeviceClassEnum,
-} from "../generated/ZwaveCmdClassV1";
+import { delay } from "../common/util";
 import { Framer } from "../serialapi/framer";
 import { Protocol } from "../serialapi/protocol";
-import { parseCommandClasses } from "./commandClassInfo";
+import { SerialApi } from "../serialapi/serialapi";
 import { Controller } from "./controller";
 import { CryptoManager, NonceStore } from "./crypto";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
-import { SerialApi } from "../serialapi/serialapi";
 import { Hub } from "./hub";
-import { promisify } from "util";
-import { delay } from "../common/util";
 
 const SUPPORTED_USB_IDS = [
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
@@ -48,82 +41,6 @@ async function open(portName?: string): Promise<SerialPort> {
 			(err) => (err ? reject(err) : resolve(port))
 		);
 	});
-}
-
-async function dumpMultiInstanceInfo(
-	host: SerialApi,
-	node: number
-): Promise<void> {
-	// Fetch number of endpoints
-	await host.zwSendData(
-		node,
-		Buffer.from([
-			CommandClasses.COMMAND_CLASS_MULTI_CHANNEL,
-			7 /*  MULTI_CHANNEL_END_POINT_GET */,
-		])
-	);
-	const report = await host.waitFor(
-		1000 /* TODO what should this timeout be? */,
-		(event) =>
-			event.sourceNode === node &&
-			event.commandClass === CommandClasses.COMMAND_CLASS_MULTI_CHANNEL &&
-			event.command === 8 /* MULTI_CHANNEL_END_POINT_REPORT */
-	);
-	const individualEndPoints = report.payload[1] & 127;
-
-	// Fetch generic command device class, specific device class and list of command classes for each endpoint
-	for (let i = 1; i <= individualEndPoints; i++) {
-		await host.zwSendData(
-			node,
-			Buffer.from([
-				CommandClasses.COMMAND_CLASS_MULTI_CHANNEL,
-				0x09 /* MULTI_CHANNEL_CAPABILITY_GET */,
-				i,
-			])
-		);
-		const capReport = await host.waitFor(
-			1000 /* TODO what should this timeout be? */,
-			(event) =>
-				event.sourceNode === node &&
-				event.commandClass ===
-					CommandClasses.COMMAND_CLASS_MULTI_CHANNEL &&
-				event.command === 10 /* MULTI_CHANNEL_CAPABILITY_REPORT */ &&
-				(event.payload[0] & 127) === i
-		);
-		const endpoint = capReport.payload[0] & 127;
-		const genericClass = capReport.payload[1];
-		const specificClass = capReport.payload[2];
-		const classes = parseCommandClasses(capReport.payload.slice(3));
-		console.log(
-			"Endpoint",
-			`index=${endpoint}`,
-			`genericClass=${GenericDeviceClassEnum[genericClass]}`,
-			`specificClass=${specificClass}`,
-			`supported=${classes.supported
-				.map((c) => CommandClasses[c].slice("COMMAND_CLASS_".length))
-				.join(",")}`,
-			`controlled=${classes.controlled
-				.map((c) => CommandClasses[c].slice("COMMAND_CLASS_".length))
-				.join(",")}`
-		);
-	}
-}
-
-async function dumpNodeInfo(host: SerialApi, node: number): Promise<void> {
-	const nodeInfo = await host.zwRequestNodeInfo(node);
-	console.log(
-		"NodeInfo",
-		`node=${nodeInfo.nodeId}`,
-		`basicClass=${BasicDeviceClassEnum[nodeInfo.basicClass]}`,
-		`genericClass=${GenericDeviceClassEnum[nodeInfo.genericClass]}`,
-		`specificClass=${nodeInfo.specificClass}`,
-		`supported=${nodeInfo.commandClasses.supported
-			.map((c) => CommandClasses[c].slice("COMMAND_CLASS_".length))
-			.join(",")}`,
-		`controlled=${nodeInfo.commandClasses.controlled
-			.map((c) => CommandClasses[c].slice("COMMAND_CLASS_".length))
-			.join(",")}`
-	);
 }
 
 function prefixTimestamp(console: Console, method: keyof Console): void {

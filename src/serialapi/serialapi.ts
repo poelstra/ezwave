@@ -2,7 +2,7 @@ import { Parser } from "binary-parser";
 import { EventEmitter } from "events";
 import * as Queue from "promise-queue";
 import { Packet } from "../commands/packet";
-import { bufferToString, defer, timeout, Timer } from "../common/util";
+import { bufferToString, defer, Timer } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
 	BasicDeviceClassEnum,
@@ -14,6 +14,10 @@ import {
 } from "../server/commandClassInfo";
 import { Protocol } from "./protocol";
 import { SerialAPICommand } from "./serialApiCommand";
+import debug from "debug";
+
+const log = debug("zwave:serialapi");
+const logData = log.extend("data");
 
 export interface SerialAPICapabilities {
 	applVersion: number;
@@ -32,8 +36,8 @@ export enum NodeCapabilityFlags {
 }
 
 export interface SerialAPIInitData {
-	applVersion: number;
-	capabilities: number;
+	apiVersion: number;
+	capabilities: number; // See NodeCapabilityFlags
 	nodesLength: number;
 	nodes: number[];
 	chipType: number;
@@ -52,6 +56,7 @@ enum ApplicationSlaveUpdateStatus {
 	UPDATE_STATE_NODE_INFO_RECEIVED = 0x84,
 }
 
+// TODO move to Host
 export class Node {
 	private _host: SerialApi;
 	private _id: number;
@@ -88,6 +93,7 @@ export interface RxStatus {
 	foreignHomeId: boolean; // The received frame is received from a foreign HomeID. Only Controllers in Smart Start AddNode mode can receive this status
 }
 
+// TODO Rename to SerialApiEvent
 export interface HostEvent {
 	rxStatus: RxStatus;
 	sourceNode: number;
@@ -147,23 +153,33 @@ export class SerialApi extends EventEmitter {
 	public async init(): Promise<void> {
 		const caps = await this.serialGetCapabilities();
 		this._capabilities = caps;
-		console.debug(
-			`Initialized device with application version ${caps.applVersion}.${caps.applRevision}`
+		// TODO extend with more useful info
+		log(
+			`serialGetCapabilities: applicationVersion=${caps.applVersion}.${caps.applRevision}`
 		);
 
 		this._initData = await this.serialGetInitData();
+		// TODO decode capabilities
+		log(
+			`serialGetInitData: apiVersion=${
+				this._initData.apiVersion
+			} capabilities=0x${this._initData.capabilities.toString(
+				16
+			)} chipType=0x${this._initData.chipType.toString(
+				16
+			)} chipVersion=0x${this._initData.chipVersion.toString(16)}`
+		);
 		if (this._initData.nodes.length > 0) {
-			console.info("Nodes found:");
 			for (let i = 0; i < MAX_NODES; i++) {
 				const hasNode =
 					(this._initData.nodes[Math.trunc(i / 8)] &
 						Math.pow(2, i % 8)) >
 					0;
 				if (hasNode) {
-					console.log("\tNode", i);
 					this._nodes.set(i, new Node(this, i));
 				}
 			}
+			log("nodes", this._nodes.keys());
 		}
 	}
 
@@ -203,7 +219,7 @@ export class SerialApi extends EventEmitter {
 			);
 			return (new Parser()
 				.endianess("big")
-				.uint8("applVersion")
+				.uint8("apiVersion")
 				.uint8("capabilities")
 				.uint8("nodesLength")
 				.array("nodes", {
@@ -232,24 +248,6 @@ export class SerialApi extends EventEmitter {
 	 */
 	public async zwSendData(nodeId: number, data: Buffer): Promise<boolean> {
 		return this._requests.add(() => this._internalZwSendData(nodeId, data));
-	}
-
-	// TODO remove
-	public async waitFor(
-		timeoutMs: number,
-		matcher: (event: HostEvent) => boolean
-	): Promise<HostEvent> {
-		const d = defer<HostEvent>();
-		const handle = (event: HostEvent) => {
-			if (matcher(event)) d.resolve(event);
-		};
-		// TODO don't attach to ourselves, put it in a proper dispatch mechanism
-		this.on("event", handle);
-		try {
-			return await timeout(d.promise, timeoutMs, "request timed out");
-		} finally {
-			this.off("event", handle);
-		}
 	}
 
 	public async zwRequestNodeInfo(nodeId: number): Promise<NodeInfo> {
