@@ -5,10 +5,6 @@ import { Packet } from "../commands/packet";
 import { bufferToString, defer, Timer } from "../common/util";
 import CommandClasses from "../generated/CommandClasses";
 import {
-	BasicDeviceClassEnum,
-	GenericDeviceClassEnum,
-} from "../generated/ZwaveCmdClassV1";
-import {
 	CommandClassInfo,
 	parseCommandClasses,
 } from "../server/commandClassInfo";
@@ -69,8 +65,8 @@ export class Node {
 
 export interface NodeInfo {
 	nodeId: number;
-	basicClass: BasicDeviceClassEnum;
-	genericClass: GenericDeviceClassEnum;
+	basicClass: number; // TODO BasicDeviceClassEnum
+	genericClass: number; // TODO GenericDeviceClassEnum
 	specificClass: number; // 'subclass' within GenericDeviceClassEnum
 	commandClasses: CommandClassInfo;
 }

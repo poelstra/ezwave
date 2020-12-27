@@ -23,13 +23,13 @@ export interface CommandClass {
 	name: string;
 	version: number;
 	commands: Command[];
-	status: keyof typeof STATUS_REVERSED;
+	status: Status;
 }
 
 export interface Command {
 	id: number;
 	name: string;
-	status: keyof typeof STATUS_REVERSED;
+	status: Status;
 	params: Array<Parameter | ParameterGroup>;
 	/**
 	 * If set, indicates a mask to apply to the command byte.
@@ -40,13 +40,24 @@ export interface Command {
 	cmdMask?: number;
 }
 
+export enum ParameterType {
+	ParameterGroup = "group",
+	Integer = "integer",
+	Enum = "enum",
+	Bitfield = "bitfield",
+	EnumUnion = "enumunion",
+	Text = "text",
+	Blob = "blob",
+	EnumArray = "enumarray",
+}
+
 /**
  * Nested set of parameters.
  *
  * Equivalent to VARIANT_GROUP in XML.
  */
 export interface ParameterGroup extends ParameterBase {
-	type: "group";
+	type: ParameterType.ParameterGroup;
 	/**
 	 * If length is "auto" either the rest of the message
 	 * should be considered for the parameter group (in case
@@ -68,7 +79,7 @@ export type Parameter =
 	| EnumArrayParameter;
 
 export interface ParameterBase {
-	type: Parameter["type"] | ParameterGroup["type"];
+	type: ParameterType;
 
 	/**
 	 * Name of field in 'struct'.
@@ -105,7 +116,7 @@ export interface ParameterBase {
  * Equivalent to BYTE, WORD, BIT_24 or DWORD in XML.
  */
 export interface IntegerParameter extends ParameterBase {
-	type: "integer";
+	type: ParameterType.Integer;
 
 	/**
 	 * Optional dictionary of number => name mappings that can be used to
@@ -130,10 +141,10 @@ export interface IntegerParameter extends ParameterBase {
  * @see IntegerParameter for values that can take any numeric value (of which some
  * can still be named)
  *
- * Equivalent to ENUM and CONST in XML.
+ * Equivalent to CONST in XML.
  */
 export interface EnumParameter extends ParameterBase {
-	type: "enum";
+	type: ParameterType.Enum;
 
 	/**
 	 * Dictionary of number => name mappings.
@@ -154,7 +165,7 @@ export interface EnumParameter extends ParameterBase {
  * Equivalent to STRUCT_BYTE in XML.
  */
 export interface BitfieldParameter extends ParameterBase {
-	type: "bitfield";
+	type: ParameterType.Bitfield;
 	fields: BitfieldElement[];
 	/**
 	 * Only used when cmdMask on the Command is set.
@@ -171,7 +182,7 @@ export interface BitfieldParameter extends ParameterBase {
  * Equivalent to MULTI_ARRAY in XML, always 1 byte.
  */
 export interface EnumUnionParameter extends ParameterBase {
-	type: "enumunion";
+	type: ParameterType.EnumUnion;
 	reference: ParameterReference;
 	// Either enums or valueType will be present
 	enums?: {
@@ -184,14 +195,14 @@ export interface EnumUnionParameter extends ParameterBase {
  * Equivalent to ARRAY and VARIANT in XML, when is_ascii === true.
  */
 export interface TextParameter extends ParameterBase {
-	type: "text";
+	type: ParameterType.Text;
 }
 
 /**
  * Equivalent to ARRAY and VARIANT in XML, when is_ascii === false, and encaptype is not enum-like.
  */
 export interface BlobParameter extends ParameterBase {
-	type: "blob";
+	type: ParameterType.Blob;
 	/**
 	 * Number of bytes to include into this parameter that are actually already specified before this param.
 	 * This is used to e.g. have an explicit length field to refer to in parameters, yet that length needs
@@ -204,10 +215,10 @@ export interface BlobParameter extends ParameterBase {
 /**
  * Array of 'enum values', e.g. a list of node numbers, list of command classes, etc.
  *
- * Equivalent to ENUM_ARRAY, and VARIANTS with an enum-like encaptype (e.g. CMD_CLASS_REF).
+ * Equivalent to VARIANTs with an enum-like encaptype (e.g. CMD_CLASS_REF).
  */
 export interface EnumArrayParameter extends ParameterBase {
-	type: "enumarray";
+	type: ParameterType.EnumArray;
 	valueType: ValueType;
 }
 
@@ -276,7 +287,7 @@ export interface BitfieldElement {
 
 export enum BitfieldElementType {
 	Boolean = "bool",
-	Integer = "int",
+	Integer = "integer",
 	Enum = "enum",
 }
 
@@ -288,6 +299,7 @@ export enum ValueType {
 	NodeNumber = "NODE_NUMBER",
 	CommandClass = "CMD_CLASS_REF",
 	Command = "CMD_REF",
+	BasicDevice = "BAS_DEV_REF",
 	GenericDevice = "GEN_DEV_REF",
 	SpecificDevice = "SPEC_DEV_REF",
 }

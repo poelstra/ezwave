@@ -2,7 +2,7 @@
 
 export class CommandClassSensorMultilevelV1 {
 	public static readonly commandClass = 0x31; // (49);
-	public static readonly definition = {"id":49,"name":"COMMAND_CLASS_SENSOR_MULTILEVEL","status":"active","version":1,"commands":[{"id":4,"name":"SENSOR_MULTILEVEL_GET","status":"active","params":[]},{"id":5,"name":"SENSOR_MULTILEVEL_REPORT","status":"active","params":[{"type":"enum","name":"Sensor Type","length":1,"values":{"1":"Temperature (version 1)","2":"General purpose value (version 1)","3":"Luminance (version 1)"}},{"type":"bitfield","name":"Level","length":1,"fields":[{"type":"int","name":"Size","mask":7,"shift":0},{"type":"int","name":"Scale","mask":24,"shift":3},{"type":"int","name":"Precision","mask":224,"shift":5}]},{"type":"blob","name":"Sensor Value","length":{"name":"Level","mask":7,"shift":0}}]}]};
+	public static readonly definition = {"id":49,"name":"COMMAND_CLASS_SENSOR_MULTILEVEL","status":"active","version":1,"commands":[{"id":4,"name":"SENSOR_MULTILEVEL_GET","status":"active","params":[]},{"id":5,"name":"SENSOR_MULTILEVEL_REPORT","status":"active","params":[{"type":"enum","name":"Sensor Type","length":1,"values":{"1":"Temperature (version 1)","2":"General purpose value (version 1)","3":"Luminance (version 1)"}},{"type":"bitfield","name":"Level","length":1,"fields":[{"type":"integer","name":"Size","mask":7,"shift":0},{"type":"integer","name":"Scale","mask":24,"shift":3},{"type":"integer","name":"Precision","mask":224,"shift":5}]},{"type":"blob","name":"Sensor Value","length":{"name":"Level","mask":7,"shift":0}}]}]};
 }
 
 export interface SensorMultilevelGet {

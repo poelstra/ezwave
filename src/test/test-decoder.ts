@@ -46,7 +46,7 @@ describe("integer types", () => {
 			it("decodes value", async () => {
 				const cmdClass = createCommand(0x12, 0x34, [
 					{
-						type: "integer",
+						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
 					},
@@ -61,7 +61,7 @@ describe("integer types", () => {
 			it("decodes to 0 default", async () => {
 				const cmdClass = createCommand(0x12, 0x34, [
 					{
-						type: "integer",
+						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
 					},
@@ -77,7 +77,7 @@ describe("integer types", () => {
 				it("throws on truncation", async () => {
 					const cmdClass = createCommand(0x12, 0x34, [
 						{
-							type: "integer",
+							type: types.ParameterType.Integer,
 							length,
 							name: "param0",
 						},
@@ -96,12 +96,12 @@ describe("integer types", () => {
 			it("can be repeated", async () => {
 				const cmdClass = createCommand(0x12, 0x34, [
 					{
-						type: "integer",
+						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
 					},
 					{
-						type: "integer",
+						type: types.ParameterType.Integer,
 						length,
 						name: "param1",
 					},
@@ -117,12 +117,12 @@ describe("integer types", () => {
 			it("can be optional", async () => {
 				const cmdClass = createCommand(0x12, 0x34, [
 					{
-						type: "integer",
+						type: types.ParameterType.Integer,
 						length: 1,
 						name: "hasParams",
 					},
 					{
-						type: "integer",
+						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
 						optional: {
@@ -131,7 +131,7 @@ describe("integer types", () => {
 						},
 					},
 					{
-						type: "integer",
+						type: types.ParameterType.Integer,
 						length,
 						name: "param1",
 						optional: {
@@ -155,7 +155,7 @@ describe("enum", () => {
 	it("decodes value", async () => {
 		const cmdClass = createCommand(0x12, 0x34, [
 			{
-				type: "enum",
+				type: types.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": "off",
@@ -174,7 +174,7 @@ describe("enum", () => {
 	it("decodes to 0 default", async () => {
 		const cmdClass = createCommand(0x12, 0x34, [
 			{
-				type: "enum",
+				type: types.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": "off",
@@ -193,7 +193,7 @@ describe("enum", () => {
 	it("can be repeated", async () => {
 		const cmdClass = createCommand(0x12, 0x34, [
 			{
-				type: "enum",
+				type: types.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": "off",
@@ -202,7 +202,7 @@ describe("enum", () => {
 				name: "param0",
 			},
 			{
-				type: "enum",
+				type: types.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": "off",
@@ -222,12 +222,12 @@ describe("enum", () => {
 	it("can be optional", async () => {
 		const cmdClass = createCommand(0x12, 0x34, [
 			{
-				type: "integer",
+				type: types.ParameterType.Integer,
 				length: 1,
 				name: "hasParams",
 			},
 			{
-				type: "enum",
+				type: types.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": "off",
@@ -240,7 +240,7 @@ describe("enum", () => {
 				},
 			},
 			{
-				type: "enum",
+				type: types.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": "off",
