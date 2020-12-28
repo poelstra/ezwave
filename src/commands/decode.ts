@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import * as types from "../codegen/types";
+import * as types from "./types";
 
 export interface DecodedPacket {
 	[name: string]: any;

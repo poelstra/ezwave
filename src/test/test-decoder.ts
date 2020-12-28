@@ -1,8 +1,8 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 
-import * as types from "../codegen/types";
-import { decodePacket } from "../server/decode";
+import * as types from "../commands/types";
+import { decodePacket } from "../commands/decode";
 
 function createCommand(
 	cmdClass: number,

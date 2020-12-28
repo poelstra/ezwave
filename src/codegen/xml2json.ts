@@ -28,7 +28,7 @@ import * as parser from "fast-xml-parser";
 import { promises as pfs } from "fs";
 import * as path from "path";
 import * as assert from "assert";
-import * as types from "./types";
+import * as types from "../commands/types";
 
 function toArray<T>(value: MaybeArray<T>): T[] {
 	if (value === undefined) {

@@ -5,7 +5,7 @@ import * as path from "path";
 import * as Case from "case";
 import * as assert from "assert";
 
-import * as types from "./types";
+import * as types from "../commands/types";
 
 /**
  * 'Map' over all key/values of a Map, and return an array of all the results.
