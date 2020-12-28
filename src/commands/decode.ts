@@ -137,7 +137,7 @@ function decodeParam(
 }
 
 export function decodeCommandAndPayload<T>(
-	commandDef: types.Command,
+	commandDef: types.CommandDefinition,
 	commandAndPayload: Buffer
 ): T {
 	// Decode command

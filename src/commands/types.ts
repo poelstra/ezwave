@@ -14,22 +14,22 @@ export const JSON_VERSION = 1;
 export interface ZwaveSpec {
 	xmlVersion: string; // 3-part version number of XML specification
 	jsonVersion: number; // Single major version number of JSON format
-	classes: CommandClass[];
+	classes: CommandClassDefinition[];
 	// TODO basic, generic and specific device types
 }
 
-export interface CommandClass {
+export interface CommandClassDefinition {
 	id: number;
 	name: string;
 	version: number;
-	commands: Command[];
-	status: Status;
+	commands: CommandDefinition[];
+	status: CommandStatus;
 }
 
-export interface Command {
+export interface CommandDefinition {
 	id: number;
 	name: string;
-	status: Status;
+	status: CommandStatus;
 	params: Array<Parameter | ParameterGroup>;
 	/**
 	 * If set, indicates a mask to apply to the command byte.
@@ -321,16 +321,16 @@ export enum BlobType {
 /**
  * Command classes and commands can be active, obsolete or deprecated.
  */
-export enum Status {
+export enum CommandStatus {
 	Active = "active",
 	Obsolete = "obsolete",
 	Deprecated = "deprecated",
 }
 
-export const STATUS_REVERSED = {
-	active: Status.Active,
-	obsolete: Status.Obsolete,
-	deprecated: Status.Deprecated,
+export const COMMAND_STATUS_REVERSED = {
+	active: CommandStatus.Active,
+	obsolete: CommandStatus.Obsolete,
+	deprecated: CommandStatus.Deprecated,
 };
 
 // encaptype CMD_DATA and CMD_ENCAP is always a VARIANT

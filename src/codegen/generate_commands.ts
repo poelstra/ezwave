@@ -38,15 +38,15 @@ function sortKeyValues(keyValues: types.KeyValues): types.KeyValues {
 }
 
 class CommandClassGenerator {
-	public static generate(cmdClass: types.CommandClass): Lines {
+	public static generate(cmdClass: types.CommandClassDefinition): Lines {
 		return new CommandClassGenerator(cmdClass)._generate();
 	}
 
-	private _class: types.CommandClass;
+	private _class: types.CommandClassDefinition;
 	private _enums = new Map<string, types.KeyValues>();
 	private _enumsCanonical = new Map<string, string>();
 
-	private constructor(cmdClass: types.CommandClass) {
+	private constructor(cmdClass: types.CommandClassDefinition) {
 		this._class = cmdClass;
 	}
 
@@ -61,6 +61,7 @@ class CommandClassGenerator {
 				break;
 			}
 			// Renumber, starting with ....2 seems to make more sense
+			// TODO Prefix both enums with name of command instead? Seems more logical than StatusEnum, Status2Enum, Status3Enum
 			name = `${origName}${i}Enum`;
 			// TODO check whether these enums are indeed really different, and if so,
 			// need a proper name, or they are actually quite similar and need to be
@@ -82,8 +83,8 @@ class CommandClassGenerator {
 		contents.push(
 			`/* Auto-generated */`,
 			``,
-			this._class.status !== types.Status.Active
-				? "// " + types.STATUS_REVERSED[this._class.status]
+			this._class.status !== types.CommandStatus.Active
+				? "// " + types.COMMAND_STATUS_REVERSED[this._class.status]
 				: undefined,
 			`export class ${className} {`,
 			`\tpublic static readonly commandClass = 0x${this._class.id.toString(
@@ -124,11 +125,11 @@ class CommandClassGenerator {
 		return contents;
 	}
 
-	private _generateCommandInterface(cmd: types.Command): Lines {
+	private _generateCommandInterface(cmd: types.CommandDefinition): Lines {
 		const contents: Lines = [];
 
-		if (cmd.status !== types.Status.Active) {
-			contents.push("// " + types.STATUS_REVERSED[cmd.status]);
+		if (cmd.status !== types.CommandStatus.Active) {
+			contents.push("// " + types.COMMAND_STATUS_REVERSED[cmd.status]);
 		}
 
 		contents.push(
@@ -350,7 +351,7 @@ main(async () => {
 		const filename = path.resolve(outDir, `${className}.ts`);
 		await pfs.writeFile(
 			filename,
-			lines.filter(l => l !== undefined).join("\n")
+			lines.filter((l) => l !== undefined).join("\n")
 		);
 	}
 

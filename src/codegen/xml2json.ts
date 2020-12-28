@@ -782,7 +782,10 @@ function generateParameter(
 	}
 }
 
-function generateCommand(cmdClass: CommandClass, cmd: Command): types.Command {
+function generateCommand(
+	cmdClass: CommandClass,
+	cmd: Command
+): types.CommandDefinition {
 	//console.log(cmdClass.name, cmd.name);
 
 	// Convert params and VariantGroups to a single array of params, in the right order
@@ -813,7 +816,7 @@ function generateCommand(cmdClass: CommandClass, cmd: Command): types.Command {
 	const idMap = new Map<number, string>();
 	params.forEach((param) => idMap.set(param.key, param.name));
 
-	let command: types.Command = {
+	let command: types.CommandDefinition = {
 		id: cmd.key,
 		name: cmd.name,
 		status: commentToStatus(cmd.comment),
@@ -842,7 +845,9 @@ function generateCommand(cmdClass: CommandClass, cmd: Command): types.Command {
 	return command;
 }
 
-function generateCommandClass(cmdClass: CommandClass): types.CommandClass {
+function generateCommandClass(
+	cmdClass: CommandClass
+): types.CommandClassDefinition {
 	const commands = toArray(cmdClass.cmd).map((cmd) =>
 		generateCommand(cmdClass, cmd)
 	);
@@ -855,14 +860,14 @@ function generateCommandClass(cmdClass: CommandClass): types.CommandClass {
 	};
 }
 
-function commentToStatus(comment: string | undefined): types.Status {
+function commentToStatus(comment: string | undefined): types.CommandStatus {
 	switch (comment) {
 		case "[OBSOLETED]":
-			return types.Status.Obsolete;
+			return types.CommandStatus.Obsolete;
 		case "[DEPRECATED]":
-			return types.Status.Deprecated;
+			return types.CommandStatus.Deprecated;
 		default:
-			return types.Status.Active;
+			return types.CommandStatus.Active;
 	}
 }
 

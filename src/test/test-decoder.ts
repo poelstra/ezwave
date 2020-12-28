@@ -6,12 +6,12 @@ import { decodeCommandAndPayload } from "../commands/decode";
 
 function createCommand(
 	command: number,
-	params: types.Command["params"]
-): types.Command {
+	params: types.CommandDefinition["params"]
+): types.CommandDefinition {
 	return {
 		id: command,
 		name: `COMMAND_${command.toString(16)}`,
-		status: types.Status.Active,
+		status: types.CommandStatus.Active,
 		params,
 	};
 }

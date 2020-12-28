@@ -1,7 +1,7 @@
-import { Command } from "./types";
+import { CommandDefinition } from "./types";
 
 export function encodeCommandAndPayload(
-	commandDef: Command,
+	commandDef: CommandDefinition,
 	payload: object | void
 ): Buffer {
 	if (payload === undefined) {

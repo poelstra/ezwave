@@ -2,7 +2,7 @@ import CommandClasses from "../generated/CommandClasses";
 import { decodeCommandAndPayload } from "./decode";
 import { encodeCommandAndPayload } from "./encode";
 import { CommandMatcher, Packet } from "./packet";
-import { Command } from "./types";
+import { CommandDefinition } from "./types";
 
 export interface CommandClassDescriptor extends CommandMatcher {
 	commandClass: CommandClasses;
@@ -19,7 +19,7 @@ export type OldCommandCodec<T extends object | void> = {
 export type CommandCodec = {
 	CommandClass: CommandClassDescriptor;
 	command: number;
-	definition: Command;
+	definition: CommandDefinition;
 };
 
 export abstract class CommandClassPacket<C extends number> extends Packet {

@@ -12,7 +12,11 @@
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
 import { Packet } from "../commands/packet";
-import * as types from "../commands/types";
+import {
+	CommandDefinition,
+	CommandStatus,
+	ParameterType,
+} from "../commands/types";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum BasicV1Commands {
@@ -45,13 +49,13 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static Set = class BasicV1Set extends CommandPacket<BasicV1SetData> {
 		static CommandClass = BasicV1;
 		static command = 0x01;
-		static definition: types.Command = {
+		static definition: CommandDefinition = {
 			id: 1,
 			name: "BASIC_SET",
-			status: types.Status.Active,
+			status: CommandStatus.Active,
 			params: [
 				{
-					type: types.ParameterType.Integer,
+					type: ParameterType.Integer,
 					name: "Value",
 					length: 1,
 				},
@@ -70,10 +74,10 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static Get = class BasicV1Get extends CommandPacket<BasicV1GetData> {
 		static CommandClass = BasicV1;
 		static command = 0x02;
-		static definition: types.Command = {
+		static definition: CommandDefinition = {
 			id: 2,
 			name: "BASIC_GET",
-			status: types.Status.Active,
+			status: CommandStatus.Active,
 			params: [],
 		};
 
@@ -89,13 +93,13 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static Report = class BasicV1Report extends CommandPacket<BasicV1ReportData> {
 		static CommandClass = BasicV1;
 		static command = 0x03;
-		static definition: types.Command = {
+		static definition: CommandDefinition = {
 			id: 3,
 			name: "BASIC_REPORT",
-			status: types.Status.Active,
+			status: CommandStatus.Active,
 			params: [
 				{
-					type: types.ParameterType.Integer,
+					type: ParameterType.Integer,
 					name: "Value",
 					length: 1,
 				},
