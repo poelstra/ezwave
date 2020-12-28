@@ -10,7 +10,7 @@
  * automatically start working correctly when auto-generated.
  */
 
-import { CommandClassPacket, CommandPacket } from "../commands/command";
+import { CommandClassPacket, OldCommandPacket } from "../commands/command";
 import { Packet } from "../commands/packet";
 import CommandClasses from "../generated/CommandClasses";
 
@@ -37,7 +37,7 @@ export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 		super(MultiChannelV3, commandAndPayload);
 	}
 
-	public static CmdEncap = class MultiChannelV3CmdEncap extends CommandPacket<MultiChannelV3CmdEncapData> {
+	public static CmdEncap = class MultiChannelV3CmdEncap extends OldCommandPacket<MultiChannelV3CmdEncapData> {
 		static CommandClass = MultiChannelV3;
 		static command = MultiChannelV3Commands.CmdEncap;
 

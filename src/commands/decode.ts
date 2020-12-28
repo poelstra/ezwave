@@ -136,41 +136,24 @@ function decodeParam(
 	}
 }
 
-export function decodePacket(
-	cmdClass: types.CommandClass,
-	packet: Buffer
-): DecodedPacket {
-	// Decode and verify command class
-	const isSingleByteClass = packet[0] <= 0xf0;
-	const commandClassId = isSingleByteClass
-		? packet[0]
-		: (packet[1] << 8) | packet[0];
-	if (commandClassId !== cmdClass.id) {
-		throw new Error("command class mismatch");
-	}
-
+export function decodeCommandAndPayload<T>(
+	commandDef: types.Command,
+	commandAndPayload: Buffer
+): T {
 	// Decode command
-	const commandId = isSingleByteClass ? packet[1] : packet[2];
-	let command: types.Command | undefined = cmdClass.commands[commandId - 1]; // This could fail, e.g. for sparse, unknown or masked commands
-	if (!command || command.id !== commandId) {
-		// Most common path failed, do manual search
-		command = cmdClass.commands.find(
-			(cmd) => cmd.id === (commandId & (cmd.cmdMask || 0xff))
+	const commandId = commandAndPayload[0] & (commandDef.cmdMask ?? 0xff);
+	if (commandId !== commandDef.id) {
+		throw new Error(
+			`cannot decode packet: expected command ${commandDef.id}, got ${commandId}`
 		);
-	}
-	if (!command) {
-		throw new Error("command not found");
 	}
 
 	// Determine payload start: if multi-byte, one byte more, if have command mask, one byte less
-	let pos =
-		2 +
-		(isSingleByteClass ? 0 : 1) +
-		(command.cmdMask !== undefined ? -1 : 0);
+	let pos = commandDef.cmdMask !== undefined ? 0 : 1;
 	const result = Object.create(null);
 	const context: Context = Object.create(null);
-	for (const param of command.params) {
-		pos += decodeParam(packet, pos, param, result, context);
+	for (const param of commandDef.params) {
+		pos += decodeParam(commandAndPayload, pos, param, result, context);
 	}
 	return result;
 }

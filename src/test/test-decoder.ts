@@ -2,26 +2,17 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 
 import * as types from "../commands/types";
-import { decodePacket } from "../commands/decode";
+import { decodeCommandAndPayload } from "../commands/decode";
 
 function createCommand(
-	cmdClass: number,
 	command: number,
 	params: types.Command["params"]
-): types.CommandClass {
+): types.Command {
 	return {
-		id: cmdClass,
-		name: `CMD_CLASS_${cmdClass.toString(16)}`,
+		id: command,
+		name: `COMMAND_${command.toString(16)}`,
 		status: types.Status.Active,
-		version: 1,
-		commands: [
-			{
-				id: command,
-				name: `COMMAND_${command.toString(16)}`,
-				status: types.Status.Active,
-				params,
-			},
-		],
+		params,
 	};
 }
 
@@ -44,30 +35,36 @@ describe("integer types", () => {
 	].forEach(({ name, length, bytes, value }) => {
 		describe(`${name}`, () => {
 			it("decodes value", async () => {
-				const cmdClass = createCommand(0x12, 0x34, [
+				const commandDef = createCommand(0x34, [
 					{
 						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
 					},
 				]);
-				const packet = Buffer.from([0x12, 0x34, ...bytes]);
-				const decoded = decodePacket(cmdClass, packet);
+				const commandAndPayload = Buffer.from([0x34, ...bytes]);
+				const decoded = decodeCommandAndPayload(
+					commandDef,
+					commandAndPayload
+				);
 				expect(decoded).to.deep.equal({
 					param0: value,
 				});
 			});
 
 			it("decodes to 0 default", async () => {
-				const cmdClass = createCommand(0x12, 0x34, [
+				const commandDef = createCommand(0x34, [
 					{
 						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
 					},
 				]);
-				const packet = Buffer.from([0x12, 0x34]);
-				const decoded = decodePacket(cmdClass, packet);
+				const commandAndPayload = Buffer.from([0x34]);
+				const decoded = decodeCommandAndPayload(
+					commandDef,
+					commandAndPayload
+				);
 				expect(decoded).to.deep.equal({
 					param0: 0x0,
 				});
@@ -75,26 +72,25 @@ describe("integer types", () => {
 
 			if (length > 1) {
 				it("throws on truncation", async () => {
-					const cmdClass = createCommand(0x12, 0x34, [
+					const commandDef = createCommand(0x34, [
 						{
 							type: types.ParameterType.Integer,
 							length,
 							name: "param0",
 						},
 					]);
-					const packet = Buffer.from([
-						0x12,
+					const commandAndPayload = Buffer.from([
 						0x34,
 						...bytes.slice(0, -1),
 					]);
-					expect(() => decodePacket(cmdClass, packet)).to.throw(
-						"unexpected end of packet"
-					);
+					expect(() =>
+						decodeCommandAndPayload(commandDef, commandAndPayload)
+					).to.throw("unexpected end of packet");
 				});
 			}
 
 			it("can be repeated", async () => {
-				const cmdClass = createCommand(0x12, 0x34, [
+				const commandDef = createCommand(0x34, [
 					{
 						type: types.ParameterType.Integer,
 						length,
@@ -106,8 +102,15 @@ describe("integer types", () => {
 						name: "param1",
 					},
 				]);
-				const packet = Buffer.from([0x12, 0x34, ...bytes, ...bytes]);
-				const decoded = decodePacket(cmdClass, packet);
+				const commandAndPayload = Buffer.from([
+					0x34,
+					...bytes,
+					...bytes,
+				]);
+				const decoded = decodeCommandAndPayload(
+					commandDef,
+					commandAndPayload
+				);
 				expect(decoded).to.deep.equal({
 					param0: value,
 					param1: value,
@@ -115,7 +118,7 @@ describe("integer types", () => {
 			});
 
 			it("can be optional", async () => {
-				const cmdClass = createCommand(0x12, 0x34, [
+				const commandDef = createCommand(0x34, [
 					{
 						type: types.ParameterType.Integer,
 						length: 1,
@@ -140,8 +143,11 @@ describe("integer types", () => {
 						},
 					},
 				]);
-				const packet = Buffer.from([0x12, 0x34, 0x02, ...bytes]);
-				const decoded = decodePacket(cmdClass, packet);
+				const commandAndPayload = Buffer.from([0x34, 0x02, ...bytes]);
+				const decoded = decodeCommandAndPayload(
+					commandDef,
+					commandAndPayload
+				);
 				expect(decoded).to.deep.equal({
 					hasParams: 0x02,
 					param1: value,
@@ -153,7 +159,7 @@ describe("integer types", () => {
 
 describe("enum", () => {
 	it("decodes value", async () => {
-		const cmdClass = createCommand(0x12, 0x34, [
+		const commandDef = createCommand(0x34, [
 			{
 				type: types.ParameterType.Enum,
 				length: 1,
@@ -164,15 +170,15 @@ describe("enum", () => {
 				name: "param0",
 			},
 		]);
-		const packet = Buffer.from([0x12, 0x34, 0xff]);
-		const decoded = decodePacket(cmdClass, packet);
+		const commandAndPayload = Buffer.from([0x34, 0xff]);
+		const decoded = decodeCommandAndPayload(commandDef, commandAndPayload);
 		expect(decoded).to.deep.equal({
 			param0: 0xff,
 		});
 	});
 
 	it("decodes to 0 default", async () => {
-		const cmdClass = createCommand(0x12, 0x34, [
+		const commandDef = createCommand(0x34, [
 			{
 				type: types.ParameterType.Enum,
 				length: 1,
@@ -183,15 +189,15 @@ describe("enum", () => {
 				name: "param0",
 			},
 		]);
-		const packet = Buffer.from([0x12, 0x34]);
-		const decoded = decodePacket(cmdClass, packet);
+		const commandAndPayload = Buffer.from([0x34]);
+		const decoded = decodeCommandAndPayload(commandDef, commandAndPayload);
 		expect(decoded).to.deep.equal({
 			param0: 0x0,
 		});
 	});
 
 	it("can be repeated", async () => {
-		const cmdClass = createCommand(0x12, 0x34, [
+		const commandDef = createCommand(0x34, [
 			{
 				type: types.ParameterType.Enum,
 				length: 1,
@@ -211,8 +217,8 @@ describe("enum", () => {
 				name: "param1",
 			},
 		]);
-		const packet = Buffer.from([0x12, 0x34, 0xff, 0xff]);
-		const decoded = decodePacket(cmdClass, packet);
+		const commandAndPayload = Buffer.from([0x34, 0xff, 0xff]);
+		const decoded = decodeCommandAndPayload(commandDef, commandAndPayload);
 		expect(decoded).to.deep.equal({
 			param0: 0xff,
 			param1: 0xff,
@@ -220,7 +226,7 @@ describe("enum", () => {
 	});
 
 	it("can be optional", async () => {
-		const cmdClass = createCommand(0x12, 0x34, [
+		const commandDef = createCommand(0x34, [
 			{
 				type: types.ParameterType.Integer,
 				length: 1,
@@ -253,8 +259,8 @@ describe("enum", () => {
 				},
 			},
 		]);
-		const packet = Buffer.from([0x12, 0x34, 0x02, 0xff]);
-		const decoded = decodePacket(cmdClass, packet);
+		const commandAndPayload = Buffer.from([0x34, 0x02, 0xff]);
+		const decoded = decodeCommandAndPayload(commandDef, commandAndPayload);
 		expect(decoded).to.deep.equal({
 			hasParams: 0x02,
 			param1: 0xff,

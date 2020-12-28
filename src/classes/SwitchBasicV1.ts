@@ -12,6 +12,7 @@
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
 import { Packet } from "../commands/packet";
+import * as types from "../commands/types";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum BasicV1Commands {
@@ -44,18 +45,22 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static Set = class BasicV1Set extends CommandPacket<BasicV1SetData> {
 		static CommandClass = BasicV1;
 		static command = 0x01;
+		static definition: types.Command = {
+			id: 1,
+			name: "BASIC_SET",
+			status: types.Status.Active,
+			params: [
+				{
+					type: types.ParameterType.Integer,
+					name: "Value",
+					length: 1,
+				},
+			],
+		};
+
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicV1)?.command === this.command;
 		}
-		static encode(payload: BasicV1SetData) {
-			if (payload.value === undefined) {
-				throw new Error("missing value");
-			}
-			return Buffer.from([this.command, payload.value]);
-		}
-		static decode = (buffer: Buffer): BasicV1SetData => ({
-			value: buffer[1],
-		});
 
 		constructor(data: Buffer | BasicV1SetData) {
 			super(BasicV1Set, data);
@@ -65,13 +70,16 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static Get = class BasicV1Get extends CommandPacket<BasicV1GetData> {
 		static CommandClass = BasicV1;
 		static command = 0x02;
+		static definition: types.Command = {
+			id: 2,
+			name: "BASIC_GET",
+			status: types.Status.Active,
+			params: [],
+		};
+
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicV1)?.command === this.command;
 		}
-		static encode(payload: BasicV1GetData) {
-			return Buffer.from([this.command]);
-		}
-		static decode = (buffer: Buffer): BasicV1GetData => undefined;
 
 		constructor(data: Buffer | BasicV1GetData) {
 			super(BasicV1Get, data);
@@ -81,18 +89,21 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static Report = class BasicV1Report extends CommandPacket<BasicV1ReportData> {
 		static CommandClass = BasicV1;
 		static command = 0x03;
+		static definition: types.Command = {
+			id: 3,
+			name: "BASIC_REPORT",
+			status: types.Status.Active,
+			params: [
+				{
+					type: types.ParameterType.Integer,
+					name: "Value",
+					length: 1,
+				},
+			],
+		};
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicV1)?.command === this.command;
 		}
-		static encode(payload: BasicV1ReportData) {
-			if (payload.value === undefined) {
-				throw new Error("missing value");
-			}
-			return Buffer.from([this.command, payload.value]);
-		}
-		static decode = (buffer: Buffer): BasicV1ReportData => ({
-			value: buffer[1],
-		});
 
 		constructor(data: Buffer | BasicV1ReportData) {
 			super(BasicV1Report, data);

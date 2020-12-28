@@ -11,7 +11,7 @@
  */
 
 import CommandClasses from "../generated/CommandClasses";
-import { CommandPacket, CommandClassPacket } from "../commands/command";
+import { OldCommandPacket, CommandClassPacket } from "../commands/command";
 import { Packet } from "../commands/packet";
 
 export enum SecurityV1Commands {
@@ -51,7 +51,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 		super(SecurityV1, commandAndPayload);
 	}
 
-	public static MessageEncapsulation = class SecurityV1MessageEncapsulation extends CommandPacket<SecurityV1MessageEncapsulationData> {
+	public static MessageEncapsulation = class SecurityV1MessageEncapsulation extends OldCommandPacket<SecurityV1MessageEncapsulationData> {
 		static CommandClass = SecurityV1;
 		static command = 0x81; // (129)
 
@@ -83,7 +83,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 		}
 	};
 
-	public static MessageEncapsulationNonceGet = class SecurityV1MessageEncapsulationNonceGet extends CommandPacket<SecurityV1MessageEncapsulationNonceGetData> {
+	public static MessageEncapsulationNonceGet = class SecurityV1MessageEncapsulationNonceGet extends OldCommandPacket<SecurityV1MessageEncapsulationNonceGetData> {
 		static CommandClass = SecurityV1;
 		static command = 0xc1; // (193)
 
@@ -99,7 +99,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 		}
 	};
 
-	public static NonceGet = class SecurityV1NonceGet extends CommandPacket<SecurityV1NonceGetData> {
+	public static NonceGet = class SecurityV1NonceGet extends OldCommandPacket<SecurityV1NonceGetData> {
 		static CommandClass = SecurityV1;
 		static command = 0x40; // (64)
 
@@ -118,7 +118,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 		}
 	};
 
-	public static NonceReport = class SecurityV1NonceReport extends CommandPacket<SecurityV1NonceReportData> {
+	public static NonceReport = class SecurityV1NonceReport extends OldCommandPacket<SecurityV1NonceReportData> {
 		static CommandClass = SecurityV1;
 		static command = 0x80; // (128)
 

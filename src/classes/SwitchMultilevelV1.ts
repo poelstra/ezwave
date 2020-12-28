@@ -12,6 +12,7 @@
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
 import { Packet } from "../commands/packet";
+import * as types from "../commands/types";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SwitchMultilevelV1Commands {
@@ -46,21 +47,26 @@ export class SwitchMultilevelV1 extends CommandClassPacket<SwitchMultilevelV1Com
 	public static Set = class SwitchMultilevelV1Set extends CommandPacket<SwitchMultilevelV1SetData> {
 		static CommandClass = SwitchMultilevelV1;
 		static command = SwitchMultilevelV1Commands.Set;
+		static definition: types.Command = {
+			id: 1,
+			name: "SWITCH_MULTILEVEL_SET",
+			status: types.Status.Active,
+			params: [
+				{
+					type: types.ParameterType.Integer,
+					name: "value",
+					length: 1,
+					values: {
+						"0": "off/disable",
+						"255": "on/enable",
+					},
+				},
+			],
+		};
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(this.CommandClass)?.command === this.command;
 		}
-
-		static encode(payload: SwitchMultilevelV1SetData) {
-			if (payload.value === undefined) {
-				throw new Error("missing value");
-			}
-			return Buffer.from([this.command, payload.value]);
-		}
-
-		static decode = (buffer: Buffer): SwitchMultilevelV1SetData => ({
-			value: buffer[1],
-		});
 
 		constructor(payload: Buffer | SwitchMultilevelV1SetData) {
 			super(SwitchMultilevelV1Set, payload);
@@ -70,17 +76,16 @@ export class SwitchMultilevelV1 extends CommandClassPacket<SwitchMultilevelV1Com
 	public static Get = class SwitchMultilevelV1Get extends CommandPacket<SwitchMultilevelV1GetData> {
 		static CommandClass = SwitchMultilevelV1;
 		static command = SwitchMultilevelV1Commands.Get;
+		static definition: types.Command = {
+			id: 2,
+			name: "SWITCH_MULTILEVEL_GET",
+			status: types.Status.Active,
+			params: [],
+		};
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
 		}
-
-		static encode(payload: SwitchMultilevelV1GetData) {
-			return Buffer.from([this.command]);
-		}
-
-		static decode = (buffer: Buffer): SwitchMultilevelV1GetData =>
-			undefined;
 
 		constructor(data: Buffer | SwitchMultilevelV1GetData) {
 			super(SwitchMultilevelV1Get, data);
@@ -90,21 +95,26 @@ export class SwitchMultilevelV1 extends CommandClassPacket<SwitchMultilevelV1Com
 	public static Report = class SwitchMultilevelV1Report extends CommandPacket<SwitchMultilevelV1ReportData> {
 		static CommandClass = SwitchMultilevelV1;
 		static command = SwitchMultilevelV1Commands.Report;
+		static definition: types.Command = {
+			id: 3,
+			name: "SWITCH_MULTILEVEL_REPORT",
+			status: types.Status.Active,
+			params: [
+				{
+					type: types.ParameterType.Integer,
+					name: "Value",
+					length: 1,
+					values: {
+						"0": "off/disable",
+						"255": "on/enable",
+					},
+				},
+			],
+		};
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
 		}
-
-		static encode(payload: SwitchMultilevelV1ReportData) {
-			if (payload.value === undefined) {
-				throw new Error("missing value");
-			}
-			return Buffer.from([this.command, payload.value]);
-		}
-
-		static decode = (buffer: Buffer): SwitchMultilevelV1ReportData => ({
-			value: buffer[1],
-		});
 
 		constructor(data: Buffer | SwitchMultilevelV1ReportData) {
 			super(SwitchMultilevelV1Report, data);
