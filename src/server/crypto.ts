@@ -454,6 +454,6 @@ export class CryptoManager {
 		const sequenceInfo = decryptedPayload[0];
 		const message = decryptedPayload.slice(1);
 
-		return Packet.from(message);
+		return new Packet(message);
 	}
 }

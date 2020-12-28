@@ -12,8 +12,14 @@
 
 import CommandClasses from "../generated/CommandClasses";
 import { CommandPacket, CommandClassPacket } from "../commands/command";
+import { Packet } from "../commands/packet";
 
-const emptyBuffer = Buffer.alloc(0);
+export enum SecurityV1Commands {
+	MessageEncapsulation = 0x81,
+	MessageEncapsulationNonceGet = 0xc1,
+	NonceGet = 0x40,
+	NonceReport = 0x80,
+}
 
 // TODO encryptedPayload is in original spec split into two fields,
 // but that's totally inconvenient because they both belong to one single
@@ -25,107 +31,128 @@ export interface SecurityV1MessageEncapsulationData {
 	messageAuthenticationCode: Buffer; // 8 bytes blob
 }
 
-class SecurityV1MessageEncapsulation extends CommandPacket<
-	SecurityV1MessageEncapsulationData
-> {
-	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
-	static command = 0x81; // (129)
-	static version = 1;
-	static encode = (payload: SecurityV1MessageEncapsulationData) => {
-		return Buffer.concat([
-			payload.initializationVector,
-			payload.encryptedPayload,
-			Buffer.from([payload.receiversNonceIdentifier]),
-			payload.messageAuthenticationCode,
-		]);
-	};
-	static decode = (buffer: Buffer): SecurityV1MessageEncapsulationData => ({
-		initializationVector: buffer.slice(0, 8),
-		encryptedPayload: buffer.slice(8, -9),
-		receiversNonceIdentifier: buffer.slice(-9)[0],
-		messageAuthenticationCode: buffer.slice(-8),
-	});
-
-	constructor(payload: Buffer | SecurityV1MessageEncapsulationData) {
-		super(SecurityV1MessageEncapsulation, payload);
-	}
-}
-
 // This will be 'expanded' on auto-generation
 export type SecurityV1MessageEncapsulationNonceGetData = SecurityV1MessageEncapsulationData;
-
-class SecurityV1MessageEncapsulationNonceGet extends CommandPacket<
-	SecurityV1MessageEncapsulationNonceGetData
-> {
-	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
-	static command = 0xc1; // (193)
-	static version = 1;
-	static encode = SecurityV1MessageEncapsulation.encode; // this will be expanded on auto-generation
-	static decode = SecurityV1MessageEncapsulation.decode; // this will be expanded on auto-generation
-
-	constructor(payload: Buffer | SecurityV1MessageEncapsulationNonceGetData) {
-		super(SecurityV1MessageEncapsulationNonceGet, payload);
-	}
-}
 
 export interface SecurityV1NonceReportData {
 	nonce: Buffer; // 8 byte blob
 }
 
-class SecurityV1NonceReport extends CommandPacket<SecurityV1NonceReportData> {
-	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
-	static command = 0x80; // (128)
-	static version = 1;
-	static encode = (payload: SecurityV1NonceReportData) => {
-		if (payload.nonce === undefined) {
-			throw new Error("missing nonce");
-		}
-		if (!Buffer.isBuffer(payload.nonce) || payload.nonce.length !== 8) {
-			throw new Error("invalid nonce, 8 bytes Buffer expected");
-		}
-		return payload.nonce;
-	};
-	static decode = (buffer: Buffer): SecurityV1NonceReportData => ({
-		nonce: buffer.slice(0, 8),
-	});
-
-	constructor(payload: Buffer | SecurityV1NonceReportData) {
-		super(SecurityV1NonceReport, payload);
-	}
-}
-
 export type SecurityV1NonceGetData = void;
 
-class SecurityV1NonceGet extends CommandPacket<SecurityV1NonceGetData> {
+export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
-	static command = 0x40; // (64)
-	static version = 1;
-	static encode = (payload: SecurityV1NonceGetData) => {
-		return emptyBuffer;
+
+	static matches(packet: Packet): boolean {
+		return packet.commandClass === this.commandClass;
+	}
+
+	constructor(commandAndPayload: Buffer) {
+		super(SecurityV1, commandAndPayload);
+	}
+
+	public static MessageEncapsulation = class SecurityV1MessageEncapsulation extends CommandPacket<SecurityV1MessageEncapsulationData> {
+		static CommandClass = SecurityV1;
+		static command = 0x81; // (129)
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(SecurityV1)?.command === this.command;
+		}
+
+		static encode(payload: SecurityV1MessageEncapsulationData) {
+			return Buffer.concat([
+				Buffer.from([this.command]),
+				payload.initializationVector,
+				payload.encryptedPayload,
+				Buffer.from([payload.receiversNonceIdentifier]),
+				payload.messageAuthenticationCode,
+			]);
+		}
+
+		static decode = (
+			buffer: Buffer
+		): SecurityV1MessageEncapsulationData => ({
+			initializationVector: buffer.slice(1, 9),
+			encryptedPayload: buffer.slice(9, -9),
+			receiversNonceIdentifier: buffer.slice(-9)[0],
+			messageAuthenticationCode: buffer.slice(-8),
+		});
+
+		constructor(data: Buffer | SecurityV1MessageEncapsulationData) {
+			super(SecurityV1MessageEncapsulation, data);
+		}
 	};
-	static decode = (buffer: Buffer): SecurityV1NonceGetData => undefined;
 
-	constructor(payload: Buffer | SecurityV1NonceGetData) {
-		super(SecurityV1NonceGet, payload);
-	}
-}
+	public static MessageEncapsulationNonceGet = class SecurityV1MessageEncapsulationNonceGet extends CommandPacket<SecurityV1MessageEncapsulationNonceGetData> {
+		static CommandClass = SecurityV1;
+		static command = 0xc1; // (193)
 
-export class SecurityV1 extends CommandClassPacket {
-	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(SecurityV1)?.command === this.command;
+		}
 
-	constructor(command: number, payload: Buffer) {
-		super(SecurityV1.commandClass, command, payload);
-	}
+		static encode = SecurityV1.MessageEncapsulation.encode; // this will be expanded on auto-generation
+		static decode = SecurityV1.MessageEncapsulation.decode; // this will be expanded on auto-generation
 
-	public static MessageEncapsulation = SecurityV1MessageEncapsulation;
-	public static MessageEncapsulationNonceGet = SecurityV1MessageEncapsulationNonceGet;
-	public static NonceGet = SecurityV1NonceGet;
-	public static NonceReport = SecurityV1NonceReport;
+		constructor(data: Buffer | SecurityV1MessageEncapsulationNonceGetData) {
+			super(SecurityV1MessageEncapsulationNonceGet, data);
+		}
+	};
+
+	public static NonceGet = class SecurityV1NonceGet extends CommandPacket<SecurityV1NonceGetData> {
+		static CommandClass = SecurityV1;
+		static command = 0x40; // (64)
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(SecurityV1)?.command === this.command;
+		}
+
+		static encode(payload: SecurityV1NonceGetData) {
+			return Buffer.from([this.command]);
+		}
+
+		static decode = (buffer: Buffer): SecurityV1NonceGetData => undefined;
+
+		constructor(data: Buffer | SecurityV1NonceGetData) {
+			super(SecurityV1NonceGet, data);
+		}
+	};
+
+	public static NonceReport = class SecurityV1NonceReport extends CommandPacket<SecurityV1NonceReportData> {
+		static CommandClass = SecurityV1;
+		static command = 0x80; // (128)
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(SecurityV1)?.command === this.command;
+		}
+
+		static encode(payload: SecurityV1NonceReportData) {
+			if (payload.nonce === undefined) {
+				throw new Error("missing nonce");
+			}
+			if (!Buffer.isBuffer(payload.nonce) || payload.nonce.length !== 8) {
+				throw new Error("invalid nonce, 8 bytes Buffer expected");
+			}
+			return Buffer.from([this.command, ...payload.nonce]);
+		}
+
+		static decode = (buffer: Buffer): SecurityV1NonceReportData => ({
+			nonce: buffer.slice(1, 9),
+		});
+
+		constructor(data: Buffer | SecurityV1NonceReportData) {
+			super(SecurityV1NonceReport, data);
+		}
+	};
 }
 
 export namespace SecurityV1 {
-	export type MessageEncapsulation = SecurityV1MessageEncapsulation;
-	export type MessageEncapsulationNonceGet = SecurityV1MessageEncapsulationNonceGet;
-	export type NonceGet = SecurityV1NonceGet;
-	export type NonceReport = SecurityV1NonceReport;
+	export type MessageEncapsulation = InstanceType<
+		typeof SecurityV1.MessageEncapsulation
+	>;
+	export type MessageEncapsulationNonceGet = InstanceType<
+		typeof SecurityV1.MessageEncapsulationNonceGet
+	>;
+	export type NonceGet = InstanceType<typeof SecurityV1.NonceGet>;
+	export type NonceReport = InstanceType<typeof SecurityV1.NonceReport>;
 }

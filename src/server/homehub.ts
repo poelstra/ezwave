@@ -113,10 +113,11 @@ export class HomeHub {
 	}
 
 	async _handleSceneActivationSet(event: LayerEvent<Packet>): Promise<void> {
+		const scene = event.packet.commandAndPayload[1];
+		const duration = event.packet.commandAndPayload[2];
 		console.log(
-			`-> scene activation from=${event.endpoint.nodeId} scene=${event.packet.payload[0]} duration=${event.packet.payload[1]}`
+			`-> scene activation from=${event.endpoint.nodeId} scene=${scene} duration=${duration}`
 		);
-		const scene = event.packet.payload[0];
 		switch (scene) {
 			case 0x1a:
 				//home.sceneKeuken1();
@@ -135,10 +136,16 @@ export class HomeHub {
 
 	private async _handleEvent(event: LayerEvent<Packet>): Promise<void> {
 		if (
-			event.packet.is(
-				CommandClasses.COMMAND_CLASS_SCENE_ACTIVATION,
-				0x1 /* SCENE_ACTIVATION_SET */
-			)
+			event.packet.is({
+				matches(packet) {
+					return (
+						packet.commandClass ===
+							CommandClasses.COMMAND_CLASS_SCENE_ACTIVATION &&
+						packet.commandAndPayload[0] ===
+							0x1 /* SCENE_ACTIVATION_SET */
+					);
+				},
+			})
 		) {
 			await this._handleSceneActivationSet(event);
 		}

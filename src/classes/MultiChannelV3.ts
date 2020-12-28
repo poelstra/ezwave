@@ -11,11 +11,10 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import { Packet } from "../commands/packet";
 import CommandClasses from "../generated/CommandClasses";
 
-const emptyBuffer = Buffer.alloc(0);
-
-enum MultiChannelV3CommandsEnum {
+export enum MultiChannelV3Commands {
 	CmdEncap = 0x0d,
 }
 
@@ -27,42 +26,46 @@ export interface MultiChannelV3CmdEncapData {
 	encapsulated: Buffer; // TODO written as 3 separate fields in original spec, tweak auto-gen?
 }
 
-class MultiChannelV3CmdEncap extends CommandPacket<MultiChannelV3CmdEncapData> {
+export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 	static commandClass = CommandClasses.COMMAND_CLASS_MULTI_CHANNEL;
-	static command = MultiChannelV3CommandsEnum.CmdEncap;
-	static version = 3;
-	static encode = (payload: MultiChannelV3CmdEncapData) => {
-		// TODO input validation
-		return Buffer.from([
-			payload.sourceEndPoint & 0x7f, // | (payload.res ? 0x80 : 0)
-			(payload.destinationEndPoint & 0x7f) |
-				(payload.bitAddress ? 0x80 : 0),
-			...payload.encapsulated,
-		]);
+
+	static matches(packet: Packet): boolean {
+		return packet.commandClass === this.commandClass;
+	}
+
+	constructor(commandAndPayload: Buffer) {
+		super(MultiChannelV3, commandAndPayload);
+	}
+
+	public static CmdEncap = class MultiChannelV3CmdEncap extends CommandPacket<MultiChannelV3CmdEncapData> {
+		static CommandClass = MultiChannelV3;
+		static command = MultiChannelV3Commands.CmdEncap;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(MultiChannelV3)?.command === this.command;
+		}
+
+		static encode(payload: MultiChannelV3CmdEncapData) {
+			// TODO input validation
+			return Buffer.from([
+				this.command,
+				payload.sourceEndPoint & 0x7f, // | (payload.res ? 0x80 : 0)
+				(payload.destinationEndPoint & 0x7f) |
+					(payload.bitAddress ? 0x80 : 0),
+				...payload.encapsulated,
+			]);
+		}
+
+		static decode = (buffer: Buffer): MultiChannelV3CmdEncapData => ({
+			sourceEndPoint: buffer[1] & 0x7f,
+			// res: (buffer[1] & 0x80) > 0 ? true : false,
+			destinationEndPoint: buffer[2] & 0x7f,
+			bitAddress: (buffer[2] & 0x80) > 0 ? true : false,
+			encapsulated: buffer.slice(3),
+		});
+
+		constructor(data: Buffer | MultiChannelV3CmdEncapData) {
+			super(MultiChannelV3CmdEncap, data);
+		}
 	};
-	static decode = (buffer: Buffer): MultiChannelV3CmdEncapData => ({
-		sourceEndPoint: buffer[0] & 0x7f,
-		// res: (buffer[0] & 0x80) > 0 ? true : false,
-		destinationEndPoint: buffer[1] & 0x7f,
-		bitAddress: (buffer[1] & 0x80) > 0 ? true : false,
-		encapsulated: buffer.slice(2),
-	});
-
-	constructor(payload: Buffer | MultiChannelV3CmdEncapData) {
-		super(MultiChannelV3CmdEncap, payload);
-	}
-}
-
-export class MultiChannelV3 extends CommandClassPacket {
-	static commandClass = CommandClasses.COMMAND_CLASS_MULTI_CHANNEL;
-
-	constructor(command: number, payload: Buffer) {
-		super(MultiChannelV3.commandClass, command, payload);
-	}
-
-	public static CmdEncap = MultiChannelV3CmdEncap;
-}
-
-export namespace MultiChannelV3 {
-	export type CmdEncap = MultiChannelV3CmdEncap;
 }

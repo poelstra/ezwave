@@ -37,7 +37,7 @@ describe("Crypto", () => {
 		const senderNonce = Buffer.from([0x83, 0xb1, 0x84, 0x5f, 0x7f, 0x3c, 0xd6, 0x9f]);
 		// prettier-ignore
 		const receiverNonce = Buffer.from([0x3a, 0xc5, 0xe3, 0xb8, 0x74, 0xcd, 0x30, 0xc6]);
-		const packet = Packet.from(
+		const packet = new Packet(
 			Buffer.from([
 				0x60, // COMMAND_CLASS_MULTI_CHANNEL
 				0x0d, // MULTI_CHANNEL_CMD_ENCAP
@@ -78,7 +78,7 @@ describe("Crypto", () => {
 		// prettier-ignore
 		const receiverNonce = Buffer.from([0x3a, 0xc5, 0xe3, 0xb8, 0x74, 0xcd, 0x30, 0xc6]);
 		// prettier-ignore
-		const encrypted = Packet.from(Buffer.from([
+		const encrypted = new Packet(Buffer.from([
 			0x98, // COMMAND_CLASS_SECURITY = 0x98
 			0x81, // SECURITY_MESSAGE_ENCAPSULATION
 			0x83, 0xb1, 0x84, 0x5f, 0x7f, 0x3c, 0xd6, 0x9f, // sender nonce

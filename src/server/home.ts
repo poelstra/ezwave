@@ -83,7 +83,7 @@ export class Home extends EventEmitter {
 	async setZolderAfzuiging(level: 0 | 1): Promise<void> {
 		await this.controller.send({
 			endpoint: { nodeId: HomeDevices.ZolderAfzuiging, channel: 1 },
-			packet: Packet.from(
+			packet: new Packet(
 				Buffer.from([
 					CommandClasses.COMMAND_CLASS_SWITCH_BINARY,
 					0x01 /* SET */,

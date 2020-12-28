@@ -48,7 +48,7 @@ class FakeSecurityLayer implements Layer {
 
 		const ev: LayerEvent<Packet> = {
 			...event,
-			packet: Packet.from(encap.data.encryptedPayload),
+			packet: new Packet(encap.data.encryptedPayload),
 		};
 		const secureSend = this._makeSecureSender(sender);
 		await next(ev, secureSend);
@@ -273,7 +273,7 @@ describe("layers", () => {
 					messageAuthenticationCode: Buffer.alloc(8, 0x77),
 				}),
 				[
-					Packet.from(
+					new Packet(
 						new SwitchMultilevelV1.Set({ value: 99 }).serialize()
 					),
 				],
@@ -286,7 +286,7 @@ describe("layers", () => {
 					receiversNonceIdentifier: 0x12,
 					messageAuthenticationCode: Buffer.alloc(8, 0x77),
 				}),
-				[Packet.from(new SwitchMultilevelV1.Get().serialize())],
+				[new Packet(new SwitchMultilevelV1.Get().serialize())],
 				[
 					new SecurityV1.NonceGet(),
 					new SecurityV1.MessageEncapsulation({

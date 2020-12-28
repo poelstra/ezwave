@@ -38,7 +38,7 @@ export class MultiChannelLayer implements Layer {
 				nodeId: event.endpoint.nodeId,
 				channel: encapPacket.data.sourceEndPoint,
 			},
-			packet: Packet.from(encapPacket.data.encapsulated),
+			packet: new Packet(encapPacket.data.encapsulated),
 		};
 
 		// TODO Force sends to always go back to the same channel?
