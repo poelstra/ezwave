@@ -1,0 +1,229 @@
+/**
+ * Command Class User Code, version 1.
+ *
+ * Auto-generated, do not edit.
+ */
+
+import { CommandClassPacket, CommandPacket } from "../commands/command";
+import { Packet } from "../commands/packet";
+import { CommandDefinition } from "../commands/types";
+import CommandClasses from "../generated/CommandClasses";
+
+export enum UserCodeV1Commands {
+	UserCodeGet = 0x02,
+	UserCodeReport = 0x03,
+	UserCodeSet = 0x01,
+	UsersNumberGet = 0x04,
+	UsersNumberReport = 0x05,
+}
+
+export interface UserCodeV1UserCodeGetData {
+	userIdentifier: number; // 1 byte unsigned integer
+}
+
+export interface UserCodeV1UserCodeReportData {
+	userIdentifier: number; // 1 byte unsigned integer
+	userIDStatus: UserIDStatusEnum; // 1 byte enum value
+	// TODO param userCode type text
+}
+
+export interface UserCodeV1UserCodeSetData {
+	userIdentifier: number; // 1 byte unsigned integer
+	userIDStatus: UserIDStatusEnum; // 1 byte enum value
+	// TODO param userCode type text
+}
+
+export interface UserCodeV1UsersNumberReportData {
+	supportedUsers: number; // 1 byte unsigned integer
+}
+
+export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
+	public static readonly commandClass = CommandClasses.UserCode; // 0x63 (99)
+
+	public static matches(packet: Packet): boolean {
+		return packet.commandClass === this.commandClass;
+	}
+
+	constructor(commandAndPayload: Buffer) {
+		super(UserCodeV1, commandAndPayload);
+	}
+
+	public static readonly UserCodeGet = class UserCodeGet extends CommandPacket<UserCodeV1UserCodeGetData> {
+		public static readonly CommandClass = UserCodeV1;
+		public static readonly command = 0x02;
+		public static readonly definition = {
+			"command": 2,
+			"name": "UserCodeGet",
+			"help": "User Code Get",
+			"status": "active",
+			"params": [
+				{
+					"type": "integer",
+					"name": "userIdentifier",
+					"help": "User Identifier",
+					"length": 1
+				}
+			]
+		} as CommandDefinition;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(UserCodeV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | UserCodeV1UserCodeGetData) {
+			super(UserCodeGet, data);
+		}
+	};
+
+	public static readonly UserCodeReport = class UserCodeReport extends CommandPacket<UserCodeV1UserCodeReportData> {
+		public static readonly CommandClass = UserCodeV1;
+		public static readonly command = 0x03;
+		public static readonly definition = {
+			"command": 3,
+			"name": "UserCodeReport",
+			"help": "User Code Report",
+			"status": "active",
+			"params": [
+				{
+					"type": "integer",
+					"name": "userIdentifier",
+					"help": "User Identifier",
+					"length": 1
+				},
+				{
+					"type": "enum",
+					"name": "userIDStatus",
+					"help": "User ID Status",
+					"length": 1,
+					"values": {
+						"0": "Available (not set)",
+						"1": "Occupied",
+						"2": "Reserved by administrator",
+						"254": "Status not available"
+					}
+				},
+				{
+					"type": "text",
+					"name": "userCode",
+					"help": "USER_CODE",
+					"length": "auto"
+				}
+			]
+		} as CommandDefinition;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(UserCodeV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | UserCodeV1UserCodeReportData) {
+			super(UserCodeReport, data);
+		}
+	};
+
+	public static readonly UserCodeSet = class UserCodeSet extends CommandPacket<UserCodeV1UserCodeSetData> {
+		public static readonly CommandClass = UserCodeV1;
+		public static readonly command = 0x01;
+		public static readonly definition = {
+			"command": 1,
+			"name": "UserCodeSet",
+			"help": "User Code Set",
+			"status": "active",
+			"params": [
+				{
+					"type": "integer",
+					"name": "userIdentifier",
+					"help": "User Identifier",
+					"length": 1
+				},
+				{
+					"type": "enum",
+					"name": "userIDStatus",
+					"help": "User ID Status",
+					"length": 1,
+					"values": {
+						"0": "Available (not set)",
+						"1": "Occupied",
+						"2": "Reserved by administrator",
+						"254": "Status not available"
+					}
+				},
+				{
+					"type": "text",
+					"name": "userCode",
+					"help": "USER_CODE",
+					"length": "auto"
+				}
+			]
+		} as CommandDefinition;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(UserCodeV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | UserCodeV1UserCodeSetData) {
+			super(UserCodeSet, data);
+		}
+	};
+
+	public static readonly UsersNumberGet = class UsersNumberGet extends CommandPacket<void> {
+		public static readonly CommandClass = UserCodeV1;
+		public static readonly command = 0x04;
+		public static readonly definition = {
+			"command": 4,
+			"name": "UsersNumberGet",
+			"help": "Users Number Get",
+			"status": "active",
+			"params": []
+		} as CommandDefinition;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(UserCodeV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | void) {
+			super(UsersNumberGet, data);
+		}
+	};
+
+	public static readonly UsersNumberReport = class UsersNumberReport extends CommandPacket<UserCodeV1UsersNumberReportData> {
+		public static readonly CommandClass = UserCodeV1;
+		public static readonly command = 0x05;
+		public static readonly definition = {
+			"command": 5,
+			"name": "UsersNumberReport",
+			"help": "Users Number Report",
+			"status": "active",
+			"params": [
+				{
+					"type": "integer",
+					"name": "supportedUsers",
+					"help": "Supported Users",
+					"length": 1
+				}
+			]
+		} as CommandDefinition;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(UserCodeV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | UserCodeV1UsersNumberReportData) {
+			super(UsersNumberReport, data);
+		}
+	};
+}
+
+export namespace UserCodeV1 {
+	export type UserCodeGet = InstanceType<typeof UserCodeV1.UserCodeGet>;
+	export type UserCodeReport = InstanceType<typeof UserCodeV1.UserCodeReport>;
+	export type UserCodeSet = InstanceType<typeof UserCodeV1.UserCodeSet>;
+	export type UsersNumberGet = InstanceType<typeof UserCodeV1.UsersNumberGet>;
+	export type UsersNumberReport = InstanceType<typeof UserCodeV1.UsersNumberReport>;
+}
+
+export enum UserIDStatusEnum {
+	AvailableNotSet = 0x0,
+	Occupied = 0x1,
+	ReservedByAdministrator = 0x2,
+	StatusNotAvailable = 0xfe,
+}

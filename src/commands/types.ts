@@ -5,11 +5,12 @@
 // TODO Handle bitmasks
 // TODO Handle marker type, or rewrite it to something else
 // TODO ValueType is used on IntegerParameter and EnumParameter, but will likely only appear in certain combinations
+// TODO Handle the two todos at the bottom
 
 /**
  * Major version of Z-WAVE JSON schema.
  */
-export const JSON_VERSION = 1;
+export const JSON_VERSION = 2;
 
 export interface ZwaveSpec {
 	xmlVersion: string; // 3-part version number of XML specification
@@ -19,18 +20,62 @@ export interface ZwaveSpec {
 }
 
 export interface CommandClassDefinition {
-	id: number;
-	name: string;
+	/**
+	 * Numeric id of command class in Z-Wave packets.
+	 */
+	commandClass: number;
+
+	/**
+	 * Version of command class.
+	 */
 	version: number;
+
+	/**
+	 * Name of command class as identifier in e.g. code.
+	 * Given as UpperCamelCase.
+	 */
+	name: string;
+
+	/**
+	 * Human-readable name of command class.
+	 */
+	help: string;
+
+	/**
+	 * Obsolescence status of command class.
+	 */
+	status: ObsolescenceStatus;
+
+	/**
+	 * List of all defined commands in this command class.
+	 */
 	commands: CommandDefinition[];
-	status: CommandStatus;
 }
 
 export interface CommandDefinition {
-	id: number;
+	/**
+	 * Numeric id of command in Z-Wave packets.
+	 */
+	command: number;
+
+	/**
+	 * Name of command as identifier in e.g. code.
+	 * Given as UpperCamelCase.
+	 */
 	name: string;
-	status: CommandStatus;
+
+	/**
+	 * Human-readable name of command.
+	 */
+	help: string;
+
+	/**
+	 * Obsolescence status of command.
+	 */
+	status: ObsolescenceStatus;
+
 	params: Array<Parameter | ParameterGroup>;
+
 	/**
 	 * If set, indicates a mask to apply to the command byte.
 	 * Also, the first parameter of each command will then be
@@ -82,9 +127,16 @@ export interface ParameterBase {
 	type: ParameterType;
 
 	/**
-	 * Name of field in 'struct'.
+	 * Name of field in object.
+	 *
+	 * Given as lowerCamelCase.
 	 */
 	name: string;
+
+	/**
+	 * Human-readable name of field.
+	 */
+	help: string;
 
 	/**
 	 * Length of this field.
@@ -285,9 +337,25 @@ export interface BitfieldElement {
 	values?: KeyValues; // Present if type is Enum
 }
 
+/**
+ * When a byte is split into pieces, each piece
+ * can be a boolean, an integer, or an enum.
+ */
 export enum BitfieldElementType {
-	Boolean = "bool",
+	/**
+	 * True or false.
+	 */
+	Boolean = "boolean",
+
+	/**
+	 * Any value within the range of its mask.
+	 */
 	Integer = "integer",
+
+	/**
+	 * A value in a specific set of possible values,
+	 * as given by `BitfieldElement.values`.
+	 */
 	Enum = "enum",
 }
 
@@ -321,16 +389,16 @@ export enum BlobType {
 /**
  * Command classes and commands can be active, obsolete or deprecated.
  */
-export enum CommandStatus {
+export enum ObsolescenceStatus {
 	Active = "active",
 	Obsolete = "obsolete",
 	Deprecated = "deprecated",
 }
 
-export const COMMAND_STATUS_REVERSED = {
-	active: CommandStatus.Active,
-	obsolete: CommandStatus.Obsolete,
-	deprecated: CommandStatus.Deprecated,
+export const OBSOLESCENCE_STATUS_TO_STRING = {
+	[ObsolescenceStatus.Active]: "Active",
+	[ObsolescenceStatus.Obsolete]: "Obsolete",
+	[ObsolescenceStatus.Deprecated]: "Deprecated",
 };
 
 // encaptype CMD_DATA and CMD_ENCAP is always a VARIANT

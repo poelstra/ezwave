@@ -29,12 +29,20 @@ function createKeyValues(): types.KeyValues {
 }
 
 function sortKeyValues(keyValues: types.KeyValues): types.KeyValues {
-	const keys = Object.keys(keyValues);
+	const keys = Object.keys(keyValues).sort();
 	const result = createKeyValues();
 	for (const key of keys) {
 		result[key] = keyValues[key];
 	}
 	return result;
+}
+
+function jsonify(value: unknown): Lines {
+	return JSON.stringify(value, undefined, "\t").split("\n");
+}
+
+function indent(lines: string[]): string[] {
+	return lines.map((line) => (line === "" ? "" : `\t${line}`));
 }
 
 class CommandClassGenerator {
@@ -43,6 +51,7 @@ class CommandClassGenerator {
 	}
 
 	private _class: types.CommandClassDefinition;
+
 	private _enums = new Map<string, types.KeyValues>();
 	private _enumsCanonical = new Map<string, string>();
 
@@ -73,31 +82,49 @@ class CommandClassGenerator {
 		return name;
 	}
 
+	private _generateCommandsEnum(className: string): Lines {
+		const lines: Lines = [];
+		lines.push(`export enum ${className}Commands {`);
+		for (const cmd of this._class.commands) {
+			lines.push(
+				`\t${cmd.name} = 0x${cmd.command
+					.toString(16)
+					.padStart(2, "0")},`
+			);
+		}
+		lines.push(`}`);
+		return lines;
+	}
+
 	private _generate(): Lines {
-		const className = `${Case.pascal(this._class.name)}V${
-			this._class.version
-		}`;
 		const contents: Lines = [];
 
-		const definition = JSON.stringify(this._class);
+		// Header
 		contents.push(
-			`/* Auto-generated */`,
+			`/**`,
+			` * ${this._class.help}, version ${this._class.version}.`,
+			` *`,
+			` * Auto-generated, do not edit.`,
+			` */`,
 			``,
-			this._class.status !== types.CommandStatus.Active
-				? "// " + types.COMMAND_STATUS_REVERSED[this._class.status]
-				: undefined,
-			`export class ${className} {`,
-			`\tpublic static readonly commandClass = 0x${this._class.id.toString(
-				16
-			)}; // (${this._class.id});`,
-			`\tpublic static readonly definition = ${definition};`,
-			`}`,
+			`import { CommandClassPacket, CommandPacket } from "../commands/command";`,
+			`import { Packet } from "../commands/packet";`,
+			`import { CommandDefinition } from "../commands/types";`,
+			`import CommandClasses from "../generated/CommandClasses";`,
 			``
 		);
 
+		const className = `${this._class.name}V${this._class.version}`;
+		contents.push(...this._generateCommandsEnum(className), ``);
+
 		for (const cmd of this._class.commands) {
-			contents.push(...this._generateCommandInterface(cmd));
+			contents.push(
+				...this._generateCommandDataInterface(className, cmd)
+			);
 		}
+
+		contents.push(...this._generateCommandClass(className), ``);
+		contents.push(...this._generateNamespace(className), ``);
 
 		// Output enums
 		for (const [name, values] of this._enums) {
@@ -125,24 +152,102 @@ class CommandClassGenerator {
 		return contents;
 	}
 
-	private _generateCommandInterface(cmd: types.CommandDefinition): Lines {
+	private _generateCommandClass(className: string): Lines {
 		const contents: Lines = [];
 
-		if (cmd.status !== types.CommandStatus.Active) {
-			contents.push("// " + types.COMMAND_STATUS_REVERSED[cmd.status]);
+		if (this._class.status !== types.ObsolescenceStatus.Active) {
+			contents.push(
+				"// " + types.OBSOLESCENCE_STATUS_TO_STRING[this._class.status]
+			);
 		}
 
 		contents.push(
-			`export interface ${Case.pascal(cmd.name)} {`,
-			`\t_commandClass: 0x${this._class.id.toString(16)}; // (${
-				this._class.id
-			})`,
-			`\t_command: 0x${cmd.id.toString(16)}; // (${cmd.id})`
+			`export class ${className} extends CommandClassPacket<${className}Commands> {`
 		);
+		contents.push(
+			...indent([
+				`public static readonly commandClass = CommandClasses.${
+					this._class.name
+				}; // 0x${this._class.commandClass
+					.toString(16)
+					.padStart(2, "0")} (${this._class.commandClass})`,
+				``,
+				`public static matches(packet: Packet): boolean {`,
+				`\treturn packet.commandClass === this.commandClass;`,
+				`}`,
+				``,
+				`constructor(commandAndPayload: Buffer) {`,
+				`\tsuper(${className}, commandAndPayload);`,
+				`}`,
+				``,
+				...this._generateCommands(className),
+			])
+		);
+		contents.push(`}`);
+
+		return contents;
+	}
+
+	private _generateCommands(className: string): string[] {
+		const contents: string[] = [];
+
+		for (const command of this._class.commands) {
+			const commandName = `${command.name}`;
+			const dataName =
+				command.params.length === 0
+					? `void`
+					: `${className}${command.name}Data`;
+			contents.push(
+				`public static readonly ${command.name} = class ${commandName} extends CommandPacket<${dataName}> {`
+			);
+			contents.push(
+				...indent([
+					`public static readonly CommandClass = ${className};`,
+					`public static readonly command = 0x${command.command
+						.toString(16)
+						.padStart(2, "0")};`,
+					`public static readonly definition = ${jsonify(
+						command
+					).join("\n\t\t")} as CommandDefinition;`,
+					``,
+					`static matches(packet: Packet): boolean {`,
+					`	return packet.tryAs(${className})?.command === this.command;`,
+					`}`,
+					``,
+					`constructor(data: Buffer | ${dataName}) {`,
+					`	super(${commandName}, data);`,
+					`}`,
+				])
+			);
+			contents.push(`};`);
+			contents.push(``);
+		}
+
+		return contents.slice(0, -1); // strip last empty line
+	}
+
+	private _generateCommandDataInterface(
+		className: string,
+		cmd: types.CommandDefinition
+	): Lines {
+		if (cmd.params.length === 0) {
+			return [];
+		}
+
+		const contents: Lines = [];
+
+		if (cmd.status !== types.ObsolescenceStatus.Active) {
+			contents.push(
+				"// " + types.OBSOLESCENCE_STATUS_TO_STRING[cmd.status]
+			);
+		}
+
+		const typeName = `${className}${cmd.name}Data`;
+		contents.push(`export interface ${typeName} {`);
 		for (const param of cmd.params) {
 			contents.push(...this._generateParam(param));
 		}
-		contents.push(`}`, "");
+		contents.push(`}`, ``);
 
 		return contents;
 	}
@@ -156,9 +261,9 @@ class CommandClassGenerator {
 		switch (param.type) {
 			case "integer":
 				contents.push(
-					`\t${Case.camel(param.name)}${
-						isOptional ? "?" : ""
-					}: number; // ${param.length} byte unsigned integer`
+					`\t${param.name}${isOptional ? "?" : ""}: number; // ${
+						param.length
+					} byte unsigned integer`
 				);
 				break;
 			case "enum":
@@ -168,7 +273,7 @@ class CommandClassGenerator {
 						param.values
 					);
 					contents.push(
-						`\t${Case.camel(param.name)}${
+						`\t${param.name}${
 							isOptional ? "?" : ""
 						}: ${enumName}; // 1 byte enum value`
 					);
@@ -184,7 +289,7 @@ class CommandClassGenerator {
 					assert(attr.key === 0);
 					assert(attr.is_ascii === !attr.showhex);
 					assert(attr.len > 0 && attr.len < 255);
-					contents.push(`\t${Case.camel(param.name)}: ${arrayType}; // ${param.type}, ${param.arrayattrib.len} bytes`);
+					contents.push(`\t${param.name}: ${arrayType}; // ${param.type}, ${param.arrayattrib.len} bytes`);
 				}
 				break;
 			case ParamType.BITMASK:
@@ -229,12 +334,12 @@ class CommandClassGenerator {
 						bitmaskLength = `length by param[${bm.paramoffs}] & ${bm.lenmask} >> ${bm.lenoffs}`;
 					}
 					const bitmaskType = "number" + (param.bitmask.len === 1 ? "" : "[]");
-					contents.push(`\t${Case.camel(param.name)}: ${bitmaskType}; // ${param.type}, ${bitmaskLength}${enumText}`);
+					contents.push(`\t${param.name}: ${bitmaskType}; // ${param.type}, ${bitmaskLength}${enumText}`);
 				}
 				break;
 			case ParamType.STRUCT_BYTE:
 				{
-					contents.push(`\t${Case.camel(param.name)}: { // ${param.type}`);
+					contents.push(`\t${param.name}: { // ${param.type}`);
 					const fields = simplifyStructByteParam(param);
 					for (const field of fields) {
 						const len = Math.log2((field.mask >> field.shift) + 1);
@@ -255,7 +360,7 @@ class CommandClassGenerator {
 						};
 						const bits = field.type === StructByteElementType.Flag ? `bit ${field.shift}` : `bits ${field.shift + len - 1}..${field.shift}`;
 						contents.push(
-							`\t\t${Case.camel(field.name)}: ${type}; // ${bits}`
+							`\t\t${field.name}: ${type}; // ${bits}`
 						);
 					}
 					contents.push(`\t};`);
@@ -270,7 +375,7 @@ class CommandClassGenerator {
 						values.set(enm.key, enm.name);
 					}
 					const enumType = registerEnum(param.name, values);
-					contents.push(`\t${Case.camel(param.name)}: ${enumType}[]; // ${param.type}`);
+					contents.push(`\t${param.name}: ${enumType}[]; // ${param.type}`);
 				}
 				break;
 			case ParamType.MULTI_ARRAY:
@@ -281,7 +386,7 @@ class CommandClassGenerator {
 					// the value of another parameter (i.e. descloc.param)
 					// TODO Generate all the enums, with names based on the enum values of the respective parameter,
 					// then create the union of all these enums
-					contents.push(`\t${Case.camel(param.name)}: number; // ${param.type}`);
+					contents.push(`\t${param.name}: number; // ${param.type}`);
 				}
 				break;
 			case ParamType.VARIANT:
@@ -297,7 +402,7 @@ class CommandClassGenerator {
 					let variantType = v.is_ascii ? "string" : "Buffer";
 					const isOptional = param.optionalmask !== undefined; // optionaloffs = param ID, mask = AND mask, present if result after mask > 0
 					const lengthStr = v.paramoffs === 255 ? `according to message length` : `by param[${v.paramoffs}] & ${v.sizemask} >> ${v.sizeoffs}`;
-					contents.push(`\t${Case.camel(param.name)}${isOptional ? "?" : ""}: ${variantType}; // ${param.type}, length ${lengthStr}`);
+					contents.push(`\t${param.name}${isOptional ? "?" : ""}: ${variantType}; // ${param.type}, length ${lengthStr}`);
 				}
 				break;
 			case ParamType.VARIANT_GROUP:
@@ -312,7 +417,7 @@ class CommandClassGenerator {
 				// Note: Size of each element is dynamic, i.e. it can depend on presence of e.g. VARIANT
 				// inside the group (e.g. COMMAND_CLASS_MULTI_CMD:MULTI_CMD_ENCAP)
 				assert(param.variantKey === 0);
-				contents.push(`\t${Case.camel(param.name)}: Array<{ // VARIANT_GROUP`);
+				contents.push(`\t${param.name}: Array<{ // VARIANT_GROUP`);
 				const nestedParams = toArray(param.param);
 				processParams(nestedParams, `\t\t`);
 				contents.push(`\t}>;`);
@@ -323,6 +428,21 @@ class CommandClassGenerator {
 					`\t// TODO param ${param.name} type ${param.type}`
 				);
 		}
+		return contents;
+	}
+
+	private _generateNamespace(className: string): Lines {
+		const contents: Lines = [];
+
+		contents.push(`export namespace ${className} {`);
+		contents.push(
+			...this._class.commands.map(
+				(command) =>
+					`\texport type ${command.name} = InstanceType<typeof ${className}.${command.name}>;`
+			)
+		);
+		contents.push(`}`);
+
 		return contents;
 	}
 }
@@ -347,7 +467,7 @@ main(async () => {
 	for (const cmdClass of spec.classes) {
 		const lines = CommandClassGenerator.generate(cmdClass);
 
-		const className = `${Case.pascal(cmdClass.name)}V${cmdClass.version}`;
+		const className = `${cmdClass.name}V${cmdClass.version}`;
 		const filename = path.resolve(outDir, `${className}.ts`);
 		await pfs.writeFile(
 			filename,
@@ -360,16 +480,23 @@ main(async () => {
 	// so this Map has key and value 'reversed' to what you'd expect.
 	const classes = new Map<string, number>();
 	for (const cmdClass of spec.classes) {
-		classes.set(cmdClass.name, cmdClass.id);
+		classes.set(cmdClass.name, cmdClass.commandClass);
 	}
 	const classesContents = [
-		`/* Auto-generated */`,
-		`enum CommandClasses {`,
+		`/**`,
+		` * List of all Z-Wave command classes.`,
+		` */`,
+		``,
+		`export enum CommandClasses {`,
 		`\t${mapMap(
 			classes,
-			(v, k) => `${k} = 0x${v.toString(16).padStart(2, "0")}`
-		).join(",\n\t")}`,
+			(v, k) =>
+				`${k} = 0x${v
+					.toString(16)
+					.padStart(2, "0")}, // (${v.toString()})`
+		).join("\n\t")}`,
 		`};`,
+		``,
 		`export default CommandClasses;`,
 	].join("\n");
 	await pfs.writeFile(

@@ -1,17 +1,17 @@
-import { describe, it } from "mocha";
 import { expect } from "chai";
-
-import * as types from "../commands/types";
+import { describe, it } from "mocha";
 import { decodeCommandAndPayload } from "../commands/decode";
+import * as types from "../commands/types";
 
 function createCommand(
 	command: number,
 	params: types.CommandDefinition["params"]
 ): types.CommandDefinition {
 	return {
-		id: command,
+		command: command,
 		name: `COMMAND_${command.toString(16)}`,
-		status: types.CommandStatus.Active,
+		help: "",
+		status: types.ObsolescenceStatus.Active,
 		params,
 	};
 }
@@ -40,6 +40,7 @@ describe("integer types", () => {
 						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
+						help: "Param 0",
 					},
 				]);
 				const commandAndPayload = Buffer.from([0x34, ...bytes]);
@@ -58,6 +59,7 @@ describe("integer types", () => {
 						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
+						help: "Param 0",
 					},
 				]);
 				const commandAndPayload = Buffer.from([0x34]);
@@ -77,6 +79,7 @@ describe("integer types", () => {
 							type: types.ParameterType.Integer,
 							length,
 							name: "param0",
+							help: "Param 0",
 						},
 					]);
 					const commandAndPayload = Buffer.from([
@@ -95,11 +98,13 @@ describe("integer types", () => {
 						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
+						help: "Param 0",
 					},
 					{
 						type: types.ParameterType.Integer,
 						length,
 						name: "param1",
+						help: "Param 1",
 					},
 				]);
 				const commandAndPayload = Buffer.from([
@@ -123,11 +128,13 @@ describe("integer types", () => {
 						type: types.ParameterType.Integer,
 						length: 1,
 						name: "hasParams",
+						help: "Has Params",
 					},
 					{
 						type: types.ParameterType.Integer,
 						length,
 						name: "param0",
+						help: "Param 0",
 						optional: {
 							name: "hasParams",
 							mask: 0x01,
@@ -137,6 +144,7 @@ describe("integer types", () => {
 						type: types.ParameterType.Integer,
 						length,
 						name: "param1",
+						help: "Param 1",
 						optional: {
 							name: "hasParams",
 							mask: 0x02,
@@ -168,6 +176,7 @@ describe("enum", () => {
 					"255": "on",
 				},
 				name: "param0",
+				help: "Param 0",
 			},
 		]);
 		const commandAndPayload = Buffer.from([0x34, 0xff]);
@@ -187,6 +196,7 @@ describe("enum", () => {
 					"255": "on",
 				},
 				name: "param0",
+				help: "Param 0",
 			},
 		]);
 		const commandAndPayload = Buffer.from([0x34]);
@@ -206,6 +216,7 @@ describe("enum", () => {
 					"255": "on",
 				},
 				name: "param0",
+				help: "Param 0",
 			},
 			{
 				type: types.ParameterType.Enum,
@@ -215,6 +226,7 @@ describe("enum", () => {
 					"255": "on",
 				},
 				name: "param1",
+				help: "Param 1",
 			},
 		]);
 		const commandAndPayload = Buffer.from([0x34, 0xff, 0xff]);
@@ -231,6 +243,7 @@ describe("enum", () => {
 				type: types.ParameterType.Integer,
 				length: 1,
 				name: "hasParams",
+				help: "Has Params",
 			},
 			{
 				type: types.ParameterType.Enum,
@@ -240,6 +253,7 @@ describe("enum", () => {
 					"255": "on",
 				},
 				name: "param0",
+				help: "Param 0",
 				optional: {
 					name: "hasParams",
 					mask: 0x01,
@@ -253,6 +267,7 @@ describe("enum", () => {
 					"255": "on",
 				},
 				name: "param1",
+				help: "Param 1",
 				optional: {
 					name: "hasParams",
 					mask: 0x02,

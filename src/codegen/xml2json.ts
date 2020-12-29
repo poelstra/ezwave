@@ -21,14 +21,14 @@
  * https://www.silabs.com/support/resources.p-wireless_z-wave?query=Z-Wave%20Device%20and%20Command%20Classes%20Definition%20Files
  */
 
-import "source-map-support/register";
-
+import * as assert from "assert";
 import main from "async-main";
 import * as parser from "fast-xml-parser";
 import { promises as pfs } from "fs";
 import * as path from "path";
-import * as assert from "assert";
+import "source-map-support/register";
 import * as types from "../commands/types";
+import * as Case from "case";
 
 function toArray<T>(value: MaybeArray<T>): T[] {
 	if (value === undefined) {
@@ -417,7 +417,8 @@ function generateParameter(
 	}
 
 	const paramBase = {
-		name: param.name,
+		name: Case.camel(param.name),
+		help: param.name,
 		optional,
 	};
 
@@ -817,8 +818,9 @@ function generateCommand(
 	params.forEach((param) => idMap.set(param.key, param.name));
 
 	let command: types.CommandDefinition = {
-		id: cmd.key,
-		name: cmd.name,
+		command: cmd.key,
+		name: Case.pascal(cmd.name),
+		help: cmd.help,
 		status: commentToStatus(cmd.comment),
 		cmdMask: cmd.cmd_mask,
 		params: params.map((p) => generateParameter(p, idMap)),
@@ -851,23 +853,30 @@ function generateCommandClass(
 	const commands = toArray(cmdClass.cmd).map((cmd) =>
 		generateCommand(cmdClass, cmd)
 	);
+	const className =
+		cmdClass.name === "ZWAVE_CMD_CLASS"
+			? "ZWAVE"
+			: cmdClass.name.slice("COMMAND_CLASS_".length);
 	return {
-		id: cmdClass.key,
-		name: cmdClass.name,
+		commandClass: cmdClass.key,
+		name: Case.pascal(className),
+		help: cmdClass.help,
 		status: commentToStatus(cmdClass.comment),
 		version: cmdClass.version,
 		commands: commands,
 	};
 }
 
-function commentToStatus(comment: string | undefined): types.CommandStatus {
+function commentToStatus(
+	comment: string | undefined
+): types.ObsolescenceStatus {
 	switch (comment) {
 		case "[OBSOLETED]":
-			return types.CommandStatus.Obsolete;
+			return types.ObsolescenceStatus.Obsolete;
 		case "[DEPRECATED]":
-			return types.CommandStatus.Deprecated;
+			return types.ObsolescenceStatus.Deprecated;
 		default:
-			return types.CommandStatus.Active;
+			return types.ObsolescenceStatus.Active;
 	}
 }
 

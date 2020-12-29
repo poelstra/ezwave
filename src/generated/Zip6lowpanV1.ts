@@ -1,0 +1,163 @@
+/**
+ * Command Class Z/IP 6lowpan, version 1.
+ *
+ * Auto-generated, do not edit.
+ */
+
+import { CommandClassPacket, CommandPacket } from "../commands/command";
+import { Packet } from "../commands/packet";
+import { CommandDefinition } from "../commands/types";
+import CommandClasses from "../generated/CommandClasses";
+
+export enum Zip6lowpanV1Commands {
+	LowpanFirstFragment = 0xc0,
+	LowpanSubsequentFragment = 0xe0,
+}
+
+export interface Zip6lowpanV1LowpanFirstFragmentData {
+	// TODO param properties1 type bitfield
+	datagramSize2: number; // 1 byte unsigned integer
+	datagramTag: number; // 1 byte unsigned integer
+	// TODO param payload type blob
+}
+
+export interface Zip6lowpanV1LowpanSubsequentFragmentData {
+	// TODO param properties1 type bitfield
+	datagramSize2: number; // 1 byte unsigned integer
+	datagramTag: number; // 1 byte unsigned integer
+	datagramOffset: number; // 1 byte unsigned integer
+	// TODO param payload type blob
+}
+
+export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
+	public static readonly commandClass = CommandClasses.Zip6lowpan; // 0x4f (79)
+
+	public static matches(packet: Packet): boolean {
+		return packet.commandClass === this.commandClass;
+	}
+
+	constructor(commandAndPayload: Buffer) {
+		super(Zip6lowpanV1, commandAndPayload);
+	}
+
+	public static readonly LowpanFirstFragment = class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFragmentData> {
+		public static readonly CommandClass = Zip6lowpanV1;
+		public static readonly command = 0xc0;
+		public static readonly definition = {
+			"command": 192,
+			"name": "LowpanFirstFragment",
+			"help": "Lowpan First Fragment",
+			"status": "active",
+			"cmdMask": 248,
+			"params": [
+				{
+					"type": "bitfield",
+					"name": "properties1",
+					"help": "Properties1",
+					"length": 1,
+					"fields": [
+						{
+							"type": "integer",
+							"name": "Datagram Size 1",
+							"mask": 7,
+							"shift": 0
+						}
+					],
+					"cmdMask": 7
+				},
+				{
+					"type": "integer",
+					"name": "datagramSize2",
+					"help": "Datagram Size 2",
+					"length": 1
+				},
+				{
+					"type": "integer",
+					"name": "datagramTag",
+					"help": "Datagram Tag",
+					"length": 1
+				},
+				{
+					"type": "blob",
+					"name": "payload",
+					"help": "Payload",
+					"length": "auto"
+				}
+			]
+		} as CommandDefinition;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(Zip6lowpanV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | Zip6lowpanV1LowpanFirstFragmentData) {
+			super(LowpanFirstFragment, data);
+		}
+	};
+
+	public static readonly LowpanSubsequentFragment = class LowpanSubsequentFragment extends CommandPacket<Zip6lowpanV1LowpanSubsequentFragmentData> {
+		public static readonly CommandClass = Zip6lowpanV1;
+		public static readonly command = 0xe0;
+		public static readonly definition = {
+			"command": 224,
+			"name": "LowpanSubsequentFragment",
+			"help": "Lowpan Subsequent Fragment",
+			"status": "active",
+			"cmdMask": 248,
+			"params": [
+				{
+					"type": "bitfield",
+					"name": "properties1",
+					"help": "Properties1",
+					"length": 1,
+					"fields": [
+						{
+							"type": "integer",
+							"name": "Datagram Size 1",
+							"mask": 7,
+							"shift": 0
+						}
+					],
+					"cmdMask": 7
+				},
+				{
+					"type": "integer",
+					"name": "datagramSize2",
+					"help": "Datagram Size 2",
+					"length": 1
+				},
+				{
+					"type": "integer",
+					"name": "datagramTag",
+					"help": "Datagram Tag",
+					"length": 1
+				},
+				{
+					"type": "integer",
+					"name": "datagramOffset",
+					"help": "Datagram Offset",
+					"length": 1
+				},
+				{
+					"type": "blob",
+					"name": "payload",
+					"help": "Payload",
+					"length": "auto"
+				}
+			]
+		} as CommandDefinition;
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(Zip6lowpanV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | Zip6lowpanV1LowpanSubsequentFragmentData) {
+			super(LowpanSubsequentFragment, data);
+		}
+	};
+}
+
+export namespace Zip6lowpanV1 {
+	export type LowpanFirstFragment = InstanceType<typeof Zip6lowpanV1.LowpanFirstFragment>;
+	export type LowpanSubsequentFragment = InstanceType<typeof Zip6lowpanV1.LowpanSubsequentFragment>;
+}

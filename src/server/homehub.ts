@@ -140,7 +140,7 @@ export class HomeHub {
 				matches(packet) {
 					return (
 						packet.commandClass ===
-							CommandClasses.COMMAND_CLASS_SCENE_ACTIVATION &&
+							CommandClasses.SceneActivation &&
 						packet.commandAndPayload[0] ===
 							0x1 /* SCENE_ACTIVATION_SET */
 					);

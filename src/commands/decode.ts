@@ -142,9 +142,9 @@ export function decodeCommandAndPayload<T>(
 ): T {
 	// Decode command
 	const commandId = commandAndPayload[0] & (commandDef.cmdMask ?? 0xff);
-	if (commandId !== commandDef.id) {
+	if (commandId !== commandDef.command) {
 		throw new Error(
-			`cannot decode packet: expected command ${commandDef.id}, got ${commandId}`
+			`cannot decode packet: expected command ${commandDef.command}, got ${commandId}`
 		);
 	}
 

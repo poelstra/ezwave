@@ -1,9 +1,9 @@
 import { EventEmitter } from "events";
-import { BasicV1 } from "../classes/SwitchBasicV1";
-import { SwitchMultilevelV1 } from "../classes/SwitchMultilevelV1";
 import { LayerEvent } from "../commands/layer";
 import { Packet } from "../commands/packet";
+import { BasicV1 } from "../generated/BasicV1";
 import CommandClasses from "../generated/CommandClasses";
+import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
 import { Controller } from "./controller";
 
 export enum HomeDevices {
@@ -35,8 +35,10 @@ export class Home extends EventEmitter {
 	private async _handleControllerEvent(
 		event: LayerEvent<Packet>
 	): Promise<void> {
-		if (event.packet.is(SwitchMultilevelV1.Report)) {
-			const level = event.packet.as(SwitchMultilevelV1.Report).data.value;
+		if (event.packet.is(SwitchMultilevelV1.SwitchMultilevelReport)) {
+			const level = event.packet.as(
+				SwitchMultilevelV1.SwitchMultilevelReport
+			).data.value;
 			console.log(
 				`-> received SWITCH_MULTILEVEL_REPORT, node=${
 					event.endpoint.nodeId
@@ -85,7 +87,7 @@ export class Home extends EventEmitter {
 			endpoint: { nodeId: HomeDevices.ZolderAfzuiging, channel: 1 },
 			packet: new Packet(
 				Buffer.from([
-					CommandClasses.COMMAND_CLASS_SWITCH_BINARY,
+					CommandClasses.SwitchBinary,
 					0x01 /* SET */,
 					level === 1 ? 0xff : 0x00,
 				])
@@ -102,7 +104,7 @@ export class Home extends EventEmitter {
 	}
 
 	async setKeukenAanrecht(level: number): Promise<void> {
-		const switchCmd = new SwitchMultilevelV1.Set({
+		const switchCmd = new SwitchMultilevelV1.SwitchMultilevelSet({
 			value: level < 100 ? level : 99,
 		});
 		await this.controller.send({
@@ -118,10 +120,10 @@ export class Home extends EventEmitter {
 		const reply = await this.controller.sendAndWaitFor(
 			{
 				endpoint: { channel: 1, nodeId: HomeDevices.KeukenAanrecht },
-				packet: new SwitchMultilevelV1.Get(),
+				packet: new SwitchMultilevelV1.SwitchMultilevelGet(),
 				secure: true,
 			},
-			(event) => event.packet.tryAs(SwitchMultilevelV1.Report)
+			(event) => event.packet.tryAs(SwitchMultilevelV1.SwitchMultilevelReport)
 		);
 		const level = reply.packet.data.value;
 		this._lastAanrecht = level;
@@ -143,14 +145,16 @@ export class Home extends EventEmitter {
 		}
 		await this.controller.send({
 			endpoint: { nodeId: node },
-			packet: new SwitchMultilevelV1.Set({ value: level }),
+			packet: new SwitchMultilevelV1.SwitchMultilevelSet({
+				value: level,
+			}),
 		});
 	}
 
 	async _setBasic(node: number, on: boolean): Promise<void> {
 		await this.controller.send({
 			endpoint: { nodeId: node },
-			packet: new BasicV1.Set({ value: on ? 0xff : 0x00 }),
+			packet: new BasicV1.BasicSet({ value: on ? 0xff : 0x00 }),
 		});
 	}
 }

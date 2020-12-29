@@ -41,7 +41,7 @@ export interface SecurityV1NonceReportData {
 export type SecurityV1NonceGetData = void;
 
 export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
-	static commandClass = CommandClasses.COMMAND_CLASS_SECURITY;
+	static commandClass = CommandClasses.Security;
 
 	static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

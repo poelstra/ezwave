@@ -24,7 +24,7 @@ export function parseCommandClasses(params: Buffer): CommandClassInfo {
 		const commandClassId = isSingleByteClass
 			? params[i]
 			: (params[i + 1] << 8) | params[i];
-		if (commandClassId === CommandClasses.COMMAND_CLASS_MARK) {
+		if (commandClassId === CommandClasses.Mark) {
 			if (seenMark) {
 				throw new Error(
 					"invalid list of command classes: multiple markers found"

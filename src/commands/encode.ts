@@ -5,8 +5,8 @@ export function encodeCommandAndPayload(
 	payload: object | void
 ): Buffer {
 	if (payload === undefined) {
-		return Buffer.from([commandDef.id]);
+		return Buffer.from([commandDef.command]);
 	} else {
-		return Buffer.from([commandDef.id, (payload as any).value]);
+		return Buffer.from([commandDef.command, (payload as any).value]);
 	}
 }

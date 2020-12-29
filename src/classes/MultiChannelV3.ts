@@ -27,7 +27,7 @@ export interface MultiChannelV3CmdEncapData {
 }
 
 export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
-	static commandClass = CommandClasses.COMMAND_CLASS_MULTI_CHANNEL;
+	static commandClass = CommandClasses.MultiChannel;
 
 	static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

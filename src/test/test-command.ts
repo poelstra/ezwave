@@ -1,11 +1,10 @@
 import { expect } from "chai";
-import { SwitchMultilevelV1 } from "../classes/SwitchMultilevelV1";
 import { Packet } from "../commands/packet";
-import CommandClasses from "../generated/CommandClasses";
+import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
 
 describe("command", () => {
 	it("can encode complete packet", () => {
-		const packet = new SwitchMultilevelV1.Set({
+		const packet = new SwitchMultilevelV1.SwitchMultilevelSet({
 			value: 0x30,
 		});
 		expect(packet.serialize()).to.deep.equal(Buffer.from("260130", "hex"));
@@ -14,14 +13,16 @@ describe("command", () => {
 	it("supports easy decoding from buffer", () => {
 		const buffer = Buffer.from("260130", "hex");
 		const packet = new Packet(buffer);
-		const data = packet.as(SwitchMultilevelV1.Set).data;
+		const data = packet.as(SwitchMultilevelV1.SwitchMultilevelSet).data;
 		expect(data).to.deep.equal({
 			value: 0x30,
 		});
 	});
 
 	it("supports easy creation of command from commandclass", () => {
-		const packet = new SwitchMultilevelV1.Set({ value: 0x30 });
+		const packet = new SwitchMultilevelV1.SwitchMultilevelSet({
+			value: 0x30,
+		});
 		expect(packet.data).to.deep.equal({ value: 0x30 });
 		expect(packet.serialize()).to.deep.equal(Buffer.from("260130", "hex"));
 	});
@@ -29,7 +30,7 @@ describe("command", () => {
 	it.skip("disallows invalid input when creating a command", () => {
 		expect(
 			() =>
-				new SwitchMultilevelV1.Set({
+				new SwitchMultilevelV1.SwitchMultilevelSet({
 					//@ts-expect-error
 					foo: 123,
 				})
@@ -38,7 +39,7 @@ describe("command", () => {
 
 	it("allows commands being used as a type", () => {
 		// The commands are defined as properties
-		const packet: SwitchMultilevelV1.Get = new SwitchMultilevelV1.Get();
+		const packet: SwitchMultilevelV1.SwitchMultilevelGet = new SwitchMultilevelV1.SwitchMultilevelGet();
 	});
 
 	it("can decode a command through commandclass", () => {
@@ -46,8 +47,12 @@ describe("command", () => {
 		const packet = new Packet(buffer);
 		const specificClass = packet.as(SwitchMultilevelV1);
 		expect(specificClass).to.be.instanceOf(SwitchMultilevelV1);
-		const specificCmd = specificClass.as(SwitchMultilevelV1.Set);
-		expect(specificCmd).to.be.instanceOf(SwitchMultilevelV1.Set);
+		const specificCmd = specificClass.as(
+			SwitchMultilevelV1.SwitchMultilevelSet
+		);
+		expect(specificCmd).to.be.instanceOf(
+			SwitchMultilevelV1.SwitchMultilevelSet
+		);
 		expect(specificCmd.commandAndPayload).to.deep.equal(
 			Buffer.from("0130", "hex")
 		);
@@ -57,8 +62,10 @@ describe("command", () => {
 	it("can decode a command directly", () => {
 		const buffer = Buffer.from("260130", "hex");
 		const packet = new Packet(buffer);
-		const specificCmd = packet.as(SwitchMultilevelV1.Set);
-		expect(specificCmd).to.be.instanceOf(SwitchMultilevelV1.Set);
+		const specificCmd = packet.as(SwitchMultilevelV1.SwitchMultilevelSet);
+		expect(specificCmd).to.be.instanceOf(
+			SwitchMultilevelV1.SwitchMultilevelSet
+		);
 		expect(specificCmd.commandAndPayload).to.deep.equal(
 			Buffer.from("0130", "hex")
 		);
@@ -68,8 +75,10 @@ describe("command", () => {
 	it("can decode a command without payload", () => {
 		const buffer = Buffer.from("2602", "hex");
 		const packet = new Packet(buffer);
-		const specificCmd = packet.as(SwitchMultilevelV1.Get);
-		expect(specificCmd).to.be.instanceOf(SwitchMultilevelV1.Get);
+		const specificCmd = packet.as(SwitchMultilevelV1.SwitchMultilevelGet);
+		expect(specificCmd).to.be.instanceOf(
+			SwitchMultilevelV1.SwitchMultilevelGet
+		);
 		expect(specificCmd.commandAndPayload).to.deep.equal(
 			Buffer.from("02", "hex")
 		);
@@ -77,8 +86,8 @@ describe("command", () => {
 	});
 
 	it("can encode a command without payload", () => {
-		const cmd1 = new SwitchMultilevelV1.Get();
-		const cmd2 = new SwitchMultilevelV1.Get(undefined);
+		const cmd1 = new SwitchMultilevelV1.SwitchMultilevelGet();
+		const cmd2 = new SwitchMultilevelV1.SwitchMultilevelGet(undefined);
 
 		const expected = Buffer.from("2602", "hex");
 		expect(cmd1.serialize()).to.deep.equal(expected);
@@ -88,8 +97,8 @@ describe("command", () => {
 	it("rejects decoding as incompatible command", () => {
 		const buffer = Buffer.from("260130", "hex");
 		const genericCmd = new Packet(buffer);
-		expect(() => genericCmd.as(SwitchMultilevelV1.Get)).to.throw(
-			"cannot convert"
-		);
+		expect(() =>
+			genericCmd.as(SwitchMultilevelV1.SwitchMultilevelGet)
+		).to.throw("cannot convert");
 	});
 });

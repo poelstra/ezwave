@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import { SecurityV1 } from "../classes/SecurityV1";
-import { SwitchMultilevelV1 } from "../classes/SwitchMultilevelV1";
 import {
 	Dispatch,
 	DispatchNext,
@@ -14,6 +13,7 @@ import {
 import { Packet } from "../commands/packet";
 import { Requester } from "../commands/requester";
 import { Stack } from "../commands/stack";
+import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
 import { DestinationType } from "../serialapi/serialapi";
 
 class FakeSecurityLayer implements Layer {
@@ -111,13 +111,15 @@ class DoSomethingLayer implements Layer {
 		send: Sender
 	): Promise<void> {
 		console.log("start doSomething", event);
-		if (event.packet.is(SwitchMultilevelV1.Set)) {
+		if (event.packet.is(SwitchMultilevelV1.SwitchMultilevelSet)) {
 			console.log("SWITCH");
-		} else if (event.packet.is(SwitchMultilevelV1.Get)) {
+		} else if (event.packet.is(SwitchMultilevelV1.SwitchMultilevelGet)) {
 			console.log("SWITCH GET");
 			await send.send({
 				endpoint: event.endpoint,
-				packet: new SwitchMultilevelV1.Report({ value: 80 }),
+				packet: new SwitchMultilevelV1.SwitchMultilevelReport({
+					value: 80,
+				}),
 				secure: true,
 			});
 		}
@@ -145,7 +147,7 @@ describe("layers", () => {
 	it("sends simple message", async () => {
 		const actualSends: Packet[] = [];
 		const expectedSends: Packet[] = [
-			new SwitchMultilevelV1.Set({ value: 20 }),
+			new SwitchMultilevelV1.SwitchMultilevelSet({ value: 20 }),
 		];
 		send = (command) => {
 			actualSends.push(command.packet);
@@ -155,7 +157,7 @@ describe("layers", () => {
 		};
 		await stack.send({
 			endpoint: { nodeId: 2 },
-			packet: new SwitchMultilevelV1.Set({ value: 20 }),
+			packet: new SwitchMultilevelV1.SwitchMultilevelSet({ value: 20 }),
 		});
 		expect(actualSends).to.deep.equal(expectedSends);
 	});
@@ -166,7 +168,7 @@ describe("layers", () => {
 			new SecurityV1.NonceGet(),
 			new SecurityV1.MessageEncapsulation({
 				initializationVector: Buffer.alloc(8, 0x44),
-				encryptedPayload: new SwitchMultilevelV1.Set({
+				encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelSet({
 					value: 20,
 				}).serialize(),
 				receiversNonceIdentifier: 0xaa,
@@ -191,7 +193,7 @@ describe("layers", () => {
 		};
 		await stack.send({
 			endpoint: { nodeId: 2 },
-			packet: new SwitchMultilevelV1.Set({ value: 20 }),
+			packet: new SwitchMultilevelV1.SwitchMultilevelSet({ value: 20 }),
 			secure: true,
 		});
 		expect(actualSends).to.deep.equal(expectedSends);
@@ -203,7 +205,7 @@ describe("layers", () => {
 			new SecurityV1.NonceGet(),
 			new SecurityV1.MessageEncapsulation({
 				initializationVector: Buffer.alloc(8, 0x44),
-				encryptedPayload: new SwitchMultilevelV1.Set({
+				encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelSet({
 					value: 20,
 				}).serialize(),
 				receiversNonceIdentifier: 0x88,
@@ -242,7 +244,7 @@ describe("layers", () => {
 		};
 		await stack.send({
 			endpoint: { nodeId: 2 },
-			packet: new SwitchMultilevelV1.Set({ value: 20 }),
+			packet: new SwitchMultilevelV1.SwitchMultilevelSet({ value: 20 }),
 			secure: true,
 			afterSend: () => afterSendCalled++,
 		});
@@ -254,8 +256,8 @@ describe("layers", () => {
 		// source event, final dispatches, sent packets
 		const tests: [Packet, Packet[], Packet[]][] = [
 			[
-				new SwitchMultilevelV1.Report({ value: 0 }),
-				[new SwitchMultilevelV1.Report({ value: 0 })],
+				new SwitchMultilevelV1.SwitchMultilevelReport({ value: 0 }),
+				[new SwitchMultilevelV1.SwitchMultilevelReport({ value: 0 })],
 				[],
 			],
 			[
@@ -266,15 +268,19 @@ describe("layers", () => {
 			[
 				new SecurityV1.MessageEncapsulation({
 					initializationVector: Buffer.alloc(8, 0x11),
-					encryptedPayload: new SwitchMultilevelV1.Set({
-						value: 99,
-					}).serialize(),
+					encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelSet(
+						{
+							value: 99,
+						}
+					).serialize(),
 					receiversNonceIdentifier: 0xaa,
 					messageAuthenticationCode: Buffer.alloc(8, 0x77),
 				}),
 				[
 					new Packet(
-						new SwitchMultilevelV1.Set({ value: 99 }).serialize()
+						new SwitchMultilevelV1.SwitchMultilevelSet({
+							value: 99,
+						}).serialize()
 					),
 				],
 				[],
@@ -282,18 +288,24 @@ describe("layers", () => {
 			[
 				new SecurityV1.MessageEncapsulation({
 					initializationVector: Buffer.alloc(8, 0x11),
-					encryptedPayload: new SwitchMultilevelV1.Get().serialize(),
+					encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelGet().serialize(),
 					receiversNonceIdentifier: 0x12,
 					messageAuthenticationCode: Buffer.alloc(8, 0x77),
 				}),
-				[new Packet(new SwitchMultilevelV1.Get().serialize())],
+				[
+					new Packet(
+						new SwitchMultilevelV1.SwitchMultilevelGet().serialize()
+					),
+				],
 				[
 					new SecurityV1.NonceGet(),
 					new SecurityV1.MessageEncapsulation({
 						initializationVector: Buffer.alloc(8, 0x44),
-						encryptedPayload: new SwitchMultilevelV1.Report({
-							value: 80,
-						}).serialize(),
+						encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelReport(
+							{
+								value: 80,
+							}
+						).serialize(),
 						receiversNonceIdentifier: 0xaa,
 						messageAuthenticationCode: Buffer.alloc(8, 0x66),
 					}),
