@@ -1,7 +1,7 @@
 import { Message } from "mhub";
-import { LayerEvent } from "../commands/layer";
 import { Packet } from "../commands/packet";
 import CommandClasses from "../generated/CommandClasses";
+import { LayerEvent } from "../layers/layer";
 import { Controller } from "./controller";
 import { Home } from "./home";
 import { Hub } from "./hub";

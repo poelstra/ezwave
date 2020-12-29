@@ -1,5 +1,8 @@
 import { randomBytes } from "crypto";
 import { SecurityV1 } from "../classes/SecurityV1";
+import { Packet } from "../commands/packet";
+import { bufferToString } from "../common/util";
+import { CryptoManager, NonceStore } from "../server/crypto";
 import {
 	DispatchNext,
 	Layer,
@@ -7,11 +10,8 @@ import {
 	LayerEvent,
 	Sender,
 	SendNext,
-} from "../commands/layer";
-import { Packet } from "../commands/packet";
-import { Requester } from "../commands/requester";
-import { bufferToString } from "../common/util";
-import { CryptoManager, NonceStore } from "../server/crypto";
+} from "./layer";
+import { Requester } from "./requester";
 
 export class SecurityS0Layer implements Layer {
 	private _requester = new Requester();

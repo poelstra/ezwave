@@ -1,5 +1,7 @@
 import { expect } from "chai";
 import { SecurityV1 } from "../classes/SecurityV1";
+import { Packet } from "../commands/packet";
+import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
 import {
 	Dispatch,
 	DispatchNext,
@@ -9,11 +11,9 @@ import {
 	Send,
 	Sender,
 	SendNext,
-} from "../commands/layer";
-import { Packet } from "../commands/packet";
-import { Requester } from "../commands/requester";
-import { Stack } from "../commands/stack";
-import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
+} from "../layers/layer";
+import { Requester } from "../layers/requester";
+import { Stack } from "../layers/stack";
 import { DestinationType } from "../serialapi/serialapi";
 
 class FakeSecurityLayer implements Layer {

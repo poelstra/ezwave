@@ -1,6 +1,6 @@
+import { Packet } from "../commands/packet";
 import { defer } from "../common/util";
 import { Endpoint, LayerCommand, LayerEvent, Send } from "./layer";
-import { Packet } from "./packet";
 
 export type Mapper<T extends Packet> = (
 	event: LayerEvent<Packet>

@@ -1,4 +1,5 @@
 import { MultiChannelV3 } from "../classes/MultiChannelV3";
+import { Packet } from "../commands/packet";
 import {
 	DispatchNext,
 	Layer,
@@ -6,9 +7,8 @@ import {
 	LayerEvent,
 	Sender,
 	SendNext,
-} from "../commands/layer";
-import { Packet } from "../commands/packet";
-import { Requester } from "../commands/requester";
+} from "./layer";
+import { Requester } from "./requester";
 
 export class MultiChannelLayer implements Layer {
 	private _requester = new Requester();

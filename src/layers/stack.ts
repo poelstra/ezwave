@@ -1,3 +1,4 @@
+import { Packet } from "../commands/packet";
 import {
 	Dispatch,
 	DispatchNext,
@@ -7,7 +8,6 @@ import {
 	Sender,
 	SendNext,
 } from "./layer";
-import { Packet } from "./packet";
 
 export class Stack {
 	private _layers: Layer[] = [];

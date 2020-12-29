@@ -1,9 +1,9 @@
 import { EventEmitter } from "events";
-import { LayerEvent } from "../commands/layer";
 import { Packet } from "../commands/packet";
 import { BasicV1 } from "../generated/BasicV1";
 import CommandClasses from "../generated/CommandClasses";
 import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
+import { LayerEvent } from "../layers/layer";
 import { Controller } from "./controller";
 
 export enum HomeDevices {
