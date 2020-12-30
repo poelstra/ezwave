@@ -1,4 +1,15 @@
-import * as types from "./types";
+import {
+	BitfieldElementType,
+	BitfieldParameter,
+	CommandDefinition,
+	EnumParameter,
+	IntegerParameter,
+	LocalParameterReference,
+	Parameter,
+	ParameterGroup,
+	ParameterReference,
+	ParameterType,
+} from "./types";
 
 /**
  * Error thrown when decoder encounters an error in the
@@ -28,7 +39,7 @@ export class DecodeUnexpectedEndOfPacketError extends DecodeDataError {
 }
 
 export function decodeCommandAndPayload<T extends object | void>(
-	commandDef: types.CommandDefinition,
+	commandDef: CommandDefinition,
 	commandAndPayload: Buffer
 ): T {
 	// Decode command
@@ -39,7 +50,8 @@ export function decodeCommandAndPayload<T extends object | void>(
 		);
 	}
 
-	// Determine payload start: if multi-byte, one byte more, if have command mask, one byte less
+	// Determine payload start: use command byte as data byte in case of
+	// commandMask being used.
 	let pos = commandDef.cmdMask !== undefined ? 0 : 1;
 	const result = Object.create(null);
 	for (const param of commandDef.params) {
@@ -49,11 +61,11 @@ export function decodeCommandAndPayload<T extends object | void>(
 }
 
 interface DecodedPacket {
-	[name: string]: any;
+	[name: string]: unknown;
 }
 
 function resolveReference(
-	ref: types.ParameterReference | types.LocalParameterReference,
+	ref: ParameterReference | LocalParameterReference,
 	currentContext: DecodedPacket,
 	parentContext?: DecodedPacket
 ): number | boolean {
@@ -68,28 +80,25 @@ function resolveReference(
 	const fieldName = ref.bitfield?.name ?? ref.name;
 	const fieldValue = ctx[fieldName];
 	if (fieldValue === undefined) {
-		throw new DecodeDefinitionError(
-			"optional field reference does not exist"
-		);
+		throw new DecodeDefinitionError("field reference does not exist");
 	}
-	const fieldType = typeof fieldValue;
-	if (fieldType !== "number" && fieldType !== "boolean") {
+	if (typeof fieldValue !== "number" && typeof fieldValue !== "boolean") {
 		throw new DecodeDefinitionError(
-			"wrong type for optional field reference, expected number or boolean"
+			"wrong type for field reference, expected number or boolean"
 		);
 	}
 	return fieldValue;
 }
 
 function resolveNumericReference(
-	ref: types.ParameterReference | types.LocalParameterReference,
+	ref: ParameterReference | LocalParameterReference,
 	currentContext: DecodedPacket,
 	parentContext?: DecodedPacket
 ): number {
 	const fieldValue = resolveReference(ref, currentContext, parentContext);
 	if (typeof fieldValue !== "number") {
 		throw new DecodeDefinitionError(
-			"wrong type for optional field reference, expected number"
+			"wrong type for field reference, expected number"
 		);
 	}
 	return fieldValue;
@@ -98,14 +107,18 @@ function resolveNumericReference(
 function decodeParam(
 	packet: Buffer,
 	pos: number,
-	param: types.Parameter | types.ParameterGroup,
+	param: Parameter | ParameterGroup,
 	result: DecodedPacket,
 	parent?: DecodedPacket
 ): number {
 	// Skip optional param if necessary
 	if (param.optional) {
-		const isOptional = !resolveReference(param.optional, result, parent);
-		if (isOptional) {
+		const isOptionalPresent = resolveReference(
+			param.optional,
+			result,
+			parent
+		);
+		if (!isOptionalPresent) {
 			return 0;
 		}
 	}
@@ -114,7 +127,7 @@ function decodeParam(
 	let length: number;
 	if (
 		param.length === "auto" ||
-		param.type === types.ParameterType.ParameterGroup
+		param.type === ParameterType.ParameterGroup
 	) {
 		length = packet.length - pos;
 	} else if (typeof param.length === "number") {
@@ -140,16 +153,16 @@ function decodeParam(
 	}
 
 	switch (param.type) {
-		case "integer":
+		case ParameterType.Integer:
 			return decodeInteger(param, slice, result);
 
-		case "enum":
+		case ParameterType.Enum:
 			return decodeEnum(param, slice, result);
 
-		case "group":
+		case ParameterType.ParameterGroup:
 			return decodeGroup(param, slice, result, parent);
 
-		case "bitfield":
+		case ParameterType.Bitfield:
 			return decodeBitfield(param, slice, result);
 
 		default:
@@ -160,7 +173,7 @@ function decodeParam(
 }
 
 function decodeInteger(
-	param: types.IntegerParameter,
+	param: IntegerParameter,
 	slice: Buffer,
 	result: DecodedPacket
 ): number {
@@ -178,7 +191,7 @@ function decodeInteger(
 }
 
 function decodeEnum(
-	param: types.EnumParameter,
+	param: EnumParameter,
 	slice: Buffer,
 	result: DecodedPacket
 ): number {
@@ -193,7 +206,7 @@ function decodeEnum(
 }
 
 function decodeGroup(
-	param: types.ParameterGroup,
+	param: ParameterGroup,
 	slice: Buffer,
 	result: DecodedPacket,
 	parent: DecodedPacket | undefined
@@ -270,7 +283,7 @@ function decodeGroup(
 }
 
 function decodeBitfield(
-	param: types.BitfieldParameter,
+	param: BitfieldParameter,
 	slice: Buffer,
 	result: DecodedPacket
 ): number {
@@ -286,7 +299,7 @@ function decodeBitfield(
 		}
 		const fieldValue = (value & field.mask) >> field.shift;
 		result[field.name] =
-			field.type === types.BitfieldElementType.Boolean
+			field.type === BitfieldElementType.Boolean
 				? !!fieldValue
 				: fieldValue;
 	}

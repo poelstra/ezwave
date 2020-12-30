@@ -1,3 +1,10 @@
+/**
+ * Tests for the CommandPacket and CommandClassPacket infrastructure.
+ *
+ * It does use an actual auto-generated command class for testing, but
+ * more explicit tests for these are in generate_commands.test.ts.
+ */
+
 import { expect } from "chai";
 import { Packet } from "./packet";
 import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
@@ -27,7 +34,7 @@ describe("command", () => {
 		expect(packet.serialize()).to.deep.equal(Buffer.from("260130", "hex"));
 	});
 
-	it.skip("disallows invalid input when creating a command", () => {
+	it("disallows invalid input when creating a command", () => {
 		expect(
 			() =>
 				new SwitchMultilevelV1.SwitchMultilevelSet({
@@ -40,6 +47,7 @@ describe("command", () => {
 	it("allows commands being used as a type", () => {
 		// The commands are defined as properties
 		const packet: SwitchMultilevelV1.SwitchMultilevelGet = new SwitchMultilevelV1.SwitchMultilevelGet();
+		void packet;
 	});
 
 	it("can decode a command through commandclass", () => {
