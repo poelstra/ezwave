@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { Packet } from "../commands/packet";
 import { BasicV1 } from "../generated/BasicV1";
-import CommandClasses from "../generated/CommandClasses";
+import { SwitchBinaryV1 } from "../generated/SwitchBinaryV1";
 import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
 import { LayerEvent } from "../layers/layer";
 import { Controller } from "./controller";
@@ -85,13 +85,9 @@ export class Home extends EventEmitter {
 	async setZolderAfzuiging(level: 0 | 1): Promise<void> {
 		await this.controller.send({
 			endpoint: { nodeId: HomeDevices.ZolderAfzuiging, channel: 1 },
-			packet: new Packet(
-				Buffer.from([
-					CommandClasses.SwitchBinary,
-					0x01 /* SET */,
-					level === 1 ? 0xff : 0x00,
-				])
-			),
+			packet: new SwitchBinaryV1.SwitchBinarySet({
+				switchValue: level === 1 ? 0xff : 0x00,
+			}),
 		});
 	}
 

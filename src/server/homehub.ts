@@ -1,6 +1,6 @@
 import { Message } from "mhub";
 import { Packet } from "../commands/packet";
-import CommandClasses from "../generated/CommandClasses";
+import { SceneActivationV1 } from "../generated/SceneActivationV1";
 import { LayerEvent } from "../layers/layer";
 import { Controller } from "./controller";
 import { Home } from "./home";
@@ -113,8 +113,9 @@ export class HomeHub {
 	}
 
 	async _handleSceneActivationSet(event: LayerEvent<Packet>): Promise<void> {
-		const scene = event.packet.commandAndPayload[1];
-		const duration = event.packet.commandAndPayload[2];
+		const decoded = event.packet.as(SceneActivationV1.SceneActivationSet);
+		const scene = decoded.data.sceneID;
+		const duration = decoded.data.dimmingDuration;
 		console.log(
 			`-> scene activation from=${event.endpoint.nodeId} scene=${scene} duration=${duration}`
 		);
@@ -135,18 +136,7 @@ export class HomeHub {
 	}
 
 	private async _handleEvent(event: LayerEvent<Packet>): Promise<void> {
-		if (
-			event.packet.is({
-				matches(packet) {
-					return (
-						packet.commandClass ===
-							CommandClasses.SceneActivation &&
-						packet.commandAndPayload[0] ===
-							0x1 /* SCENE_ACTIVATION_SET */
-					);
-				},
-			})
-		) {
+		if (event.packet.is(SceneActivationV1.SceneActivationSet)) {
 			await this._handleSceneActivationSet(event);
 		}
 	}
