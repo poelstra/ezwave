@@ -15,21 +15,24 @@ export enum RateTblConfigV1Commands {
 }
 
 export interface RateTblConfigV1RateTblRemoveData {
-	// TODO param properties1 type bitfield
+	rateParameterSetIDs: number; // properties1[5..0]
 	// TODO param rateParameterSetID type blob
 }
 
 export interface RateTblConfigV1RateTblSetData {
 	rateParameterSetID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	rateType: number; // properties1[6..5]
+	numberOfRateChar: number; // properties1[4..0]
 	// TODO param rateCharacter type blob
 	startHourLocalTime: number; // 1 byte unsigned integer
 	startMinuteLocalTime: number; // 1 byte unsigned integer
 	durationMinute: number; // 2 byte unsigned integer
-	// TODO param properties2 type bitfield
+	consumptionPrecision: number; // properties2[7..5]
+	consumptionScale: number; // properties2[4..0]
 	minConsumptionValue: number; // 4 byte unsigned integer
 	maxConsumptionValue: number; // 4 byte unsigned integer
-	// TODO param properties3 type bitfield
+	maxDemandPrecision: number; // properties3[7..5]
+	maxDemandScale: number; // properties3[4..0]
 	maxDemandValue: number; // 4 byte unsigned integer
 	dCPRateID: number; // 1 byte unsigned integer
 }
@@ -62,15 +65,16 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Rate Parameter Set IDs",
-							"mask": 63,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "rateParameterSetIDs",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -80,8 +84,11 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"help": "Rate Parameter Set ID",
 					"length": {
 						"name": "Properties1",
-						"mask": 63,
-						"shift": 0
+						"bitfield": {
+							"mask": 63,
+							"shift": 0,
+							"name": "rateParameterSetIDs"
+						}
 					}
 				}
 			]
@@ -118,22 +125,23 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Number of Rate Char",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Rate Type",
+							"name": "rateType",
 							"mask": 96,
 							"shift": 5
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "numberOfRateChar",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -143,8 +151,11 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"help": "Rate Character",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "numberOfRateChar"
+						}
 					}
 				},
 				{
@@ -173,15 +184,15 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Consumption Scale",
-							"mask": 31,
-							"shift": 0
+							"name": "consumptionPrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Consumption Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "consumptionScale",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -205,15 +216,15 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Max Demand Scale",
-							"mask": 31,
-							"shift": 0
+							"name": "maxDemandPrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Max Demand Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "maxDemandScale",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},

@@ -18,15 +18,36 @@ export enum ThermostatFanModeV4Commands {
 }
 
 export interface ThermostatFanModeV4ThermostatFanModeReportData {
-	// TODO param properties1 type bitfield
+	off: boolean; // properties1[7]
+	fanMode: FanModeEnum; // properties1[3..0]
 }
 
 export interface ThermostatFanModeV4ThermostatFanModeSetData {
-	// TODO param properties1 type bitfield
+	off: boolean; // properties1[7]
+	fanMode: FanModeEnum; // properties1[3..0]
 }
 
 export interface ThermostatFanModeV4ThermostatFanModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum FanModeEnum {
+	AutoLow = 0x0,
+	Low = 0x1,
+	AutoHigh = 0x2,
+	High = 0x3,
+	AutoMedium = 0x4,
+	Medium = 0x5,
+	Circulation = 0x6,
+	Humidity = 0x7,
+	LeftRight = 0x8,
+	UpDown = 0x9,
+	Quiet = 0xa,
+	ReservedB = 0xb,
+	ReservedC = 0xc,
+	ReservedD = 0xd,
+	ReservedE = 0xe,
+	ReservedF = 0xf,
 }
 
 export class ThermostatFanModeV4 extends CommandClassPacket<ThermostatFanModeV4Commands> {
@@ -76,40 +97,89 @@ export class ThermostatFanModeV4 extends CommandClassPacket<ThermostatFanModeV4C
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Fan Mode",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High",
-								"4": "Auto Medium",
-								"5": "Medium",
-								"6": "Circulation",
-								"7": "Humidity",
-								"8": "Left Right",
-								"9": "Up Down",
-								"10": "Quiet",
-								"11": "ReservedB",
-								"12": "ReservedC",
-								"13": "ReservedD",
-								"14": "ReservedE",
-								"15": "ReservedF"
-							}
+							"type": "boolean",
+							"name": "off",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
+							"name": "reserved",
 							"mask": 112,
-							"shift": 4
+							"shift": 4,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Off",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "fanMode",
+							"mask": 15,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								},
+								"4": {
+									"name": "AutoMedium",
+									"help": "Auto Medium"
+								},
+								"5": {
+									"name": "Medium",
+									"help": "Medium"
+								},
+								"6": {
+									"name": "Circulation",
+									"help": "Circulation"
+								},
+								"7": {
+									"name": "Humidity",
+									"help": "Humidity"
+								},
+								"8": {
+									"name": "LeftRight",
+									"help": "Left Right"
+								},
+								"9": {
+									"name": "UpDown",
+									"help": "Up Down"
+								},
+								"10": {
+									"name": "Quiet",
+									"help": "Quiet"
+								},
+								"11": {
+									"name": "ReservedB",
+									"help": "ReservedB"
+								},
+								"12": {
+									"name": "ReservedC",
+									"help": "ReservedC"
+								},
+								"13": {
+									"name": "ReservedD",
+									"help": "ReservedD"
+								},
+								"14": {
+									"name": "ReservedE",
+									"help": "ReservedE"
+								},
+								"15": {
+									"name": "ReservedF",
+									"help": "ReservedF"
+								}
+							}
 						}
 					]
 				}
@@ -141,40 +211,89 @@ export class ThermostatFanModeV4 extends CommandClassPacket<ThermostatFanModeV4C
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Fan Mode",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High",
-								"4": "Auto Medium",
-								"5": "Medium",
-								"6": "Circulation",
-								"7": "Humidity",
-								"8": "Left Right",
-								"9": "Up Down",
-								"10": "Quiet",
-								"11": "ReservedB",
-								"12": "ReservedC",
-								"13": "ReservedD",
-								"14": "ReservedE",
-								"15": "ReservedF"
-							}
+							"type": "boolean",
+							"name": "off",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
+							"name": "reserved",
 							"mask": 112,
-							"shift": 4
+							"shift": 4,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Off",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "fanMode",
+							"mask": 15,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								},
+								"4": {
+									"name": "AutoMedium",
+									"help": "Auto Medium"
+								},
+								"5": {
+									"name": "Medium",
+									"help": "Medium"
+								},
+								"6": {
+									"name": "Circulation",
+									"help": "Circulation"
+								},
+								"7": {
+									"name": "Humidity",
+									"help": "Humidity"
+								},
+								"8": {
+									"name": "LeftRight",
+									"help": "Left Right"
+								},
+								"9": {
+									"name": "UpDown",
+									"help": "Up Down"
+								},
+								"10": {
+									"name": "Quiet",
+									"help": "Quiet"
+								},
+								"11": {
+									"name": "ReservedB",
+									"help": "ReservedB"
+								},
+								"12": {
+									"name": "ReservedC",
+									"help": "ReservedC"
+								},
+								"13": {
+									"name": "ReservedD",
+									"help": "ReservedD"
+								},
+								"14": {
+									"name": "ReservedE",
+									"help": "ReservedE"
+								},
+								"15": {
+									"name": "ReservedF",
+									"help": "ReservedF"
+								}
+							}
 						}
 					]
 				}

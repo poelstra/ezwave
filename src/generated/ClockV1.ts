@@ -16,12 +16,14 @@ export enum ClockV1Commands {
 }
 
 export interface ClockV1ClockReportData {
-	// TODO param level type bitfield
+	weekday: number; // level[7..5]
+	hour: number; // level[4..0]
 	minute: number; // 1 byte unsigned integer
 }
 
 export interface ClockV1ClockSetData {
-	// TODO param level type bitfield
+	weekday: number; // level[7..5]
+	hour: number; // level[4..0]
 	minute: number; // 1 byte unsigned integer
 }
 
@@ -73,15 +75,15 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Hour",
-							"mask": 31,
-							"shift": 0
+							"name": "weekday",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Weekday",
-							"mask": 224,
-							"shift": 5
+							"name": "hour",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -120,15 +122,15 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Hour",
-							"mask": 31,
-							"shift": 0
+							"name": "weekday",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Weekday",
-							"mask": 224,
-							"shift": 5
+							"name": "hour",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},

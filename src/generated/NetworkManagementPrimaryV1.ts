@@ -16,19 +16,19 @@ export enum NetworkManagementPrimaryV1Commands {
 
 export interface NetworkManagementPrimaryV1ControllerChangeData {
 	seqNo: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	mode: number; // 1 byte unsigned integer
-	txOptions: number; // 0 byte unsigned integer
+	// TODO param txOptions type bitmask or marker
 }
 
 export interface NetworkManagementPrimaryV1ControllerChangeStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	newNodeID: number; // 1 byte unsigned integer
 	nodeInfoLength: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	listening: boolean; // properties1[7]
+	zWaveProtocolSpecificPart1: number; // properties1[6..0]
+	opt: boolean; // properties2[7]
+	zWaveProtocolSpecificPart2: number; // properties2[6..0]
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
@@ -65,7 +65,8 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -73,8 +74,14 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"2": "CONTROLLER_CHANGE_START",
-						"5": "CONTROLLER_CHANGE_STOP"
+						"2": {
+							"name": "ControllerChangeStart",
+							"help": "CONTROLLER_CHANGE_START"
+						},
+						"5": {
+							"name": "ControllerChangeStop",
+							"help": "CONTROLLER_CHANGE_STOP"
+						}
 					}
 				},
 				{
@@ -116,16 +123,26 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"6": "NODE_ADD_STATUS_DONE",
-						"7": "NODE_ADD_STATUS_FAILED",
-						"9": "NODE_ADD_STATUS_SECURITY_FAILED"
+						"6": {
+							"name": "NodeAddStatusDone",
+							"help": "NODE_ADD_STATUS_DONE"
+						},
+						"7": {
+							"name": "NodeAddStatusFailed",
+							"help": "NODE_ADD_STATUS_FAILED"
+						},
+						"9": {
+							"name": "NodeAddStatusSecurityFailed",
+							"help": "NODE_ADD_STATUS_SECURITY_FAILED"
+						}
 					}
 				},
 				{
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -147,16 +164,16 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Listening",
+							"name": "listening",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -167,16 +184,16 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 2",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Opt",
+							"name": "opt",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart2",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},

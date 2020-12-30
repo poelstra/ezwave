@@ -19,22 +19,22 @@ export enum NodeNamingV1Commands {
 }
 
 export interface NodeNamingV1NodeNamingNodeLocationReportData {
-	// TODO param level type bitfield
+	charPresentation: number; // level[2..0]
 	// TODO param nodeLocationChar type text
 }
 
 export interface NodeNamingV1NodeNamingNodeLocationSetData {
-	// TODO param level type bitfield
+	charPresentation: number; // level[2..0]
 	// TODO param nodeLocationChar type text
 }
 
 export interface NodeNamingV1NodeNamingNodeNameReportData {
-	// TODO param level type bitfield
+	charPresentation: number; // level[2..0]
 	// TODO param nodeNameChar type text
 }
 
 export interface NodeNamingV1NodeNamingNodeNameSetData {
-	// TODO param level type bitfield
+	charPresentation: number; // level[2..0]
 	// TODO param nodeNameChar type text
 }
 
@@ -66,15 +66,16 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -113,15 +114,16 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -200,15 +202,16 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -247,15 +250,16 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},

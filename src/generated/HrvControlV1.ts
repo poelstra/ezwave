@@ -32,16 +32,16 @@ export interface HrvControlV1HrvControlBypassSetData {
 }
 
 export interface HrvControlV1HrvControlModeReportData {
-	// TODO param properties1 type bitfield
+	mode: ModeEnum; // properties1[4..0]
 }
 
 export interface HrvControlV1HrvControlModeSetData {
-	// TODO param properties1 type bitfield
+	mode: ModeEnum; // properties1[4..0]
 }
 
 export interface HrvControlV1HrvControlModeSupportedReportData {
-	// TODO param properties1 type bitfield
-	bitMask: number; // 0 byte unsigned integer
+	manualControlSupported: ManualControlSupportedEnum; // properties1[3..0]
+	// TODO param bitMask type bitmask or marker
 }
 
 export interface HrvControlV1HrvControlVentilationRateReportData {
@@ -50,6 +50,21 @@ export interface HrvControlV1HrvControlVentilationRateReportData {
 
 export interface HrvControlV1HrvControlVentilationRateSetData {
 	ventilationRate: number; // 1 byte unsigned integer
+}
+
+export enum ModeEnum {
+	Off = 0x0,
+	DemandAutomatic = 0x1,
+	Schedule = 0x2,
+	EnergySavingsMode = 0x3,
+	Manual = 0x4,
+}
+
+export enum ManualControlSupportedEnum {
+	BypassOpenClose = 0x0,
+	BypassAuto = 0x1,
+	ModulatedBypass = 0x2,
+	VentilationRate = 0x3,
 }
 
 export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
@@ -173,23 +188,39 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Demand Automatic",
-								"2": "Schedule",
-								"3": "Energy Savings Mode",
-								"4": "Manual"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "DemandAutomatic",
+									"help": "Demand Automatic"
+								},
+								"2": {
+									"name": "Schedule",
+									"help": "Schedule"
+								},
+								"3": {
+									"name": "EnergySavingsMode",
+									"help": "Energy Savings Mode"
+								},
+								"4": {
+									"name": "Manual",
+									"help": "Manual"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				}
@@ -221,23 +252,39 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Demand Automatic",
-								"2": "Schedule",
-								"3": "Energy Savings Mode",
-								"4": "Manual"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "DemandAutomatic",
+									"help": "Demand Automatic"
+								},
+								"2": {
+									"name": "Schedule",
+									"help": "Schedule"
+								},
+								"3": {
+									"name": "EnergySavingsMode",
+									"help": "Energy Savings Mode"
+								},
+								"4": {
+									"name": "Manual",
+									"help": "Manual"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				}
@@ -289,22 +336,35 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Manual Control Supported",
+							"name": "manualControlSupported",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Bypass Open Close",
-								"1": "Bypass Auto",
-								"2": "Modulated Bypass",
-								"3": "Ventilation Rate"
+								"0": {
+									"name": "BypassOpenClose",
+									"help": "Bypass Open Close"
+								},
+								"1": {
+									"name": "BypassAuto",
+									"help": "Bypass Auto"
+								},
+								"2": {
+									"name": "ModulatedBypass",
+									"help": "Modulated Bypass"
+								},
+								"3": {
+									"name": "VentilationRate",
+									"help": "Ventilation Rate"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				},

@@ -21,7 +21,7 @@ export interface CentralSceneV1CentralSceneSupportedReportData {
 
 export interface CentralSceneV1CentralSceneNotificationData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	keyAttributes: number; // properties1[2..0]
 	sceneNumber: number; // 1 byte unsigned integer
 }
 
@@ -106,15 +106,16 @@ export class CentralSceneV1 extends CommandClassPacket<CentralSceneV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Key Attributes",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "keyAttributes",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},

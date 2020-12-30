@@ -25,7 +25,8 @@ export interface AssociationCommandConfigurationV1CommandConfigurationGetData {
 export interface AssociationCommandConfigurationV1CommandConfigurationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	first: boolean; // properties1[7]
+	reportsToFollow: number; // properties1[3..0]
 	commandLength: number; // 1 byte unsigned integer
 	commandClassIdentifier: number; // 1 byte unsigned integer
 	commandIdentifier: number; // 1 byte unsigned integer
@@ -42,7 +43,9 @@ export interface AssociationCommandConfigurationV1CommandConfigurationSetData {
 }
 
 export interface AssociationCommandConfigurationV1CommandRecordsSupportedReportData {
-	// TODO param properties1 type bitfield
+	maxCommandLength: number; // properties1[7..2]
+	vC: boolean; // properties1[1]
+	confCmd: boolean; // properties1[0]
 	freeCommandRecords: number; // 2 byte unsigned integer
 	maxCommandRecords: number; // 2 byte unsigned integer
 }
@@ -121,22 +124,23 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reports to follow",
-							"mask": 15,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 112,
-							"shift": 4
-						},
-						{
 							"type": "boolean",
-							"name": "First",
+							"name": "first",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "reportsToFollow",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -276,22 +280,22 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Conf. Cmd",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "maxCommandLength",
+							"mask": 252,
+							"shift": 2
 						},
 						{
 							"type": "boolean",
-							"name": "V/C",
+							"name": "vC",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Max command length",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "confCmd",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},

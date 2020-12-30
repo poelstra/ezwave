@@ -20,8 +20,17 @@ export interface EnergyProductionV1EnergyProductionGetData {
 
 export interface EnergyProductionV1EnergyProductionReportData {
 	parameterNumber: ParameterNumberEnum; // 1 byte enum value
-	// TODO param level type bitfield
+	precision: number; // level[7..5]
+	scale: number; // level[4..3]
+	size: number; // level[2..0]
 	// TODO param value type blob
+}
+
+export enum ParameterNumberEnum {
+	InstantEnergyProduction = 0x0,
+	TotalEnergyProduction = 0x1,
+	EnergyProductionToday = 0x2,
+	TotalProductionTime = 0x3,
 }
 
 export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Commands> {
@@ -50,10 +59,22 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					"help": "Parameter Number",
 					"length": 1,
 					"values": {
-						"0": "Instant energy production",
-						"1": "Total energy production",
-						"2": "Energy production today",
-						"3": "Total production time"
+						"0": {
+							"name": "InstantEnergyProduction",
+							"help": "Instant energy production"
+						},
+						"1": {
+							"name": "TotalEnergyProduction",
+							"help": "Total energy production"
+						},
+						"2": {
+							"name": "EnergyProductionToday",
+							"help": "Energy production today"
+						},
+						"3": {
+							"name": "TotalProductionTime",
+							"help": "Total production time"
+						}
 					}
 				}
 			]
@@ -83,10 +104,22 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					"help": "Parameter Number",
 					"length": 1,
 					"values": {
-						"0": "Instant energy production",
-						"1": "Total energy production",
-						"2": "Energy production today",
-						"3": "Total production time"
+						"0": {
+							"name": "InstantEnergyProduction",
+							"help": "Instant energy production"
+						},
+						"1": {
+							"name": "TotalEnergyProduction",
+							"help": "Total energy production"
+						},
+						"2": {
+							"name": "EnergyProductionToday",
+							"help": "Energy production today"
+						},
+						"3": {
+							"name": "TotalProductionTime",
+							"help": "Total production time"
+						}
 					}
 				},
 				{
@@ -97,21 +130,21 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -121,8 +154,11 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					"help": "Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -141,11 +177,4 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 export namespace EnergyProductionV1 {
 	export type EnergyProductionGet = InstanceType<typeof EnergyProductionV1.EnergyProductionGet>;
 	export type EnergyProductionReport = InstanceType<typeof EnergyProductionV1.EnergyProductionReport>;
-}
-
-export enum ParameterNumberEnum {
-	InstantEnergyProduction = 0x0,
-	TotalEnergyProduction = 0x1,
-	EnergyProductionToday = 0x2,
-	TotalProductionTime = 0x3,
 }

@@ -15,7 +15,13 @@ export enum HumidityControlOperatingStateV1Commands {
 }
 
 export interface HumidityControlOperatingStateV1HumidityControlOperatingStateReportData {
-	// TODO param properties1 type bitfield
+	operatingState: OperatingStateEnum; // properties1[3..0]
+}
+
+export enum OperatingStateEnum {
+	Idle = 0x0,
+	Humidifying = 0x1,
+	Dehumidifying = 0x2,
 }
 
 export class HumidityControlOperatingStateV1 extends CommandClassPacket<HumidityControlOperatingStateV1Commands> {
@@ -65,21 +71,31 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Operating State",
+							"name": "operatingState",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Idle",
-								"1": "Humidifying",
-								"2": "Dehumidifying"
+								"0": {
+									"name": "Idle",
+									"help": "Idle"
+								},
+								"1": {
+									"name": "Humidifying",
+									"help": "Humidifying"
+								},
+								"2": {
+									"name": "Dehumidifying",
+									"help": "Dehumidifying"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}

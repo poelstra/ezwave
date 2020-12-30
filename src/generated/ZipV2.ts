@@ -14,11 +14,20 @@ export enum ZipV2Commands {
 }
 
 export interface ZipV2CommandZipPacketData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	ackRequest: boolean; // properties1[7]
+	ackResponse: boolean; // properties1[6]
+	nAckResponse: boolean; // properties1[5]
+	nAckWaiting: boolean; // properties1[4]
+	nAckQueueFull: boolean; // properties1[3]
+	nAckOptionError: boolean; // properties1[2]
+	headerExtIncluded: boolean; // properties2[7]
+	zWaveCmdIncluded: boolean; // properties2[6]
+	moreInformation: boolean; // properties2[5]
+	secureOrigin: boolean; // properties2[4]
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties3 type bitfield
-	// TODO param properties4 type bitfield
+	sourceEndPoint: number; // properties3[6..0]
+	bitAddress: boolean; // properties4[7]
+	destinationEndPoint: number; // properties4[6..0]
 	headerLength?: number; // 1 byte unsigned integer
 	// TODO param headerExtension type blob
 	// TODO param zWaveCommand type blob
@@ -52,45 +61,46 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Ack Request",
+							"name": "ackRequest",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "NAck - Option Error",
-							"mask": 4,
-							"shift": 2
+							"name": "ackResponse",
+							"mask": 64,
+							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "NAck - Queue Full",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"type": "boolean",
-							"name": "NAck - Waiting",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"type": "boolean",
-							"name": "NAck Response",
+							"name": "nAckResponse",
 							"mask": 32,
 							"shift": 5
 						},
 						{
 							"type": "boolean",
-							"name": "Ack Response",
-							"mask": 64,
-							"shift": 6
+							"name": "nAckWaiting",
+							"mask": 16,
+							"shift": 4
+						},
+						{
+							"type": "boolean",
+							"name": "nAckQueueFull",
+							"mask": 8,
+							"shift": 3
+						},
+						{
+							"type": "boolean",
+							"name": "nAckOptionError",
+							"mask": 4,
+							"shift": 2
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
+							"name": "reserved1",
 							"mask": 3,
-							"shift": 0
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -101,34 +111,35 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved2",
-							"mask": 15,
-							"shift": 0
+							"type": "boolean",
+							"name": "headerExtIncluded",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Secure Origin",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"type": "boolean",
-							"name": "More Information",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "Z-Wave Cmd Included",
+							"name": "zWaveCmdIncluded",
 							"mask": 64,
 							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "Header ext. included",
-							"mask": 128,
-							"shift": 7
+							"name": "moreInformation",
+							"mask": 32,
+							"shift": 5
+						},
+						{
+							"type": "boolean",
+							"name": "secureOrigin",
+							"mask": 16,
+							"shift": 4
+						},
+						{
+							"type": "integer",
+							"name": "reserved2",
+							"mask": 15,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -145,16 +156,17 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Source End Point",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved3",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved3",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "sourceEndPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -165,16 +177,16 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Destination End Point",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Bit Address",
+							"name": "bitAddress",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "destinationEndPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -184,7 +196,11 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"help": "Header Length",
 					"optional": {
 						"name": "Properties2",
-						"mask": 128
+						"bitfield": {
+							"mask": 128,
+							"shift": 7,
+							"name": "headerExtIncluded"
+						}
 					},
 					"length": 1
 				},
@@ -194,12 +210,14 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"help": "Header extension",
 					"optional": {
 						"name": "Properties2",
-						"mask": 128
+						"bitfield": {
+							"mask": 128,
+							"shift": 7,
+							"name": "headerExtIncluded"
+						}
 					},
 					"length": {
-						"name": "Header Length",
-						"mask": 255,
-						"shift": 0
+						"name": "Header Length"
 					},
 					"includeBytesBefore": 1
 				},
@@ -209,7 +227,11 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"help": "Z-Wave command",
 					"optional": {
 						"name": "Properties2",
-						"mask": 64
+						"bitfield": {
+							"mask": 64,
+							"shift": 6,
+							"name": "zWaveCmdIncluded"
+						}
 					},
 					"length": "auto"
 				}

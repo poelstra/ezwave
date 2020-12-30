@@ -17,23 +17,30 @@ export enum PrepaymentV1Commands {
 }
 
 export interface PrepaymentV1PrepaymentBalanceGetData {
-	// TODO param properties1 type bitfield
+	balanceType: BalanceTypeEnum; // properties1[7..6]
 }
 
 export interface PrepaymentV1PrepaymentBalanceReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	balanceType: number; // properties1[7..6]
+	meterType: number; // properties1[5..0]
+	balancePrecision: number; // properties2[7..5]
+	scale: number; // properties2[4..0]
 	balanceValue: number; // 4 byte unsigned integer
-	// TODO param properties3 type bitfield
+	debtPrecision: number; // properties3[7..5]
 	debt: number; // 4 byte unsigned integer
-	// TODO param properties4 type bitfield
+	emerCreditPrecision: number; // properties4[7..5]
 	emerCredit: number; // 4 byte unsigned integer
 	currency: number; // 3 byte unsigned integer
 	debtRecoveryPercentage: number; // 1 byte unsigned integer
 }
 
 export interface PrepaymentV1PrepaymentSupportedReportData {
-	// TODO param properties1 type bitfield
+	typesSupported: number; // properties1[3..0]
+}
+
+export enum BalanceTypeEnum {
+	Utility = 0x0,
+	Monetary = 0x1,
 }
 
 export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
@@ -63,20 +70,27 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 63,
-							"shift": 0
-						},
-						{
 							"type": "enum",
-							"name": "Balance Type",
+							"name": "balanceType",
 							"mask": 192,
 							"shift": 6,
 							"values": {
-								"0": "Utility",
-								"1": "Monetary"
+								"0": {
+									"name": "Utility",
+									"help": "Utility"
+								},
+								"1": {
+									"name": "Monetary",
+									"help": "Monetary"
+								}
 							}
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 63,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}
@@ -109,15 +123,15 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Meter type",
-							"mask": 63,
-							"shift": 0
+							"name": "balanceType",
+							"mask": 192,
+							"shift": 6
 						},
 						{
 							"type": "integer",
-							"name": "Balance Type",
-							"mask": 192,
-							"shift": 6
+							"name": "meterType",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -129,15 +143,15 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Scale",
-							"mask": 31,
-							"shift": 0
+							"name": "balancePrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Balance Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "scale",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -155,15 +169,16 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 31,
-							"shift": 0
+							"name": "debtPrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Debt Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "reserved1",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -181,15 +196,16 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 31,
-							"shift": 0
+							"name": "emerCreditPrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Emer Credit Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "reserved2",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -260,15 +276,16 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Types Supported",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "typesSupported",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				}

@@ -15,17 +15,18 @@ export enum TransportServiceV1Commands {
 }
 
 export interface TransportServiceV1CommandFirstFragmentData {
-	// TODO param properties1 type bitfield
+	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
-	// TODO param properties2 type bitfield
+	sequenceNo: number; // properties2[3..0]
 	// TODO param payload type blob
 	checksum: number; // 2 byte unsigned integer
 }
 
 export interface TransportServiceV1CommandSubsequentFragmentData {
-	// TODO param properties1 type bitfield
+	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
-	// TODO param properties2 type bitfield
+	sequenceNo: number; // properties2[6..3]
+	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
 	// TODO param payload type blob
 	checksum: number; // 2 byte unsigned integer
@@ -61,7 +62,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "datagram_size_1",
+							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
 						}
@@ -82,15 +83,16 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Sequence No",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "sequenceNo",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -136,7 +138,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "datagram_size_1",
+							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
 						}
@@ -156,22 +158,23 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "datagram_offset_1",
-							"mask": 7,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Sequence No",
+							"name": "sequenceNo",
 							"mask": 120,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "datagramOffset1",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},

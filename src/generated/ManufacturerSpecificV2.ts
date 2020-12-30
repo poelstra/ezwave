@@ -23,13 +23,24 @@ export interface ManufacturerSpecificV2ManufacturerSpecificReportData {
 }
 
 export interface ManufacturerSpecificV2DeviceSpecificGetData {
-	// TODO param properties1 type bitfield
+	deviceIDType: DeviceIDTypeEnum; // properties1[2..0]
 }
 
 export interface ManufacturerSpecificV2DeviceSpecificReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	deviceIDType: DeviceIDTypeEnum; // properties1[2..0]
+	deviceIDDataFormat: DeviceIDDataFormatEnum; // properties2[7..5]
+	deviceIDDataLengthIndicator: number; // properties2[4..0]
 	// TODO param deviceIDData type blob
+}
+
+export enum DeviceIDTypeEnum {
+	Reserved = 0x0,
+	SerialNumber = 0x1,
+}
+
+export enum DeviceIDDataFormatEnum {
+	Reserved = 0x0,
+	Binary = 0x1,
 }
 
 export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpecificV2Commands> {
@@ -118,20 +129,27 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Device ID Type",
+							"name": "deviceIDType",
 							"mask": 7,
 							"shift": 0,
 							"values": {
-								"0": "Reserved",
-								"1": "Serial Number"
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "SerialNumber",
+									"help": "Serial Number"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
 						}
 					]
 				}
@@ -163,20 +181,27 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Device ID Type",
+							"name": "deviceIDType",
 							"mask": 7,
 							"shift": 0,
 							"values": {
-								"0": "Reserved",
-								"1": "Serial Number"
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "SerialNumber",
+									"help": "Serial Number"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
 						}
 					]
 				},
@@ -187,20 +212,26 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Device ID Data Length Indicator",
-							"mask": 31,
-							"shift": 0
-						},
-						{
 							"type": "enum",
-							"name": "Device ID Data Format",
+							"name": "deviceIDDataFormat",
 							"mask": 224,
 							"shift": 5,
 							"values": {
-								"0": "Reserved",
-								"1": "Binary"
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "Binary",
+									"help": "Binary"
+								}
 							}
+						},
+						{
+							"type": "integer",
+							"name": "deviceIDDataLengthIndicator",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -210,8 +241,11 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"help": "Device ID Data",
 					"length": {
 						"name": "Properties2",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "deviceIDDataLengthIndicator"
+						}
 					}
 				}
 			]

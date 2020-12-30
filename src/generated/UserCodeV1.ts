@@ -37,6 +37,13 @@ export interface UserCodeV1UsersNumberReportData {
 	supportedUsers: number; // 1 byte unsigned integer
 }
 
+export enum UserIDStatusEnum {
+	AvailableNotSet = 0x0,
+	Occupied = 0x1,
+	ReservedByAdministrator = 0x2,
+	StatusNotAvailable = 0xfe,
+}
+
 export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 	public static readonly commandClass = CommandClasses.UserCode; // 0x63 (99)
 
@@ -96,10 +103,22 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 					"help": "User ID Status",
 					"length": 1,
 					"values": {
-						"0": "Available (not set)",
-						"1": "Occupied",
-						"2": "Reserved by administrator",
-						"254": "Status not available"
+						"0": {
+							"name": "AvailableNotSet",
+							"help": "Available (not set)"
+						},
+						"1": {
+							"name": "Occupied",
+							"help": "Occupied"
+						},
+						"2": {
+							"name": "ReservedByAdministrator",
+							"help": "Reserved by administrator"
+						},
+						"254": {
+							"name": "StatusNotAvailable",
+							"help": "Status not available"
+						}
 					}
 				},
 				{
@@ -141,10 +160,22 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 					"help": "User ID Status",
 					"length": 1,
 					"values": {
-						"0": "Available (not set)",
-						"1": "Occupied",
-						"2": "Reserved by administrator",
-						"254": "Status not available"
+						"0": {
+							"name": "AvailableNotSet",
+							"help": "Available (not set)"
+						},
+						"1": {
+							"name": "Occupied",
+							"help": "Occupied"
+						},
+						"2": {
+							"name": "ReservedByAdministrator",
+							"help": "Reserved by administrator"
+						},
+						"254": {
+							"name": "StatusNotAvailable",
+							"help": "Status not available"
+						}
 					}
 				},
 				{
@@ -219,11 +250,4 @@ export namespace UserCodeV1 {
 	export type UserCodeSet = InstanceType<typeof UserCodeV1.UserCodeSet>;
 	export type UsersNumberGet = InstanceType<typeof UserCodeV1.UsersNumberGet>;
 	export type UsersNumberReport = InstanceType<typeof UserCodeV1.UsersNumberReport>;
-}
-
-export enum UserIDStatusEnum {
-	AvailableNotSet = 0x0,
-	Occupied = 0x1,
-	ReservedByAdministrator = 0x2,
-	StatusNotAvailable = 0xfe,
 }

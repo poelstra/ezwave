@@ -18,13 +18,18 @@ export enum MeterV5Commands {
 }
 
 export interface MeterV5MeterGetData {
-	// TODO param properties1 type bitfield
+	rateType: RateTypeEnum; // properties1[7..6]
+	scale: number; // properties1[5..3]
 	scale2: number; // 1 byte unsigned integer
 }
 
 export interface MeterV5MeterReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	scaleBit2: boolean; // properties1[7]
+	rateType: RateTypeEnum; // properties1[6..5]
+	meterType: MeterTypeEnum; // properties1[4..0]
+	precision: number; // properties2[7..5]
+	scaleBits10: number; // properties2[4..3]
+	size: number; // properties2[2..0]
 	// TODO param meterValue type blob
 	deltaTime: number; // 2 byte unsigned integer
 	// TODO param previousMeterValue type blob
@@ -32,10 +37,36 @@ export interface MeterV5MeterReportData {
 }
 
 export interface MeterV5MeterSupportedReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	meterReset: boolean; // properties1[7]
+	rateType: RateType2Enum; // properties1[6..5]
+	meterType: MeterTypeEnum; // properties1[4..0]
+	mST: boolean; // properties2[7]
+	scaleSupported0: number; // properties2[6..0]
 	numberOfScaleSupportedBytesToFollow: number; // 1 byte unsigned integer
 	// TODO param scaleSupported type blob
+}
+
+export enum RateTypeEnum {
+	Reserved = 0x0,
+	Import = 0x1,
+	Export = 0x2,
+	NotToBeUsed = 0x3,
+}
+
+export enum MeterTypeEnum {
+	Reserved = 0x0,
+	ElectricMeter = 0x1,
+	GasMeter = 0x2,
+	WaterMeter = 0x3,
+	HeatingMeter = 0x4,
+	CoolingMeter = 0x5,
+}
+
+export enum RateType2Enum {
+	Reserved = 0x0,
+	ImportOnly = 0x1,
+	ExportOnly = 0x2,
+	ImportAndExport = 0x3,
 }
 
 export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
@@ -65,28 +96,41 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 7,
-							"shift": 0
+							"type": "enum",
+							"name": "rateType",
+							"mask": 192,
+							"shift": 6,
+							"values": {
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "Import",
+									"help": "Import"
+								},
+								"2": {
+									"name": "Export",
+									"help": "Export"
+								},
+								"3": {
+									"name": "NotToBeUsed",
+									"help": "Not to be used"
+								}
+							}
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 56,
 							"shift": 3
 						},
 						{
-							"type": "enum",
-							"name": "Rate Type",
-							"mask": 192,
-							"shift": 6,
-							"values": {
-								"0": "Reserved",
-								"1": "Import",
-								"2": "Export",
-								"3": "Not to be used"
-							}
+							"type": "integer",
+							"name": "reserved",
+							"mask": 7,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -124,36 +168,66 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Meter Type",
-							"mask": 31,
-							"shift": 0,
-							"values": {
-								"0": "Reserved",
-								"1": "Electric meter",
-								"2": "Gas meter",
-								"3": "Water meter",
-								"4": "Heating meter",
-								"5": "Cooling meter"
-							}
+							"type": "boolean",
+							"name": "scaleBit2",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "enum",
-							"name": "Rate Type",
+							"name": "rateType",
 							"mask": 96,
 							"shift": 5,
 							"values": {
-								"0": "Reserved",
-								"1": "Import",
-								"2": "Export",
-								"3": "Not to be used"
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "Import",
+									"help": "Import"
+								},
+								"2": {
+									"name": "Export",
+									"help": "Export"
+								},
+								"3": {
+									"name": "NotToBeUsed",
+									"help": "Not to be used"
+								}
 							}
 						},
 						{
-							"type": "boolean",
-							"name": "Scale bit 2",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "meterType",
+							"mask": 31,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "ElectricMeter",
+									"help": "Electric meter"
+								},
+								"2": {
+									"name": "GasMeter",
+									"help": "Gas meter"
+								},
+								"3": {
+									"name": "WaterMeter",
+									"help": "Water meter"
+								},
+								"4": {
+									"name": "HeatingMeter",
+									"help": "Heating meter"
+								},
+								"5": {
+									"name": "CoolingMeter",
+									"help": "Cooling meter"
+								}
+							}
 						}
 					]
 				},
@@ -165,21 +239,21 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale bits 10",
+							"name": "scaleBits10",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -189,8 +263,11 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"help": "Meter Value",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -204,13 +281,15 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"name": "previousMeterValue",
 					"help": "Previous Meter Value",
 					"optional": {
-						"name": "Delta Time",
-						"mask": 255
+						"name": "Delta Time"
 					},
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -287,36 +366,66 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Meter Type",
-							"mask": 31,
-							"shift": 0,
-							"values": {
-								"0": "Reserved",
-								"1": "Electric meter",
-								"2": "Gas meter",
-								"3": "Water meter",
-								"4": "Heating meter",
-								"5": "Cooling meter"
-							}
+							"type": "boolean",
+							"name": "meterReset",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "enum",
-							"name": "Rate Type",
+							"name": "rateType",
 							"mask": 96,
 							"shift": 5,
 							"values": {
-								"0": "Reserved",
-								"1": "Import only",
-								"2": "Export only",
-								"3": "Import and Export"
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "ImportOnly",
+									"help": "Import only"
+								},
+								"2": {
+									"name": "ExportOnly",
+									"help": "Export only"
+								},
+								"3": {
+									"name": "ImportAndExport",
+									"help": "Import and Export"
+								}
 							}
 						},
 						{
-							"type": "boolean",
-							"name": "Meter Reset",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "meterType",
+							"mask": 31,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "ElectricMeter",
+									"help": "Electric meter"
+								},
+								"2": {
+									"name": "GasMeter",
+									"help": "Gas meter"
+								},
+								"3": {
+									"name": "WaterMeter",
+									"help": "Water meter"
+								},
+								"4": {
+									"name": "HeatingMeter",
+									"help": "Heating meter"
+								},
+								"5": {
+									"name": "CoolingMeter",
+									"help": "Cooling meter"
+								}
+							}
 						}
 					]
 				},
@@ -327,16 +436,16 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Scale Supported 0",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "M.S.T",
+							"name": "mST",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "scaleSupported0",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -351,9 +460,7 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"name": "scaleSupported",
 					"help": "Scale Supported",
 					"length": {
-						"name": "Number of Scale Supported Bytes to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Scale Supported Bytes to Follow"
 					}
 				}
 			]

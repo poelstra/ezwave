@@ -16,8 +16,16 @@ export enum MeterV1Commands {
 
 export interface MeterV1MeterReportData {
 	meterType: MeterTypeEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param meterValue type blob
+}
+
+export enum MeterTypeEnum {
+	ElectricMeter = 0x1,
+	GasMeter = 0x2,
+	WaterMeter = 0x3,
 }
 
 export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
@@ -66,9 +74,18 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 					"help": "Meter Type",
 					"length": 1,
 					"values": {
-						"1": "Electric meter",
-						"2": "Gas meter",
-						"3": "Water meter"
+						"1": {
+							"name": "ElectricMeter",
+							"help": "Electric meter"
+						},
+						"2": {
+							"name": "GasMeter",
+							"help": "Gas meter"
+						},
+						"3": {
+							"name": "WaterMeter",
+							"help": "Water meter"
+						}
 					}
 				},
 				{
@@ -79,21 +96,21 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -103,8 +120,11 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 					"help": "Meter Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -123,10 +143,4 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 export namespace MeterV1 {
 	export type MeterGet = InstanceType<typeof MeterV1.MeterGet>;
 	export type MeterReport = InstanceType<typeof MeterV1.MeterReport>;
-}
-
-export enum MeterTypeEnum {
-	ElectricMeter = 0x1,
-	GasMeter = 0x2,
-	WaterMeter = 0x3,
 }

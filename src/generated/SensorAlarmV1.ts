@@ -58,13 +58,34 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"0": "General Purpose Alarm",
-						"1": "Smoke Alarm",
-						"2": "CO Alarm",
-						"3": "CO2 Alarm",
-						"4": "Heat Alarm",
-						"5": "Water Leak Alarm",
-						"255": "Return first Alarm on supported list"
+						"0": {
+							"name": "GeneralPurposeAlarm",
+							"help": "General Purpose Alarm"
+						},
+						"1": {
+							"name": "SmokeAlarm",
+							"help": "Smoke Alarm"
+						},
+						"2": {
+							"name": "COAlarm",
+							"help": "CO Alarm"
+						},
+						"3": {
+							"name": "CO2Alarm",
+							"help": "CO2 Alarm"
+						},
+						"4": {
+							"name": "HeatAlarm",
+							"help": "Heat Alarm"
+						},
+						"5": {
+							"name": "WaterLeakAlarm",
+							"help": "Water Leak Alarm"
+						},
+						"255": {
+							"name": "ReturnFirstAlarmOnSupportedList",
+							"help": "Return first Alarm on supported list"
+						}
 					}
 				}
 			]
@@ -101,13 +122,34 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"0": "General Purpose Alarm",
-						"1": "Smoke Alarm",
-						"2": "CO Alarm",
-						"3": "CO2 Alarm",
-						"4": "Heat Alarm",
-						"5": "Water Leak Alarm",
-						"255": "Return first Alarm on supported list"
+						"0": {
+							"name": "GeneralPurposeAlarm",
+							"help": "General Purpose Alarm"
+						},
+						"1": {
+							"name": "SmokeAlarm",
+							"help": "Smoke Alarm"
+						},
+						"2": {
+							"name": "COAlarm",
+							"help": "CO Alarm"
+						},
+						"3": {
+							"name": "CO2Alarm",
+							"help": "CO2 Alarm"
+						},
+						"4": {
+							"name": "HeatAlarm",
+							"help": "Heat Alarm"
+						},
+						"5": {
+							"name": "WaterLeakAlarm",
+							"help": "Water Leak Alarm"
+						},
+						"255": {
+							"name": "ReturnFirstAlarmOnSupportedList",
+							"help": "Return first Alarm on supported list"
+						}
 					}
 				},
 				{
@@ -116,8 +158,14 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 					"help": "Sensor State",
 					"length": 1,
 					"values": {
-						"0": "no alarm",
-						"255": "alarm"
+						"0": {
+							"name": "NoAlarm",
+							"help": "no alarm"
+						},
+						"255": {
+							"name": "Alarm",
+							"help": "alarm"
+						}
 					}
 				},
 				{
@@ -178,9 +226,7 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 					"name": "bitMask",
 					"help": "Bit Mask",
 					"length": {
-						"name": "Number of Bit Masks",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Bit Masks"
 					}
 				}
 			]

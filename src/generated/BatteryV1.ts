@@ -64,7 +64,10 @@ export class BatteryV1 extends CommandClassPacket<BatteryV1Commands> {
 					"help": "Battery Level",
 					"length": 1,
 					"values": {
-						"255": "battery low warning"
+						"255": {
+							"name": "BatteryLowWarning",
+							"help": "battery low warning"
+						}
 					}
 				}
 			]

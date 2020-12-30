@@ -27,12 +27,14 @@ export interface FirmwareUpdateMdV1FirmwareMdReportData {
 
 export interface FirmwareUpdateMdV1FirmwareUpdateMdGetData {
 	numberOfReports: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	zero: boolean; // properties1[7]
+	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
 }
 
 export interface FirmwareUpdateMdV1FirmwareUpdateMdReportData {
-	// TODO param properties1 type bitfield
+	last: boolean; // properties1[7]
+	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
 	// TODO param data type blob
 }
@@ -49,6 +51,18 @@ export interface FirmwareUpdateMdV1FirmwareUpdateMdRequestReportData {
 
 export interface FirmwareUpdateMdV1FirmwareUpdateMdStatusReportData {
 	status: Status2Enum; // 1 byte enum value
+}
+
+export enum StatusEnum {
+	InvalidCombination = 0x0,
+	RequiresAuthentication = 0x1,
+	ValidCombination = 0xff,
+}
+
+export enum Status2Enum {
+	UnableToReceiveWithoutChecksumError = 0x0,
+	UnableToReceive = 0x1,
+	Successfully = 0xff,
 }
 
 // Deprecated
@@ -144,16 +158,16 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Report number 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
 							"name": "zero",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reportNumber1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -191,16 +205,16 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Report number 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Last",
+							"name": "last",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reportNumber1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -282,9 +296,18 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Invalid combination",
-						"1": "Requires authentication",
-						"255": "Valid combination"
+						"0": {
+							"name": "InvalidCombination",
+							"help": "Invalid combination"
+						},
+						"1": {
+							"name": "RequiresAuthentication",
+							"help": "Requires authentication"
+						},
+						"255": {
+							"name": "ValidCombination",
+							"help": "Valid combination"
+						}
 					}
 				}
 			]
@@ -314,9 +337,18 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "unable to receive without checksum error",
-						"1": "unable to receive",
-						"255": "successfully"
+						"0": {
+							"name": "UnableToReceiveWithoutChecksumError",
+							"help": "unable to receive without checksum error"
+						},
+						"1": {
+							"name": "UnableToReceive",
+							"help": "unable to receive"
+						},
+						"255": {
+							"name": "Successfully",
+							"help": "successfully"
+						}
 					}
 				}
 			]
@@ -340,16 +372,4 @@ export namespace FirmwareUpdateMdV1 {
 	export type FirmwareUpdateMdRequestGet = InstanceType<typeof FirmwareUpdateMdV1.FirmwareUpdateMdRequestGet>;
 	export type FirmwareUpdateMdRequestReport = InstanceType<typeof FirmwareUpdateMdV1.FirmwareUpdateMdRequestReport>;
 	export type FirmwareUpdateMdStatusReport = InstanceType<typeof FirmwareUpdateMdV1.FirmwareUpdateMdStatusReport>;
-}
-
-export enum StatusEnum {
-	InvalidCombination = 0x0,
-	RequiresAuthentication = 0x1,
-	ValidCombination = 0xff,
-}
-
-export enum Status2Enum {
-	UnableToReceiveWithoutChecksumError = 0x0,
-	UnableToReceive = 0x1,
-	Successfully = 0xff,
 }

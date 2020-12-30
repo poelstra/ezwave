@@ -18,23 +18,41 @@ export enum ThermostatSetpointV1Commands {
 }
 
 export interface ThermostatSetpointV1ThermostatSetpointGetData {
-	// TODO param level type bitfield
+	setpointType: SetpointTypeEnum; // level[3..0]
 }
 
 export interface ThermostatSetpointV1ThermostatSetpointReportData {
-	// TODO param level type bitfield
-	// TODO param level2 type bitfield
+	setpointType: SetpointTypeEnum; // level[3..0]
+	precision: number; // level2[7..5]
+	scale: number; // level2[4..3]
+	size: number; // level2[2..0]
 	// TODO param value type blob
 }
 
 export interface ThermostatSetpointV1ThermostatSetpointSetData {
-	// TODO param level type bitfield
-	// TODO param level2 type bitfield
+	setpointType: SetpointTypeEnum; // level[3..0]
+	precision: number; // level2[7..5]
+	scale: number; // level2[4..3]
+	size: number; // level2[2..0]
 	// TODO param value type blob
 }
 
 export interface ThermostatSetpointV1ThermostatSetpointSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum SetpointTypeEnum {
+	NotSupported = 0x0,
+	Heating1 = 0x1,
+	Cooling1 = 0x2,
+	NotSupported1 = 0x3,
+	NotSupported2 = 0x4,
+	NotSupported3 = 0x5,
+	NotSupported4 = 0x6,
+	Furnace = 0x7,
+	DryAir = 0x8,
+	MoistAir = 0x9,
+	AutoChangeover = 0xa,
 }
 
 export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV1Commands> {
@@ -64,29 +82,63 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "not supported",
-								"1": "Heating 1",
-								"2": "Cooling 1",
-								"3": "not supported1",
-								"4": "not supported2",
-								"5": "not supported3",
-								"6": "not supported4",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto changeover"
+								"0": {
+									"name": "NotSupported",
+									"help": "not supported"
+								},
+								"1": {
+									"name": "Heating1",
+									"help": "Heating 1"
+								},
+								"2": {
+									"name": "Cooling1",
+									"help": "Cooling 1"
+								},
+								"3": {
+									"name": "NotSupported1",
+									"help": "not supported1"
+								},
+								"4": {
+									"name": "NotSupported2",
+									"help": "not supported2"
+								},
+								"5": {
+									"name": "NotSupported3",
+									"help": "not supported3"
+								},
+								"6": {
+									"name": "NotSupported4",
+									"help": "not supported4"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto changeover"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -118,29 +170,63 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "not supported",
-								"1": "Heating 1",
-								"2": "Cooling 1",
-								"3": "not supported1",
-								"4": "not supported2",
-								"5": "not supported3",
-								"6": "not supported4",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto changeover"
+								"0": {
+									"name": "NotSupported",
+									"help": "not supported"
+								},
+								"1": {
+									"name": "Heating1",
+									"help": "Heating 1"
+								},
+								"2": {
+									"name": "Cooling1",
+									"help": "Cooling 1"
+								},
+								"3": {
+									"name": "NotSupported1",
+									"help": "not supported1"
+								},
+								"4": {
+									"name": "NotSupported2",
+									"help": "not supported2"
+								},
+								"5": {
+									"name": "NotSupported3",
+									"help": "not supported3"
+								},
+								"6": {
+									"name": "NotSupported4",
+									"help": "not supported4"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto changeover"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				},
@@ -152,21 +238,21 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -176,8 +262,11 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					"help": "Value",
 					"length": {
 						"name": "Level2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -208,29 +297,63 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "not supported",
-								"1": "Heating 1",
-								"2": "Cooling 1",
-								"3": "not supported1",
-								"4": "not supported2",
-								"5": "not supported3",
-								"6": "not supported4",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto changeover"
+								"0": {
+									"name": "NotSupported",
+									"help": "not supported"
+								},
+								"1": {
+									"name": "Heating1",
+									"help": "Heating 1"
+								},
+								"2": {
+									"name": "Cooling1",
+									"help": "Cooling 1"
+								},
+								"3": {
+									"name": "NotSupported1",
+									"help": "not supported1"
+								},
+								"4": {
+									"name": "NotSupported2",
+									"help": "not supported2"
+								},
+								"5": {
+									"name": "NotSupported3",
+									"help": "not supported3"
+								},
+								"6": {
+									"name": "NotSupported4",
+									"help": "not supported4"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto changeover"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				},
@@ -242,21 +365,21 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -266,8 +389,11 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					"help": "Value",
 					"length": {
 						"name": "Level2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]

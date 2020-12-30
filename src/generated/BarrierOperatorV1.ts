@@ -29,7 +29,7 @@ export interface BarrierOperatorV1BarrierOperatorReportData {
 }
 
 export interface BarrierOperatorV1BarrierOperatorSignalSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
 }
 
 export interface BarrierOperatorV1BarrierOperatorSignalSetData {
@@ -44,6 +44,24 @@ export interface BarrierOperatorV1BarrierOperatorSignalGetData {
 export interface BarrierOperatorV1BarrierOperatorSignalReportData {
 	subsystemType: number; // 1 byte unsigned integer
 	subsystemState: SubsystemStateEnum; // 1 byte enum value
+}
+
+export enum TargetValueEnum {
+	Close = 0x0,
+	Open = 0xff,
+}
+
+export enum StateEnum {
+	Closed = 0x0,
+	Closing = 0xfc,
+	Stopped = 0xfd,
+	Opening = 0xfe,
+	Open = 0xff,
+}
+
+export enum SubsystemStateEnum {
+	Off = 0x0,
+	On = 0xff,
 }
 
 export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Commands> {
@@ -72,8 +90,14 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"help": "Target Value",
 					"length": 1,
 					"values": {
-						"0": "CLOSE",
-						"255": "OPEN"
+						"0": {
+							"name": "Close",
+							"help": "CLOSE"
+						},
+						"255": {
+							"name": "Open",
+							"help": "OPEN"
+						}
 					}
 				}
 			]
@@ -123,11 +147,26 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"help": "State",
 					"length": 1,
 					"values": {
-						"0": "Closed",
-						"252": "Closing",
-						"253": "Stopped",
-						"254": "Opening",
-						"255": "Open"
+						"0": {
+							"name": "Closed",
+							"help": "Closed"
+						},
+						"252": {
+							"name": "Closing",
+							"help": "Closing"
+						},
+						"253": {
+							"name": "Stopped",
+							"help": "Stopped"
+						},
+						"254": {
+							"name": "Opening",
+							"help": "Opening"
+						},
+						"255": {
+							"name": "Open",
+							"help": "Open"
+						}
 					}
 				}
 			]
@@ -204,9 +243,18 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"help": "Subsystem Type",
 					"length": 1,
 					"values": {
-						"0": "NOT SUPPORTED",
-						"1": "Audible Notification",
-						"2": "Visual Notification"
+						"0": {
+							"name": "NotSupported",
+							"help": "NOT SUPPORTED"
+						},
+						"1": {
+							"name": "AudibleNotification",
+							"help": "Audible Notification"
+						},
+						"2": {
+							"name": "VisualNotification",
+							"help": "Visual Notification"
+						}
 					}
 				},
 				{
@@ -215,8 +263,14 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"help": "Subsystem State",
 					"length": 1,
 					"values": {
-						"0": "OFF",
-						"255": "ON"
+						"0": {
+							"name": "Off",
+							"help": "OFF"
+						},
+						"255": {
+							"name": "On",
+							"help": "ON"
+						}
 					}
 				}
 			]
@@ -246,9 +300,18 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"help": "Subsystem Type",
 					"length": 1,
 					"values": {
-						"0": "NOT SUPPORTED",
-						"1": "Audible Notification",
-						"2": "Visual Notification"
+						"0": {
+							"name": "NotSupported",
+							"help": "NOT SUPPORTED"
+						},
+						"1": {
+							"name": "AudibleNotification",
+							"help": "Audible Notification"
+						},
+						"2": {
+							"name": "VisualNotification",
+							"help": "Visual Notification"
+						}
 					}
 				}
 			]
@@ -278,9 +341,18 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"help": "Subsystem Type",
 					"length": 1,
 					"values": {
-						"0": "NOT SUPPORTED",
-						"1": "Audible Notification",
-						"2": "Visual Notification"
+						"0": {
+							"name": "NotSupported",
+							"help": "NOT SUPPORTED"
+						},
+						"1": {
+							"name": "AudibleNotification",
+							"help": "Audible Notification"
+						},
+						"2": {
+							"name": "VisualNotification",
+							"help": "Visual Notification"
+						}
 					}
 				},
 				{
@@ -289,8 +361,14 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"help": "Subsystem State",
 					"length": 1,
 					"values": {
-						"0": "OFF",
-						"255": "ON"
+						"0": {
+							"name": "Off",
+							"help": "OFF"
+						},
+						"255": {
+							"name": "On",
+							"help": "ON"
+						}
 					}
 				}
 			]
@@ -315,22 +393,4 @@ export namespace BarrierOperatorV1 {
 	export type BarrierOperatorSignalSet = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalSet>;
 	export type BarrierOperatorSignalGet = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalGet>;
 	export type BarrierOperatorSignalReport = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalReport>;
-}
-
-export enum TargetValueEnum {
-	Close = 0x0,
-	Open = 0xff,
-}
-
-export enum StateEnum {
-	Closed = 0x0,
-	Closing = 0xfc,
-	Stopped = 0xfd,
-	Opening = 0xfe,
-	Open = 0xff,
-}
-
-export enum SubsystemStateEnum {
-	Off = 0x0,
-	On = 0xff,
 }

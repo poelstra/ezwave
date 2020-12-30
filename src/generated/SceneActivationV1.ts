@@ -50,8 +50,14 @@ export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Comma
 					"help": "Dimming Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly",
-						"255": "configured dimming duration"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						},
+						"255": {
+							"name": "ConfiguredDimmingDuration",
+							"help": "configured dimming duration"
+						}
 					}
 				}
 			]

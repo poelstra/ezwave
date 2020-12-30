@@ -18,15 +18,22 @@ export enum HumidityControlModeV2Commands {
 }
 
 export interface HumidityControlModeV2HumidityControlModeSetData {
-	// TODO param properties1 type bitfield
+	mode: ModeEnum; // properties1[3..0]
 }
 
 export interface HumidityControlModeV2HumidityControlModeReportData {
-	// TODO param properties1 type bitfield
+	mode: ModeEnum; // properties1[3..0]
 }
 
 export interface HumidityControlModeV2HumidityControlModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum ModeEnum {
+	Off = 0x0,
+	Humidify = 0x1,
+	Dehumidify = 0x2,
+	Auto = 0x3,
 }
 
 export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlModeV2Commands> {
@@ -56,22 +63,35 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Humidify",
-								"2": "Dehumidify",
-								"3": "Auto"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Humidify",
+									"help": "Humidify"
+								},
+								"2": {
+									"name": "Dehumidify",
+									"help": "Dehumidify"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -123,22 +143,35 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Humidify",
-								"2": "Dehumidify",
-								"3": "Auto"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Humidify",
+									"help": "Humidify"
+								},
+								"2": {
+									"name": "Dehumidify",
+									"help": "Dehumidify"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}

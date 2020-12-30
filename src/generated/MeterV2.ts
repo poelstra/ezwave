@@ -18,20 +18,24 @@ export enum MeterV2Commands {
 }
 
 export interface MeterV2MeterGetData {
-	// TODO param properties1 type bitfield
+	scale: number; // properties1[4..3]
 }
 
 export interface MeterV2MeterReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	rateType: number; // properties1[6..5]
+	meterType: number; // properties1[4..0]
+	precision: number; // properties2[7..5]
+	scale: number; // properties2[4..3]
+	size: number; // properties2[2..0]
 	// TODO param meterValue type blob
 	deltaTime: number; // 2 byte unsigned integer
 	// TODO param previousMeterValue type blob
 }
 
 export interface MeterV2MeterSupportedReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	meterReset: boolean; // properties1[7]
+	meterType: number; // properties1[4..0]
+	scaleSupported: number; // properties2[3..0]
 }
 
 export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
@@ -62,21 +66,23 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 224,
-							"shift": 5
+							"name": "reserved",
+							"mask": 7,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}
@@ -108,22 +114,23 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Meter Type",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Rate Type",
+							"name": "rateType",
 							"mask": 96,
 							"shift": 5
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "meterType",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -135,21 +142,21 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -159,8 +166,11 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"help": "Meter Value",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -174,13 +184,15 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"name": "previousMeterValue",
 					"help": "Previous Meter Value",
 					"optional": {
-						"name": "Delta Time",
-						"mask": 255
+						"name": "Delta Time"
 					},
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -251,22 +263,23 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Meter Type",
-							"mask": 31,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved1",
-							"mask": 96,
-							"shift": 5
-						},
-						{
 							"type": "boolean",
-							"name": "Meter Reset",
+							"name": "meterReset",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved1",
+							"mask": 96,
+							"shift": 5,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "meterType",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -278,15 +291,16 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Scale Supported",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 240,
-							"shift": 4
+							"name": "scaleSupported",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				}

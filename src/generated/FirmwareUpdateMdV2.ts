@@ -27,12 +27,14 @@ export interface FirmwareUpdateMdV2FirmwareMdReportData {
 
 export interface FirmwareUpdateMdV2FirmwareUpdateMdGetData {
 	numberOfReports: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	zero: boolean; // properties1[7]
+	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
 }
 
 export interface FirmwareUpdateMdV2FirmwareUpdateMdReportData {
-	// TODO param properties1 type bitfield
+	last: boolean; // properties1[7]
+	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
 	// TODO param data type blob
 	checksum: number; // 2 byte unsigned integer
@@ -50,6 +52,18 @@ export interface FirmwareUpdateMdV2FirmwareUpdateMdRequestReportData {
 
 export interface FirmwareUpdateMdV2FirmwareUpdateMdStatusReportData {
 	status: Status2Enum; // 1 byte enum value
+}
+
+export enum StatusEnum {
+	InvalidCombination = 0x0,
+	RequiresAuthentication = 0x1,
+	ValidCombination = 0xff,
+}
+
+export enum Status2Enum {
+	UnableToReceiveWithoutChecksumError = 0x0,
+	UnableToReceive = 0x1,
+	Successfully = 0xff,
 }
 
 export class FirmwareUpdateMdV2 extends CommandClassPacket<FirmwareUpdateMdV2Commands> {
@@ -144,16 +158,16 @@ export class FirmwareUpdateMdV2 extends CommandClassPacket<FirmwareUpdateMdV2Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Report number 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
 							"name": "zero",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reportNumber1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -191,16 +205,16 @@ export class FirmwareUpdateMdV2 extends CommandClassPacket<FirmwareUpdateMdV2Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Report number 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Last",
+							"name": "last",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reportNumber1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -288,9 +302,18 @@ export class FirmwareUpdateMdV2 extends CommandClassPacket<FirmwareUpdateMdV2Com
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Invalid combination",
-						"1": "Requires authentication",
-						"255": "Valid combination"
+						"0": {
+							"name": "InvalidCombination",
+							"help": "Invalid combination"
+						},
+						"1": {
+							"name": "RequiresAuthentication",
+							"help": "Requires authentication"
+						},
+						"255": {
+							"name": "ValidCombination",
+							"help": "Valid combination"
+						}
 					}
 				}
 			]
@@ -320,9 +343,18 @@ export class FirmwareUpdateMdV2 extends CommandClassPacket<FirmwareUpdateMdV2Com
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "unable to receive without checksum error",
-						"1": "unable to receive",
-						"255": "successfully"
+						"0": {
+							"name": "UnableToReceiveWithoutChecksumError",
+							"help": "unable to receive without checksum error"
+						},
+						"1": {
+							"name": "UnableToReceive",
+							"help": "unable to receive"
+						},
+						"255": {
+							"name": "Successfully",
+							"help": "successfully"
+						}
 					}
 				}
 			]
@@ -346,16 +378,4 @@ export namespace FirmwareUpdateMdV2 {
 	export type FirmwareUpdateMdRequestGet = InstanceType<typeof FirmwareUpdateMdV2.FirmwareUpdateMdRequestGet>;
 	export type FirmwareUpdateMdRequestReport = InstanceType<typeof FirmwareUpdateMdV2.FirmwareUpdateMdRequestReport>;
 	export type FirmwareUpdateMdStatusReport = InstanceType<typeof FirmwareUpdateMdV2.FirmwareUpdateMdStatusReport>;
-}
-
-export enum StatusEnum {
-	InvalidCombination = 0x0,
-	RequiresAuthentication = 0x1,
-	ValidCombination = 0xff,
-}
-
-export enum Status2Enum {
-	UnableToReceiveWithoutChecksumError = 0x0,
-	UnableToReceive = 0x1,
-	Successfully = 0xff,
 }

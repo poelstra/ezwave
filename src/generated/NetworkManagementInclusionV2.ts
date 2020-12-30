@@ -43,19 +43,19 @@ export interface NetworkManagementInclusionV2FailedNodeRemoveStatusData {
 
 export interface NetworkManagementInclusionV2NodeAddData {
 	seqNo: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	mode: number; // 1 byte unsigned integer
-	txOptions: number; // 0 byte unsigned integer
+	// TODO param txOptions type bitmask or marker
 }
 
 export interface NetworkManagementInclusionV2NodeAddStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	newNodeID: number; // 1 byte unsigned integer
 	nodeInfoLength: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	listening: boolean; // properties1[7]
+	zWaveProtocolSpecificPart1: number; // properties1[6..0]
+	opt: boolean; // properties2[7]
+	zWaveProtocolSpecificPart2: number; // properties2[6..0]
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
@@ -66,7 +66,6 @@ export interface NetworkManagementInclusionV2NodeAddStatusData {
 
 export interface NetworkManagementInclusionV2NodeRemoveData {
 	seqNo: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	mode: number; // 1 byte unsigned integer
 }
 
@@ -79,7 +78,7 @@ export interface NetworkManagementInclusionV2NodeRemoveStatusData {
 export interface NetworkManagementInclusionV2FailedNodeReplaceData {
 	seqNo: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
-	txOptions: number; // 0 byte unsigned integer
+	// TODO param txOptions type bitmask or marker
 	mode: number; // 1 byte unsigned integer
 }
 
@@ -124,25 +123,27 @@ export interface NetworkManagementInclusionV2ReturnRouteDeleteCompleteData {
 
 export interface NetworkManagementInclusionV2NodeAddKeysReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	requestCSA: boolean; // properties1[0]
 	requestedKeys: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2NodeAddKeysSetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	grantCSA: boolean; // properties1[1]
+	accept: boolean; // properties1[0]
 	grantedKeys: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2NodeAddDskReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	inputDSKLength: number; // properties1[3..0]
 	// TODO param dsk type blob
 }
 
 export interface NetworkManagementInclusionV2NodeAddDskSetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	accept: boolean; // properties1[7]
+	inputDSKLength: number; // properties1[3..0]
 	// TODO param inputDSK type blob
 }
 
@@ -219,9 +220,18 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "FAILED_NODE_NOT_FOUND",
-						"1": "DONE",
-						"2": "FAILED_NODE_REMOVE_FAIL"
+						"0": {
+							"name": "FailedNodeNotFound",
+							"help": "FAILED_NODE_NOT_FOUND"
+						},
+						"1": {
+							"name": "Done",
+							"help": "DONE"
+						},
+						"2": {
+							"name": "FailedNodeRemoveFail",
+							"help": "FAILED_NODE_REMOVE_FAIL"
+						}
 					}
 				}
 			]
@@ -255,7 +265,8 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -263,13 +274,34 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"1": "NODE_ADD_ANY",
-						"2": "NODE_ADD_CONTROLLER",
-						"3": "NODE_ADD_SLAVE",
-						"4": "NODE_ADD_EXISTING",
-						"5": "NODE_ADD_STOP",
-						"6": "NODE_ADD_STOP_FAILED",
-						"7": "NODE_ADD_ANY_S2"
+						"1": {
+							"name": "NodeAddAny",
+							"help": "NODE_ADD_ANY"
+						},
+						"2": {
+							"name": "NodeAddController",
+							"help": "NODE_ADD_CONTROLLER"
+						},
+						"3": {
+							"name": "NodeAddSlave",
+							"help": "NODE_ADD_SLAVE"
+						},
+						"4": {
+							"name": "NodeAddExisting",
+							"help": "NODE_ADD_EXISTING"
+						},
+						"5": {
+							"name": "NodeAddStop",
+							"help": "NODE_ADD_STOP"
+						},
+						"6": {
+							"name": "NodeAddStopFailed",
+							"help": "NODE_ADD_STOP_FAILED"
+						},
+						"7": {
+							"name": "NodeAddAnyS2",
+							"help": "NODE_ADD_ANY_S2"
+						}
 					}
 				},
 				{
@@ -311,16 +343,26 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"6": "NODE_ADD_STATUS_DONE",
-						"7": "NODE_ADD_STATUS_FAILED",
-						"9": "NODE_ADD_STATUS_SECURITY_FAILED"
+						"6": {
+							"name": "NodeAddStatusDone",
+							"help": "NODE_ADD_STATUS_DONE"
+						},
+						"7": {
+							"name": "NodeAddStatusFailed",
+							"help": "NODE_ADD_STATUS_FAILED"
+						},
+						"9": {
+							"name": "NodeAddStatusSecurityFailed",
+							"help": "NODE_ADD_STATUS_SECURITY_FAILED"
+						}
 					}
 				},
 				{
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -342,16 +384,16 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Listening",
+							"name": "listening",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -362,16 +404,16 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 2",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Opt",
+							"name": "opt",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart2",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -401,9 +443,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"name": "Node Info Length",
-						"mask": 255,
-						"shift": 0
+						"name": "Node Info Length"
 					},
 					"valueType": "CMD_CLASS_REF"
 				},
@@ -450,7 +490,8 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -458,10 +499,22 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"1": "NODE_REMOVE_ANY",
-						"2": "NODE_REMOVE_CONTROLLER",
-						"3": "NODE_REMOVE_SLAVE",
-						"5": "NODE_REMOVE_STOP"
+						"1": {
+							"name": "NodeRemoveAny",
+							"help": "NODE_REMOVE_ANY"
+						},
+						"2": {
+							"name": "NodeRemoveController",
+							"help": "NODE_REMOVE_CONTROLLER"
+						},
+						"3": {
+							"name": "NodeRemoveSlave",
+							"help": "NODE_REMOVE_SLAVE"
+						},
+						"5": {
+							"name": "NodeRemoveStop",
+							"help": "NODE_REMOVE_STOP"
+						}
 					}
 				}
 			]
@@ -497,8 +550,14 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"6": "NODE_REMOVE_STATUS_DONE",
-						"7": "NODE_REMOVE_STATUS_FAILED"
+						"6": {
+							"name": "NodeRemoveStatusDone",
+							"help": "NODE_REMOVE_STATUS_DONE"
+						},
+						"7": {
+							"name": "NodeRemoveStatusFailed",
+							"help": "NODE_REMOVE_STATUS_FAILED"
+						}
 					}
 				},
 				{
@@ -587,9 +646,18 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"4": "DONE",
-						"5": "FAILED_NODE_REPLACE_FAIL",
-						"9": "FAILED_NODE_REPLACE_SECURITY_FAILED"
+						"4": {
+							"name": "Done",
+							"help": "DONE"
+						},
+						"5": {
+							"name": "FailedNodeReplaceFail",
+							"help": "FAILED_NODE_REPLACE_FAIL"
+						},
+						"9": {
+							"name": "FailedNodeReplaceSecurityFailed",
+							"help": "FAILED_NODE_REPLACE_SECURITY_FAILED"
+						}
 					}
 				},
 				{
@@ -678,8 +746,14 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"34": "NEIGHBOR_UPDATE_STATUS_DONE",
-						"35": "NEIGHBOR_UPDATE_STATUS_FAIL"
+						"34": {
+							"name": "NeighborUpdateStatusDone",
+							"help": "NEIGHBOR_UPDATE_STATUS_DONE"
+						},
+						"35": {
+							"name": "NeighborUpdateStatusFail",
+							"help": "NEIGHBOR_UPDATE_STATUS_FAIL"
+						}
 					}
 				}
 			]
@@ -756,9 +830,18 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "TRANSMIT_COMPLETE_OK",
-						"1": "TRANSMIT_COMPLETE_NO_ACK",
-						"2": "TRANSMIT_COMPLETE_FAIL"
+						"0": {
+							"name": "TransmitCompleteOk",
+							"help": "TRANSMIT_COMPLETE_OK"
+						},
+						"1": {
+							"name": "TransmitCompleteNoAck",
+							"help": "TRANSMIT_COMPLETE_NO_ACK"
+						},
+						"2": {
+							"name": "TransmitCompleteFail",
+							"help": "TRANSMIT_COMPLETE_FAIL"
+						}
 					}
 				}
 			]
@@ -828,9 +911,18 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "TRANSMIT_COMPLETE_OK",
-						"1": "TRANSMIT_COMPLETE_NO_ACK",
-						"2": "TRANSMIT_COMPLETE_FAIL"
+						"0": {
+							"name": "TransmitCompleteOk",
+							"help": "TRANSMIT_COMPLETE_OK"
+						},
+						"1": {
+							"name": "TransmitCompleteNoAck",
+							"help": "TRANSMIT_COMPLETE_NO_ACK"
+						},
+						"2": {
+							"name": "TransmitCompleteFail",
+							"help": "TRANSMIT_COMPLETE_FAIL"
+						}
 					}
 				}
 			]
@@ -867,16 +959,17 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Request CSA",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "requestCSA",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -920,22 +1013,23 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Accept",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Grant CSA",
+							"name": "grantCSA",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "accept",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -980,15 +1074,16 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Input DSK Length",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "inputDSKLength",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -1032,22 +1127,23 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Input DSK Length",
-							"mask": 15,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 112,
-							"shift": 4
-						},
-						{
 							"type": "boolean",
-							"name": "Accept",
+							"name": "accept",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "inputDSKLength",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -1057,8 +1153,11 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"help": "Input DSK",
 					"length": {
 						"name": "Properties1",
-						"mask": 15,
-						"shift": 0
+						"bitfield": {
+							"mask": 15,
+							"shift": 0,
+							"name": "inputDSKLength"
+						}
 					}
 				}
 			]

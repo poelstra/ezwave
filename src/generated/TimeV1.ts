@@ -23,7 +23,8 @@ export interface TimeV1DateReportData {
 }
 
 export interface TimeV1TimeReportData {
-	// TODO param properties1 type bitfield
+	rTCFailure: boolean; // properties1[7]
+	hourLocalTime: number; // properties1[4..0]
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 }
@@ -134,22 +135,23 @@ export class TimeV1 extends CommandClassPacket<TimeV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Hour Local Time",
-							"mask": 31,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 96,
-							"shift": 5
-						},
-						{
 							"type": "boolean",
-							"name": "RTC failure",
+							"name": "rTCFailure",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 96,
+							"shift": 5,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "hourLocalTime",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},

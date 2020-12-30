@@ -34,7 +34,7 @@ export interface TariffTblMonitorV1TariffTblCostGetData {
 
 export interface TariffTblMonitorV1TariffTblCostReportData {
 	rateParameterSetID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	rateType: number; // properties1[1..0]
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -46,7 +46,7 @@ export interface TariffTblMonitorV1TariffTblCostReportData {
 	stopHourLocalTime: number; // 1 byte unsigned integer
 	stopMinuteLocalTime: number; // 1 byte unsigned integer
 	currency: number; // 3 byte unsigned integer
-	// TODO param properties2 type bitfield
+	costPrecision: number; // properties2[7..5]
 	costValue: number; // 4 byte unsigned integer
 }
 
@@ -56,7 +56,7 @@ export interface TariffTblMonitorV1TariffTblGetData {
 
 export interface TariffTblMonitorV1TariffTblReportData {
 	rateParameterSetID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	tariffPrecision: number; // properties1[7..5]
 	tariffValue: number; // 4 byte unsigned integer
 }
 
@@ -68,9 +68,10 @@ export interface TariffTblMonitorV1TariffTblSupplierReportData {
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	currency: number; // 3 byte unsigned integer
-	// TODO param properties1 type bitfield
+	standingChargePrecision: number; // properties1[7..5]
+	standingChargePeriod: number; // properties1[4..0]
 	standingChargeValue: number; // 4 byte unsigned integer
-	// TODO param properties2 type bitfield
+	numberOfSupplierCharacters: number; // properties2[4..0]
 	// TODO param supplierCharacter type blob
 }
 
@@ -195,15 +196,16 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Rate Type",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 252,
-							"shift": 2
+							"name": "rateType",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -281,15 +283,16 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 31,
-							"shift": 0
+							"name": "costPrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Cost Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "reserved2",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -361,15 +364,16 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 31,
-							"shift": 0
+							"name": "tariffPrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Tariff Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "reserved",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -470,15 +474,15 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Standing Charge Period",
-							"mask": 31,
-							"shift": 0
+							"name": "standingChargePrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Standing Charge Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "standingChargePeriod",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -496,15 +500,16 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Supplier Characters",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "numberOfSupplierCharacters",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -514,8 +519,11 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					"help": "Supplier Character",
 					"length": {
 						"name": "Properties2",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "numberOfSupplierCharacters"
+						}
 					}
 				}
 			]

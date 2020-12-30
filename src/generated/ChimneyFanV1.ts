@@ -52,11 +52,26 @@ export enum ChimneyFanV1Commands {
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmLogReportData {
-	// TODO param alarmEvent1 type bitfield
-	// TODO param alarmEvent2 type bitfield
-	// TODO param alarmEvent3 type bitfield
-	// TODO param alarmEvent4 type bitfield
-	// TODO param alarmEvent5 type bitfield
+	alarmStillActive1: boolean; // alarmEvent1[7]
+	alarmTemperatureExceeded1: boolean; // alarmEvent1[3]
+	sensorError1: boolean; // alarmEvent1[2]
+	externalAlarm1: boolean; // alarmEvent1[1]
+	alarmStillActive2: boolean; // alarmEvent2[7]
+	alarmTemperatureExceeded2: boolean; // alarmEvent2[3]
+	sensorError2: boolean; // alarmEvent2[2]
+	externalAlarm2: boolean; // alarmEvent2[1]
+	alarmStillActive3: boolean; // alarmEvent3[7]
+	alarmTemperatureExceeded3: boolean; // alarmEvent3[3]
+	sensorError3: boolean; // alarmEvent3[2]
+	externalAlarm3: boolean; // alarmEvent3[1]
+	alarmStillActive4: boolean; // alarmEvent4[7]
+	alarmTemperatureExceeded4: boolean; // alarmEvent4[3]
+	sensorError4: boolean; // alarmEvent4[2]
+	externalAlarm4: boolean; // alarmEvent4[1]
+	alarmStillActive5: boolean; // alarmEvent5[7]
+	alarmTemperatureExceeded5: boolean; // alarmEvent5[3]
+	sensorError5: boolean; // alarmEvent5[2]
+	externalAlarm5: boolean; // alarmEvent5[1]
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmLogSetData {
@@ -64,20 +79,34 @@ export interface ChimneyFanV1ChimneyFanAlarmLogSetData {
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmStatusReportData {
-	// TODO param alarmStatus type bitfield
+	startTemperatureExceeded: boolean; // alarmStatus[7]
+	speedChangeEnable: boolean; // alarmStatus[6]
+	notUsed: number; // alarmStatus[5..4]
+	alarmTemperatureExceeded: boolean; // alarmStatus[3]
+	sensorError: boolean; // alarmStatus[2]
+	externalAlarm: boolean; // alarmStatus[1]
+	service: boolean; // alarmStatus[0]
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmStatusSetData {
-	// TODO param message type bitfield
+	notUsed2: number; // message[7..4]
+	acknowledgeAlarmTemperatureExceeded: boolean; // message[3]
+	acknowledgeSensorError: boolean; // message[2]
+	acknowledgeExternalAlarm: boolean; // message[1]
+	notUsed1: boolean; // message[0]
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmTempReportData {
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmTempSetData {
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
@@ -110,11 +139,17 @@ export interface ChimneyFanV1ChimneyFanSetupReportData {
 	boostTime: number; // 1 byte unsigned integer
 	stopTime: number; // 1 byte unsigned integer
 	minSpeed: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	precision1: number; // properties1[7..5]
+	scale1: number; // properties1[4..3]
+	size1: number; // properties1[2..0]
 	// TODO param startTemperature type blob
-	// TODO param properties2 type bitfield
+	precision2: number; // properties2[7..5]
+	scale2: number; // properties2[4..3]
+	size2: number; // properties2[2..0]
 	// TODO param stopTemperature type blob
-	// TODO param properties3 type bitfield
+	precision3: number; // properties3[7..5]
+	scale3: number; // properties3[4..3]
+	size3: number; // properties3[2..0]
 	// TODO param alarmTemperatureValue type blob
 }
 
@@ -123,11 +158,17 @@ export interface ChimneyFanV1ChimneyFanSetupSetData {
 	boostTime: number; // 1 byte unsigned integer
 	stopTime: number; // 1 byte unsigned integer
 	minSpeed: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	precision1: number; // properties1[7..5]
+	scale1: number; // properties1[4..3]
+	size1: number; // properties1[2..0]
 	// TODO param startTemperature type blob
-	// TODO param properties2 type bitfield
+	precision2: number; // properties2[7..5]
+	scale2: number; // properties2[4..3]
+	size2: number; // properties2[2..0]
 	// TODO param stopTemperature type blob
-	// TODO param properties3 type bitfield
+	precision3: number; // properties3[7..5]
+	scale3: number; // properties3[4..3]
+	size3: number; // properties3[2..0]
 	// TODO param alarmTemperatureValue type blob
 }
 
@@ -140,12 +181,16 @@ export interface ChimneyFanV1ChimneyFanSpeedSetData {
 }
 
 export interface ChimneyFanV1ChimneyFanStartTempReportData {
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanStartTempSetData {
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
@@ -160,18 +205,30 @@ export interface ChimneyFanV1ChimneyFanStateSetData {
 export interface ChimneyFanV1ChimneyFanStatusReportData {
 	state: StateEnum; // 1 byte enum value
 	speed: number; // 1 byte unsigned integer
-	// TODO param alarmStatus type bitfield
-	// TODO param properties1 type bitfield
+	startTemperatureExceeded: boolean; // alarmStatus[7]
+	speedChangeEnable: boolean; // alarmStatus[6]
+	notUsed: number; // alarmStatus[5..4]
+	alarmTemperatureExceeded: boolean; // alarmStatus[3]
+	sensorError: boolean; // alarmStatus[2]
+	externalAlarm: boolean; // alarmStatus[1]
+	service: boolean; // alarmStatus[0]
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanStopTempReportData {
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanStopTempSetData {
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
@@ -181,6 +238,33 @@ export interface ChimneyFanV1ChimneyFanStopTimeReportData {
 
 export interface ChimneyFanV1ChimneyFanStopTimeSetData {
 	time: number; // 1 byte unsigned integer
+}
+
+export enum MessageEnum {
+	ResetLog = 0x8,
+}
+
+export enum ModeEnum {
+	Off = 0x0,
+	On = 0xff,
+}
+
+export enum StateEnum {
+	Off = 0x0,
+	Boost = 0x1,
+	Exhaust = 0x2,
+	Reload = 0x3,
+	Venting = 0x4,
+	Stop = 0x5,
+	VentingEX = 0x6,
+	Service = 0x7,
+	SensorFailure = 0x8,
+	ChimneyFire = 0x9,
+	ExternalAlarm = 0xa,
+}
+
+export enum State2Enum {
+	NextState = 0x1,
 }
 
 export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
@@ -231,39 +315,41 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Reserved11",
-							"mask": 1,
-							"shift": 0
+							"name": "alarmStillActive1",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved12",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "External Alarm 1",
-							"mask": 2,
-							"shift": 1
+							"name": "alarmTemperatureExceeded1",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Sensor Error 1",
+							"name": "sensorError1",
 							"mask": 4,
 							"shift": 2
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm Temperature Exceeded 1",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"type": "integer",
-							"name": "Reserved12",
-							"mask": 112,
-							"shift": 4
+							"name": "externalAlarm1",
+							"mask": 2,
+							"shift": 1
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm still active 1",
-							"mask": 128,
-							"shift": 7
+							"name": "reserved11",
+							"mask": 1,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -275,39 +361,41 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Reserved21",
-							"mask": 1,
-							"shift": 0
+							"name": "alarmStillActive2",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved22",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "External Alarm 2",
-							"mask": 2,
-							"shift": 1
+							"name": "alarmTemperatureExceeded2",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Sensor Error 2",
+							"name": "sensorError2",
 							"mask": 4,
 							"shift": 2
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm Temperature Exceeded 2",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"type": "integer",
-							"name": "Reserved22",
-							"mask": 112,
-							"shift": 4
+							"name": "externalAlarm2",
+							"mask": 2,
+							"shift": 1
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm still active 2",
-							"mask": 128,
-							"shift": 7
+							"name": "reserved21",
+							"mask": 1,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -319,39 +407,41 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Reserved31",
-							"mask": 1,
-							"shift": 0
+							"name": "alarmStillActive3",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved32",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "External Alarm 3",
-							"mask": 2,
-							"shift": 1
+							"name": "alarmTemperatureExceeded3",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Sensor Error 3",
+							"name": "sensorError3",
 							"mask": 4,
 							"shift": 2
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm Temperature Exceeded 3",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"type": "integer",
-							"name": "Reserved32",
-							"mask": 112,
-							"shift": 4
+							"name": "externalAlarm3",
+							"mask": 2,
+							"shift": 1
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm still active 3",
-							"mask": 128,
-							"shift": 7
+							"name": "reserved31",
+							"mask": 1,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -363,39 +453,41 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Reserved41",
-							"mask": 1,
-							"shift": 0
+							"name": "alarmStillActive4",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved42",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "External Alarm 4",
-							"mask": 2,
-							"shift": 1
+							"name": "alarmTemperatureExceeded4",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Sensor Error 4",
+							"name": "sensorError4",
 							"mask": 4,
 							"shift": 2
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm Temperature Exceeded 4",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"type": "integer",
-							"name": "Reserved42",
-							"mask": 112,
-							"shift": 4
+							"name": "externalAlarm4",
+							"mask": 2,
+							"shift": 1
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm still active 4",
-							"mask": 128,
-							"shift": 7
+							"name": "reserved41",
+							"mask": 1,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -407,39 +499,41 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Reserved51",
-							"mask": 1,
-							"shift": 0
+							"name": "alarmStillActive5",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved52",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "External Alarm 5",
-							"mask": 2,
-							"shift": 1
+							"name": "alarmTemperatureExceeded5",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Sensor Error 5",
+							"name": "sensorError5",
 							"mask": 4,
 							"shift": 2
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm Temperature Exceeded 5",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"type": "integer",
-							"name": "Reserved52",
-							"mask": 112,
-							"shift": 4
+							"name": "externalAlarm5",
+							"mask": 2,
+							"shift": 1
 						},
 						{
 							"type": "boolean",
-							"name": "Alarm still active 5",
-							"mask": 128,
-							"shift": 7
+							"name": "reserved51",
+							"mask": 1,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}
@@ -470,7 +564,10 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Message",
 					"length": 1,
 					"values": {
-						"8": "Reset log"
+						"8": {
+							"name": "ResetLog",
+							"help": "Reset log"
+						}
 					}
 				}
 			]
@@ -522,45 +619,45 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Service",
-							"mask": 1,
-							"shift": 0
+							"name": "startTemperatureExceeded",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "External Alarm",
-							"mask": 2,
-							"shift": 1
-						},
-						{
-							"type": "boolean",
-							"name": "Sensor Error",
-							"mask": 4,
-							"shift": 2
-						},
-						{
-							"type": "boolean",
-							"name": "Alarm Temperature Exceeded",
-							"mask": 8,
-							"shift": 3
+							"name": "speedChangeEnable",
+							"mask": 64,
+							"shift": 6
 						},
 						{
 							"type": "integer",
-							"name": "Not Used",
+							"name": "notUsed",
 							"mask": 48,
 							"shift": 4
 						},
 						{
 							"type": "boolean",
-							"name": "Speed change Enable",
-							"mask": 64,
-							"shift": 6
+							"name": "alarmTemperatureExceeded",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Start Temperature Exceeded",
-							"mask": 128,
-							"shift": 7
+							"name": "sensorError",
+							"mask": 4,
+							"shift": 2
+						},
+						{
+							"type": "boolean",
+							"name": "externalAlarm",
+							"mask": 2,
+							"shift": 1
+						},
+						{
+							"type": "boolean",
+							"name": "service",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}
@@ -592,34 +689,34 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Not Used1",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "notUsed2",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "boolean",
-							"name": "Acknowledge External Alarm",
-							"mask": 2,
-							"shift": 1
+							"name": "acknowledgeAlarmTemperatureExceeded",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Acknowledge Sensor Error",
+							"name": "acknowledgeSensorError",
 							"mask": 4,
 							"shift": 2
 						},
 						{
 							"type": "boolean",
-							"name": "Acknowledge Alarm Temperature Exceeded",
-							"mask": 8,
-							"shift": 3
+							"name": "acknowledgeExternalAlarm",
+							"mask": 2,
+							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Not Used2",
-							"mask": 240,
-							"shift": 4
+							"type": "boolean",
+							"name": "notUsed1",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}
@@ -672,21 +769,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -696,8 +793,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -729,21 +829,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -753,8 +853,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -972,8 +1075,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"255": "ON"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"255": {
+							"name": "On",
+							"help": "ON"
+						}
 					}
 				}
 			]
@@ -1003,8 +1112,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"255": "ON"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"255": {
+							"name": "On",
+							"help": "ON"
+						}
 					}
 				}
 			]
@@ -1054,8 +1169,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"255": "ON"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"255": {
+							"name": "On",
+							"help": "ON"
+						}
 					}
 				},
 				{
@@ -1084,21 +1205,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size 1",
-							"mask": 7,
-							"shift": 0
+							"name": "precision1",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale 1",
+							"name": "scale1",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision 1",
-							"mask": 224,
-							"shift": 5
+							"name": "size1",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1108,8 +1229,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Start Temperature",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size1"
+						}
 					}
 				},
 				{
@@ -1120,21 +1244,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size 2",
-							"mask": 7,
-							"shift": 0
+							"name": "precision2",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale 2",
+							"name": "scale2",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision 2",
-							"mask": 224,
-							"shift": 5
+							"name": "size2",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1144,8 +1268,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Stop Temperature",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size2"
+						}
 					}
 				},
 				{
@@ -1156,21 +1283,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size 3",
-							"mask": 7,
-							"shift": 0
+							"name": "precision3",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale 3",
+							"name": "scale3",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision 3",
-							"mask": 224,
-							"shift": 5
+							"name": "size3",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1180,8 +1307,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Alarm Temperature Value",
 					"length": {
 						"name": "Properties3",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size3"
+						}
 					}
 				}
 			]
@@ -1211,8 +1341,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"255": "ON"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"255": {
+							"name": "On",
+							"help": "ON"
+						}
 					}
 				},
 				{
@@ -1241,21 +1377,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size 1",
-							"mask": 7,
-							"shift": 0
+							"name": "precision1",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale 1",
+							"name": "scale1",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision 1",
-							"mask": 224,
-							"shift": 5
+							"name": "size1",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1265,8 +1401,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Start Temperature",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size1"
+						}
 					}
 				},
 				{
@@ -1277,21 +1416,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size 2",
-							"mask": 7,
-							"shift": 0
+							"name": "precision2",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale 2",
+							"name": "scale2",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision 2",
-							"mask": 224,
-							"shift": 5
+							"name": "size2",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1301,8 +1440,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Stop Temperature",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size2"
+						}
 					}
 				},
 				{
@@ -1313,21 +1455,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size 3",
-							"mask": 7,
-							"shift": 0
+							"name": "precision3",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale 3",
+							"name": "scale3",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision 3",
-							"mask": 224,
-							"shift": 5
+							"name": "size3",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1337,8 +1479,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Alarm Temperature Value",
 					"length": {
 						"name": "Properties3",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size3"
+						}
 					}
 				}
 			]
@@ -1415,8 +1560,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Speed",
 					"length": 1,
 					"values": {
-						"101": "Speed down",
-						"200": "Speed up"
+						"101": {
+							"name": "SpeedDown",
+							"help": "Speed down"
+						},
+						"200": {
+							"name": "SpeedUp",
+							"help": "Speed up"
+						}
 					}
 				}
 			]
@@ -1468,21 +1619,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1492,8 +1643,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -1525,21 +1679,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1549,8 +1703,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -1600,17 +1757,50 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "State",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"1": "Boost",
-						"2": "Exhaust",
-						"3": "Reload",
-						"4": "Venting",
-						"5": "Stop",
-						"6": "Venting_EX",
-						"7": "Service",
-						"8": "Sensor Failure",
-						"9": "Chimney Fire",
-						"10": "External alarm"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"1": {
+							"name": "Boost",
+							"help": "Boost"
+						},
+						"2": {
+							"name": "Exhaust",
+							"help": "Exhaust"
+						},
+						"3": {
+							"name": "Reload",
+							"help": "Reload"
+						},
+						"4": {
+							"name": "Venting",
+							"help": "Venting"
+						},
+						"5": {
+							"name": "Stop",
+							"help": "Stop"
+						},
+						"6": {
+							"name": "VentingEX",
+							"help": "Venting_EX"
+						},
+						"7": {
+							"name": "Service",
+							"help": "Service"
+						},
+						"8": {
+							"name": "SensorFailure",
+							"help": "Sensor Failure"
+						},
+						"9": {
+							"name": "ChimneyFire",
+							"help": "Chimney Fire"
+						},
+						"10": {
+							"name": "ExternalAlarm",
+							"help": "External alarm"
+						}
 					}
 				}
 			]
@@ -1640,7 +1830,10 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "State",
 					"length": 1,
 					"values": {
-						"1": "Next State"
+						"1": {
+							"name": "NextState",
+							"help": "Next State"
+						}
 					}
 				}
 			]
@@ -1690,17 +1883,50 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "State",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"1": "Boost",
-						"2": "Exhaust",
-						"3": "Reload",
-						"4": "Venting",
-						"5": "Stop",
-						"6": "Venting_EX",
-						"7": "Service",
-						"8": "Sensor Failure",
-						"9": "Chimney Fire",
-						"10": "External alarm"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"1": {
+							"name": "Boost",
+							"help": "Boost"
+						},
+						"2": {
+							"name": "Exhaust",
+							"help": "Exhaust"
+						},
+						"3": {
+							"name": "Reload",
+							"help": "Reload"
+						},
+						"4": {
+							"name": "Venting",
+							"help": "Venting"
+						},
+						"5": {
+							"name": "Stop",
+							"help": "Stop"
+						},
+						"6": {
+							"name": "VentingEX",
+							"help": "Venting_EX"
+						},
+						"7": {
+							"name": "Service",
+							"help": "Service"
+						},
+						"8": {
+							"name": "SensorFailure",
+							"help": "Sensor Failure"
+						},
+						"9": {
+							"name": "ChimneyFire",
+							"help": "Chimney Fire"
+						},
+						"10": {
+							"name": "ExternalAlarm",
+							"help": "External alarm"
+						}
 					}
 				},
 				{
@@ -1717,45 +1943,45 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Service",
-							"mask": 1,
-							"shift": 0
+							"name": "startTemperatureExceeded",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "External Alarm",
-							"mask": 2,
-							"shift": 1
-						},
-						{
-							"type": "boolean",
-							"name": "Sensor Error",
-							"mask": 4,
-							"shift": 2
-						},
-						{
-							"type": "boolean",
-							"name": "Alarm Temperature Exceeded",
-							"mask": 8,
-							"shift": 3
+							"name": "speedChangeEnable",
+							"mask": 64,
+							"shift": 6
 						},
 						{
 							"type": "integer",
-							"name": "Not Used",
+							"name": "notUsed",
 							"mask": 48,
 							"shift": 4
 						},
 						{
 							"type": "boolean",
-							"name": "Speed change Enable",
-							"mask": 64,
-							"shift": 6
+							"name": "alarmTemperatureExceeded",
+							"mask": 8,
+							"shift": 3
 						},
 						{
 							"type": "boolean",
-							"name": "Start Temperature Exceeded",
-							"mask": 128,
-							"shift": 7
+							"name": "sensorError",
+							"mask": 4,
+							"shift": 2
+						},
+						{
+							"type": "boolean",
+							"name": "externalAlarm",
+							"mask": 2,
+							"shift": 1
+						},
+						{
+							"type": "boolean",
+							"name": "service",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -1767,21 +1993,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1791,8 +2017,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -1844,21 +2073,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1868,8 +2097,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -1901,21 +2133,21 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -1925,8 +2157,11 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -2056,31 +2291,4 @@ export namespace ChimneyFanV1 {
 	export type ChimneyFanStopTimeGet = InstanceType<typeof ChimneyFanV1.ChimneyFanStopTimeGet>;
 	export type ChimneyFanStopTimeReport = InstanceType<typeof ChimneyFanV1.ChimneyFanStopTimeReport>;
 	export type ChimneyFanStopTimeSet = InstanceType<typeof ChimneyFanV1.ChimneyFanStopTimeSet>;
-}
-
-export enum MessageEnum {
-	ResetLog = 0x8,
-}
-
-export enum ModeEnum {
-	Off = 0x0,
-	On = 0xff,
-}
-
-export enum StateEnum {
-	Off = 0x0,
-	Boost = 0x1,
-	Exhaust = 0x2,
-	Reload = 0x3,
-	Venting = 0x4,
-	Stop = 0x5,
-	VentingEX = 0x6,
-	Service = 0x7,
-	SensorFailure = 0x8,
-	ChimneyFire = 0x9,
-	ExternalAlarm = 0xa,
-}
-
-export enum State2Enum {
-	NextState = 0x1,
 }

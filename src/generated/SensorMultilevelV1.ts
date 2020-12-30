@@ -16,8 +16,16 @@ export enum SensorMultilevelV1Commands {
 
 export interface SensorMultilevelV1SensorMultilevelReportData {
 	sensorType: SensorTypeEnum; // 1 byte enum value
-	// TODO param level type bitfield
+	precision: number; // level[7..5]
+	scale: number; // level[4..3]
+	size: number; // level[2..0]
 	// TODO param sensorValue type blob
+}
+
+export enum SensorTypeEnum {
+	TemperatureVersion1 = 0x1,
+	GeneralPurposeValueVersion1 = 0x2,
+	LuminanceVersion1 = 0x3,
 }
 
 export class SensorMultilevelV1 extends CommandClassPacket<SensorMultilevelV1Commands> {
@@ -66,9 +74,18 @@ export class SensorMultilevelV1 extends CommandClassPacket<SensorMultilevelV1Com
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"1": "Temperature (version 1)",
-						"2": "General purpose value (version 1)",
-						"3": "Luminance (version 1)"
+						"1": {
+							"name": "TemperatureVersion1",
+							"help": "Temperature (version 1)"
+						},
+						"2": {
+							"name": "GeneralPurposeValueVersion1",
+							"help": "General purpose value (version 1)"
+						},
+						"3": {
+							"name": "LuminanceVersion1",
+							"help": "Luminance (version 1)"
+						}
 					}
 				},
 				{
@@ -79,21 +96,21 @@ export class SensorMultilevelV1 extends CommandClassPacket<SensorMultilevelV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -103,8 +120,11 @@ export class SensorMultilevelV1 extends CommandClassPacket<SensorMultilevelV1Com
 					"help": "Sensor Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -123,10 +143,4 @@ export class SensorMultilevelV1 extends CommandClassPacket<SensorMultilevelV1Com
 export namespace SensorMultilevelV1 {
 	export type SensorMultilevelGet = InstanceType<typeof SensorMultilevelV1.SensorMultilevelGet>;
 	export type SensorMultilevelReport = InstanceType<typeof SensorMultilevelV1.SensorMultilevelReport>;
-}
-
-export enum SensorTypeEnum {
-	TemperatureVersion1 = 0x1,
-	GeneralPurposeValueVersion1 = 0x2,
-	LuminanceVersion1 = 0x3,
 }

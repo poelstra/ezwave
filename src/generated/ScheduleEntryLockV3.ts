@@ -38,15 +38,19 @@ export interface ScheduleEntryLockV3ScheduleEntryLockEnableSetData {
 }
 
 export interface ScheduleEntryLockV3ScheduleEntryLockTimeOffsetReportData {
-	// TODO param level type bitfield
+	signTZO: boolean; // level[7]
+	hourTZO: number; // level[6..0]
 	minuteTZO: number; // 1 byte unsigned integer
-	// TODO param level2 type bitfield
+	signOffsetDST: boolean; // level2[7]
+	minuteOffsetDST: number; // level2[6..0]
 }
 
 export interface ScheduleEntryLockV3ScheduleEntryLockTimeOffsetSetData {
-	// TODO param level type bitfield
+	signTZO: boolean; // level[7]
+	hourTZO: number; // level[6..0]
 	minuteTZO: number; // 1 byte unsigned integer
-	// TODO param level2 type bitfield
+	signOffsetDST: boolean; // level2[7]
+	minuteOffsetDST: number; // level2[6..0]
 }
 
 export interface ScheduleEntryLockV3ScheduleEntryLockWeekDayGetData {
@@ -170,8 +174,14 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"help": "Enabled",
 					"length": 1,
 					"values": {
-						"0": "disabled",
-						"1": "enabled"
+						"0": {
+							"name": "Disabled",
+							"help": "disabled"
+						},
+						"1": {
+							"name": "Enabled",
+							"help": "enabled"
+						}
 					}
 				}
 			]
@@ -207,8 +217,14 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"help": "Enabled",
 					"length": 1,
 					"values": {
-						"0": "disabled",
-						"1": "enabled"
+						"0": {
+							"name": "Disabled",
+							"help": "disabled"
+						},
+						"1": {
+							"name": "Enabled",
+							"help": "enabled"
+						}
 					}
 				}
 			]
@@ -259,16 +275,16 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Hour TZO",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign TZO",
+							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "hourTZO",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -285,16 +301,16 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Minute Offset DST",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign Offset DST",
+							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "minuteOffsetDST",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -326,16 +342,16 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Hour TZO",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign TZO",
+							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "hourTZO",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -352,16 +368,16 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Minute Offset DST",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign Offset DST",
+							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "minuteOffsetDST",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -488,8 +504,14 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"help": "Set Action",
 					"length": 1,
 					"values": {
-						"0": "Erase",
-						"1": "Modify"
+						"0": {
+							"name": "Erase",
+							"help": "Erase"
+						},
+						"1": {
+							"name": "Modify",
+							"help": "Modify"
+						}
 					}
 				},
 				{
@@ -687,8 +709,14 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"help": "Set Action",
 					"length": 1,
 					"values": {
-						"0": "Erase",
-						"1": "Modify"
+						"0": {
+							"name": "Erase",
+							"help": "Erase"
+						},
+						"1": {
+							"name": "Modify",
+							"help": "Modify"
+						}
 					}
 				},
 				{
@@ -945,8 +973,14 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"help": "Set Action",
 					"length": 1,
 					"values": {
-						"0": "Erase",
-						"1": "Modify"
+						"0": {
+							"name": "Erase",
+							"help": "Erase"
+						},
+						"1": {
+							"name": "Modify",
+							"help": "Modify"
+						}
 					}
 				},
 				{

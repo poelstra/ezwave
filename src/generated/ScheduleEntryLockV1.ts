@@ -125,8 +125,14 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 					"help": "Enabled",
 					"length": 1,
 					"values": {
-						"0": "disabled",
-						"1": "enabled"
+						"0": {
+							"name": "Disabled",
+							"help": "disabled"
+						},
+						"1": {
+							"name": "Enabled",
+							"help": "enabled"
+						}
 					}
 				}
 			]
@@ -162,8 +168,14 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 					"help": "Enabled",
 					"length": 1,
 					"values": {
-						"0": "disabled",
-						"1": "enabled"
+						"0": {
+							"name": "Disabled",
+							"help": "disabled"
+						},
+						"1": {
+							"name": "Enabled",
+							"help": "enabled"
+						}
 					}
 				}
 			]
@@ -289,8 +301,14 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 					"help": "Set Action",
 					"length": 1,
 					"values": {
-						"0": "Erase",
-						"1": "Modify"
+						"0": {
+							"name": "Erase",
+							"help": "Erase"
+						},
+						"1": {
+							"name": "Modify",
+							"help": "Modify"
+						}
 					}
 				},
 				{
@@ -488,8 +506,14 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 					"help": "Set Action",
 					"length": 1,
 					"values": {
-						"0": "Erase",
-						"1": "Modify"
+						"0": {
+							"name": "Erase",
+							"help": "Erase"
+						},
+						"1": {
+							"name": "Modify",
+							"help": "Modify"
+						}
 					}
 				},
 				{

@@ -33,12 +33,13 @@ export interface SwitchColorV1SwitchColorReportData {
 }
 
 export interface SwitchColorV1SwitchColorSetData {
-	// TODO param properties1 type bitfield
+	colorComponentCount: number; // properties1[4..0]
 	// TODO param vg1 type group
 }
 
 export interface SwitchColorV1SwitchColorStartLevelChangeData {
-	// TODO param properties1 type bitfield
+	upDown: boolean; // properties1[6]
+	ignoreStartState: boolean; // properties1[5]
 	colorComponentID: number; // 1 byte unsigned integer
 	startLevel: number; // 1 byte unsigned integer
 }
@@ -182,15 +183,16 @@ export class SwitchColorV1 extends CommandClassPacket<SwitchColorV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Color Component Count",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "colorComponentCount",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -200,8 +202,11 @@ export class SwitchColorV1 extends CommandClassPacket<SwitchColorV1Commands> {
 					"help": "vg1",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "colorComponentCount"
+						}
 					},
 					"params": [
 						{
@@ -246,28 +251,30 @@ export class SwitchColorV1 extends CommandClassPacket<SwitchColorV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Res1",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "res2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Ignore Start State",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "Up/Down",
+							"name": "upDown",
 							"mask": 64,
 							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "Res2",
-							"mask": 128,
-							"shift": 7
+							"name": "ignoreStartState",
+							"mask": 32,
+							"shift": 5
+						},
+						{
+							"type": "integer",
+							"name": "res1",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},

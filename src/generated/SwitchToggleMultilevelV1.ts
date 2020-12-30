@@ -22,7 +22,8 @@ export interface SwitchToggleMultilevelV1SwitchToggleMultilevelReportData {
 }
 
 export interface SwitchToggleMultilevelV1SwitchToggleMultilevelStartLevelChangeData {
-	// TODO param level type bitfield
+	rollOver: boolean; // level[7]
+	ignoreStartLevel: boolean; // level[5]
 	startLevel: number; // 1 byte unsigned integer
 }
 
@@ -93,8 +94,14 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				}
 			]
@@ -125,28 +132,30 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved1",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "rollOver",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Ignore Start Level",
+							"name": "reserved2",
+							"mask": 64,
+							"shift": 6,
+							"reserved": true
+						},
+						{
+							"type": "boolean",
+							"name": "ignoreStartLevel",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved2",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"type": "boolean",
-							"name": "Roll Over",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved1",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},

@@ -16,13 +16,13 @@ export enum TariffConfigV1Commands {
 }
 
 export interface TariffConfigV1TariffTblRemoveData {
-	// TODO param properties1 type bitfield
+	rateParameterSetIDs: number; // properties1[5..0]
 	// TODO param rateParameterSetID type blob
 }
 
 export interface TariffConfigV1TariffTblSetData {
 	rateParameterSetID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	tariffPrecision: number; // properties1[7..5]
 	tariffValue: number; // 4 byte unsigned integer
 }
 
@@ -34,9 +34,10 @@ export interface TariffConfigV1TariffTblSupplierSetData {
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	currency: number; // 3 byte unsigned integer
-	// TODO param properties1 type bitfield
+	standingChargePrecision: number; // properties1[7..5]
+	standingChargePeriod: number; // properties1[4..0]
 	standingChargeValue: number; // 4 byte unsigned integer
-	// TODO param properties2 type bitfield
+	numberOfSupplierCharacters: number; // properties2[4..0]
 	// TODO param supplierCharacter type blob
 }
 
@@ -68,15 +69,16 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Rate Parameter Set IDs",
-							"mask": 63,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "rateParameterSetIDs",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -86,8 +88,11 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"help": "Rate Parameter Set ID",
 					"length": {
 						"name": "Properties1",
-						"mask": 63,
-						"shift": 0
+						"bitfield": {
+							"mask": 63,
+							"shift": 0,
+							"name": "rateParameterSetIDs"
+						}
 					}
 				}
 			]
@@ -125,15 +130,16 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 31,
-							"shift": 0
+							"name": "tariffPrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Tariff Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "reserved",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -214,15 +220,15 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Standing Charge Period",
-							"mask": 31,
-							"shift": 0
+							"name": "standingChargePrecision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Standing Charge Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "standingChargePeriod",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -240,15 +246,16 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Supplier Characters",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "numberOfSupplierCharacters",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -258,8 +265,11 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"help": "Supplier Character",
 					"length": {
 						"name": "Properties2",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "numberOfSupplierCharacters"
+						}
 					}
 				}
 			]

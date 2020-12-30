@@ -18,15 +18,32 @@ export enum ThermostatModeV2Commands {
 }
 
 export interface ThermostatModeV2ThermostatModeReportData {
-	// TODO param level type bitfield
+	mode: ModeEnum; // level[4..0]
 }
 
 export interface ThermostatModeV2ThermostatModeSetData {
-	// TODO param level type bitfield
+	mode: ModeEnum; // level[4..0]
 }
 
 export interface ThermostatModeV2ThermostatModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum ModeEnum {
+	Off = 0x0,
+	Heat = 0x1,
+	Cool = 0x2,
+	Auto = 0x3,
+	AuxiliaryHeat = 0x4,
+	Resume = 0x5,
+	FanOnly = 0x6,
+	Furnace = 0x7,
+	DryAir = 0x8,
+	MoistAir = 0x9,
+	AutoChangeover = 0xa,
+	EnergySaveHeat = 0xb,
+	EnergySaveCool = 0xc,
+	Away = 0xd,
 }
 
 export class ThermostatModeV2 extends CommandClassPacket<ThermostatModeV2Commands> {
@@ -76,32 +93,75 @@ export class ThermostatModeV2 extends CommandClassPacket<ThermostatModeV2Command
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Heat",
-								"2": "Cool",
-								"3": "Auto",
-								"4": "Auxiliary Heat",
-								"5": "Resume",
-								"6": "Fan Only",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto Changeover",
-								"11": "Energy Save Heat",
-								"12": "Energy Save Cool",
-								"13": "AWAY"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Heat",
+									"help": "Heat"
+								},
+								"2": {
+									"name": "Cool",
+									"help": "Cool"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								},
+								"4": {
+									"name": "AuxiliaryHeat",
+									"help": "Auxiliary Heat"
+								},
+								"5": {
+									"name": "Resume",
+									"help": "Resume"
+								},
+								"6": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto Changeover"
+								},
+								"11": {
+									"name": "EnergySaveHeat",
+									"help": "Energy Save Heat"
+								},
+								"12": {
+									"name": "EnergySaveCool",
+									"help": "Energy Save Cool"
+								},
+								"13": {
+									"name": "Away",
+									"help": "AWAY"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				}
@@ -133,32 +193,75 @@ export class ThermostatModeV2 extends CommandClassPacket<ThermostatModeV2Command
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Heat",
-								"2": "Cool",
-								"3": "Auto",
-								"4": "Auxiliary Heat",
-								"5": "Resume",
-								"6": "Fan Only",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto Changeover",
-								"11": "Energy Save Heat",
-								"12": "Energy Save Cool",
-								"13": "AWAY"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Heat",
+									"help": "Heat"
+								},
+								"2": {
+									"name": "Cool",
+									"help": "Cool"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								},
+								"4": {
+									"name": "AuxiliaryHeat",
+									"help": "Auxiliary Heat"
+								},
+								"5": {
+									"name": "Resume",
+									"help": "Resume"
+								},
+								"6": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto Changeover"
+								},
+								"11": {
+									"name": "EnergySaveHeat",
+									"help": "Energy Save Heat"
+								},
+								"12": {
+									"name": "EnergySaveCool",
+									"help": "Energy Save Cool"
+								},
+								"13": {
+									"name": "Away",
+									"help": "AWAY"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				}

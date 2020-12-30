@@ -21,13 +21,13 @@ export interface GroupingNameV1GroupingNameGetData {
 
 export interface GroupingNameV1GroupingNameReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	charPresentation: number; // properties1[2..0]
 	// TODO param groupingName type text
 }
 
 export interface GroupingNameV1GroupingNameSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	charPresentation: number; // properties1[2..0]
 	// TODO param groupingName type text
 }
 
@@ -93,15 +93,16 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -146,15 +147,16 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},

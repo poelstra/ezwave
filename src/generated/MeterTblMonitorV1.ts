@@ -64,7 +64,7 @@ export interface MeterTblMonitorV1MeterTblCurrentDataGetData {
 
 export interface MeterTblMonitorV1MeterTblCurrentDataReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	rateType: number; // properties1[1..0]
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
@@ -94,7 +94,7 @@ export interface MeterTblMonitorV1MeterTblHistoricalDataGetData {
 
 export interface MeterTblMonitorV1MeterTblHistoricalDataReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	rateType: number; // properties1[1..0]
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
@@ -106,21 +106,29 @@ export interface MeterTblMonitorV1MeterTblHistoricalDataReportData {
 }
 
 export interface MeterTblMonitorV1MeterTblReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	rateType: number; // properties1[7..6]
+	meterType: number; // properties1[5..0]
+	payMeter: PayMeterEnum; // properties2[3..0]
 	datasetSupported: number; // 3 byte unsigned integer
 	datasetHistorySupported: number; // 3 byte unsigned integer
 	dataHistorySupported: number; // 3 byte unsigned integer
 }
 
 export interface MeterTblMonitorV1MeterTblTableIdReportData {
-	// TODO param properties1 type bitfield
+	numberOfCharacters: number; // properties1[4..0]
 	// TODO param meterIDCharacter type blob
 }
 
 export interface MeterTblMonitorV1MeterTblTablePointAdmNoReportData {
-	// TODO param properties1 type bitfield
+	numberOfCharacters: number; // properties1[4..0]
 	// TODO param meterPointAdmNumberCharacter type blob
+}
+
+export enum PayMeterEnum {
+	Reserved = 0x0,
+	Creditmeter = 0x1,
+	PrepaymentMeter = 0x2,
+	PrepaymentMeterDebt = 0x3,
 }
 
 export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Commands> {
@@ -160,9 +168,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Reports to follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Reports to follow"
 					},
 					"params": [
 						{
@@ -173,19 +179,20 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Operating Status Event ID",
+									"name": "operatingStatusEventID",
 									"mask": 31,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Reserved",
+									"name": "reserved",
 									"mask": 96,
-									"shift": 5
+									"shift": 5,
+									"reserved": true
 								},
 								{
 									"type": "boolean",
-									"name": "Type",
+									"name": "type",
 									"mask": 128,
 									"shift": 7
 								}
@@ -470,15 +477,16 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Rate Type",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"name": "rateType",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -529,9 +537,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Reports to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Reports to Follow"
 					},
 					"params": [
 						{
@@ -542,13 +548,13 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Current Scale",
+									"name": "currentScale",
 									"mask": 31,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Current Precision",
+									"name": "currentPrecision",
 									"mask": 224,
 									"shift": 5
 								}
@@ -702,15 +708,16 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Rate Type",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"name": "rateType",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -761,9 +768,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Reports to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Reports to Follow"
 					},
 					"params": [
 						{
@@ -774,13 +779,13 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Historical Scale",
+									"name": "historicalScale",
 									"mask": 31,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Historical Precision",
+									"name": "historicalPrecision",
 									"mask": 224,
 									"shift": 5
 								}
@@ -823,15 +828,15 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Meter Type",
-							"mask": 63,
-							"shift": 0
+							"name": "rateType",
+							"mask": 192,
+							"shift": 6
 						},
 						{
 							"type": "integer",
-							"name": "Rate Type",
-							"mask": 192,
-							"shift": 6
+							"name": "meterType",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -842,22 +847,35 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Pay Meter",
+							"name": "payMeter",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Reserved",
-								"1": "Creditmeter",
-								"2": "Prepayment meter",
-								"3": "Prepayment meter debt"
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "Creditmeter",
+									"help": "Creditmeter"
+								},
+								"2": {
+									"name": "PrepaymentMeter",
+									"help": "Prepayment meter"
+								},
+								"3": {
+									"name": "PrepaymentMeterDebt",
+									"help": "Prepayment meter debt"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				},
@@ -948,15 +966,16 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Characters",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "numberOfCharacters",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -966,8 +985,11 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"help": "Meter ID Character",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "numberOfCharacters"
+						}
 					}
 				}
 			]
@@ -1019,15 +1041,16 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Characters",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "numberOfCharacters",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -1037,8 +1060,11 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"help": "Meter Point Adm Number Character",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "numberOfCharacters"
+						}
 					}
 				}
 			]

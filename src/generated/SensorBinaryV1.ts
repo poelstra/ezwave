@@ -18,6 +18,11 @@ export interface SensorBinaryV1SensorBinaryReportData {
 	sensorValue: SensorValueEnum; // 1 byte enum value
 }
 
+export enum SensorValueEnum {
+	Idle = 0x0,
+	DetectedAnEvent = 0xff,
+}
+
 // Deprecated
 export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 	public static readonly commandClass = CommandClasses.SensorBinary; // 0x30 (48)
@@ -65,8 +70,14 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 					"help": "Sensor Value",
 					"length": 1,
 					"values": {
-						"0": "idle",
-						"255": "detected an event"
+						"0": {
+							"name": "Idle",
+							"help": "idle"
+						},
+						"255": {
+							"name": "DetectedAnEvent",
+							"help": "detected an event"
+						}
 					}
 				}
 			]
@@ -85,9 +96,4 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 export namespace SensorBinaryV1 {
 	export type SensorBinaryGet = InstanceType<typeof SensorBinaryV1.SensorBinaryGet>;
 	export type SensorBinaryReport = InstanceType<typeof SensorBinaryV1.SensorBinaryReport>;
-}
-
-export enum SensorValueEnum {
-	Idle = 0x0,
-	DetectedAnEvent = 0xff,
 }

@@ -15,13 +15,14 @@ export enum BasicTariffInfoV1Commands {
 }
 
 export interface BasicTariffInfoV1BasicTariffInfoReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	dual: boolean; // properties1[7]
+	totalNoImportRates: number; // properties1[3..0]
+	e1CurrentRateInUse: number; // properties2[3..0]
 	e1RateConsumptionRegister: number; // 4 byte unsigned integer
 	e1TimeForNextRateHours: number; // 1 byte unsigned integer
 	e1TimeForNextRateMinutes: number; // 1 byte unsigned integer
 	e1TimeForNextRateSeconds: number; // 1 byte unsigned integer
-	// TODO param properties3 type bitfield
+	e2CurrentRateInUse: number; // properties3[3..0]
 	e2RateConsumptionRegister: number; // 4 byte unsigned integer
 }
 
@@ -72,22 +73,23 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Total No. Import Rates",
-							"mask": 15,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved1",
-							"mask": 112,
-							"shift": 4
-						},
-						{
 							"type": "boolean",
-							"name": "Dual",
+							"name": "dual",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved1",
+							"mask": 112,
+							"shift": 4,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "totalNoImportRates",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -99,15 +101,16 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "E1 Current Rate in Use",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 240,
-							"shift": 4
+							"name": "e1CurrentRateInUse",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -143,15 +146,16 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "E2 Current Rate in Use",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved3",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved3",
-							"mask": 240,
-							"shift": 4
+							"name": "e2CurrentRateInUse",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},

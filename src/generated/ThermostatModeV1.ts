@@ -18,15 +18,29 @@ export enum ThermostatModeV1Commands {
 }
 
 export interface ThermostatModeV1ThermostatModeReportData {
-	// TODO param level type bitfield
+	mode: ModeEnum; // level[4..0]
 }
 
 export interface ThermostatModeV1ThermostatModeSetData {
-	// TODO param level type bitfield
+	mode: ModeEnum; // level[4..0]
 }
 
 export interface ThermostatModeV1ThermostatModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum ModeEnum {
+	Off = 0x0,
+	Heat = 0x1,
+	Cool = 0x2,
+	Auto = 0x3,
+	AuxiliaryHeat = 0x4,
+	Resume = 0x5,
+	FanOnly = 0x6,
+	Furnace = 0x7,
+	DryAir = 0x8,
+	MoistAir = 0x9,
+	AutoChangeover = 0xa,
 }
 
 export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Commands> {
@@ -76,29 +90,63 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Heat",
-								"2": "Cool",
-								"3": "Auto",
-								"4": "Auxiliary Heat",
-								"5": "Resume",
-								"6": "Fan Only",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto Changeover"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Heat",
+									"help": "Heat"
+								},
+								"2": {
+									"name": "Cool",
+									"help": "Cool"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								},
+								"4": {
+									"name": "AuxiliaryHeat",
+									"help": "Auxiliary Heat"
+								},
+								"5": {
+									"name": "Resume",
+									"help": "Resume"
+								},
+								"6": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto Changeover"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				}
@@ -130,29 +178,63 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Heat",
-								"2": "Cool",
-								"3": "Auto",
-								"4": "Auxiliary Heat",
-								"5": "Resume",
-								"6": "Fan Only",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto Changeover"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Heat",
+									"help": "Heat"
+								},
+								"2": {
+									"name": "Cool",
+									"help": "Cool"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								},
+								"4": {
+									"name": "AuxiliaryHeat",
+									"help": "Auxiliary Heat"
+								},
+								"5": {
+									"name": "Resume",
+									"help": "Resume"
+								},
+								"6": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto Changeover"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				}

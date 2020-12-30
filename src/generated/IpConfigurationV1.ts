@@ -18,7 +18,8 @@ export enum IpConfigurationV1Commands {
 }
 
 export interface IpConfigurationV1IpConfigurationReportData {
-	// TODO param properties1 type bitfield
+	autoIP: boolean; // properties1[1]
+	autoDNS: boolean; // properties1[0]
 	iPAddress: number; // 4 byte unsigned integer
 	subnetMask: number; // 4 byte unsigned integer
 	gateway: number; // 4 byte unsigned integer
@@ -28,7 +29,8 @@ export interface IpConfigurationV1IpConfigurationReportData {
 }
 
 export interface IpConfigurationV1IpConfigurationSetData {
-	// TODO param properties1 type bitfield
+	autoIP: boolean; // properties1[1]
+	autoDNS: boolean; // properties1[0]
 	iPAddress: number; // 4 byte unsigned integer
 	subnetMask: number; // 4 byte unsigned integer
 	gateway: number; // 4 byte unsigned integer
@@ -124,22 +126,23 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Auto DNS",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Auto IP",
+							"name": "autoIP",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "autoDNS",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -207,22 +210,23 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Auto DNS",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Auto IP",
+							"name": "autoIP",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "autoDNS",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},

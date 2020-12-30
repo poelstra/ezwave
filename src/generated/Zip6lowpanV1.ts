@@ -15,14 +15,14 @@ export enum Zip6lowpanV1Commands {
 }
 
 export interface Zip6lowpanV1LowpanFirstFragmentData {
-	// TODO param properties1 type bitfield
+	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
 	datagramTag: number; // 1 byte unsigned integer
 	// TODO param payload type blob
 }
 
 export interface Zip6lowpanV1LowpanSubsequentFragmentData {
-	// TODO param properties1 type bitfield
+	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
 	datagramTag: number; // 1 byte unsigned integer
 	datagramOffset: number; // 1 byte unsigned integer
@@ -58,7 +58,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Datagram Size 1",
+							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
 						}
@@ -113,7 +113,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Datagram Size 1",
+							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
 						}

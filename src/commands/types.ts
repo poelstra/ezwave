@@ -174,13 +174,21 @@ export interface IntegerParameter extends ParameterBase {
 	 * Optional dictionary of number => name mappings that can be used to
 	 * show the human-readable name of a specific number.
 	 */
-	values?: KeyValues;
+	values?: EnumValues;
 
 	/**
 	 * Whether this number is actually a special type of number, such as a
 	 * node, command class, etc.
 	 */
 	valueType?: ValueType;
+
+	/**
+	 * Whether this parameter is a reserved field.
+	 *
+	 * It should always be written as 0. It may be read as non-zero
+	 * when parsing a newer version of a command.
+	 */
+	reserved?: boolean;
 }
 
 /**
@@ -201,7 +209,7 @@ export interface EnumParameter extends ParameterBase {
 	/**
 	 * Dictionary of number => name mappings.
 	 */
-	values: KeyValues;
+	values: EnumValues;
 
 	/**
 	 * Whether this number is actually a special type of number, such as a
@@ -227,6 +235,7 @@ export interface BitfieldParameter extends ParameterBase {
 	 * for command). First payload byte for such messages therefore starts
 	 * at the command byte itself (i.e. one byte earlier than normal).
 	 */
+	// TODO get rid of this one
 	cmdMask?: number;
 }
 
@@ -238,7 +247,7 @@ export interface EnumUnionParameter extends ParameterBase {
 	reference: ParameterReference;
 	// Either enums or valueType will be present
 	enums?: {
-		[enumIndex: string /* number, actually */]: KeyValues;
+		[enumIndex: string /* number, actually */]: EnumValues;
 	};
 	valueType?: ValueType;
 }
@@ -260,7 +269,7 @@ export interface BlobParameter extends ParameterBase {
 	 * This is used to e.g. have an explicit length field to refer to in parameters, yet that length needs
 	 * to be part of an encapsulated payload.
 	 */
-	includeBytesBefore?: number;
+	includeBytesBefore?: number; // TODO Probably not the right description to use, and perhaps better to collapse the separate fields into one
 	blobType?: BlobType;
 }
 
@@ -281,9 +290,54 @@ export interface EnumArrayParameter extends ParameterBase {
  */
 export type LengthInfo = number | "auto" | DynamicLengthInfo;
 
-export interface ParameterReference {
-	name: string; // Parameter name (in Command or current ParameterGroup)
+export interface LocalParameterReference {
+	/**
+	 * Parameter name in current context (i.e. Command or current ParameterGroup).
+	 *
+	 * If isParentReference field is present and true, always referes to a parameter
+	 * in the Command, not the current ParameterGroup.
+	 */
+	name: string;
+
+	/**
+	 * Select a sub-field of the given parameter.
+	 * When present, 'mask' certain bits out of the given parameter to obtain the
+	 * final value to use.
+	 */
+	bitfield?: BitfieldReference;
+}
+
+export interface ParameterReference extends LocalParameterReference {
 	isParentReference?: boolean; // True if `name` refers to a parameter name in the command, even when currently in a ParameterGroup
+}
+
+/**
+ * Reference to a field within a Bitfield parameter.
+ * Use either the name OR the mask+shift to obtain the final value.
+ */
+export interface BitfieldReference {
+	/**
+	 * Name of sub-parameter of Bitfield.
+	 *
+	 * Given as lowerCamelCase.
+	 */
+	name: string;
+
+	/**
+	 * Mask to apply to raw value given by (Local)ParameterReference.
+	 *
+	 * Do not apply mask when using the BitfieldReference's name, it
+	 * will already be applied.
+	 */
+	mask: number;
+
+	/**
+	 * Number of bits to right-shift masked value to obtain final value.
+	 *
+	 * Do not apply shift when using the BitfieldReference's name, it
+	 * will already be applied.
+	 */
+	shift: number;
 }
 
 /**
@@ -292,10 +346,7 @@ export interface ParameterReference {
  * elements, not bytes, because the actual size of each element can
  * vary.
  */
-export interface DynamicLengthInfo extends ParameterReference {
-	mask: number; // Mask to apply to value at index
-	shift: number; // Number of bits to right-shift masked value to obtain final length
-}
+export type DynamicLengthInfo = ParameterReference;
 
 /**
  * Specifies enum values and their names.
@@ -303,17 +354,29 @@ export interface DynamicLengthInfo extends ParameterReference {
  * Each key is actually a number, but because of JSON representation is
  * stored as a string, the index type is a string.
  */
-export interface KeyValues {
-	[key: string /* number, actually */]: string;
+export interface EnumValues {
+	[key: string /* number, actually */]: EnumValue;
+}
+
+export interface EnumValue {
+	/**
+	 * Name of enum value.
+	 *
+	 * Given as UpperCamelCase.
+	 */
+	name: string;
+
+	/**
+	 * Human-readable name of field.
+	 */
+	help: string;
 }
 
 /**
  * Parameters can be optional. If the parameter at `index` is masked with
  * `mask` and the result is zero, the parameter is optional.
  */
-export interface OptionalInfo extends ParameterReference {
-	mask: number; // Mask to apply to index's value, if >0, param is present
-}
+export type OptionalInfo = ParameterReference;
 
 /**
  * Used in ParameterGroup (when length is "auto").
@@ -321,10 +384,7 @@ export interface OptionalInfo extends ParameterReference {
  * expected after this one.
  * If (param[name] & mask > 0), another record will follow.
  */
-export interface MoreToFollowInfo {
-	name: string; // Parameter name in current ParameterGroup
-	mask: number; // Mask to apply to byte at index
-}
+export type MoreToFollowInfo = LocalParameterReference;
 
 /**
  * One value inside a BitFieldParameter.
@@ -334,7 +394,15 @@ export interface BitfieldElement {
 	name: string;
 	shift: number;
 	mask: number;
-	values?: KeyValues; // Present if type is Enum
+	values?: EnumValues; // Present if type is Enum
+
+	/**
+	 * Whether this parameter is a reserved field.
+	 *
+	 * It should always be written as 0. It may be read as non-zero
+	 * when parsing a newer version of a command.
+	 */
+	reserved?: boolean;
 }
 
 /**

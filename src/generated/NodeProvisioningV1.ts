@@ -20,14 +20,14 @@ export enum NodeProvisioningV1Commands {
 
 export interface NodeProvisioningV1NodeProvisioningSetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 	// TODO param vg1 type group
 }
 
 export interface NodeProvisioningV1NodeProvisioningDeleteData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 }
 
@@ -39,20 +39,20 @@ export interface NodeProvisioningV1NodeProvisioningListIterationGetData {
 export interface NodeProvisioningV1NodeProvisioningListIterationReportData {
 	seqNo: number; // 1 byte unsigned integer
 	remainingCount: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 	// TODO param vg1 type group
 }
 
 export interface NodeProvisioningV1NodeProvisioningGetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 }
 
 export interface NodeProvisioningV1NodeProvisioningReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 	// TODO param vg1 type group
 }
@@ -91,15 +91,16 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "DSK Length",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 224,
-							"shift": 5
+							"name": "dSKLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -109,8 +110,11 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"help": "DSK",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "dSKLength"
+						}
 					}
 				},
 				{
@@ -127,13 +131,13 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"fields": [
 								{
 									"type": "boolean",
-									"name": "Critical",
+									"name": "critical",
 									"mask": 1,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Meta Data Type",
+									"name": "metaDataType",
 									"mask": 254,
 									"shift": 1
 								}
@@ -150,9 +154,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Length"
 							}
 						}
 					]
@@ -192,15 +194,16 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "DSK Length",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 224,
-							"shift": 5
+							"name": "dSKLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -210,8 +213,11 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"help": "DSK",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "dSKLength"
+						}
 					}
 				}
 			]
@@ -288,15 +294,16 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "DSK Length",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 224,
-							"shift": 5
+							"name": "dSKLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -306,8 +313,11 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"help": "DSK",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "dSKLength"
+						}
 					}
 				},
 				{
@@ -324,13 +334,13 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"fields": [
 								{
 									"type": "boolean",
-									"name": "Critical",
+									"name": "critical",
 									"mask": 1,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Meta Data Type",
+									"name": "metaDataType",
 									"mask": 254,
 									"shift": 1
 								}
@@ -347,9 +357,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Length"
 							}
 						}
 					]
@@ -389,15 +397,16 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "DSK Length",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 224,
-							"shift": 5
+							"name": "dSKLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -407,8 +416,11 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"help": "DSK",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "dSKLength"
+						}
 					}
 				}
 			]
@@ -446,15 +458,16 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "DSK Length",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "dSKLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -464,8 +477,11 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"help": "DSK",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "dSKLength"
+						}
 					}
 				},
 				{
@@ -482,13 +498,13 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"fields": [
 								{
 									"type": "boolean",
-									"name": "Critical",
+									"name": "critical",
 									"mask": 1,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Meta Data Type",
+									"name": "metaDataType",
 									"mask": 254,
 									"shift": 1
 								}
@@ -505,9 +521,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Length"
 							}
 						}
 					]

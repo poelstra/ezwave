@@ -58,6 +58,19 @@ export interface NetworkManagementInstallationMaintenanceV2RssiReportData {
 	channel3RSSI: number; // 1 byte unsigned integer
 }
 
+export enum SpeedEnum {
+	_96KbitSec = 0x1,
+	_40KbitSec = 0x2,
+	_100KbitSec = 0x3,
+}
+
+export enum TypeEnum {
+	None = 0x0,
+	ZwPriorityRouteZwLwr = 0x1,
+	ZwPriorityRouteZwNlwr = 0x2,
+	ZwPriorityRouteAppPr = 0x10,
+}
+
 export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPacket<NetworkManagementInstallationMaintenanceV2Commands> {
 	public static readonly commandClass = CommandClasses.NetworkManagementInstallationMaintenance; // 0x67 (103)
 
@@ -119,9 +132,18 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 					"help": "Speed",
 					"length": 1,
 					"values": {
-						"1": "9.6 kbit/sec",
-						"2": "40 kbit/sec",
-						"3": "100 kbit/sec"
+						"1": {
+							"name": "96KbitSec",
+							"help": "9.6 kbit/sec"
+						},
+						"2": {
+							"name": "40KbitSec",
+							"help": "40 kbit/sec"
+						},
+						"3": {
+							"name": "100KbitSec",
+							"help": "100 kbit/sec"
+						}
 					}
 				}
 			]
@@ -186,10 +208,22 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 					"help": "Type",
 					"length": 1,
 					"values": {
-						"0": "None",
-						"1": "ZW_PRIORITY_ROUTE_ZW_LWR",
-						"2": "ZW_PRIORITY_ROUTE_ZW_NLWR",
-						"16": "ZW_PRIORITY_ROUTE_APP_PR"
+						"0": {
+							"name": "None",
+							"help": "None"
+						},
+						"1": {
+							"name": "ZwPriorityRouteZwLwr",
+							"help": "ZW_PRIORITY_ROUTE_ZW_LWR"
+						},
+						"2": {
+							"name": "ZwPriorityRouteZwNlwr",
+							"help": "ZW_PRIORITY_ROUTE_ZW_NLWR"
+						},
+						"16": {
+							"name": "ZwPriorityRouteAppPr",
+							"help": "ZW_PRIORITY_ROUTE_APP_PR"
+						}
 					}
 				},
 				{
@@ -226,9 +260,18 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 					"help": "Speed",
 					"length": 1,
 					"values": {
-						"1": "9.6 kbit/sec",
-						"2": "40 kbit/sec",
-						"3": "100 kbit/sec"
+						"1": {
+							"name": "96KbitSec",
+							"help": "9.6 kbit/sec"
+						},
+						"2": {
+							"name": "40KbitSec",
+							"help": "40 kbit/sec"
+						},
+						"3": {
+							"name": "100KbitSec",
+							"help": "100 kbit/sec"
+						}
 					}
 				}
 			]
@@ -299,12 +342,30 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 							"help": "Type",
 							"length": 1,
 							"values": {
-								"0": "Route Changes (RC)",
-								"1": "Transmission Count (TC)",
-								"2": "Neighbors (NB)",
-								"3": "Packet Error Count (PEC)",
-								"4": "Sum of transmission times (TS)",
-								"5": "Sum of transmission times squrared (TS2)"
+								"0": {
+									"name": "RouteChangesRC",
+									"help": "Route Changes (RC)"
+								},
+								"1": {
+									"name": "TransmissionCountTC",
+									"help": "Transmission Count (TC)"
+								},
+								"2": {
+									"name": "NeighborsNB",
+									"help": "Neighbors (NB)"
+								},
+								"3": {
+									"name": "PacketErrorCountPEC",
+									"help": "Packet Error Count (PEC)"
+								},
+								"4": {
+									"name": "SumOfTransmissionTimesTS",
+									"help": "Sum of transmission times (TS)"
+								},
+								"5": {
+									"name": "SumOfTransmissionTimesSquraredTS2",
+									"help": "Sum of transmission times squrared (TS2)"
+								}
 							}
 						},
 						{
@@ -318,9 +379,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Length"
 							}
 						}
 					]
@@ -426,17 +485,4 @@ export namespace NetworkManagementInstallationMaintenanceV2 {
 	export type StatisticsClear = InstanceType<typeof NetworkManagementInstallationMaintenanceV2.StatisticsClear>;
 	export type RssiGet = InstanceType<typeof NetworkManagementInstallationMaintenanceV2.RssiGet>;
 	export type RssiReport = InstanceType<typeof NetworkManagementInstallationMaintenanceV2.RssiReport>;
-}
-
-export enum SpeedEnum {
-	_96KbitSec = 0x1,
-	_40KbitSec = 0x2,
-	_100KbitSec = 0x3,
-}
-
-export enum TypeEnum {
-	None = 0x0,
-	ZwPriorityRouteZwLwr = 0x1,
-	ZwPriorityRouteZwNlwr = 0x2,
-	ZwPriorityRouteAppPr = 0x10,
 }

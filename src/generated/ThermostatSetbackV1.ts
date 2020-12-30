@@ -16,13 +16,20 @@ export enum ThermostatSetbackV1Commands {
 }
 
 export interface ThermostatSetbackV1ThermostatSetbackReportData {
-	// TODO param properties1 type bitfield
+	setbackType: SetbackTypeEnum; // properties1[1..0]
 	setbackState: number; // 1 byte unsigned integer
 }
 
 export interface ThermostatSetbackV1ThermostatSetbackSetData {
-	// TODO param properties1 type bitfield
+	setbackType: SetbackTypeEnum; // properties1[1..0]
 	setbackState: number; // 1 byte unsigned integer
+}
+
+export enum SetbackTypeEnum {
+	NoOverride = 0x0,
+	TemporaryOverride = 0x1,
+	PermanentOverride = 0x2,
+	Reserved = 0x3,
 }
 
 export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1Commands> {
@@ -72,22 +79,35 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setback Type",
+							"name": "setbackType",
 							"mask": 3,
 							"shift": 0,
 							"values": {
-								"0": "No override",
-								"1": "Temporary override",
-								"2": "Permanent override",
-								"3": "Reserved"
+								"0": {
+									"name": "NoOverride",
+									"help": "No override"
+								},
+								"1": {
+									"name": "TemporaryOverride",
+									"help": "Temporary override"
+								},
+								"2": {
+									"name": "PermanentOverride",
+									"help": "Permanent override"
+								},
+								"3": {
+									"name": "Reserved",
+									"help": "Reserved"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
 						}
 					]
 				},
@@ -97,13 +117,34 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					"help": "Setback State",
 					"length": 1,
 					"values": {
-						"121": "Frost Protection",
-						"122": "Energy Saving Mode",
-						"123": "Reserved",
-						"124": "Reserved",
-						"125": "Reserved",
-						"126": "Reserved",
-						"127": "Unused State"
+						"121": {
+							"name": "FrostProtection",
+							"help": "Frost Protection"
+						},
+						"122": {
+							"name": "EnergySavingMode",
+							"help": "Energy Saving Mode"
+						},
+						"123": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"124": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"125": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"126": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"127": {
+							"name": "UnusedState",
+							"help": "Unused State"
+						}
 					}
 				}
 			]
@@ -134,22 +175,35 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setback Type",
+							"name": "setbackType",
 							"mask": 3,
 							"shift": 0,
 							"values": {
-								"0": "No override",
-								"1": "Temporary override",
-								"2": "Permanent override",
-								"3": "Reserved"
+								"0": {
+									"name": "NoOverride",
+									"help": "No override"
+								},
+								"1": {
+									"name": "TemporaryOverride",
+									"help": "Temporary override"
+								},
+								"2": {
+									"name": "PermanentOverride",
+									"help": "Permanent override"
+								},
+								"3": {
+									"name": "Reserved",
+									"help": "Reserved"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
 						}
 					]
 				},
@@ -159,13 +213,34 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					"help": "Setback State",
 					"length": 1,
 					"values": {
-						"121": "Frost Protection",
-						"122": "Energy Saving Mode",
-						"123": "Reserved",
-						"124": "Reserved",
-						"125": "Reserved",
-						"126": "Reserved",
-						"127": "Unused State"
+						"121": {
+							"name": "FrostProtection",
+							"help": "Frost Protection"
+						},
+						"122": {
+							"name": "EnergySavingMode",
+							"help": "Energy Saving Mode"
+						},
+						"123": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"124": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"125": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"126": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"127": {
+							"name": "UnusedState",
+							"help": "Unused State"
+						}
 					}
 				}
 			]

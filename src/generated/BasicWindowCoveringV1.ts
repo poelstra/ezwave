@@ -15,7 +15,7 @@ export enum BasicWindowCoveringV1Commands {
 }
 
 export interface BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData {
-	// TODO param level type bitfield
+	openClose: boolean; // level[6]
 }
 
 // Obsolete
@@ -46,22 +46,24 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved1",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Open/ Close",
+							"name": "openClose",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved2",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved1",
+							"mask": 63,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}

@@ -35,13 +35,14 @@ export interface SwitchColorV3SwitchColorReportData {
 }
 
 export interface SwitchColorV3SwitchColorSetData {
-	// TODO param properties1 type bitfield
+	colorComponentCount: number; // properties1[4..0]
 	// TODO param vg1 type group
 	duration: Duration2Enum; // 1 byte enum value
 }
 
 export interface SwitchColorV3SwitchColorStartLevelChangeData {
-	// TODO param properties1 type bitfield
+	upDown: boolean; // properties1[6]
+	ignoreStartState: boolean; // properties1[5]
 	colorComponentID: number; // 1 byte unsigned integer
 	startLevel: number; // 1 byte unsigned integer
 	duration: Duration2Enum; // 1 byte enum value
@@ -49,6 +50,17 @@ export interface SwitchColorV3SwitchColorStartLevelChangeData {
 
 export interface SwitchColorV3SwitchColorStopLevelChangeData {
 	colorComponentID: number; // 1 byte unsigned integer
+}
+
+export enum DurationEnum {
+	AlreadyAtTheTargetValue = 0x0,
+	UnknownDuration = 0xfe,
+	Reserved = 0xff,
+}
+
+export enum Duration2Enum {
+	Instantly = 0x0,
+	Default = 0xff,
 }
 
 export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
@@ -169,9 +181,18 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					"help": "Duration",
 					"length": 1,
 					"values": {
-						"0": "Already at the Target Value",
-						"254": "Unknown duration",
-						"255": "Reserved"
+						"0": {
+							"name": "AlreadyAtTheTargetValue",
+							"help": "Already at the Target Value"
+						},
+						"254": {
+							"name": "UnknownDuration",
+							"help": "Unknown duration"
+						},
+						"255": {
+							"name": "Reserved",
+							"help": "Reserved"
+						}
 					}
 				}
 			]
@@ -203,15 +224,16 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Color Component Count",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "colorComponentCount",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -221,8 +243,11 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					"help": "vg1",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "colorComponentCount"
+						}
 					},
 					"params": [
 						{
@@ -245,8 +270,14 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					"help": "Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly",
-						"255": "Default"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						},
+						"255": {
+							"name": "Default",
+							"help": "Default"
+						}
 					}
 				}
 			]
@@ -277,28 +308,30 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Res1",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "res2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Ignore Start State",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "Up/Down",
+							"name": "upDown",
 							"mask": 64,
 							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "Res2",
-							"mask": 128,
-							"shift": 7
+							"name": "ignoreStartState",
+							"mask": 32,
+							"shift": 5
+						},
+						{
+							"type": "integer",
+							"name": "res1",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -320,8 +353,14 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					"help": "Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly",
-						"255": "Default"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						},
+						"255": {
+							"name": "Default",
+							"help": "Default"
+						}
 					}
 				}
 			]
@@ -372,15 +411,4 @@ export namespace SwitchColorV3 {
 	export type SwitchColorSet = InstanceType<typeof SwitchColorV3.SwitchColorSet>;
 	export type SwitchColorStartLevelChange = InstanceType<typeof SwitchColorV3.SwitchColorStartLevelChange>;
 	export type SwitchColorStopLevelChange = InstanceType<typeof SwitchColorV3.SwitchColorStopLevelChange>;
-}
-
-export enum DurationEnum {
-	AlreadyAtTheTargetValue = 0x0,
-	UnknownDuration = 0xfe,
-	Reserved = 0xff,
-}
-
-export enum Duration2Enum {
-	Instantly = 0x0,
-	Default = 0xff,
 }

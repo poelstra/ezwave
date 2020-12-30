@@ -18,15 +18,28 @@ export enum ThermostatFanModeV3Commands {
 }
 
 export interface ThermostatFanModeV3ThermostatFanModeReportData {
-	// TODO param properties1 type bitfield
+	off: boolean; // properties1[7]
+	fanMode: FanModeEnum; // properties1[3..0]
 }
 
 export interface ThermostatFanModeV3ThermostatFanModeSetData {
-	// TODO param properties1 type bitfield
+	off: boolean; // properties1[7]
+	fanMode: FanModeEnum; // properties1[3..0]
 }
 
 export interface ThermostatFanModeV3ThermostatFanModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum FanModeEnum {
+	AutoLow = 0x0,
+	Low = 0x1,
+	AutoHigh = 0x2,
+	High = 0x3,
+	AutoMedium = 0x4,
+	Medium = 0x5,
+	Circulation = 0x6,
+	Humidity = 0x7,
 }
 
 export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3Commands> {
@@ -76,32 +89,57 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Fan Mode",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High",
-								"4": "Auto Medium",
-								"5": "Medium",
-								"6": "Circulation",
-								"7": "Humidity"
-							}
+							"type": "boolean",
+							"name": "off",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
+							"name": "reserved",
 							"mask": 112,
-							"shift": 4
+							"shift": 4,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Off",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "fanMode",
+							"mask": 15,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								},
+								"4": {
+									"name": "AutoMedium",
+									"help": "Auto Medium"
+								},
+								"5": {
+									"name": "Medium",
+									"help": "Medium"
+								},
+								"6": {
+									"name": "Circulation",
+									"help": "Circulation"
+								},
+								"7": {
+									"name": "Humidity",
+									"help": "Humidity"
+								}
+							}
 						}
 					]
 				}
@@ -133,32 +171,57 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Fan Mode",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High",
-								"4": "Auto Medium",
-								"5": "Medium",
-								"6": "Circulation",
-								"7": "Humidity"
-							}
+							"type": "boolean",
+							"name": "off",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
+							"name": "reserved",
 							"mask": 112,
-							"shift": 4
+							"shift": 4,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Off",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "fanMode",
+							"mask": 15,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								},
+								"4": {
+									"name": "AutoMedium",
+									"help": "Auto Medium"
+								},
+								"5": {
+									"name": "Medium",
+									"help": "Medium"
+								},
+								"6": {
+									"name": "Circulation",
+									"help": "Circulation"
+								},
+								"7": {
+									"name": "Humidity",
+									"help": "Humidity"
+								}
+							}
 						}
 					]
 				}

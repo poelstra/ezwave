@@ -21,13 +21,14 @@ export interface ConfigurationV1ConfigurationGetData {
 
 export interface ConfigurationV1ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
 export interface ConfigurationV1ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	default: boolean; // level[7]
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
@@ -92,15 +93,16 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -110,8 +112,11 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -148,22 +153,23 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 120,
-							"shift": 3
-						},
-						{
 							"type": "boolean",
-							"name": "Default",
+							"name": "default",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 120,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -173,8 +179,11 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]

@@ -26,6 +26,27 @@ export interface SwitchBinaryV2SwitchBinarySetData {
 	duration: Duration2Enum; // 1 byte enum value
 }
 
+export enum CurrentValueEnum {
+	OffDisable = 0x0,
+	OnEnable = 0xff,
+}
+
+export enum TargetValueEnum {
+	OffDisable = 0x0,
+	OnEnable = 0xff,
+}
+
+export enum DurationEnum {
+	AlreadyAtTheTargetValue = 0x0,
+	UnknownDuration = 0xfe,
+	Reserved = 0xff,
+}
+
+export enum Duration2Enum {
+	Instantly = 0x0,
+	Default = 0xff,
+}
+
 export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 	public static readonly commandClass = CommandClasses.SwitchBinary; // 0x25 (37)
 
@@ -72,8 +93,14 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					"help": "Current Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				},
 				{
@@ -82,8 +109,14 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					"help": "Target Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				},
 				{
@@ -92,9 +125,18 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					"help": "Duration",
 					"length": 1,
 					"values": {
-						"0": "Already at the Target Value",
-						"254": "Unknown duration",
-						"255": "Reserved"
+						"0": {
+							"name": "AlreadyAtTheTargetValue",
+							"help": "Already at the Target Value"
+						},
+						"254": {
+							"name": "UnknownDuration",
+							"help": "Unknown duration"
+						},
+						"255": {
+							"name": "Reserved",
+							"help": "Reserved"
+						}
 					}
 				}
 			]
@@ -124,8 +166,14 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					"help": "Target Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				},
 				{
@@ -134,8 +182,14 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					"help": "Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly",
-						"255": "Default"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						},
+						"255": {
+							"name": "Default",
+							"help": "Default"
+						}
 					}
 				}
 			]
@@ -155,25 +209,4 @@ export namespace SwitchBinaryV2 {
 	export type SwitchBinaryGet = InstanceType<typeof SwitchBinaryV2.SwitchBinaryGet>;
 	export type SwitchBinaryReport = InstanceType<typeof SwitchBinaryV2.SwitchBinaryReport>;
 	export type SwitchBinarySet = InstanceType<typeof SwitchBinaryV2.SwitchBinarySet>;
-}
-
-export enum CurrentValueEnum {
-	OffDisable = 0x0,
-	OnEnable = 0xff,
-}
-
-export enum TargetValueEnum {
-	OffDisable = 0x0,
-	OnEnable = 0xff,
-}
-
-export enum DurationEnum {
-	AlreadyAtTheTargetValue = 0x0,
-	UnknownDuration = 0xfe,
-	Reserved = 0xff,
-}
-
-export enum Duration2Enum {
-	Instantly = 0x0,
-	Default = 0xff,
 }

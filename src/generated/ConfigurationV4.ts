@@ -34,14 +34,18 @@ export interface ConfigurationV4ConfigurationBulkReportData {
 	parameterOffset: number; // 2 byte unsigned integer
 	numberOfParameters: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	default: boolean; // properties1[7]
+	handshake: boolean; // properties1[6]
+	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
 export interface ConfigurationV4ConfigurationBulkSetData {
 	parameterOffset: number; // 2 byte unsigned integer
 	numberOfParameters: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	default: boolean; // properties1[7]
+	handshake: boolean; // properties1[6]
+	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
@@ -51,13 +55,14 @@ export interface ConfigurationV4ConfigurationGetData {
 
 export interface ConfigurationV4ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
 export interface ConfigurationV4ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	default: boolean; // level[7]
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
@@ -87,12 +92,23 @@ export interface ConfigurationV4ConfigurationPropertiesGetData {
 
 export interface ConfigurationV4ConfigurationPropertiesReportData {
 	parameterNumber: number; // 2 byte unsigned integer
-	// TODO param properties1 type bitfield
+	alteringCapabilities: boolean; // properties1[7]
+	readonly: boolean; // properties1[6]
+	format: FormatEnum; // properties1[5..3]
+	size: number; // properties1[2..0]
 	// TODO param minValue type blob
 	// TODO param maxValue type blob
 	// TODO param defaultValue type blob
 	nextParameterNumber: number; // 2 byte unsigned integer
-	// TODO param properties2 type bitfield
+	noBulkSupport: boolean; // properties2[1]
+	advanced: boolean; // properties2[0]
+}
+
+export enum FormatEnum {
+	SignedInteger = 0x0,
+	UnsignedInteger = 0x1,
+	Enumerated = 0x2,
+	BitField = 0x3,
 }
 
 export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands> {
@@ -173,28 +189,29 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 56,
-							"shift": 3
+							"type": "boolean",
+							"name": "default",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Handshake",
+							"name": "handshake",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Default",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 56,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -203,9 +220,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Parameters"
 					},
 					"params": [
 						{
@@ -215,8 +230,11 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 							"length": {
 								"name": "Properties1",
 								"isParentReference": true,
-								"mask": 7,
-								"shift": 0
+								"bitfield": {
+									"mask": 7,
+									"shift": 0,
+									"name": "size"
+								}
 							}
 						}
 					]
@@ -261,28 +279,29 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 56,
-							"shift": 3
+							"type": "boolean",
+							"name": "default",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Handshake",
+							"name": "handshake",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Default",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 56,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -291,9 +310,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Parameters"
 					},
 					"params": [
 						{
@@ -303,8 +320,11 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 							"length": {
 								"name": "Properties1",
 								"isParentReference": true,
-								"mask": 7,
-								"shift": 0
+								"bitfield": {
+									"mask": 7,
+									"shift": 0,
+									"name": "size"
+								}
 							}
 						}
 					]
@@ -371,15 +391,16 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -389,8 +410,11 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -427,22 +451,23 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 120,
-							"shift": 3
-						},
-						{
 							"type": "boolean",
-							"name": "Default",
+							"name": "default",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 120,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -452,8 +477,11 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -649,34 +677,46 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "enum",
-							"name": "Format",
-							"mask": 56,
-							"shift": 3,
-							"values": {
-								"0": "Signed Integer",
-								"1": "Unsigned Integer",
-								"2": "Enumerated",
-								"3": "Bit field"
-							}
+							"type": "boolean",
+							"name": "alteringCapabilities",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Readonly",
+							"name": "readonly",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Altering capabilities",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "format",
+							"mask": 56,
+							"shift": 3,
+							"values": {
+								"0": {
+									"name": "SignedInteger",
+									"help": "Signed Integer"
+								},
+								"1": {
+									"name": "UnsignedInteger",
+									"help": "Unsigned Integer"
+								},
+								"2": {
+									"name": "Enumerated",
+									"help": "Enumerated"
+								},
+								"3": {
+									"name": "BitField",
+									"help": "Bit field"
+								}
+							}
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -686,8 +726,11 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"help": "Min Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -696,8 +739,11 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"help": "Max Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -706,8 +752,11 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"help": "Default Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -723,22 +772,23 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Advanced",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved1",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "No Bulk support",
+							"name": "noBulkSupport",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved1",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "advanced",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}

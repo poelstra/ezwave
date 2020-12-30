@@ -17,14 +17,25 @@ export enum CentralSceneV2Commands {
 
 export interface CentralSceneV2CentralSceneSupportedReportData {
 	supportedScenes: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	numberOfBitMaskBytes: number; // properties1[2..1]
+	identical: boolean; // properties1[0]
 	// TODO param vg1 type group
 }
 
 export interface CentralSceneV2CentralSceneNotificationData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	keyAttributes: KeyAttributesEnum; // properties1[2..0]
 	sceneNumber: number; // 1 byte unsigned integer
+}
+
+export enum KeyAttributesEnum {
+	KeyPressed1Time = 0x0,
+	KeyReleased = 0x1,
+	KeyHeldDown = 0x2,
+	KeyPressed2Times = 0x3,
+	KeyPressed3Times = 0x4,
+	KeyPressed4Times = 0x5,
+	KeyPressed5Times = 0x6,
 }
 
 export class CentralSceneV2 extends CommandClassPacket<CentralSceneV2Commands> {
@@ -80,22 +91,23 @@ export class CentralSceneV2 extends CommandClassPacket<CentralSceneV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Identical",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Number of Bit Mask Bytes",
+							"name": "numberOfBitMaskBytes",
 							"mask": 6,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"type": "boolean",
+							"name": "identical",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -104,9 +116,7 @@ export class CentralSceneV2 extends CommandClassPacket<CentralSceneV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Supported Scenes",
-						"mask": 255,
-						"shift": 0
+						"name": "Supported Scenes"
 					},
 					"params": [
 						{
@@ -151,25 +161,47 @@ export class CentralSceneV2 extends CommandClassPacket<CentralSceneV2Commands> {
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Key Attributes",
+							"name": "keyAttributes",
 							"mask": 7,
 							"shift": 0,
 							"values": {
-								"0": "Key Pressed 1 time",
-								"1": "Key Released",
-								"2": "Key Held Down",
-								"3": "Key Pressed 2 times",
-								"4": "Key Pressed 3 times",
-								"5": "Key Pressed 4 times",
-								"6": "Key Pressed 5 times"
+								"0": {
+									"name": "KeyPressed1Time",
+									"help": "Key Pressed 1 time"
+								},
+								"1": {
+									"name": "KeyReleased",
+									"help": "Key Released"
+								},
+								"2": {
+									"name": "KeyHeldDown",
+									"help": "Key Held Down"
+								},
+								"3": {
+									"name": "KeyPressed2Times",
+									"help": "Key Pressed 2 times"
+								},
+								"4": {
+									"name": "KeyPressed3Times",
+									"help": "Key Pressed 3 times"
+								},
+								"5": {
+									"name": "KeyPressed4Times",
+									"help": "Key Pressed 4 times"
+								},
+								"6": {
+									"name": "KeyPressed5Times",
+									"help": "Key Pressed 5 times"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
 						}
 					]
 				},

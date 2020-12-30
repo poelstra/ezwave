@@ -16,21 +16,27 @@ export enum ZipNdV1Commands {
 }
 
 export interface ZipNdV1ZipNodeSolicitationData {
-	reserved: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
 	// TODO param iPv6Address type blob
 }
 
 export interface ZipNdV1ZipInvNodeSolicitationData {
-	// TODO param properties1 type bitfield
+	local: boolean; // properties1[2]
 	nodeID: number; // 1 byte unsigned integer
 }
 
 export interface ZipNdV1ZipNodeAdvertisementData {
-	// TODO param properties1 type bitfield
+	local: boolean; // properties1[2]
+	validity: ValidityEnum; // properties1[1..0]
 	nodeID: number; // 1 byte unsigned integer
 	// TODO param iPv6Address type blob
 	// TODO param homeID type blob
+}
+
+export enum ValidityEnum {
+	InformationOk = 0x0,
+	InformationObsolete = 0x1,
+	InformationNotFound = 0x2,
 }
 
 export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
@@ -57,7 +63,8 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -101,21 +108,23 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Local",
+							"name": "local",
 							"mask": 4,
 							"shift": 2
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 248,
-							"shift": 3
+							"name": "reserved1",
+							"mask": 3,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -154,27 +163,37 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Validity",
-							"mask": 3,
-							"shift": 0,
-							"values": {
-								"0": "INFORMATION_OK",
-								"1": "INFORMATION_OBSOLETE",
-								"2": "INFORMATION_NOT_FOUND"
-							}
+							"type": "integer",
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Local",
+							"name": "local",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"type": "enum",
+							"name": "validity",
+							"mask": 3,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "InformationOk",
+									"help": "INFORMATION_OK"
+								},
+								"1": {
+									"name": "InformationObsolete",
+									"help": "INFORMATION_OBSOLETE"
+								},
+								"2": {
+									"name": "InformationNotFound",
+									"help": "INFORMATION_NOT_FOUND"
+								}
+							}
 						}
 					]
 				},

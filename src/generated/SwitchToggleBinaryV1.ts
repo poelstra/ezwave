@@ -86,8 +86,14 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off",
-						"255": "on"
+						"0": {
+							"name": "Off",
+							"help": "off"
+						},
+						"255": {
+							"name": "On",
+							"help": "on"
+						}
 					}
 				}
 			]

@@ -33,14 +33,18 @@ export interface ConfigurationV3ConfigurationBulkReportData {
 	parameterOffset: number; // 2 byte unsigned integer
 	numberOfParameters: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	default: boolean; // properties1[7]
+	handshake: boolean; // properties1[6]
+	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
 export interface ConfigurationV3ConfigurationBulkSetData {
 	parameterOffset: number; // 2 byte unsigned integer
 	numberOfParameters: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	default: boolean; // properties1[7]
+	handshake: boolean; // properties1[6]
+	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
@@ -50,13 +54,14 @@ export interface ConfigurationV3ConfigurationGetData {
 
 export interface ConfigurationV3ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
 export interface ConfigurationV3ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	default: boolean; // level[7]
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
@@ -86,11 +91,19 @@ export interface ConfigurationV3ConfigurationPropertiesGetData {
 
 export interface ConfigurationV3ConfigurationPropertiesReportData {
 	parameterNumber: number; // 2 byte unsigned integer
-	// TODO param properties1 type bitfield
+	format: FormatEnum; // properties1[5..3]
+	size: number; // properties1[2..0]
 	// TODO param minValue type blob
 	// TODO param maxValue type blob
 	// TODO param defaultValue type blob
 	nextParameterNumber: number; // 2 byte unsigned integer
+}
+
+export enum FormatEnum {
+	SignedInteger = 0x0,
+	UnsignedInteger = 0x1,
+	Enumerated = 0x2,
+	BitField = 0x3,
 }
 
 export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands> {
@@ -171,28 +184,29 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 56,
-							"shift": 3
+							"type": "boolean",
+							"name": "default",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Handshake",
+							"name": "handshake",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Default",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 56,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -201,9 +215,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Parameters"
 					},
 					"params": [
 						{
@@ -213,8 +225,11 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"length": {
 								"name": "Properties1",
 								"isParentReference": true,
-								"mask": 7,
-								"shift": 0
+								"bitfield": {
+									"mask": 7,
+									"shift": 0,
+									"name": "size"
+								}
 							}
 						}
 					]
@@ -259,28 +274,29 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 56,
-							"shift": 3
+							"type": "boolean",
+							"name": "default",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Handshake",
+							"name": "handshake",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Default",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 56,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -289,9 +305,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Parameters"
 					},
 					"params": [
 						{
@@ -301,8 +315,11 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"length": {
 								"name": "Properties1",
 								"isParentReference": true,
-								"mask": 7,
-								"shift": 0
+								"bitfield": {
+									"mask": 7,
+									"shift": 0,
+									"name": "size"
+								}
 							}
 						}
 					]
@@ -369,15 +386,16 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -387,8 +405,11 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -425,22 +446,23 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 120,
-							"shift": 3
-						},
-						{
 							"type": "boolean",
-							"name": "Default",
+							"name": "default",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 120,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -450,8 +472,11 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -648,27 +673,40 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "enum",
-							"name": "Format",
+							"name": "format",
 							"mask": 56,
 							"shift": 3,
 							"values": {
-								"0": "Signed Integer",
-								"1": "Unsigned Integer",
-								"2": "Enumerated",
-								"3": "Bit field"
+								"0": {
+									"name": "SignedInteger",
+									"help": "Signed Integer"
+								},
+								"1": {
+									"name": "UnsignedInteger",
+									"help": "Unsigned Integer"
+								},
+								"2": {
+									"name": "Enumerated",
+									"help": "Enumerated"
+								},
+								"3": {
+									"name": "BitField",
+									"help": "Bit field"
+								}
 							}
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -678,8 +716,11 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"help": "Min Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -688,8 +729,11 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"help": "Max Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{
@@ -698,8 +742,11 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"help": "Default Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				},
 				{

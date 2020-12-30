@@ -24,15 +24,18 @@ export enum NetworkManagementProxyV2Commands {
 
 export interface NetworkManagementProxyV2NodeInfoCachedGetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	maxAge: number; // properties1[3..0]
 	nodeID: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementProxyV2NodeInfoCachedReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
-	// TODO param properties3 type bitfield
+	status: StatusEnum; // properties1[7..4]
+	age: number; // properties1[3..0]
+	listening: boolean; // properties2[7]
+	zWaveProtocolSpecificPart1: number; // properties2[6..0]
+	opt: boolean; // properties3[7]
+	zWaveProtocolSpecificPart2: number; // properties3[6..0]
 	grantedKeys: number; // 1 byte unsigned integer
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
@@ -48,7 +51,7 @@ export interface NetworkManagementProxyV2NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	nodeListControllerID: number; // 1 byte unsigned integer
-	nodeListData: number; // 0 byte unsigned integer
+	// TODO param nodeListData type bitmask or marker
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelEndPointGetData {
@@ -59,22 +62,21 @@ export interface NetworkManagementProxyV2NmMultiChannelEndPointGetData {
 export interface NetworkManagementProxyV2NmMultiChannelEndPointReportData {
 	seqNo: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	individualEndPoints: number; // properties1[6..0]
+	aggregatedEndPoints: number; // properties2[6..0]
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelCapabilityGetData {
 	seqNo: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	endPoint: number; // properties1[6..0]
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelCapabilityReportData {
 	seqNo: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
 	commandClassLength: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	endPoint: number; // properties1[6..0]
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
 	// TODO param commandClass type enumarray
@@ -83,15 +85,21 @@ export interface NetworkManagementProxyV2NmMultiChannelCapabilityReportData {
 export interface NetworkManagementProxyV2NmMultiChannelAggregatedMembersGetData {
 	seqNo: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	aggregatedEndPoint: number; // properties1[6..0]
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelAggregatedMembersReportData {
 	seqNo: number; // 1 byte unsigned integer
 	nodeID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	aggregatedEndPoint: number; // properties1[6..0]
 	numberOfMembers: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
+}
+
+export enum StatusEnum {
+	StatusOk = 0x0,
+	StatusNotResponding = 0x1,
+	StatusUnknown = 0x2,
 }
 
 export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManagementProxyV2Commands> {
@@ -128,15 +136,16 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Max Age",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "maxAge",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -181,21 +190,30 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Age",
-							"mask": 15,
-							"shift": 0
-						},
-						{
 							"type": "enum",
-							"name": "Status",
+							"name": "status",
 							"mask": 240,
 							"shift": 4,
 							"values": {
-								"0": "STATUS_OK",
-								"1": "STATUS_NOT_RESPONDING",
-								"2": "STATUS_UNKNOWN"
+								"0": {
+									"name": "StatusOk",
+									"help": "STATUS_OK"
+								},
+								"1": {
+									"name": "StatusNotResponding",
+									"help": "STATUS_NOT_RESPONDING"
+								},
+								"2": {
+									"name": "StatusUnknown",
+									"help": "STATUS_UNKNOWN"
+								}
 							}
+						},
+						{
+							"type": "integer",
+							"name": "age",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -206,16 +224,16 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Listening",
+							"name": "listening",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -226,16 +244,16 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 2",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Opt",
+							"name": "opt",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart2",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -333,8 +351,14 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Latest",
-						"1": "May not be the latest"
+						"0": {
+							"name": "Latest",
+							"help": "Latest"
+						},
+						"1": {
+							"name": "MayNotBeTheLatest",
+							"help": "May not be the latest"
+						}
 					}
 				},
 				{
@@ -421,7 +445,8 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "bitfield",
@@ -430,16 +455,17 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Individual End Points",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res1",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res1",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "individualEndPoints",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -450,16 +476,17 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Aggregated End Points",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res2",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "aggregatedEndPoints",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -504,16 +531,17 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "End Point",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res1",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res1",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "endPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -564,16 +592,17 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "End Point",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res1",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res1",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "endPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -639,16 +668,17 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Aggregated End Point",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res1",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res1",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "aggregatedEndPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -693,16 +723,17 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Aggregated End Point",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res1",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res1",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "aggregatedEndPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -726,15 +757,16 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Member Endpoint",
+									"name": "memberEndpoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Res2",
+									"name": "res2",
 									"mask": 128,
-									"shift": 7
+									"shift": 7,
+									"reserved": true
 								}
 							]
 						}

@@ -18,17 +18,54 @@ export enum ThermostatModeV3Commands {
 }
 
 export interface ThermostatModeV3ThermostatModeReportData {
-	// TODO param level type bitfield
+	noOfManufacturerDataFields: number; // level[7..5]
+	mode: ModeEnum; // level[4..0]
 	// TODO param manufacturerData type blob
 }
 
 export interface ThermostatModeV3ThermostatModeSetData {
-	// TODO param level type bitfield
+	noOfManufacturerDataFields: number; // level[7..5]
+	mode: ModeEnum; // level[4..0]
 	// TODO param manufacturerData type blob
 }
 
 export interface ThermostatModeV3ThermostatModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum ModeEnum {
+	Off = 0x0,
+	Heat = 0x1,
+	Cool = 0x2,
+	Auto = 0x3,
+	AuxiliaryHeat = 0x4,
+	Resume = 0x5,
+	FanOnly = 0x6,
+	Furnace = 0x7,
+	DryAir = 0x8,
+	MoistAir = 0x9,
+	AutoChangeover = 0xa,
+	EnergySaveHeat = 0xb,
+	EnergySaveCool = 0xc,
+	Away = 0xd,
+	Reserved = 0xe,
+	FullPower = 0xf,
+	Reserved0 = 0x10,
+	Reserved1 = 0x11,
+	Reserved2 = 0x12,
+	Reserved3 = 0x13,
+	Reserved4 = 0x14,
+	Reserved5 = 0x15,
+	Reserved6 = 0x16,
+	Reserved7 = 0x17,
+	Reserved8 = 0x18,
+	Reserved9 = 0x19,
+	ReservedA = 0x1a,
+	ReservedB = 0x1b,
+	ReservedC = 0x1c,
+	ReservedD = 0x1d,
+	ReservedE = 0x1e,
+	ManufacturerSpecifc = 0x1f,
 }
 
 export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Commands> {
@@ -78,50 +115,146 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "noOfManufacturerDataFields",
+							"mask": 224,
+							"shift": 5
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Heat",
-								"2": "Cool",
-								"3": "Auto",
-								"4": "Auxiliary Heat",
-								"5": "Resume",
-								"6": "Fan Only",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto Changeover",
-								"11": "Energy Save Heat",
-								"12": "Energy Save Cool",
-								"13": "AWAY",
-								"14": "Reserved",
-								"15": "FULL POWER",
-								"16": "Reserved0",
-								"17": "Reserved1",
-								"18": "Reserved2",
-								"19": "Reserved3",
-								"20": "Reserved4",
-								"21": "Reserved5",
-								"22": "Reserved6",
-								"23": "Reserved7",
-								"24": "Reserved8",
-								"25": "Reserved9",
-								"26": "ReservedA",
-								"27": "ReservedB",
-								"28": "ReservedC",
-								"29": "ReservedD",
-								"30": "ReservedE",
-								"31": "MANUFACTURER SPECIFC"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Heat",
+									"help": "Heat"
+								},
+								"2": {
+									"name": "Cool",
+									"help": "Cool"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								},
+								"4": {
+									"name": "AuxiliaryHeat",
+									"help": "Auxiliary Heat"
+								},
+								"5": {
+									"name": "Resume",
+									"help": "Resume"
+								},
+								"6": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto Changeover"
+								},
+								"11": {
+									"name": "EnergySaveHeat",
+									"help": "Energy Save Heat"
+								},
+								"12": {
+									"name": "EnergySaveCool",
+									"help": "Energy Save Cool"
+								},
+								"13": {
+									"name": "Away",
+									"help": "AWAY"
+								},
+								"14": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"15": {
+									"name": "FullPower",
+									"help": "FULL POWER"
+								},
+								"16": {
+									"name": "Reserved0",
+									"help": "Reserved0"
+								},
+								"17": {
+									"name": "Reserved1",
+									"help": "Reserved1"
+								},
+								"18": {
+									"name": "Reserved2",
+									"help": "Reserved2"
+								},
+								"19": {
+									"name": "Reserved3",
+									"help": "Reserved3"
+								},
+								"20": {
+									"name": "Reserved4",
+									"help": "Reserved4"
+								},
+								"21": {
+									"name": "Reserved5",
+									"help": "Reserved5"
+								},
+								"22": {
+									"name": "Reserved6",
+									"help": "Reserved6"
+								},
+								"23": {
+									"name": "Reserved7",
+									"help": "Reserved7"
+								},
+								"24": {
+									"name": "Reserved8",
+									"help": "Reserved8"
+								},
+								"25": {
+									"name": "Reserved9",
+									"help": "Reserved9"
+								},
+								"26": {
+									"name": "ReservedA",
+									"help": "ReservedA"
+								},
+								"27": {
+									"name": "ReservedB",
+									"help": "ReservedB"
+								},
+								"28": {
+									"name": "ReservedC",
+									"help": "ReservedC"
+								},
+								"29": {
+									"name": "ReservedD",
+									"help": "ReservedD"
+								},
+								"30": {
+									"name": "ReservedE",
+									"help": "ReservedE"
+								},
+								"31": {
+									"name": "ManufacturerSpecifc",
+									"help": "MANUFACTURER SPECIFC"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "No of Manufacturer Data fields",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				},
@@ -131,8 +264,11 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"help": "Manufacturer Data",
 					"length": {
 						"name": "Level",
-						"mask": 224,
-						"shift": 5
+						"bitfield": {
+							"mask": 224,
+							"shift": 5,
+							"name": "noOfManufacturerDataFields"
+						}
 					}
 				}
 			]
@@ -163,50 +299,146 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "noOfManufacturerDataFields",
+							"mask": 224,
+							"shift": 5
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 31,
 							"shift": 0,
 							"values": {
-								"0": "Off",
-								"1": "Heat",
-								"2": "Cool",
-								"3": "Auto",
-								"4": "Auxiliary Heat",
-								"5": "Resume",
-								"6": "Fan Only",
-								"7": "Furnace",
-								"8": "Dry Air",
-								"9": "Moist Air",
-								"10": "Auto Changeover",
-								"11": "Energy Save Heat",
-								"12": "Energy Save Cool",
-								"13": "AWAY",
-								"14": "Reserved",
-								"15": "FULL POWER",
-								"16": "Reserved0",
-								"17": "Reserved1",
-								"18": "Reserved2",
-								"19": "Reserved3",
-								"20": "Reserved4",
-								"21": "Reserved5",
-								"22": "Reserved6",
-								"23": "Reserved7",
-								"24": "Reserved8",
-								"25": "Reserved9",
-								"26": "ReservedA",
-								"27": "ReservedB",
-								"28": "ReservedC",
-								"29": "ReservedD",
-								"30": "ReservedE",
-								"31": "MANUFACTURER SPECIFC"
+								"0": {
+									"name": "Off",
+									"help": "Off"
+								},
+								"1": {
+									"name": "Heat",
+									"help": "Heat"
+								},
+								"2": {
+									"name": "Cool",
+									"help": "Cool"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								},
+								"4": {
+									"name": "AuxiliaryHeat",
+									"help": "Auxiliary Heat"
+								},
+								"5": {
+									"name": "Resume",
+									"help": "Resume"
+								},
+								"6": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"7": {
+									"name": "Furnace",
+									"help": "Furnace"
+								},
+								"8": {
+									"name": "DryAir",
+									"help": "Dry Air"
+								},
+								"9": {
+									"name": "MoistAir",
+									"help": "Moist Air"
+								},
+								"10": {
+									"name": "AutoChangeover",
+									"help": "Auto Changeover"
+								},
+								"11": {
+									"name": "EnergySaveHeat",
+									"help": "Energy Save Heat"
+								},
+								"12": {
+									"name": "EnergySaveCool",
+									"help": "Energy Save Cool"
+								},
+								"13": {
+									"name": "Away",
+									"help": "AWAY"
+								},
+								"14": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"15": {
+									"name": "FullPower",
+									"help": "FULL POWER"
+								},
+								"16": {
+									"name": "Reserved0",
+									"help": "Reserved0"
+								},
+								"17": {
+									"name": "Reserved1",
+									"help": "Reserved1"
+								},
+								"18": {
+									"name": "Reserved2",
+									"help": "Reserved2"
+								},
+								"19": {
+									"name": "Reserved3",
+									"help": "Reserved3"
+								},
+								"20": {
+									"name": "Reserved4",
+									"help": "Reserved4"
+								},
+								"21": {
+									"name": "Reserved5",
+									"help": "Reserved5"
+								},
+								"22": {
+									"name": "Reserved6",
+									"help": "Reserved6"
+								},
+								"23": {
+									"name": "Reserved7",
+									"help": "Reserved7"
+								},
+								"24": {
+									"name": "Reserved8",
+									"help": "Reserved8"
+								},
+								"25": {
+									"name": "Reserved9",
+									"help": "Reserved9"
+								},
+								"26": {
+									"name": "ReservedA",
+									"help": "ReservedA"
+								},
+								"27": {
+									"name": "ReservedB",
+									"help": "ReservedB"
+								},
+								"28": {
+									"name": "ReservedC",
+									"help": "ReservedC"
+								},
+								"29": {
+									"name": "ReservedD",
+									"help": "ReservedD"
+								},
+								"30": {
+									"name": "ReservedE",
+									"help": "ReservedE"
+								},
+								"31": {
+									"name": "ManufacturerSpecifc",
+									"help": "MANUFACTURER SPECIFC"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "No of Manufacturer Data fields",
-							"mask": 224,
-							"shift": 5
 						}
 					]
 				},
@@ -216,8 +448,11 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"help": "Manufacturer Data",
 					"length": {
 						"name": "Level",
-						"mask": 224,
-						"shift": 5
+						"bitfield": {
+							"mask": 224,
+							"shift": 5,
+							"name": "noOfManufacturerDataFields"
+						}
 					}
 				}
 			]

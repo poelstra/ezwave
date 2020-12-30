@@ -29,17 +29,20 @@ export interface AssociationGrpInfoV3AssociationGroupNameReportData {
 }
 
 export interface AssociationGrpInfoV3AssociationGroupInfoGetData {
-	// TODO param properties1 type bitfield
+	refreshCache: boolean; // properties1[7]
+	listMode: boolean; // properties1[6]
 	groupingIdentifier: number; // 1 byte unsigned integer
 }
 
 export interface AssociationGrpInfoV3AssociationGroupInfoReportData {
-	// TODO param properties1 type bitfield
+	listMode: boolean; // properties1[7]
+	dynamicInfo: boolean; // properties1[6]
+	groupCount: number; // properties1[5..0]
 	// TODO param vg1 type group
 }
 
 export interface AssociationGrpInfoV3AssociationGroupCommandListGetData {
-	// TODO param properties1 type bitfield
+	allowCache: boolean; // properties1[7]
 	groupingIdentifier: number; // 1 byte unsigned integer
 }
 
@@ -113,9 +116,7 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"name": "Length of Name",
-						"mask": 255,
-						"shift": 0
+						"name": "Length of Name"
 					}
 				}
 			]
@@ -146,22 +147,23 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "refreshCache",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "List Mode",
+							"name": "listMode",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Refresh cache",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 63,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -199,22 +201,22 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Group Count",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "listMode",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Dynamic Info",
+							"name": "dynamicInfo",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "List mode",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "groupCount",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -224,8 +226,11 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"help": "vg1",
 					"length": {
 						"name": "Properties1",
-						"mask": 63,
-						"shift": 0
+						"bitfield": {
+							"mask": 63,
+							"shift": 0,
+							"name": "groupCount"
+						}
 					},
 					"params": [
 						{
@@ -246,12 +251,30 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 							"help": "Profile1",
 							"length": 1,
 							"values": {
-								"0": "Profile General",
-								"32": "Profile Control",
-								"49": "Profile Sensor",
-								"50": "Profile Meter",
-								"107": "Profile Irrigation",
-								"113": "Profile Notification"
+								"0": {
+									"name": "ProfileGeneral",
+									"help": "Profile General"
+								},
+								"32": {
+									"name": "ProfileControl",
+									"help": "Profile Control"
+								},
+								"49": {
+									"name": "ProfileSensor",
+									"help": "Profile Sensor"
+								},
+								"50": {
+									"name": "ProfileMeter",
+									"help": "Profile Meter"
+								},
+								"107": {
+									"name": "ProfileIrrigation",
+									"help": "Profile Irrigation"
+								},
+								"113": {
+									"name": "ProfileNotification",
+									"help": "Profile Notification"
+								}
 							}
 						},
 						{
@@ -264,89 +287,308 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 							},
 							"enums": {
 								"0": {
-									"0": "Profile General NA",
-									"1": "Profile General Lifeline"
+									"0": {
+										"name": "ProfileGeneralNA",
+										"help": "Profile General NA"
+									},
+									"1": {
+										"name": "ProfileGeneralLifeline",
+										"help": "Profile General Lifeline"
+									}
 								},
 								"32": {
-									"1": "Profile Control KEY01",
-									"2": "Profile Control KEY02",
-									"3": "Profile Control KEY03",
-									"4": "Profile Control KEY04",
-									"5": "Profile Control KEY05",
-									"6": "Profile Control KEY06",
-									"7": "Profile Control KEY07",
-									"8": "Profile Control KEY08",
-									"9": "Profile Control KEY09",
-									"10": "Profile Control KEY10",
-									"11": "Profile Control KEY11",
-									"12": "Profile Control KEY12",
-									"13": "Profile Control KEY13",
-									"14": "Profile Control KEY14",
-									"15": "Profile Control KEY15",
-									"16": "Profile Control KEY16",
-									"17": "Profile Control KEY17",
-									"18": "Profile Control KEY18",
-									"19": "Profile Control KEY19",
-									"20": "Profile Control KEY20",
-									"21": "Profile Control KEY21",
-									"22": "Profile Control KEY22",
-									"23": "Profile Control KEY23",
-									"24": "Profile Control KEY24",
-									"25": "Profile Control KEY25",
-									"26": "Profile Control KEY26",
-									"27": "Profile Control KEY27",
-									"28": "Profile Control KEY28",
-									"29": "Profile Control KEY29",
-									"30": "Profile Control KEY30",
-									"31": "Profile Control KEY31",
-									"32": "Profile Control KEY32"
+									"1": {
+										"name": "ProfileControlKEY01",
+										"help": "Profile Control KEY01"
+									},
+									"2": {
+										"name": "ProfileControlKEY02",
+										"help": "Profile Control KEY02"
+									},
+									"3": {
+										"name": "ProfileControlKEY03",
+										"help": "Profile Control KEY03"
+									},
+									"4": {
+										"name": "ProfileControlKEY04",
+										"help": "Profile Control KEY04"
+									},
+									"5": {
+										"name": "ProfileControlKEY05",
+										"help": "Profile Control KEY05"
+									},
+									"6": {
+										"name": "ProfileControlKEY06",
+										"help": "Profile Control KEY06"
+									},
+									"7": {
+										"name": "ProfileControlKEY07",
+										"help": "Profile Control KEY07"
+									},
+									"8": {
+										"name": "ProfileControlKEY08",
+										"help": "Profile Control KEY08"
+									},
+									"9": {
+										"name": "ProfileControlKEY09",
+										"help": "Profile Control KEY09"
+									},
+									"10": {
+										"name": "ProfileControlKEY10",
+										"help": "Profile Control KEY10"
+									},
+									"11": {
+										"name": "ProfileControlKEY11",
+										"help": "Profile Control KEY11"
+									},
+									"12": {
+										"name": "ProfileControlKEY12",
+										"help": "Profile Control KEY12"
+									},
+									"13": {
+										"name": "ProfileControlKEY13",
+										"help": "Profile Control KEY13"
+									},
+									"14": {
+										"name": "ProfileControlKEY14",
+										"help": "Profile Control KEY14"
+									},
+									"15": {
+										"name": "ProfileControlKEY15",
+										"help": "Profile Control KEY15"
+									},
+									"16": {
+										"name": "ProfileControlKEY16",
+										"help": "Profile Control KEY16"
+									},
+									"17": {
+										"name": "ProfileControlKEY17",
+										"help": "Profile Control KEY17"
+									},
+									"18": {
+										"name": "ProfileControlKEY18",
+										"help": "Profile Control KEY18"
+									},
+									"19": {
+										"name": "ProfileControlKEY19",
+										"help": "Profile Control KEY19"
+									},
+									"20": {
+										"name": "ProfileControlKEY20",
+										"help": "Profile Control KEY20"
+									},
+									"21": {
+										"name": "ProfileControlKEY21",
+										"help": "Profile Control KEY21"
+									},
+									"22": {
+										"name": "ProfileControlKEY22",
+										"help": "Profile Control KEY22"
+									},
+									"23": {
+										"name": "ProfileControlKEY23",
+										"help": "Profile Control KEY23"
+									},
+									"24": {
+										"name": "ProfileControlKEY24",
+										"help": "Profile Control KEY24"
+									},
+									"25": {
+										"name": "ProfileControlKEY25",
+										"help": "Profile Control KEY25"
+									},
+									"26": {
+										"name": "ProfileControlKEY26",
+										"help": "Profile Control KEY26"
+									},
+									"27": {
+										"name": "ProfileControlKEY27",
+										"help": "Profile Control KEY27"
+									},
+									"28": {
+										"name": "ProfileControlKEY28",
+										"help": "Profile Control KEY28"
+									},
+									"29": {
+										"name": "ProfileControlKEY29",
+										"help": "Profile Control KEY29"
+									},
+									"30": {
+										"name": "ProfileControlKEY30",
+										"help": "Profile Control KEY30"
+									},
+									"31": {
+										"name": "ProfileControlKEY31",
+										"help": "Profile Control KEY31"
+									},
+									"32": {
+										"name": "ProfileControlKEY32",
+										"help": "Profile Control KEY32"
+									}
 								},
 								"49": {
-									"1": "Profile MULTILEVEL_SENSOR_TYPE_TEMPERATURE",
-									"5": "Profile MULTILEVEL_SENSOR_TYPE_HUMIDITY"
+									"1": {
+										"name": "ProfileMULTILEVELSENSORTYPETEMPERATURE",
+										"help": "Profile MULTILEVEL_SENSOR_TYPE_TEMPERATURE"
+									},
+									"5": {
+										"name": "ProfileMULTILEVELSENSORTYPEHUMIDITY",
+										"help": "Profile MULTILEVEL_SENSOR_TYPE_HUMIDITY"
+									}
 								},
 								"50": {
-									"1": "Profile METER_TYPE_ELECTRIC",
-									"2": "Profile METER_TYPE_GAS",
-									"3": "Profile METER_TYPE_WATER"
+									"1": {
+										"name": "ProfileMETERTYPEELECTRIC",
+										"help": "Profile METER_TYPE_ELECTRIC"
+									},
+									"2": {
+										"name": "ProfileMETERTYPEGAS",
+										"help": "Profile METER_TYPE_GAS"
+									},
+									"3": {
+										"name": "ProfileMETERTYPEWATER",
+										"help": "Profile METER_TYPE_WATER"
+									}
 								},
 								"107": {
-									"1": "Irrigation Channel 01",
-									"2": "Irrigation Channel 02",
-									"3": "Irrigation Channel 03",
-									"4": "Irrigation Channel 04",
-									"5": "Irrigation Channel 05",
-									"6": "Irrigation Channel 06",
-									"7": "Irrigation Channel 07",
-									"8": "Irrigation Channel 08",
-									"9": "Irrigation Channel 09",
-									"10": "Irrigation Channel 10",
-									"11": "Irrigation Channel 11",
-									"12": "Irrigation Channel 12",
-									"13": "Irrigation Channel 13",
-									"14": "Irrigation Channel 14",
-									"15": "Irrigation Channel 15",
-									"16": "Irrigation Channel 16",
-									"17": "Irrigation Channel 17",
-									"18": "Irrigation Channel 18",
-									"19": "Irrigation Channel 19",
-									"20": "Irrigation Channel 20",
-									"21": "Irrigation Channel 21",
-									"22": "Irrigation Channel 22",
-									"23": "Irrigation Channel 23",
-									"24": "Irrigation Channel 24",
-									"25": "Irrigation Channel 25",
-									"26": "Irrigation Channel 26",
-									"27": "Irrigation Channel 27",
-									"28": "Irrigation Channel 28",
-									"29": "Irrigation Channel 29",
-									"30": "Irrigation Channel 30",
-									"31": "Irrigation Channel 31",
-									"32": "Irrigation Channel 32"
+									"1": {
+										"name": "IrrigationChannel01",
+										"help": "Irrigation Channel 01"
+									},
+									"2": {
+										"name": "IrrigationChannel02",
+										"help": "Irrigation Channel 02"
+									},
+									"3": {
+										"name": "IrrigationChannel03",
+										"help": "Irrigation Channel 03"
+									},
+									"4": {
+										"name": "IrrigationChannel04",
+										"help": "Irrigation Channel 04"
+									},
+									"5": {
+										"name": "IrrigationChannel05",
+										"help": "Irrigation Channel 05"
+									},
+									"6": {
+										"name": "IrrigationChannel06",
+										"help": "Irrigation Channel 06"
+									},
+									"7": {
+										"name": "IrrigationChannel07",
+										"help": "Irrigation Channel 07"
+									},
+									"8": {
+										"name": "IrrigationChannel08",
+										"help": "Irrigation Channel 08"
+									},
+									"9": {
+										"name": "IrrigationChannel09",
+										"help": "Irrigation Channel 09"
+									},
+									"10": {
+										"name": "IrrigationChannel10",
+										"help": "Irrigation Channel 10"
+									},
+									"11": {
+										"name": "IrrigationChannel11",
+										"help": "Irrigation Channel 11"
+									},
+									"12": {
+										"name": "IrrigationChannel12",
+										"help": "Irrigation Channel 12"
+									},
+									"13": {
+										"name": "IrrigationChannel13",
+										"help": "Irrigation Channel 13"
+									},
+									"14": {
+										"name": "IrrigationChannel14",
+										"help": "Irrigation Channel 14"
+									},
+									"15": {
+										"name": "IrrigationChannel15",
+										"help": "Irrigation Channel 15"
+									},
+									"16": {
+										"name": "IrrigationChannel16",
+										"help": "Irrigation Channel 16"
+									},
+									"17": {
+										"name": "IrrigationChannel17",
+										"help": "Irrigation Channel 17"
+									},
+									"18": {
+										"name": "IrrigationChannel18",
+										"help": "Irrigation Channel 18"
+									},
+									"19": {
+										"name": "IrrigationChannel19",
+										"help": "Irrigation Channel 19"
+									},
+									"20": {
+										"name": "IrrigationChannel20",
+										"help": "Irrigation Channel 20"
+									},
+									"21": {
+										"name": "IrrigationChannel21",
+										"help": "Irrigation Channel 21"
+									},
+									"22": {
+										"name": "IrrigationChannel22",
+										"help": "Irrigation Channel 22"
+									},
+									"23": {
+										"name": "IrrigationChannel23",
+										"help": "Irrigation Channel 23"
+									},
+									"24": {
+										"name": "IrrigationChannel24",
+										"help": "Irrigation Channel 24"
+									},
+									"25": {
+										"name": "IrrigationChannel25",
+										"help": "Irrigation Channel 25"
+									},
+									"26": {
+										"name": "IrrigationChannel26",
+										"help": "Irrigation Channel 26"
+									},
+									"27": {
+										"name": "IrrigationChannel27",
+										"help": "Irrigation Channel 27"
+									},
+									"28": {
+										"name": "IrrigationChannel28",
+										"help": "Irrigation Channel 28"
+									},
+									"29": {
+										"name": "IrrigationChannel29",
+										"help": "Irrigation Channel 29"
+									},
+									"30": {
+										"name": "IrrigationChannel30",
+										"help": "Irrigation Channel 30"
+									},
+									"31": {
+										"name": "IrrigationChannel31",
+										"help": "Irrigation Channel 31"
+									},
+									"32": {
+										"name": "IrrigationChannel32",
+										"help": "Irrigation Channel 32"
+									}
 								},
 								"113": {
-									"1": "Profile NOTIFICATION_TYPE_SMOKE",
-									"3": "Profile NOTIFICATION_TYPE_CO2"
+									"1": {
+										"name": "ProfileNOTIFICATIONTYPESMOKE",
+										"help": "Profile NOTIFICATION_TYPE_SMOKE"
+									},
+									"3": {
+										"name": "ProfileNOTIFICATIONTYPECO2",
+										"help": "Profile NOTIFICATION_TYPE_CO2"
+									}
 								}
 							}
 						},
@@ -354,7 +596,8 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 							"type": "integer",
 							"name": "reserved",
 							"help": "Reserved",
-							"length": 1
+							"length": 1,
+							"reserved": true
 						},
 						{
 							"type": "integer",
@@ -392,16 +635,17 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Allow cache",
+							"name": "allowCache",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 127,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -449,9 +693,7 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "command",
 					"help": "Command",
 					"length": {
-						"name": "List Length",
-						"mask": 255,
-						"shift": 0
+						"name": "List Length"
 					}
 				}
 			]

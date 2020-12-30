@@ -16,7 +16,8 @@ export enum ScreenAttributesV2Commands {
 }
 
 export interface ScreenAttributesV2ScreenAttributesReportData {
-	// TODO param properties1 type bitfield
+	escapeSequence: boolean; // properties1[5]
+	numberOfLines: number; // properties1[4..0]
 	numberOfCharactersPerLine: number; // 1 byte unsigned integer
 	sizeOfLineBuffer: number; // 1 byte unsigned integer
 	numericalPresentationOfACharacter: number; // 1 byte unsigned integer
@@ -24,7 +25,8 @@ export interface ScreenAttributesV2ScreenAttributesReportData {
 }
 
 export interface ScreenAttributesV2ScreenAttributesReportLegacyData {
-	// TODO param properties1 type bitfield
+	escapeSequence: boolean; // properties1[5]
+	numberOfLines: number; // properties1[4..0]
 	numberOfCharactersPerLine: number; // 1 byte unsigned integer
 	sizeOfLineBuffer: number; // 1 byte unsigned integer
 	numericalPresentationOfACharacter: number; // 1 byte unsigned integer
@@ -79,21 +81,22 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Lines",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Escape Sequence",
+							"name": "escapeSequence",
 							"mask": 32,
 							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "numberOfLines",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -150,21 +153,22 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Lines",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Escape Sequence",
+							"name": "escapeSequence",
 							"mask": 32,
 							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "numberOfLines",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},

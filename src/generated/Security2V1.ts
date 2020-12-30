@@ -32,29 +32,33 @@ export interface Security2V1Security2NonceGetData {
 
 export interface Security2V1Security2NonceReportData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	mos: boolean; // properties1[1]
+	sos: boolean; // properties1[0]
 	// TODO param receiversEntropyInput type blob
 }
 
 export interface Security2V1Security2MessageEncapsulationData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	encryptedExtension: boolean; // properties1[1]
+	extension: boolean; // properties1[0]
 	// TODO param vg1 type group
 	// TODO param cCMCiphertextObject type blob
 }
 
 export interface Security2V1KexReportData {
-	// TODO param properties1 type bitfield
+	requestCSA: boolean; // properties1[1]
+	echo: boolean; // properties1[0]
 	supportedKEXSchemes: number; // 1 byte unsigned integer
 	supportedECDHProfiles: number; // 1 byte unsigned integer
-	requestedKeys: number; // 0 byte unsigned integer
+	// TODO param requestedKeys type bitmask or marker
 }
 
 export interface Security2V1KexSetData {
-	// TODO param properties1 type bitfield
+	requestCSA: boolean; // properties1[1]
+	echo: boolean; // properties1[0]
 	selectedKEXScheme: number; // 1 byte unsigned integer
 	selectedECDHProfile: number; // 1 byte unsigned integer
-	grantedKeys: number; // 0 byte unsigned integer
+	// TODO param grantedKeys type bitmask or marker
 }
 
 export interface Security2V1KexFailData {
@@ -62,7 +66,7 @@ export interface Security2V1KexFailData {
 }
 
 export interface Security2V1PublicKeyReportData {
-	// TODO param properties1 type bitfield
+	includingNode: boolean; // properties1[0]
 	// TODO param eCDHPublicKey type blob
 }
 
@@ -76,11 +80,24 @@ export interface Security2V1Security2NetworkKeyReportData {
 }
 
 export interface Security2V1Security2TransferEndData {
-	// TODO param properties1 type bitfield
+	keyVerified: boolean; // properties1[1]
+	keyRequestComplete: boolean; // properties1[0]
 }
 
 export interface Security2V1Security2CommandsSupportedReportData {
 	// TODO param commandClass type enumarray
+}
+
+export enum KEXFailTypeEnum {
+	KexKey = 0x1,
+	KexScheme = 0x2,
+	KexCurves = 0x3,
+	Decrypt = 0x5,
+	Cancel = 0x6,
+	Auth = 0x7,
+	KeyGet = 0x8,
+	KeyVerify = 0x9,
+	KeyReport = 0xa,
 }
 
 export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
@@ -143,22 +160,23 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "SOS",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "MOS",
+							"name": "mos",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "sos",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -202,22 +220,23 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Extension",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Encrypted Extension",
+							"name": "encryptedExtension",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "extension",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -227,12 +246,20 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"help": "vg1",
 					"optional": {
 						"name": "Properties1",
-						"mask": 1
+						"bitfield": {
+							"mask": 1,
+							"shift": 0,
+							"name": "extension"
+						}
 					},
 					"length": "auto",
 					"moreToFollow": {
 						"name": "Properties1",
-						"mask": 128
+						"bitfield": {
+							"mask": 128,
+							"shift": 7,
+							"name": "moreToFollow"
+						}
 					},
 					"params": [
 						{
@@ -249,19 +276,19 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Type",
+									"name": "type",
 									"mask": 63,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Critical",
+									"name": "critical",
 									"mask": 64,
 									"shift": 6
 								},
 								{
 									"type": "boolean",
-									"name": "More to follow",
+									"name": "moreToFollow",
 									"mask": 128,
 									"shift": 7
 								}
@@ -272,9 +299,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 							"name": "extension",
 							"help": "Extension",
 							"length": {
-								"name": "Extension Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Extension Length"
 							},
 							"includeBytesBefore": 2
 						}
@@ -334,22 +359,23 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Echo",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Request CSA",
+							"name": "requestCSA",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "echo",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -399,22 +425,23 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Echo",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Request CSA",
+							"name": "requestCSA",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "echo",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -463,15 +490,42 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"help": "KEX Fail Type",
 					"length": 1,
 					"values": {
-						"1": "KEX_KEY",
-						"2": "KEX_SCHEME",
-						"3": "KEX_CURVES",
-						"5": "DECRYPT",
-						"6": "CANCEL",
-						"7": "AUTH",
-						"8": "KEY_GET",
-						"9": "KEY_VERIFY",
-						"10": "KEY_REPORT"
+						"1": {
+							"name": "KexKey",
+							"help": "KEX_KEY"
+						},
+						"2": {
+							"name": "KexScheme",
+							"help": "KEX_SCHEME"
+						},
+						"3": {
+							"name": "KexCurves",
+							"help": "KEX_CURVES"
+						},
+						"5": {
+							"name": "Decrypt",
+							"help": "DECRYPT"
+						},
+						"6": {
+							"name": "Cancel",
+							"help": "CANCEL"
+						},
+						"7": {
+							"name": "Auth",
+							"help": "AUTH"
+						},
+						"8": {
+							"name": "KeyGet",
+							"help": "KEY_GET"
+						},
+						"9": {
+							"name": "KeyVerify",
+							"help": "KEY_VERIFY"
+						},
+						"10": {
+							"name": "KeyReport",
+							"help": "KEY_REPORT"
+						}
 					}
 				}
 			]
@@ -502,16 +556,17 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Including Node",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "includingNode",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -548,10 +603,22 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"help": "Requested Key",
 					"length": 1,
 					"values": {
-						"0": "Unauthenticated",
-						"1": "Authenticated",
-						"2": "Access",
-						"7": "S0"
+						"0": {
+							"name": "Unauthenticated",
+							"help": "Unauthenticated"
+						},
+						"1": {
+							"name": "Authenticated",
+							"help": "Authenticated"
+						},
+						"2": {
+							"name": "Access",
+							"help": "Access"
+						},
+						"7": {
+							"name": "S0",
+							"help": "S0"
+						}
 					}
 				}
 			]
@@ -581,10 +648,22 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"help": "Granted Key",
 					"length": 1,
 					"values": {
-						"0": "Unauthenticated",
-						"1": "Authenticated",
-						"2": "Access",
-						"7": "S0"
+						"0": {
+							"name": "Unauthenticated",
+							"help": "Unauthenticated"
+						},
+						"1": {
+							"name": "Authenticated",
+							"help": "Authenticated"
+						},
+						"2": {
+							"name": "Access",
+							"help": "Access"
+						},
+						"7": {
+							"name": "S0",
+							"help": "S0"
+						}
 					}
 				},
 				{
@@ -641,22 +720,23 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Key Request Complete",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Key Verified",
+							"name": "keyVerified",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "keyRequestComplete",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}
@@ -736,16 +816,4 @@ export namespace Security2V1 {
 	export type Security2TransferEnd = InstanceType<typeof Security2V1.Security2TransferEnd>;
 	export type Security2CommandsSupportedGet = InstanceType<typeof Security2V1.Security2CommandsSupportedGet>;
 	export type Security2CommandsSupportedReport = InstanceType<typeof Security2V1.Security2CommandsSupportedReport>;
-}
-
-export enum KEXFailTypeEnum {
-	KexKey = 0x1,
-	KexScheme = 0x2,
-	KexCurves = 0x3,
-	Decrypt = 0x5,
-	Cancel = 0x6,
-	Auth = 0x7,
-	KeyGet = 0x8,
-	KeyVerify = 0x9,
-	KeyReport = 0xa,
 }

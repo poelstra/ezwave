@@ -15,7 +15,17 @@ export enum ThermostatOperatingStateV1Commands {
 }
 
 export interface ThermostatOperatingStateV1ThermostatOperatingStateReportData {
-	// TODO param level type bitfield
+	operatingState: OperatingStateEnum; // level[3..0]
+}
+
+export enum OperatingStateEnum {
+	Idle = 0x0,
+	Heating = 0x1,
+	Cooling = 0x2,
+	FanOnly = 0x3,
+	PendingHeat = 0x4,
+	PendingCool = 0x5,
+	VentEconomizer = 0x6,
 }
 
 export class ThermostatOperatingStateV1 extends CommandClassPacket<ThermostatOperatingStateV1Commands> {
@@ -65,25 +75,47 @@ export class ThermostatOperatingStateV1 extends CommandClassPacket<ThermostatOpe
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Operating State",
+							"name": "operatingState",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Idle",
-								"1": "Heating",
-								"2": "Cooling",
-								"3": "Fan Only",
-								"4": "Pending Heat",
-								"5": "Pending Cool",
-								"6": "Vent/Economizer"
+								"0": {
+									"name": "Idle",
+									"help": "Idle"
+								},
+								"1": {
+									"name": "Heating",
+									"help": "Heating"
+								},
+								"2": {
+									"name": "Cooling",
+									"help": "Cooling"
+								},
+								"3": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"4": {
+									"name": "PendingHeat",
+									"help": "Pending Heat"
+								},
+								"5": {
+									"name": "PendingCool",
+									"help": "Pending Cool"
+								},
+								"6": {
+									"name": "VentEconomizer",
+									"help": "Vent/Economizer"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}

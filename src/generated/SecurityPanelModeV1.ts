@@ -75,11 +75,26 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 					"help": "MODE",
 					"length": 1,
 					"values": {
-						"1": "Arm Home",
-						"2": "Arm Away, No Delay",
-						"3": "Arm Away, Delayed",
-						"4": "Disarm",
-						"5": "Alarm Trigger"
+						"1": {
+							"name": "ArmHome",
+							"help": "Arm Home"
+						},
+						"2": {
+							"name": "ArmAwayNoDelay",
+							"help": "Arm Away, No Delay"
+						},
+						"3": {
+							"name": "ArmAwayDelayed",
+							"help": "Arm Away, Delayed"
+						},
+						"4": {
+							"name": "Disarm",
+							"help": "Disarm"
+						},
+						"5": {
+							"name": "AlarmTrigger",
+							"help": "Alarm Trigger"
+						}
 					}
 				}
 			]
@@ -109,11 +124,26 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 					"help": "MODE",
 					"length": 1,
 					"values": {
-						"1": "Arm Home",
-						"2": "Arm Away, No Delay",
-						"3": "Arm Away, Delayed",
-						"4": "Disarm",
-						"5": "Alarm Trigger"
+						"1": {
+							"name": "ArmHome",
+							"help": "Arm Home"
+						},
+						"2": {
+							"name": "ArmAwayNoDelay",
+							"help": "Arm Away, No Delay"
+						},
+						"3": {
+							"name": "ArmAwayDelayed",
+							"help": "Arm Away, Delayed"
+						},
+						"4": {
+							"name": "Disarm",
+							"help": "Disarm"
+						},
+						"5": {
+							"name": "AlarmTrigger",
+							"help": "Alarm Trigger"
+						}
 					}
 				}
 			]

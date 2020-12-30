@@ -28,7 +28,7 @@ export interface SceneActuatorConfV1SceneActuatorConfReportData {
 export interface SceneActuatorConfV1SceneActuatorConfSetData {
 	sceneID: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
-	// TODO param level2 type bitfield
+	override: boolean; // level2[7]
 	level: number; // 1 byte unsigned integer
 }
 
@@ -97,7 +97,10 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					"help": "Dimming Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						}
 					}
 				}
 			]
@@ -133,8 +136,14 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					"help": "Dimming Duration",
 					"length": 1,
 					"values": {
-						"0": "Specify Instantly",
-						"255": "factory default"
+						"0": {
+							"name": "SpecifyInstantly",
+							"help": "Specify Instantly"
+						},
+						"255": {
+							"name": "FactoryDefault",
+							"help": "factory default"
+						}
 					}
 				},
 				{
@@ -144,16 +153,17 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Override",
+							"name": "override",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 127,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},

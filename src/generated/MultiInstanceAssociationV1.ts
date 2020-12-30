@@ -29,7 +29,7 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationGroupingsRepo
 export interface MultiInstanceAssociationV1MultiInstanceAssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
-	marker: number; // 0 byte unsigned integer
+	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
@@ -38,14 +38,14 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationReportData {
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
-	marker: number; // 0 byte unsigned integer
+	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
-	marker: number; // 0 byte unsigned integer
+	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
@@ -168,9 +168,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Grouping identifier",
-						"mask": 255,
-						"shift": 0
+						"name": "Grouping identifier"
 					},
 					"params": [
 						{
@@ -245,9 +243,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Grouping Identifier",
-						"mask": 255,
-						"shift": 0
+						"name": "Grouping Identifier"
 					},
 					"params": [
 						{
@@ -310,9 +306,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Grouping identifier",
-						"mask": 255,
-						"shift": 0
+						"name": "Grouping identifier"
 					},
 					"params": [
 						{

@@ -24,6 +24,19 @@ export interface InclusionControllerV1CompleteData {
 	status: StatusEnum; // 1 byte enum value
 }
 
+export enum StepIDEnum {
+	ProxyInclusion = 0x1,
+	S0Inclusion = 0x2,
+	ProxyInclusionReplace = 0x3,
+}
+
+export enum StatusEnum {
+	StepOk = 0x1,
+	StepUserRejected = 0x2,
+	StepFailed = 0x3,
+	StepNotSupported = 0x4,
+}
+
 export class InclusionControllerV1 extends CommandClassPacket<InclusionControllerV1Commands> {
 	public static readonly commandClass = CommandClasses.InclusionController; // 0x74 (116)
 
@@ -57,9 +70,18 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 					"help": "Step ID",
 					"length": 1,
 					"values": {
-						"1": "PROXY_INCLUSION",
-						"2": "S0_INCLUSION",
-						"3": "PROXY_INCLUSION_REPLACE"
+						"1": {
+							"name": "ProxyInclusion",
+							"help": "PROXY_INCLUSION"
+						},
+						"2": {
+							"name": "S0Inclusion",
+							"help": "S0_INCLUSION"
+						},
+						"3": {
+							"name": "ProxyInclusionReplace",
+							"help": "PROXY_INCLUSION_REPLACE"
+						}
 					}
 				}
 			]
@@ -89,9 +111,18 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 					"help": "Step ID",
 					"length": 1,
 					"values": {
-						"1": "PROXY_INCLUSION",
-						"2": "S0_INCLUSION",
-						"3": "PROXY_INCLUSION_REPLACE"
+						"1": {
+							"name": "ProxyInclusion",
+							"help": "PROXY_INCLUSION"
+						},
+						"2": {
+							"name": "S0Inclusion",
+							"help": "S0_INCLUSION"
+						},
+						"3": {
+							"name": "ProxyInclusionReplace",
+							"help": "PROXY_INCLUSION_REPLACE"
+						}
 					}
 				},
 				{
@@ -100,10 +131,22 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"1": "STEP_OK",
-						"2": "STEP_USER_REJECTED",
-						"3": "STEP_FAILED",
-						"4": "STEP_NOT_SUPPORTED"
+						"1": {
+							"name": "StepOk",
+							"help": "STEP_OK"
+						},
+						"2": {
+							"name": "StepUserRejected",
+							"help": "STEP_USER_REJECTED"
+						},
+						"3": {
+							"name": "StepFailed",
+							"help": "STEP_FAILED"
+						},
+						"4": {
+							"name": "StepNotSupported",
+							"help": "STEP_NOT_SUPPORTED"
+						}
 					}
 				}
 			]
@@ -122,17 +165,4 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 export namespace InclusionControllerV1 {
 	export type Initiate = InstanceType<typeof InclusionControllerV1.Initiate>;
 	export type Complete = InstanceType<typeof InclusionControllerV1.Complete>;
-}
-
-export enum StepIDEnum {
-	ProxyInclusion = 0x1,
-	S0Inclusion = 0x2,
-	ProxyInclusionReplace = 0x3,
-}
-
-export enum StatusEnum {
-	StepOk = 0x1,
-	StepUserRejected = 0x2,
-	StepFailed = 0x3,
-	StepNotSupported = 0x4,
 }

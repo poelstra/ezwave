@@ -23,21 +23,25 @@ export enum ScheduleV1Commands {
 
 export interface ScheduleV1ScheduleSupportedReportData {
 	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	supportEnableDisable: boolean; // properties1[7]
+	fallbackSupport: boolean; // properties1[6]
+	startTimeSupport: number; // properties1[5..0]
 	numberOfSupportedCC: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
-	// TODO param properties3 type bitfield
+	overrideSupport: boolean; // properties3[7]
+	supportedOverrideTypes: number; // properties3[6..0]
 }
 
 export interface ScheduleV1CommandScheduleSetData {
 	scheduleID: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
-	// TODO param properties3 type bitfield
-	// TODO param properties4 type bitfield
-	// TODO param properties5 type bitfield
+	startMonth: number; // properties1[3..0]
+	startDayOfMonth: number; // properties2[4..0]
+	startWeekday: number; // properties3[6..0]
+	durationType: number; // properties4[7..5]
+	startHour: number; // properties4[4..0]
+	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	numberOfCmdToFollow: number; // 1 byte unsigned integer
@@ -52,11 +56,13 @@ export interface ScheduleV1CommandScheduleReportData {
 	scheduleID: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
-	// TODO param properties3 type bitfield
-	// TODO param properties4 type bitfield
-	// TODO param properties5 type bitfield
+	activeID: number; // properties1[7..4]
+	startMonth: number; // properties1[3..0]
+	startDayOfMonth: number; // properties2[4..0]
+	startWeekday: number; // properties3[6..0]
+	durationType: number; // properties4[7..5]
+	startHour: number; // properties4[4..0]
+	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	numberOfCmdToFollow: number; // 1 byte unsigned integer
@@ -74,7 +80,8 @@ export interface ScheduleV1ScheduleStateSetData {
 
 export interface ScheduleV1ScheduleStateReportData {
 	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	reportsToFollow: number; // properties1[7..1]
+	override: boolean; // properties1[0]
 	// TODO param vg1 type group
 }
 
@@ -131,22 +138,22 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Time Support",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "supportEnableDisable",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Fallback Support",
+							"name": "fallbackSupport",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Support Enable/Disable",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startTimeSupport",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -161,9 +168,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of supported CC",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of supported CC"
 					},
 					"params": [
 						{
@@ -180,15 +185,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Supported Command",
+									"name": "supportedCommand",
 									"mask": 3,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Reserved",
+									"name": "reserved",
 									"mask": 252,
-									"shift": 2
+									"shift": 2,
+									"reserved": true
 								}
 							]
 						}
@@ -201,16 +207,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Supported Override Types",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Override Support",
+							"name": "overrideSupport",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "supportedOverrideTypes",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -261,15 +267,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Month",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 240,
-							"shift": 4
+							"name": "startMonth",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -281,15 +288,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Day of Month",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 224,
-							"shift": 5
+							"name": "startDayOfMonth",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -300,16 +308,17 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Weekday",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res.",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startWeekday",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -321,15 +330,15 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Hour",
-							"mask": 31,
-							"shift": 0
+							"name": "durationType",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Duration Type",
-							"mask": 224,
-							"shift": 5
+							"name": "startHour",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -341,15 +350,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Minute",
-							"mask": 63,
-							"shift": 0
+							"name": "reserved3",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved3",
-							"mask": 192,
-							"shift": 6
+							"name": "startMinute",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -376,9 +386,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Cmd to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Cmd to Follow"
 					},
 					"params": [
 						{
@@ -392,9 +400,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
-								"name": "Cmd Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Cmd Length"
 							}
 						}
 					]
@@ -473,15 +479,15 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Month",
-							"mask": 15,
-							"shift": 0
+							"name": "activeID",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Active_ID",
-							"mask": 240,
-							"shift": 4
+							"name": "startMonth",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -493,15 +499,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Day of Month",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 224,
-							"shift": 5
+							"name": "startDayOfMonth",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -512,16 +519,17 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Weekday",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res.",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startWeekday",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -533,15 +541,15 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Hour",
-							"mask": 31,
-							"shift": 0
+							"name": "durationType",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Duration Type",
-							"mask": 224,
-							"shift": 5
+							"name": "startHour",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -553,15 +561,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Minute",
-							"mask": 63,
-							"shift": 0
+							"name": "reserved3",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved3",
-							"mask": 192,
-							"shift": 6
+							"name": "startMinute",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -588,9 +597,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Cmd to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Cmd to Follow"
 					},
 					"params": [
 						{
@@ -604,9 +611,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
-								"name": "Cmd Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Cmd Length"
 							}
 						}
 					]
@@ -725,16 +730,16 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Override",
-							"mask": 1,
-							"shift": 0
-						},
-						{
 							"type": "integer",
-							"name": "Reports to Follow",
+							"name": "reportsToFollow",
 							"mask": 254,
 							"shift": 1
+						},
+						{
+							"type": "boolean",
+							"name": "override",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -752,13 +757,13 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Active_ID 1",
+									"name": "activeID1",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Active_ID 2",
+									"name": "activeID2",
 									"mask": 240,
 									"shift": 4
 								}

@@ -20,7 +20,9 @@ export interface ScreenMdV1ScreenMdGetData {
 }
 
 export interface ScreenMdV1ScreenMdReportData {
-	// TODO param properties1 type bitfield
+	moreData: boolean; // properties1[7]
+	screenSettings: number; // properties1[5..3]
+	charPresentation: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
@@ -85,28 +87,29 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"type": "boolean",
+							"name": "moreData",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "boolean",
+							"name": "reserved",
+							"mask": 64,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Screen Settings",
+							"name": "screenSettings",
 							"mask": 56,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"type": "boolean",
-							"name": "More Data",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -124,19 +127,19 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Line Number",
+									"name": "lineNumber",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Clear",
+									"name": "clear",
 									"mask": 16,
 									"shift": 4
 								},
 								{
 									"type": "integer",
-									"name": "Line Settings",
+									"name": "lineSettings",
 									"mask": 224,
 									"shift": 5
 								}
@@ -159,9 +162,7 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 							"name": "character",
 							"help": "Character",
 							"length": {
-								"name": "Number of Characters",
-								"mask": 255,
-								"shift": 0
+								"name": "Number of Characters"
 							}
 						}
 					]

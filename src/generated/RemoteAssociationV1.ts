@@ -85,7 +85,10 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					"help": "Local Grouping identifier",
 					"length": 1,
 					"values": {
-						"0": "erase all lin"
+						"0": {
+							"name": "EraseAllLin",
+							"help": "erase all lin"
+						}
 					}
 				},
 				{
@@ -95,7 +98,10 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					"length": 1,
 					"valueType": "NODE_NUMBER",
 					"values": {
-						"0": "remove a link"
+						"0": {
+							"name": "RemoveALink",
+							"help": "remove a link"
+						}
 					}
 				},
 				{
@@ -131,7 +137,10 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					"help": "Local Grouping identifier",
 					"length": 1,
 					"values": {
-						"0": "erase all lin"
+						"0": {
+							"name": "EraseAllLin",
+							"help": "erase all lin"
+						}
 					}
 				},
 				{
@@ -141,7 +150,10 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					"length": 1,
 					"valueType": "NODE_NUMBER",
 					"values": {
-						"0": "remove a link"
+						"0": {
+							"name": "RemoveALink",
+							"help": "remove a link"
+						}
 					}
 				},
 				{

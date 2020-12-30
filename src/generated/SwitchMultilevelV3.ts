@@ -29,15 +29,31 @@ export interface SwitchMultilevelV3SwitchMultilevelSetData {
 }
 
 export interface SwitchMultilevelV3SwitchMultilevelStartLevelChangeData {
-	// TODO param properties1 type bitfield
+	upDown: UpDownEnum; // properties1[7..6]
+	ignoreStartLevel: boolean; // properties1[5]
+	incDec: IncDecEnum; // properties1[4..3]
 	startLevel: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
 	stepSize: number; // 1 byte unsigned integer
 }
 
 export interface SwitchMultilevelV3SwitchMultilevelSupportedReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	primarySwitchType: number; // properties1[4..0]
+	secondarySwitchType: number; // properties2[4..0]
+}
+
+export enum UpDownEnum {
+	Up = 0x0,
+	Down = 0x1,
+	Reserved = 0x2,
+	None = 0x3,
+}
+
+export enum IncDecEnum {
+	Increment = 0x0,
+	Decrement = 0x1,
+	Reserved = 0x2,
+	None = 0x3,
 }
 
 export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Commands> {
@@ -86,8 +102,14 @@ export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Com
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				}
 			]
@@ -117,8 +139,14 @@ export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Com
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				},
 				{
@@ -127,8 +155,14 @@ export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Com
 					"help": "Dimming Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly",
-						"255": "Factory default"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						},
+						"255": {
+							"name": "FactoryDefault",
+							"help": "Factory default"
+						}
 					}
 				}
 			]
@@ -159,40 +193,65 @@ export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 7,
-							"shift": 0
-						},
-						{
 							"type": "enum",
-							"name": "Inc Dec",
-							"mask": 24,
-							"shift": 3,
+							"name": "upDown",
+							"mask": 192,
+							"shift": 6,
 							"values": {
-								"0": "Increment",
-								"1": "Decrement",
-								"2": "Reserved",
-								"3": "None"
+								"0": {
+									"name": "Up",
+									"help": "Up"
+								},
+								"1": {
+									"name": "Down",
+									"help": "Down"
+								},
+								"2": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"3": {
+									"name": "None",
+									"help": "None"
+								}
 							}
 						},
 						{
 							"type": "boolean",
-							"name": "Ignore Start Level",
+							"name": "ignoreStartLevel",
 							"mask": 32,
 							"shift": 5
 						},
 						{
 							"type": "enum",
-							"name": "Up Down",
-							"mask": 192,
-							"shift": 6,
+							"name": "incDec",
+							"mask": 24,
+							"shift": 3,
 							"values": {
-								"0": "Up",
-								"1": "Down",
-								"2": "Reserved",
-								"3": "None"
+								"0": {
+									"name": "Increment",
+									"help": "Increment"
+								},
+								"1": {
+									"name": "Decrement",
+									"help": "Decrement"
+								},
+								"2": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"3": {
+									"name": "None",
+									"help": "None"
+								}
 							}
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 7,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -283,15 +342,16 @@ export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Primary Switch Type",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 224,
-							"shift": 5
+							"name": "primarySwitchType",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -303,15 +363,16 @@ export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Secondary Switch Type",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 224,
-							"shift": 5
+							"name": "secondarySwitchType",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				}

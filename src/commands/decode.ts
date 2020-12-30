@@ -1,142 +1,33 @@
-import * as assert from "assert";
 import * as types from "./types";
 
-export interface DecodedPacket {
-	[name: string]: any;
-}
+/**
+ * Error thrown when decoder encounters an error in the
+ * decoder definition.
+ *
+ * For example, invalid parameter references, nested groups, etc.
+ */
+export class DecodeDefinitionError extends Error {}
 
-interface Context {
-	[name: string]: number;
-}
+/**
+ * Error thrown when decoder encounters an error in the
+ * packet data (command and/or payload).
+ */
+export class DecodeDataError extends Error {}
 
-function decodeParam(
-	packet: Buffer,
-	pos: number,
-	param: types.Parameter | types.ParameterGroup,
-	result: DecodedPacket,
-	context: Context,
-	parentContext?: Context
-): number {
-	// Skip optional param if necessary
-	if (param.optional) {
-		const ctx =
-			(param.optional.isParentReference && parentContext) || context;
-		if ((ctx[param.optional.name] & param.optional.mask) === 0) {
-			return 0;
-		}
-	}
-
-	// Determine length of buffer and create slice
-	let length: number;
-	if (param.length === "auto") {
-		length = packet.length - pos;
-	} else if (typeof param.length === "number") {
-		length = param.length;
-	} else {
-		const ctx =
-			(param.length.isParentReference && parentContext) || context;
-		length = ctx[param.length.name];
-		if (length === undefined) {
-			throw new Error("cannot determine parameter length");
-		}
-		length = (length & param.length.mask) >> param.length.shift;
-	}
-	const slice = packet.slice(pos, pos + length);
-
-	switch (param.type) {
-		case "integer":
-			{
-				let value: number;
-				if (slice.length === 0) {
-					length = 0;
-					value = 0;
-				} else if (slice.length === length) {
-					value = slice.readUIntBE(0, length);
-				} else {
-					throw new Error("unexpected end of packet");
-				}
-				result[param.name] = value;
-				context[param.name] = value;
-				return length;
-			}
-			break;
-
-		case "enum":
-			{
-				const value = slice.length > 0 ? slice.readUInt8(0) : 0;
-				result[param.name] = value;
-				return 1;
-			}
-			break;
-
-		case "group":
-			{
-				if (parentContext) {
-					throw new Error("nested groups not supported");
-				}
-				let processed = 0;
-				const groupResult: any[] = [];
-				const nextElement = () => {
-					const groupElement = Object.create(null);
-					const groupContext: Context = Object.create(null);
-					for (const groupParam of param.params) {
-						processed += decodeParam(
-							packet,
-							pos + processed,
-							groupParam,
-							groupElement,
-							groupContext,
-							context
-						);
-					}
-					groupResult.push(groupElement);
-					return groupContext;
-				};
-				while (true) {
-					// Have to 'redo' a bit of the length logic, because above code
-					// assumes byte lengths mostly
-					if (typeof param.length === "number") {
-						if (groupResult.length === param.length) {
-							break;
-						}
-					} else if (typeof param.length === "object") {
-						assert(param.length.isParentReference === false);
-						const count =
-							(context[param.length.name] & param.length.mask) >>
-							param.length.shift;
-						if (groupResult.length === count) {
-							break;
-						}
-					}
-					if (pos + processed >= packet.length) {
-						// No more bytes to process
-						break;
-					}
-					const groupContext = nextElement();
-					if (param.moreToFollow) {
-						// i.e. param.length === "auto"
-						if (
-							(groupContext[param.moreToFollow.name] &
-								param.moreToFollow.mask) ===
-							0
-						) {
-							break;
-						}
-					}
-				}
-				result[param.name] = groupResult;
-				return processed;
-			}
-			break;
-
-		default:
-			throw new Error(
-				`missing implementation for parameter type ${param.type}`
-			);
+/**
+ * Error thrown when decoder encounters an unexpected end of packet.
+ *
+ * This can happen due to e.g. a truncated integer or group, or when
+ * a packet ends after a group element and the previous element indicated
+ * more elements should follow.
+ */
+export class DecodeUnexpectedEndOfPacketError extends DecodeDataError {
+	constructor() {
+		super("unexpected end of packet");
 	}
 }
 
-export function decodeCommandAndPayload<T>(
+export function decodeCommandAndPayload<T extends object | void>(
 	commandDef: types.CommandDefinition,
 	commandAndPayload: Buffer
 ): T {
@@ -151,9 +42,253 @@ export function decodeCommandAndPayload<T>(
 	// Determine payload start: if multi-byte, one byte more, if have command mask, one byte less
 	let pos = commandDef.cmdMask !== undefined ? 0 : 1;
 	const result = Object.create(null);
-	const context: Context = Object.create(null);
 	for (const param of commandDef.params) {
-		pos += decodeParam(commandAndPayload, pos, param, result, context);
+		pos += decodeParam(commandAndPayload, pos, param, result);
 	}
 	return result;
+}
+
+interface DecodedPacket {
+	[name: string]: any;
+}
+
+function resolveReference(
+	ref: types.ParameterReference | types.LocalParameterReference,
+	currentContext: DecodedPacket,
+	parentContext?: DecodedPacket
+): number | boolean {
+	const isParentReference =
+		"isParentReference" in ref && ref.isParentReference;
+	const ctx = isParentReference ? parentContext : currentContext;
+	if (!ctx) {
+		throw new DecodeDefinitionError(
+			"parent reference while not decoding in a group"
+		);
+	}
+	const fieldName = ref.bitfield?.name ?? ref.name;
+	const fieldValue = ctx[fieldName];
+	if (fieldValue === undefined) {
+		throw new DecodeDefinitionError(
+			"optional field reference does not exist"
+		);
+	}
+	const fieldType = typeof fieldValue;
+	if (fieldType !== "number" && fieldType !== "boolean") {
+		throw new DecodeDefinitionError(
+			"wrong type for optional field reference, expected number or boolean"
+		);
+	}
+	return fieldValue;
+}
+
+function resolveNumericReference(
+	ref: types.ParameterReference | types.LocalParameterReference,
+	currentContext: DecodedPacket,
+	parentContext?: DecodedPacket
+): number {
+	const fieldValue = resolveReference(ref, currentContext, parentContext);
+	if (typeof fieldValue !== "number") {
+		throw new DecodeDefinitionError(
+			"wrong type for optional field reference, expected number"
+		);
+	}
+	return fieldValue;
+}
+
+function decodeParam(
+	packet: Buffer,
+	pos: number,
+	param: types.Parameter | types.ParameterGroup,
+	result: DecodedPacket,
+	parent?: DecodedPacket
+): number {
+	// Skip optional param if necessary
+	if (param.optional) {
+		const isOptional = !resolveReference(param.optional, result, parent);
+		if (isOptional) {
+			return 0;
+		}
+	}
+
+	// Determine length of buffer and create slice
+	let length: number;
+	if (
+		param.length === "auto" ||
+		param.type === types.ParameterType.ParameterGroup
+	) {
+		length = packet.length - pos;
+	} else if (typeof param.length === "number") {
+		length = param.length;
+	} else {
+		length = resolveNumericReference(param.length, result, parent);
+	}
+	const slice = packet.slice(pos, pos + length);
+
+	// TODO only allow this when it is expected that these could be missing
+	// (i.e. only when a newer version decodes packet from older version)
+	// For now, we allow any parameter to be missing if it is completely missing,
+	// and we're not halfway of e.g. parsing a group.
+	const allowMissing = parent === undefined;
+	if (slice.length === 0 && length > 0) {
+		// If the whole expected parameter is missing, it could be fine
+		if (!allowMissing) {
+			throw new DecodeUnexpectedEndOfPacketError();
+		}
+	} else if (slice.length < length) {
+		// If the parameter is partially missing, it's wrong in any case
+		throw new DecodeUnexpectedEndOfPacketError();
+	}
+
+	switch (param.type) {
+		case "integer":
+			return decodeInteger(param, slice, result);
+
+		case "enum":
+			return decodeEnum(param, slice, result);
+
+		case "group":
+			return decodeGroup(param, slice, result, parent);
+
+		case "bitfield":
+			return decodeBitfield(param, slice, result);
+
+		default:
+			throw new Error(
+				`missing implementation for parameter type ${param.type}`
+			);
+	}
+}
+
+function decodeInteger(
+	param: types.IntegerParameter,
+	slice: Buffer,
+	result: DecodedPacket
+): number {
+	let value: number;
+	const length = param.length as number;
+	if (slice.length === 0) {
+		value = 0;
+	} else {
+		value = slice.readUIntBE(0, length);
+	}
+	if (!param.reserved) {
+		result[param.name] = value;
+	}
+	return length;
+}
+
+function decodeEnum(
+	param: types.EnumParameter,
+	slice: Buffer,
+	result: DecodedPacket
+): number {
+	let value: number;
+	if (slice.length === 0) {
+		value = 0;
+	} else {
+		value = slice.readUInt8(0);
+	}
+	result[param.name] = value;
+	return 1;
+}
+
+function decodeGroup(
+	param: types.ParameterGroup,
+	slice: Buffer,
+	result: DecodedPacket,
+	parent: DecodedPacket | undefined
+): number {
+	if (parent) {
+		throw new DecodeDefinitionError("nested groups not supported");
+	}
+
+	let groupLength: number | "auto";
+	if (typeof param.length === "number") {
+		groupLength = param.length;
+	} else if (typeof param.length === "object") {
+		groupLength = resolveNumericReference(param.length, result);
+	} else {
+		// Number of groups determined by end of packet, or
+		// moreToFollow field.
+		groupLength = "auto";
+	}
+
+	let oldProcessed = -1;
+	let processed = 0;
+	const groupResult: DecodedPacket[] = [];
+	while (true) {
+		if (oldProcessed === processed) {
+			// Prevent against infinite loops in case of programming errors.
+			// We have to keep making progress, which is guaranteed to end the
+			// parsing, because the packet length is finite.
+			throw new DecodeDataError(
+				"decoder does not make progress while parsing packet"
+			);
+		}
+		oldProcessed = processed;
+		if (groupLength !== "auto" && groupResult.length === groupLength) {
+			break;
+		}
+		if (processed >= slice.length) {
+			// End of packet, allowed when packet length is used to
+			// determine number of groups, otherwise it's an error.
+			if (param.moreToFollow) {
+				throw new DecodeUnexpectedEndOfPacketError();
+			}
+			break;
+		}
+		const groupElement = Object.create(null);
+		for (const groupParam of param.params) {
+			processed += decodeParam(
+				slice,
+				processed,
+				groupParam,
+				groupElement,
+				result
+			);
+			if (processed >= slice.length) {
+				// Decoder started decoding after end of packet
+				// (which could be OK when e.g. parsing older version of
+				// a command, but not in the middle of a group).
+				throw new DecodeUnexpectedEndOfPacketError();
+			}
+		}
+		groupResult.push(groupElement);
+		if (param.moreToFollow) {
+			// i.e. groupLength === "auto"
+			const moreToFollow = !!resolveReference(
+				param.moreToFollow,
+				groupElement
+			);
+			if (!moreToFollow) {
+				break;
+			}
+		}
+	}
+	result[param.name] = groupResult;
+	return processed;
+}
+
+function decodeBitfield(
+	param: types.BitfieldParameter,
+	slice: Buffer,
+	result: DecodedPacket
+): number {
+	let value: number;
+	if (slice.length === 0) {
+		value = 0;
+	} else {
+		value = slice.readUInt8(0);
+	}
+	for (const field of param.fields) {
+		if (field.reserved) {
+			continue;
+		}
+		const fieldValue = (value & field.mask) >> field.shift;
+		result[field.name] =
+			field.type === types.BitfieldElementType.Boolean
+				? !!fieldValue
+				: fieldValue;
+	}
+	return 1;
 }

@@ -20,17 +20,19 @@ export enum SensorMultilevelV5Commands {
 
 export interface SensorMultilevelV5SensorMultilevelGetData {
 	sensorType: SensorTypeEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
+	scale: number; // properties1[4..3]
 }
 
 export interface SensorMultilevelV5SensorMultilevelReportData {
 	sensorType: SensorTypeEnum; // 1 byte enum value
-	// TODO param level type bitfield
+	precision: number; // level[7..5]
+	scale: number; // level[4..3]
+	size: number; // level[2..0]
 	// TODO param sensorValue type blob
 }
 
 export interface SensorMultilevelV5SensorMultilevelSupportedSensorReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
 }
 
 export interface SensorMultilevelV5SensorMultilevelSupportedGetScaleData {
@@ -39,7 +41,41 @@ export interface SensorMultilevelV5SensorMultilevelSupportedGetScaleData {
 
 export interface SensorMultilevelV5SensorMultilevelSupportedScaleReportData {
 	sensorType: SensorTypeEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
+	scaleBitMask: number; // properties1[3..0]
+}
+
+export enum SensorTypeEnum {
+	TemperatureVersion1 = 0x1,
+	GeneralPurposeValueVersion1 = 0x2,
+	LuminanceVersion1 = 0x3,
+	PowerVersion2 = 0x4,
+	RelativeHumidityVersion2 = 0x5,
+	VelocityVersion2 = 0x6,
+	DirectionVersion2 = 0x7,
+	AtmosphericPressureVersion2 = 0x8,
+	BarometricPressureVersion2 = 0x9,
+	SolarRadiationVersion2 = 0xa,
+	DewPointVersion2 = 0xb,
+	RainRateVersion2 = 0xc,
+	TideLevelVersion2 = 0xd,
+	WeightVersion3 = 0xe,
+	VoltageVersion3 = 0xf,
+	CurrentVersion3 = 0x10,
+	CO2LevelVersion3 = 0x11,
+	AirFlowVersion3 = 0x12,
+	TankCapacityVersion3 = 0x13,
+	DistanceVersion3 = 0x14,
+	AnglePositionVersion4 = 0x15,
+	RotationV5 = 0x16,
+	WaterTemperatureV5 = 0x17,
+	SoilTemperatureV5 = 0x18,
+	SeismicIntensityV5 = 0x19,
+	SeismicMagnitudeV5 = 0x1a,
+	UltravioletV5 = 0x1b,
+	ElectricalResistivityV5 = 0x1c,
+	ElectricalConductivityV5 = 0x1d,
+	LoudnessV5 = 0x1e,
+	MoistureV5 = 0x1f,
 }
 
 export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Commands> {
@@ -68,37 +104,130 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"1": "Temperature (version 1)",
-						"2": "General purpose value (version 1)",
-						"3": "Luminance (version 1)",
-						"4": "Power (version 2)",
-						"5": "Relative humidity (version 2)",
-						"6": "Velocity (version 2)",
-						"7": "Direction (version 2)",
-						"8": "Atmospheric pressure (version 2)",
-						"9": "Barometric pressure (version 2)",
-						"10": "Solar radiation (version 2)",
-						"11": "Dew point (version 2)",
-						"12": "Rain rate (version 2)",
-						"13": "Tide level (version 2)",
-						"14": "Weight (version 3)",
-						"15": "Voltage (version 3)",
-						"16": "Current (version 3)",
-						"17": "CO2-level (version 3)",
-						"18": "Air flow (version 3)",
-						"19": "Tank capacity (version 3)",
-						"20": "Distance (version 3)",
-						"21": "Angle Position (version 4)",
-						"22": "Rotation (v5)",
-						"23": "Water temperature (v5)",
-						"24": "Soil temperature (v5)",
-						"25": "Seismic intensity (v5)",
-						"26": "Seismic magnitude (v5)",
-						"27": "Ultraviolet (v5)",
-						"28": "Electrical resistivity (v5)",
-						"29": "Electrical conductivity (v5)",
-						"30": "Loudness (v5)",
-						"31": "Moisture (v5)"
+						"1": {
+							"name": "TemperatureVersion1",
+							"help": "Temperature (version 1)"
+						},
+						"2": {
+							"name": "GeneralPurposeValueVersion1",
+							"help": "General purpose value (version 1)"
+						},
+						"3": {
+							"name": "LuminanceVersion1",
+							"help": "Luminance (version 1)"
+						},
+						"4": {
+							"name": "PowerVersion2",
+							"help": "Power (version 2)"
+						},
+						"5": {
+							"name": "RelativeHumidityVersion2",
+							"help": "Relative humidity (version 2)"
+						},
+						"6": {
+							"name": "VelocityVersion2",
+							"help": "Velocity (version 2)"
+						},
+						"7": {
+							"name": "DirectionVersion2",
+							"help": "Direction (version 2)"
+						},
+						"8": {
+							"name": "AtmosphericPressureVersion2",
+							"help": "Atmospheric pressure (version 2)"
+						},
+						"9": {
+							"name": "BarometricPressureVersion2",
+							"help": "Barometric pressure (version 2)"
+						},
+						"10": {
+							"name": "SolarRadiationVersion2",
+							"help": "Solar radiation (version 2)"
+						},
+						"11": {
+							"name": "DewPointVersion2",
+							"help": "Dew point (version 2)"
+						},
+						"12": {
+							"name": "RainRateVersion2",
+							"help": "Rain rate (version 2)"
+						},
+						"13": {
+							"name": "TideLevelVersion2",
+							"help": "Tide level (version 2)"
+						},
+						"14": {
+							"name": "WeightVersion3",
+							"help": "Weight (version 3)"
+						},
+						"15": {
+							"name": "VoltageVersion3",
+							"help": "Voltage (version 3)"
+						},
+						"16": {
+							"name": "CurrentVersion3",
+							"help": "Current (version 3)"
+						},
+						"17": {
+							"name": "CO2LevelVersion3",
+							"help": "CO2-level (version 3)"
+						},
+						"18": {
+							"name": "AirFlowVersion3",
+							"help": "Air flow (version 3)"
+						},
+						"19": {
+							"name": "TankCapacityVersion3",
+							"help": "Tank capacity (version 3)"
+						},
+						"20": {
+							"name": "DistanceVersion3",
+							"help": "Distance (version 3)"
+						},
+						"21": {
+							"name": "AnglePositionVersion4",
+							"help": "Angle Position (version 4)"
+						},
+						"22": {
+							"name": "RotationV5",
+							"help": "Rotation (v5)"
+						},
+						"23": {
+							"name": "WaterTemperatureV5",
+							"help": "Water temperature (v5)"
+						},
+						"24": {
+							"name": "SoilTemperatureV5",
+							"help": "Soil temperature (v5)"
+						},
+						"25": {
+							"name": "SeismicIntensityV5",
+							"help": "Seismic intensity (v5)"
+						},
+						"26": {
+							"name": "SeismicMagnitudeV5",
+							"help": "Seismic magnitude (v5)"
+						},
+						"27": {
+							"name": "UltravioletV5",
+							"help": "Ultraviolet (v5)"
+						},
+						"28": {
+							"name": "ElectricalResistivityV5",
+							"help": "Electrical resistivity (v5)"
+						},
+						"29": {
+							"name": "ElectricalConductivityV5",
+							"help": "Electrical conductivity (v5)"
+						},
+						"30": {
+							"name": "LoudnessV5",
+							"help": "Loudness (v5)"
+						},
+						"31": {
+							"name": "MoistureV5",
+							"help": "Moisture (v5)"
+						}
 					}
 				},
 				{
@@ -109,21 +238,23 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 224,
-							"shift": 5
+							"name": "reserved1",
+							"mask": 7,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}
@@ -154,37 +285,130 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"1": "Temperature (version 1)",
-						"2": "General purpose value (version 1)",
-						"3": "Luminance (version 1)",
-						"4": "Power (version 2)",
-						"5": "Relative humidity (version 2)",
-						"6": "Velocity (version 2)",
-						"7": "Direction (version 2)",
-						"8": "Atmospheric pressure (version 2)",
-						"9": "Barometric pressure (version 2)",
-						"10": "Solar radiation (version 2)",
-						"11": "Dew point (version 2)",
-						"12": "Rain rate (version 2)",
-						"13": "Tide level (version 2)",
-						"14": "Weight (version 3)",
-						"15": "Voltage (version 3)",
-						"16": "Current (version 3)",
-						"17": "CO2-level (version 3)",
-						"18": "Air flow (version 3)",
-						"19": "Tank capacity (version 3)",
-						"20": "Distance (version 3)",
-						"21": "Angle Position (version 4)",
-						"22": "Rotation (v5)",
-						"23": "Water temperature (v5)",
-						"24": "Soil temperature (v5)",
-						"25": "Seismic intensity (v5)",
-						"26": "Seismic magnitude (v5)",
-						"27": "Ultraviolet (v5)",
-						"28": "Electrical resistivity (v5)",
-						"29": "Electrical conductivity (v5)",
-						"30": "Loudness (v5)",
-						"31": "Moisture (v5)"
+						"1": {
+							"name": "TemperatureVersion1",
+							"help": "Temperature (version 1)"
+						},
+						"2": {
+							"name": "GeneralPurposeValueVersion1",
+							"help": "General purpose value (version 1)"
+						},
+						"3": {
+							"name": "LuminanceVersion1",
+							"help": "Luminance (version 1)"
+						},
+						"4": {
+							"name": "PowerVersion2",
+							"help": "Power (version 2)"
+						},
+						"5": {
+							"name": "RelativeHumidityVersion2",
+							"help": "Relative humidity (version 2)"
+						},
+						"6": {
+							"name": "VelocityVersion2",
+							"help": "Velocity (version 2)"
+						},
+						"7": {
+							"name": "DirectionVersion2",
+							"help": "Direction (version 2)"
+						},
+						"8": {
+							"name": "AtmosphericPressureVersion2",
+							"help": "Atmospheric pressure (version 2)"
+						},
+						"9": {
+							"name": "BarometricPressureVersion2",
+							"help": "Barometric pressure (version 2)"
+						},
+						"10": {
+							"name": "SolarRadiationVersion2",
+							"help": "Solar radiation (version 2)"
+						},
+						"11": {
+							"name": "DewPointVersion2",
+							"help": "Dew point (version 2)"
+						},
+						"12": {
+							"name": "RainRateVersion2",
+							"help": "Rain rate (version 2)"
+						},
+						"13": {
+							"name": "TideLevelVersion2",
+							"help": "Tide level (version 2)"
+						},
+						"14": {
+							"name": "WeightVersion3",
+							"help": "Weight (version 3)"
+						},
+						"15": {
+							"name": "VoltageVersion3",
+							"help": "Voltage (version 3)"
+						},
+						"16": {
+							"name": "CurrentVersion3",
+							"help": "Current (version 3)"
+						},
+						"17": {
+							"name": "CO2LevelVersion3",
+							"help": "CO2-level (version 3)"
+						},
+						"18": {
+							"name": "AirFlowVersion3",
+							"help": "Air flow (version 3)"
+						},
+						"19": {
+							"name": "TankCapacityVersion3",
+							"help": "Tank capacity (version 3)"
+						},
+						"20": {
+							"name": "DistanceVersion3",
+							"help": "Distance (version 3)"
+						},
+						"21": {
+							"name": "AnglePositionVersion4",
+							"help": "Angle Position (version 4)"
+						},
+						"22": {
+							"name": "RotationV5",
+							"help": "Rotation (v5)"
+						},
+						"23": {
+							"name": "WaterTemperatureV5",
+							"help": "Water temperature (v5)"
+						},
+						"24": {
+							"name": "SoilTemperatureV5",
+							"help": "Soil temperature (v5)"
+						},
+						"25": {
+							"name": "SeismicIntensityV5",
+							"help": "Seismic intensity (v5)"
+						},
+						"26": {
+							"name": "SeismicMagnitudeV5",
+							"help": "Seismic magnitude (v5)"
+						},
+						"27": {
+							"name": "UltravioletV5",
+							"help": "Ultraviolet (v5)"
+						},
+						"28": {
+							"name": "ElectricalResistivityV5",
+							"help": "Electrical resistivity (v5)"
+						},
+						"29": {
+							"name": "ElectricalConductivityV5",
+							"help": "Electrical conductivity (v5)"
+						},
+						"30": {
+							"name": "LoudnessV5",
+							"help": "Loudness (v5)"
+						},
+						"31": {
+							"name": "MoistureV5",
+							"help": "Moisture (v5)"
+						}
 					}
 				},
 				{
@@ -195,21 +419,21 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -219,8 +443,11 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"help": "Sensor Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -297,37 +524,130 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"1": "Temperature (version 1)",
-						"2": "General purpose value (version 1)",
-						"3": "Luminance (version 1)",
-						"4": "Power (version 2)",
-						"5": "Relative humidity (version 2)",
-						"6": "Velocity (version 2)",
-						"7": "Direction (version 2)",
-						"8": "Atmospheric pressure (version 2)",
-						"9": "Barometric pressure (version 2)",
-						"10": "Solar radiation (version 2)",
-						"11": "Dew point (version 2)",
-						"12": "Rain rate (version 2)",
-						"13": "Tide level (version 2)",
-						"14": "Weight (version 3)",
-						"15": "Voltage (version 3)",
-						"16": "Current (version 3)",
-						"17": "CO2-level (version 3)",
-						"18": "Air flow (version 3)",
-						"19": "Tank capacity (version 3)",
-						"20": "Distance (version 3)",
-						"21": "Angle Position (version 4)",
-						"22": "Rotation (v5)",
-						"23": "Water temperature (v5)",
-						"24": "Soil temperature (v5)",
-						"25": "Seismic intensity (v5)",
-						"26": "Seismic magnitude (v5)",
-						"27": "Ultraviolet (v5)",
-						"28": "Electrical resistivity (v5)",
-						"29": "Electrical conductivity (v5)",
-						"30": "Loudness (v5)",
-						"31": "Moisture (v5)"
+						"1": {
+							"name": "TemperatureVersion1",
+							"help": "Temperature (version 1)"
+						},
+						"2": {
+							"name": "GeneralPurposeValueVersion1",
+							"help": "General purpose value (version 1)"
+						},
+						"3": {
+							"name": "LuminanceVersion1",
+							"help": "Luminance (version 1)"
+						},
+						"4": {
+							"name": "PowerVersion2",
+							"help": "Power (version 2)"
+						},
+						"5": {
+							"name": "RelativeHumidityVersion2",
+							"help": "Relative humidity (version 2)"
+						},
+						"6": {
+							"name": "VelocityVersion2",
+							"help": "Velocity (version 2)"
+						},
+						"7": {
+							"name": "DirectionVersion2",
+							"help": "Direction (version 2)"
+						},
+						"8": {
+							"name": "AtmosphericPressureVersion2",
+							"help": "Atmospheric pressure (version 2)"
+						},
+						"9": {
+							"name": "BarometricPressureVersion2",
+							"help": "Barometric pressure (version 2)"
+						},
+						"10": {
+							"name": "SolarRadiationVersion2",
+							"help": "Solar radiation (version 2)"
+						},
+						"11": {
+							"name": "DewPointVersion2",
+							"help": "Dew point (version 2)"
+						},
+						"12": {
+							"name": "RainRateVersion2",
+							"help": "Rain rate (version 2)"
+						},
+						"13": {
+							"name": "TideLevelVersion2",
+							"help": "Tide level (version 2)"
+						},
+						"14": {
+							"name": "WeightVersion3",
+							"help": "Weight (version 3)"
+						},
+						"15": {
+							"name": "VoltageVersion3",
+							"help": "Voltage (version 3)"
+						},
+						"16": {
+							"name": "CurrentVersion3",
+							"help": "Current (version 3)"
+						},
+						"17": {
+							"name": "CO2LevelVersion3",
+							"help": "CO2-level (version 3)"
+						},
+						"18": {
+							"name": "AirFlowVersion3",
+							"help": "Air flow (version 3)"
+						},
+						"19": {
+							"name": "TankCapacityVersion3",
+							"help": "Tank capacity (version 3)"
+						},
+						"20": {
+							"name": "DistanceVersion3",
+							"help": "Distance (version 3)"
+						},
+						"21": {
+							"name": "AnglePositionVersion4",
+							"help": "Angle Position (version 4)"
+						},
+						"22": {
+							"name": "RotationV5",
+							"help": "Rotation (v5)"
+						},
+						"23": {
+							"name": "WaterTemperatureV5",
+							"help": "Water temperature (v5)"
+						},
+						"24": {
+							"name": "SoilTemperatureV5",
+							"help": "Soil temperature (v5)"
+						},
+						"25": {
+							"name": "SeismicIntensityV5",
+							"help": "Seismic intensity (v5)"
+						},
+						"26": {
+							"name": "SeismicMagnitudeV5",
+							"help": "Seismic magnitude (v5)"
+						},
+						"27": {
+							"name": "UltravioletV5",
+							"help": "Ultraviolet (v5)"
+						},
+						"28": {
+							"name": "ElectricalResistivityV5",
+							"help": "Electrical resistivity (v5)"
+						},
+						"29": {
+							"name": "ElectricalConductivityV5",
+							"help": "Electrical conductivity (v5)"
+						},
+						"30": {
+							"name": "LoudnessV5",
+							"help": "Loudness (v5)"
+						},
+						"31": {
+							"name": "MoistureV5",
+							"help": "Moisture (v5)"
+						}
 					}
 				}
 			]
@@ -357,37 +677,130 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"1": "Temperature (version 1)",
-						"2": "General purpose value (version 1)",
-						"3": "Luminance (version 1)",
-						"4": "Power (version 2)",
-						"5": "Relative humidity (version 2)",
-						"6": "Velocity (version 2)",
-						"7": "Direction (version 2)",
-						"8": "Atmospheric pressure (version 2)",
-						"9": "Barometric pressure (version 2)",
-						"10": "Solar radiation (version 2)",
-						"11": "Dew point (version 2)",
-						"12": "Rain rate (version 2)",
-						"13": "Tide level (version 2)",
-						"14": "Weight (version 3)",
-						"15": "Voltage (version 3)",
-						"16": "Current (version 3)",
-						"17": "CO2-level (version 3)",
-						"18": "Air flow (version 3)",
-						"19": "Tank capacity (version 3)",
-						"20": "Distance (version 3)",
-						"21": "Angle Position (version 4)",
-						"22": "Rotation (v5)",
-						"23": "Water temperature (v5)",
-						"24": "Soil temperature (v5)",
-						"25": "Seismic intensity (v5)",
-						"26": "Seismic magnitude (v5)",
-						"27": "Ultraviolet (v5)",
-						"28": "Electrical resistivity (v5)",
-						"29": "Electrical conductivity (v5)",
-						"30": "Loudness (v5)",
-						"31": "Moisture (v5)"
+						"1": {
+							"name": "TemperatureVersion1",
+							"help": "Temperature (version 1)"
+						},
+						"2": {
+							"name": "GeneralPurposeValueVersion1",
+							"help": "General purpose value (version 1)"
+						},
+						"3": {
+							"name": "LuminanceVersion1",
+							"help": "Luminance (version 1)"
+						},
+						"4": {
+							"name": "PowerVersion2",
+							"help": "Power (version 2)"
+						},
+						"5": {
+							"name": "RelativeHumidityVersion2",
+							"help": "Relative humidity (version 2)"
+						},
+						"6": {
+							"name": "VelocityVersion2",
+							"help": "Velocity (version 2)"
+						},
+						"7": {
+							"name": "DirectionVersion2",
+							"help": "Direction (version 2)"
+						},
+						"8": {
+							"name": "AtmosphericPressureVersion2",
+							"help": "Atmospheric pressure (version 2)"
+						},
+						"9": {
+							"name": "BarometricPressureVersion2",
+							"help": "Barometric pressure (version 2)"
+						},
+						"10": {
+							"name": "SolarRadiationVersion2",
+							"help": "Solar radiation (version 2)"
+						},
+						"11": {
+							"name": "DewPointVersion2",
+							"help": "Dew point (version 2)"
+						},
+						"12": {
+							"name": "RainRateVersion2",
+							"help": "Rain rate (version 2)"
+						},
+						"13": {
+							"name": "TideLevelVersion2",
+							"help": "Tide level (version 2)"
+						},
+						"14": {
+							"name": "WeightVersion3",
+							"help": "Weight (version 3)"
+						},
+						"15": {
+							"name": "VoltageVersion3",
+							"help": "Voltage (version 3)"
+						},
+						"16": {
+							"name": "CurrentVersion3",
+							"help": "Current (version 3)"
+						},
+						"17": {
+							"name": "CO2LevelVersion3",
+							"help": "CO2-level (version 3)"
+						},
+						"18": {
+							"name": "AirFlowVersion3",
+							"help": "Air flow (version 3)"
+						},
+						"19": {
+							"name": "TankCapacityVersion3",
+							"help": "Tank capacity (version 3)"
+						},
+						"20": {
+							"name": "DistanceVersion3",
+							"help": "Distance (version 3)"
+						},
+						"21": {
+							"name": "AnglePositionVersion4",
+							"help": "Angle Position (version 4)"
+						},
+						"22": {
+							"name": "RotationV5",
+							"help": "Rotation (v5)"
+						},
+						"23": {
+							"name": "WaterTemperatureV5",
+							"help": "Water temperature (v5)"
+						},
+						"24": {
+							"name": "SoilTemperatureV5",
+							"help": "Soil temperature (v5)"
+						},
+						"25": {
+							"name": "SeismicIntensityV5",
+							"help": "Seismic intensity (v5)"
+						},
+						"26": {
+							"name": "SeismicMagnitudeV5",
+							"help": "Seismic magnitude (v5)"
+						},
+						"27": {
+							"name": "UltravioletV5",
+							"help": "Ultraviolet (v5)"
+						},
+						"28": {
+							"name": "ElectricalResistivityV5",
+							"help": "Electrical resistivity (v5)"
+						},
+						"29": {
+							"name": "ElectricalConductivityV5",
+							"help": "Electrical conductivity (v5)"
+						},
+						"30": {
+							"name": "LoudnessV5",
+							"help": "Loudness (v5)"
+						},
+						"31": {
+							"name": "MoistureV5",
+							"help": "Moisture (v5)"
+						}
 					}
 				},
 				{
@@ -398,15 +811,16 @@ export class SensorMultilevelV5 extends CommandClassPacket<SensorMultilevelV5Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Scale Bit Mask",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "scaleBitMask",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				}
@@ -430,38 +844,4 @@ export namespace SensorMultilevelV5 {
 	export type SensorMultilevelSupportedSensorReport = InstanceType<typeof SensorMultilevelV5.SensorMultilevelSupportedSensorReport>;
 	export type SensorMultilevelSupportedGetScale = InstanceType<typeof SensorMultilevelV5.SensorMultilevelSupportedGetScale>;
 	export type SensorMultilevelSupportedScaleReport = InstanceType<typeof SensorMultilevelV5.SensorMultilevelSupportedScaleReport>;
-}
-
-export enum SensorTypeEnum {
-	TemperatureVersion1 = 0x1,
-	GeneralPurposeValueVersion1 = 0x2,
-	LuminanceVersion1 = 0x3,
-	PowerVersion2 = 0x4,
-	RelativeHumidityVersion2 = 0x5,
-	VelocityVersion2 = 0x6,
-	DirectionVersion2 = 0x7,
-	AtmosphericPressureVersion2 = 0x8,
-	BarometricPressureVersion2 = 0x9,
-	SolarRadiationVersion2 = 0xa,
-	DewPointVersion2 = 0xb,
-	RainRateVersion2 = 0xc,
-	TideLevelVersion2 = 0xd,
-	WeightVersion3 = 0xe,
-	VoltageVersion3 = 0xf,
-	CurrentVersion3 = 0x10,
-	CO2LevelVersion3 = 0x11,
-	AirFlowVersion3 = 0x12,
-	TankCapacityVersion3 = 0x13,
-	DistanceVersion3 = 0x14,
-	AnglePositionVersion4 = 0x15,
-	RotationV5 = 0x16,
-	WaterTemperatureV5 = 0x17,
-	SoilTemperatureV5 = 0x18,
-	SeismicIntensityV5 = 0x19,
-	SeismicMagnitudeV5 = 0x1a,
-	UltravioletV5 = 0x1b,
-	ElectricalResistivityV5 = 0x1c,
-	ElectricalConductivityV5 = 0x1d,
-	LoudnessV5 = 0x1e,
-	MoistureV5 = 0x1f,
 }

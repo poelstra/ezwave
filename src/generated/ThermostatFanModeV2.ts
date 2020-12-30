@@ -18,15 +18,25 @@ export enum ThermostatFanModeV2Commands {
 }
 
 export interface ThermostatFanModeV2ThermostatFanModeReportData {
-	// TODO param level type bitfield
+	fanMode: FanModeEnum; // level[3..0]
 }
 
 export interface ThermostatFanModeV2ThermostatFanModeSetData {
-	// TODO param level type bitfield
+	off: boolean; // level[7]
+	fanMode: FanModeEnum; // level[3..0]
 }
 
 export interface ThermostatFanModeV2ThermostatFanModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum FanModeEnum {
+	AutoLow = 0x0,
+	Low = 0x1,
+	AutoHigh = 0x2,
+	High = 0x3,
+	AutoMedium = 0x4,
+	Medium = 0x5,
 }
 
 export class ThermostatFanModeV2 extends CommandClassPacket<ThermostatFanModeV2Commands> {
@@ -76,24 +86,43 @@ export class ThermostatFanModeV2 extends CommandClassPacket<ThermostatFanModeV2C
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Fan Mode",
+							"name": "fanMode",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High",
-								"4": "Auto Medium",
-								"5": "Medium"
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								},
+								"4": {
+									"name": "AutoMedium",
+									"help": "Auto Medium"
+								},
+								"5": {
+									"name": "Medium",
+									"help": "Medium"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -125,30 +154,49 @@ export class ThermostatFanModeV2 extends CommandClassPacket<ThermostatFanModeV2C
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Fan Mode",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High",
-								"4": "Auto Medium",
-								"5": "Medium"
-							}
+							"type": "boolean",
+							"name": "off",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
+							"name": "reserved",
 							"mask": 112,
-							"shift": 4
+							"shift": 4,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Off",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "fanMode",
+							"mask": 15,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								},
+								"4": {
+									"name": "AutoMedium",
+									"help": "Auto Medium"
+								},
+								"5": {
+									"name": "Medium",
+									"help": "Medium"
+								}
+							}
 						}
 					]
 				}

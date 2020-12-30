@@ -19,20 +19,35 @@ export enum ThermostatOperatingStateV2Commands {
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingStateReportData {
-	// TODO param properties1 type bitfield
+	operatingState: OperatingStateEnum; // properties1[3..0]
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingLoggingSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingGetData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
+}
+
+export enum OperatingStateEnum {
+	Idle = 0x0,
+	Heating = 0x1,
+	Cooling = 0x2,
+	FanOnly = 0x3,
+	PendingHeat = 0x4,
+	PendingCool = 0x5,
+	VentEconomizer = 0x6,
+	AuxHeating = 0x7,
+	_2ndStageHeating = 0x8,
+	_2ndStageCooling = 0x9,
+	_2ndStageAuxHeat = 0xa,
+	_3rdStageAuxHeat = 0xb,
 }
 
 export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOperatingStateV2Commands> {
@@ -82,30 +97,67 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Operating State",
+							"name": "operatingState",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Idle",
-								"1": "Heating",
-								"2": "Cooling",
-								"3": "Fan Only",
-								"4": "Pending Heat",
-								"5": "Pending Cool",
-								"6": "Vent/Economizer",
-								"7": "Aux Heating",
-								"8": "2nd Stage Heating",
-								"9": "2nd Stage Cooling",
-								"10": "2nd Stage Aux Heat",
-								"11": "3rd Stage Aux Heat"
+								"0": {
+									"name": "Idle",
+									"help": "Idle"
+								},
+								"1": {
+									"name": "Heating",
+									"help": "Heating"
+								},
+								"2": {
+									"name": "Cooling",
+									"help": "Cooling"
+								},
+								"3": {
+									"name": "FanOnly",
+									"help": "Fan Only"
+								},
+								"4": {
+									"name": "PendingHeat",
+									"help": "Pending Heat"
+								},
+								"5": {
+									"name": "PendingCool",
+									"help": "Pending Cool"
+								},
+								"6": {
+									"name": "VentEconomizer",
+									"help": "Vent/Economizer"
+								},
+								"7": {
+									"name": "AuxHeating",
+									"help": "Aux Heating"
+								},
+								"8": {
+									"name": "2ndStageHeating",
+									"help": "2nd Stage Heating"
+								},
+								"9": {
+									"name": "2ndStageCooling",
+									"help": "2nd Stage Cooling"
+								},
+								"10": {
+									"name": "2ndStageAuxHeat",
+									"help": "2nd Stage Aux Heat"
+								},
+								"11": {
+									"name": "3rdStageAuxHeat",
+									"help": "3rd Stage Aux Heat"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -215,9 +267,7 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Reports to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Reports to Follow"
 					},
 					"params": [
 						{
@@ -228,15 +278,16 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Operating State Log Type",
+									"name": "operatingStateLogType",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Reserved",
+									"name": "reserved",
 									"mask": 240,
-									"shift": 4
+									"shift": 4,
+									"reserved": true
 								}
 							]
 						},

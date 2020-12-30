@@ -23,19 +23,21 @@ export enum MultiChannelV2Commands {
 }
 
 export interface MultiChannelV2MultiChannelCapabilityGetData {
-	// TODO param properties1 type bitfield
+	endPoint: number; // properties1[6..0]
 }
 
 export interface MultiChannelV2MultiChannelCapabilityReportData {
-	// TODO param properties1 type bitfield
+	dynamic: boolean; // properties1[7]
+	endPoint: number; // properties1[6..0]
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
 	// TODO param commandClass type enumarray
 }
 
 export interface MultiChannelV2MultiChannelCmdEncapData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	sourceEndPoint: number; // properties1[6..0]
+	bitAddress: boolean; // properties2[7]
+	destinationEndPoint: number; // properties2[6..0]
 	commandClass: number; // 1 byte unsigned integer
 	command: number; // 1 byte unsigned integer
 	// TODO param parameter type blob
@@ -54,12 +56,13 @@ export interface MultiChannelV2MultiChannelEndPointFindReportData {
 }
 
 export interface MultiChannelV2MultiChannelEndPointReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	dynamic: boolean; // properties1[7]
+	identical: boolean; // properties1[6]
+	endPoints: number; // properties2[6..0]
 }
 
 export interface MultiChannelV2MultiInstanceCmdEncapData {
-	// TODO param properties1 type bitfield
+	instance: number; // properties1[6..0]
 	commandClass: number; // 1 byte unsigned integer
 	command: number; // 1 byte unsigned integer
 	// TODO param parameter type blob
@@ -71,7 +74,7 @@ export interface MultiChannelV2MultiInstanceGetData {
 
 export interface MultiChannelV2MultiInstanceReportData {
 	commandClass: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	instances: number; // properties1[6..0]
 }
 
 // Obsolete
@@ -102,16 +105,17 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "End Point",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "endPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -143,16 +147,16 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "End Point",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Dynamic",
+							"name": "dynamic",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "endPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -205,16 +209,17 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Source End Point",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "sourceEndPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -225,16 +230,16 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Destination End Point",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Bit address",
+							"name": "bitAddress",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "destinationEndPoint",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -349,15 +354,16 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "End Point",
+									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Res",
+									"name": "res",
 									"mask": 128,
-									"shift": 7
+									"shift": 7,
+									"reserved": true
 								}
 							]
 						}
@@ -411,22 +417,23 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Res1",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "dynamic",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Identical",
+							"name": "identical",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Dynamic",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "res1",
+							"mask": 63,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -437,16 +444,17 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "End Points",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res2",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "endPoints",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -478,16 +486,17 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Instance",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "instance",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -575,16 +584,17 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Instances",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "res",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Res",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "instances",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}

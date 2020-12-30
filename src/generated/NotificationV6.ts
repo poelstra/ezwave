@@ -28,11 +28,11 @@ export interface NotificationV6NotificationGetData {
 export interface NotificationV6NotificationReportData {
 	v1AlarmType: number; // 1 byte unsigned integer
 	v1AlarmLevel: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	notificationStatus: NotificationStatusEnum; // 1 byte enum value
 	notificationType: NotificationTypeEnum; // 1 byte enum value
 	event: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	sequence: boolean; // properties1[7]
+	eventParametersLength: number; // properties1[4..0]
 	// TODO param eventParameter type blob
 	sequenceNumber: number; // 1 byte unsigned integer
 }
@@ -43,8 +43,9 @@ export interface NotificationV6NotificationSetData {
 }
 
 export interface NotificationV6NotificationSupportedReportData {
-	// TODO param properties1 type bitfield
-	bitMask: number; // 0 byte unsigned integer
+	v1Alarm: boolean; // properties1[7]
+	numberOfBitMasks: number; // properties1[4..0]
+	// TODO param bitMask type bitmask or marker
 }
 
 export interface NotificationV6EventSupportedGetData {
@@ -53,8 +54,33 @@ export interface NotificationV6EventSupportedGetData {
 
 export interface NotificationV6EventSupportedReportData {
 	notificationType: NotificationTypeEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
-	bitMask: number; // 0 byte unsigned integer
+	numberOfBitMasks: number; // properties1[4..0]
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum NotificationTypeEnum {
+	Reserved = 0x0,
+	Smoke = 0x1,
+	Co = 0x2,
+	Co2 = 0x3,
+	Heat = 0x4,
+	Water = 0x5,
+	AccessControl = 0x6,
+	HomeSecurity = 0x7,
+	PowerManagement = 0x8,
+	System = 0x9,
+	Emergency = 0xa,
+	Clock = 0xb,
+	Appliance = 0xc,
+	HomeHealth = 0xd,
+	Siren = 0xe,
+	First = 0xff,
+}
+
+export enum NotificationStatusEnum {
+	Off = 0x0,
+	NoPendingNotifications = 0xfe,
+	On = 0xff,
 }
 
 // Deprecated
@@ -90,22 +116,70 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Notification Type",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "Smoke",
-						"2": "CO",
-						"3": "CO2",
-						"4": "Heat",
-						"5": "Water",
-						"6": "Access Control",
-						"7": "Home Security",
-						"8": "Power Management",
-						"9": "System",
-						"10": "Emergency",
-						"11": "Clock",
-						"12": "Appliance",
-						"13": "Home Health",
-						"14": "Siren",
-						"255": "First"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "Smoke",
+							"help": "Smoke"
+						},
+						"2": {
+							"name": "Co",
+							"help": "CO"
+						},
+						"3": {
+							"name": "Co2",
+							"help": "CO2"
+						},
+						"4": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"5": {
+							"name": "Water",
+							"help": "Water"
+						},
+						"6": {
+							"name": "AccessControl",
+							"help": "Access Control"
+						},
+						"7": {
+							"name": "HomeSecurity",
+							"help": "Home Security"
+						},
+						"8": {
+							"name": "PowerManagement",
+							"help": "Power Management"
+						},
+						"9": {
+							"name": "System",
+							"help": "System"
+						},
+						"10": {
+							"name": "Emergency",
+							"help": "Emergency"
+						},
+						"11": {
+							"name": "Clock",
+							"help": "Clock"
+						},
+						"12": {
+							"name": "Appliance",
+							"help": "Appliance"
+						},
+						"13": {
+							"name": "HomeHealth",
+							"help": "Home Health"
+						},
+						"14": {
+							"name": "Siren",
+							"help": "Siren"
+						},
+						"255": {
+							"name": "First",
+							"help": "First"
+						}
 					}
 				},
 				{
@@ -151,7 +225,8 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "enum",
@@ -159,9 +234,18 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Notification Status",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"254": "No pending notifications",
-						"255": "On"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"254": {
+							"name": "NoPendingNotifications",
+							"help": "No pending notifications"
+						},
+						"255": {
+							"name": "On",
+							"help": "On"
+						}
 					}
 				},
 				{
@@ -170,22 +254,70 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Notification Type",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "Smoke",
-						"2": "CO",
-						"3": "CO2",
-						"4": "Heat",
-						"5": "Water",
-						"6": "Access Control",
-						"7": "Home Security",
-						"8": "Power Management",
-						"9": "System",
-						"10": "Emergency",
-						"11": "Clock",
-						"12": "Appliance",
-						"13": "Home Health",
-						"14": "Siren",
-						"255": "First"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "Smoke",
+							"help": "Smoke"
+						},
+						"2": {
+							"name": "Co",
+							"help": "CO"
+						},
+						"3": {
+							"name": "Co2",
+							"help": "CO2"
+						},
+						"4": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"5": {
+							"name": "Water",
+							"help": "Water"
+						},
+						"6": {
+							"name": "AccessControl",
+							"help": "Access Control"
+						},
+						"7": {
+							"name": "HomeSecurity",
+							"help": "Home Security"
+						},
+						"8": {
+							"name": "PowerManagement",
+							"help": "Power Management"
+						},
+						"9": {
+							"name": "System",
+							"help": "System"
+						},
+						"10": {
+							"name": "Emergency",
+							"help": "Emergency"
+						},
+						"11": {
+							"name": "Clock",
+							"help": "Clock"
+						},
+						"12": {
+							"name": "Appliance",
+							"help": "Appliance"
+						},
+						"13": {
+							"name": "HomeHealth",
+							"help": "Home Health"
+						},
+						"14": {
+							"name": "Siren",
+							"help": "Siren"
+						},
+						"255": {
+							"name": "First",
+							"help": "First"
+						}
 					}
 				},
 				{
@@ -201,22 +333,23 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Event Parameters Length",
-							"mask": 31,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved2",
-							"mask": 96,
-							"shift": 5
-						},
-						{
 							"type": "boolean",
-							"name": "Sequence",
+							"name": "sequence",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved2",
+							"mask": 96,
+							"shift": 5,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "eventParametersLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -226,8 +359,11 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Event Parameter",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "eventParametersLength"
+						}
 					}
 				},
 				{
@@ -263,22 +399,70 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Notification Type",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "Smoke",
-						"2": "CO",
-						"3": "CO2",
-						"4": "Heat",
-						"5": "Water",
-						"6": "Access Control",
-						"7": "Home Security",
-						"8": "Power Management",
-						"9": "System",
-						"10": "Emergency",
-						"11": "Clock",
-						"12": "Appliance",
-						"13": "Home Health",
-						"14": "Siren",
-						"255": "First"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "Smoke",
+							"help": "Smoke"
+						},
+						"2": {
+							"name": "Co",
+							"help": "CO"
+						},
+						"3": {
+							"name": "Co2",
+							"help": "CO2"
+						},
+						"4": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"5": {
+							"name": "Water",
+							"help": "Water"
+						},
+						"6": {
+							"name": "AccessControl",
+							"help": "Access Control"
+						},
+						"7": {
+							"name": "HomeSecurity",
+							"help": "Home Security"
+						},
+						"8": {
+							"name": "PowerManagement",
+							"help": "Power Management"
+						},
+						"9": {
+							"name": "System",
+							"help": "System"
+						},
+						"10": {
+							"name": "Emergency",
+							"help": "Emergency"
+						},
+						"11": {
+							"name": "Clock",
+							"help": "Clock"
+						},
+						"12": {
+							"name": "Appliance",
+							"help": "Appliance"
+						},
+						"13": {
+							"name": "HomeHealth",
+							"help": "Home Health"
+						},
+						"14": {
+							"name": "Siren",
+							"help": "Siren"
+						},
+						"255": {
+							"name": "First",
+							"help": "First"
+						}
 					}
 				},
 				{
@@ -287,9 +471,18 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Notification Status",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"254": "No pending notifications",
-						"255": "On"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"254": {
+							"name": "NoPendingNotifications",
+							"help": "No pending notifications"
+						},
+						"255": {
+							"name": "On",
+							"help": "On"
+						}
 					}
 				}
 			]
@@ -340,22 +533,23 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Number of Bit Masks",
-							"mask": 31,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 96,
-							"shift": 5
-						},
-						{
 							"type": "boolean",
-							"name": "V1 Alarm",
+							"name": "v1Alarm",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 96,
+							"shift": 5,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "numberOfBitMasks",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -392,22 +586,70 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Notification Type",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "Smoke",
-						"2": "CO",
-						"3": "CO2",
-						"4": "Heat",
-						"5": "Water",
-						"6": "Access Control",
-						"7": "Home Security",
-						"8": "Power Management",
-						"9": "System",
-						"10": "Emergency",
-						"11": "Clock",
-						"12": "Appliance",
-						"13": "Home Health",
-						"14": "Siren",
-						"255": "First"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "Smoke",
+							"help": "Smoke"
+						},
+						"2": {
+							"name": "Co",
+							"help": "CO"
+						},
+						"3": {
+							"name": "Co2",
+							"help": "CO2"
+						},
+						"4": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"5": {
+							"name": "Water",
+							"help": "Water"
+						},
+						"6": {
+							"name": "AccessControl",
+							"help": "Access Control"
+						},
+						"7": {
+							"name": "HomeSecurity",
+							"help": "Home Security"
+						},
+						"8": {
+							"name": "PowerManagement",
+							"help": "Power Management"
+						},
+						"9": {
+							"name": "System",
+							"help": "System"
+						},
+						"10": {
+							"name": "Emergency",
+							"help": "Emergency"
+						},
+						"11": {
+							"name": "Clock",
+							"help": "Clock"
+						},
+						"12": {
+							"name": "Appliance",
+							"help": "Appliance"
+						},
+						"13": {
+							"name": "HomeHealth",
+							"help": "Home Health"
+						},
+						"14": {
+							"name": "Siren",
+							"help": "Siren"
+						},
+						"255": {
+							"name": "First",
+							"help": "First"
+						}
 					}
 				}
 			]
@@ -437,22 +679,70 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"help": "Notification Type",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "Smoke",
-						"2": "CO",
-						"3": "CO2",
-						"4": "Heat",
-						"5": "Water",
-						"6": "Access Control",
-						"7": "Home Security",
-						"8": "Power Management",
-						"9": "System",
-						"10": "Emergency",
-						"11": "Clock",
-						"12": "Appliance",
-						"13": "Home Health",
-						"14": "Siren",
-						"255": "First"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "Smoke",
+							"help": "Smoke"
+						},
+						"2": {
+							"name": "Co",
+							"help": "CO"
+						},
+						"3": {
+							"name": "Co2",
+							"help": "CO2"
+						},
+						"4": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"5": {
+							"name": "Water",
+							"help": "Water"
+						},
+						"6": {
+							"name": "AccessControl",
+							"help": "Access Control"
+						},
+						"7": {
+							"name": "HomeSecurity",
+							"help": "Home Security"
+						},
+						"8": {
+							"name": "PowerManagement",
+							"help": "Power Management"
+						},
+						"9": {
+							"name": "System",
+							"help": "System"
+						},
+						"10": {
+							"name": "Emergency",
+							"help": "Emergency"
+						},
+						"11": {
+							"name": "Clock",
+							"help": "Clock"
+						},
+						"12": {
+							"name": "Appliance",
+							"help": "Appliance"
+						},
+						"13": {
+							"name": "HomeHealth",
+							"help": "Home Health"
+						},
+						"14": {
+							"name": "Siren",
+							"help": "Siren"
+						},
+						"255": {
+							"name": "First",
+							"help": "First"
+						}
 					}
 				},
 				{
@@ -463,15 +753,16 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Bit Masks",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "numberOfBitMasks",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -502,29 +793,4 @@ export namespace NotificationV6 {
 	export type NotificationSupportedReport = InstanceType<typeof NotificationV6.NotificationSupportedReport>;
 	export type EventSupportedGet = InstanceType<typeof NotificationV6.EventSupportedGet>;
 	export type EventSupportedReport = InstanceType<typeof NotificationV6.EventSupportedReport>;
-}
-
-export enum NotificationTypeEnum {
-	Reserved = 0x0,
-	Smoke = 0x1,
-	Co = 0x2,
-	Co2 = 0x3,
-	Heat = 0x4,
-	Water = 0x5,
-	AccessControl = 0x6,
-	HomeSecurity = 0x7,
-	PowerManagement = 0x8,
-	System = 0x9,
-	Emergency = 0xa,
-	Clock = 0xb,
-	Appliance = 0xc,
-	HomeHealth = 0xd,
-	Siren = 0xe,
-	First = 0xff,
-}
-
-export enum NotificationStatusEnum {
-	Off = 0x0,
-	NoPendingNotifications = 0xfe,
-	On = 0xff,
 }

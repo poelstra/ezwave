@@ -23,6 +23,12 @@ export interface ProtectionV1ProtectionSetData {
 	protectionState: ProtectionStateEnum; // 1 byte enum value
 }
 
+export enum ProtectionStateEnum {
+	Unprotected = 0x0,
+	ProtectionBySequence = 0x1,
+	NoOperationPossible = 0x2,
+}
+
 export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 	public static readonly commandClass = CommandClasses.Protection; // 0x75 (117)
 
@@ -69,9 +75,18 @@ export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 					"help": "Protection State",
 					"length": 1,
 					"values": {
-						"0": "Unprotected",
-						"1": "Protection by sequence",
-						"2": "No operation possible"
+						"0": {
+							"name": "Unprotected",
+							"help": "Unprotected"
+						},
+						"1": {
+							"name": "ProtectionBySequence",
+							"help": "Protection by sequence"
+						},
+						"2": {
+							"name": "NoOperationPossible",
+							"help": "No operation possible"
+						}
 					}
 				}
 			]
@@ -101,9 +116,18 @@ export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 					"help": "Protection State",
 					"length": 1,
 					"values": {
-						"0": "Unprotected",
-						"1": "Protection by sequence",
-						"2": "No operation possible"
+						"0": {
+							"name": "Unprotected",
+							"help": "Unprotected"
+						},
+						"1": {
+							"name": "ProtectionBySequence",
+							"help": "Protection by sequence"
+						},
+						"2": {
+							"name": "NoOperationPossible",
+							"help": "No operation possible"
+						}
 					}
 				}
 			]
@@ -123,10 +147,4 @@ export namespace ProtectionV1 {
 	export type ProtectionGet = InstanceType<typeof ProtectionV1.ProtectionGet>;
 	export type ProtectionReport = InstanceType<typeof ProtectionV1.ProtectionReport>;
 	export type ProtectionSet = InstanceType<typeof ProtectionV1.ProtectionSet>;
-}
-
-export enum ProtectionStateEnum {
-	Unprotected = 0x0,
-	ProtectionBySequence = 0x1,
-	NoOperationPossible = 0x2,
 }

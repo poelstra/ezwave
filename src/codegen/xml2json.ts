@@ -308,26 +308,44 @@ interface Variant {
 	sizechange?: number; // E.g. -1 or -2, means to include one or two previous bytes
 }
 
+function isReserved(name: string): boolean {
+	// Reserved names are e.g. Reserved, reserved11, ReservedA.
+	// But should not match e.g. ReservedByAdministrator or CmdReservedIds.
+	return /^[Rr]eserved[A-F]?[0-9]*$/.test(name) || /^res[0-9]*$/.test(name);
+}
+
+function makeEnumValue(name: string): types.EnumValue {
+	return {
+		name: Case.pascal(name),
+		help: name,
+	};
+}
+
 function generateBitfields(param: StructByteParam): types.BitfieldElement[] {
 	let result: types.BitfieldElement[] = [];
 	for (const flag of toArray(param.bitflag)) {
 		// Remap key to just append at end in case of duplicate, e.g.
 		// necessary for COMMAND_CLASS_ZIP:COMMAND_ZIP_PACKET
 		const key = !result[flag.key] ? flag.key : result.length;
+
+		const elementName = Case.camel(flag.flagname);
 		result[key] = {
 			type: types.BitfieldElementType.Boolean,
-			name: flag.flagname,
+			name: elementName,
 			mask: flag.flagmask,
 			shift: Math.log2(flag.flagmask),
+			reserved: isReserved(elementName) ? true : undefined,
 		};
 	}
 	for (const field of toArray(param.bitfield)) {
 		const key = !result[field.key] ? field.key : result.length;
+		const elementName = Case.camel(field.fieldname);
 		result[key] = {
 			type: types.BitfieldElementType.Integer,
-			name: field.fieldname,
+			name: elementName,
 			mask: field.fieldmask,
 			shift: field.shifter ?? 0,
+			reserved: isReserved(elementName) ? true : undefined,
 		};
 	}
 	for (const enm of toArray(param.fieldenum)) {
@@ -337,18 +355,20 @@ function generateBitfields(param: StructByteParam): types.BitfieldElement[] {
 		let size = 0;
 		for (const val of toArray(enm.fieldenum)) {
 			if (val.key !== undefined) {
-				values[val.key] = val.value;
+				values[val.key] = makeEnumValue(val.value);
 			} else {
-				values[size] = val.value;
+				values[size] = makeEnumValue(val.value);
 			}
 			size++;
 		}
 		const key = !result[enm.key] ? enm.key : result.length;
+		const elementName = Case.camel(enm.fieldname);
 		result[key] = {
 			type: types.BitfieldElementType.Enum,
-			name: enm.fieldname,
+			name: elementName,
 			mask: enm.fieldmask,
 			shift: enm.shifter ?? 0,
+			reserved: isReserved(elementName) ? true : undefined,
 			values,
 		};
 	}
@@ -366,10 +386,23 @@ function generateBitfields(param: StructByteParam): types.BitfieldElement[] {
 	return result;
 }
 
+function shiftFromMask(mask: number): number {
+	for (let i = 0; i < 8; i++) {
+		const test = 1 << i;
+		if (mask & test) {
+			return i;
+		}
+	}
+	throw new Error("invalid mask");
+}
+
 function buildParamRef(
 	key: number,
-	mainMap: Map<number, string>,
-	groupMap?: Map<number, string>
+	mask: number | undefined,
+	shift: number | undefined,
+	numericOnly: boolean,
+	mainMap: Map<number, Param>,
+	groupMap?: Map<number, Param>
 ): types.ParameterReference {
 	const isParentReference = key >= 128 ? true : undefined; // Less noisy in JSON
 	if (isParentReference && !groupMap) {
@@ -382,10 +415,8 @@ function buildParamRef(
 
 	const map = groupMap && !isParentReference ? groupMap : mainMap;
 
-	// TODO further resolve the field to a subfield, e.g. when
-	// sizemask and/or sizeoffs are set
-	const name = map.get(key);
-	if (name === undefined) {
+	const param = map.get(key);
+	if (param === undefined) {
 		throw new Error(
 			`cannot find parameter ${key} in ${
 				map === groupMap ? "group" : "main"
@@ -393,16 +424,66 @@ function buildParamRef(
 		);
 	}
 
+	let bitfieldRef: types.BitfieldReference | undefined;
+	if (mask !== undefined && mask !== 255) {
+		if (param.type !== ParamType.STRUCT_BYTE) {
+			throw new Error("parameter reference must be struct byte");
+		}
+		let fieldName: string | undefined;
+		if (param.bitfield) {
+			const bitfields = toArray(param.bitfield);
+			const bitfield = bitfields.find((bf) => bf.fieldmask === mask);
+			if (bitfield) {
+				fieldName = bitfield.fieldname;
+			}
+		}
+		if (!fieldName && numericOnly) {
+			throw new Error(`parameter reference must be numeric for instance`);
+		}
+		if (!fieldName && param.bitflag) {
+			const bitflags = toArray(param.bitflag);
+			const bitflag = bitflags.find((bf) => bf.flagmask === mask);
+			if (bitflag) {
+				fieldName = bitflag.flagname;
+			}
+		}
+		if (!fieldName) {
+			throw new Error("no bitfield or bitflag defined for mask");
+		}
+		bitfieldRef = {
+			mask: mask,
+			shift: shift ?? shiftFromMask(mask),
+			name: Case.camel(fieldName),
+		};
+	} else {
+		assert(shift === undefined || shift === 0);
+		bitfieldRef = undefined;
+	}
+
 	return {
-		name,
+		name: param.name,
 		isParentReference,
+		bitfield: bitfieldRef,
 	};
+}
+
+function buildLocalParamRef(
+	key: number,
+	mask: number | undefined,
+	shift: number | undefined,
+	numericOnly: boolean,
+	mainMap: Map<number, Param>,
+	groupMap?: Map<number, Param>
+): types.LocalParameterReference {
+	const ref = buildParamRef(key, mask, shift, numericOnly, mainMap, groupMap);
+	assert(!ref.isParentReference, "expected local reference");
+	return ref;
 }
 
 function generateParameter(
 	param: Param | VariantGroup,
-	mainIdMap: Map<number, string>,
-	groupIdMap?: Map<number, string>
+	mainIdMap: Map<number, Param>,
+	groupIdMap?: Map<number, Param>
 ): types.Parameter | types.ParameterGroup {
 	let optional: types.OptionalInfo | undefined;
 	if (
@@ -410,30 +491,48 @@ function generateParameter(
 		typeof param.optionaloffs === "number"
 	) {
 		// optionaloffs is parameter ID, optionalmask is AND-mask, if result is >0, param is present
-		optional = {
-			...buildParamRef(param.optionaloffs, mainIdMap, groupIdMap),
-			mask: param.optionalmask,
-		};
+		optional = buildParamRef(
+			param.optionaloffs,
+			param.optionalmask,
+			undefined,
+			false,
+			mainIdMap,
+			groupIdMap
+		);
 	}
 
-	const paramBase = {
-		name: Case.camel(param.name),
+	const paramName = Case.camel(param.name);
+	const paramBase: Omit<types.ParameterBase, "type" | "length"> = {
+		name: paramName,
 		help: param.name,
 		optional,
 	};
 
 	if ("type" in param) {
+		const reserved = isReserved(paramName);
+		// Only integer parameters (and bitfield elements) can be reserved
+		// according to our type definitions, so make sure no other types
+		// can be marked as reserved in the XML.
+		assert(
+			!reserved ||
+				param.type === ParamType.BYTE ||
+				param.type === ParamType.BIT_24 ||
+				param.type === ParamType.WORD
+		);
+
 		switch (param.type) {
 			case ParamType.BYTE:
 				{
 					// A BYTE can define some 'special' values, but it can just as well
 					// be any other value, i.e. if the value happens to be one of the
 					// enum values, use it, otherwise just display the number itself.
-					let values: types.KeyValues | undefined;
+					let values: types.EnumValues | undefined;
 					if (param.bitflag) {
 						values = createKeyValues();
 						for (const flag of toArray(param.bitflag)) {
-							values[flag.flagmask] = flag.flagname;
+							values[flag.flagmask] = makeEnumValue(
+								flag.flagname
+							);
 						}
 					}
 					return {
@@ -442,6 +541,7 @@ function generateParameter(
 						length: 1,
 						valueType: encaptypeToValueType(param.encaptype),
 						values,
+						reserved: reserved ? true : undefined,
 					};
 				}
 				break;
@@ -454,7 +554,7 @@ function generateParameter(
 					// be in this list, e.g. when parsing a newer version packet.
 					const values = createKeyValues();
 					for (const enm of toArray(param.const)) {
-						values[enm.flagmask] = enm.flagname;
+						values[enm.flagmask] = makeEnumValue(enm.flagname);
 					}
 					return {
 						type: types.ParameterType.Enum,
@@ -540,15 +640,14 @@ function generateParameter(
 					if (attr.paramoffs === 255) {
 						length = "auto";
 					} else {
-						length = {
-							...buildParamRef(
-								attr.paramoffs,
-								mainIdMap,
-								groupIdMap
-							),
-							mask: attr.sizemask,
-							shift: attr.sizeoffs ?? 0,
-						};
+						length = buildParamRef(
+							attr.paramoffs,
+							attr.sizemask,
+							attr.sizeoffs ?? 0,
+							true,
+							mainIdMap,
+							groupIdMap
+						);
 					}
 					if (attr.is_ascii) {
 						return {
@@ -660,7 +759,7 @@ function generateParameter(
 					const valueType = encaptypeToValueType(param.encaptype);
 					assert(valueType === undefined); // With valuetype is no longer used in current spec
 					let enums:
-						| { [enumIndex: number]: types.KeyValues }
+						| { [enumIndex: number]: types.EnumValues }
 						| undefined;
 					if (!valueType) {
 						// XML configuration looks like a bunch of these:
@@ -693,7 +792,9 @@ function generateParameter(
 								} else {
 									assert(v.key === key);
 								}
-								enums![key][v.flagmask] = v.flagname;
+								enums![key][v.flagmask] = makeEnumValue(
+									v.flagname
+								);
 							}
 						}
 					}
@@ -706,6 +807,9 @@ function generateParameter(
 						optional,
 						reference: buildParamRef(
 							descloc.param,
+							undefined, // TODO mask/shift can probably exist here
+							undefined,
+							true,
 							mainIdMap,
 							groupIdMap
 						),
@@ -736,8 +840,8 @@ function generateParameter(
 		// moretofollowoffs indicates a parameter ID in the group itself.
 		// Note: Size of each element can be dynamic, i.e. it can depend on presence of e.g. VARIANT
 		// inside the group (e.g. COMMAND_CLASS_MULTI_CMD:MULTI_CMD_ENCAP)
-		const groupIdMap = new Map<number, string>();
-		toArray(param.param).forEach((p) => groupIdMap.set(p.key, p.name));
+		const groupIdMap = new Map<number, Param>();
+		toArray(param.param).forEach((p) => groupIdMap.set(p.key, p));
 
 		const params = toArray(param.param).map((p) =>
 			generateParameter(p, mainIdMap, groupIdMap)
@@ -750,14 +854,14 @@ function generateParameter(
 				typeof param.moretofollowoffs === "number" &&
 				typeof param.moretofollowmask === "number"
 			) {
-				moreToFollow = {
-					name: buildParamRef(
-						param.moretofollowoffs,
-						mainIdMap,
-						groupIdMap
-					).name,
-					mask: param.moretofollowmask,
-				};
+				moreToFollow = buildLocalParamRef(
+					param.moretofollowoffs,
+					param.moretofollowmask,
+					undefined,
+					false,
+					mainIdMap,
+					groupIdMap
+				);
 			}
 		} else {
 			assert(
@@ -766,11 +870,13 @@ function generateParameter(
 			);
 			assert(typeof param.sizeoffs === "number");
 			// Note: for groups, length is indicated as number of elements, not bytes
-			length = {
-				...buildParamRef(param.paramOffs, mainIdMap), // paramOffs is always in main group
-				mask: param.sizemask,
-				shift: param.sizeoffs,
-			};
+			length = buildParamRef(
+				param.paramOffs,
+				param.sizemask,
+				param.sizeoffs,
+				true,
+				mainIdMap
+			); // paramOffs is always in main group, so don't pass in groupIdMap
 		}
 		return {
 			type: types.ParameterType.ParameterGroup,
@@ -814,8 +920,10 @@ function generateCommand(
 	// Note: each param carries a 'key' to keep the references correct
 	params = params.filter((elem) => elem);
 
-	const idMap = new Map<number, string>();
-	params.forEach((param) => idMap.set(param.key, param.name));
+	const idMap = new Map<number, Param>();
+	params
+		.filter((x: Param | VariantGroup): x is Param => "type" in x)
+		.forEach((param) => idMap.set(param.key, param));
 
 	let command: types.CommandDefinition = {
 		command: cmd.key,
@@ -850,9 +958,16 @@ function generateCommand(
 function generateCommandClass(
 	cmdClass: CommandClass
 ): types.CommandClassDefinition {
-	const commands = toArray(cmdClass.cmd).map((cmd) =>
-		generateCommand(cmdClass, cmd)
-	);
+	const commands = toArray(cmdClass.cmd).map((cmd) => {
+		try {
+			return generateCommand(cmdClass, cmd);
+		} catch (err) {
+			console.warn(
+				`Error while parsing command ${cmdClass.name}:${cmd.name}`
+			);
+			throw err;
+		}
+	});
 	const className =
 		cmdClass.name === "ZWAVE_CMD_CLASS"
 			? "ZWAVE"
@@ -920,7 +1035,7 @@ function encaptypeToValueType(encaptype?: string): types.ValueType | undefined {
 	}
 }
 
-function createKeyValues(): types.KeyValues {
+function createKeyValues(): types.EnumValues {
 	return Object.create(null);
 }
 

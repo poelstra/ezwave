@@ -23,6 +23,12 @@ export interface ApplicationStatusV1ApplicationRejectedRequestData {
 	status: number; // 1 byte unsigned integer
 }
 
+export enum StatusEnum {
+	TryAgainLater = 0x0,
+	TryAgainInWaitTimeSeconds = 0x1,
+	RequestQueuedExecutedLater = 0x2,
+}
+
 export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1Commands> {
 	public static readonly commandClass = CommandClasses.ApplicationStatus; // 0x22 (34)
 
@@ -49,9 +55,18 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Try again later",
-						"1": "Try again in Wait Time seconds",
-						"2": "Request queued, executed later"
+						"0": {
+							"name": "TryAgainLater",
+							"help": "Try again later"
+						},
+						"1": {
+							"name": "TryAgainInWaitTimeSeconds",
+							"help": "Try again in Wait Time seconds"
+						},
+						"2": {
+							"name": "RequestQueuedExecutedLater",
+							"help": "Request queued, executed later"
+						}
 					}
 				},
 				{
@@ -103,10 +118,4 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 export namespace ApplicationStatusV1 {
 	export type ApplicationBusy = InstanceType<typeof ApplicationStatusV1.ApplicationBusy>;
 	export type ApplicationRejectedRequest = InstanceType<typeof ApplicationStatusV1.ApplicationRejectedRequest>;
-}
-
-export enum StatusEnum {
-	TryAgainLater = 0x0,
-	TryAgainInWaitTimeSeconds = 0x1,
-	RequestQueuedExecutedLater = 0x2,
 }

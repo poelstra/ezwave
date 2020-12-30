@@ -69,8 +69,14 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				}
 			]
@@ -100,8 +106,14 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				}
 			]

@@ -15,7 +15,12 @@ export enum ThermostatFanStateV1Commands {
 }
 
 export interface ThermostatFanStateV1ThermostatFanStateReportData {
-	// TODO param level type bitfield
+	fanOperatingState: FanOperatingStateEnum; // level[3..0]
+}
+
+export enum FanOperatingStateEnum {
+	Idle = 0x0,
+	Running = 0x1,
 }
 
 export class ThermostatFanStateV1 extends CommandClassPacket<ThermostatFanStateV1Commands> {
@@ -65,20 +70,27 @@ export class ThermostatFanStateV1 extends CommandClassPacket<ThermostatFanStateV
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Fan Operating State",
+							"name": "fanOperatingState",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Idle",
-								"1": "Running"
+								"0": {
+									"name": "Idle",
+									"help": "Idle"
+								},
+								"1": {
+									"name": "Running",
+									"help": "Running"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}

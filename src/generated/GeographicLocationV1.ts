@@ -17,16 +17,20 @@ export enum GeographicLocationV1Commands {
 
 export interface GeographicLocationV1GeographicLocationReportData {
 	longitudeDegrees: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	longSign: boolean; // level[7]
+	longitudeMinutes: number; // level[6..0]
 	latitudeDegrees: number; // 1 byte unsigned integer
-	// TODO param level2 type bitfield
+	latSign: boolean; // level2[7]
+	latitudeMinutes: number; // level2[6..0]
 }
 
 export interface GeographicLocationV1GeographicLocationSetData {
 	longitudeDegrees: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	longSign: boolean; // level[7]
+	longitudeMinutes: number; // level[6..0]
 	latitudeDegrees: number; // 1 byte unsigned integer
-	// TODO param level2 type bitfield
+	latSign: boolean; // level2[7]
+	latitudeMinutes: number; // level2[6..0]
 }
 
 export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV1Commands> {
@@ -82,16 +86,16 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Longitude Minutes",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Long. Sign",
+							"name": "longSign",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "longitudeMinutes",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -108,16 +112,16 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Latitude Minutes",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Lat. Sign",
+							"name": "latSign",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "latitudeMinutes",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -155,16 +159,16 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Longitude Minutes",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Long. Sign",
+							"name": "longSign",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "longitudeMinutes",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -181,16 +185,16 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Latitude Minutes",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Lat. Sign",
+							"name": "latSign",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "latitudeMinutes",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}

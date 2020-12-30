@@ -41,7 +41,9 @@ export interface VersionV3VersionReportData {
 }
 
 export interface VersionV3VersionCapabilitiesReportData {
-	// TODO param properties1 type bitfield
+	zWaveSoftware: boolean; // properties1[2]
+	commandClass: boolean; // properties1[1]
+	version: boolean; // properties1[0]
 }
 
 export interface VersionV3VersionZwaveSoftwareReportData {
@@ -205,9 +207,7 @@ export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of firmware targets",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of firmware targets"
 					},
 					"params": [
 						{
@@ -272,28 +272,29 @@ export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Version",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved1",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Command Class",
+							"name": "zWaveSoftware",
+							"mask": 4,
+							"shift": 2
+						},
+						{
+							"type": "boolean",
+							"name": "commandClass",
 							"mask": 2,
 							"shift": 1
 						},
 						{
 							"type": "boolean",
-							"name": "Z-Wave Software",
-							"mask": 4,
-							"shift": 2
-						},
-						{
-							"type": "integer",
-							"name": "Reserved1",
-							"mask": 248,
-							"shift": 3
+							"name": "version",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}

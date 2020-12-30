@@ -30,13 +30,15 @@ export interface SecurityV1NetworkKeySetData {
 export interface SecurityV1SecurityCommandsSupportedReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param commandClassSupport type enumarray
-	commandClassMark: number; // 0 byte unsigned integer
+	// TODO param commandClassMark type bitmask or marker
 	// TODO param commandClassControl type enumarray
 }
 
 export interface SecurityV1SecurityMessageEncapsulationData {
 	// TODO param initializationVectorByte type blob
-	// TODO param properties1 type bitfield
+	secondFrame: boolean; // properties1[5]
+	sequenced: boolean; // properties1[4]
+	sequenceCounter: number; // properties1[3..0]
 	// TODO param commandByte type blob
 	receiversNonceIdentifier: number; // 1 byte unsigned integer
 	// TODO param messageAuthenticationCodeByte type blob
@@ -44,7 +46,9 @@ export interface SecurityV1SecurityMessageEncapsulationData {
 
 export interface SecurityV1SecurityMessageEncapsulationNonceGetData {
 	// TODO param initializationVectorByte type blob
-	// TODO param properties1 type bitfield
+	secondFrame: boolean; // properties1[5]
+	sequenced: boolean; // properties1[4]
+	sequenceCounter: number; // properties1[3..0]
 	// TODO param commandByte type blob
 	receiversNonceIdentifier: number; // 1 byte unsigned integer
 	// TODO param messageAuthenticationCodeByte type blob
@@ -214,27 +218,28 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Sequence Counter",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Sequenced",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"type": "boolean",
-							"name": "Second Frame",
+							"name": "secondFrame",
 							"mask": 32,
 							"shift": 5
 						},
 						{
+							"type": "boolean",
+							"name": "sequenced",
+							"mask": 16,
+							"shift": 4
+						},
+						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "sequenceCounter",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -291,27 +296,28 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Sequence Counter",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Sequenced",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"type": "boolean",
-							"name": "Second Frame",
+							"name": "secondFrame",
 							"mask": 32,
 							"shift": 5
 						},
 						{
+							"type": "boolean",
+							"name": "sequenced",
+							"mask": 16,
+							"shift": 4
+						},
+						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "sequenceCounter",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},

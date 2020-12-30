@@ -22,6 +22,22 @@ export interface ZwaveplusInfoV2ZwaveplusInfoReportData {
 	userIconType: number; // 2 byte unsigned integer
 }
 
+export enum RoleTypeEnum {
+	RoleTypeControllerCentralStatic = 0x0,
+	RoleTypeControllerSubStatic = 0x1,
+	RoleTypeControllerPortable = 0x2,
+	RoleTypeControllerPortableReporting = 0x3,
+	RoleTypeSlavePortable = 0x4,
+	RoleTypeSlaveAlwaysOn = 0x5,
+	RoleTypeSlaveSleepingReporting = 0x6,
+	RoleTypeSlaveSleepingListening = 0x7,
+}
+
+export enum NodeTypeEnum {
+	NodeTypeZwaveplusNode = 0x0,
+	NodeTypeZwaveplusForIpGateway = 0x2,
+}
+
 export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands> {
 	public static readonly commandClass = CommandClasses.ZwaveplusInfo; // 0x5e (94)
 
@@ -74,14 +90,38 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 					"help": "Role Type",
 					"length": 1,
 					"values": {
-						"0": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC",
-						"1": "ROLE_TYPE_CONTROLLER_SUB_STATIC",
-						"2": "ROLE_TYPE_CONTROLLER_PORTABLE",
-						"3": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING",
-						"4": "ROLE_TYPE_SLAVE_PORTABLE",
-						"5": "ROLE_TYPE_SLAVE_ALWAYS_ON",
-						"6": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING",
-						"7": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
+						"0": {
+							"name": "RoleTypeControllerCentralStatic",
+							"help": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC"
+						},
+						"1": {
+							"name": "RoleTypeControllerSubStatic",
+							"help": "ROLE_TYPE_CONTROLLER_SUB_STATIC"
+						},
+						"2": {
+							"name": "RoleTypeControllerPortable",
+							"help": "ROLE_TYPE_CONTROLLER_PORTABLE"
+						},
+						"3": {
+							"name": "RoleTypeControllerPortableReporting",
+							"help": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING"
+						},
+						"4": {
+							"name": "RoleTypeSlavePortable",
+							"help": "ROLE_TYPE_SLAVE_PORTABLE"
+						},
+						"5": {
+							"name": "RoleTypeSlaveAlwaysOn",
+							"help": "ROLE_TYPE_SLAVE_ALWAYS_ON"
+						},
+						"6": {
+							"name": "RoleTypeSlaveSleepingReporting",
+							"help": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING"
+						},
+						"7": {
+							"name": "RoleTypeSlaveSleepingListening",
+							"help": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
+						}
 					}
 				},
 				{
@@ -90,8 +130,14 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 					"help": "Node Type",
 					"length": 1,
 					"values": {
-						"0": "NODE_TYPE_ZWAVEPLUS_NODE",
-						"2": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY"
+						"0": {
+							"name": "NodeTypeZwaveplusNode",
+							"help": "NODE_TYPE_ZWAVEPLUS_NODE"
+						},
+						"2": {
+							"name": "NodeTypeZwaveplusForIpGateway",
+							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY"
+						}
 					}
 				},
 				{
@@ -122,20 +168,4 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 export namespace ZwaveplusInfoV2 {
 	export type ZwaveplusInfoGet = InstanceType<typeof ZwaveplusInfoV2.ZwaveplusInfoGet>;
 	export type ZwaveplusInfoReport = InstanceType<typeof ZwaveplusInfoV2.ZwaveplusInfoReport>;
-}
-
-export enum RoleTypeEnum {
-	RoleTypeControllerCentralStatic = 0x0,
-	RoleTypeControllerSubStatic = 0x1,
-	RoleTypeControllerPortable = 0x2,
-	RoleTypeControllerPortableReporting = 0x3,
-	RoleTypeSlavePortable = 0x4,
-	RoleTypeSlaveAlwaysOn = 0x5,
-	RoleTypeSlaveSleepingReporting = 0x6,
-	RoleTypeSlaveSleepingListening = 0x7,
-}
-
-export enum NodeTypeEnum {
-	NodeTypeZwaveplusNode = 0x0,
-	NodeTypeZwaveplusForIpGateway = 0x2,
 }

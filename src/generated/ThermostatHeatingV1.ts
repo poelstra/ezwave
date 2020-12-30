@@ -46,13 +46,17 @@ export interface ThermostatHeatingV1ThermostatHeatingSetpointGetData {
 
 export interface ThermostatHeatingV1ThermostatHeatingSetpointReportData {
 	setpointNr: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ThermostatHeatingV1ThermostatHeatingSetpointSetData {
 	setpointNr: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
@@ -63,6 +67,27 @@ export interface ThermostatHeatingV1ThermostatHeatingStatusSetData {
 export interface ThermostatHeatingV1ThermostatHeatingTimedOffSetData {
 	minutes: number; // 1 byte unsigned integer
 	hours: number; // 1 byte unsigned integer
+}
+
+export enum StatusEnum {
+	Heating = 0x0,
+	Cooling = 0x1,
+}
+
+export enum ModeEnum {
+	Off = 0x0,
+	OffTimed = 0x1,
+	Off3Hours = 0x2,
+	AntiFreeze = 0x3,
+	Manual = 0x4,
+	TemporaryManual = 0x5,
+	Automatic = 0x6,
+	ManualTimed = 0x7,
+}
+
+export enum RelayStatusEnum {
+	Off = 0x0,
+	On = 0x1,
 }
 
 export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1Commands> {
@@ -91,8 +116,14 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Heating",
-						"1": "Cooling"
+						"0": {
+							"name": "Heating",
+							"help": "Heating"
+						},
+						"1": {
+							"name": "Cooling",
+							"help": "Cooling"
+						}
 					}
 				}
 			]
@@ -142,14 +173,38 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"1": "Off timed",
-						"2": "Off 3 hours",
-						"3": "Anti freeze",
-						"4": "Manual",
-						"5": "Temporary Manual",
-						"6": "Automatic",
-						"7": "Manual timed"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"1": {
+							"name": "OffTimed",
+							"help": "Off timed"
+						},
+						"2": {
+							"name": "Off3Hours",
+							"help": "Off 3 hours"
+						},
+						"3": {
+							"name": "AntiFreeze",
+							"help": "Anti freeze"
+						},
+						"4": {
+							"name": "Manual",
+							"help": "Manual"
+						},
+						"5": {
+							"name": "TemporaryManual",
+							"help": "Temporary Manual"
+						},
+						"6": {
+							"name": "Automatic",
+							"help": "Automatic"
+						},
+						"7": {
+							"name": "ManualTimed",
+							"help": "Manual timed"
+						}
 					}
 				}
 			]
@@ -179,14 +234,38 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "Off",
-						"1": "Off timed",
-						"2": "Off 3 hours",
-						"3": "Anti freeze",
-						"4": "Manual",
-						"5": "Temporary Manual",
-						"6": "Automatic",
-						"7": "Manual timed"
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"1": {
+							"name": "OffTimed",
+							"help": "Off timed"
+						},
+						"2": {
+							"name": "Off3Hours",
+							"help": "Off 3 hours"
+						},
+						"3": {
+							"name": "AntiFreeze",
+							"help": "Anti freeze"
+						},
+						"4": {
+							"name": "Manual",
+							"help": "Manual"
+						},
+						"5": {
+							"name": "TemporaryManual",
+							"help": "Temporary Manual"
+						},
+						"6": {
+							"name": "Automatic",
+							"help": "Automatic"
+						},
+						"7": {
+							"name": "ManualTimed",
+							"help": "Manual timed"
+						}
 					}
 				}
 			]
@@ -236,8 +315,14 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Relay Status",
 					"length": 1,
 					"values": {
-						"0": "off",
-						"1": "on"
+						"0": {
+							"name": "Off",
+							"help": "off"
+						},
+						"1": {
+							"name": "On",
+							"help": "on"
+						}
 					}
 				}
 			]
@@ -302,21 +387,21 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -326,8 +411,11 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -365,21 +453,21 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -389,8 +477,11 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -440,8 +531,14 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Heating",
-						"1": "Cooling"
+						"0": {
+							"name": "Heating",
+							"help": "Heating"
+						},
+						"1": {
+							"name": "Cooling",
+							"help": "Cooling"
+						}
 					}
 				}
 			]
@@ -503,25 +600,4 @@ export namespace ThermostatHeatingV1 {
 	export type ThermostatHeatingStatusGet = InstanceType<typeof ThermostatHeatingV1.ThermostatHeatingStatusGet>;
 	export type ThermostatHeatingStatusSet = InstanceType<typeof ThermostatHeatingV1.ThermostatHeatingStatusSet>;
 	export type ThermostatHeatingTimedOffSet = InstanceType<typeof ThermostatHeatingV1.ThermostatHeatingTimedOffSet>;
-}
-
-export enum StatusEnum {
-	Heating = 0x0,
-	Cooling = 0x1,
-}
-
-export enum ModeEnum {
-	Off = 0x0,
-	OffTimed = 0x1,
-	Off3Hours = 0x2,
-	AntiFreeze = 0x3,
-	Manual = 0x4,
-	TemporaryManual = 0x5,
-	Automatic = 0x6,
-	ManualTimed = 0x7,
-}
-
-export enum RelayStatusEnum {
-	Off = 0x0,
-	On = 0x1,
 }

@@ -26,7 +26,12 @@ export interface SensorBinaryV2SensorBinaryReportData {
 }
 
 export interface SensorBinaryV2SensorBinarySupportedSensorReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum SensorValueEnum {
+	Idle = 0x0,
+	DetectedAnEvent = 0xff,
 }
 
 // Deprecated
@@ -56,21 +61,66 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "General",
-						"2": "Smoke",
-						"3": "CO",
-						"4": "CO2",
-						"5": "Heat",
-						"6": "Water",
-						"7": "Freeze",
-						"8": "Tamper",
-						"9": "Aux",
-						"10": "Door/Window",
-						"11": "Tilt",
-						"12": "Motion",
-						"13": "Glass Break",
-						"255": "First"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "General",
+							"help": "General"
+						},
+						"2": {
+							"name": "Smoke",
+							"help": "Smoke"
+						},
+						"3": {
+							"name": "Co",
+							"help": "CO"
+						},
+						"4": {
+							"name": "Co2",
+							"help": "CO2"
+						},
+						"5": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"6": {
+							"name": "Water",
+							"help": "Water"
+						},
+						"7": {
+							"name": "Freeze",
+							"help": "Freeze"
+						},
+						"8": {
+							"name": "Tamper",
+							"help": "Tamper"
+						},
+						"9": {
+							"name": "Aux",
+							"help": "Aux"
+						},
+						"10": {
+							"name": "DoorWindow",
+							"help": "Door/Window"
+						},
+						"11": {
+							"name": "Tilt",
+							"help": "Tilt"
+						},
+						"12": {
+							"name": "Motion",
+							"help": "Motion"
+						},
+						"13": {
+							"name": "GlassBreak",
+							"help": "Glass Break"
+						},
+						"255": {
+							"name": "First",
+							"help": "First"
+						}
 					}
 				}
 			]
@@ -100,8 +150,14 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 					"help": "Sensor Value",
 					"length": 1,
 					"values": {
-						"0": "idle",
-						"255": "detected an event"
+						"0": {
+							"name": "Idle",
+							"help": "idle"
+						},
+						"255": {
+							"name": "DetectedAnEvent",
+							"help": "detected an event"
+						}
 					}
 				},
 				{
@@ -110,21 +166,66 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "General",
-						"2": "Smoke",
-						"3": "CO",
-						"4": "CO2",
-						"5": "Heat",
-						"6": "Water",
-						"7": "Freeze",
-						"8": "Tamper",
-						"9": "Aux",
-						"10": "Door/Window",
-						"11": "Tilt",
-						"12": "Motion",
-						"13": "Glass Break",
-						"255": "First"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "General",
+							"help": "General"
+						},
+						"2": {
+							"name": "Smoke",
+							"help": "Smoke"
+						},
+						"3": {
+							"name": "Co",
+							"help": "CO"
+						},
+						"4": {
+							"name": "Co2",
+							"help": "CO2"
+						},
+						"5": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"6": {
+							"name": "Water",
+							"help": "Water"
+						},
+						"7": {
+							"name": "Freeze",
+							"help": "Freeze"
+						},
+						"8": {
+							"name": "Tamper",
+							"help": "Tamper"
+						},
+						"9": {
+							"name": "Aux",
+							"help": "Aux"
+						},
+						"10": {
+							"name": "DoorWindow",
+							"help": "Door/Window"
+						},
+						"11": {
+							"name": "Tilt",
+							"help": "Tilt"
+						},
+						"12": {
+							"name": "Motion",
+							"help": "Motion"
+						},
+						"13": {
+							"name": "GlassBreak",
+							"help": "Glass Break"
+						},
+						"255": {
+							"name": "First",
+							"help": "First"
+						}
 					}
 				}
 			]
@@ -192,9 +293,4 @@ export namespace SensorBinaryV2 {
 	export type SensorBinaryReport = InstanceType<typeof SensorBinaryV2.SensorBinaryReport>;
 	export type SensorBinarySupportedGetSensor = InstanceType<typeof SensorBinaryV2.SensorBinarySupportedGetSensor>;
 	export type SensorBinarySupportedSensorReport = InstanceType<typeof SensorBinaryV2.SensorBinarySupportedSensorReport>;
-}
-
-export enum SensorValueEnum {
-	Idle = 0x0,
-	DetectedAnEvent = 0xff,
 }

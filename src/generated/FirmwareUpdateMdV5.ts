@@ -36,12 +36,14 @@ export interface FirmwareUpdateMdV5FirmwareMdReportData {
 
 export interface FirmwareUpdateMdV5FirmwareUpdateMdGetData {
 	numberOfReports: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	zero: boolean; // properties1[7]
+	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
 }
 
 export interface FirmwareUpdateMdV5FirmwareUpdateMdReportData {
-	// TODO param properties1 type bitfield
+	last: boolean; // properties1[7]
+	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
 	// TODO param data type blob
 	checksum: number; // 2 byte unsigned integer
@@ -53,7 +55,7 @@ export interface FirmwareUpdateMdV5FirmwareUpdateMdRequestGetData {
 	checksum: number; // 2 byte unsigned integer
 	firmwareTarget: number; // 1 byte unsigned integer
 	fragmentSize: number; // 2 byte unsigned integer
-	// TODO param properties1 type bitfield
+	activation: boolean; // properties1[0]
 	hardwareVersion: number; // 1 byte unsigned integer
 }
 
@@ -94,6 +96,45 @@ export interface FirmwareUpdateMdV5FirmwareUpdateMdPrepareGetData {
 export interface FirmwareUpdateMdV5FirmwareUpdateMdPrepareReportData {
 	status: Status3Enum; // 1 byte enum value
 	firmwareChecksum: number; // 2 byte unsigned integer
+}
+
+export enum StatusEnum {
+	InvalidCombination = 0x0,
+	RequiresAuthentication = 0x1,
+	InvalidFragmentSize = 0x2,
+	NotUpgradable = 0x3,
+	InvalidHardwareVersion = 0x4,
+	ValidCombination = 0xff,
+}
+
+export enum Status2Enum {
+	UnableToReceiveWithoutChecksumError = 0x0,
+	UnableToReceive = 0x1,
+	DoesNotMatchTheManufacturerID = 0x2,
+	DoesNotMatchTheFirmwareID = 0x3,
+	DoesNotMatchTheFirmwareTarget = 0x4,
+	InvalidFileHeaderInformation = 0x5,
+	InvalidFileHeaderFormat = 0x6,
+	InsufficientMemory = 0x7,
+	DoesNotMatchTheHardwareVersion = 0x8,
+	SuccessfullyWaitingForActivation = 0xfd,
+	SuccessfullyStored = 0xfe,
+	Successfully = 0xff,
+}
+
+export enum FirmwareUpdateStatusEnum {
+	InvalidCombination = 0x0,
+	ErrorActivatingTheFirmware = 0x1,
+	FirmwareUpdateCompletedSuccessfully = 0xff,
+}
+
+export enum Status3Enum {
+	InvalidCombination = 0x0,
+	RequiresAuthentication = 0x1,
+	InvalidFragmentSize = 0x2,
+	NotDownloadable = 0x3,
+	InvalidHardwareVersion = 0x4,
+	ValidCombination = 0xff,
 }
 
 export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Commands> {
@@ -177,9 +218,7 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Firmware Targets",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Firmware Targets"
 					},
 					"params": [
 						{
@@ -230,16 +269,16 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Report number 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
 							"name": "zero",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reportNumber1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -277,16 +316,16 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Report number 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Last",
+							"name": "last",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reportNumber1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -366,16 +405,17 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Activation",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "activation",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -412,12 +452,30 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Invalid combination",
-						"1": "Requires authentication",
-						"2": "Invalid Fragment Size",
-						"3": "Not upgradable",
-						"4": "Invalid Hardware Version",
-						"255": "Valid combination"
+						"0": {
+							"name": "InvalidCombination",
+							"help": "Invalid combination"
+						},
+						"1": {
+							"name": "RequiresAuthentication",
+							"help": "Requires authentication"
+						},
+						"2": {
+							"name": "InvalidFragmentSize",
+							"help": "Invalid Fragment Size"
+						},
+						"3": {
+							"name": "NotUpgradable",
+							"help": "Not upgradable"
+						},
+						"4": {
+							"name": "InvalidHardwareVersion",
+							"help": "Invalid Hardware Version"
+						},
+						"255": {
+							"name": "ValidCombination",
+							"help": "Valid combination"
+						}
 					}
 				}
 			]
@@ -447,18 +505,54 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "unable to receive without checksum error",
-						"1": "unable to receive",
-						"2": "does not match the Manufacturer ID",
-						"3": "does not match the Firmware ID",
-						"4": "does not match the Firmware Target",
-						"5": "Invalid file header information",
-						"6": "Invalid file header format",
-						"7": "Insufficient memory",
-						"8": "does not match the Hardware version",
-						"253": "successfully, waiting for activation",
-						"254": "successfully stored",
-						"255": "successfully"
+						"0": {
+							"name": "UnableToReceiveWithoutChecksumError",
+							"help": "unable to receive without checksum error"
+						},
+						"1": {
+							"name": "UnableToReceive",
+							"help": "unable to receive"
+						},
+						"2": {
+							"name": "DoesNotMatchTheManufacturerID",
+							"help": "does not match the Manufacturer ID"
+						},
+						"3": {
+							"name": "DoesNotMatchTheFirmwareID",
+							"help": "does not match the Firmware ID"
+						},
+						"4": {
+							"name": "DoesNotMatchTheFirmwareTarget",
+							"help": "does not match the Firmware Target"
+						},
+						"5": {
+							"name": "InvalidFileHeaderInformation",
+							"help": "Invalid file header information"
+						},
+						"6": {
+							"name": "InvalidFileHeaderFormat",
+							"help": "Invalid file header format"
+						},
+						"7": {
+							"name": "InsufficientMemory",
+							"help": "Insufficient memory"
+						},
+						"8": {
+							"name": "DoesNotMatchTheHardwareVersion",
+							"help": "does not match the Hardware version"
+						},
+						"253": {
+							"name": "SuccessfullyWaitingForActivation",
+							"help": "successfully, waiting for activation"
+						},
+						"254": {
+							"name": "SuccessfullyStored",
+							"help": "successfully stored"
+						},
+						"255": {
+							"name": "Successfully",
+							"help": "successfully"
+						}
 					}
 				},
 				{
@@ -569,9 +663,18 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"help": "Firmware Update Status",
 					"length": 1,
 					"values": {
-						"0": "Invalid combination",
-						"1": "Error activating the firmware",
-						"255": "Firmware update completed successfully"
+						"0": {
+							"name": "InvalidCombination",
+							"help": "Invalid combination"
+						},
+						"1": {
+							"name": "ErrorActivatingTheFirmware",
+							"help": "Error activating the firmware"
+						},
+						"255": {
+							"name": "FirmwareUpdateCompletedSuccessfully",
+							"help": "Firmware update completed successfully"
+						}
 					}
 				},
 				{
@@ -658,12 +761,30 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Invalid combination",
-						"1": "Requires authentication",
-						"2": "Invalid Fragment Size",
-						"3": "Not downloadable",
-						"4": "Invalid Hardware Version",
-						"255": "Valid combination"
+						"0": {
+							"name": "InvalidCombination",
+							"help": "Invalid combination"
+						},
+						"1": {
+							"name": "RequiresAuthentication",
+							"help": "Requires authentication"
+						},
+						"2": {
+							"name": "InvalidFragmentSize",
+							"help": "Invalid Fragment Size"
+						},
+						"3": {
+							"name": "NotDownloadable",
+							"help": "Not downloadable"
+						},
+						"4": {
+							"name": "InvalidHardwareVersion",
+							"help": "Invalid Hardware Version"
+						},
+						"255": {
+							"name": "ValidCombination",
+							"help": "Valid combination"
+						}
 					}
 				},
 				{
@@ -697,43 +818,4 @@ export namespace FirmwareUpdateMdV5 {
 	export type FirmwareUpdateActivationStatusReport = InstanceType<typeof FirmwareUpdateMdV5.FirmwareUpdateActivationStatusReport>;
 	export type FirmwareUpdateMdPrepareGet = InstanceType<typeof FirmwareUpdateMdV5.FirmwareUpdateMdPrepareGet>;
 	export type FirmwareUpdateMdPrepareReport = InstanceType<typeof FirmwareUpdateMdV5.FirmwareUpdateMdPrepareReport>;
-}
-
-export enum StatusEnum {
-	InvalidCombination = 0x0,
-	RequiresAuthentication = 0x1,
-	InvalidFragmentSize = 0x2,
-	NotUpgradable = 0x3,
-	InvalidHardwareVersion = 0x4,
-	ValidCombination = 0xff,
-}
-
-export enum Status2Enum {
-	UnableToReceiveWithoutChecksumError = 0x0,
-	UnableToReceive = 0x1,
-	DoesNotMatchTheManufacturerID = 0x2,
-	DoesNotMatchTheFirmwareID = 0x3,
-	DoesNotMatchTheFirmwareTarget = 0x4,
-	InvalidFileHeaderInformation = 0x5,
-	InvalidFileHeaderFormat = 0x6,
-	InsufficientMemory = 0x7,
-	DoesNotMatchTheHardwareVersion = 0x8,
-	SuccessfullyWaitingForActivation = 0xfd,
-	SuccessfullyStored = 0xfe,
-	Successfully = 0xff,
-}
-
-export enum FirmwareUpdateStatusEnum {
-	InvalidCombination = 0x0,
-	ErrorActivatingTheFirmware = 0x1,
-	FirmwareUpdateCompletedSuccessfully = 0xff,
-}
-
-export enum Status3Enum {
-	InvalidCombination = 0x0,
-	RequiresAuthentication = 0x1,
-	InvalidFragmentSize = 0x2,
-	NotDownloadable = 0x3,
-	InvalidHardwareVersion = 0x4,
-	ValidCombination = 0xff,
 }

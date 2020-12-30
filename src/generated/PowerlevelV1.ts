@@ -40,6 +40,29 @@ export interface PowerlevelV1PowerlevelTestNodeSetData {
 	testFrameCount: number; // 2 byte unsigned integer
 }
 
+export enum PowerLevelEnum {
+	NormalPower = 0x0,
+	Minus1dBm = 0x1,
+	Minus2dBm = 0x2,
+	Minus3dBm = 0x3,
+	Minus4dBm = 0x4,
+	Minus5dBm = 0x5,
+	Minus6dBm = 0x6,
+	Minus7dBm = 0x7,
+	Minus8dBm = 0x8,
+	Minus9dBm = 0x9,
+}
+
+export enum TestNodeIDEnum {
+	ZwTestNotANodeid = 0x0,
+}
+
+export enum StatusOfOperationEnum {
+	ZwTestFailed = 0x0,
+	ZwTestSucces = 0x1,
+	ZwTestInprogress = 0x2,
+}
+
 export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 	public static readonly commandClass = CommandClasses.Powerlevel; // 0x73 (115)
 
@@ -86,16 +109,46 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					"help": "Power level",
 					"length": 1,
 					"values": {
-						"0": "NormalPower",
-						"1": "minus1dBm",
-						"2": "minus2dBm",
-						"3": "minus3dBm",
-						"4": "minus4dBm",
-						"5": "minus5dBm",
-						"6": "minus6dBm",
-						"7": "minus7dBm",
-						"8": "minus8dBm",
-						"9": "minus9dBm"
+						"0": {
+							"name": "NormalPower",
+							"help": "NormalPower"
+						},
+						"1": {
+							"name": "Minus1dBm",
+							"help": "minus1dBm"
+						},
+						"2": {
+							"name": "Minus2dBm",
+							"help": "minus2dBm"
+						},
+						"3": {
+							"name": "Minus3dBm",
+							"help": "minus3dBm"
+						},
+						"4": {
+							"name": "Minus4dBm",
+							"help": "minus4dBm"
+						},
+						"5": {
+							"name": "Minus5dBm",
+							"help": "minus5dBm"
+						},
+						"6": {
+							"name": "Minus6dBm",
+							"help": "minus6dBm"
+						},
+						"7": {
+							"name": "Minus7dBm",
+							"help": "minus7dBm"
+						},
+						"8": {
+							"name": "Minus8dBm",
+							"help": "minus8dBm"
+						},
+						"9": {
+							"name": "Minus9dBm",
+							"help": "minus9dBm"
+						}
 					}
 				},
 				{
@@ -131,16 +184,46 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					"help": "Power level",
 					"length": 1,
 					"values": {
-						"0": "NormalPower",
-						"1": "minus1dBm",
-						"2": "minus2dBm",
-						"3": "minus3dBm",
-						"4": "minus4dBm",
-						"5": "minus5dBm",
-						"6": "minus6dBm",
-						"7": "minus7dBm",
-						"8": "minus8dBm",
-						"9": "minus9dBm"
+						"0": {
+							"name": "NormalPower",
+							"help": "NormalPower"
+						},
+						"1": {
+							"name": "Minus1dBm",
+							"help": "minus1dBm"
+						},
+						"2": {
+							"name": "Minus2dBm",
+							"help": "minus2dBm"
+						},
+						"3": {
+							"name": "Minus3dBm",
+							"help": "minus3dBm"
+						},
+						"4": {
+							"name": "Minus4dBm",
+							"help": "minus4dBm"
+						},
+						"5": {
+							"name": "Minus5dBm",
+							"help": "minus5dBm"
+						},
+						"6": {
+							"name": "Minus6dBm",
+							"help": "minus6dBm"
+						},
+						"7": {
+							"name": "Minus7dBm",
+							"help": "minus7dBm"
+						},
+						"8": {
+							"name": "Minus8dBm",
+							"help": "minus8dBm"
+						},
+						"9": {
+							"name": "Minus9dBm",
+							"help": "minus9dBm"
+						}
 					}
 				},
 				{
@@ -197,7 +280,10 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					"length": 1,
 					"valueType": "NODE_NUMBER",
 					"values": {
-						"0": "ZW_TEST_NOT_A_NODEID"
+						"0": {
+							"name": "ZwTestNotANodeid",
+							"help": "ZW_TEST_NOT_A_NODEID"
+						}
 					}
 				},
 				{
@@ -206,9 +292,18 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					"help": "Status of operation",
 					"length": 1,
 					"values": {
-						"0": "ZW_TEST_FAILED",
-						"1": "ZW_TEST_SUCCES",
-						"2": "ZW_TEST_INPROGRESS"
+						"0": {
+							"name": "ZwTestFailed",
+							"help": "ZW_TEST_FAILED"
+						},
+						"1": {
+							"name": "ZwTestSucces",
+							"help": "ZW_TEST_SUCCES"
+						},
+						"2": {
+							"name": "ZwTestInprogress",
+							"help": "ZW_TEST_INPROGRESS"
+						}
 					}
 				},
 				{
@@ -251,16 +346,46 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					"help": "Power level",
 					"length": 1,
 					"values": {
-						"0": "NormalPower",
-						"1": "minus1dBm",
-						"2": "minus2dBm",
-						"3": "minus3dBm",
-						"4": "minus4dBm",
-						"5": "minus5dBm",
-						"6": "minus6dBm",
-						"7": "minus7dBm",
-						"8": "minus8dBm",
-						"9": "minus9dBm"
+						"0": {
+							"name": "NormalPower",
+							"help": "NormalPower"
+						},
+						"1": {
+							"name": "Minus1dBm",
+							"help": "minus1dBm"
+						},
+						"2": {
+							"name": "Minus2dBm",
+							"help": "minus2dBm"
+						},
+						"3": {
+							"name": "Minus3dBm",
+							"help": "minus3dBm"
+						},
+						"4": {
+							"name": "Minus4dBm",
+							"help": "minus4dBm"
+						},
+						"5": {
+							"name": "Minus5dBm",
+							"help": "minus5dBm"
+						},
+						"6": {
+							"name": "Minus6dBm",
+							"help": "minus6dBm"
+						},
+						"7": {
+							"name": "Minus7dBm",
+							"help": "minus7dBm"
+						},
+						"8": {
+							"name": "Minus8dBm",
+							"help": "minus8dBm"
+						},
+						"9": {
+							"name": "Minus9dBm",
+							"help": "minus9dBm"
+						}
 					}
 				},
 				{
@@ -289,27 +414,4 @@ export namespace PowerlevelV1 {
 	export type PowerlevelTestNodeGet = InstanceType<typeof PowerlevelV1.PowerlevelTestNodeGet>;
 	export type PowerlevelTestNodeReport = InstanceType<typeof PowerlevelV1.PowerlevelTestNodeReport>;
 	export type PowerlevelTestNodeSet = InstanceType<typeof PowerlevelV1.PowerlevelTestNodeSet>;
-}
-
-export enum PowerLevelEnum {
-	NormalPower = 0x0,
-	Minus1dBm = 0x1,
-	Minus2dBm = 0x2,
-	Minus3dBm = 0x3,
-	Minus4dBm = 0x4,
-	Minus5dBm = 0x5,
-	Minus6dBm = 0x6,
-	Minus7dBm = 0x7,
-	Minus8dBm = 0x8,
-	Minus9dBm = 0x9,
-}
-
-export enum TestNodeIDEnum {
-	ZwTestNotANodeid = 0x0,
-}
-
-export enum StatusOfOperationEnum {
-	ZwTestFailed = 0x0,
-	ZwTestSucces = 0x1,
-	ZwTestInprogress = 0x2,
 }

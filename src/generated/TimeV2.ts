@@ -26,9 +26,11 @@ export interface TimeV2DateReportData {
 }
 
 export interface TimeV2TimeOffsetReportData {
-	// TODO param level type bitfield
+	signTZO: boolean; // level[7]
+	hourTZO: number; // level[6..0]
 	minuteTZO: number; // 1 byte unsigned integer
-	// TODO param level2 type bitfield
+	signOffsetDST: boolean; // level2[7]
+	minuteOffsetDST: number; // level2[6..0]
 	monthStartDST: number; // 1 byte unsigned integer
 	dayStartDST: number; // 1 byte unsigned integer
 	hourStartDST: number; // 1 byte unsigned integer
@@ -38,9 +40,11 @@ export interface TimeV2TimeOffsetReportData {
 }
 
 export interface TimeV2TimeOffsetSetData {
-	// TODO param level type bitfield
+	signTZO: boolean; // level[7]
+	hourTZO: number; // level[6..0]
 	minuteTZO: number; // 1 byte unsigned integer
-	// TODO param level2 type bitfield
+	signOffsetDST: boolean; // level2[7]
+	minuteOffsetDST: number; // level2[6..0]
 	monthStartDST: number; // 1 byte unsigned integer
 	dayStartDST: number; // 1 byte unsigned integer
 	hourStartDST: number; // 1 byte unsigned integer
@@ -50,7 +54,8 @@ export interface TimeV2TimeOffsetSetData {
 }
 
 export interface TimeV2TimeReportData {
-	// TODO param properties1 type bitfield
+	rTCFailure: boolean; // properties1[7]
+	hourLocalTime: number; // properties1[4..0]
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 }
@@ -181,16 +186,16 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Hour TZO",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign TZO",
+							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "hourTZO",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -207,16 +212,16 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Minute Offset DST",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign Offset DST",
+							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "minuteOffsetDST",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -284,16 +289,16 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Hour TZO",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign TZO",
+							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "hourTZO",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -310,16 +315,16 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Minute Offset DST",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Sign Offset DST",
+							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "minuteOffsetDST",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -387,22 +392,23 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Hour Local Time",
-							"mask": 31,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 96,
-							"shift": 5
-						},
-						{
 							"type": "boolean",
-							"name": "RTC failure",
+							"name": "rTCFailure",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 96,
+							"shift": 5,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "hourLocalTime",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},

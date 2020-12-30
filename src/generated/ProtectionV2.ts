@@ -32,17 +32,18 @@ export interface ProtectionV2ProtectionEcSetData {
 }
 
 export interface ProtectionV2ProtectionReportData {
-	// TODO param level type bitfield
-	// TODO param level2 type bitfield
+	localProtectionState: number; // level[3..0]
+	rFProtectionState: number; // level2[3..0]
 }
 
 export interface ProtectionV2ProtectionSetData {
-	// TODO param level type bitfield
-	// TODO param level2 type bitfield
+	localProtectionState: number; // level[3..0]
+	rFProtectionState: number; // level2[3..0]
 }
 
 export interface ProtectionV2ProtectionSupportedReportData {
-	// TODO param level type bitfield
+	exclusiveControl: boolean; // level[1]
+	timeout: boolean; // level[0]
 	localProtectionState: number; // 2 byte unsigned integer
 	rFProtectionState: number; // 2 byte unsigned integer
 }
@@ -179,15 +180,16 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Local Protection State",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 240,
-							"shift": 4
+							"name": "localProtectionState",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -199,15 +201,16 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "RF Protection State",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 240,
-							"shift": 4
+							"name": "rFProtectionState",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				}
@@ -240,15 +243,16 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Local Protection State",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 240,
-							"shift": 4
+							"name": "localProtectionState",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -260,15 +264,16 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "RF Protection State",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 240,
-							"shift": 4
+							"name": "rFProtectionState",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				}
@@ -320,22 +325,23 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Timeout",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Exclusive Control",
+							"name": "exclusiveControl",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "timeout",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -398,8 +404,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"help": "Timeout",
 					"length": 1,
 					"values": {
-						"0": "No timer is set",
-						"255": "No Timeout is set"
+						"0": {
+							"name": "NoTimerIsSet",
+							"help": "No timer is set"
+						},
+						"255": {
+							"name": "NoTimeoutIsSet",
+							"help": "No Timeout is set"
+						}
 					}
 				}
 			]
@@ -429,8 +441,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"help": "Timeout",
 					"length": 1,
 					"values": {
-						"0": "No timer is set",
-						"255": "No Timeout"
+						"0": {
+							"name": "NoTimerIsSet",
+							"help": "No timer is set"
+						},
+						"255": {
+							"name": "NoTimeout",
+							"help": "No Timeout"
+						}
 					}
 				}
 			]

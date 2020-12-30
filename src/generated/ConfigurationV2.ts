@@ -27,14 +27,18 @@ export interface ConfigurationV2ConfigurationBulkReportData {
 	parameterOffset: number; // 2 byte unsigned integer
 	numberOfParameters: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	default: boolean; // properties1[7]
+	handshake: boolean; // properties1[6]
+	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
 export interface ConfigurationV2ConfigurationBulkSetData {
 	parameterOffset: number; // 2 byte unsigned integer
 	numberOfParameters: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	default: boolean; // properties1[7]
+	handshake: boolean; // properties1[6]
+	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
@@ -44,13 +48,14 @@ export interface ConfigurationV2ConfigurationGetData {
 
 export interface ConfigurationV2ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
 export interface ConfigurationV2ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param level type bitfield
+	default: boolean; // level[7]
+	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
@@ -132,28 +137,29 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 56,
-							"shift": 3
+							"type": "boolean",
+							"name": "default",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Handshake",
+							"name": "handshake",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Default",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 56,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -162,9 +168,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Parameters"
 					},
 					"params": [
 						{
@@ -174,8 +178,11 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 							"length": {
 								"name": "Properties1",
 								"isParentReference": true,
-								"mask": 7,
-								"shift": 0
+								"bitfield": {
+									"mask": 7,
+									"shift": 0,
+									"name": "size"
+								}
 							}
 						}
 					]
@@ -220,28 +227,29 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 56,
-							"shift": 3
+							"type": "boolean",
+							"name": "default",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Handshake",
+							"name": "handshake",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Default",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 56,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -250,9 +258,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Parameters"
 					},
 					"params": [
 						{
@@ -262,8 +268,11 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 							"length": {
 								"name": "Properties1",
 								"isParentReference": true,
-								"mask": 7,
-								"shift": 0
+								"bitfield": {
+									"mask": 7,
+									"shift": 0,
+									"name": "size"
+								}
 							}
 						}
 					]
@@ -330,15 +339,16 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -348,8 +358,11 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -386,22 +399,23 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 120,
-							"shift": 3
-						},
-						{
 							"type": "boolean",
-							"name": "Default",
+							"name": "default",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 120,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -411,8 +425,11 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"help": "Configuration Value",
 					"length": {
 						"name": "Level",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]

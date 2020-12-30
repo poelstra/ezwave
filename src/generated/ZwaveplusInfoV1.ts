@@ -20,6 +20,25 @@ export interface ZwaveplusInfoV1ZwaveplusInfoReportData {
 	nodeType: NodeTypeEnum; // 1 byte enum value
 }
 
+export enum RoleTypeEnum {
+	RoleTypeControllerCentralStatic = 0x0,
+	RoleTypeControllerSubStatic = 0x1,
+	RoleTypeControllerPortable = 0x2,
+	RoleTypeControllerPortableReporting = 0x3,
+	RoleTypeSlavePortable = 0x4,
+	RoleTypeSlaveAlwaysOn = 0x5,
+	RoleTypeSlaveSleepingReporting = 0x6,
+	RoleTypeSlaveSleepingListening = 0x7,
+}
+
+export enum NodeTypeEnum {
+	NodeTypeZwaveplusNode = 0x0,
+	NodeTypeZwaveplusForIpRouter = 0x1,
+	NodeTypeZwaveplusForIpGateway = 0x2,
+	NodeTypeZwaveplusForIpClientIpNode = 0x3,
+	NodeTypeZwaveplusForIpClientZwaveNode = 0x4,
+}
+
 // Obsolete
 export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands> {
 	public static readonly commandClass = CommandClasses.ZwaveplusInfo; // 0x5e (94)
@@ -73,14 +92,38 @@ export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands>
 					"help": "Role Type",
 					"length": 1,
 					"values": {
-						"0": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC",
-						"1": "ROLE_TYPE_CONTROLLER_SUB_STATIC",
-						"2": "ROLE_TYPE_CONTROLLER_PORTABLE",
-						"3": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING",
-						"4": "ROLE_TYPE_SLAVE_PORTABLE",
-						"5": "ROLE_TYPE_SLAVE_ALWAYS_ON",
-						"6": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING",
-						"7": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
+						"0": {
+							"name": "RoleTypeControllerCentralStatic",
+							"help": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC"
+						},
+						"1": {
+							"name": "RoleTypeControllerSubStatic",
+							"help": "ROLE_TYPE_CONTROLLER_SUB_STATIC"
+						},
+						"2": {
+							"name": "RoleTypeControllerPortable",
+							"help": "ROLE_TYPE_CONTROLLER_PORTABLE"
+						},
+						"3": {
+							"name": "RoleTypeControllerPortableReporting",
+							"help": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING"
+						},
+						"4": {
+							"name": "RoleTypeSlavePortable",
+							"help": "ROLE_TYPE_SLAVE_PORTABLE"
+						},
+						"5": {
+							"name": "RoleTypeSlaveAlwaysOn",
+							"help": "ROLE_TYPE_SLAVE_ALWAYS_ON"
+						},
+						"6": {
+							"name": "RoleTypeSlaveSleepingReporting",
+							"help": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING"
+						},
+						"7": {
+							"name": "RoleTypeSlaveSleepingListening",
+							"help": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
+						}
 					}
 				},
 				{
@@ -89,11 +132,26 @@ export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands>
 					"help": "Node Type",
 					"length": 1,
 					"values": {
-						"0": "NODE_TYPE_ZWAVEPLUS_NODE",
-						"1": "NODE_TYPE_ZWAVEPLUS_FOR_IP_ROUTER",
-						"2": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY",
-						"3": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_IP_NODE",
-						"4": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_ZWAVE_NODE"
+						"0": {
+							"name": "NodeTypeZwaveplusNode",
+							"help": "NODE_TYPE_ZWAVEPLUS_NODE"
+						},
+						"1": {
+							"name": "NodeTypeZwaveplusForIpRouter",
+							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_ROUTER"
+						},
+						"2": {
+							"name": "NodeTypeZwaveplusForIpGateway",
+							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY"
+						},
+						"3": {
+							"name": "NodeTypeZwaveplusForIpClientIpNode",
+							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_IP_NODE"
+						},
+						"4": {
+							"name": "NodeTypeZwaveplusForIpClientZwaveNode",
+							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_ZWAVE_NODE"
+						}
 					}
 				}
 			]
@@ -112,23 +170,4 @@ export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands>
 export namespace ZwaveplusInfoV1 {
 	export type ZwaveplusInfoGet = InstanceType<typeof ZwaveplusInfoV1.ZwaveplusInfoGet>;
 	export type ZwaveplusInfoReport = InstanceType<typeof ZwaveplusInfoV1.ZwaveplusInfoReport>;
-}
-
-export enum RoleTypeEnum {
-	RoleTypeControllerCentralStatic = 0x0,
-	RoleTypeControllerSubStatic = 0x1,
-	RoleTypeControllerPortable = 0x2,
-	RoleTypeControllerPortableReporting = 0x3,
-	RoleTypeSlavePortable = 0x4,
-	RoleTypeSlaveAlwaysOn = 0x5,
-	RoleTypeSlaveSleepingReporting = 0x6,
-	RoleTypeSlaveSleepingListening = 0x7,
-}
-
-export enum NodeTypeEnum {
-	NodeTypeZwaveplusNode = 0x0,
-	NodeTypeZwaveplusForIpRouter = 0x1,
-	NodeTypeZwaveplusForIpGateway = 0x2,
-	NodeTypeZwaveplusForIpClientIpNode = 0x3,
-	NodeTypeZwaveplusForIpClientZwaveNode = 0x4,
 }

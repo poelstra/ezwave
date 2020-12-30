@@ -25,21 +25,21 @@ export interface ClimateControlScheduleV1ScheduleChangedReportData {
 }
 
 export interface ClimateControlScheduleV1ScheduleGetData {
-	// TODO param properties1 type bitfield
+	weekday: number; // properties1[2..0]
 }
 
 export interface ClimateControlScheduleV1ScheduleOverrideReportData {
-	// TODO param properties1 type bitfield
+	overrideType: number; // properties1[1..0]
 	overrideState: OverrideStateEnum; // 1 byte enum value
 }
 
 export interface ClimateControlScheduleV1ScheduleOverrideSetData {
-	// TODO param properties1 type bitfield
+	overrideType: number; // properties1[1..0]
 	overrideState: OverrideStateEnum; // 1 byte enum value
 }
 
 export interface ClimateControlScheduleV1ScheduleReportData {
-	// TODO param properties1 type bitfield
+	weekday: number; // properties1[2..0]
 	switchpoint0: number; // 3 byte unsigned integer
 	switchpoint1: number; // 3 byte unsigned integer
 	switchpoint2: number; // 3 byte unsigned integer
@@ -52,7 +52,7 @@ export interface ClimateControlScheduleV1ScheduleReportData {
 }
 
 export interface ClimateControlScheduleV1ScheduleSetData {
-	// TODO param properties1 type bitfield
+	weekday: number; // properties1[2..0]
 	switchpoint0: number; // 3 byte unsigned integer
 	switchpoint1: number; // 3 byte unsigned integer
 	switchpoint2: number; // 3 byte unsigned integer
@@ -62,6 +62,13 @@ export interface ClimateControlScheduleV1ScheduleSetData {
 	switchpoint6: number; // 3 byte unsigned integer
 	switchpoint7: number; // 3 byte unsigned integer
 	switchpoint8: number; // 3 byte unsigned integer
+}
+
+export enum OverrideStateEnum {
+	NoOverride = 0x0,
+	TemporaryOverride = 0x1,
+	PermanentOverride = 0x2,
+	Reserved = 0x3,
 }
 
 // Deprecated
@@ -140,15 +147,16 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Weekday",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "weekday",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				}
@@ -201,15 +209,16 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Override Type",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"name": "overrideType",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -219,10 +228,22 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					"help": "Override State",
 					"length": 1,
 					"values": {
-						"0": "No override",
-						"1": "Temporary override",
-						"2": "Permanent override",
-						"3": "Reserved"
+						"0": {
+							"name": "NoOverride",
+							"help": "No override"
+						},
+						"1": {
+							"name": "TemporaryOverride",
+							"help": "Temporary override"
+						},
+						"2": {
+							"name": "PermanentOverride",
+							"help": "Permanent override"
+						},
+						"3": {
+							"name": "Reserved",
+							"help": "Reserved"
+						}
 					}
 				}
 			]
@@ -254,15 +275,16 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Override Type",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"name": "overrideType",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -272,10 +294,22 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					"help": "Override State",
 					"length": 1,
 					"values": {
-						"0": "No override",
-						"1": "Temporary override",
-						"2": "Permanent override",
-						"3": "Reserved"
+						"0": {
+							"name": "NoOverride",
+							"help": "No override"
+						},
+						"1": {
+							"name": "TemporaryOverride",
+							"help": "Temporary override"
+						},
+						"2": {
+							"name": "PermanentOverride",
+							"help": "Permanent override"
+						},
+						"3": {
+							"name": "Reserved",
+							"help": "Reserved"
+						}
 					}
 				}
 			]
@@ -307,15 +341,16 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Weekday",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "weekday",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -402,15 +437,16 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Weekday",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "weekday",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -490,11 +526,4 @@ export namespace ClimateControlScheduleV1 {
 	export type ScheduleOverrideSet = InstanceType<typeof ClimateControlScheduleV1.ScheduleOverrideSet>;
 	export type ScheduleReport = InstanceType<typeof ClimateControlScheduleV1.ScheduleReport>;
 	export type ScheduleSet = InstanceType<typeof ClimateControlScheduleV1.ScheduleSet>;
-}
-
-export enum OverrideStateEnum {
-	NoOverride = 0x0,
-	TemporaryOverride = 0x1,
-	PermanentOverride = 0x2,
-	Reserved = 0x3,
 }

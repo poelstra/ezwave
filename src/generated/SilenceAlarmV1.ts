@@ -46,10 +46,22 @@ export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "Disable sounding of all sensor alarms",
-						"1": "Disable sounding of all sensor alarms independent of bit mask which have received the alarm",
-						"2": "Disable sounding of all sensor alarms according to bit mask",
-						"3": "Disable sounding of all sensor alarms according to bit mask which have received the alarm"
+						"0": {
+							"name": "DisableSoundingOfAllSensorAlarms",
+							"help": "Disable sounding of all sensor alarms"
+						},
+						"1": {
+							"name": "DisableSoundingOfAllSensorAlarmsIndependentOfBitMaskWhichHaveReceivedTheAlarm",
+							"help": "Disable sounding of all sensor alarms independent of bit mask which have received the alarm"
+						},
+						"2": {
+							"name": "DisableSoundingOfAllSensorAlarmsAccordingToBitMask",
+							"help": "Disable sounding of all sensor alarms according to bit mask"
+						},
+						"3": {
+							"name": "DisableSoundingOfAllSensorAlarmsAccordingToBitMaskWhichHaveReceivedTheAlarm",
+							"help": "Disable sounding of all sensor alarms according to bit mask which have received the alarm"
+						}
 					}
 				},
 				{
@@ -69,9 +81,7 @@ export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
 					"name": "bitMask",
 					"help": "Bit Mask",
 					"length": {
-						"name": "Number of Bit Masks",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Bit Masks"
 					}
 				}
 			]

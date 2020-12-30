@@ -24,11 +24,11 @@ function mapMap<K, V, R>(
  */
 type Lines = (string | undefined)[];
 
-function createKeyValues(): types.KeyValues {
+function createKeyValues(): types.EnumValues {
 	return Object.create(null);
 }
 
-function sortKeyValues(keyValues: types.KeyValues): types.KeyValues {
+function sortKeyValues(keyValues: types.EnumValues): types.EnumValues {
 	const keys = Object.keys(keyValues).sort();
 	const result = createKeyValues();
 	for (const key of keys) {
@@ -52,14 +52,14 @@ class CommandClassGenerator {
 
 	private _class: types.CommandClassDefinition;
 
-	private _enums = new Map<string, types.KeyValues>();
+	private _enums = new Map<string, types.EnumValues>();
 	private _enumsCanonical = new Map<string, string>();
 
 	private constructor(cmdClass: types.CommandClassDefinition) {
 		this._class = cmdClass;
 	}
 
-	private _registerEnum(name: string, values: types.KeyValues): string {
+	private _registerEnum(name: string, values: types.EnumValues): string {
 		// Create unique name, unless it's the same enum
 		const origName = Case.pascal(name);
 		name = `${origName}Enum`;
@@ -123,18 +123,26 @@ class CommandClassGenerator {
 			);
 		}
 
+		contents.push(...this._generateEnums());
+
 		contents.push(...this._generateCommandClass(className), ``);
 		contents.push(...this._generateNamespace(className), ``);
 
-		// Output enums
+		return contents;
+	}
+
+	private _generateEnums(): string[] {
+		const contents: string[] = [];
+
 		for (const [name, values] of this._enums) {
 			contents.push(`export enum ${name} {`);
 			const names = new Set<string>();
 			for (const indexStr in values) {
 				const index = parseInt(indexStr, 10);
 				const valueName = values[index];
-				let validName = Case.pascal(valueName);
+				let validName = valueName.name;
 				if (!/^[a-zA-Z_]/.test(validName)) {
+					// TODO move this logic to xml2json
 					validName = "_" + validName; // Invalid identifier, prefix it
 				}
 				// Create unique name by appending number, if necessary
@@ -259,14 +267,28 @@ class CommandClassGenerator {
 
 		const isOptional = param.optional !== undefined;
 		switch (param.type) {
-			case "integer":
-				contents.push(
-					`\t${param.name}${isOptional ? "?" : ""}: number; // ${
-						param.length
-					} byte unsigned integer`
-				);
+			case types.ParameterType.Integer:
+				{
+					if (param.length === 0) {
+						// TODO remove me
+						contents.push(
+							`\t// TODO param ${param.name} type bitmask or marker`
+						);
+					} else {
+						if (!param.reserved) {
+							contents.push(
+								`\t${param.name}${
+									isOptional ? "?" : ""
+								}: number; // ${
+									param.length
+								} byte unsigned integer`
+							);
+						}
+					}
+				}
 				break;
-			case "enum":
+
+			case types.ParameterType.Enum:
 				{
 					const enumName = this._registerEnum(
 						param.name,
@@ -279,7 +301,46 @@ class CommandClassGenerator {
 					);
 				}
 				break;
-			/*			case ParamType.ARRAY:
+
+			case types.ParameterType.Bitfield:
+				{
+					const msbFirstFields = param.fields.sort(
+						(f1, f2) => f2.shift - f1.shift
+					);
+					for (const field of msbFirstFields) {
+						if (field.reserved) {
+							continue;
+						}
+						const len = Math.log2((field.mask >> field.shift) + 1);
+						let type: string;
+						switch (field.type) {
+							case types.BitfieldElementType.Boolean:
+								type = "boolean";
+								break;
+							case types.BitfieldElementType.Integer:
+								type = "number";
+								break;
+							case types.BitfieldElementType.Enum:
+								type = this._registerEnum(
+									field.name,
+									field.values!
+								);
+								break;
+							default:
+								throw new Error("unknown bitfield type");
+						}
+						const bits =
+							field.type === types.BitfieldElementType.Boolean
+								? `${field.shift}`
+								: `${field.shift + len - 1}..${field.shift}`;
+						contents.push(
+							`\t${field.name}: ${type}; // ${param.name}[${bits}]`
+						);
+					}
+				}
+				break;
+
+			/* case ParamType.ARRAY:
 				{
 					const attr = param.arrayattrib;
 					let arrayType = attr.is_ascii ? "string" : "Buffer";
@@ -335,35 +396,6 @@ class CommandClassGenerator {
 					}
 					const bitmaskType = "number" + (param.bitmask.len === 1 ? "" : "[]");
 					contents.push(`\t${param.name}: ${bitmaskType}; // ${param.type}, ${bitmaskLength}${enumText}`);
-				}
-				break;
-			case ParamType.STRUCT_BYTE:
-				{
-					contents.push(`\t${param.name}: { // ${param.type}`);
-					const fields = simplifyStructByteParam(param);
-					for (const field of fields) {
-						const len = Math.log2((field.mask >> field.shift) + 1);
-						assert((Math.pow(2, len) - 1) << field.shift === field.mask);
-						let type: string;
-						switch (field.type) {
-							case StructByteElementType.Flag:
-								type = "boolean";
-								break;
-							case StructByteElementType.Field:
-								type = "number";
-								break;
-							case StructByteElementType.Enum:
-								type = registerEnum(field.name, field.values!);
-								break;
-							default:
-								throw new Error("unknown field type");
-						};
-						const bits = field.type === StructByteElementType.Flag ? `bit ${field.shift}` : `bits ${field.shift + len - 1}..${field.shift}`;
-						contents.push(
-							`\t\t${field.name}: ${type}; // ${bits}`
-						);
-					}
-					contents.push(`\t};`);
 				}
 				break;
 			case ParamType.ENUM_ARRAY:

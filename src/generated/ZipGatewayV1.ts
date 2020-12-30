@@ -37,7 +37,7 @@ export interface ZipGatewayV1GatewayPeerSetData {
 	peerProfile: number; // 1 byte unsigned integer
 	// TODO param iPv6Address type blob
 	port: number; // 2 byte unsigned integer
-	// TODO param properties1 type bitfield
+	peerNameLength: number; // properties1[5..0]
 	// TODO param peerName type blob
 }
 
@@ -50,12 +50,13 @@ export interface ZipGatewayV1GatewayPeerReportData {
 	peerCount: number; // 1 byte unsigned integer
 	// TODO param iPv6Address type blob
 	port: number; // 2 byte unsigned integer
-	// TODO param properties1 type bitfield
+	peerNameLength: number; // properties1[5..0]
 	// TODO param peerName type blob
 }
 
 export interface ZipGatewayV1GatewayLockSetData {
-	// TODO param properties1 type bitfield
+	show: boolean; // properties1[1]
+	lock: boolean; // properties1[0]
 }
 
 export interface ZipGatewayV1UnsolicitedDestinationSetData {
@@ -70,14 +71,19 @@ export interface ZipGatewayV1UnsolicitedDestinationReportData {
 
 export interface ZipGatewayV1CommandApplicationNodeInfoSetData {
 	// TODO param nonSecureCommandClass type blob
-	securityScheme0MARK: number; // 0 byte unsigned integer
+	// TODO param securityScheme0MARK type bitmask or marker
 	// TODO param securityScheme0CommandClass type blob
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoReportData {
 	// TODO param nonSecureCommandClass type blob
-	securityScheme0MARK: number; // 0 byte unsigned integer
+	// TODO param securityScheme0MARK type bitmask or marker
 	// TODO param securityScheme0CommandClass type blob
+}
+
+export enum ModeEnum {
+	StandAlone = 0x1,
+	Portal = 0x2,
 }
 
 export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
@@ -106,8 +112,14 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"1": "Stand-alone",
-						"2": "Portal"
+						"1": {
+							"name": "StandAlone",
+							"help": "Stand-alone"
+						},
+						"2": {
+							"name": "Portal",
+							"help": "Portal"
+						}
 					}
 				}
 			]
@@ -157,8 +169,14 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"1": "Stand-alone",
-						"2": "Portal"
+						"1": {
+							"name": "StandAlone",
+							"help": "Stand-alone"
+						},
+						"2": {
+							"name": "Portal",
+							"help": "Portal"
+						}
 					}
 				}
 			]
@@ -208,15 +226,16 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Peer Name Length",
-							"mask": 63,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "peerNameLength",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -226,8 +245,11 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"help": "Peer Name",
 					"length": {
 						"name": "Properties1",
-						"mask": 63,
-						"shift": 0
+						"bitfield": {
+							"mask": 63,
+							"shift": 0,
+							"name": "peerNameLength"
+						}
 					}
 				}
 			]
@@ -310,15 +332,16 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Peer Name Length",
-							"mask": 63,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "peerNameLength",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -328,8 +351,11 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"help": "Peer Name",
 					"length": {
 						"name": "Properties1",
-						"mask": 63,
-						"shift": 0
+						"bitfield": {
+							"mask": 63,
+							"shift": 0,
+							"name": "peerNameLength"
+						}
 					}
 				}
 			]
@@ -360,22 +386,23 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Lock",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Show",
+							"name": "show",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"type": "boolean",
+							"name": "lock",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}
@@ -590,9 +617,4 @@ export namespace ZipGatewayV1 {
 	export type CommandApplicationNodeInfoSet = InstanceType<typeof ZipGatewayV1.CommandApplicationNodeInfoSet>;
 	export type CommandApplicationNodeInfoGet = InstanceType<typeof ZipGatewayV1.CommandApplicationNodeInfoGet>;
 	export type CommandApplicationNodeInfoReport = InstanceType<typeof ZipGatewayV1.CommandApplicationNodeInfoReport>;
-}
-
-export enum ModeEnum {
-	StandAlone = 0x1,
-	Portal = 0x2,
 }

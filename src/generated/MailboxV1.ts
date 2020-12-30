@@ -19,13 +19,14 @@ export enum MailboxV1Commands {
 }
 
 export interface MailboxV1MailboxConfigurationSetData {
-	// TODO param properties1 type bitfield
+	mode: ModeEnum; // properties1[2..0]
 	// TODO param forwardingDestinationIPv6Address type blob
 	uDPPortNumber: number; // 2 byte unsigned integer
 }
 
 export interface MailboxV1MailboxConfigurationReportData {
-	// TODO param properties1 type bitfield
+	supportedModes: SupportedModesEnum; // properties1[4..3]
+	mode: ModeEnum; // properties1[2..0]
 	mailboxCapacity: number; // 2 byte unsigned integer
 	// TODO param forwardingDestinationIPv6Address type blob
 	uDPPortNumber: number; // 2 byte unsigned integer
@@ -33,7 +34,8 @@ export interface MailboxV1MailboxConfigurationReportData {
 
 export interface MailboxV1MailboxQueueData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	last: boolean; // properties1[2]
+	mode: Mode2Enum; // properties1[1..0]
 	queueHandle: number; // 1 byte unsigned integer
 	// TODO param mailboxEntry type blob
 }
@@ -44,6 +46,27 @@ export interface MailboxV1MailboxWakeupNotificationData {
 
 export interface MailboxV1MailboxNodeFailingData {
 	queueHandle: number; // 1 byte unsigned integer
+}
+
+export enum ModeEnum {
+	Disable = 0x0,
+	EnableMailboxService = 0x1,
+	EnableMailboxProxy = 0x2,
+}
+
+export enum SupportedModesEnum {
+	MailboxServiceSupported = 0x0,
+	MailboxProxySupported = 0x1,
+}
+
+export enum Mode2Enum {
+	Push = 0x0,
+	Pop = 0x1,
+	Waiting = 0x2,
+	Ping = 0x3,
+	Ack = 0x4,
+	Nack = 0x5,
+	QueueFull = 0x6,
 }
 
 export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
@@ -93,21 +116,31 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Mode",
+							"name": "mode",
 							"mask": 7,
 							"shift": 0,
 							"values": {
-								"0": "Disable",
-								"1": "Enable Mailbox Service",
-								"2": "Enable Mailbox Proxy"
+								"0": {
+									"name": "Disable",
+									"help": "Disable"
+								},
+								"1": {
+									"name": "EnableMailboxService",
+									"help": "Enable Mailbox Service"
+								},
+								"2": {
+									"name": "EnableMailboxProxy",
+									"help": "Enable Mailbox Proxy"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
 						}
 					]
 				},
@@ -151,31 +184,47 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Mode",
-							"mask": 7,
-							"shift": 0,
-							"values": {
-								"0": "Disable",
-								"1": "Enable Mailbox Service",
-								"2": "Enable Mailbox Proxy"
-							}
+							"type": "integer",
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "enum",
-							"name": "Supported Modes",
+							"name": "supportedModes",
 							"mask": 24,
 							"shift": 3,
 							"values": {
-								"0": "Mailbox Service supported",
-								"1": "Mailbox Proxy supported"
+								"0": {
+									"name": "MailboxServiceSupported",
+									"help": "Mailbox Service supported"
+								},
+								"1": {
+									"name": "MailboxProxySupported",
+									"help": "Mailbox Proxy supported"
+								}
 							}
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"type": "enum",
+							"name": "mode",
+							"mask": 7,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "Disable",
+									"help": "Disable"
+								},
+								"1": {
+									"name": "EnableMailboxService",
+									"help": "Enable Mailbox Service"
+								},
+								"2": {
+									"name": "EnableMailboxProxy",
+									"help": "Enable Mailbox Proxy"
+								}
+							}
 						}
 					]
 				},
@@ -231,31 +280,53 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Mode",
-							"mask": 3,
-							"shift": 0,
-							"values": {
-								"0": "Push",
-								"1": "Pop",
-								"2": "Waiting",
-								"3": "Ping",
-								"4": "ACK",
-								"5": "NACK",
-								"6": "Queue Full"
-							}
+							"type": "integer",
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Last",
+							"name": "last",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"type": "enum",
+							"name": "mode",
+							"mask": 3,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "Push",
+									"help": "Push"
+								},
+								"1": {
+									"name": "Pop",
+									"help": "Pop"
+								},
+								"2": {
+									"name": "Waiting",
+									"help": "Waiting"
+								},
+								"3": {
+									"name": "Ping",
+									"help": "Ping"
+								},
+								"4": {
+									"name": "Ack",
+									"help": "ACK"
+								},
+								"5": {
+									"name": "Nack",
+									"help": "NACK"
+								},
+								"6": {
+									"name": "QueueFull",
+									"help": "Queue Full"
+								}
+							}
 						}
 					]
 				},

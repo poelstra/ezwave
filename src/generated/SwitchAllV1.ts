@@ -25,6 +25,13 @@ export interface SwitchAllV1SwitchAllSetData {
 	mode: ModeEnum; // 1 byte enum value
 }
 
+export enum ModeEnum {
+	ExcludedFromTheAllOnAllOffFunctionality = 0x0,
+	ExcludedFromTheAllOnFunctionalityButNotAllOff = 0x1,
+	ExcludedFromTheAllOffFunctionalityButNotAllOn = 0x2,
+	IncludedInTheAllOnAllOffFunctionality = 0xff,
+}
+
 export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 	public static readonly commandClass = CommandClasses.SwitchAll; // 0x27 (39)
 
@@ -111,10 +118,22 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "excluded from the all on/all off functionality",
-						"1": "excluded from the all on functionality but not all off",
-						"2": "excluded from the all off functionality but not all on",
-						"255": "included in the all on/all off functionality"
+						"0": {
+							"name": "ExcludedFromTheAllOnAllOffFunctionality",
+							"help": "excluded from the all on/all off functionality"
+						},
+						"1": {
+							"name": "ExcludedFromTheAllOnFunctionalityButNotAllOff",
+							"help": "excluded from the all on functionality but not all off"
+						},
+						"2": {
+							"name": "ExcludedFromTheAllOffFunctionalityButNotAllOn",
+							"help": "excluded from the all off functionality but not all on"
+						},
+						"255": {
+							"name": "IncludedInTheAllOnAllOffFunctionality",
+							"help": "included in the all on/all off functionality"
+						}
 					}
 				}
 			]
@@ -144,10 +163,22 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "excluded from the all on/all off functionality",
-						"1": "excluded from the all on functionality but not all off",
-						"2": "excluded from the all off functionality but not all on",
-						"255": "included in the all on/all off functionality"
+						"0": {
+							"name": "ExcludedFromTheAllOnAllOffFunctionality",
+							"help": "excluded from the all on/all off functionality"
+						},
+						"1": {
+							"name": "ExcludedFromTheAllOnFunctionalityButNotAllOff",
+							"help": "excluded from the all on functionality but not all off"
+						},
+						"2": {
+							"name": "ExcludedFromTheAllOffFunctionalityButNotAllOn",
+							"help": "excluded from the all off functionality but not all on"
+						},
+						"255": {
+							"name": "IncludedInTheAllOnAllOffFunctionality",
+							"help": "included in the all on/all off functionality"
+						}
 					}
 				}
 			]
@@ -169,11 +200,4 @@ export namespace SwitchAllV1 {
 	export type SwitchAllOn = InstanceType<typeof SwitchAllV1.SwitchAllOn>;
 	export type SwitchAllReport = InstanceType<typeof SwitchAllV1.SwitchAllReport>;
 	export type SwitchAllSet = InstanceType<typeof SwitchAllV1.SwitchAllSet>;
-}
-
-export enum ModeEnum {
-	ExcludedFromTheAllOnAllOffFunctionality = 0x0,
-	ExcludedFromTheAllOnFunctionalityButNotAllOff = 0x1,
-	ExcludedFromTheAllOffFunctionalityButNotAllOn = 0x2,
-	IncludedInTheAllOnAllOffFunctionality = 0xff,
 }

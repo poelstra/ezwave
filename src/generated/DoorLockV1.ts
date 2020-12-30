@@ -20,21 +20,24 @@ export enum DoorLockV1Commands {
 
 export interface DoorLockV1DoorLockConfigurationReportData {
 	operationType: OperationTypeEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
+	outsideDoorHandlesState: number; // properties1[7..4]
+	insideDoorHandlesState: number; // properties1[3..0]
 	lockTimeoutMinutes: number; // 1 byte unsigned integer
 	lockTimeoutSeconds: number; // 1 byte unsigned integer
 }
 
 export interface DoorLockV1DoorLockConfigurationSetData {
 	operationType: OperationTypeEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
+	outsideDoorHandlesState: number; // properties1[7..4]
+	insideDoorHandlesState: number; // properties1[3..0]
 	lockTimeoutMinutes: number; // 1 byte unsigned integer
 	lockTimeoutSeconds: number; // 1 byte unsigned integer
 }
 
 export interface DoorLockV1DoorLockOperationReportData {
 	doorLockMode: DoorLockModeEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
+	outsideDoorHandlesMode: number; // properties1[7..4]
+	insideDoorHandlesMode: number; // properties1[3..0]
 	doorCondition: number; // 1 byte unsigned integer
 	lockTimeoutMinutes: number; // 1 byte unsigned integer
 	lockTimeoutSeconds: number; // 1 byte unsigned integer
@@ -42,6 +45,21 @@ export interface DoorLockV1DoorLockOperationReportData {
 
 export interface DoorLockV1DoorLockOperationSetData {
 	doorLockMode: DoorLockModeEnum; // 1 byte enum value
+}
+
+export enum OperationTypeEnum {
+	ConstantOperation = 0x1,
+	TimedOperation = 0x2,
+}
+
+export enum DoorLockModeEnum {
+	DoorUnsecured = 0x0,
+	DoorUnsecuredWithTimeout = 0x1,
+	DoorUnsecuredForInsideDoorHandles = 0x10,
+	DoorUnsecuredForInsideDoorHandlesWithTimeout = 0x11,
+	DoorUnsecuredForOutsideDoorHandles = 0x20,
+	DoorUnsecuredForOutsideDoorHandlesWithTimeout = 0x21,
+	DoorSecured = 0xff,
 }
 
 export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
@@ -90,8 +108,14 @@ export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
 					"help": "Operation Type",
 					"length": 1,
 					"values": {
-						"1": "Constant operation",
-						"2": "Timed operation"
+						"1": {
+							"name": "ConstantOperation",
+							"help": "Constant operation"
+						},
+						"2": {
+							"name": "TimedOperation",
+							"help": "Timed operation"
+						}
 					}
 				},
 				{
@@ -102,15 +126,15 @@ export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Inside Door Handles State",
-							"mask": 15,
-							"shift": 0
+							"name": "outsideDoorHandlesState",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Outside Door Handles State",
-							"mask": 240,
-							"shift": 4
+							"name": "insideDoorHandlesState",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -153,8 +177,14 @@ export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
 					"help": "Operation Type",
 					"length": 1,
 					"values": {
-						"1": "Constant operation",
-						"2": "Timed operation"
+						"1": {
+							"name": "ConstantOperation",
+							"help": "Constant operation"
+						},
+						"2": {
+							"name": "TimedOperation",
+							"help": "Timed operation"
+						}
 					}
 				},
 				{
@@ -165,15 +195,15 @@ export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Inside Door Handles State",
-							"mask": 15,
-							"shift": 0
+							"name": "outsideDoorHandlesState",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Outside Door Handles State",
-							"mask": 240,
-							"shift": 4
+							"name": "insideDoorHandlesState",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -236,13 +266,34 @@ export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
 					"help": "Door Lock Mode",
 					"length": 1,
 					"values": {
-						"0": "Door Unsecured",
-						"1": "Door Unsecured with timeout",
-						"16": "Door Unsecured for inside Door Handles",
-						"17": "Door Unsecured for inside Door Handles with timeout",
-						"32": "Door Unsecured for outside Door Handles",
-						"33": "Door Unsecured for outside Door Handles with timeout",
-						"255": "Door Secured"
+						"0": {
+							"name": "DoorUnsecured",
+							"help": "Door Unsecured"
+						},
+						"1": {
+							"name": "DoorUnsecuredWithTimeout",
+							"help": "Door Unsecured with timeout"
+						},
+						"16": {
+							"name": "DoorUnsecuredForInsideDoorHandles",
+							"help": "Door Unsecured for inside Door Handles"
+						},
+						"17": {
+							"name": "DoorUnsecuredForInsideDoorHandlesWithTimeout",
+							"help": "Door Unsecured for inside Door Handles with timeout"
+						},
+						"32": {
+							"name": "DoorUnsecuredForOutsideDoorHandles",
+							"help": "Door Unsecured for outside Door Handles"
+						},
+						"33": {
+							"name": "DoorUnsecuredForOutsideDoorHandlesWithTimeout",
+							"help": "Door Unsecured for outside Door Handles with timeout"
+						},
+						"255": {
+							"name": "DoorSecured",
+							"help": "Door Secured"
+						}
 					}
 				},
 				{
@@ -253,15 +304,15 @@ export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Inside Door Handles Mode",
-							"mask": 15,
-							"shift": 0
+							"name": "outsideDoorHandlesMode",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Outside Door Handles Mode",
-							"mask": 240,
-							"shift": 4
+							"name": "insideDoorHandlesMode",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -310,13 +361,34 @@ export class DoorLockV1 extends CommandClassPacket<DoorLockV1Commands> {
 					"help": "Door Lock Mode",
 					"length": 1,
 					"values": {
-						"0": "Door Unsecured",
-						"1": "Door Unsecured with timeout",
-						"16": "Door Unsecured for inside Door Handles",
-						"17": "Door Unsecured for inside Door Handles with timeout",
-						"32": "Door Unsecured for outside Door Handles",
-						"33": "Door Unsecured for outside Door Handles with timeout",
-						"255": "Door Secured"
+						"0": {
+							"name": "DoorUnsecured",
+							"help": "Door Unsecured"
+						},
+						"1": {
+							"name": "DoorUnsecuredWithTimeout",
+							"help": "Door Unsecured with timeout"
+						},
+						"16": {
+							"name": "DoorUnsecuredForInsideDoorHandles",
+							"help": "Door Unsecured for inside Door Handles"
+						},
+						"17": {
+							"name": "DoorUnsecuredForInsideDoorHandlesWithTimeout",
+							"help": "Door Unsecured for inside Door Handles with timeout"
+						},
+						"32": {
+							"name": "DoorUnsecuredForOutsideDoorHandles",
+							"help": "Door Unsecured for outside Door Handles"
+						},
+						"33": {
+							"name": "DoorUnsecuredForOutsideDoorHandlesWithTimeout",
+							"help": "Door Unsecured for outside Door Handles with timeout"
+						},
+						"255": {
+							"name": "DoorSecured",
+							"help": "Door Secured"
+						}
 					}
 				}
 			]
@@ -339,19 +411,4 @@ export namespace DoorLockV1 {
 	export type DoorLockOperationGet = InstanceType<typeof DoorLockV1.DoorLockOperationGet>;
 	export type DoorLockOperationReport = InstanceType<typeof DoorLockV1.DoorLockOperationReport>;
 	export type DoorLockOperationSet = InstanceType<typeof DoorLockV1.DoorLockOperationSet>;
-}
-
-export enum OperationTypeEnum {
-	ConstantOperation = 0x1,
-	TimedOperation = 0x2,
-}
-
-export enum DoorLockModeEnum {
-	DoorUnsecured = 0x0,
-	DoorUnsecuredWithTimeout = 0x1,
-	DoorUnsecuredForInsideDoorHandles = 0x10,
-	DoorUnsecuredForInsideDoorHandlesWithTimeout = 0x11,
-	DoorUnsecuredForOutsideDoorHandles = 0x20,
-	DoorUnsecuredForOutsideDoorHandlesWithTimeout = 0x21,
-	DoorSecured = 0xff,
 }

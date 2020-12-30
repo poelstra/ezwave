@@ -33,7 +33,7 @@ export interface DcpConfigV1DcpListSetData {
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	dCPRateID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	numberOfDC: number; // properties1[1..0]
 	// TODO param vg1 type group
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
@@ -183,15 +183,16 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of DC",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"name": "numberOfDC",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -201,8 +202,11 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 					"help": "vg1",
 					"length": {
 						"name": "Properties1",
-						"mask": 3,
-						"shift": 0
+						"bitfield": {
+							"mask": 3,
+							"shift": 0,
+							"name": "numberOfDC"
+						}
 					},
 					"params": [
 						{

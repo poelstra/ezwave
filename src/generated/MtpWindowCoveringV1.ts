@@ -70,8 +70,14 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "close",
-						"255": "open"
+						"0": {
+							"name": "Close",
+							"help": "close"
+						},
+						"255": {
+							"name": "Open",
+							"help": "open"
+						}
 					}
 				}
 			]
@@ -101,8 +107,14 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "close",
-						"255": "open"
+						"0": {
+							"name": "Close",
+							"help": "close"
+						},
+						"255": {
+							"name": "Open",
+							"help": "open"
+						}
 					}
 				}
 			]

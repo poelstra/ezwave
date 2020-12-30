@@ -16,7 +16,8 @@ export enum AntitheftV1Commands {
 }
 
 export interface AntitheftV1AntitheftSetData {
-	// TODO param properties1 type bitfield
+	enable: boolean; // properties1[7]
+	numberOfMagicCodeBytes: number; // properties1[6..0]
 	// TODO param magicCode type blob
 	manufacturerID: number; // 2 byte unsigned integer
 	antiTheftHintNumberBytes: number; // 1 byte unsigned integer
@@ -58,16 +59,16 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Number of Magic Code bytes",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Enable",
+							"name": "enable",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "numberOfMagicCodeBytes",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -77,8 +78,11 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 					"help": "Magic Code",
 					"length": {
 						"name": "Properties1",
-						"mask": 127,
-						"shift": 0
+						"bitfield": {
+							"mask": 127,
+							"shift": 0,
+							"name": "numberOfMagicCodeBytes"
+						}
 					}
 				},
 				{
@@ -98,9 +102,7 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 					"name": "antiTheftHintByte",
 					"help": "Anti-theft Hint Byte",
 					"length": {
-						"name": "Anti-theft Hint Number Bytes",
-						"mask": 255,
-						"shift": 0
+						"name": "Anti-theft Hint Number Bytes"
 					}
 				}
 			]
@@ -167,9 +169,7 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 					"name": "antiTheftHintByte",
 					"help": "Anti-theft Hint Byte",
 					"length": {
-						"name": "Anti-theft Hint Number Bytes",
-						"mask": 255,
-						"shift": 0
+						"name": "Anti-theft Hint Number Bytes"
 					}
 				}
 			]

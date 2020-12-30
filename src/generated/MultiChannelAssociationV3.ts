@@ -29,7 +29,7 @@ export interface MultiChannelAssociationV3MultiChannelAssociationGroupingsReport
 export interface MultiChannelAssociationV3MultiChannelAssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
-	marker: number; // 0 byte unsigned integer
+	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
@@ -38,14 +38,14 @@ export interface MultiChannelAssociationV3MultiChannelAssociationReportData {
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
-	marker: number; // 0 byte unsigned integer
+	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
 export interface MultiChannelAssociationV3MultiChannelAssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
-	marker: number; // 0 byte unsigned integer
+	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
@@ -183,13 +183,13 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 							"fields": [
 								{
 									"type": "integer",
-									"name": "End Point",
+									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Bit address",
+									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
 								}
@@ -270,13 +270,13 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 							"fields": [
 								{
 									"type": "integer",
-									"name": "End Point",
+									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Bit address",
+									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
 								}
@@ -345,13 +345,13 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 							"fields": [
 								{
 									"type": "integer",
-									"name": "End Point",
+									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Bit address",
+									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
 								}

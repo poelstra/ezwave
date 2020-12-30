@@ -22,7 +22,7 @@ export enum EntryControlV1Commands {
 
 export interface EntryControlV1EntryControlNotificationData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	dataType: DataTypeEnum; // properties1[1..0]
 	eventType: EventTypeEnum; // 1 byte enum value
 	eventDataLength: number; // 1 byte unsigned integer
 	// TODO param eventData type blob
@@ -30,14 +30,14 @@ export interface EntryControlV1EntryControlNotificationData {
 
 export interface EntryControlV1EntryControlKeySupportedReportData {
 	keySupportedBitMaskLength: number; // 1 byte unsigned integer
-	keySupportedBitMask: number; // 0 byte unsigned integer
+	// TODO param keySupportedBitMask type bitmask or marker
 }
 
 export interface EntryControlV1EntryControlEventSupportedReportData {
-	// TODO param properties1 type bitfield
-	dataTypeSupportedBitMask: number; // 0 byte unsigned integer
-	// TODO param properties2 type bitfield
-	eventTypeSupportedBitMask: number; // 0 byte unsigned integer
+	dataTypeSupportedBitMaskLength: number; // properties1[1..0]
+	// TODO param dataTypeSupportedBitMask type bitmask or marker
+	eventSupportedBitMaskLength: number; // properties2[4..0]
+	// TODO param eventTypeSupportedBitMask type bitmask or marker
 	keyCachedSizeSupportedMinimum: number; // 1 byte unsigned integer
 	keyCachedSizeSupportedMaximum: number; // 1 byte unsigned integer
 	keyCachedTimeoutSupportedMinimum: number; // 1 byte unsigned integer
@@ -52,6 +52,42 @@ export interface EntryControlV1EntryControlConfigurationSetData {
 export interface EntryControlV1EntryControlConfigurationReportData {
 	keyCacheSize: number; // 1 byte unsigned integer
 	keyCacheTimeout: number; // 1 byte unsigned integer
+}
+
+export enum DataTypeEnum {
+	Na = 0x0,
+	Raw = 0x1,
+	Ascii = 0x2,
+	Md5 = 0x3,
+}
+
+export enum EventTypeEnum {
+	Caching = 0x0,
+	CachedKeys = 0x1,
+	Enter = 0x2,
+	DisarmAll = 0x3,
+	ArmAll = 0x4,
+	ArmAway = 0x5,
+	ArmHome = 0x6,
+	ExitDelay = 0x7,
+	Arm1 = 0x8,
+	Arm2 = 0x9,
+	Arm3 = 0xa,
+	Arm4 = 0xb,
+	Arm5 = 0xc,
+	Arm6 = 0xd,
+	Rfid = 0xe,
+	Bell = 0xf,
+	Fire = 0x10,
+	Police = 0x11,
+	AlertPanic = 0x12,
+	AlertMedical = 0x13,
+	GateOpen = 0x14,
+	GateClose = 0x15,
+	Lock = 0x16,
+	Unlock = 0x17,
+	Test = 0x18,
+	Cancel = 0x19,
 }
 
 export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
@@ -87,22 +123,35 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Data Type",
+							"name": "dataType",
 							"mask": 3,
 							"shift": 0,
 							"values": {
-								"0": "NA",
-								"1": "RAW",
-								"2": "ASCII",
-								"3": "MD5"
+								"0": {
+									"name": "Na",
+									"help": "NA"
+								},
+								"1": {
+									"name": "Raw",
+									"help": "RAW"
+								},
+								"2": {
+									"name": "Ascii",
+									"help": "ASCII"
+								},
+								"3": {
+									"name": "Md5",
+									"help": "MD5"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
 						}
 					]
 				},
@@ -112,32 +161,110 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"help": "Event Type",
 					"length": 1,
 					"values": {
-						"0": "CACHING",
-						"1": "CACHED_KEYS",
-						"2": "ENTER",
-						"3": "DISARM_ALL",
-						"4": "ARM_ALL",
-						"5": "ARM_AWAY",
-						"6": "ARM_HOME",
-						"7": "EXIT_DELAY",
-						"8": "ARM_1",
-						"9": "ARM_2",
-						"10": "ARM_3",
-						"11": "ARM_4",
-						"12": "ARM_5",
-						"13": "ARM_6",
-						"14": "RFID",
-						"15": "BELL",
-						"16": "FIRE",
-						"17": "POLICE",
-						"18": "ALERT_PANIC",
-						"19": "ALERT_MEDICAL",
-						"20": "GATE_OPEN",
-						"21": "GATE_CLOSE",
-						"22": "LOCK",
-						"23": "UNLOCK",
-						"24": "TEST",
-						"25": "CANCEL"
+						"0": {
+							"name": "Caching",
+							"help": "CACHING"
+						},
+						"1": {
+							"name": "CachedKeys",
+							"help": "CACHED_KEYS"
+						},
+						"2": {
+							"name": "Enter",
+							"help": "ENTER"
+						},
+						"3": {
+							"name": "DisarmAll",
+							"help": "DISARM_ALL"
+						},
+						"4": {
+							"name": "ArmAll",
+							"help": "ARM_ALL"
+						},
+						"5": {
+							"name": "ArmAway",
+							"help": "ARM_AWAY"
+						},
+						"6": {
+							"name": "ArmHome",
+							"help": "ARM_HOME"
+						},
+						"7": {
+							"name": "ExitDelay",
+							"help": "EXIT_DELAY"
+						},
+						"8": {
+							"name": "Arm1",
+							"help": "ARM_1"
+						},
+						"9": {
+							"name": "Arm2",
+							"help": "ARM_2"
+						},
+						"10": {
+							"name": "Arm3",
+							"help": "ARM_3"
+						},
+						"11": {
+							"name": "Arm4",
+							"help": "ARM_4"
+						},
+						"12": {
+							"name": "Arm5",
+							"help": "ARM_5"
+						},
+						"13": {
+							"name": "Arm6",
+							"help": "ARM_6"
+						},
+						"14": {
+							"name": "Rfid",
+							"help": "RFID"
+						},
+						"15": {
+							"name": "Bell",
+							"help": "BELL"
+						},
+						"16": {
+							"name": "Fire",
+							"help": "FIRE"
+						},
+						"17": {
+							"name": "Police",
+							"help": "POLICE"
+						},
+						"18": {
+							"name": "AlertPanic",
+							"help": "ALERT_PANIC"
+						},
+						"19": {
+							"name": "AlertMedical",
+							"help": "ALERT_MEDICAL"
+						},
+						"20": {
+							"name": "GateOpen",
+							"help": "GATE_OPEN"
+						},
+						"21": {
+							"name": "GateClose",
+							"help": "GATE_CLOSE"
+						},
+						"22": {
+							"name": "Lock",
+							"help": "LOCK"
+						},
+						"23": {
+							"name": "Unlock",
+							"help": "UNLOCK"
+						},
+						"24": {
+							"name": "Test",
+							"help": "TEST"
+						},
+						"25": {
+							"name": "Cancel",
+							"help": "CANCEL"
+						}
 					}
 				},
 				{
@@ -151,13 +278,10 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"name": "eventData",
 					"help": "Event Data",
 					"optional": {
-						"name": "Sequence Number",
-						"mask": 255
+						"name": "Sequence Number"
 					},
 					"length": {
-						"name": "Event Data Length",
-						"mask": 255,
-						"shift": 0
+						"name": "Event Data Length"
 					}
 				}
 			]
@@ -262,15 +386,16 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Data Type Supported Bit Mask Length",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved1",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved1",
-							"mask": 252,
-							"shift": 2
+							"name": "dataTypeSupportedBitMaskLength",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -288,15 +413,16 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Event Supported Bit Mask Length",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved2",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved2",
-							"mask": 224,
-							"shift": 5
+							"name": "eventSupportedBitMaskLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -438,33 +564,4 @@ export namespace EntryControlV1 {
 	export type EntryControlConfigurationSet = InstanceType<typeof EntryControlV1.EntryControlConfigurationSet>;
 	export type EntryControlConfigurationGet = InstanceType<typeof EntryControlV1.EntryControlConfigurationGet>;
 	export type EntryControlConfigurationReport = InstanceType<typeof EntryControlV1.EntryControlConfigurationReport>;
-}
-
-export enum EventTypeEnum {
-	Caching = 0x0,
-	CachedKeys = 0x1,
-	Enter = 0x2,
-	DisarmAll = 0x3,
-	ArmAll = 0x4,
-	ArmAway = 0x5,
-	ArmHome = 0x6,
-	ExitDelay = 0x7,
-	Arm1 = 0x8,
-	Arm2 = 0x9,
-	Arm3 = 0xa,
-	Arm4 = 0xb,
-	Arm5 = 0xc,
-	Arm6 = 0xd,
-	Rfid = 0xe,
-	Bell = 0xf,
-	Fire = 0x10,
-	Police = 0x11,
-	AlertPanic = 0x12,
-	AlertMedical = 0x13,
-	GateOpen = 0x14,
-	GateClose = 0x15,
-	Lock = 0x16,
-	Unlock = 0x17,
-	Test = 0x18,
-	Cancel = 0x19,
 }

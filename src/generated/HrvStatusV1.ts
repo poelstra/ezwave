@@ -22,12 +22,24 @@ export interface HrvStatusV1HrvStatusGetData {
 
 export interface HrvStatusV1HrvStatusReportData {
 	statusParameter: StatusParameterEnum; // 1 byte enum value
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface HrvStatusV1HrvStatusSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum StatusParameterEnum {
+	OutdoorAirTemperature = 0x0,
+	SupplyAirTemperature = 0x1,
+	ExhaustAirTemperature = 0x2,
+	DischargeAirTemperature = 0x3,
+	RoomTemperature = 0x4,
+	RelativeHumidityInRoom = 0x5,
+	RemainingFilterLife = 0x6,
 }
 
 export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
@@ -56,13 +68,34 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					"help": "Status Parameter",
 					"length": 1,
 					"values": {
-						"0": "Outdoor Air temperature",
-						"1": "Supply Air temperature",
-						"2": "Exhaust Air temperature",
-						"3": "Discharge Air temperature",
-						"4": "Room temperature",
-						"5": "Relative Humidity in room",
-						"6": "Remaining filter life"
+						"0": {
+							"name": "OutdoorAirTemperature",
+							"help": "Outdoor Air temperature"
+						},
+						"1": {
+							"name": "SupplyAirTemperature",
+							"help": "Supply Air temperature"
+						},
+						"2": {
+							"name": "ExhaustAirTemperature",
+							"help": "Exhaust Air temperature"
+						},
+						"3": {
+							"name": "DischargeAirTemperature",
+							"help": "Discharge Air temperature"
+						},
+						"4": {
+							"name": "RoomTemperature",
+							"help": "Room temperature"
+						},
+						"5": {
+							"name": "RelativeHumidityInRoom",
+							"help": "Relative Humidity in room"
+						},
+						"6": {
+							"name": "RemainingFilterLife",
+							"help": "Remaining filter life"
+						}
 					}
 				}
 			]
@@ -92,13 +125,34 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					"help": "Status Parameter",
 					"length": 1,
 					"values": {
-						"0": "Outdoor Air temperature",
-						"1": "Supply Air temperature",
-						"2": "Exhaust Air temperature",
-						"3": "Discharge Air temperature",
-						"4": "Room temperature",
-						"5": "Relative Humidity in room",
-						"6": "Remaining filter life"
+						"0": {
+							"name": "OutdoorAirTemperature",
+							"help": "Outdoor Air temperature"
+						},
+						"1": {
+							"name": "SupplyAirTemperature",
+							"help": "Supply Air temperature"
+						},
+						"2": {
+							"name": "ExhaustAirTemperature",
+							"help": "Exhaust Air temperature"
+						},
+						"3": {
+							"name": "DischargeAirTemperature",
+							"help": "Discharge Air temperature"
+						},
+						"4": {
+							"name": "RoomTemperature",
+							"help": "Room temperature"
+						},
+						"5": {
+							"name": "RelativeHumidityInRoom",
+							"help": "Relative Humidity in room"
+						},
+						"6": {
+							"name": "RemainingFilterLife",
+							"help": "Remaining filter life"
+						}
 					}
 				},
 				{
@@ -109,21 +163,21 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -198,14 +252,4 @@ export namespace HrvStatusV1 {
 	export type HrvStatusReport = InstanceType<typeof HrvStatusV1.HrvStatusReport>;
 	export type HrvStatusSupportedGet = InstanceType<typeof HrvStatusV1.HrvStatusSupportedGet>;
 	export type HrvStatusSupportedReport = InstanceType<typeof HrvStatusV1.HrvStatusSupportedReport>;
-}
-
-export enum StatusParameterEnum {
-	OutdoorAirTemperature = 0x0,
-	SupplyAirTemperature = 0x1,
-	ExhaustAirTemperature = 0x2,
-	DischargeAirTemperature = 0x3,
-	RoomTemperature = 0x4,
-	RelativeHumidityInRoom = 0x5,
-	RemainingFilterLife = 0x6,
 }

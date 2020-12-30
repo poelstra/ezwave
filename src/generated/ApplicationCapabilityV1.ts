@@ -14,7 +14,7 @@ export enum ApplicationCapabilityV1Commands {
 }
 
 export interface ApplicationCapabilityV1CommandCommandClassNotSupportedData {
-	// TODO param properties1 type bitfield
+	dynamic: boolean; // properties1[7]
 	offendingCommandClass: number; // 1 byte unsigned integer
 	offendingCommand: number; // 1 byte unsigned integer
 }
@@ -47,16 +47,17 @@ export class ApplicationCapabilityV1 extends CommandClassPacket<ApplicationCapab
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Dynamic",
+							"name": "dynamic",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 127,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},

@@ -20,22 +20,35 @@ export enum CentralSceneV3Commands {
 
 export interface CentralSceneV3CentralSceneSupportedReportData {
 	supportedScenes: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	slowRefreshSupport: boolean; // properties1[7]
+	numberOfBitMaskBytes: number; // properties1[2..1]
+	identical: boolean; // properties1[0]
 	// TODO param vg1 type group
 }
 
 export interface CentralSceneV3CentralSceneNotificationData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	slowRefresh: boolean; // properties1[7]
+	keyAttributes: KeyAttributesEnum; // properties1[2..0]
 	sceneNumber: number; // 1 byte unsigned integer
 }
 
 export interface CentralSceneV3CentralSceneConfigurationSetData {
-	// TODO param properties1 type bitfield
+	slowRefresh: boolean; // properties1[7]
 }
 
 export interface CentralSceneV3CentralSceneConfigurationReportData {
-	// TODO param properties1 type bitfield
+	slowRefresh: boolean; // properties1[7]
+}
+
+export enum KeyAttributesEnum {
+	KeyPressed1Time = 0x0,
+	KeyReleased = 0x1,
+	KeyHeldDown = 0x2,
+	KeyPressed2Times = 0x3,
+	KeyPressed3Times = 0x4,
+	KeyPressed4Times = 0x5,
+	KeyPressed5Times = 0x6,
 }
 
 export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
@@ -92,27 +105,28 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Identical",
-							"mask": 1,
-							"shift": 0
+							"name": "slowRefreshSupport",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "integer",
-							"name": "Number of Bit Mask Bytes",
+							"name": "reserved",
+							"mask": 120,
+							"shift": 3,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "numberOfBitMaskBytes",
 							"mask": 6,
 							"shift": 1
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 120,
-							"shift": 3
-						},
-						{
 							"type": "boolean",
-							"name": "Slow Refresh Support",
-							"mask": 128,
-							"shift": 7
+							"name": "identical",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -121,9 +135,7 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Supported Scenes",
-						"mask": 255,
-						"shift": 0
+						"name": "Supported Scenes"
 					},
 					"params": [
 						{
@@ -168,31 +180,53 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Key Attributes",
-							"mask": 7,
-							"shift": 0,
-							"values": {
-								"0": "Key Pressed 1 time",
-								"1": "Key Released",
-								"2": "Key Held Down",
-								"3": "Key Pressed 2 times",
-								"4": "Key Pressed 3 times",
-								"5": "Key Pressed 4 times",
-								"6": "Key Pressed 5 times"
-							}
+							"type": "boolean",
+							"name": "slowRefresh",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
+							"name": "reserved",
 							"mask": 120,
-							"shift": 3
+							"shift": 3,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Slow Refresh",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "keyAttributes",
+							"mask": 7,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "KeyPressed1Time",
+									"help": "Key Pressed 1 time"
+								},
+								"1": {
+									"name": "KeyReleased",
+									"help": "Key Released"
+								},
+								"2": {
+									"name": "KeyHeldDown",
+									"help": "Key Held Down"
+								},
+								"3": {
+									"name": "KeyPressed2Times",
+									"help": "Key Pressed 2 times"
+								},
+								"4": {
+									"name": "KeyPressed3Times",
+									"help": "Key Pressed 3 times"
+								},
+								"5": {
+									"name": "KeyPressed4Times",
+									"help": "Key Pressed 4 times"
+								},
+								"6": {
+									"name": "KeyPressed5Times",
+									"help": "Key Pressed 5 times"
+								}
+							}
 						}
 					]
 				},
@@ -230,16 +264,17 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Slow Refresh",
+							"name": "slowRefresh",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 127,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}
@@ -291,16 +326,17 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Slow Refresh",
+							"name": "slowRefresh",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 127,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}

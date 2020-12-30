@@ -22,43 +22,77 @@ export enum HumidityControlSetpointV2Commands {
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointSetData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	setpointType: SetpointTypeEnum; // properties1[3..0]
+	precision: number; // properties2[7..5]
+	scale: ScaleEnum; // properties2[4..3]
+	size: number; // properties2[2..0]
 	// TODO param value type blob
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointGetData {
-	// TODO param properties1 type bitfield
+	setpointType: SetpointTypeEnum; // properties1[3..0]
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	setpointType: SetpointTypeEnum; // properties1[3..0]
+	precision: number; // properties2[7..5]
+	scale: ScaleEnum; // properties2[4..3]
+	size: number; // properties2[2..0]
 	// TODO param value type blob
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointScaleSupportedGetData {
-	// TODO param properties1 type bitfield
+	setpointType: SetpointTypeEnum; // properties1[3..0]
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointScaleSupportedReportData {
-	// TODO param properties1 type bitfield
+	scaleBitMask: ScaleBitMaskEnum; // properties1[3..0]
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointCapabilitiesGetData {
-	// TODO param properties1 type bitfield
+	setpointType: SetpointTypeEnum; // properties1[3..0]
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointCapabilitiesReportData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	setpointType: SetpointTypeEnum; // properties1[3..0]
+	precision1: number; // properties2[7..5]
+	scale1: Scale1Enum; // properties2[4..3]
+	size1: number; // properties2[2..0]
 	// TODO param minimumValue type blob
-	// TODO param properties3 type bitfield
+	precision2: number; // properties3[7..5]
+	scale2: Scale2Enum; // properties3[4..3]
+	size2: number; // properties3[2..0]
 	// TODO param maximumValue type blob
+}
+
+export enum SetpointTypeEnum {
+	Humidifier = 0x1,
+	Dehumidifier = 0x2,
+	Auto = 0x3,
+}
+
+export enum ScaleEnum {
+	Percentage = 0x0,
+	Absolute = 0x1,
+}
+
+export enum ScaleBitMaskEnum {
+	Percentage = 0x0,
+	Absolute = 0x1,
+}
+
+export enum Scale1Enum {
+	Percentage = 0x0,
+	Absolute = 0x1,
+}
+
+export enum Scale2Enum {
+	Percentage = 0x0,
+	Absolute = 0x1,
 }
 
 export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityControlSetpointV2Commands> {
@@ -88,21 +122,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"1": "Humidifier",
-								"2": "Dehumidifier",
-								"3": "Auto"
+								"1": {
+									"name": "Humidifier",
+									"help": "Humidifier"
+								},
+								"2": {
+									"name": "Dehumidifier",
+									"help": "Dehumidifier"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				},
@@ -114,25 +158,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "enum",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3,
 							"values": {
-								"0": "Percentage",
-								"1": "Absolute"
+								"0": {
+									"name": "Percentage",
+									"help": "Percentage"
+								},
+								"1": {
+									"name": "Absolute",
+									"help": "Absolute"
+								}
 							}
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -142,8 +192,11 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"help": "Value",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -174,21 +227,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"1": "Humidifier",
-								"2": "Dehumidifier",
-								"3": "Auto"
+								"1": {
+									"name": "Humidifier",
+									"help": "Humidifier"
+								},
+								"2": {
+									"name": "Dehumidifier",
+									"help": "Dehumidifier"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -220,21 +283,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"1": "Humidifier",
-								"2": "Dehumidifier",
-								"3": "Auto"
+								"1": {
+									"name": "Humidifier",
+									"help": "Humidifier"
+								},
+								"2": {
+									"name": "Dehumidifier",
+									"help": "Dehumidifier"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				},
@@ -246,25 +319,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "enum",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3,
 							"values": {
-								"0": "Percentage",
-								"1": "Absolute"
+								"0": {
+									"name": "Percentage",
+									"help": "Percentage"
+								},
+								"1": {
+									"name": "Absolute",
+									"help": "Absolute"
+								}
 							}
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -274,8 +353,11 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"help": "Value",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -353,21 +435,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"1": "Humidifier",
-								"2": "Dehumidifier",
-								"3": "Auto"
+								"1": {
+									"name": "Humidifier",
+									"help": "Humidifier"
+								},
+								"2": {
+									"name": "Dehumidifier",
+									"help": "Dehumidifier"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -399,20 +491,27 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Scale Bit Mask",
+							"name": "scaleBitMask",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Percentage",
-								"1": "Absolute"
+								"0": {
+									"name": "Percentage",
+									"help": "Percentage"
+								},
+								"1": {
+									"name": "Absolute",
+									"help": "Absolute"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -444,21 +543,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"1": "Humidifier",
-								"2": "Dehumidifier",
-								"3": "Auto"
+								"1": {
+									"name": "Humidifier",
+									"help": "Humidifier"
+								},
+								"2": {
+									"name": "Dehumidifier",
+									"help": "Dehumidifier"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -490,21 +599,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Setpoint Type",
+							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"1": "Humidifier",
-								"2": "Dehumidifier",
-								"3": "Auto"
+								"1": {
+									"name": "Humidifier",
+									"help": "Humidifier"
+								},
+								"2": {
+									"name": "Dehumidifier",
+									"help": "Dehumidifier"
+								},
+								"3": {
+									"name": "Auto",
+									"help": "Auto"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				},
@@ -516,25 +635,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size1",
-							"mask": 7,
-							"shift": 0
+							"name": "precision1",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "enum",
-							"name": "Scale1",
+							"name": "scale1",
 							"mask": 24,
 							"shift": 3,
 							"values": {
-								"0": "Percentage",
-								"1": "Absolute"
+								"0": {
+									"name": "Percentage",
+									"help": "Percentage"
+								},
+								"1": {
+									"name": "Absolute",
+									"help": "Absolute"
+								}
 							}
 						},
 						{
 							"type": "integer",
-							"name": "Precision1",
-							"mask": 224,
-							"shift": 5
+							"name": "size1",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -544,8 +669,11 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"help": "Minimum Value",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size1"
+						}
 					}
 				},
 				{
@@ -556,25 +684,31 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size2",
-							"mask": 7,
-							"shift": 0
+							"name": "precision2",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "enum",
-							"name": "Scale2",
+							"name": "scale2",
 							"mask": 24,
 							"shift": 3,
 							"values": {
-								"0": "Percentage",
-								"1": "Absolute"
+								"0": {
+									"name": "Percentage",
+									"help": "Percentage"
+								},
+								"1": {
+									"name": "Absolute",
+									"help": "Absolute"
+								}
 							}
 						},
 						{
 							"type": "integer",
-							"name": "Precision2",
-							"mask": 224,
-							"shift": 5
+							"name": "size2",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -584,8 +718,11 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 					"help": "Maximum Value",
 					"length": {
 						"name": "Properties3",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size2"
+						}
 					}
 				}
 			]

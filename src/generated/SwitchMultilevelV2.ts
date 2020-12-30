@@ -27,7 +27,8 @@ export interface SwitchMultilevelV2SwitchMultilevelSetData {
 }
 
 export interface SwitchMultilevelV2SwitchMultilevelStartLevelChangeData {
-	// TODO param properties1 type bitfield
+	upDown: boolean; // properties1[6]
+	ignoreStartLevel: boolean; // properties1[5]
 	startLevel: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
 }
@@ -78,8 +79,14 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				}
 			]
@@ -109,8 +116,14 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 					"help": "Value",
 					"length": 1,
 					"values": {
-						"0": "off/disable",
-						"255": "on/enable"
+						"0": {
+							"name": "OffDisable",
+							"help": "off/disable"
+						},
+						"255": {
+							"name": "OnEnable",
+							"help": "on/enable"
+						}
 					}
 				},
 				{
@@ -119,8 +132,14 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 					"help": "Dimming Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly",
-						"255": "Factory default"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						},
+						"255": {
+							"name": "FactoryDefault",
+							"help": "Factory default"
+						}
 					}
 				}
 			]
@@ -151,28 +170,30 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved1",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Ignore Start Level",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "Up/ Down",
+							"name": "upDown",
 							"mask": 64,
 							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "Reserved2",
-							"mask": 128,
-							"shift": 7
+							"name": "ignoreStartLevel",
+							"mask": 32,
+							"shift": 5
+						},
+						{
+							"type": "integer",
+							"name": "reserved1",
+							"mask": 31,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},

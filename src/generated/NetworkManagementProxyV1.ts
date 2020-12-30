@@ -18,16 +18,18 @@ export enum NetworkManagementProxyV1Commands {
 
 export interface NetworkManagementProxyV1NodeInfoCachedGetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	maxAge: number; // properties1[3..0]
 	nodeID: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementProxyV1NodeInfoCachedReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
-	// TODO param properties3 type bitfield
-	reserved: number; // 1 byte unsigned integer
+	status: StatusEnum; // properties1[7..4]
+	age: number; // properties1[3..0]
+	listening: boolean; // properties2[7]
+	zWaveProtocolSpecificPart1: number; // properties2[6..0]
+	opt: boolean; // properties3[7]
+	zWaveProtocolSpecificPart2: number; // properties3[6..0]
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
@@ -42,7 +44,13 @@ export interface NetworkManagementProxyV1NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	nodeListControllerID: number; // 1 byte unsigned integer
-	nodeListData: number; // 0 byte unsigned integer
+	// TODO param nodeListData type bitmask or marker
+}
+
+export enum StatusEnum {
+	StatusOk = 0x0,
+	StatusNotResponding = 0x1,
+	StatusUnknown = 0x2,
 }
 
 export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManagementProxyV1Commands> {
@@ -79,15 +87,16 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Max Age",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "maxAge",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -132,21 +141,30 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Age",
-							"mask": 15,
-							"shift": 0
-						},
-						{
 							"type": "enum",
-							"name": "Status",
+							"name": "status",
 							"mask": 240,
 							"shift": 4,
 							"values": {
-								"0": "STATUS_OK",
-								"1": "STATUS_NOT_RESPONDING",
-								"2": "STATUS_UNKNOWN"
+								"0": {
+									"name": "StatusOk",
+									"help": "STATUS_OK"
+								},
+								"1": {
+									"name": "StatusNotResponding",
+									"help": "STATUS_NOT_RESPONDING"
+								},
+								"2": {
+									"name": "StatusUnknown",
+									"help": "STATUS_UNKNOWN"
+								}
 							}
+						},
+						{
+							"type": "integer",
+							"name": "age",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -157,16 +175,16 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 1",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Listening",
+							"name": "listening",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart1",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -177,16 +195,16 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Z-Wave Protocol Specific Part 2",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Opt",
+							"name": "opt",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zWaveProtocolSpecificPart2",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -194,7 +212,8 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -284,8 +303,14 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "Latest",
-						"1": "May not be the latest"
+						"0": {
+							"name": "Latest",
+							"help": "Latest"
+						},
+						"1": {
+							"name": "MayNotBeTheLatest",
+							"help": "May not be the latest"
+						}
 					}
 				},
 				{

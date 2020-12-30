@@ -96,7 +96,10 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 					"help": "Dimming Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						}
 					}
 				}
 			]
@@ -138,8 +141,14 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 					"help": "Dimming Duration",
 					"length": 1,
 					"values": {
-						"0": "Instantly",
-						"255": "factory default"
+						"0": {
+							"name": "Instantly",
+							"help": "Instantly"
+						},
+						"255": {
+							"name": "FactoryDefault",
+							"help": "factory default"
+						}
 					}
 				}
 			]

@@ -29,10 +29,13 @@ export interface ScheduleV4ScheduleSupportedGetData {
 
 export interface ScheduleV4ScheduleSupportedReportData {
 	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	supportEnableDisable: boolean; // properties1[7]
+	fallbackSupport: boolean; // properties1[6]
+	startTimeSupport: number; // properties1[5..0]
 	numberOfSupportedCC: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
-	// TODO param properties3 type bitfield
+	overrideSupport: boolean; // properties3[7]
+	supportedOverrideTypes: number; // properties3[6..0]
 	scheduleIDBlock: number; // 1 byte unsigned integer
 	numberOfSupportedScheduleBlocks: number; // 1 byte unsigned integer
 }
@@ -41,11 +44,15 @@ export interface ScheduleV4CommandScheduleSetData {
 	scheduleID: number; // 1 byte unsigned integer
 	scheduleIDBlock: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
-	// TODO param properties3 type bitfield
-	// TODO param properties4 type bitfield
-	// TODO param properties5 type bitfield
+	recurrenceOffset: number; // properties1[7..4]
+	startMonth: number; // properties1[3..0]
+	recurrenceMode: RecurrenceModeEnum; // properties2[6..5]
+	startDayOfMonth: number; // properties2[4..0]
+	startWeekday: number; // properties3[6..0]
+	durationType: number; // properties4[7..5]
+	startHour: number; // properties4[4..0]
+	relative: boolean; // properties5[6]
+	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	numberOfCmdToFollow: number; // 1 byte unsigned integer
@@ -55,18 +62,23 @@ export interface ScheduleV4CommandScheduleSetData {
 export interface ScheduleV4CommandScheduleGetData {
 	scheduleID: number; // 1 byte unsigned integer
 	scheduleIDBlock: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	aidRoCtl: boolean; // properties1[7]
 }
 
 export interface ScheduleV4CommandScheduleReportData {
 	scheduleID: number; // 1 byte unsigned integer
 	scheduleIDBlock: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
-	// TODO param properties3 type bitfield
-	// TODO param properties4 type bitfield
-	// TODO param properties5 type bitfield
+	aidRo: number; // properties1[7..4]
+	startMonth: number; // properties1[3..0]
+	aidRoCtl: boolean; // properties2[7]
+	recurrenceMode: RecurrenceModeEnum; // properties2[6..5]
+	startDayOfMonth: number; // properties2[4..0]
+	startWeekday: number; // properties3[6..0]
+	durationType: number; // properties4[7..5]
+	startHour: number; // properties4[4..0]
+	relative: boolean; // properties5[6]
+	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	numberOfCmdToFollow: number; // 1 byte unsigned integer
@@ -90,7 +102,8 @@ export interface ScheduleV4ScheduleStateGetData {
 
 export interface ScheduleV4ScheduleStateReportData {
 	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	reportsToFollow: number; // properties1[7..1]
+	override: boolean; // properties1[0]
 	// TODO param vg1 type group
 	scheduleIDBlock: number; // 1 byte unsigned integer
 }
@@ -103,6 +116,12 @@ export interface ScheduleV4ScheduleSupportedCommandsReportData {
 	scheduleIDBlock: number; // 1 byte unsigned integer
 	commandClassListLength: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
+}
+
+export enum RecurrenceModeEnum {
+	RepeatEveryNHours = 0x0,
+	RepeatEveryNDays = 0x1,
+	RepeatEveryNWeeks = 0x2,
 }
 
 export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
@@ -165,22 +184,22 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Time Support",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "supportEnableDisable",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Fallback Support",
+							"name": "fallbackSupport",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Support Enable/Disable",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startTimeSupport",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -195,9 +214,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of supported CC",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of supported CC"
 					},
 					"params": [
 						{
@@ -214,15 +231,16 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Supported Command",
+									"name": "supportedCommand",
 									"mask": 3,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Reserved",
+									"name": "reserved",
 									"mask": 252,
-									"shift": 2
+									"shift": 2,
+									"reserved": true
 								}
 							]
 						}
@@ -235,16 +253,16 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Supported Override Types",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Override Support",
+							"name": "overrideSupport",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "supportedOverrideTypes",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -307,15 +325,15 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Month",
-							"mask": 15,
-							"shift": 0
+							"name": "recurrenceOffset",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Recurrence Offset",
-							"mask": 240,
-							"shift": 4
+							"name": "startMonth",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -326,27 +344,37 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Day of Month",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved1",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "enum",
-							"name": "Recurrence Mode",
+							"name": "recurrenceMode",
 							"mask": 96,
 							"shift": 5,
 							"values": {
-								"0": "Repeat every n hours",
-								"1": "Repeat every n days",
-								"2": "Repeat every n weeks"
+								"0": {
+									"name": "RepeatEveryNHours",
+									"help": "Repeat every n hours"
+								},
+								"1": {
+									"name": "RepeatEveryNDays",
+									"help": "Repeat every n days"
+								},
+								"2": {
+									"name": "RepeatEveryNWeeks",
+									"help": "Repeat every n weeks"
+								}
 							}
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved1",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startDayOfMonth",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -357,16 +385,17 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Weekday",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved2",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startWeekday",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -378,15 +407,15 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Hour",
-							"mask": 31,
-							"shift": 0
+							"name": "durationType",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Duration Type",
-							"mask": 224,
-							"shift": 5
+							"name": "startHour",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -397,22 +426,23 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Minute",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved3",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Relative",
+							"name": "relative",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved3",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startMinute",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -439,9 +469,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Cmd to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Cmd to Follow"
 					},
 					"params": [
 						{
@@ -455,9 +483,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
-								"name": "Cmd Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Cmd Length"
 							}
 						}
 					]
@@ -502,16 +528,17 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "AID_RO_CTL",
+							"name": "aidRoCtl",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 127,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}
@@ -562,15 +589,15 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Month",
-							"mask": 15,
-							"shift": 0
+							"name": "aidRo",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "AID_RO",
-							"mask": 240,
-							"shift": 4
+							"name": "startMonth",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -581,27 +608,36 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Day of Month",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "aidRoCtl",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "enum",
-							"name": "Recurrence Mode",
+							"name": "recurrenceMode",
 							"mask": 96,
 							"shift": 5,
 							"values": {
-								"0": "Repeat every n hours",
-								"1": "Repeat every n days",
-								"2": "Repeat every n weeks"
+								"0": {
+									"name": "RepeatEveryNHours",
+									"help": "Repeat every n hours"
+								},
+								"1": {
+									"name": "RepeatEveryNDays",
+									"help": "Repeat every n days"
+								},
+								"2": {
+									"name": "RepeatEveryNWeeks",
+									"help": "Repeat every n weeks"
+								}
 							}
 						},
 						{
-							"type": "boolean",
-							"name": "AID_RO_CTL",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startDayOfMonth",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -612,16 +648,17 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Weekday",
-							"mask": 127,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved1",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved1",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startWeekday",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				},
@@ -633,15 +670,15 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Start Hour",
-							"mask": 31,
-							"shift": 0
+							"name": "durationType",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Duration Type",
-							"mask": 224,
-							"shift": 5
+							"name": "startHour",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -652,22 +689,23 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Start Minute",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "reserved2",
+							"mask": 128,
+							"shift": 7,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "Relative",
+							"name": "relative",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved2",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "startMinute",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -694,9 +732,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Cmd to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of Cmd to Follow"
 					},
 					"params": [
 						{
@@ -710,9 +746,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
-								"name": "Cmd Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Cmd Length"
 							}
 						}
 					]
@@ -850,16 +884,16 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Override",
-							"mask": 1,
-							"shift": 0
-						},
-						{
 							"type": "integer",
-							"name": "Reports to Follow",
+							"name": "reportsToFollow",
 							"mask": 254,
 							"shift": 1
+						},
+						{
+							"type": "boolean",
+							"name": "override",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -877,13 +911,13 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Active_ID 1",
+									"name": "activeID1",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Active_ID 2",
+									"name": "activeID2",
 									"mask": 240,
 									"shift": 4
 								}
@@ -962,9 +996,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Command Class List Length",
-						"mask": 255,
-						"shift": 0
+						"name": "Command Class List Length"
 					},
 					"params": [
 						{
@@ -985,9 +1017,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"name": "supportedCommand",
 							"help": "Supported Command",
 							"length": {
-								"name": "Supported Command List Length",
-								"mask": 255,
-								"shift": 0
+								"name": "Supported Command List Length"
 							}
 						}
 					]

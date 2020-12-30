@@ -58,7 +58,7 @@ export interface UserCodeV2ExtendedUserCodeSetData {
 
 export interface UserCodeV2ExtendedUserCodeGetData {
 	userIdentifier: number; // 2 byte unsigned integer
-	// TODO param properties1 type bitfield
+	reportMore: boolean; // properties1[0]
 }
 
 export interface UserCodeV2ExtendedUserCodeReportData {
@@ -68,11 +68,16 @@ export interface UserCodeV2ExtendedUserCodeReportData {
 }
 
 export interface UserCodeV2UserCodeCapabilitiesReportData {
-	// TODO param properties1 type bitfield
+	mCSupport: boolean; // properties1[7]
+	mCDSupport: boolean; // properties1[6]
+	supportedUserIDStatusBitMaskLength: number; // properties1[4..0]
 	// TODO param supportedUserIDStatusBitMask type blob
-	// TODO param properties2 type bitfield
+	uCCSupport: boolean; // properties2[7]
+	mUCRSupport: boolean; // properties2[6]
+	mUCSSupport: boolean; // properties2[5]
+	supportedKeypadModesBitMaskLength: number; // properties2[4..0]
 	// TODO param supportedKeypadModesBitMask type blob
-	// TODO param properties3 type bitfield
+	supportedKeysBitMaskLength: number; // properties3[3..0]
 	// TODO param supportedKeysBitMask type blob
 }
 
@@ -85,17 +90,33 @@ export interface UserCodeV2UserCodeKeypadModeReportData {
 }
 
 export interface UserCodeV2MasterCodeSetData {
-	// TODO param properties1 type bitfield
+	masterCodeLength: number; // properties1[3..0]
 	// TODO param masterCode type blob
 }
 
 export interface UserCodeV2MasterCodeReportData {
-	// TODO param properties1 type bitfield
+	masterCodeLength: number; // properties1[3..0]
 	// TODO param masterCode type blob
 }
 
 export interface UserCodeV2UserCodeChecksumReportData {
 	userCodeChecksum: number; // 2 byte unsigned integer
+}
+
+export enum UserIDStatusEnum {
+	Available = 0x0,
+	EnabledGrantAccess = 0x1,
+	Disabled = 0x2,
+	Messaging = 0x3,
+	PassageMode = 0x4,
+	StatusNotAvailable = 0xfe,
+}
+
+export enum KeypadModeEnum {
+	NormalMode = 0x0,
+	VacationMode = 0x1,
+	PrivacyMode = 0x2,
+	LockedOutMode = 0x3,
 }
 
 export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
@@ -157,12 +178,30 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "User ID Status",
 					"length": 1,
 					"values": {
-						"0": "Available",
-						"1": "Enabled / Grant Access",
-						"2": "Disabled",
-						"3": "Messaging",
-						"4": "Passage Mode",
-						"254": "Status not available"
+						"0": {
+							"name": "Available",
+							"help": "Available"
+						},
+						"1": {
+							"name": "EnabledGrantAccess",
+							"help": "Enabled / Grant Access"
+						},
+						"2": {
+							"name": "Disabled",
+							"help": "Disabled"
+						},
+						"3": {
+							"name": "Messaging",
+							"help": "Messaging"
+						},
+						"4": {
+							"name": "PassageMode",
+							"help": "Passage Mode"
+						},
+						"254": {
+							"name": "StatusNotAvailable",
+							"help": "Status not available"
+						}
 					}
 				},
 				{
@@ -204,12 +243,30 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "User ID Status",
 					"length": 1,
 					"values": {
-						"0": "Available",
-						"1": "Enabled / Grant Access",
-						"2": "Disabled",
-						"3": "Messaging",
-						"4": "Passage Mode",
-						"254": "Status not available"
+						"0": {
+							"name": "Available",
+							"help": "Available"
+						},
+						"1": {
+							"name": "EnabledGrantAccess",
+							"help": "Enabled / Grant Access"
+						},
+						"2": {
+							"name": "Disabled",
+							"help": "Disabled"
+						},
+						"3": {
+							"name": "Messaging",
+							"help": "Messaging"
+						},
+						"4": {
+							"name": "PassageMode",
+							"help": "Passage Mode"
+						},
+						"254": {
+							"name": "StatusNotAvailable",
+							"help": "Status not available"
+						}
 					}
 				},
 				{
@@ -303,9 +360,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of User Codes",
-						"mask": 255,
-						"shift": 0
+						"name": "Number of User Codes"
 					},
 					"params": [
 						{
@@ -320,12 +375,30 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"help": "User ID Status",
 							"length": 1,
 							"values": {
-								"0": "Available",
-								"1": "Enabled / Grant Access",
-								"2": "Disabled",
-								"3": "Messaging",
-								"4": "Passage Mode",
-								"254": "Status not available"
+								"0": {
+									"name": "Available",
+									"help": "Available"
+								},
+								"1": {
+									"name": "EnabledGrantAccess",
+									"help": "Enabled / Grant Access"
+								},
+								"2": {
+									"name": "Disabled",
+									"help": "Disabled"
+								},
+								"3": {
+									"name": "Messaging",
+									"help": "Messaging"
+								},
+								"4": {
+									"name": "PassageMode",
+									"help": "Passage Mode"
+								},
+								"254": {
+									"name": "StatusNotAvailable",
+									"help": "Status not available"
+								}
 							}
 						},
 						{
@@ -336,15 +409,16 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "User Code Length",
+									"name": "userCodeLength",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Reserved",
+									"name": "reserved",
 									"mask": 240,
-									"shift": 4
+									"shift": 4,
+									"reserved": true
 								}
 							]
 						},
@@ -354,8 +428,11 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"help": "User Code",
 							"length": {
 								"name": "Properties1",
-								"mask": 15,
-								"shift": 0
+								"bitfield": {
+									"mask": 15,
+									"shift": 0,
+									"name": "userCodeLength"
+								}
 							}
 						}
 					]
@@ -394,16 +471,17 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Report more",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "reportMore",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}
@@ -445,8 +523,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"optional": {
-						"name": "Number of User Codes",
-						"mask": 255
+						"name": "Number of User Codes"
 					},
 					"length": "auto",
 					"params": [
@@ -462,12 +539,30 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"help": "User ID Status",
 							"length": 1,
 							"values": {
-								"0": "Available",
-								"1": "Enabled / Grant Access",
-								"2": "Disabled",
-								"3": "Messaging",
-								"4": "Passage Mode",
-								"254": "Status not available"
+								"0": {
+									"name": "Available",
+									"help": "Available"
+								},
+								"1": {
+									"name": "EnabledGrantAccess",
+									"help": "Enabled / Grant Access"
+								},
+								"2": {
+									"name": "Disabled",
+									"help": "Disabled"
+								},
+								"3": {
+									"name": "Messaging",
+									"help": "Messaging"
+								},
+								"4": {
+									"name": "PassageMode",
+									"help": "Passage Mode"
+								},
+								"254": {
+									"name": "StatusNotAvailable",
+									"help": "Status not available"
+								}
 							}
 						},
 						{
@@ -478,15 +573,16 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "User Code Length",
+									"name": "userCodeLength",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "integer",
-									"name": "Reserved",
+									"name": "reserved",
 									"mask": 240,
-									"shift": 4
+									"shift": 4,
+									"reserved": true
 								}
 							]
 						},
@@ -496,8 +592,11 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"help": "User Code",
 							"length": {
 								"name": "Properties1",
-								"mask": 15,
-								"shift": 0
+								"bitfield": {
+									"mask": 15,
+									"shift": 0,
+									"name": "userCodeLength"
+								}
 							}
 						}
 					]
@@ -550,28 +649,29 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Supported User ID Status Bit Mask Length",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "mCSupport",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Reserved",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "MCD Support",
+							"name": "mCDSupport",
 							"mask": 64,
 							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "MC Support",
-							"mask": 128,
-							"shift": 7
+							"name": "reserved",
+							"mask": 32,
+							"shift": 5,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "supportedUserIDStatusBitMaskLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -581,8 +681,11 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "Supported User ID Status Bit Mask",
 					"length": {
 						"name": "Properties1",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "supportedUserIDStatusBitMaskLength"
+						}
 					}
 				},
 				{
@@ -592,28 +695,28 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Supported Keypad Modes Bit Mask Length",
-							"mask": 31,
-							"shift": 0
+							"type": "boolean",
+							"name": "uCCSupport",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "MUCS Support",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "MUCR Support",
+							"name": "mUCRSupport",
 							"mask": 64,
 							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "UCC Support",
-							"mask": 128,
-							"shift": 7
+							"name": "mUCSSupport",
+							"mask": 32,
+							"shift": 5
+						},
+						{
+							"type": "integer",
+							"name": "supportedKeypadModesBitMaskLength",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
@@ -623,8 +726,11 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "Supported Keypad Modes Bit Mask",
 					"length": {
 						"name": "Properties2",
-						"mask": 31,
-						"shift": 0
+						"bitfield": {
+							"mask": 31,
+							"shift": 0,
+							"name": "supportedKeypadModesBitMaskLength"
+						}
 					}
 				},
 				{
@@ -635,15 +741,16 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Supported Keys Bit Mask Length",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "supportedKeysBitMaskLength",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -653,8 +760,11 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "Supported Keys Bit Mask",
 					"length": {
 						"name": "Properties3",
-						"mask": 15,
-						"shift": 0
+						"bitfield": {
+							"mask": 15,
+							"shift": 0,
+							"name": "supportedKeysBitMaskLength"
+						}
 					}
 				}
 			]
@@ -684,10 +794,22 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "Keypad Mode",
 					"length": 1,
 					"values": {
-						"0": "Normal mode",
-						"1": "Vacation mode",
-						"2": "Privacy mode",
-						"3": "Locked Out mode"
+						"0": {
+							"name": "NormalMode",
+							"help": "Normal mode"
+						},
+						"1": {
+							"name": "VacationMode",
+							"help": "Vacation mode"
+						},
+						"2": {
+							"name": "PrivacyMode",
+							"help": "Privacy mode"
+						},
+						"3": {
+							"name": "LockedOutMode",
+							"help": "Locked Out mode"
+						}
 					}
 				}
 			]
@@ -737,10 +859,22 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "Keypad Mode",
 					"length": 1,
 					"values": {
-						"0": "Normal mode",
-						"1": "Vacation mode",
-						"2": "Privacy mode",
-						"3": "Locked Out mode"
+						"0": {
+							"name": "NormalMode",
+							"help": "Normal mode"
+						},
+						"1": {
+							"name": "VacationMode",
+							"help": "Vacation mode"
+						},
+						"2": {
+							"name": "PrivacyMode",
+							"help": "Privacy mode"
+						},
+						"3": {
+							"name": "LockedOutMode",
+							"help": "Locked Out mode"
+						}
 					}
 				}
 			]
@@ -772,15 +906,16 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Master Code Length",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "masterCodeLength",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -790,8 +925,11 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "Master Code",
 					"length": {
 						"name": "Properties1",
-						"mask": 15,
-						"shift": 0
+						"bitfield": {
+							"mask": 15,
+							"shift": 0,
+							"name": "masterCodeLength"
+						}
 					}
 				}
 			]
@@ -843,15 +981,16 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Master Code Length",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "masterCodeLength",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -861,8 +1000,11 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"help": "Master Code",
 					"length": {
 						"name": "Properties1",
-						"mask": 15,
-						"shift": 0
+						"bitfield": {
+							"mask": 15,
+							"shift": 0,
+							"name": "masterCodeLength"
+						}
 					}
 				}
 			]
@@ -944,20 +1086,4 @@ export namespace UserCodeV2 {
 	export type MasterCodeReport = InstanceType<typeof UserCodeV2.MasterCodeReport>;
 	export type UserCodeChecksumGet = InstanceType<typeof UserCodeV2.UserCodeChecksumGet>;
 	export type UserCodeChecksumReport = InstanceType<typeof UserCodeV2.UserCodeChecksumReport>;
-}
-
-export enum UserIDStatusEnum {
-	Available = 0x0,
-	EnabledGrantAccess = 0x1,
-	Disabled = 0x2,
-	Messaging = 0x3,
-	PassageMode = 0x4,
-	StatusNotAvailable = 0xfe,
-}
-
-export enum KeypadModeEnum {
-	NormalMode = 0x0,
-	VacationMode = 0x1,
-	PrivacyMode = 0x2,
-	LockedOutMode = 0x3,
 }

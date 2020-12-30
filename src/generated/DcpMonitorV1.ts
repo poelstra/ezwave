@@ -44,7 +44,7 @@ export interface DcpMonitorV1DcpListReportData {
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	dcpId: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	numberOfDC: number; // properties1[1..0]
 	// TODO param vg1 type group
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
@@ -181,11 +181,26 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 					"help": "Event status",
 					"length": 1,
 					"values": {
-						"0": "Reserved",
-						"1": "Event Started",
-						"2": "Event Completed",
-						"3": "Event Rejected",
-						"4": "Event not Applicable"
+						"0": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"1": {
+							"name": "EventStarted",
+							"help": "Event Started"
+						},
+						"2": {
+							"name": "EventCompleted",
+							"help": "Event Completed"
+						},
+						"3": {
+							"name": "EventRejected",
+							"help": "Event Rejected"
+						},
+						"4": {
+							"name": "EventNotApplicable",
+							"help": "Event not Applicable"
+						}
 					}
 				}
 			]
@@ -285,15 +300,16 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of DC",
-							"mask": 3,
-							"shift": 0
+							"name": "reserved",
+							"mask": 252,
+							"shift": 2,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 252,
-							"shift": 2
+							"name": "numberOfDC",
+							"mask": 3,
+							"shift": 0
 						}
 					]
 				},
@@ -302,9 +318,7 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Reports to Follow",
-						"mask": 255,
-						"shift": 0
+						"name": "Reports to Follow"
 					},
 					"params": [
 						{

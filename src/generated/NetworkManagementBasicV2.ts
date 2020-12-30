@@ -23,14 +23,13 @@ export enum NetworkManagementBasicV2Commands {
 
 export interface NetworkManagementBasicV2LearnModeSetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	returnInterviewStatus: boolean; // properties1[0]
 	mode: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementBasicV2LearnModeSetStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	newNodeID: number; // 1 byte unsigned integer
 	grantedKeys: number; // 1 byte unsigned integer
 	kEXFailType: number; // 1 byte unsigned integer
@@ -39,9 +38,8 @@ export interface NetworkManagementBasicV2LearnModeSetStatusData {
 
 export interface NetworkManagementBasicV2NodeInformationSendData {
 	seqNo: number; // 1 byte unsigned integer
-	reserved: number; // 1 byte unsigned integer
 	destinationNodeID: number; // 1 byte unsigned integer
-	txOptions: number; // 0 byte unsigned integer
+	// TODO param txOptions type bitmask or marker
 }
 
 export interface NetworkManagementBasicV2NetworkUpdateRequestData {
@@ -64,12 +62,12 @@ export interface NetworkManagementBasicV2DefaultSetCompleteData {
 
 export interface NetworkManagementBasicV2DskGetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	addMode: boolean; // properties1[0]
 }
 
 export interface NetworkManagementBasicV2DskReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	addMode: boolean; // properties1[0]
 	// TODO param dsk type blob
 }
 
@@ -106,16 +104,17 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Return interview status",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "returnInterviewStatus",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -125,9 +124,18 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"help": "Mode",
 					"length": 1,
 					"values": {
-						"0": "LEARN_MODE_SET_DISABLE",
-						"1": "LEARN_MODE_SET_CLASSIC",
-						"2": "LEARN_MODE_SET_NWI"
+						"0": {
+							"name": "LearnModeSetDisable",
+							"help": "LEARN_MODE_SET_DISABLE"
+						},
+						"1": {
+							"name": "LearnModeSetClassic",
+							"help": "LEARN_MODE_SET_CLASSIC"
+						},
+						"2": {
+							"name": "LearnModeSetNwi",
+							"help": "LEARN_MODE_SET_NWI"
+						}
 					}
 				}
 			]
@@ -163,17 +171,30 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"1": "LEARN_MODE_FAILED_TIMEOUT",
-						"6": "LEARN_MODE_DONE",
-						"7": "LEARN_MODE_FAILED",
-						"9": "LEARN_MODE_SECURITY_FAILED"
+						"1": {
+							"name": "LearnModeFailedTimeout",
+							"help": "LEARN_MODE_FAILED_TIMEOUT"
+						},
+						"6": {
+							"name": "LearnModeDone",
+							"help": "LEARN_MODE_DONE"
+						},
+						"7": {
+							"name": "LearnModeFailed",
+							"help": "LEARN_MODE_FAILED"
+						},
+						"9": {
+							"name": "LearnModeSecurityFailed",
+							"help": "LEARN_MODE_SECURITY_FAILED"
+						}
 					}
 				},
 				{
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -231,7 +252,8 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"type": "integer",
 					"name": "reserved",
 					"help": "Reserved",
-					"length": 1
+					"length": 1,
+					"reserved": true
 				},
 				{
 					"type": "integer",
@@ -306,11 +328,26 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "SUC_UPDATE_DONE",
-						"1": "SUC_UPDATE_ABORT",
-						"2": "SUC_UPDATE_WAIT",
-						"3": "SUC_UPDATE_DISABLED",
-						"4": "SUC_UPDATE_OVERFLOW"
+						"0": {
+							"name": "SucUpdateDone",
+							"help": "SUC_UPDATE_DONE"
+						},
+						"1": {
+							"name": "SucUpdateAbort",
+							"help": "SUC_UPDATE_ABORT"
+						},
+						"2": {
+							"name": "SucUpdateWait",
+							"help": "SUC_UPDATE_WAIT"
+						},
+						"3": {
+							"name": "SucUpdateDisabled",
+							"help": "SUC_UPDATE_DISABLED"
+						},
+						"4": {
+							"name": "SucUpdateOverflow",
+							"help": "SUC_UPDATE_OVERFLOW"
+						}
 					}
 				}
 			]
@@ -373,8 +410,14 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"6": "DEFAULT_SET_DONE",
-						"7": "DEFAULT_SET_BUSY"
+						"6": {
+							"name": "DefaultSetDone",
+							"help": "DEFAULT_SET_DONE"
+						},
+						"7": {
+							"name": "DefaultSetBusy",
+							"help": "DEFAULT_SET_BUSY"
+						}
 					}
 				}
 			]
@@ -411,16 +454,17 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Add mode",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "addMode",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}
@@ -458,16 +502,17 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Add mode",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "addMode",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},

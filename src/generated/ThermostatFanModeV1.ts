@@ -18,15 +18,22 @@ export enum ThermostatFanModeV1Commands {
 }
 
 export interface ThermostatFanModeV1ThermostatFanModeReportData {
-	// TODO param level type bitfield
+	fanMode: FanModeEnum; // level[3..0]
 }
 
 export interface ThermostatFanModeV1ThermostatFanModeSetData {
-	// TODO param level type bitfield
+	fanMode: FanModeEnum; // level[3..0]
 }
 
 export interface ThermostatFanModeV1ThermostatFanModeSupportedReportData {
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
+}
+
+export enum FanModeEnum {
+	AutoLow = 0x0,
+	Low = 0x1,
+	AutoHigh = 0x2,
+	High = 0x3,
 }
 
 export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1Commands> {
@@ -76,22 +83,35 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Fan Mode",
+							"name": "fanMode",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High"
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}
@@ -123,22 +143,35 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Fan Mode",
+							"name": "fanMode",
 							"mask": 15,
 							"shift": 0,
 							"values": {
-								"0": "Auto Low",
-								"1": "Low",
-								"2": "Auto High",
-								"3": "High"
+								"0": {
+									"name": "AutoLow",
+									"help": "Auto Low"
+								},
+								"1": {
+									"name": "Low",
+									"help": "Low"
+								},
+								"2": {
+									"name": "AutoHigh",
+									"help": "Auto High"
+								},
+								"3": {
+									"name": "High",
+									"help": "High"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
 						}
 					]
 				}

@@ -21,15 +21,19 @@ export interface ScreenMdV2ScreenMdGetData {
 }
 
 export interface ScreenMdV2ScreenMdReportData {
-	// TODO param properties1 type bitfield
+	moreData: boolean; // properties1[7]
+	screenSettings: number; // properties1[5..3]
+	charPresentation: number; // properties1[2..0]
 	// TODO param vg type group
-	// TODO param properties2 type bitfield
+	screenTimeout: boolean; // properties2[0]
 }
 
 export interface ScreenMdV2ScreenMdReportLegacyData {
-	// TODO param properties1 type bitfield
+	moreData: boolean; // properties1[7]
+	screenSettings: number; // properties1[5..3]
+	charPresentation: number; // properties1[2..0]
 	// TODO param vg type group
-	// TODO param properties2 type bitfield
+	screenTimeout: boolean; // properties2[0]
 }
 
 export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
@@ -93,28 +97,29 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"type": "boolean",
+							"name": "moreData",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "boolean",
+							"name": "reserved1",
+							"mask": 64,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Screen Settings",
+							"name": "screenSettings",
 							"mask": 56,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved1",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"type": "boolean",
-							"name": "More Data",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -132,19 +137,19 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Line Number",
+									"name": "lineNumber",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Clear",
+									"name": "clear",
 									"mask": 16,
 									"shift": 4
 								},
 								{
 									"type": "integer",
-									"name": "Line Settings",
+									"name": "lineSettings",
 									"mask": 224,
 									"shift": 5
 								}
@@ -167,9 +172,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"name": "character",
 							"help": "Character",
 							"length": {
-								"name": "Number of Characters",
-								"mask": 255,
-								"shift": 0
+								"name": "Number of Characters"
 							}
 						}
 					]
@@ -181,16 +184,17 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Screen Timeout",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved2",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved2",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "screenTimeout",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}
@@ -222,28 +226,29 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Char. Presentation",
-							"mask": 7,
-							"shift": 0
+							"type": "boolean",
+							"name": "moreData",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"type": "boolean",
+							"name": "reserved1",
+							"mask": 64,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Screen Settings",
+							"name": "screenSettings",
 							"mask": 56,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
-							"name": "Reserved1",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"type": "boolean",
-							"name": "More Data",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "charPresentation",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -261,19 +266,19 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"fields": [
 								{
 									"type": "integer",
-									"name": "Line Number",
+									"name": "lineNumber",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"type": "boolean",
-									"name": "Clear",
+									"name": "clear",
 									"mask": 16,
 									"shift": 4
 								},
 								{
 									"type": "integer",
-									"name": "Line Settings",
+									"name": "lineSettings",
 									"mask": 224,
 									"shift": 5
 								}
@@ -296,9 +301,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"name": "character",
 							"help": "Character",
 							"length": {
-								"name": "Number of Characters",
-								"mask": 255,
-								"shift": 0
+								"name": "Number of Characters"
 							}
 						}
 					]
@@ -310,16 +313,17 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
-							"name": "Screen Timeout",
-							"mask": 1,
-							"shift": 0
+							"type": "integer",
+							"name": "reserved2",
+							"mask": 254,
+							"shift": 1,
+							"reserved": true
 						},
 						{
-							"type": "integer",
-							"name": "Reserved2",
-							"mask": 254,
-							"shift": 1
+							"type": "boolean",
+							"name": "screenTimeout",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				}

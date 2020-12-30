@@ -17,14 +17,19 @@ export enum SensorConfigurationV1Commands {
 
 export interface SensorConfigurationV1SensorTriggerLevelReportData {
 	sensorType: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	precision: number; // properties1[7..5]
+	scale: number; // properties1[4..3]
+	size: number; // properties1[2..0]
 	// TODO param triggerValue type blob
 }
 
 export interface SensorConfigurationV1SensorTriggerLevelSetData {
-	// TODO param properties1 type bitfield
+	default: boolean; // properties1[7]
+	current: boolean; // properties1[6]
 	sensorType: number; // 1 byte unsigned integer
-	// TODO param properties2 type bitfield
+	precision: number; // properties2[7..5]
+	scale: number; // properties2[4..3]
+	size: number; // properties2[2..0]
 	// TODO param triggerValue type blob
 }
 
@@ -75,19 +80,58 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"1": "Temperature",
-						"2": "General purpose value",
-						"3": "Luminance",
-						"4": "Power",
-						"5": "Relative humidity",
-						"6": "Velocity",
-						"7": "Direction",
-						"8": "Atmospheric pressure",
-						"9": "Barometric pressure",
-						"10": "Solar radiation",
-						"11": "Dew point",
-						"12": "Rain rate",
-						"13": "Tide level"
+						"1": {
+							"name": "Temperature",
+							"help": "Temperature"
+						},
+						"2": {
+							"name": "GeneralPurposeValue",
+							"help": "General purpose value"
+						},
+						"3": {
+							"name": "Luminance",
+							"help": "Luminance"
+						},
+						"4": {
+							"name": "Power",
+							"help": "Power"
+						},
+						"5": {
+							"name": "RelativeHumidity",
+							"help": "Relative humidity"
+						},
+						"6": {
+							"name": "Velocity",
+							"help": "Velocity"
+						},
+						"7": {
+							"name": "Direction",
+							"help": "Direction"
+						},
+						"8": {
+							"name": "AtmosphericPressure",
+							"help": "Atmospheric pressure"
+						},
+						"9": {
+							"name": "BarometricPressure",
+							"help": "Barometric pressure"
+						},
+						"10": {
+							"name": "SolarRadiation",
+							"help": "Solar radiation"
+						},
+						"11": {
+							"name": "DewPoint",
+							"help": "Dew point"
+						},
+						"12": {
+							"name": "RainRate",
+							"help": "Rain rate"
+						},
+						"13": {
+							"name": "TideLevel",
+							"help": "Tide level"
+						}
 					}
 				},
 				{
@@ -98,21 +142,21 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -122,8 +166,11 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"help": "Trigger Value",
 					"length": {
 						"name": "Properties1",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]
@@ -154,22 +201,23 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Reserved",
-							"mask": 63,
-							"shift": 0
+							"type": "boolean",
+							"name": "default",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Current",
+							"name": "current",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Default",
-							"mask": 128,
-							"shift": 7
+							"type": "integer",
+							"name": "reserved",
+							"mask": 63,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -179,19 +227,58 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"help": "Sensor Type",
 					"length": 1,
 					"values": {
-						"1": "Temperature",
-						"2": "General purpose value",
-						"3": "Luminance",
-						"4": "Power",
-						"5": "Relative humidity",
-						"6": "Velocity",
-						"7": "Direction",
-						"8": "Atmospheric pressure",
-						"9": "Barometric pressure",
-						"10": "Solar radiation",
-						"11": "Dew point",
-						"12": "Rain rate",
-						"13": "Tide level"
+						"1": {
+							"name": "Temperature",
+							"help": "Temperature"
+						},
+						"2": {
+							"name": "GeneralPurposeValue",
+							"help": "General purpose value"
+						},
+						"3": {
+							"name": "Luminance",
+							"help": "Luminance"
+						},
+						"4": {
+							"name": "Power",
+							"help": "Power"
+						},
+						"5": {
+							"name": "RelativeHumidity",
+							"help": "Relative humidity"
+						},
+						"6": {
+							"name": "Velocity",
+							"help": "Velocity"
+						},
+						"7": {
+							"name": "Direction",
+							"help": "Direction"
+						},
+						"8": {
+							"name": "AtmosphericPressure",
+							"help": "Atmospheric pressure"
+						},
+						"9": {
+							"name": "BarometricPressure",
+							"help": "Barometric pressure"
+						},
+						"10": {
+							"name": "SolarRadiation",
+							"help": "Solar radiation"
+						},
+						"11": {
+							"name": "DewPoint",
+							"help": "Dew point"
+						},
+						"12": {
+							"name": "RainRate",
+							"help": "Rain rate"
+						},
+						"13": {
+							"name": "TideLevel",
+							"help": "Tide level"
+						}
 					}
 				},
 				{
@@ -202,21 +289,21 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Size",
-							"mask": 7,
-							"shift": 0
+							"name": "precision",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Scale",
+							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Precision",
-							"mask": 224,
-							"shift": 5
+							"name": "size",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -226,8 +313,11 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"help": "Trigger Value",
 					"length": {
 						"name": "Properties2",
-						"mask": 7,
-						"shift": 0
+						"bitfield": {
+							"mask": 7,
+							"shift": 0,
+							"name": "size"
+						}
 					}
 				}
 			]

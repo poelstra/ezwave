@@ -70,8 +70,14 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 					"help": "Lock State",
 					"length": 1,
 					"values": {
-						"0": "unlocked",
-						"1": "locked"
+						"0": {
+							"name": "Unlocked",
+							"help": "unlocked"
+						},
+						"1": {
+							"name": "Locked",
+							"help": "locked"
+						}
 					}
 				}
 			]
@@ -101,8 +107,14 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 					"help": "Lock State",
 					"length": 1,
 					"values": {
-						"0": "unlocked",
-						"1": "locked"
+						"0": {
+							"name": "Unlocked",
+							"help": "unlocked"
+						},
+						"1": {
+							"name": "Locked",
+							"help": "locked"
+						}
 					}
 				}
 			]

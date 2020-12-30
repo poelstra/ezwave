@@ -28,7 +28,8 @@ export interface SecurityPanelZoneV1SecurityPanelZoneStateReportData {
 }
 
 export interface SecurityPanelZoneV1SecurityPanelZoneSupportedReportData {
-	// TODO param parameters1 type bitfield
+	zm: boolean; // parameters1[7]
+	zonesSupported: number; // parameters1[6..0]
 }
 
 export interface SecurityPanelZoneV1SecurityPanelZoneTypeGetData {
@@ -119,10 +120,22 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 					"help": "Zone State",
 					"length": 1,
 					"values": {
-						"0": "Faulted",
-						"1": "Not-Faulted",
-						"2": "Bypass Faulted",
-						"3": "Bypass Not-Faulted"
+						"0": {
+							"name": "Faulted",
+							"help": "Faulted"
+						},
+						"1": {
+							"name": "NotFaulted",
+							"help": "Not-Faulted"
+						},
+						"2": {
+							"name": "BypassFaulted",
+							"help": "Bypass Faulted"
+						},
+						"3": {
+							"name": "BypassNotFaulted",
+							"help": "Bypass Not-Faulted"
+						}
 					}
 				}
 			]
@@ -153,16 +166,16 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Zones Supported",
-							"mask": 127,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "ZM",
+							"name": "zm",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "integer",
+							"name": "zonesSupported",
+							"mask": 127,
+							"shift": 0
 						}
 					]
 				}
@@ -226,8 +239,14 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 					"help": "Zone Type",
 					"length": 1,
 					"values": {
-						"1": "Alarm Zone",
-						"2": "Notification Zone"
+						"1": {
+							"name": "AlarmZone",
+							"help": "Alarm Zone"
+						},
+						"2": {
+							"name": "NotificationZone",
+							"help": "Notification Zone"
+						}
 					}
 				}
 			]

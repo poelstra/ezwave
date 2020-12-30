@@ -23,7 +23,7 @@ export interface SimpleAvControlV1SimpleAvControlReportData {
 
 export interface SimpleAvControlV1SimpleAvControlSetData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	keyAttributes: number; // properties1[2..0]
 	reserved2: number; // 2 byte unsigned integer
 	// TODO param vg type group
 }
@@ -34,7 +34,7 @@ export interface SimpleAvControlV1SimpleAvControlSupportedGetData {
 
 export interface SimpleAvControlV1SimpleAvControlSupportedReportData {
 	reportNo: number; // 1 byte unsigned integer
-	bitMask: number; // 0 byte unsigned integer
+	// TODO param bitMask type bitmask or marker
 }
 
 export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Commands> {
@@ -118,15 +118,16 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Key Attributes",
-							"mask": 7,
-							"shift": 0
+							"name": "reserved",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 248,
-							"shift": 3
+							"name": "keyAttributes",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},

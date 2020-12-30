@@ -16,7 +16,8 @@ export enum MeterTblPushV1Commands {
 }
 
 export interface MeterTblPushV1MeterTblPushConfigurationReportData {
-	// TODO param properties1 type bitfield
+	ps: boolean; // properties1[4]
+	operatingStatusPushMode: number; // properties1[3..0]
 	pushDataset: number; // 3 byte unsigned integer
 	intervalMonths: number; // 1 byte unsigned integer
 	intervalDays: number; // 1 byte unsigned integer
@@ -26,7 +27,8 @@ export interface MeterTblPushV1MeterTblPushConfigurationReportData {
 }
 
 export interface MeterTblPushV1MeterTblPushConfigurationSetData {
-	// TODO param properties1 type bitfield
+	ps: boolean; // properties1[4]
+	operatingStatusPushMode: number; // properties1[3..0]
 	pushDataset: number; // 3 byte unsigned integer
 	intervalMonths: number; // 1 byte unsigned integer
 	intervalDays: number; // 1 byte unsigned integer
@@ -83,21 +85,22 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Operating Status Push Mode",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "PS",
+							"name": "ps",
 							"mask": 16,
 							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "operatingStatusPushMode",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -167,21 +170,22 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Operating Status Push Mode",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "boolean",
-							"name": "PS",
+							"name": "ps",
 							"mask": 16,
 							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "operatingStatusPushMode",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},

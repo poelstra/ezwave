@@ -15,7 +15,7 @@ export enum ScreenAttributesV1Commands {
 }
 
 export interface ScreenAttributesV1ScreenAttributesReportData {
-	// TODO param properties1 type bitfield
+	numberOfLines: number; // properties1[4..0]
 	numberOfCharactersPerLine: number; // 1 byte unsigned integer
 	sizeOfLineBuffer: number; // 1 byte unsigned integer
 	numericalPresentationOfACharacter: number; // 1 byte unsigned integer
@@ -69,15 +69,16 @@ export class ScreenAttributesV1 extends CommandClassPacket<ScreenAttributesV1Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Number of Lines",
-							"mask": 31,
-							"shift": 0
+							"name": "reserved",
+							"mask": 224,
+							"shift": 5,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 224,
-							"shift": 5
+							"name": "numberOfLines",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},

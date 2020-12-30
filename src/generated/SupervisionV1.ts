@@ -15,15 +15,25 @@ export enum SupervisionV1Commands {
 }
 
 export interface SupervisionV1SupervisionGetData {
-	// TODO param properties1 type bitfield
+	statusUpdates: boolean; // properties1[7]
+	sessionID: number; // properties1[5..0]
 	encapsulatedCommandLength: number; // 1 byte unsigned integer
 	// TODO param encapsulatedCommand type blob
 }
 
 export interface SupervisionV1SupervisionReportData {
-	// TODO param properties1 type bitfield
+	moreStatusUpdates: boolean; // properties1[7]
+	sessionID: number; // properties1[5..0]
 	status: StatusEnum; // 1 byte enum value
 	duration: number; // 1 byte unsigned integer
+}
+
+export enum StatusEnum {
+	NoSupport = 0x0,
+	Working = 0x1,
+	Fail = 0x2,
+	Busy = 0x3,
+	Success = 0xff,
 }
 
 export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
@@ -53,22 +63,23 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Session ID",
-							"mask": 63,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Reserved",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"type": "boolean",
-							"name": "Status Updates",
+							"name": "statusUpdates",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "boolean",
+							"name": "reserved",
+							"mask": 64,
+							"shift": 6,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "sessionID",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -83,9 +94,7 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 					"name": "encapsulatedCommand",
 					"help": "Encapsulated Command",
 					"length": {
-						"name": "Encapsulated Command Length",
-						"mask": 255,
-						"shift": 0
+						"name": "Encapsulated Command Length"
 					},
 					"blobType": "CMD_ENCAP"
 				}
@@ -117,22 +126,23 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
-							"name": "Session ID",
-							"mask": 63,
-							"shift": 0
-						},
-						{
 							"type": "boolean",
-							"name": "Reserved",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"type": "boolean",
-							"name": "More Status Updates",
+							"name": "moreStatusUpdates",
 							"mask": 128,
 							"shift": 7
+						},
+						{
+							"type": "boolean",
+							"name": "reserved",
+							"mask": 64,
+							"shift": 6,
+							"reserved": true
+						},
+						{
+							"type": "integer",
+							"name": "sessionID",
+							"mask": 63,
+							"shift": 0
 						}
 					]
 				},
@@ -142,11 +152,26 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 					"help": "Status",
 					"length": 1,
 					"values": {
-						"0": "NO_SUPPORT",
-						"1": "WORKING",
-						"2": "FAIL",
-						"3": "BUSY",
-						"255": "SUCCESS"
+						"0": {
+							"name": "NoSupport",
+							"help": "NO_SUPPORT"
+						},
+						"1": {
+							"name": "Working",
+							"help": "WORKING"
+						},
+						"2": {
+							"name": "Fail",
+							"help": "FAIL"
+						},
+						"3": {
+							"name": "Busy",
+							"help": "BUSY"
+						},
+						"255": {
+							"name": "Success",
+							"help": "SUCCESS"
+						}
 					}
 				},
 				{
@@ -171,12 +196,4 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 export namespace SupervisionV1 {
 	export type SupervisionGet = InstanceType<typeof SupervisionV1.SupervisionGet>;
 	export type SupervisionReport = InstanceType<typeof SupervisionV1.SupervisionReport>;
-}
-
-export enum StatusEnum {
-	NoSupport = 0x0,
-	Working = 0x1,
-	Fail = 0x2,
-	Busy = 0x3,
-	Success = 0xff,
 }

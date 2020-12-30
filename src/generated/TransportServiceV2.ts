@@ -18,9 +18,10 @@ export enum TransportServiceV2Commands {
 }
 
 export interface TransportServiceV2CommandFirstSegmentData {
-	// TODO param properties1 type bitfield
+	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
-	// TODO param properties2 type bitfield
+	sessionID: number; // properties2[7..4]
+	ext: boolean; // properties2[3]
 	headerExtensionLength?: number; // 1 byte unsigned integer
 	// TODO param headerExtension type blob
 	// TODO param payload type blob
@@ -28,25 +29,25 @@ export interface TransportServiceV2CommandFirstSegmentData {
 }
 
 export interface TransportServiceV2CommandSegmentCompleteData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	sessionID: number; // properties2[7..4]
 }
 
 export interface TransportServiceV2CommandSegmentRequestData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
+	sessionID: number; // properties2[7..4]
+	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
 }
 
 export interface TransportServiceV2CommandSegmentWaitData {
-	// TODO param properties1 type bitfield
 	pendingFragments: number; // 1 byte unsigned integer
 }
 
 export interface TransportServiceV2CommandSubsequentSegmentData {
-	// TODO param properties1 type bitfield
+	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
-	// TODO param properties2 type bitfield
+	sessionID: number; // properties2[7..4]
+	ext: boolean; // properties2[3]
+	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
 	headerExtensionLength?: number; // 1 byte unsigned integer
 	// TODO param headerExtension type blob
@@ -83,7 +84,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "datagram_size_1",
+							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
 						}
@@ -104,21 +105,22 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 7,
-							"shift": 0
+							"name": "sessionID",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "boolean",
-							"name": "Ext",
+							"name": "ext",
 							"mask": 8,
 							"shift": 3
 						},
 						{
 							"type": "integer",
-							"name": "Session ID",
-							"mask": 240,
-							"shift": 4
+							"name": "reserved",
+							"mask": 7,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				},
@@ -128,7 +130,11 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"help": "Header Extension Length",
 					"optional": {
 						"name": "Properties2",
-						"mask": 8
+						"bitfield": {
+							"mask": 8,
+							"shift": 3,
+							"name": "ext"
+						}
 					},
 					"length": 1
 				},
@@ -138,12 +144,14 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"help": "Header Extension",
 					"optional": {
 						"name": "Properties2",
-						"mask": 8
+						"bitfield": {
+							"mask": 8,
+							"shift": 3,
+							"name": "ext"
+						}
 					},
 					"length": {
-						"name": "Header Extension Length",
-						"mask": 255,
-						"shift": 0
+						"name": "Header Extension Length"
 					}
 				},
 				{
@@ -190,7 +198,8 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 							"type": "integer",
 							"name": "reserved",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"reserved": true
 						}
 					],
 					"cmdMask": 7
@@ -203,15 +212,16 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "reserved2",
-							"mask": 15,
-							"shift": 0
+							"name": "sessionID",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Session ID",
-							"mask": 240,
-							"shift": 4
+							"name": "reserved2",
+							"mask": 15,
+							"shift": 0,
+							"reserved": true
 						}
 					]
 				}
@@ -247,7 +257,8 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 							"type": "integer",
 							"name": "reserved",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"reserved": true
 						}
 					],
 					"cmdMask": 7
@@ -260,21 +271,22 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "datagram_offset_1",
-							"mask": 7,
-							"shift": 0
+							"name": "sessionID",
+							"mask": 240,
+							"shift": 4
 						},
 						{
 							"type": "boolean",
 							"name": "reserved2",
 							"mask": 8,
-							"shift": 3
+							"shift": 3,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Session ID",
-							"mask": 240,
-							"shift": 4
+							"name": "datagramOffset1",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -316,7 +328,8 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 							"type": "integer",
 							"name": "reserved",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"reserved": true
 						}
 					],
 					"cmdMask": 7
@@ -357,7 +370,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "datagram_size_1",
+							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
 						}
@@ -378,21 +391,21 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"type": "integer",
-							"name": "datagram_offset_1",
-							"mask": 7,
-							"shift": 0
-						},
-						{
-							"type": "integer",
-							"name": "Session ID",
+							"name": "sessionID",
 							"mask": 240,
 							"shift": 4
 						},
 						{
 							"type": "boolean",
-							"name": "Ext",
+							"name": "ext",
 							"mask": 8,
 							"shift": 3
+						},
+						{
+							"type": "integer",
+							"name": "datagramOffset1",
+							"mask": 7,
+							"shift": 0
 						}
 					]
 				},
@@ -408,7 +421,11 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"help": "Header Extension Length",
 					"optional": {
 						"name": "Properties2",
-						"mask": 8
+						"bitfield": {
+							"mask": 8,
+							"shift": 3,
+							"name": "ext"
+						}
 					},
 					"length": 1
 				},
@@ -418,12 +435,14 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"help": "Header Extension",
 					"optional": {
 						"name": "Properties2",
-						"mask": 8
+						"bitfield": {
+							"mask": 8,
+							"shift": 3,
+							"name": "ext"
+						}
 					},
 					"length": {
-						"name": "Header Extension Length",
-						"mask": 255,
-						"shift": 0
+						"name": "Header Extension Length"
 					}
 				},
 				{

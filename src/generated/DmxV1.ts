@@ -19,12 +19,12 @@ export enum DmxV1Commands {
 }
 
 export interface DmxV1DmxAddressSetData {
-	// TODO param properties1 type bitfield
+	pageID: number; // properties1[3..0]
 	channelID: number; // 1 byte unsigned integer
 }
 
 export interface DmxV1DmxAddressReportData {
-	// TODO param properties1 type bitfield
+	pageID: number; // properties1[3..0]
 	channelID: number; // 1 byte unsigned integer
 }
 
@@ -41,7 +41,8 @@ export interface DmxV1DmxCapabilityReportData {
 
 export interface DmxV1DmxDataData {
 	source: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	sequenceNo: number; // properties1[5..4]
+	page: number; // properties1[3..0]
 	// TODO param dMXChannel type blob
 }
 
@@ -73,15 +74,16 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Page ID",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "pageID",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -140,15 +142,16 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Page ID",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 240,
+							"shift": 4,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 240,
-							"shift": 4
+							"name": "pageID",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},
@@ -265,21 +268,22 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Page",
-							"mask": 15,
-							"shift": 0
+							"name": "reserved",
+							"mask": 192,
+							"shift": 6,
+							"reserved": true
 						},
 						{
 							"type": "integer",
-							"name": "Sequence No",
+							"name": "sequenceNo",
 							"mask": 48,
 							"shift": 4
 						},
 						{
 							"type": "integer",
-							"name": "Reserved",
-							"mask": 192,
-							"shift": 6
+							"name": "page",
+							"mask": 15,
+							"shift": 0
 						}
 					]
 				},

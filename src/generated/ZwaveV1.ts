@@ -49,13 +49,46 @@ export enum ZwaveV1Commands {
 }
 
 export interface ZwaveV1NodeInfoData {
-	// TODO param properties1 type bitfield
-	// TODO param properties2 type bitfield
-	// TODO param properties3 type bitfield
+	listening: boolean; // properties1[7]
+	routing: boolean; // properties1[6]
+	maxBaudRate: MaxBaudRateEnum; // properties1[5..3]
+	protocolVersion: ProtocolVersionEnum; // properties1[2..0]
+	optionalFunctionality: boolean; // properties2[7]
+	sensor1000ms: boolean; // properties2[6]
+	sensor250ms: boolean; // properties2[5]
+	beamCapability: boolean; // properties2[4]
+	routingSlave: boolean; // properties2[3]
+	specificDevice: boolean; // properties2[2]
+	controller: boolean; // properties2[1]
+	security: boolean; // properties2[0]
+	speedExtension: SpeedExtensionEnum; // properties3[2..0]
 	basicDeviceClass?: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
 	// TODO param commandClasses type enumarray
+}
+
+export enum MaxBaudRateEnum {
+	Reserved = 0x0,
+	_96Kbps = 0x1,
+	_40Kbps = 0x2,
+}
+
+export enum ProtocolVersionEnum {
+	Reserved = 0x0,
+	ZWaveVersion20 = 0x1,
+	ZWaveVersionZDK50xZDK42x = 0x2,
+	ZWaveVersionZDK45xAndZDK60x = 0x3,
+	Reserved0 = 0x4,
+	Reserved1 = 0x5,
+	Reserved2 = 0x6,
+	Reserved3 = 0x7,
+}
+
+export enum SpeedExtensionEnum {
+	Reserved = 0x0,
+	_100Kbps = 0x1,
+	_200Kbps = 0x2,
 }
 
 export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
@@ -365,43 +398,76 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
-							"name": "Protocol Version",
-							"mask": 7,
-							"shift": 0,
-							"values": {
-								"0": "Reserved",
-								"1": "Z-Wave Version 2.0",
-								"2": "Z-Wave version ZDK 5.0x, ZDK 4.2x",
-								"3": "Z-Wave version ZDK 4.5x and ZDK 6.0x",
-								"4": "Reserved",
-								"5": "Reserved",
-								"6": "Reserved",
-								"7": "Reserved"
-							}
-						},
-						{
-							"type": "enum",
-							"name": "Max baud rate",
-							"mask": 56,
-							"shift": 3,
-							"values": {
-								"0": "Reserved",
-								"1": "9.6 kbps",
-								"2": "40 kbps"
-							}
+							"type": "boolean",
+							"name": "listening",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Routing",
+							"name": "routing",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "boolean",
-							"name": "Listening",
-							"mask": 128,
-							"shift": 7
+							"type": "enum",
+							"name": "maxBaudRate",
+							"mask": 56,
+							"shift": 3,
+							"values": {
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "96Kbps",
+									"help": "9.6 kbps"
+								},
+								"2": {
+									"name": "40Kbps",
+									"help": "40 kbps"
+								}
+							}
+						},
+						{
+							"type": "enum",
+							"name": "protocolVersion",
+							"mask": 7,
+							"shift": 0,
+							"values": {
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "ZWaveVersion20",
+									"help": "Z-Wave Version 2.0"
+								},
+								"2": {
+									"name": "ZWaveVersionZDK50xZDK42x",
+									"help": "Z-Wave version ZDK 5.0x, ZDK 4.2x"
+								},
+								"3": {
+									"name": "ZWaveVersionZDK45xAndZDK60x",
+									"help": "Z-Wave version ZDK 4.5x and ZDK 6.0x"
+								},
+								"4": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"5": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"6": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"7": {
+									"name": "Reserved",
+									"help": "Reserved"
+								}
+							}
 						}
 					]
 				},
@@ -413,51 +479,51 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"fields": [
 						{
 							"type": "boolean",
-							"name": "Security",
-							"mask": 1,
-							"shift": 0
+							"name": "optionalFunctionality",
+							"mask": 128,
+							"shift": 7
 						},
 						{
 							"type": "boolean",
-							"name": "Controller",
-							"mask": 2,
-							"shift": 1
-						},
-						{
-							"type": "boolean",
-							"name": "Specific Device",
-							"mask": 4,
-							"shift": 2
-						},
-						{
-							"type": "boolean",
-							"name": "Routing Slave",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"type": "boolean",
-							"name": "Beam capability",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"type": "boolean",
-							"name": "Sensor 250ms",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "Sensor 1000ms",
+							"name": "sensor1000ms",
 							"mask": 64,
 							"shift": 6
 						},
 						{
 							"type": "boolean",
-							"name": "Optional Functionality",
-							"mask": 128,
-							"shift": 7
+							"name": "sensor250ms",
+							"mask": 32,
+							"shift": 5
+						},
+						{
+							"type": "boolean",
+							"name": "beamCapability",
+							"mask": 16,
+							"shift": 4
+						},
+						{
+							"type": "boolean",
+							"name": "routingSlave",
+							"mask": 8,
+							"shift": 3
+						},
+						{
+							"type": "boolean",
+							"name": "specificDevice",
+							"mask": 4,
+							"shift": 2
+						},
+						{
+							"type": "boolean",
+							"name": "controller",
+							"mask": 2,
+							"shift": 1
+						},
+						{
+							"type": "boolean",
+							"name": "security",
+							"mask": 1,
+							"shift": 0
 						}
 					]
 				},
@@ -468,21 +534,31 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"length": 1,
 					"fields": [
 						{
+							"type": "integer",
+							"name": "reserved2",
+							"mask": 248,
+							"shift": 3,
+							"reserved": true
+						},
+						{
 							"type": "enum",
-							"name": "Speed Extension",
+							"name": "speedExtension",
 							"mask": 7,
 							"shift": 0,
 							"values": {
-								"0": "Reserved",
-								"1": "100 kbps",
-								"2": "200 kbps"
+								"0": {
+									"name": "Reserved",
+									"help": "Reserved"
+								},
+								"1": {
+									"name": "100Kbps",
+									"help": "100 kbps"
+								},
+								"2": {
+									"name": "200Kbps",
+									"help": "200 kbps"
+								}
 							}
-						},
-						{
-							"type": "integer",
-							"name": "Reserved2",
-							"mask": 248,
-							"shift": 3
 						}
 					]
 				},
@@ -492,7 +568,11 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"help": "Basic Device Class",
 					"optional": {
 						"name": "Properties2",
-						"mask": 2
+						"bitfield": {
+							"mask": 2,
+							"shift": 1,
+							"name": "controller"
+						}
 					},
 					"length": 1,
 					"valueType": "BAS_DEV_REF"

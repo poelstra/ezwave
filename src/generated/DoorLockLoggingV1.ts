@@ -29,7 +29,8 @@ export interface DoorLockLoggingV1RecordReportData {
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
 	day: number; // 1 byte unsigned integer
-	// TODO param properties1 type bitfield
+	recordStatus: number; // properties1[7..5]
+	hourLocalTime: number; // properties1[4..0]
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	eventType: number; // 1 byte unsigned integer
@@ -164,15 +165,15 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					"fields": [
 						{
 							"type": "integer",
-							"name": "Hour Local Time",
-							"mask": 31,
-							"shift": 0
+							"name": "recordStatus",
+							"mask": 224,
+							"shift": 5
 						},
 						{
 							"type": "integer",
-							"name": "Record status",
-							"mask": 224,
-							"shift": 5
+							"name": "hourLocalTime",
+							"mask": 31,
+							"shift": 0
 						}
 					]
 				},
