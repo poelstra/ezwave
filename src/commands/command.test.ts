@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Packet } from "../commands/packet";
+import { Packet } from "./packet";
 import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
 
 describe("command", () => {

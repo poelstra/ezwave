@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import * as sinon from "sinon";
-import { defer, never, timeout, Timer } from "../common/util";
+import { defer, never, timeout, Timer } from "./util";
 
 describe("util", () => {
 	describe("timeout", () => {

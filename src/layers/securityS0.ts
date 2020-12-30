@@ -2,7 +2,7 @@ import { randomBytes } from "crypto";
 import { SecurityV1 } from "../classes/SecurityV1";
 import { Packet } from "../commands/packet";
 import { bufferToString } from "../common/util";
-import { CryptoManager, NonceStore } from "../server/crypto";
+import { CryptoManager, NonceStore } from "./crypto";
 import {
 	DispatchNext,
 	Layer,

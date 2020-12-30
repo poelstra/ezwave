@@ -7,7 +7,7 @@ import { Framer } from "../serialapi/framer";
 import { Protocol } from "../serialapi/protocol";
 import { SerialApi } from "../serialapi/serialapi";
 import { Controller } from "./controller";
-import { CryptoManager, NonceStore } from "./crypto";
+import { CryptoManager, NonceStore } from "../layers/crypto";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Hub } from "./hub";

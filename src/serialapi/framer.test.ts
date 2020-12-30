@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import * as sinon from "sinon";
-import { DuplexSource } from "../test/util";
+import { DuplexSource } from "../test/testUtil";
 import { DataType, Frame, FrameError, Framer, FrameType } from "./framer";
 
 describe("SerialAPI Framer", () => {

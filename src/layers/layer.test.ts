@@ -11,9 +11,9 @@ import {
 	Send,
 	Sender,
 	SendNext,
-} from "../layers/layer";
-import { Requester } from "../layers/requester";
-import { Stack } from "../layers/stack";
+} from "./layer";
+import { Requester } from "./requester";
+import { Stack } from "./stack";
 import { DestinationType } from "../serialapi/serialapi";
 
 class FakeSecurityLayer implements Layer {

@@ -8,7 +8,7 @@ import { Mapper, Requester } from "../layers/requester";
 import { SecurityS0Layer } from "../layers/securityS0";
 import { Stack } from "../layers/stack";
 import { HostEvent, rxStatusToString, SerialApi } from "../serialapi/serialapi";
-import { CryptoManager, NonceStore } from "./crypto";
+import { CryptoManager, NonceStore } from "../layers/crypto";
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {

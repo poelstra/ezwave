@@ -1,7 +1,7 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 
-import { CryptoManager } from "../server/crypto";
+import { CryptoManager } from "./crypto";
 import { Packet } from "../commands/packet";
 import { SecurityV1 } from "../classes/SecurityV1";
 

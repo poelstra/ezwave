@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { decodeCommandAndPayload } from "../commands/decode";
-import * as types from "../commands/types";
+import { decodeCommandAndPayload } from "./decode";
+import * as types from "./types";
 
 function createCommand(
 	command: number,
