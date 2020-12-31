@@ -186,7 +186,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -339,7 +339,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -643,7 +643,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "minimumValue",
 					"help": "Minimum Value",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -692,7 +692,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "maximumValue",
 					"help": "Maximum Value",
 					"length": {
-						"name": "Properties3",
+						"name": "properties3",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

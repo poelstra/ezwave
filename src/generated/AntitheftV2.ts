@@ -76,7 +76,7 @@ export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 					"name": "magicCode",
 					"help": "Magic Code",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 127,
 							"shift": 0,
@@ -101,7 +101,7 @@ export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 					"name": "antiTheftHintByte",
 					"help": "Anti-theft Hint Byte",
 					"length": {
-						"name": "Anti-theft Hint Number Bytes"
+						"name": "antiTheftHintNumberBytes"
 					}
 				}
 			]
@@ -168,7 +168,7 @@ export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 					"name": "antiTheftHintByte",
 					"help": "Anti-theft Hint Byte",
 					"length": {
-						"name": "Anti-theft Hint Number Bytes"
+						"name": "antiTheftHintNumberBytes"
 					}
 				}
 			]

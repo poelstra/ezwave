@@ -119,7 +119,7 @@ export class SensorMultilevelV1 extends CommandClassPacket<SensorMultilevelV1Com
 					"name": "sensorValue",
 					"help": "Sensor Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

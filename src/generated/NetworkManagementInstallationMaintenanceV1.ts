@@ -371,7 +371,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "Length"
+								"name": "length"
 							}
 						}
 					]

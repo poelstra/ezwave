@@ -360,7 +360,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of User Codes"
+						"name": "numberOfUserCodes"
 					},
 					"params": [
 						{
@@ -427,7 +427,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"name": "userCode",
 							"help": "User Code",
 							"length": {
-								"name": "Properties1",
+								"name": "properties1",
 								"bitfield": {
 									"mask": 15,
 									"shift": 0,
@@ -523,7 +523,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"optional": {
-						"name": "Number of User Codes"
+						"name": "numberOfUserCodes"
 					},
 					"length": "auto",
 					"params": [
@@ -591,7 +591,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"name": "userCode",
 							"help": "User Code",
 							"length": {
-								"name": "Properties1",
+								"name": "properties1",
 								"bitfield": {
 									"mask": 15,
 									"shift": 0,
@@ -680,7 +680,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "supportedUserIDStatusBitMask",
 					"help": "Supported User ID Status Bit Mask",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -725,7 +725,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "supportedKeypadModesBitMask",
 					"help": "Supported Keypad Modes Bit Mask",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -759,7 +759,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "supportedKeysBitMask",
 					"help": "Supported Keys Bit Mask",
 					"length": {
-						"name": "Properties3",
+						"name": "properties3",
 						"bitfield": {
 							"mask": 15,
 							"shift": 0,
@@ -924,7 +924,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "masterCode",
 					"help": "Master Code",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 15,
 							"shift": 0,
@@ -999,7 +999,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "masterCode",
 					"help": "Master Code",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 15,
 							"shift": 0,

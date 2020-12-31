@@ -49,7 +49,7 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 					"name": "encapsulatedCommand",
 					"help": "Encapsulated_Command",
 					"length": {
-						"name": "Number of Commands"
+						"name": "numberOfCommands"
 					},
 					"params": [
 						{
@@ -77,7 +77,7 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"name": "Command Length"
+								"name": "commandLength"
 							},
 							"blobType": "CMD_DATA",
 							"includeBytesBefore": 2

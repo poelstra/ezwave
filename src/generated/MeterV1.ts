@@ -119,7 +119,7 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

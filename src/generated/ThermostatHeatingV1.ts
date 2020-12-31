@@ -410,7 +410,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -476,7 +476,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

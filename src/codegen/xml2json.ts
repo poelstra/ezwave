@@ -461,7 +461,7 @@ function buildParamRef(
 	}
 
 	return {
-		name: param.name,
+		name: Case.camel(param.name),
 		isParentReference,
 		bitfield: bitfieldRef,
 	};
@@ -560,7 +560,6 @@ function generateParameter(
 						type: types.ParameterType.Enum,
 						...paramBase,
 						length: 1,
-						optional,
 						valueType: encaptypeToValueType(param.encaptype),
 						values,
 					};
@@ -572,7 +571,6 @@ function generateParameter(
 					type: types.ParameterType.Integer,
 					...paramBase,
 					length: 2,
-					optional,
 				};
 				break;
 
@@ -581,7 +579,6 @@ function generateParameter(
 					type: types.ParameterType.Integer,
 					...paramBase,
 					length: 3,
-					optional,
 				};
 				break;
 
@@ -590,7 +587,6 @@ function generateParameter(
 					type: types.ParameterType.Integer,
 					...paramBase,
 					length: 4,
-					optional,
 				};
 				break;
 
@@ -611,14 +607,12 @@ function generateParameter(
 							type: types.ParameterType.Text,
 							...paramBase,
 							length: attr.len,
-							optional,
 						};
 					} else {
 						return {
 							type: types.ParameterType.Blob,
 							...paramBase,
 							length: attr.len,
-							optional,
 						};
 					}
 				}
@@ -654,7 +648,6 @@ function generateParameter(
 							type: types.ParameterType.Text,
 							...paramBase,
 							length,
-							optional,
 						};
 					} else {
 						const valueType = encaptypeToValueType(param.encaptype);
@@ -664,7 +657,6 @@ function generateParameter(
 								...paramBase,
 								length,
 								valueType,
-								optional,
 							};
 						} else {
 							const blobType = encapTypeToBlobType(
@@ -675,7 +667,6 @@ function generateParameter(
 								...paramBase,
 								length,
 								blobType,
-								optional,
 								includeBytesBefore: param.variant.sizechange
 									? -param.variant.sizechange
 									: undefined,
@@ -691,7 +682,6 @@ function generateParameter(
 						type: types.ParameterType.Bitfield,
 						...paramBase,
 						length: 1,
-						optional,
 						fields: generateBitfields(param),
 						cmdMask: param.cmd_mask,
 					};
@@ -804,7 +794,6 @@ function generateParameter(
 						type: types.ParameterType.EnumUnion,
 						...paramBase,
 						length: 1,
-						optional,
 						reference: buildParamRef(
 							descloc.param,
 							undefined, // TODO mask/shift can probably exist here
@@ -883,7 +872,6 @@ function generateParameter(
 			...paramBase,
 			length,
 			moreToFollow,
-			optional,
 			params,
 		};
 	}

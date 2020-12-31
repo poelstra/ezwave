@@ -165,7 +165,7 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"name": "triggerValue",
 					"help": "Trigger Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -312,7 +312,7 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"name": "triggerValue",
 					"help": "Trigger Value",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

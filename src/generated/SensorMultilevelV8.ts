@@ -658,7 +658,7 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 					"name": "sensorValue",
 					"help": "Sensor Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

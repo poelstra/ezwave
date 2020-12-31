@@ -168,7 +168,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters"
+						"name": "numberOfParameters"
 					},
 					"params": [
 						{
@@ -176,7 +176,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
-								"name": "Properties1",
+								"name": "properties1",
 								"isParentReference": true,
 								"bitfield": {
 									"mask": 7,
@@ -258,7 +258,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters"
+						"name": "numberOfParameters"
 					},
 					"params": [
 						{
@@ -266,7 +266,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
-								"name": "Properties1",
+								"name": "properties1",
 								"isParentReference": true,
 								"bitfield": {
 									"mask": 7,
@@ -357,7 +357,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -424,7 +424,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

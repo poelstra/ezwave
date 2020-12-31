@@ -218,7 +218,7 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Firmware Targets"
+						"name": "numberOfFirmwareTargets"
 					},
 					"params": [
 						{

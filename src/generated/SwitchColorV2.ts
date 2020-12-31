@@ -202,7 +202,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

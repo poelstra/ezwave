@@ -226,7 +226,7 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 					"name": "bitMask",
 					"help": "Bit Mask",
 					"length": {
-						"name": "Number of Bit Masks"
+						"name": "numberOfBitMasks"
 					}
 				}
 			]

@@ -345,7 +345,7 @@ export class IndicatorV3 extends CommandClassPacket<IndicatorV3Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -600,7 +600,7 @@ export class IndicatorV3 extends CommandClassPacket<IndicatorV3Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

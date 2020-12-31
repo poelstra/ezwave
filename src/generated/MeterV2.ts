@@ -165,7 +165,7 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -184,10 +184,10 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"name": "previousMeterValue",
 					"help": "Previous Meter Value",
 					"optional": {
-						"name": "Delta Time"
+						"name": "deltaTime"
 					},
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

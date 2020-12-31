@@ -240,7 +240,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"name": "deviceIDData",
 					"help": "Device ID Data",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

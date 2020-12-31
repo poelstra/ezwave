@@ -172,7 +172,7 @@ export class SoundSwitchV1 extends CommandClassPacket<SoundSwitchV1Commands> {
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"name": "Name Length"
+						"name": "nameLength"
 					}
 				}
 			]

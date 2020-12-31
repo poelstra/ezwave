@@ -349,7 +349,7 @@ export class NotificationV5 extends CommandClassPacket<NotificationV5Commands> {
 					"name": "eventParameter",
 					"help": "Event Parameter",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

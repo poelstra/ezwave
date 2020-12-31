@@ -64,7 +64,7 @@ export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Command
 					"name": "meterPointAdmNumberCharacter",
 					"help": "Meter Point Adm Number Character",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

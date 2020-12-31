@@ -153,7 +153,7 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

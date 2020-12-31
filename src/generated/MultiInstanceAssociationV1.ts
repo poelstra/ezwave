@@ -168,7 +168,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Grouping identifier"
+						"name": "groupingIdentifier"
 					},
 					"params": [
 						{
@@ -243,7 +243,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Grouping Identifier"
+						"name": "groupingIdentifier"
 					},
 					"params": [
 						{
@@ -306,7 +306,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Grouping identifier"
+						"name": "groupingIdentifier"
 					},
 					"params": [
 						{

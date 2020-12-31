@@ -288,7 +288,7 @@ export class ThermostatSetpointV2 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Level2",
+						"name": "level2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -427,7 +427,7 @@ export class ThermostatSetpointV2 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Level2",
+						"name": "level2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

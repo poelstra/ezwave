@@ -87,7 +87,7 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"name": "rateParameterSetID",
 					"help": "Rate Parameter Set ID",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 63,
 							"shift": 0,
@@ -264,7 +264,7 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					"name": "supplierCharacter",
 					"help": "Supplier Character",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

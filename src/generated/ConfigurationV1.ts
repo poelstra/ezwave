@@ -111,7 +111,7 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -178,7 +178,7 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

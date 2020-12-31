@@ -220,7 +220,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters"
+						"name": "numberOfParameters"
 					},
 					"params": [
 						{
@@ -228,7 +228,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
-								"name": "Properties1",
+								"name": "properties1",
 								"isParentReference": true,
 								"bitfield": {
 									"mask": 7,
@@ -310,7 +310,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "Number of Parameters"
+						"name": "numberOfParameters"
 					},
 					"params": [
 						{
@@ -318,7 +318,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
-								"name": "Properties1",
+								"name": "properties1",
 								"isParentReference": true,
 								"bitfield": {
 									"mask": 7,
@@ -409,7 +409,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -476,7 +476,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "Level",
+						"name": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -725,7 +725,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "minValue",
 					"help": "Min Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -738,7 +738,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "maxValue",
 					"help": "Max Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -751,7 +751,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "defaultValue",
 					"help": "Default Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

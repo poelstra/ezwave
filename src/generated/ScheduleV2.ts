@@ -189,7 +189,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of supported CC"
+						"name": "numberOfSupportedCC"
 					},
 					"params": [
 						{
@@ -419,7 +419,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Cmd to Follow"
+						"name": "numberOfCmdToFollow"
 					},
 					"params": [
 						{
@@ -433,7 +433,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
-								"name": "Cmd Length"
+								"name": "cmdLength"
 							}
 						}
 					]
@@ -650,7 +650,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "Number of Cmd to Follow"
+						"name": "numberOfCmdToFollow"
 					},
 					"params": [
 						{
@@ -664,7 +664,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
-								"name": "Cmd Length"
+								"name": "cmdLength"
 							}
 						}
 					]

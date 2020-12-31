@@ -324,7 +324,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Level2",
+						"name": "level2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -471,7 +471,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Level2",
+						"name": "level2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -773,7 +773,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "minValue",
 					"help": "Min Value",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -812,7 +812,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "maxValue",
 					"help": "MaxValue",
 					"length": {
-						"name": "Properties3",
+						"name": "properties3",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

@@ -476,7 +476,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"name": "Node Info Length"
+						"name": "nodeInfoLength"
 					},
 					"valueType": "CMD_CLASS_REF"
 				},
@@ -518,7 +518,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "Properties3",
+						"name": "properties3",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -1219,7 +1219,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "inputDSK",
 					"help": "Input DSK",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 15,
 							"shift": 0,
@@ -1307,7 +1307,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -1434,7 +1434,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

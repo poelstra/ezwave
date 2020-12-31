@@ -792,7 +792,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -852,7 +852,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1228,7 +1228,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "startTemperature",
 					"help": "Start Temperature",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1267,7 +1267,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "stopTemperature",
 					"help": "Stop Temperature",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1306,7 +1306,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "alarmTemperatureValue",
 					"help": "Alarm Temperature Value",
 					"length": {
-						"name": "Properties3",
+						"name": "properties3",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1400,7 +1400,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "startTemperature",
 					"help": "Start Temperature",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1439,7 +1439,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "stopTemperature",
 					"help": "Stop Temperature",
 					"length": {
-						"name": "Properties2",
+						"name": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1478,7 +1478,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "alarmTemperatureValue",
 					"help": "Alarm Temperature Value",
 					"length": {
-						"name": "Properties3",
+						"name": "properties3",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1642,7 +1642,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1702,7 +1702,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -2016,7 +2016,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -2096,7 +2096,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -2156,7 +2156,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

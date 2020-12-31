@@ -443,7 +443,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"name": "Node Info Length"
+						"name": "nodeInfoLength"
 					},
 					"valueType": "CMD_CLASS_REF"
 				},
@@ -1152,7 +1152,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"name": "inputDSK",
 					"help": "Input DSK",
 					"length": {
-						"name": "Properties1",
+						"name": "properties1",
 						"bitfield": {
 							"mask": 15,
 							"shift": 0,
