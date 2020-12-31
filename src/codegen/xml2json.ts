@@ -308,6 +308,19 @@ interface Variant {
 	sizechange?: number; // E.g. -1 or -2, means to include one or two previous bytes
 }
 
+type CommandsByClassByVersion = Map<
+	number /* class */,
+	Map<number /* version */, CommandClassMap>
+>;
+
+interface CommandClassMap extends types.CommandClassDefinition {
+	commandsById: Map<number, CommandMap>;
+}
+
+interface CommandMap extends types.CommandDefinition {
+	paramsByName: Map<string, types.Parameter | types.ParameterGroup>;
+}
+
 function isReserved(name: string): boolean {
 	// Reserved names are e.g. Reserved, reserved11, ReservedA.
 	// But should not match e.g. ReservedByAdministrator or CmdReservedIds.
@@ -877,10 +890,7 @@ function generateParameter(
 	}
 }
 
-function generateCommand(
-	cmdClass: CommandClass,
-	cmd: Command
-): types.CommandDefinition {
+function generateCommand(cmdClass: CommandClass, cmd: Command): CommandMap {
 	//console.log(cmdClass.name, cmd.name);
 
 	// Convert params and VariantGroups to a single array of params, in the right order
@@ -913,13 +923,16 @@ function generateCommand(
 		.filter((x: Param | VariantGroup): x is Param => "type" in x)
 		.forEach((param) => idMap.set(param.key, param));
 
-	let command: types.CommandDefinition = {
+	const convertedParams = params.map((p) => generateParameter(p, idMap));
+
+	let command: CommandMap = {
 		command: cmd.key,
 		name: Case.pascal(cmd.name),
 		help: cmd.help,
 		status: commentToStatus(cmd.comment),
 		cmdMask: cmd.cmd_mask,
-		params: params.map((p) => generateParameter(p, idMap)),
+		params: convertedParams,
+		paramsByName: new Map(convertedParams.map((p) => [p.name, p])),
 	};
 
 	// Add cmdMask, if necessary
@@ -943,9 +956,7 @@ function generateCommand(
 	return command;
 }
 
-function generateCommandClass(
-	cmdClass: CommandClass
-): types.CommandClassDefinition {
+function generateCommandClass(cmdClass: CommandClass): CommandClassMap {
 	const commands = toArray(cmdClass.cmd).map((cmd) => {
 		try {
 			return generateCommand(cmdClass, cmd);
@@ -967,6 +978,7 @@ function generateCommandClass(
 		status: commentToStatus(cmdClass.comment),
 		version: cmdClass.version,
 		commands: commands,
+		commandsById: new Map(commands.map((cmd) => [cmd.command, cmd])),
 	};
 }
 
@@ -1051,20 +1063,45 @@ function fixDuplicateParamKey(xml: ZwClassesXml): void {
 }
 
 async function xml2json(xmlString: string): Promise<types.ZwaveSpec> {
-	// Convert to (somewhat) easier to use JSON
+	// Convert to (somewhat) easier to use JSON-representation-of-XML
 	const xml = parser.parse(xmlString, {
 		attributeNamePrefix: "",
 		ignoreAttributes: false,
 		parseAttributeValue: true,
 	}) as ZwClassesXml;
 
+	// Apply fixups on XML definition
 	fixDuplicateParamKey(xml);
 
-	// Iterate over JSON structure, generate our own structure
+	// Convert XML definition of each class into our own JSON definition
+	const classes = toArray(xml.zw_classes.cmd_class).map(generateCommandClass);
+
+	// Build commandclass+version map
+	const commandsByClassByVersion: CommandsByClassByVersion = new Map();
+	for (const cmdClass of classes) {
+		let versions = commandsByClassByVersion.get(cmdClass.commandClass);
+		if (!versions) {
+			versions = new Map();
+			commandsByClassByVersion.set(cmdClass.commandClass, versions);
+		}
+		assert(!versions.has(cmdClass.version));
+		versions.set(cmdClass.version, cmdClass);
+	}
+
+	// Generate final output JSON structure, by adding header and stripping out unwanted members
 	const spec: types.ZwaveSpec = {
 		xmlVersion: xml.zw_classes.version,
 		jsonVersion: types.JSON_VERSION,
-		classes: toArray(xml.zw_classes.cmd_class).map(generateCommandClass),
+		classes: classes.map((cmdClassMap) => {
+			const { commandsById, ...cmdClass } = cmdClassMap;
+			return {
+				...cmdClass,
+				commands: [...commandsById.values()].map((cmdMap) => {
+					const { paramsByName, ...command } = cmdMap;
+					return command;
+				}),
+			};
+		}),
 	};
 	return spec;
 }
