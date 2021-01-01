@@ -263,7 +263,7 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"name": "manufacturerData",
 					"help": "Manufacturer Data",
 					"length": {
-						"name": "level",
+						"ref": "level",
 						"bitfield": {
 							"mask": 224,
 							"shift": 5,
@@ -447,7 +447,7 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"name": "manufacturerData",
 					"help": "Manufacturer Data",
 					"length": {
-						"name": "level",
+						"ref": "level",
 						"bitfield": {
 							"mask": 224,
 							"shift": 5,

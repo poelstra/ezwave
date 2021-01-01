@@ -81,7 +81,7 @@ export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
 					"name": "bitMask",
 					"help": "Bit Mask",
 					"length": {
-						"name": "numberOfBitMasks"
+						"ref": "numberOfBitMasks"
 					}
 				}
 			]

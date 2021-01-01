@@ -518,7 +518,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					"name": "supplierCharacter",
 					"help": "Supplier Character",
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

@@ -116,7 +116,7 @@ export class CentralSceneV2 extends CommandClassPacket<CentralSceneV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "supportedScenes"
+						"ref": "supportedScenes"
 					},
 					"params": [
 						{

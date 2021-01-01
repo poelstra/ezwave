@@ -94,7 +94,7 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 					"name": "encapsulatedCommand",
 					"help": "Encapsulated Command",
 					"length": {
-						"name": "encapsulatedCommandLength"
+						"ref": "encapsulatedCommandLength"
 					},
 					"blobType": "CMD_ENCAP"
 				}

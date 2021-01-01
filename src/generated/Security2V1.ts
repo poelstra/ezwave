@@ -245,7 +245,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"optional": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 1,
 							"shift": 0,
@@ -254,7 +254,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					},
 					"length": "auto",
 					"moreToFollow": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 128,
 							"shift": 7,
@@ -299,7 +299,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 							"name": "extension",
 							"help": "Extension",
 							"length": {
-								"name": "extensionLength"
+								"ref": "extensionLength"
 							},
 							"includeBytesBefore": 2
 						}

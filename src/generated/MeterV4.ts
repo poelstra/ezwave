@@ -252,7 +252,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -271,10 +271,10 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					"name": "previousMeterValue",
 					"help": "Previous Meter Value",
 					"optional": {
-						"name": "deltaTime"
+						"ref": "deltaTime"
 					},
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -442,7 +442,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					"name": "scaleSupported",
 					"help": "Scale Supported",
 					"length": {
-						"name": "numberOfScaleSupportedBytesToFollow"
+						"ref": "numberOfScaleSupportedBytesToFollow"
 					}
 				}
 			]

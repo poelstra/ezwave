@@ -280,7 +280,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 					"name": "eventParameter",
 					"help": "Event Parameter",
 					"length": {
-						"name": "numberOfEventParameters"
+						"ref": "numberOfEventParameters"
 					}
 				}
 			]

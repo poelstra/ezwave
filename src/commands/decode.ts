@@ -77,7 +77,7 @@ function resolveReference(
 			"parent reference while not decoding in a group"
 		);
 	}
-	const fieldName = ref.bitfield?.name ?? ref.name;
+	const fieldName = ref.bitfield?.name ?? ref.ref;
 	const fieldValue = ctx[fieldName];
 	if (fieldValue === undefined) {
 		throw new DecodeDefinitionError("field reference does not exist");

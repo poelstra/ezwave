@@ -195,7 +195,7 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"name": "headerLength",
 					"help": "Header Length",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 128,
 							"shift": 7,
@@ -209,7 +209,7 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"name": "headerExtension",
 					"help": "Header extension",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 128,
 							"shift": 7,
@@ -217,7 +217,7 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 						}
 					},
 					"length": {
-						"name": "headerLength"
+						"ref": "headerLength"
 					},
 					"includeBytesBefore": 1
 				},
@@ -226,7 +226,7 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 					"name": "zWaveCommand",
 					"help": "Z-Wave command",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 64,
 							"shift": 6,

@@ -318,7 +318,7 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "reportsToFollow"
+						"ref": "reportsToFollow"
 					},
 					"params": [
 						{

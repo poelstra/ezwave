@@ -429,7 +429,7 @@ export class NotificationV8 extends CommandClassPacket<NotificationV8Commands> {
 					"name": "eventParameter",
 					"help": "Event Parameter",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

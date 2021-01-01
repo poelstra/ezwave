@@ -101,7 +101,7 @@ describe("encode", () => {
 						name: "param0",
 						help: "Param 0",
 						optional: {
-							name: "hasParams",
+							ref: "hasParams",
 							bitfield: {
 								name: "hasParam0",
 								mask: 0x1,
@@ -115,7 +115,7 @@ describe("encode", () => {
 						name: "param1",
 						help: "Param 1",
 						optional: {
-							name: "hasParams",
+							ref: "hasParams",
 							bitfield: {
 								name: "hasParam1",
 								mask: 0x2,
@@ -271,7 +271,7 @@ describe("encode", () => {
 				name: "param0",
 				help: "Param 0",
 				optional: {
-					name: "hasParams",
+					ref: "hasParams",
 					bitfield: {
 						name: "hasParam0",
 						mask: 0x1,
@@ -289,7 +289,7 @@ describe("encode", () => {
 				name: "param1",
 				help: "Param 1",
 				optional: {
-					name: "hasParams",
+					ref: "hasParams",
 					bitfield: {
 						name: "hasParam1",
 						mask: 0x2,

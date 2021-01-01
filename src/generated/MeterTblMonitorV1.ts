@@ -168,7 +168,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "reportsToFollow"
+						"ref": "reportsToFollow"
 					},
 					"params": [
 						{
@@ -537,7 +537,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "reportsToFollow"
+						"ref": "reportsToFollow"
 					},
 					"params": [
 						{
@@ -768,7 +768,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "reportsToFollow"
+						"ref": "reportsToFollow"
 					},
 					"params": [
 						{
@@ -984,7 +984,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "meterIDCharacter",
 					"help": "Meter ID Character",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -1059,7 +1059,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"name": "meterPointAdmNumberCharacter",
 					"help": "Meter Point Adm Number Character",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

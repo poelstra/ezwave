@@ -244,7 +244,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "peerName",
 					"help": "Peer Name",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 63,
 							"shift": 0,
@@ -350,7 +350,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "peerName",
 					"help": "Peer Name",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 63,
 							"shift": 0,

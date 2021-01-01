@@ -83,7 +83,7 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"name": "rateParameterSetID",
 					"help": "Rate Parameter Set ID",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 63,
 							"shift": 0,
@@ -150,7 +150,7 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					"name": "rateCharacter",
 					"help": "Rate Character",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

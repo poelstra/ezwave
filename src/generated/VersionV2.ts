@@ -185,7 +185,7 @@ export class VersionV2 extends CommandClassPacket<VersionV2Commands> {
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "numberOfFirmwareTargets"
+						"ref": "numberOfFirmwareTargets"
 					},
 					"params": [
 						{

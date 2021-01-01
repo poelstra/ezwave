@@ -157,7 +157,7 @@ export class FirmwareUpdateMdV3 extends CommandClassPacket<FirmwareUpdateMdV3Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "numberOfFirmwareTargets"
+						"ref": "numberOfFirmwareTargets"
 					},
 					"params": [
 						{

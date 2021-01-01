@@ -321,7 +321,7 @@ export class NotificationV3 extends CommandClassPacket<NotificationV3Commands> {
 					"name": "eventParameter",
 					"help": "Event Parameter",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

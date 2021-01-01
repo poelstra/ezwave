@@ -188,7 +188,7 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "numberOfFirmwareTargets"
+						"ref": "numberOfFirmwareTargets"
 					},
 					"params": [
 						{

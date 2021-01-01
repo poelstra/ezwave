@@ -278,10 +278,10 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"name": "eventData",
 					"help": "Event Data",
 					"optional": {
-						"name": "sequenceNumber"
+						"ref": "sequenceNumber"
 					},
 					"length": {
-						"name": "eventDataLength"
+						"ref": "eventDataLength"
 					}
 				}
 			]

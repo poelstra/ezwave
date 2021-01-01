@@ -405,7 +405,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"name": "nodeInfoLength"
+						"ref": "nodeInfoLength"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}

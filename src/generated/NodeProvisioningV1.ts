@@ -109,7 +109,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -154,7 +154,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "length"
+								"ref": "length"
 							}
 						}
 					]
@@ -212,7 +212,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -312,7 +312,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -357,7 +357,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "length"
+								"ref": "length"
 							}
 						}
 					]
@@ -415,7 +415,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -476,7 +476,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -521,7 +521,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"name": "length"
+								"ref": "length"
 							}
 						}
 					]

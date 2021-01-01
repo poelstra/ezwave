@@ -567,7 +567,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"name": "basicDeviceClass",
 					"help": "Basic Device Class",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 2,
 							"shift": 1,

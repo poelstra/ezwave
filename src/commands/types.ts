@@ -297,7 +297,7 @@ export interface LocalParameterReference {
 	 * If isParentReference field is present and true, always referes to a parameter
 	 * in the Command, not the current ParameterGroup.
 	 */
-	name: string;
+	ref: string;
 
 	/**
 	 * Select a sub-field of the given parameter.

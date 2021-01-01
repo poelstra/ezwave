@@ -474,7 +474,7 @@ function buildParamRef(
 	}
 
 	return {
-		name: Case.camel(param.name),
+		ref: Case.camel(param.name),
 		isParentReference,
 		bitfield: bitfieldRef,
 	};

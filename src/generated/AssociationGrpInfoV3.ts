@@ -116,7 +116,7 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"name": "lengthOfName"
+						"ref": "lengthOfName"
 					}
 				}
 			]
@@ -225,7 +225,7 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 63,
 							"shift": 0,
@@ -283,7 +283,7 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 							"help": "Profile2",
 							"length": 1,
 							"reference": {
-								"name": "profile1"
+								"ref": "profile1"
 							},
 							"enums": {
 								"0": {
@@ -693,7 +693,7 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "command",
 					"help": "Command",
 					"length": {
-						"name": "listLength"
+						"ref": "listLength"
 					}
 				}
 			]

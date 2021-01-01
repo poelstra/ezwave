@@ -261,7 +261,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "reportsToFollow"
+						"ref": "reportsToFollow"
 					},
 					"params": [
 						{
@@ -510,7 +510,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "reportsToFollow"
+						"ref": "reportsToFollow"
 					},
 					"params": [
 						{
@@ -600,7 +600,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"name": "rateCharacter",
 					"help": "Rate Character",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,

@@ -172,7 +172,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"name": "character",
 							"help": "Character",
 							"length": {
-								"name": "numberOfCharacters"
+								"ref": "numberOfCharacters"
 							}
 						}
 					]
@@ -301,7 +301,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"name": "character",
 							"help": "Character",
 							"length": {
-								"name": "numberOfCharacters"
+								"ref": "numberOfCharacters"
 							}
 						}
 					]

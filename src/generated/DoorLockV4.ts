@@ -616,7 +616,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"name": "supportedOperationTypeBitMask",
 					"help": "Supported Operation Type Bit Mask",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
 							"shift": 0,
@@ -635,7 +635,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"name": "supportedDoorLockMode",
 					"help": "Supported Door Lock Mode",
 					"length": {
-						"name": "supportedDoorLockModeListLength"
+						"ref": "supportedDoorLockModeListLength"
 					}
 				},
 				{

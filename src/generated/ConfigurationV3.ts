@@ -215,7 +215,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "numberOfParameters"
+						"ref": "numberOfParameters"
 					},
 					"params": [
 						{
@@ -223,7 +223,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
-								"name": "properties1",
+								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
 									"mask": 7,
@@ -305,7 +305,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"name": "numberOfParameters"
+						"ref": "numberOfParameters"
 					},
 					"params": [
 						{
@@ -313,7 +313,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
-								"name": "properties1",
+								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
 									"mask": 7,
@@ -404,7 +404,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "level",
+						"ref": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -471,7 +471,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"name": "level",
+						"ref": "level",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -715,7 +715,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "minValue",
 					"help": "Min Value",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -728,7 +728,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "maxValue",
 					"help": "Max Value",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -741,7 +741,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "defaultValue",
 					"help": "Default Value",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,

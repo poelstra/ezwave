@@ -129,7 +129,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"name": "headerExtensionLength",
 					"help": "Header Extension Length",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 8,
 							"shift": 3,
@@ -143,7 +143,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"name": "headerExtension",
 					"help": "Header Extension",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 8,
 							"shift": 3,
@@ -151,7 +151,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 						}
 					},
 					"length": {
-						"name": "headerExtensionLength"
+						"ref": "headerExtensionLength"
 					}
 				},
 				{
@@ -420,7 +420,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"name": "headerExtensionLength",
 					"help": "Header Extension Length",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 8,
 							"shift": 3,
@@ -434,7 +434,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"name": "headerExtension",
 					"help": "Header Extension",
 					"optional": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 8,
 							"shift": 3,
@@ -442,7 +442,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 						}
 					},
 					"length": {
-						"name": "headerExtensionLength"
+						"ref": "headerExtensionLength"
 					}
 				},
 				{

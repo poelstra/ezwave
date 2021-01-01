@@ -383,7 +383,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowValue",
 					"help": "Flow Value",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -422,7 +422,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "pressureValue",
 					"help": "Pressure Value",
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -527,7 +527,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "highPressureThresholdValue",
 					"help": "High Pressure Threshold Value",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -566,7 +566,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "lowPressureThresholdValue",
 					"help": "Low Pressure Threshold Value",
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -658,7 +658,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "highPressureThresholdValue",
 					"help": "High Pressure Threshold Value",
 					"length": {
-						"name": "properties1",
+						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -697,7 +697,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "lowPressureThresholdValue",
 					"help": "Low Pressure Threshold Value",
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -916,7 +916,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "maximumFlowValue",
 					"help": "Maximum Flow Value",
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -955,7 +955,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowHighThresholdValue",
 					"help": "Flow High Threshold Value",
 					"length": {
-						"name": "properties3",
+						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -994,7 +994,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowLowThresholdValue",
 					"help": "Flow Low Threshold Value",
 					"length": {
-						"name": "properties4",
+						"ref": "properties4",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1147,7 +1147,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "maximumFlowValue",
 					"help": "Maximum Flow Value",
 					"length": {
-						"name": "properties2",
+						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1186,7 +1186,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowHighThresholdValue",
 					"help": "Flow High Threshold Value",
 					"length": {
-						"name": "properties3",
+						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
@@ -1225,7 +1225,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowLowThresholdValue",
 					"help": "Flow Low Threshold Value",
 					"length": {
-						"name": "properties4",
+						"ref": "properties4",
 						"bitfield": {
 							"mask": 7,
 							"shift": 0,
