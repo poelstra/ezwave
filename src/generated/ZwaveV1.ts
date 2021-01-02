@@ -517,7 +517,15 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 							"type": "boolean",
 							"name": "controller",
 							"mask": 2,
-							"shift": 1
+							"shift": 1,
+							"presenceOf": {
+								"isExplicit": true,
+								"refs": [
+									{
+										"name": "basicDeviceClass"
+									}
+								]
+							}
 						},
 						{
 							"type": "boolean",

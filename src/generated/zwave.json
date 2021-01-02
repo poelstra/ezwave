@@ -237,7 +237,14 @@
 							"type": "integer",
 							"name": "numberOfEventParameters",
 							"help": "Number of Event Parameters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "eventParameter"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -587,7 +594,14 @@
 									"type": "integer",
 									"name": "eventParametersLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "eventParameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -1146,7 +1160,14 @@
 									"type": "integer",
 									"name": "eventParametersLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "eventParameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -1733,7 +1754,14 @@
 									"type": "integer",
 									"name": "eventParametersLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "eventParameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -2328,7 +2356,14 @@
 									"type": "integer",
 									"name": "eventParametersLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "eventParameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -2967,7 +3002,14 @@
 									"type": "integer",
 									"name": "eventParametersLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "eventParameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -3686,7 +3728,14 @@
 									"type": "integer",
 									"name": "eventParametersLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "eventParameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -5530,7 +5579,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -5577,7 +5633,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -5797,7 +5860,14 @@
 									"type": "integer",
 									"name": "size1",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "startTemperature"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -5836,7 +5906,14 @@
 									"type": "integer",
 									"name": "size2",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "stopTemperature"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -5875,7 +5952,14 @@
 									"type": "integer",
 									"name": "size3",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "alarmTemperatureValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -5956,7 +6040,14 @@
 									"type": "integer",
 									"name": "size1",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "startTemperature"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -5995,7 +6086,14 @@
 									"type": "integer",
 									"name": "size2",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "stopTemperature"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -6034,7 +6132,14 @@
 									"type": "integer",
 									"name": "size3",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "alarmTemperatureValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -6133,7 +6238,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -6180,7 +6292,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -6429,7 +6548,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -6483,7 +6609,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -6530,7 +6663,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7063,7 +7203,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7111,7 +7258,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7188,7 +7342,14 @@
 							"type": "integer",
 							"name": "numberOfParameters",
 							"help": "Number of Parameters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -7206,7 +7367,15 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"group": "vg",
+												"name": "parameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7271,7 +7440,14 @@
 							"type": "integer",
 							"name": "numberOfParameters",
 							"help": "Number of Parameters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -7283,7 +7459,15 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"group": "vg",
+												"name": "parameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7368,7 +7552,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7416,7 +7607,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7493,7 +7691,14 @@
 							"type": "integer",
 							"name": "numberOfParameters",
 							"help": "Number of Parameters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -7511,7 +7716,15 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"group": "vg",
+												"name": "parameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7576,7 +7789,14 @@
 							"type": "integer",
 							"name": "numberOfParameters",
 							"help": "Number of Parameters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -7588,7 +7808,15 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"group": "vg",
+												"name": "parameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7673,7 +7901,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7721,7 +7956,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -7869,7 +8111,20 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "minValue"
+											},
+											{
+												"name": "maxValue"
+											},
+											{
+												"name": "defaultValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -7996,7 +8251,14 @@
 							"type": "integer",
 							"name": "numberOfParameters",
 							"help": "Number of Parameters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -8014,7 +8276,15 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"group": "vg",
+												"name": "parameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -8079,7 +8349,14 @@
 							"type": "integer",
 							"name": "numberOfParameters",
 							"help": "Number of Parameters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -8091,7 +8368,15 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"group": "vg",
+												"name": "parameter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -8176,7 +8461,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -8224,7 +8516,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "configurationValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -8372,7 +8671,20 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "minValue"
+											},
+											{
+												"name": "maxValue"
+											},
+											{
+												"name": "defaultValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -8769,7 +9081,14 @@
 									"type": "integer",
 									"name": "numberOfDC",
 									"mask": 3,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -9064,7 +9383,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -10621,7 +10947,14 @@
 									"type": "integer",
 									"name": "supportedOperationTypeBitMaskLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "supportedOperationTypeBitMask"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -10649,7 +10982,14 @@
 							"type": "integer",
 							"name": "supportedDoorLockModeListLength",
 							"help": "Supported Door Lock Mode List Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supportedDoorLockMode"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -10807,7 +11147,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -11302,7 +11649,14 @@
 							"type": "integer",
 							"name": "numberOfFirmwareTargets",
 							"help": "Number of Firmware Targets",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -11576,7 +11930,14 @@
 							"type": "integer",
 							"name": "numberOfFirmwareTargets",
 							"help": "Number of Firmware Targets",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -11983,7 +12344,14 @@
 							"type": "integer",
 							"name": "numberOfFirmwareTargets",
 							"help": "Number of Firmware Targets",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -13364,7 +13732,14 @@
 									"type": "integer",
 									"name": "indicatorObjectCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -13598,7 +13973,14 @@
 									"type": "integer",
 									"name": "indicatorObjectCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -14456,7 +14838,14 @@
 									"type": "integer",
 									"name": "indicatorObjectCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -14698,7 +15087,14 @@
 									"type": "integer",
 									"name": "indicatorObjectCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -15847,7 +16243,14 @@
 									"type": "integer",
 									"name": "deviceIDDataLengthIndicator",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "deviceIDData"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -15945,7 +16348,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterPointAdmNumberCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -15990,7 +16400,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -16224,7 +16641,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -16429,7 +16853,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -16647,7 +17078,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterIDCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -16696,7 +17134,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterPointAdmNumberCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -16741,7 +17186,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -16975,7 +17427,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -17186,7 +17645,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -17410,7 +17876,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterIDCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -17459,7 +17932,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterPointAdmNumberCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -17504,7 +17984,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -17738,7 +18225,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -17949,7 +18443,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -18173,7 +18674,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterIDCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -18222,7 +18730,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterPointAdmNumberCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -18460,7 +18975,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -18579,7 +19101,17 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterValue"
+											},
+											{
+												"name": "previousMeterValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -18612,7 +19144,15 @@
 							"type": "integer",
 							"name": "deltaTime",
 							"help": "Delta Time",
-							"length": 2
+							"length": 2,
+							"presenceOf": {
+								"isExplicit": true,
+								"refs": [
+									{
+										"name": "previousMeterValue"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -18789,7 +19329,17 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterValue"
+											},
+											{
+												"name": "previousMeterValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -18822,7 +19372,15 @@
 							"type": "integer",
 							"name": "deltaTime",
 							"help": "Delta Time",
-							"length": 2
+							"length": 2,
+							"presenceOf": {
+								"isExplicit": true,
+								"refs": [
+									{
+										"name": "previousMeterValue"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -19043,7 +19601,17 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterValue"
+											},
+											{
+												"name": "previousMeterValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -19076,7 +19644,15 @@
 							"type": "integer",
 							"name": "deltaTime",
 							"help": "Delta Time",
-							"length": 2
+							"length": 2,
+							"presenceOf": {
+								"isExplicit": true,
+								"refs": [
+									{
+										"name": "previousMeterValue"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -19208,7 +19784,14 @@
 							"type": "integer",
 							"name": "numberOfScaleSupportedBytesToFollow",
 							"help": "Number of Scale Supported Bytes to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "scaleSupported"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -19374,7 +19957,17 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "meterValue"
+											},
+											{
+												"name": "previousMeterValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -19407,7 +20000,15 @@
 							"type": "integer",
 							"name": "deltaTime",
 							"help": "Delta Time",
-							"length": 2
+							"length": 2,
+							"presenceOf": {
+								"isExplicit": true,
+								"refs": [
+									{
+										"name": "previousMeterValue"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -19547,7 +20148,14 @@
 							"type": "integer",
 							"name": "numberOfScaleSupportedBytesToFollow",
 							"help": "Number of Scale Supported Bytes to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "scaleSupported"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -21417,7 +22025,14 @@
 							"type": "integer",
 							"name": "numberOfCommands",
 							"help": "Number of Commands",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "encapsulatedCommand"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -21431,7 +22046,14 @@
 									"type": "integer",
 									"name": "commandLength",
 									"help": "Command Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "data"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -21515,7 +22137,14 @@
 							"type": "integer",
 							"name": "groupingIdentifier",
 							"help": "Grouping identifier",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "enumarray",
@@ -21565,7 +22194,14 @@
 							"type": "integer",
 							"name": "groupingIdentifier",
 							"help": "Grouping Identifier",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -21627,7 +22263,14 @@
 							"type": "integer",
 							"name": "groupingIdentifier",
 							"help": "Grouping identifier",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "enumarray",
@@ -23287,7 +23930,14 @@
 							"type": "integer",
 							"name": "nodeInfoLength",
 							"help": "Node Info Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "commandClass"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -23869,7 +24519,14 @@
 							"type": "integer",
 							"name": "nodeInfoLength",
 							"help": "Node Info Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "commandClass"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -24442,7 +25099,14 @@
 									"type": "integer",
 									"name": "inputDSKLength",
 									"mask": 15,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "inputDSK"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -24658,7 +25322,14 @@
 							"type": "integer",
 							"name": "nodeInfoLength",
 							"help": "Node Info Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "commandClass"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -24752,7 +25423,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -25265,7 +25943,14 @@
 									"type": "integer",
 									"name": "inputDSKLength",
 									"mask": 15,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "inputDSK"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -25333,7 +26018,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -25421,7 +26113,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -26526,7 +27225,14 @@
 									"type": "integer",
 									"name": "rateParameterSetIDs",
 									"mask": 63,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "rateParameterSetID"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -26574,7 +27280,14 @@
 									"type": "integer",
 									"name": "numberOfRateChar",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "rateCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -26748,7 +27461,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -26958,7 +27678,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -27068,7 +27795,14 @@
 									"type": "integer",
 									"name": "numberOfRateChar",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "rateCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -29521,7 +30255,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"help": "Number of Characters",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "character"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -29646,7 +30387,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"help": "Number of Characters",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "character"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -29762,7 +30510,14 @@
 									"type": "integer",
 									"name": "numberOfCharacters",
 									"help": "Number of Characters",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "character"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -30600,7 +31355,14 @@
 							"type": "integer",
 							"name": "numberOfBitMasks",
 							"help": "Number of Bit Masks",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "bitMask"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -30942,7 +31704,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "triggerValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -31076,7 +31845,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "triggerValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -31159,7 +31935,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -31282,7 +32065,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -31433,7 +32223,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -31588,7 +32385,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -31944,7 +32748,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -32646,7 +33457,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -33508,7 +34326,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -34538,7 +35363,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -35624,7 +36456,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -36750,7 +37589,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -37964,7 +38810,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "sensorValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -38670,7 +39523,14 @@
 							"type": "integer",
 							"name": "numberOfBitMasks",
 							"help": "Number of Bit Masks",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "bitMask"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -40013,7 +40873,14 @@
 									"type": "integer",
 									"name": "rateParameterSetIDs",
 									"mask": 63,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "rateParameterSetID"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -40164,7 +41031,14 @@
 									"type": "integer",
 									"name": "numberOfSupplierCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "supplierCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -40547,7 +41421,14 @@
 									"type": "integer",
 									"name": "numberOfSupplierCharacters",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "supplierCharacter"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -41612,7 +42493,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -41665,7 +42553,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -42313,7 +43208,14 @@
 									"type": "integer",
 									"name": "noOfManufacturerDataFields",
 									"mask": 224,
-									"shift": 5
+									"shift": 5,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "manufacturerData"
+											}
+										]
+									}
 								}
 							]
 						},
@@ -42484,7 +43386,14 @@
 									"type": "integer",
 									"name": "noOfManufacturerDataFields",
 									"mask": 224,
-									"shift": 5
+									"shift": 5,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "manufacturerData"
+											}
+										]
+									}
 								}
 							]
 						},
@@ -42739,7 +43648,14 @@
 							"type": "integer",
 							"name": "reportsToFollow",
 							"help": "Reports to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -43147,7 +44063,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -43261,7 +44184,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -43504,7 +44434,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -43630,7 +44567,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -43889,7 +44833,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -44023,7 +44974,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -44273,7 +45231,14 @@
 									"type": "integer",
 									"name": "size1",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "minValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -44312,7 +45277,14 @@
 									"type": "integer",
 									"name": "size2",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "maxValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -44880,7 +45852,17 @@
 									"type": "boolean",
 									"name": "ext",
 									"mask": 8,
-									"shift": 3
+									"shift": 3,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "headerExtensionLength"
+											},
+											{
+												"name": "headerExtension"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -44902,7 +45884,14 @@
 									"name": "ext"
 								}
 							},
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -45119,7 +46108,17 @@
 									"type": "boolean",
 									"name": "ext",
 									"mask": 8,
-									"shift": 3
+									"shift": 3,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "headerExtensionLength"
+											},
+											{
+												"name": "headerExtension"
+											}
+										]
+									}
 								}
 							]
 						},
@@ -45141,7 +46140,14 @@
 									"name": "ext"
 								}
 							},
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -45616,7 +46622,14 @@
 							"type": "integer",
 							"name": "numberOfUserCodes",
 							"help": "Number of User Codes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -45674,7 +46687,14 @@
 											"type": "integer",
 											"name": "userCodeLength",
 											"mask": 15,
-											"shift": 0
+											"shift": 0,
+											"lengthOf": {
+												"refs": [
+													{
+														"name": "userCode"
+													}
+												]
+											}
 										},
 										{
 											"type": "integer",
@@ -45747,7 +46767,14 @@
 							"type": "integer",
 							"name": "numberOfUserCodes",
 							"help": "Number of User Codes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -45759,10 +46786,9 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"optional": {
+							"length": {
 								"ref": "numberOfUserCodes"
 							},
-							"length": "auto",
 							"params": [
 								{
 									"type": "integer",
@@ -45812,7 +46838,14 @@
 											"type": "integer",
 											"name": "userCodeLength",
 											"mask": 15,
-											"shift": 0
+											"shift": 0,
+											"lengthOf": {
+												"refs": [
+													{
+														"name": "userCode"
+													}
+												]
+											}
 										},
 										{
 											"type": "integer",
@@ -45863,7 +46896,14 @@
 									"type": "integer",
 									"name": "supportedUserIDStatusBitMaskLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "supportedUserIDStatusBitMask"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -45909,7 +46949,14 @@
 									"type": "integer",
 									"name": "supportedKeypadModesBitMaskLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "supportedKeypadModesBitMask"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -45954,7 +47001,14 @@
 									"type": "integer",
 									"name": "supportedKeysBitMaskLength",
 									"mask": 15,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "supportedKeysBitMask"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -46067,7 +47121,14 @@
 									"type": "integer",
 									"name": "masterCodeLength",
 									"mask": 15,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "masterCode"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -46116,7 +47177,14 @@
 									"type": "integer",
 									"name": "masterCodeLength",
 									"mask": 15,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "masterCode"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -46351,7 +47419,14 @@
 							"type": "integer",
 							"name": "numberOfFirmwareTargets",
 							"help": "Number of firmware targets",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -46475,7 +47550,14 @@
 							"type": "integer",
 							"name": "numberOfFirmwareTargets",
 							"help": "Number of firmware targets",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -47019,13 +48101,27 @@
 									"type": "boolean",
 									"name": "zWaveCmdIncluded",
 									"mask": 64,
-									"shift": 6
+									"shift": 6,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "zWaveCommand"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
 									"name": "headerExtIncluded",
 									"mask": 128,
-									"shift": 7
+									"shift": 7,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "headerExtension"
+											}
+										]
+									}
 								}
 							]
 						},
@@ -47201,13 +48297,30 @@
 									"type": "boolean",
 									"name": "zWaveCmdIncluded",
 									"mask": 64,
-									"shift": 6
+									"shift": 6,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "zWaveCommand"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
 									"name": "headerExtIncluded",
 									"mask": 128,
-									"shift": 7
+									"shift": 7,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "headerLength"
+											},
+											{
+												"name": "headerExtension"
+											}
+										]
+									}
 								}
 							]
 						},
@@ -47270,7 +48383,14 @@
 									"name": "headerExtIncluded"
 								}
 							},
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -47400,13 +48520,30 @@
 									"type": "boolean",
 									"name": "zWaveCmdIncluded",
 									"mask": 64,
-									"shift": 6
+									"shift": 6,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "zWaveCommand"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
 									"name": "headerExtIncluded",
 									"mask": 128,
-									"shift": 7
+									"shift": 7,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "headerLength"
+											},
+											{
+												"name": "headerExtension"
+											}
+										]
+									}
 								}
 							]
 						},
@@ -47469,7 +48606,14 @@
 									"name": "headerExtIncluded"
 								}
 							},
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -47599,13 +48743,30 @@
 									"type": "boolean",
 									"name": "zWaveCmdIncluded",
 									"mask": 64,
-									"shift": 6
+									"shift": 6,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "zWaveCommand"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
 									"name": "headerExtIncluded",
 									"mask": 128,
-									"shift": 7
+									"shift": 7,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "headerLength"
+											},
+											{
+												"name": "headerExtension"
+											}
+										]
+									}
 								}
 							]
 						},
@@ -47668,7 +48829,14 @@
 									"name": "headerExtIncluded"
 								}
 							},
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -47947,7 +49115,15 @@
 									"type": "boolean",
 									"name": "controller",
 									"mask": 2,
-									"shift": 1
+									"shift": 1,
+									"presenceOf": {
+										"isExplicit": true,
+										"refs": [
+											{
+												"name": "basicDeviceClass"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -48339,7 +49515,14 @@
 									"type": "integer",
 									"name": "colorComponentCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -48527,7 +49710,14 @@
 									"type": "integer",
 									"name": "colorComponentCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -48747,7 +49937,14 @@
 									"type": "integer",
 									"name": "colorComponentCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -48945,7 +50142,14 @@
 							"type": "integer",
 							"name": "numberOfSupportedCC",
 							"help": "Number of supported CC",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -49150,7 +50354,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -49164,7 +50375,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -49335,7 +50553,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -49349,7 +50574,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -49531,7 +50763,14 @@
 							"type": "integer",
 							"name": "numberOfSupportedCC",
 							"help": "Number of supported CC",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -49748,7 +50987,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -49762,7 +51008,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -49953,7 +51206,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -49967,7 +51227,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -50174,7 +51441,14 @@
 							"type": "integer",
 							"name": "numberOfSupportedCC",
 							"help": "Number of supported CC",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -50416,7 +51690,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -50430,7 +51711,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -50653,7 +51941,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -50667,7 +51962,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -50874,7 +52176,14 @@
 							"type": "integer",
 							"name": "numberOfSupportedCC",
 							"help": "Number of supported CC",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -51116,7 +52425,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -51130,7 +52446,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -51353,7 +52676,14 @@
 							"type": "integer",
 							"name": "numberOfCmdToFollow",
 							"help": "Number of Cmd to Follow",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -51367,7 +52697,14 @@
 									"type": "integer",
 									"name": "cmdLength",
 									"help": "Cmd Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "cmdByte"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -51539,7 +52876,14 @@
 							"type": "integer",
 							"name": "commandClassListLength",
 							"help": "Command Class List Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "group",
@@ -51560,7 +52904,14 @@
 									"type": "integer",
 									"name": "supportedCommandListLength",
 									"help": "Supported Command List Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "supportedCommand"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -51935,7 +53286,14 @@
 							"type": "integer",
 							"name": "lengthOfName",
 							"help": "Length of Name",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "name"
+									}
+								]
+							}
 						},
 						{
 							"type": "text",
@@ -52004,7 +53362,14 @@
 									"type": "integer",
 									"name": "groupCount",
 									"mask": 63,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -52288,7 +53653,14 @@
 							"type": "integer",
 							"name": "listLength",
 							"help": "List Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "command"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -52339,7 +53711,14 @@
 							"type": "integer",
 							"name": "lengthOfName",
 							"help": "Length of Name",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "name"
+									}
+								]
+							}
 						},
 						{
 							"type": "text",
@@ -52408,7 +53787,14 @@
 									"type": "integer",
 									"name": "groupCount",
 									"mask": 63,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -52730,7 +54116,14 @@
 							"type": "integer",
 							"name": "listLength",
 							"help": "List Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "command"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -52781,7 +54174,14 @@
 							"type": "integer",
 							"name": "lengthOfName",
 							"help": "Length of Name",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "name"
+									}
+								]
+							}
 						},
 						{
 							"type": "text",
@@ -52850,7 +54250,14 @@
 									"type": "integer",
 									"name": "groupCount",
 									"mask": 63,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -53306,7 +54713,14 @@
 							"type": "integer",
 							"name": "listLength",
 							"help": "List Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "command"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -53431,7 +54845,14 @@
 							"type": "integer",
 							"name": "supportedScenes",
 							"help": "Supported Scenes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -53575,7 +54996,14 @@
 							"type": "integer",
 							"name": "supportedScenes",
 							"help": "Supported Scenes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -53914,7 +55342,14 @@
 									"type": "integer",
 									"name": "numberOfMagicCodeBytes",
 									"mask": 127,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "magicCode"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -53947,7 +55382,14 @@
 							"type": "integer",
 							"name": "antiTheftHintNumberBytes",
 							"help": "Anti-theft Hint Number Bytes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "antiTheftHintByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -53988,7 +55430,14 @@
 							"type": "integer",
 							"name": "antiTheftHintNumberBytes",
 							"help": "Anti-theft Hint Number Bytes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "antiTheftHintByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -54025,7 +55474,14 @@
 									"type": "integer",
 									"name": "numberOfMagicCodeBytes",
 									"mask": 127,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "magicCode"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -54058,7 +55514,14 @@
 							"type": "integer",
 							"name": "antiTheftHintNumberBytes",
 							"help": "Anti-theft Hint Number Bytes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "antiTheftHintByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -54099,7 +55562,14 @@
 							"type": "integer",
 							"name": "antiTheftHintNumberBytes",
 							"help": "Anti-theft Hint Number Bytes",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "antiTheftHintByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -54405,7 +55875,14 @@
 									"type": "integer",
 									"name": "peerNameLength",
 									"mask": 63,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "peerName"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -54485,7 +55962,14 @@
 									"type": "integer",
 									"name": "peerNameLength",
 									"mask": 63,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "peerName"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -55406,7 +56890,14 @@
 									"type": "integer",
 									"name": "length",
 									"help": "Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -55671,7 +57162,14 @@
 									"type": "integer",
 									"name": "length",
 									"help": "Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -56364,7 +57862,14 @@
 									"type": "integer",
 									"name": "parameterCount",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -56846,7 +58351,14 @@
 									"type": "boolean",
 									"name": "extension",
 									"mask": 1,
-									"shift": 0
+									"shift": 0,
+									"presenceOf": {
+										"refs": [
+											{
+												"name": "vg1"
+											}
+										]
+									}
 								},
 								{
 									"type": "boolean",
@@ -56889,7 +58401,14 @@
 									"type": "integer",
 									"name": "extensionLength",
 									"help": "Extension Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "extension"
+											}
+										]
+									}
 								},
 								{
 									"type": "bitfield",
@@ -56913,7 +58432,8 @@
 											"type": "boolean",
 											"name": "moreToFollow",
 											"mask": 128,
-											"shift": 7
+											"shift": 7,
+											"isMoreToFollowFlag": true
 										}
 									]
 								},
@@ -57415,7 +58935,14 @@
 									"type": "integer",
 									"name": "flowSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "flowValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57454,7 +58981,14 @@
 									"type": "integer",
 									"name": "pressureSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "pressureValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57546,7 +59080,14 @@
 									"type": "integer",
 									"name": "highPressureThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "highPressureThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57585,7 +59126,14 @@
 									"type": "integer",
 									"name": "lowPressureThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "lowPressureThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57651,7 +59199,14 @@
 									"type": "integer",
 									"name": "highPressureThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "highPressureThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57690,7 +59245,14 @@
 									"type": "integer",
 									"name": "lowPressureThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "lowPressureThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57870,7 +59432,14 @@
 									"type": "integer",
 									"name": "maximumFlowSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "maximumFlowValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57909,7 +59478,14 @@
 									"type": "integer",
 									"name": "flowHighThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "flowHighThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -57948,7 +59524,14 @@
 									"type": "integer",
 									"name": "flowLowThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "flowLowThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -58075,7 +59658,14 @@
 									"type": "integer",
 									"name": "maximumFlowSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "maximumFlowValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -58114,7 +59704,14 @@
 									"type": "integer",
 									"name": "flowHighThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "flowHighThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -58153,7 +59750,14 @@
 									"type": "integer",
 									"name": "flowLowThresholdSize",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "flowLowThresholdValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -58387,7 +59991,14 @@
 							"type": "integer",
 							"name": "encapsulatedCommandLength",
 							"help": "Encapsulated Command Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "encapsulatedCommand"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -58525,7 +60136,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -58652,7 +60270,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -58878,7 +60503,14 @@
 									"type": "integer",
 									"name": "size1",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "minimumValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -58927,7 +60559,14 @@
 									"type": "integer",
 									"name": "size2",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "maximumValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -59028,7 +60667,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -59163,7 +60809,14 @@
 									"type": "integer",
 									"name": "size",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -59401,7 +61054,14 @@
 									"type": "integer",
 									"name": "size1",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "minimumValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -59450,7 +61110,14 @@
 									"type": "integer",
 									"name": "size2",
 									"mask": 7,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "maximumValue"
+											}
+										]
+									}
 								},
 								{
 									"type": "enum",
@@ -59823,7 +61490,15 @@
 							"type": "integer",
 							"name": "sequenceNumber",
 							"help": "Sequence Number",
-							"length": 1
+							"length": 1,
+							"presenceOf": {
+								"isExplicit": true,
+								"refs": [
+									{
+										"name": "eventData"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -59980,7 +61655,14 @@
 							"type": "integer",
 							"name": "eventDataLength",
 							"help": "Event Data Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "eventData"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -60289,7 +61971,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -60343,7 +62032,14 @@
 									"type": "integer",
 									"name": "length",
 									"help": "Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -60379,7 +62075,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -60453,7 +62156,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -60507,7 +62217,14 @@
 									"type": "integer",
 									"name": "length",
 									"help": "Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -60543,7 +62260,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -60591,7 +62315,14 @@
 									"type": "integer",
 									"name": "dSKLength",
 									"mask": 31,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "dsk"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -60645,7 +62376,14 @@
 									"type": "integer",
 									"name": "length",
 									"help": "Length",
-									"length": 1
+									"length": 1,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "value"
+											}
+										]
+									}
 								},
 								{
 									"type": "blob",
@@ -60725,7 +62463,14 @@
 							"type": "integer",
 							"name": "nameLength",
 							"help": "Name Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "name"
+									}
+								]
+							}
 						},
 						{
 							"type": "text",

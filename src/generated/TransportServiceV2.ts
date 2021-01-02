@@ -21,8 +21,6 @@ export interface TransportServiceV2CommandFirstSegmentData {
 	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
 	sessionID: number; // properties2[7..4]
-	ext: boolean; // properties2[3]
-	headerExtensionLength?: number; // 1 byte unsigned integer
 	// TODO param headerExtension type blob
 	// TODO param payload type blob
 	frameCheckSequence: number; // 2 byte unsigned integer
@@ -46,10 +44,8 @@ export interface TransportServiceV2CommandSubsequentSegmentData {
 	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
 	sessionID: number; // properties2[7..4]
-	ext: boolean; // properties2[3]
 	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
-	headerExtensionLength?: number; // 1 byte unsigned integer
 	// TODO param headerExtension type blob
 	// TODO param payload type blob
 	frameCheckSequence: number; // 2 byte unsigned integer
@@ -113,7 +109,17 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 							"type": "boolean",
 							"name": "ext",
 							"mask": 8,
-							"shift": 3
+							"shift": 3,
+							"presenceOf": {
+								"refs": [
+									{
+										"name": "headerExtensionLength"
+									},
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -136,7 +142,14 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 							"name": "ext"
 						}
 					},
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "headerExtension"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",
@@ -399,7 +412,17 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 							"type": "boolean",
 							"name": "ext",
 							"mask": 8,
-							"shift": 3
+							"shift": 3,
+							"presenceOf": {
+								"refs": [
+									{
+										"name": "headerExtensionLength"
+									},
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",
@@ -427,7 +450,14 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 							"name": "ext"
 						}
 					},
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "headerExtension"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

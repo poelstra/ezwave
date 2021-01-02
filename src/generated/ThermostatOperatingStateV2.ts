@@ -31,7 +31,6 @@ export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingGetDat
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData {
-	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
@@ -260,7 +259,14 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 					"type": "integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",

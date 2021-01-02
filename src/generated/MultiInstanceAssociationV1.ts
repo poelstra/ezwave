@@ -27,14 +27,12 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationGroupingsRepo
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationRemoveData {
-	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationReportData {
-	groupingIdentifier: number; // 1 byte unsigned integer
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
@@ -43,7 +41,6 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationReportData {
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationSetData {
-	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeID type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
@@ -148,7 +145,14 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"type": "integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "enumarray",
@@ -211,7 +215,14 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"type": "integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",
@@ -286,7 +297,14 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"type": "integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "enumarray",

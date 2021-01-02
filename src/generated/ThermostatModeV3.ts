@@ -18,13 +18,11 @@ export enum ThermostatModeV3Commands {
 }
 
 export interface ThermostatModeV3ThermostatModeReportData {
-	noOfManufacturerDataFields: number; // level[7..5]
 	mode: ModeEnum; // level[4..0]
 	// TODO param manufacturerData type blob
 }
 
 export interface ThermostatModeV3ThermostatModeSetData {
-	noOfManufacturerDataFields: number; // level[7..5]
 	mode: ModeEnum; // level[4..0]
 	// TODO param manufacturerData type blob
 }
@@ -118,7 +116,14 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 							"type": "integer",
 							"name": "noOfManufacturerDataFields",
 							"mask": 224,
-							"shift": 5
+							"shift": 5,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "manufacturerData"
+									}
+								]
+							}
 						},
 						{
 							"type": "enum",
@@ -302,7 +307,14 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 							"type": "integer",
 							"name": "noOfManufacturerDataFields",
 							"mask": 224,
-							"shift": 5
+							"shift": 5,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "manufacturerData"
+									}
+								]
+							}
 						},
 						{
 							"type": "enum",

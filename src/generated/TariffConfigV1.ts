@@ -16,7 +16,6 @@ export enum TariffConfigV1Commands {
 }
 
 export interface TariffConfigV1TariffTblRemoveData {
-	rateParameterSetIDs: number; // properties1[5..0]
 	// TODO param rateParameterSetID type blob
 }
 
@@ -37,7 +36,6 @@ export interface TariffConfigV1TariffTblSupplierSetData {
 	standingChargePrecision: number; // properties1[7..5]
 	standingChargePeriod: number; // properties1[4..0]
 	standingChargeValue: number; // 4 byte unsigned integer
-	numberOfSupplierCharacters: number; // properties2[4..0]
 	// TODO param supplierCharacter type blob
 }
 
@@ -78,7 +76,14 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 							"type": "integer",
 							"name": "rateParameterSetIDs",
 							"mask": 63,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "rateParameterSetID"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -255,7 +260,14 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 							"type": "integer",
 							"name": "numberOfSupplierCharacters",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supplierCharacter"
+									}
+								]
+							}
 						}
 					]
 				},

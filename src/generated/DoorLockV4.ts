@@ -56,9 +56,7 @@ export interface DoorLockV4DoorLockOperationSetData {
 }
 
 export interface DoorLockV4DoorLockCapabilitiesReportData {
-	supportedOperationTypeBitMaskLength: number; // properties1[4..0]
 	// TODO param supportedOperationTypeBitMask type blob
-	supportedDoorLockModeListLength: number; // 1 byte unsigned integer
 	// TODO param supportedDoorLockMode type blob
 	supportedOutsideHandleModesBitmask: number; // properties2[7..4]
 	supportedInsideHandleModesBitmask: number; // properties2[3..0]
@@ -607,7 +605,14 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 							"type": "integer",
 							"name": "supportedOperationTypeBitMaskLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supportedOperationTypeBitMask"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -628,7 +633,14 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"type": "integer",
 					"name": "supportedDoorLockModeListLength",
 					"help": "Supported Door Lock Mode List Length",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "supportedDoorLockMode"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

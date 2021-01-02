@@ -14,7 +14,6 @@ export enum MeterTblConfigV1Commands {
 }
 
 export interface MeterTblConfigV1MeterTblTablePointAdmNoSetData {
-	numberOfCharacters: number; // properties1[4..0]
 	// TODO param meterPointAdmNumberCharacter type blob
 }
 
@@ -55,7 +54,14 @@ export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Command
 							"type": "integer",
 							"name": "numberOfCharacters",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "meterPointAdmNumberCharacter"
+									}
+								]
+							}
 						}
 					]
 				},

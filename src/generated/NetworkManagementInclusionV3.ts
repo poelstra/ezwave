@@ -56,7 +56,6 @@ export interface NetworkManagementInclusionV3NodeAddStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	newNodeID: number; // 1 byte unsigned integer
-	nodeInfoLength: number; // 1 byte unsigned integer
 	listening: boolean; // properties1[7]
 	zWaveProtocolSpecificPart1: number; // properties1[6..0]
 	opt: boolean; // properties2[7]
@@ -67,7 +66,6 @@ export interface NetworkManagementInclusionV3NodeAddStatusData {
 	// TODO param commandClass type enumarray
 	grantedKeys: number; // 1 byte unsigned integer
 	kEXFailType: number; // 1 byte unsigned integer
-	dSKLength: number; // properties3[4..0]
 	// TODO param dsk type blob
 }
 
@@ -150,7 +148,6 @@ export interface NetworkManagementInclusionV3NodeAddDskReportData {
 export interface NetworkManagementInclusionV3NodeAddDskSetData {
 	seqNo: number; // 1 byte unsigned integer
 	accept: boolean; // properties1[7]
-	inputDSKLength: number; // properties1[3..0]
 	// TODO param inputDSK type blob
 }
 
@@ -160,7 +157,6 @@ export interface NetworkManagementInclusionV3S2AdvancedJoinModeGetData {
 
 export interface NetworkManagementInclusionV3SmartStartJoinStartedReportData {
 	seqNo: number; // 1 byte unsigned integer
-	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 }
 
@@ -176,7 +172,6 @@ export interface NetworkManagementInclusionV3S2AdvancedJoinModeReportData {
 
 export interface NetworkManagementInclusionV3IncludedNifReportData {
 	seqNo: number; // 1 byte unsigned integer
-	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 }
 
@@ -408,7 +403,14 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"type": "integer",
 					"name": "nodeInfoLength",
 					"help": "Node Info Length",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "commandClass"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",
@@ -509,7 +511,14 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1210,7 +1219,14 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 							"type": "integer",
 							"name": "inputDSKLength",
 							"mask": 15,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "inputDSK"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1298,7 +1314,14 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1425,7 +1448,14 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},

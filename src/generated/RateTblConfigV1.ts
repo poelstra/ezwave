@@ -15,14 +15,12 @@ export enum RateTblConfigV1Commands {
 }
 
 export interface RateTblConfigV1RateTblRemoveData {
-	rateParameterSetIDs: number; // properties1[5..0]
 	// TODO param rateParameterSetID type blob
 }
 
 export interface RateTblConfigV1RateTblSetData {
 	rateParameterSetID: number; // 1 byte unsigned integer
 	rateType: number; // properties1[6..5]
-	numberOfRateChar: number; // properties1[4..0]
 	// TODO param rateCharacter type blob
 	startHourLocalTime: number; // 1 byte unsigned integer
 	startMinuteLocalTime: number; // 1 byte unsigned integer
@@ -74,7 +72,14 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 							"type": "integer",
 							"name": "rateParameterSetIDs",
 							"mask": 63,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "rateParameterSetID"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -141,7 +146,14 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 							"type": "integer",
 							"name": "numberOfRateChar",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "rateCharacter"
+									}
+								]
+							}
 						}
 					]
 				},

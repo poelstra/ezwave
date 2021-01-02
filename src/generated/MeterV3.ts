@@ -27,7 +27,6 @@ export interface MeterV3MeterReportData {
 	meterType: number; // properties1[4..0]
 	precision: number; // properties2[7..5]
 	scaleBits10: number; // properties2[4..3]
-	size: number; // properties2[2..0]
 	// TODO param meterValue type blob
 	deltaTime: number; // 2 byte unsigned integer
 	// TODO param previousMeterValue type blob
@@ -156,7 +155,17 @@ export class MeterV3 extends CommandClassPacket<MeterV3Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "meterValue"
+									},
+									{
+										"name": "previousMeterValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -177,7 +186,15 @@ export class MeterV3 extends CommandClassPacket<MeterV3Commands> {
 					"type": "integer",
 					"name": "deltaTime",
 					"help": "Delta Time",
-					"length": 2
+					"length": 2,
+					"presenceOf": {
+						"isExplicit": true,
+						"refs": [
+							{
+								"name": "previousMeterValue"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

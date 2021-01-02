@@ -31,20 +31,16 @@ export interface ConfigurationV3ConfigurationBulkGetData {
 
 export interface ConfigurationV3ConfigurationBulkReportData {
 	parameterOffset: number; // 2 byte unsigned integer
-	numberOfParameters: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	default: boolean; // properties1[7]
 	handshake: boolean; // properties1[6]
-	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
 export interface ConfigurationV3ConfigurationBulkSetData {
 	parameterOffset: number; // 2 byte unsigned integer
-	numberOfParameters: number; // 1 byte unsigned integer
 	default: boolean; // properties1[7]
 	handshake: boolean; // properties1[6]
-	size: number; // properties1[2..0]
 	// TODO param vg type group
 }
 
@@ -54,14 +50,12 @@ export interface ConfigurationV3ConfigurationGetData {
 
 export interface ConfigurationV3ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
 export interface ConfigurationV3ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
 	default: boolean; // level[7]
-	size: number; // level[2..0]
 	// TODO param configurationValue type blob
 }
 
@@ -92,7 +86,6 @@ export interface ConfigurationV3ConfigurationPropertiesGetData {
 export interface ConfigurationV3ConfigurationPropertiesReportData {
 	parameterNumber: number; // 2 byte unsigned integer
 	format: FormatEnum; // properties1[5..3]
-	size: number; // properties1[2..0]
 	// TODO param minValue type blob
 	// TODO param maxValue type blob
 	// TODO param defaultValue type blob
@@ -169,7 +162,14 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"type": "integer",
 					"name": "numberOfParameters",
 					"help": "Number of Parameters",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",
@@ -206,7 +206,15 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"group": "vg",
+										"name": "parameter"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -265,7 +273,14 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"type": "integer",
 					"name": "numberOfParameters",
 					"help": "Number of Parameters",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",
@@ -296,7 +311,15 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"group": "vg",
+										"name": "parameter"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -395,7 +418,14 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "configurationValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -462,7 +492,14 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "configurationValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -706,7 +743,20 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "minValue"
+									},
+									{
+										"name": "maxValue"
+									},
+									{
+										"name": "defaultValue"
+									}
+								]
+							}
 						}
 					]
 				},

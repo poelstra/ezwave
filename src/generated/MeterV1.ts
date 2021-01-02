@@ -18,7 +18,6 @@ export interface MeterV1MeterReportData {
 	meterType: MeterTypeEnum; // 1 byte enum value
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param meterValue type blob
 }
 
@@ -110,7 +109,14 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "meterValue"
+									}
+								]
+							}
 						}
 					]
 				},

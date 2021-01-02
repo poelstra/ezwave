@@ -40,7 +40,6 @@ export interface Security2V1Security2NonceReportData {
 export interface Security2V1Security2MessageEncapsulationData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	encryptedExtension: boolean; // properties1[1]
-	extension: boolean; // properties1[0]
 	// TODO param vg1 type group
 	// TODO param cCMCiphertextObject type blob
 }
@@ -236,7 +235,14 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 							"type": "boolean",
 							"name": "extension",
 							"mask": 1,
-							"shift": 0
+							"shift": 0,
+							"presenceOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -266,7 +272,14 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 							"type": "integer",
 							"name": "extensionLength",
 							"help": "Extension Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "extension"
+									}
+								]
+							}
 						},
 						{
 							"type": "bitfield",
@@ -290,7 +303,8 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 									"type": "boolean",
 									"name": "moreToFollow",
 									"mask": 128,
-									"shift": 7
+									"shift": 7,
+									"isMoreToFollowFlag": true
 								}
 							]
 						},

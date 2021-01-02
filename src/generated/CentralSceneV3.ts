@@ -19,7 +19,6 @@ export enum CentralSceneV3Commands {
 }
 
 export interface CentralSceneV3CentralSceneSupportedReportData {
-	supportedScenes: number; // 1 byte unsigned integer
 	slowRefreshSupport: boolean; // properties1[7]
 	numberOfBitMaskBytes: number; // properties1[2..1]
 	identical: boolean; // properties1[0]
@@ -95,7 +94,14 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 					"type": "integer",
 					"name": "supportedScenes",
 					"help": "Supported Scenes",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",

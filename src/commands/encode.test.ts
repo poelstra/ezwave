@@ -86,12 +86,20 @@ describe("encode", () => {
 								name: "hasParam0",
 								mask: 0x1,
 								shift: 0,
+								presenceOf: {
+									isExplicit: true,
+									refs: [{ name: "param0" }],
+								},
 							},
 							{
 								type: types.BitfieldElementType.Boolean,
 								name: "hasParam1",
 								mask: 0x2,
 								shift: 1,
+								presenceOf: {
+									isExplicit: true,
+									refs: [{ name: "param1" }],
+								},
 							},
 						],
 					},
@@ -252,12 +260,20 @@ describe("encode", () => {
 						name: "hasParam0",
 						mask: 0x1,
 						shift: 0,
+						presenceOf: {
+							isExplicit: true,
+							refs: [{ name: "param0" }],
+						},
 					},
 					{
 						type: types.BitfieldElementType.Boolean,
 						name: "hasParam1",
 						mask: 0x2,
 						shift: 1,
+						presenceOf: {
+							isExplicit: true,
+							refs: [{ name: "param1" }],
+						},
 					},
 				],
 			},

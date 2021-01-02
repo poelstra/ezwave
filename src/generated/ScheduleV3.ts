@@ -30,7 +30,6 @@ export interface ScheduleV3ScheduleSupportedReportData {
 	supportEnableDisable: boolean; // properties1[7]
 	fallbackSupport: boolean; // properties1[6]
 	startTimeSupport: number; // properties1[5..0]
-	numberOfSupportedCC: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 	overrideSupport: boolean; // properties3[7]
 	supportedOverrideTypes: number; // properties3[6..0]
@@ -53,7 +52,6 @@ export interface ScheduleV3CommandScheduleSetData {
 	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	numberOfCmdToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
@@ -79,7 +77,6 @@ export interface ScheduleV3CommandScheduleReportData {
 	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	numberOfCmdToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
@@ -195,7 +192,14 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 					"type": "integer",
 					"name": "numberOfSupportedCC",
 					"help": "Number of supported CC",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -450,7 +454,14 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 					"type": "integer",
 					"name": "numberOfCmdToFollow",
 					"help": "Number of Cmd to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -464,7 +475,14 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 							"type": "integer",
 							"name": "cmdLength",
 							"help": "Cmd Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "cmdByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -713,7 +731,14 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 					"type": "integer",
 					"name": "numberOfCmdToFollow",
 					"help": "Number of Cmd to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -727,7 +752,14 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 							"type": "integer",
 							"name": "cmdLength",
 							"help": "Cmd Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "cmdByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",

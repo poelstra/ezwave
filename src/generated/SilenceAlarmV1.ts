@@ -16,7 +16,6 @@ export enum SilenceAlarmV1Commands {
 export interface SilenceAlarmV1SensorAlarmSetData {
 	mode: number; // 1 byte unsigned integer
 	seconds: number; // 2 byte unsigned integer
-	numberOfBitMasks: number; // 1 byte unsigned integer
 	// TODO param bitMask type blob
 }
 
@@ -74,7 +73,14 @@ export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
 					"type": "integer",
 					"name": "numberOfBitMasks",
 					"help": "Number of Bit Masks",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "bitMask"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

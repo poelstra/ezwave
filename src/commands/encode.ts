@@ -100,6 +100,16 @@ function resolveNumericReference(
 	return fieldValue;
 }
 
+function isValuePresent(value: unknown): boolean {
+	if (value === undefined) {
+		return false;
+	}
+	if (Array.isArray(value)) {
+		return value.length > 0;
+	}
+	return true;
+}
+
 function encodeParam(
 	param: Parameter | ParameterGroup,
 	slice: Buffer,
@@ -108,31 +118,24 @@ function encodeParam(
 ): number {
 	// Skip optional param if necessary
 	if (param.optional) {
-		const isOptionalPresent = resolveReference(
-			param.optional,
-			data,
-			parent
-		);
-		if (!isOptionalPresent) {
-			// TODO Make this automatic. In that case, don't even put the referenced property in decoded data.
-			if (data[param.name] !== undefined) {
-				throw new EncodeDataError(
-					`parameter ${param.name} is optional and marked as absent, but value is defined`
-				);
-			}
+		// Note: the absence of this param will already be encoded
+		// in the relevant bitfield, and it is verified that the
+		// presence of all parameters indicated by that field are
+		// the same.
+		if (!isValuePresent(data[param.name])) {
 			return 0;
 		}
 	}
 
 	switch (param.type) {
 		case ParameterType.Integer:
-			return encodeInteger(param, slice, data);
+			return encodeInteger(param, slice, data, data);
 
 		case ParameterType.Enum:
 			return encodeEnum(param, slice, data);
 
 		case ParameterType.Bitfield:
-			return encodeBitfield(param, slice, data);
+			return encodeBitfield(param, slice, data, data);
 
 		default:
 			throw new Error(
@@ -179,10 +182,12 @@ function ensureNumericValue(
 function encodeInteger(
 	param: IntegerParameter,
 	slice: Buffer,
-	data: EncodedPacket
+	localCtx: EncodedPacket,
+	parentCtx: EncodedPacket
 ): number {
 	const length = param.length as number;
-	const rawValue = param.reserved ? 0 : data[param.name];
+	let rawValue: unknown;
+
 	const maxValue =
 		length === 1
 			? 0xff
@@ -191,6 +196,50 @@ function encodeInteger(
 			: length === 3
 			? 0xffffff
 			: 0xffffffff;
+
+	if (param.lengthOf) {
+		if (param.lengthOf.isExplicit) {
+			rawValue = ensureNumericValue(
+				localCtx[param.name],
+				param.name,
+				0,
+				maxValue
+			);
+		}
+		// There can be multiple refs, and they all need to
+		// have the same size, but some fields can be optional.
+		for (const ref of param.lengthOf.refs) {
+			const sourceCtx: EncodedPacket | undefined = ref.group
+				? (parentCtx[ref.group] as EncodedPacket | undefined)
+				: localCtx;
+			if (!sourceCtx) {
+				// Group is optional and missing
+				continue;
+			}
+			const sourceValue = sourceCtx[ref.name];
+			if (!sourceValue) {
+				// Referenced parameter is optional and missing
+				continue;
+			}
+
+			const length = getValueLength(sourceValue);
+			if (rawValue === undefined) {
+				rawValue = length;
+			} else if (length !== rawValue) {
+				if (param.lengthOf.isExplicit) {
+					throw new EncodeDataError(
+						`bitfield element ${param.name}.${param.name} indicates parameter ${ref.name} must have length ${rawValue} but it is has length ${length}`
+					);
+				}
+				throw new EncodeDataError(
+					`cannot determine value for bitfield element ${param.name}.${param.name}: all referenced fields must have the same length`
+				);
+			}
+		}
+	} else {
+		rawValue = param.reserved ? 0 : localCtx[param.name];
+	}
+
 	const integerValue = ensureNumericValue(rawValue, param.name, 0, maxValue);
 
 	slice.writeUIntBE(integerValue, 0, length);
@@ -209,17 +258,106 @@ function encodeEnum(
 	return 1;
 }
 
+function getValueLength(value: unknown): number {
+	if (!value) {
+		return 0;
+	}
+	if (Array.isArray(value) || value === "string" || Buffer.isBuffer(value)) {
+		return value.length;
+	}
+	throw new Error(
+		`missing implementation for deriving length of ${typeof value}`
+	);
+}
+
 function encodeBitfield(
 	param: BitfieldParameter,
 	slice: Buffer,
-	data: EncodedPacket
+	localCtx: EncodedPacket,
+	parentCtx: EncodedPacket,
+	isLastGroupElement?: boolean
 ): number {
 	let value = 0;
 	for (const field of param.fields) {
 		if (field.reserved) {
 			continue;
 		}
-		const fieldValue = data[field.name];
+
+		let fieldValue: unknown;
+		if (field.presenceOf) {
+			if (field.presenceOf.isExplicit) {
+				fieldValue = ensureBooleanValue(
+					localCtx[field.name],
+					field.name
+				);
+			}
+
+			// There can be multiple refs, and they need to either
+			// all be there, or none of them.
+			for (const ref of field.presenceOf.refs) {
+				const sourceValue = localCtx[ref.name];
+				const isPresent = isValuePresent(sourceValue);
+				if (fieldValue === undefined) {
+					fieldValue = isPresent;
+				} else if (isPresent !== fieldValue) {
+					if (field.presenceOf.isExplicit) {
+						throw new EncodeDataError(
+							`bitfield element ${param.name}.${
+								field.name
+							} indicates ${ref.name} must be ${
+								fieldValue ? "present" : "absent"
+							} but it is not`
+						);
+					}
+					throw new EncodeDataError(
+						`cannot determine value for bitfield element ${param.name}.${field.name}: all referenced optional fields must be either present or not present`
+					);
+				}
+			}
+		} else if (field.lengthOf) {
+			if (field.lengthOf.isExplicit) {
+				fieldValue = ensureNumericValue(
+					localCtx[field.name],
+					field.name,
+					0,
+					field.mask >> field.shift
+				);
+			}
+			// There can be multiple refs, and they all need to
+			// have the same size, but some fields can be optional.
+			for (const ref of field.lengthOf.refs) {
+				const sourceCtx: EncodedPacket | undefined = ref.group
+					? (parentCtx[ref.group] as EncodedPacket | undefined)
+					: localCtx;
+				if (!sourceCtx) {
+					// Group is optional and missing
+					continue;
+				}
+				const sourceValue = sourceCtx[ref.name];
+				if (!sourceValue) {
+					// Referenced parameter is optional and missing
+					continue;
+				}
+
+				const length = getValueLength(sourceValue);
+				if (fieldValue === undefined) {
+					fieldValue = length;
+				} else if (length !== fieldValue) {
+					if (field.lengthOf.isExplicit) {
+						throw new EncodeDataError(
+							`bitfield element ${param.name}.${field.name} indicates parameter ${ref.name} must have length ${fieldValue} but it is has length ${length}`
+						);
+					}
+					throw new EncodeDataError(
+						`cannot determine value for bitfield element ${param.name}.${field.name}: all referenced fields must have the same length`
+					);
+				}
+			}
+		} else if (field.isMoreToFollowFlag) {
+			fieldValue = !isLastGroupElement;
+		} else {
+			fieldValue = localCtx[field.name];
+		}
 
 		let rawValue: number;
 		switch (field.type) {

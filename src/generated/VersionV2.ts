@@ -32,7 +32,6 @@ export interface VersionV2VersionReportData {
 	firmware0Version: number; // 1 byte unsigned integer
 	firmware0SubVersion: number; // 1 byte unsigned integer
 	hardwareVersion: number; // 1 byte unsigned integer
-	numberOfFirmwareTargets: number; // 1 byte unsigned integer
 	// TODO param vg type group
 }
 
@@ -178,7 +177,14 @@ export class VersionV2 extends CommandClassPacket<VersionV2Commands> {
 					"type": "integer",
 					"name": "numberOfFirmwareTargets",
 					"help": "Number of firmware targets",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",

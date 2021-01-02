@@ -32,7 +32,6 @@ export interface NotificationV4NotificationReportData {
 	notificationType: NotificationTypeEnum; // 1 byte enum value
 	event: number; // 1 byte unsigned integer
 	sequence: boolean; // properties1[7]
-	eventParametersLength: number; // properties1[4..0]
 	// TODO param eventParameter type blob
 	sequenceNumber: number; // 1 byte unsigned integer
 }
@@ -340,7 +339,14 @@ export class NotificationV4 extends CommandClassPacket<NotificationV4Commands> {
 							"type": "integer",
 							"name": "eventParametersLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "eventParameter"
+									}
+								]
+							}
 						}
 					]
 				},

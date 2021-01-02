@@ -24,7 +24,6 @@ export interface AssociationGrpInfoV3AssociationGroupNameGetData {
 
 export interface AssociationGrpInfoV3AssociationGroupNameReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	lengthOfName: number; // 1 byte unsigned integer
 	// TODO param name type text
 }
 
@@ -37,7 +36,6 @@ export interface AssociationGrpInfoV3AssociationGroupInfoGetData {
 export interface AssociationGrpInfoV3AssociationGroupInfoReportData {
 	listMode: boolean; // properties1[7]
 	dynamicInfo: boolean; // properties1[6]
-	groupCount: number; // properties1[5..0]
 	// TODO param vg1 type group
 }
 
@@ -48,7 +46,6 @@ export interface AssociationGrpInfoV3AssociationGroupCommandListGetData {
 
 export interface AssociationGrpInfoV3AssociationGroupCommandListReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	listLength: number; // 1 byte unsigned integer
 	// TODO param command type blob
 }
 
@@ -109,7 +106,14 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"type": "integer",
 					"name": "lengthOfName",
 					"help": "Length of Name",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "name"
+							}
+						]
+					}
 				},
 				{
 					"type": "text",
@@ -216,7 +220,14 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 							"type": "integer",
 							"name": "groupCount",
 							"mask": 63,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -686,7 +697,14 @@ export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV
 					"type": "integer",
 					"name": "listLength",
 					"help": "List Length",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "command"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

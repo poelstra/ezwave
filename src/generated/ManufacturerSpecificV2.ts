@@ -29,7 +29,6 @@ export interface ManufacturerSpecificV2DeviceSpecificGetData {
 export interface ManufacturerSpecificV2DeviceSpecificReportData {
 	deviceIDType: DeviceIDTypeEnum; // properties1[2..0]
 	deviceIDDataFormat: DeviceIDDataFormatEnum; // properties2[7..5]
-	deviceIDDataLengthIndicator: number; // properties2[4..0]
 	// TODO param deviceIDData type blob
 }
 
@@ -231,7 +230,14 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 							"type": "integer",
 							"name": "deviceIDDataLengthIndicator",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "deviceIDData"
+									}
+								]
+							}
 						}
 					]
 				},

@@ -42,11 +42,9 @@ export interface IrrigationV1IrrigationSystemStatusReportData {
 	sensorStatus: SensorStatusEnum; // 1 byte enum value
 	flowPrecision: number; // properties1[7..5]
 	flowScale: number; // properties1[4..3]
-	flowSize: number; // properties1[2..0]
 	// TODO param flowValue type blob
 	pressurePrecision: number; // properties2[7..5]
 	pressureScale: number; // properties2[4..3]
-	pressureSize: number; // properties2[2..0]
 	// TODO param pressureValue type blob
 	shutoffDuration: number; // 1 byte unsigned integer
 	// TODO param systemErrorStatus type bitmask or marker
@@ -58,11 +56,9 @@ export interface IrrigationV1IrrigationSystemConfigSetData {
 	masterValveDelay: number; // 1 byte unsigned integer
 	highPressureThresholdPrecision: number; // properties1[7..5]
 	highPressureThresholdScale: number; // properties1[4..3]
-	highPressureThresholdSize: number; // properties1[2..0]
 	// TODO param highPressureThresholdValue type blob
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
-	lowPressureThresholdSize: number; // properties2[2..0]
 	// TODO param lowPressureThresholdValue type blob
 	// TODO param sensorPolarity type bitmask or marker
 }
@@ -71,11 +67,9 @@ export interface IrrigationV1IrrigationSystemConfigReportData {
 	masterValveDelay: number; // 1 byte unsigned integer
 	highPressureThresholdPrecision: number; // properties1[7..5]
 	highPressureThresholdScale: number; // properties1[4..3]
-	highPressureThresholdSize: number; // properties1[2..0]
 	// TODO param highPressureThresholdValue type blob
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
-	lowPressureThresholdSize: number; // properties2[2..0]
 	// TODO param lowPressureThresholdValue type blob
 	// TODO param sensorPolarity type bitmask or marker
 }
@@ -100,15 +94,12 @@ export interface IrrigationV1IrrigationValveConfigSetData {
 	nominalCurrentLowThreshold: number; // 1 byte unsigned integer
 	maximumFlowPrecision: number; // properties2[7..5]
 	maximumFlowScale: number; // properties2[4..3]
-	maximumFlowSize: number; // properties2[2..0]
 	// TODO param maximumFlowValue type blob
 	flowHighThresholdPrecision: number; // properties3[7..5]
 	flowHighThresholdScale: number; // properties3[4..3]
-	flowHighThresholdSize: number; // properties3[2..0]
 	// TODO param flowHighThresholdValue type blob
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
-	flowLowThresholdSize: number; // properties4[2..0]
 	// TODO param flowLowThresholdValue type blob
 	// TODO param sensorUsage type bitmask or marker
 }
@@ -125,15 +116,12 @@ export interface IrrigationV1IrrigationValveConfigReportData {
 	nominalCurrentLowThreshold: number; // 1 byte unsigned integer
 	maximumFlowPrecision: number; // properties2[7..5]
 	maximumFlowScale: number; // properties2[4..3]
-	maximumFlowSize: number; // properties2[2..0]
 	// TODO param maximumFlowValue type blob
 	flowHighThresholdPrecision: number; // properties3[7..5]
 	flowHighThresholdScale: number; // properties3[4..3]
-	flowHighThresholdSize: number; // properties3[2..0]
 	// TODO param flowHighThresholdValue type blob
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
-	flowLowThresholdSize: number; // properties4[2..0]
 	// TODO param flowLowThresholdValue type blob
 	// TODO param sensorUsage type bitmask or marker
 }
@@ -374,7 +362,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "flowSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "flowValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -413,7 +408,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "pressureSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "pressureValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -518,7 +520,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "highPressureThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "highPressureThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -557,7 +566,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "lowPressureThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "lowPressureThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -649,7 +665,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "highPressureThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "highPressureThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -688,7 +711,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "lowPressureThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "lowPressureThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -907,7 +937,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "maximumFlowSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "maximumFlowValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -946,7 +983,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "flowHighThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "flowHighThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -985,7 +1029,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "flowLowThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "flowLowThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1138,7 +1189,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "maximumFlowSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "maximumFlowValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1177,7 +1235,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "flowHighThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "flowHighThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1216,7 +1281,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 							"type": "integer",
 							"name": "flowLowThresholdSize",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "flowLowThresholdValue"
+									}
+								]
+							}
 						}
 					]
 				},

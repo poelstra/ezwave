@@ -71,7 +71,6 @@ export interface TariffTblMonitorV1TariffTblSupplierReportData {
 	standingChargePrecision: number; // properties1[7..5]
 	standingChargePeriod: number; // properties1[4..0]
 	standingChargeValue: number; // 4 byte unsigned integer
-	numberOfSupplierCharacters: number; // properties2[4..0]
 	// TODO param supplierCharacter type blob
 }
 
@@ -509,7 +508,14 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 							"type": "integer",
 							"name": "numberOfSupplierCharacters",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supplierCharacter"
+									}
+								]
+							}
 						}
 					]
 				},

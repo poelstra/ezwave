@@ -35,7 +35,6 @@ export interface SwitchColorV3SwitchColorReportData {
 }
 
 export interface SwitchColorV3SwitchColorSetData {
-	colorComponentCount: number; // properties1[4..0]
 	// TODO param vg1 type group
 	duration: Duration2Enum; // 1 byte enum value
 }
@@ -233,7 +232,14 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 							"type": "integer",
 							"name": "colorComponentCount",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},

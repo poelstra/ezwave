@@ -32,7 +32,6 @@ export interface ScheduleV4ScheduleSupportedReportData {
 	supportEnableDisable: boolean; // properties1[7]
 	fallbackSupport: boolean; // properties1[6]
 	startTimeSupport: number; // properties1[5..0]
-	numberOfSupportedCC: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 	overrideSupport: boolean; // properties3[7]
 	supportedOverrideTypes: number; // properties3[6..0]
@@ -55,7 +54,6 @@ export interface ScheduleV4CommandScheduleSetData {
 	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	numberOfCmdToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
@@ -81,7 +79,6 @@ export interface ScheduleV4CommandScheduleReportData {
 	startMinute: number; // properties5[5..0]
 	durationByte: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	numberOfCmdToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
@@ -114,7 +111,6 @@ export interface ScheduleV4ScheduleSupportedCommandsGetData {
 
 export interface ScheduleV4ScheduleSupportedCommandsReportData {
 	scheduleIDBlock: number; // 1 byte unsigned integer
-	commandClassListLength: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
@@ -207,7 +203,14 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"type": "integer",
 					"name": "numberOfSupportedCC",
 					"help": "Number of supported CC",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -462,7 +465,14 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"type": "integer",
 					"name": "numberOfCmdToFollow",
 					"help": "Number of Cmd to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -476,7 +486,14 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"type": "integer",
 							"name": "cmdLength",
 							"help": "Cmd Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "cmdByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -725,7 +742,14 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"type": "integer",
 					"name": "numberOfCmdToFollow",
 					"help": "Number of Cmd to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -739,7 +763,14 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"type": "integer",
 							"name": "cmdLength",
 							"help": "Cmd Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "cmdByte"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -989,7 +1020,14 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"type": "integer",
 					"name": "commandClassListLength",
 					"help": "Command Class List Length",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -1010,7 +1048,14 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"type": "integer",
 							"name": "supportedCommandListLength",
 							"help": "Supported Command List Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supportedCommand"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",

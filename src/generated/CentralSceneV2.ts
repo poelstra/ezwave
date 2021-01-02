@@ -16,7 +16,6 @@ export enum CentralSceneV2Commands {
 }
 
 export interface CentralSceneV2CentralSceneSupportedReportData {
-	supportedScenes: number; // 1 byte unsigned integer
 	numberOfBitMaskBytes: number; // properties1[2..1]
 	identical: boolean; // properties1[0]
 	// TODO param vg1 type group
@@ -82,7 +81,14 @@ export class CentralSceneV2 extends CommandClassPacket<CentralSceneV2Commands> {
 					"type": "integer",
 					"name": "supportedScenes",
 					"help": "Supported Scenes",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",

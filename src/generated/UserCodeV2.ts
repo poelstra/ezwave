@@ -52,7 +52,6 @@ export interface UserCodeV2UsersNumberReportData {
 }
 
 export interface UserCodeV2ExtendedUserCodeSetData {
-	numberOfUserCodes: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
@@ -62,7 +61,6 @@ export interface UserCodeV2ExtendedUserCodeGetData {
 }
 
 export interface UserCodeV2ExtendedUserCodeReportData {
-	numberOfUserCodes: number; // 1 byte unsigned integer
 	nextUserIdentifier: number; // 2 byte unsigned integer
 	// TODO param vg1 type group
 }
@@ -70,14 +68,11 @@ export interface UserCodeV2ExtendedUserCodeReportData {
 export interface UserCodeV2UserCodeCapabilitiesReportData {
 	mCSupport: boolean; // properties1[7]
 	mCDSupport: boolean; // properties1[6]
-	supportedUserIDStatusBitMaskLength: number; // properties1[4..0]
 	// TODO param supportedUserIDStatusBitMask type blob
 	uCCSupport: boolean; // properties2[7]
 	mUCRSupport: boolean; // properties2[6]
 	mUCSSupport: boolean; // properties2[5]
-	supportedKeypadModesBitMaskLength: number; // properties2[4..0]
 	// TODO param supportedKeypadModesBitMask type blob
-	supportedKeysBitMaskLength: number; // properties3[3..0]
 	// TODO param supportedKeysBitMask type blob
 }
 
@@ -90,12 +85,10 @@ export interface UserCodeV2UserCodeKeypadModeReportData {
 }
 
 export interface UserCodeV2MasterCodeSetData {
-	masterCodeLength: number; // properties1[3..0]
 	// TODO param masterCode type blob
 }
 
 export interface UserCodeV2MasterCodeReportData {
-	masterCodeLength: number; // properties1[3..0]
 	// TODO param masterCode type blob
 }
 
@@ -353,7 +346,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"type": "integer",
 					"name": "numberOfUserCodes",
 					"help": "Number of User Codes",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -411,7 +411,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 									"type": "integer",
 									"name": "userCodeLength",
 									"mask": 15,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "userCode"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -510,7 +517,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"type": "integer",
 					"name": "numberOfUserCodes",
 					"help": "Number of User Codes",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",
@@ -522,10 +536,9 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"optional": {
+					"length": {
 						"ref": "numberOfUserCodes"
 					},
-					"length": "auto",
 					"params": [
 						{
 							"type": "integer",
@@ -575,7 +588,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 									"type": "integer",
 									"name": "userCodeLength",
 									"mask": 15,
-									"shift": 0
+									"shift": 0,
+									"lengthOf": {
+										"refs": [
+											{
+												"name": "userCode"
+											}
+										]
+									}
 								},
 								{
 									"type": "integer",
@@ -671,7 +691,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"type": "integer",
 							"name": "supportedUserIDStatusBitMaskLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supportedUserIDStatusBitMask"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -716,7 +743,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"type": "integer",
 							"name": "supportedKeypadModesBitMaskLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supportedKeypadModesBitMask"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -750,7 +784,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"type": "integer",
 							"name": "supportedKeysBitMaskLength",
 							"mask": 15,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "supportedKeysBitMask"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -915,7 +956,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"type": "integer",
 							"name": "masterCodeLength",
 							"mask": 15,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "masterCode"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -990,7 +1038,14 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"type": "integer",
 							"name": "masterCodeLength",
 							"mask": 15,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "masterCode"
+									}
+								]
+							}
 						}
 					]
 				},

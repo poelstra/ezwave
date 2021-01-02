@@ -21,15 +21,12 @@ export interface ZipV4CommandZipPacketData {
 	nAckWaiting: boolean; // properties1[4]
 	nAckQueueFull: boolean; // properties1[3]
 	nAckOptionError: boolean; // properties1[2]
-	headerExtIncluded: boolean; // properties2[7]
-	zWaveCmdIncluded: boolean; // properties2[6]
 	moreInformation: boolean; // properties2[5]
 	secureOrigin: boolean; // properties2[4]
 	seqNo: number; // 1 byte unsigned integer
 	sourceEndPoint: number; // properties3[6..0]
 	bitAddress: boolean; // properties4[7]
 	destinationEndPoint: number; // properties4[6..0]
-	headerLength?: number; // 1 byte unsigned integer
 	// TODO param headerExtension type blob
 	// TODO param zWaveCommand type blob
 }
@@ -120,13 +117,30 @@ export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
 							"type": "boolean",
 							"name": "headerExtIncluded",
 							"mask": 128,
-							"shift": 7
+							"shift": 7,
+							"presenceOf": {
+								"refs": [
+									{
+										"name": "headerLength"
+									},
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "boolean",
 							"name": "zWaveCmdIncluded",
 							"mask": 64,
-							"shift": 6
+							"shift": 6,
+							"presenceOf": {
+								"refs": [
+									{
+										"name": "zWaveCommand"
+									}
+								]
+							}
 						},
 						{
 							"type": "boolean",
@@ -208,7 +222,14 @@ export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
 							"name": "headerExtIncluded"
 						}
 					},
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "headerExtension"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

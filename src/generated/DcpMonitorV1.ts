@@ -36,7 +36,6 @@ export interface DcpMonitorV1DcpEventStatusReportData {
 }
 
 export interface DcpMonitorV1DcpListReportData {
-	reportsToFollow: number; // 1 byte unsigned integer
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
 	day: number; // 1 byte unsigned integer
@@ -248,7 +247,14 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 					"type": "integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",

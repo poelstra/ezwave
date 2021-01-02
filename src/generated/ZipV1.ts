@@ -20,8 +20,6 @@ export interface ZipV1CommandZipPacketData {
 	nAckWaiting: boolean; // properties1[4]
 	nAckQueueFull: boolean; // properties1[3]
 	nAckOptionError: boolean; // properties1[2]
-	headerExtIncluded: boolean; // properties2[7]
-	zWaveCmdIncluded: boolean; // properties2[6]
 	moreInformation: boolean; // properties2[5]
 	seqNo: number; // 1 byte unsigned integer
 	sourceEndPoint: number; // properties3[6..0]
@@ -113,13 +111,27 @@ export class ZipV1 extends CommandClassPacket<ZipV1Commands> {
 							"type": "boolean",
 							"name": "headerExtIncluded",
 							"mask": 128,
-							"shift": 7
+							"shift": 7,
+							"presenceOf": {
+								"refs": [
+									{
+										"name": "headerExtension"
+									}
+								]
+							}
 						},
 						{
 							"type": "boolean",
 							"name": "zWaveCmdIncluded",
 							"mask": 64,
-							"shift": 6
+							"shift": 6,
+							"presenceOf": {
+								"refs": [
+									{
+										"name": "zWaveCommand"
+									}
+								]
+							}
 						},
 						{
 							"type": "boolean",

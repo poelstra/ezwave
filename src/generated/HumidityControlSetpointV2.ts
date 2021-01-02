@@ -25,7 +25,6 @@ export interface HumidityControlSetpointV2HumidityControlSetpointSetData {
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision: number; // properties2[7..5]
 	scale: ScaleEnum; // properties2[4..3]
-	size: number; // properties2[2..0]
 	// TODO param value type blob
 }
 
@@ -37,7 +36,6 @@ export interface HumidityControlSetpointV2HumidityControlSetpointReportData {
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision: number; // properties2[7..5]
 	scale: ScaleEnum; // properties2[4..3]
-	size: number; // properties2[2..0]
 	// TODO param value type blob
 }
 
@@ -61,11 +59,9 @@ export interface HumidityControlSetpointV2HumidityControlSetpointCapabilitiesRep
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision1: number; // properties2[7..5]
 	scale1: Scale1Enum; // properties2[4..3]
-	size1: number; // properties2[2..0]
 	// TODO param minimumValue type blob
 	precision2: number; // properties3[7..5]
 	scale2: Scale2Enum; // properties3[4..3]
-	size2: number; // properties3[2..0]
 	// TODO param maximumValue type blob
 }
 
@@ -182,7 +178,14 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -343,7 +346,14 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -659,7 +669,14 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 							"type": "integer",
 							"name": "size1",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "minimumValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -708,7 +725,14 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 							"type": "integer",
 							"name": "size2",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "maximumValue"
+									}
+								]
+							}
 						}
 					]
 				},

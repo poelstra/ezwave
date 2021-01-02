@@ -17,17 +17,14 @@ export enum AntitheftV2Commands {
 
 export interface AntitheftV2AntitheftSetData {
 	enable: boolean; // properties1[7]
-	numberOfMagicCodeBytes: number; // properties1[6..0]
 	// TODO param magicCode type blob
 	manufacturerID: number; // 2 byte unsigned integer
-	antiTheftHintNumberBytes: number; // 1 byte unsigned integer
 	// TODO param antiTheftHintByte type blob
 }
 
 export interface AntitheftV2AntitheftReportData {
 	antiTheftProtectionStatus: number; // 1 byte unsigned integer
 	manufacturerID: number; // 2 byte unsigned integer
-	antiTheftHintNumberBytes: number; // 1 byte unsigned integer
 	// TODO param antiTheftHintByte type blob
 }
 
@@ -67,7 +64,14 @@ export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 							"type": "integer",
 							"name": "numberOfMagicCodeBytes",
 							"mask": 127,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "magicCode"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -94,7 +98,14 @@ export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 					"type": "integer",
 					"name": "antiTheftHintNumberBytes",
 					"help": "Anti-theft Hint Number Bytes",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "antiTheftHintByte"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",
@@ -161,7 +172,14 @@ export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 					"type": "integer",
 					"name": "antiTheftHintNumberBytes",
 					"help": "Anti-theft Hint Number Bytes",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "antiTheftHintByte"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

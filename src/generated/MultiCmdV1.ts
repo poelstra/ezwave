@@ -14,7 +14,6 @@ export enum MultiCmdV1Commands {
 }
 
 export interface MultiCmdV1MultiCmdEncapData {
-	numberOfCommands: number; // 1 byte unsigned integer
 	// TODO param encapsulatedCommand type group
 }
 
@@ -42,7 +41,14 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 					"type": "integer",
 					"name": "numberOfCommands",
 					"help": "Number of Commands",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "encapsulatedCommand"
+							}
+						]
+					}
 				},
 				{
 					"type": "group",
@@ -56,7 +62,14 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 							"type": "integer",
 							"name": "commandLength",
 							"help": "Command Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "data"
+									}
+								]
+							}
 						},
 						{
 							"type": "integer",

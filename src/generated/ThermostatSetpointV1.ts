@@ -25,7 +25,6 @@ export interface ThermostatSetpointV1ThermostatSetpointReportData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	size: number; // level2[2..0]
 	// TODO param value type blob
 }
 
@@ -33,7 +32,6 @@ export interface ThermostatSetpointV1ThermostatSetpointSetData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	size: number; // level2[2..0]
 	// TODO param value type blob
 }
 
@@ -252,7 +250,14 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -379,7 +384,14 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},

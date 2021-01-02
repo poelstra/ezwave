@@ -155,7 +155,14 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 							"type": "integer",
 							"name": "numberOfCharacters",
 							"help": "Number of Characters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "character"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",

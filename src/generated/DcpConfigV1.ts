@@ -33,7 +33,6 @@ export interface DcpConfigV1DcpListSetData {
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	dCPRateID: number; // 1 byte unsigned integer
-	numberOfDC: number; // properties1[1..0]
 	// TODO param vg1 type group
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
@@ -192,7 +191,14 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 							"type": "integer",
 							"name": "numberOfDC",
 							"mask": 3,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},

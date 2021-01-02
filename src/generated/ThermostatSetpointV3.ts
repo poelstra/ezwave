@@ -27,7 +27,6 @@ export interface ThermostatSetpointV3ThermostatSetpointReportData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	size: number; // level2[2..0]
 	// TODO param value type blob
 }
 
@@ -35,7 +34,6 @@ export interface ThermostatSetpointV3ThermostatSetpointSetData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	size: number; // level2[2..0]
 	// TODO param value type blob
 }
 
@@ -51,11 +49,9 @@ export interface ThermostatSetpointV3ThermostatSetpointCapabilitiesReportData {
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision1: number; // properties2[7..5]
 	scale1: number; // properties2[4..3]
-	size1: number; // properties2[2..0]
 	// TODO param minValue type blob
 	precision2: number; // properties3[7..5]
 	scale2: number; // properties3[4..3]
-	size2: number; // properties3[2..0]
 	// TODO param maxValue type blob
 }
 
@@ -315,7 +311,14 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -462,7 +465,14 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -764,7 +774,14 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 							"type": "integer",
 							"name": "size1",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "minValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -803,7 +820,14 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 							"type": "integer",
 							"name": "size2",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "maxValue"
+									}
+								]
+							}
 						}
 					]
 				},

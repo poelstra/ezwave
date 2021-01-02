@@ -189,6 +189,33 @@ export interface IntegerParameter extends ParameterBase {
 	 * when parsing a newer version of a command.
 	 */
 	reserved?: boolean;
+
+	/**
+	 * When defined, indicates that this parameter encodes
+	 * the length of another field, e.g. the number of elements in
+	 * a parameter group, or the size of a blob.
+	 *
+	 * It can indicate the length of a parameter inside a parameter group,
+	 * in which case the length of this parameter must be the same for all
+	 * elements in the group.
+	 *
+	 * When defined, this field should be automatically derived while
+	 * encoding, and omitted from the decoded object when decoding,
+	 * unless the `isExplicit` flag is set.
+	 */
+	lengthOf?: SourceRefs;
+
+	/**
+	 * When defined, indicates that this parameter
+	 * encodes whether the referenced optional parameter is present in the packet.
+	 * I.e. the value of this parameter will be truthy if the referenced
+	 * parameter is present.
+	 *
+	 * This reference will always have `isExplicit`: true, and the value cannot be
+	 * automatically derived, but it should be checked that the referenced field is
+	 * actually present or not as required.
+	 */
+	presenceOf?: SourceRefs;
 }
 
 /**
@@ -283,6 +310,24 @@ export interface EnumArrayParameter extends ParameterBase {
 	valueType: ValueType;
 }
 
+export interface LocalSourceRef {
+	name: string;
+}
+
+export interface SourceRef extends LocalSourceRef {
+	group?: string;
+}
+
+export interface LocalSourceRefs {
+	refs: LocalSourceRef[];
+	isExplicit?: boolean;
+}
+
+export interface SourceRefs {
+	refs: SourceRef[];
+	isExplicit?: boolean;
+}
+
 /**
  * Determine length of parameter (in bytes, except for ParameterGroup, see below).
  * Fixed length (number), rest of message or based on MoreToFollow info in ParameterGroup ("auto"),
@@ -321,7 +366,7 @@ export interface BitfieldReference {
 	 *
 	 * Given as lowerCamelCase.
 	 */
-	name: string;
+	name: string; // TODO rename to fieldRef
 
 	/**
 	 * Mask to apply to raw value given by (Local)ParameterReference.
@@ -403,6 +448,55 @@ export interface BitfieldElement {
 	 * when parsing a newer version of a command.
 	 */
 	reserved?: boolean;
+
+	/**
+	 * When defined, indicates that this boolean or integer bitfield element
+	 * encodes whether the referenced optional parameter is present in the packet.
+	 * I.e. the value of this bitfield will be truthy if the referenced
+	 * parameter is present.
+	 *
+	 * When defined on a boolean bitfield, this field should be automatically
+	 * derived while encoding, and omitted from the decoded object when decoding,
+	 * unless the `isExplicit` flag is set.
+	 *
+	 * When defined on an integer bitfield, this field will have `isExplicit`: true,
+	 * and the value cannot be automatically derived, but it should be checked that
+	 * the referenced field is actually present or not as required.
+	 *
+	 * Will not be defined on enum bitfields.
+	 * Will never be defined when `isMoreToFollowFlag` is defined.
+	 */
+	presenceOf?: LocalSourceRefs;
+
+	/**
+	 * When defined and true, indicates that this boolean bitfield element
+	 * encodes whether more elements are present after the current
+	 * element in this parameter group.
+	 *
+	 * When defined, this field should be automatically derived while
+	 * encoding, and omitted from the decoded object when decoding.
+	 *
+	 * Will only be defined on boolean bitfields in a parameter group.
+	 * Will never be defined when `presenceOf` is defined.
+	 */
+	isMoreToFollowFlag?: boolean;
+
+	/**
+	 * When defined, indicates that this integer bitfield element encodes
+	 * the length of another field, e.g. the number of elements in
+	 * a parameter group, or the size of a blob.
+	 *
+	 * It can indicate the length of a parameter inside a parameter group,
+	 * in which case the length of this parameter must be the same for all
+	 * elements in the group.
+	 *
+	 * When defined, this field should be automatically derived while
+	 * encoding, and omitted from the decoded object when decoding, unless
+	 * the `isExplicit` flag is set.
+	 *
+	 * Will only be defined on integer bit fields.
+	 */
+	lengthOf?: SourceRefs;
 }
 
 /**

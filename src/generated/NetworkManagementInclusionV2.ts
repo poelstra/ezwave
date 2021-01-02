@@ -51,7 +51,6 @@ export interface NetworkManagementInclusionV2NodeAddStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	newNodeID: number; // 1 byte unsigned integer
-	nodeInfoLength: number; // 1 byte unsigned integer
 	listening: boolean; // properties1[7]
 	zWaveProtocolSpecificPart1: number; // properties1[6..0]
 	opt: boolean; // properties2[7]
@@ -143,7 +142,6 @@ export interface NetworkManagementInclusionV2NodeAddDskReportData {
 export interface NetworkManagementInclusionV2NodeAddDskSetData {
 	seqNo: number; // 1 byte unsigned integer
 	accept: boolean; // properties1[7]
-	inputDSKLength: number; // properties1[3..0]
 	// TODO param inputDSK type blob
 }
 
@@ -375,7 +373,14 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"type": "integer",
 					"name": "nodeInfoLength",
 					"help": "Node Info Length",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "commandClass"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",
@@ -1143,7 +1148,14 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 							"type": "integer",
 							"name": "inputDSKLength",
 							"mask": 15,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "inputDSK"
+									}
+								]
+							}
 						}
 					]
 				},

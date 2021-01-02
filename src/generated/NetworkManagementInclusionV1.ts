@@ -47,7 +47,6 @@ export interface NetworkManagementInclusionV1NodeAddStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	newNodeID: number; // 1 byte unsigned integer
-	nodeInfoLength: number; // 1 byte unsigned integer
 	listening: boolean; // properties1[7]
 	zWaveProtocolSpecificPart1: number; // properties1[6..0]
 	opt: boolean; // properties2[7]
@@ -337,7 +336,14 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					"type": "integer",
 					"name": "nodeInfoLength",
 					"help": "Node Info Length",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "commandClass"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",

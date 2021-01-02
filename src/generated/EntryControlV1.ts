@@ -24,7 +24,6 @@ export interface EntryControlV1EntryControlNotificationData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	dataType: DataTypeEnum; // properties1[1..0]
 	eventType: EventTypeEnum; // 1 byte enum value
-	eventDataLength: number; // 1 byte unsigned integer
 	// TODO param eventData type blob
 }
 
@@ -114,7 +113,15 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"type": "integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
-					"length": 1
+					"length": 1,
+					"presenceOf": {
+						"isExplicit": true,
+						"refs": [
+							{
+								"name": "eventData"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",
@@ -271,7 +278,14 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 					"type": "integer",
 					"name": "eventDataLength",
 					"help": "Event Data Length",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "eventData"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

@@ -372,7 +372,14 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 							"type": "integer",
 							"name": "length",
 							"help": "Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",

@@ -20,14 +20,12 @@ export enum NodeProvisioningV1Commands {
 
 export interface NodeProvisioningV1NodeProvisioningSetData {
 	seqNo: number; // 1 byte unsigned integer
-	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 	// TODO param vg1 type group
 }
 
 export interface NodeProvisioningV1NodeProvisioningDeleteData {
 	seqNo: number; // 1 byte unsigned integer
-	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 }
 
@@ -39,20 +37,17 @@ export interface NodeProvisioningV1NodeProvisioningListIterationGetData {
 export interface NodeProvisioningV1NodeProvisioningListIterationReportData {
 	seqNo: number; // 1 byte unsigned integer
 	remainingCount: number; // 1 byte unsigned integer
-	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 	// TODO param vg1 type group
 }
 
 export interface NodeProvisioningV1NodeProvisioningGetData {
 	seqNo: number; // 1 byte unsigned integer
-	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 }
 
 export interface NodeProvisioningV1NodeProvisioningReportData {
 	seqNo: number; // 1 byte unsigned integer
-	dSKLength: number; // properties1[4..0]
 	// TODO param dsk type blob
 	// TODO param vg1 type group
 }
@@ -100,7 +95,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -147,7 +149,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "length",
 							"help": "Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -203,7 +212,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -303,7 +319,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -350,7 +373,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "length",
 							"help": "Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -406,7 +436,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -467,7 +504,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "dSKLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "dsk"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -514,7 +558,14 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"type": "integer",
 							"name": "length",
 							"help": "Length",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",

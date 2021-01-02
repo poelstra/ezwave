@@ -99,14 +99,12 @@ export interface ChimneyFanV1ChimneyFanAlarmStatusSetData {
 export interface ChimneyFanV1ChimneyFanAlarmTempReportData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmTempSetData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
@@ -141,15 +139,12 @@ export interface ChimneyFanV1ChimneyFanSetupReportData {
 	minSpeed: number; // 1 byte unsigned integer
 	precision1: number; // properties1[7..5]
 	scale1: number; // properties1[4..3]
-	size1: number; // properties1[2..0]
 	// TODO param startTemperature type blob
 	precision2: number; // properties2[7..5]
 	scale2: number; // properties2[4..3]
-	size2: number; // properties2[2..0]
 	// TODO param stopTemperature type blob
 	precision3: number; // properties3[7..5]
 	scale3: number; // properties3[4..3]
-	size3: number; // properties3[2..0]
 	// TODO param alarmTemperatureValue type blob
 }
 
@@ -160,15 +155,12 @@ export interface ChimneyFanV1ChimneyFanSetupSetData {
 	minSpeed: number; // 1 byte unsigned integer
 	precision1: number; // properties1[7..5]
 	scale1: number; // properties1[4..3]
-	size1: number; // properties1[2..0]
 	// TODO param startTemperature type blob
 	precision2: number; // properties2[7..5]
 	scale2: number; // properties2[4..3]
-	size2: number; // properties2[2..0]
 	// TODO param stopTemperature type blob
 	precision3: number; // properties3[7..5]
 	scale3: number; // properties3[4..3]
-	size3: number; // properties3[2..0]
 	// TODO param alarmTemperatureValue type blob
 }
 
@@ -183,14 +175,12 @@ export interface ChimneyFanV1ChimneyFanSpeedSetData {
 export interface ChimneyFanV1ChimneyFanStartTempReportData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanStartTempSetData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
@@ -214,21 +204,18 @@ export interface ChimneyFanV1ChimneyFanStatusReportData {
 	service: boolean; // alarmStatus[0]
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanStopTempReportData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
 export interface ChimneyFanV1ChimneyFanStopTempSetData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	size: number; // properties1[2..0]
 	// TODO param value type blob
 }
 
@@ -783,7 +770,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -843,7 +837,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1219,7 +1220,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size1",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "startTemperature"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1258,7 +1266,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size2",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "stopTemperature"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1297,7 +1312,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size3",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "alarmTemperatureValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1391,7 +1413,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size1",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "startTemperature"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1430,7 +1459,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size2",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "stopTemperature"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1469,7 +1505,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size3",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "alarmTemperatureValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1633,7 +1676,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1693,7 +1743,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -2007,7 +2064,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -2087,7 +2151,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -2147,7 +2218,14 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "value"
+									}
+								]
+							}
 						}
 					]
 				},

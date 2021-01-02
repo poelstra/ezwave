@@ -1062,6 +1062,301 @@ function fixDuplicateParamKey(xml: ZwClassesXml): void {
 	}
 }
 
+function forEachCommand(
+	defs: CommandsByClassByVersion,
+	callback: (commandClass: CommandClassMap, command: CommandMap) => void
+): void {
+	for (const versions of defs.values()) {
+		for (const cmdClass of versions.values()) {
+			for (const cmd of cmdClass.commandsById.values()) {
+				callback(cmdClass, cmd);
+			}
+		}
+	}
+}
+
+function getParam(
+	paramName: string,
+	params: Array<types.Parameter | types.ParameterGroup>
+): types.Parameter | types.ParameterGroup {
+	const param = params.find((p) => p.name === paramName);
+	if (!param) {
+		throw new Error("parameter not found");
+	}
+	return param;
+}
+
+function fixUseDynamicLengthInsteadOfOptional(
+	param: types.Parameter | types.ParameterGroup
+): void {
+	// The referenced optional parameter is actually a size field, so don't just look
+	// at the packet length, but use the explicit size field.
+	// Also, when optional ref is referring to an integer parameter, the integer parameter is
+	// generated as an explicit field by the decoder, and a required field for the encoder,
+	// but it should be derived from the number of elements present.
+	if (param.length === "auto" && param.optional) {
+		param.length = param.optional;
+		param.optional = undefined;
+	}
+}
+
+function applyFixes(classes: types.CommandClassDefinition[]): void {
+	const classFixes: {
+		[className: string]: {
+			[commandName: string]: (
+				cmdClass: types.CommandClassDefinition,
+				command: types.CommandDefinition
+			) => void;
+		};
+	} = {
+		UserCode: {
+			ExtendedUserCodeReport: (cmdClass, cmd) => {
+				fixUseDynamicLengthInsteadOfOptional(
+					getParam("vg1", cmd.params)
+				);
+			},
+		},
+	};
+	for (const cmdClass of classes) {
+		const cmds = classFixes[cmdClass.name];
+		if (!cmds) {
+			continue;
+		}
+		for (const command of cmdClass.commands) {
+			const fixer = cmds[command.name];
+			if (fixer) {
+				fixer(cmdClass, command);
+			}
+		}
+	}
+}
+
+interface ParameterContext {
+	name: string;
+	params: Array<types.Parameter | types.ParameterGroup>;
+}
+
+interface ExplicitFieldOverrides {
+	[cmdClass: string]: {
+		[command: string]: {
+			[refName: string]: boolean;
+		};
+	};
+}
+
+enum RefType {
+	Optional,
+	Length,
+	MoreToFollow,
+}
+
+function assignReference(
+	cmdClass: types.CommandClassDefinition,
+	cmd: types.CommandDefinition,
+	source: types.Parameter | types.ParameterGroup,
+	localCtx: ParameterContext,
+	ref: types.ParameterReference | types.LocalParameterReference,
+	refType: RefType,
+	isExplicitOverrides: ExplicitFieldOverrides
+): void {
+	const isParentReference =
+		"isParentReference" in ref && ref.isParentReference;
+	const ctx: ParameterContext = isParentReference ? cmd : localCtx;
+	const param = ctx.params.find((p) => p.name === ref.ref);
+	if (!param) {
+		throw new Error(`invalid reference: parameter not found`);
+	}
+
+	const refName = `${isParentReference ? `${localCtx.name}.` : ""}${ref.ref}${
+		ref.bitfield ? `.${ref.bitfield.name}` : ""
+	}`;
+	const isExplicitOverride =
+		isExplicitOverrides[cmdClass.name]?.[cmd.name]?.[refName];
+
+	let sourceRef: types.SourceRef;
+	if (cmd !== localCtx && isParentReference) {
+		// If source is in a group, but its size/presence is determined
+		// by a field in the parent context, the 'path' from that referenced
+		// property to the source needs to include the group's name.
+		sourceRef = {
+			group: localCtx.name,
+			name: source.name,
+		};
+	} else {
+		sourceRef = {
+			name: source.name,
+		};
+	}
+
+	if (!ref.bitfield) {
+		switch (param.type) {
+			case types.ParameterType.Integer:
+				if (refType === RefType.Length) {
+					param.lengthOf = {
+						isExplicit: isExplicitOverride ? true : undefined,
+						refs: param.lengthOf
+							? [...param.lengthOf.refs, sourceRef]
+							: [sourceRef],
+					};
+				} else if (refType === RefType.Optional) {
+					// Integer value can be derived for a length, but not from presence of
+					// a field, so integer field is always explicit in that case.
+					param.presenceOf = {
+						isExplicit: true,
+						refs: param.presenceOf
+							? [...param.presenceOf.refs, sourceRef]
+							: [sourceRef],
+					};
+				} else {
+					throw new Error(`unexpected refType ${RefType[refType]}`);
+				}
+				break;
+			default:
+				throw new Error(
+					`unexpected referenced field type: integer expected, got ${param.type}`
+				);
+		}
+	} else {
+		if (param.type !== types.ParameterType.Bitfield) {
+			throw new Error(
+				"invalid bitfield reference: referee is not a bitfield"
+			);
+		}
+		const bfName = ref.bitfield.name;
+		const bitfield = param.fields.find((f) => f.name === bfName);
+		if (!bitfield) {
+			throw new Error(
+				"invalid bitfield reference: bitfield element not found"
+			);
+		}
+		switch (bitfield.type) {
+			case types.BitfieldElementType.Boolean:
+				// Booleans can be auto-generated from presence of parameter
+				if (refType === RefType.Optional) {
+					assert(
+						!sourceRef.group,
+						"presenceOf is typed as LocalSourceRef"
+					);
+					bitfield.presenceOf = {
+						isExplicit: isExplicitOverride ? true : undefined,
+						refs: bitfield.presenceOf
+							? [...bitfield.presenceOf.refs, sourceRef]
+							: [sourceRef],
+					};
+				} else if (refType === RefType.MoreToFollow) {
+					bitfield.isMoreToFollowFlag = true;
+				} else {
+					throw new Error(`unexpected refType ${RefType[refType]}`);
+				}
+				assert(
+					!(bitfield.presenceOf && bitfield.isMoreToFollowFlag),
+					"presenceOf and isMoreToFollowFlag cannot both be present"
+				);
+				break;
+			case types.BitfieldElementType.Integer:
+				if (refType === RefType.Length) {
+					bitfield.lengthOf = {
+						isExplicit: isExplicitOverride ? true : undefined,
+						refs: bitfield.lengthOf
+							? [...bitfield.lengthOf.refs, sourceRef]
+							: [sourceRef],
+					};
+				} else if (refType === RefType.Optional) {
+					// Integer value can be derived for a length, but not from presence of
+					// a field, so integer field is always explicit in that case.
+					bitfield.presenceOf = {
+						isExplicit: true,
+						refs: bitfield.presenceOf
+							? [...bitfield.presenceOf.refs, sourceRef]
+							: [sourceRef],
+					};
+				} else {
+					throw new Error(`unexpected refType ${RefType[refType]}`);
+				}
+				break;
+			default:
+				throw new Error(
+					`unexpected referenced field type: integer or boolean expected, got ${bitfield.type}`
+				);
+		}
+	}
+}
+
+function assignSourceReferences(defs: CommandsByClassByVersion): void {
+	const isExplicitFieldOverrides: ExplicitFieldOverrides = {
+		Zwave: {
+			NodeInfo: {
+				"properties2.controller": true,
+			},
+		},
+	};
+	forEachCommand(defs, (cmdClass, cmd) => {
+		for (const param of cmd.params) {
+			if (param.optional) {
+				assignReference(
+					cmdClass,
+					cmd,
+					param,
+					cmd,
+					param.optional,
+					RefType.Optional,
+					isExplicitFieldOverrides
+				);
+			}
+			if (typeof param.length === "object") {
+				assignReference(
+					cmdClass,
+					cmd,
+					param,
+					cmd,
+					param.length,
+					RefType.Length,
+					isExplicitFieldOverrides
+				);
+			}
+			if (param.type === types.ParameterType.ParameterGroup) {
+				if (param.moreToFollow) {
+					assignReference(
+						cmdClass,
+						cmd,
+						param,
+						param,
+						param.moreToFollow,
+						RefType.MoreToFollow,
+						isExplicitFieldOverrides
+					);
+				}
+
+				// Traverse group
+				for (const groupParam of param.params) {
+					if (groupParam.optional) {
+						assignReference(
+							cmdClass,
+							cmd,
+							groupParam,
+							param,
+							groupParam.optional,
+							RefType.Optional,
+							isExplicitFieldOverrides
+						);
+					}
+					if (typeof groupParam.length === "object") {
+						assignReference(
+							cmdClass,
+							cmd,
+							groupParam,
+							param,
+							groupParam.length,
+							RefType.Length,
+							isExplicitFieldOverrides
+						);
+					}
+				}
+			}
+		}
+	});
+}
+
 async function xml2json(xmlString: string): Promise<types.ZwaveSpec> {
 	// Convert to (somewhat) easier to use JSON-representation-of-XML
 	const xml = parser.parse(xmlString, {
@@ -1087,6 +1382,9 @@ async function xml2json(xmlString: string): Promise<types.ZwaveSpec> {
 		assert(!versions.has(cmdClass.version));
 		versions.set(cmdClass.version, cmdClass);
 	}
+
+	applyFixes(classes);
+	assignSourceReferences(commandsByClassByVersion);
 
 	// Generate final output JSON structure, by adding header and stripping out unwanted members
 	const spec: types.ZwaveSpec = {

@@ -28,7 +28,6 @@ export interface SensorAlarmV1SensorAlarmReportData {
 }
 
 export interface SensorAlarmV1SensorAlarmSupportedReportData {
-	numberOfBitMasks: number; // 1 byte unsigned integer
 	// TODO param bitMask type blob
 }
 
@@ -219,7 +218,14 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 					"type": "integer",
 					"name": "numberOfBitMasks",
 					"help": "Number of Bit Masks",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "bitMask"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

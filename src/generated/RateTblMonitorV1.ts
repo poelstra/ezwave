@@ -32,7 +32,6 @@ export interface RateTblMonitorV1RateTblCurrentDataGetData {
 }
 
 export interface RateTblMonitorV1RateTblCurrentDataReportData {
-	reportsToFollow: number; // 1 byte unsigned integer
 	rateParameterSetID: number; // 1 byte unsigned integer
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
@@ -67,7 +66,6 @@ export interface RateTblMonitorV1RateTblHistoricalDataGetData {
 }
 
 export interface RateTblMonitorV1RateTblHistoricalDataReportData {
-	reportsToFollow: number; // 1 byte unsigned integer
 	rateParameterSetID: number; // 1 byte unsigned integer
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
@@ -82,7 +80,6 @@ export interface RateTblMonitorV1RateTblHistoricalDataReportData {
 export interface RateTblMonitorV1RateTblReportData {
 	rateParameterSetID: number; // 1 byte unsigned integer
 	rateType: number; // properties1[6..5]
-	numberOfRateChar: number; // properties1[4..0]
 	// TODO param rateCharacter type blob
 	startHourLocalTime: number; // 1 byte unsigned integer
 	startMinuteLocalTime: number; // 1 byte unsigned integer
@@ -206,7 +203,14 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"type": "integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",
@@ -455,7 +459,14 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"type": "integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",
@@ -591,7 +602,14 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 							"type": "integer",
 							"name": "numberOfRateChar",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "rateCharacter"
+									}
+								]
+							}
 						}
 					]
 				},

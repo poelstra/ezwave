@@ -29,7 +29,6 @@ export interface MeterV5MeterReportData {
 	meterType: MeterTypeEnum; // properties1[4..0]
 	precision: number; // properties2[7..5]
 	scaleBits10: number; // properties2[4..3]
-	size: number; // properties2[2..0]
 	// TODO param meterValue type blob
 	deltaTime: number; // 2 byte unsigned integer
 	// TODO param previousMeterValue type blob
@@ -42,7 +41,6 @@ export interface MeterV5MeterSupportedReportData {
 	meterType: MeterTypeEnum; // properties1[4..0]
 	mST: boolean; // properties2[7]
 	scaleSupported0: number; // properties2[6..0]
-	numberOfScaleSupportedBytesToFollow: number; // 1 byte unsigned integer
 	// TODO param scaleSupported type blob
 }
 
@@ -253,7 +251,17 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 							"type": "integer",
 							"name": "size",
 							"mask": 7,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "meterValue"
+									},
+									{
+										"name": "previousMeterValue"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -274,7 +282,15 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"type": "integer",
 					"name": "deltaTime",
 					"help": "Delta Time",
-					"length": 2
+					"length": 2,
+					"presenceOf": {
+						"isExplicit": true,
+						"refs": [
+							{
+								"name": "previousMeterValue"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",
@@ -453,7 +469,14 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"type": "integer",
 					"name": "numberOfScaleSupportedBytesToFollow",
 					"help": "Number of Scale Supported Bytes to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "scaleSupported"
+							}
+						]
+					}
 				},
 				{
 					"type": "blob",

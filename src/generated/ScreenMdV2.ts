@@ -165,7 +165,14 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"type": "integer",
 							"name": "numberOfCharacters",
 							"help": "Number of Characters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "character"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",
@@ -294,7 +301,14 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 							"type": "integer",
 							"name": "numberOfCharacters",
 							"help": "Number of Characters",
-							"length": 1
+							"length": 1,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "character"
+									}
+								]
+							}
 						},
 						{
 							"type": "blob",

@@ -28,7 +28,6 @@ export enum MeterTblMonitorV1Commands {
 }
 
 export interface MeterTblMonitorV1MeterTblStatusReportData {
-	reportsToFollow: number; // 1 byte unsigned integer
 	currentOperatingStatus: number; // 3 byte unsigned integer
 	// TODO param vg type group
 }
@@ -63,7 +62,6 @@ export interface MeterTblMonitorV1MeterTblCurrentDataGetData {
 }
 
 export interface MeterTblMonitorV1MeterTblCurrentDataReportData {
-	reportsToFollow: number; // 1 byte unsigned integer
 	rateType: number; // properties1[1..0]
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
@@ -93,7 +91,6 @@ export interface MeterTblMonitorV1MeterTblHistoricalDataGetData {
 }
 
 export interface MeterTblMonitorV1MeterTblHistoricalDataReportData {
-	reportsToFollow: number; // 1 byte unsigned integer
 	rateType: number; // properties1[1..0]
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
@@ -115,12 +112,10 @@ export interface MeterTblMonitorV1MeterTblReportData {
 }
 
 export interface MeterTblMonitorV1MeterTblTableIdReportData {
-	numberOfCharacters: number; // properties1[4..0]
 	// TODO param meterIDCharacter type blob
 }
 
 export interface MeterTblMonitorV1MeterTblTablePointAdmNoReportData {
-	numberOfCharacters: number; // properties1[4..0]
 	// TODO param meterPointAdmNumberCharacter type blob
 }
 
@@ -155,7 +150,14 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"type": "integer",
 					"name": "reportsToFollow",
 					"help": "Reports to follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",
@@ -467,7 +469,14 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"type": "integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",
@@ -698,7 +707,14 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 					"type": "integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg"
+							}
+						]
+					}
 				},
 				{
 					"type": "bitfield",
@@ -975,7 +991,14 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"type": "integer",
 							"name": "numberOfCharacters",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "meterIDCharacter"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -1050,7 +1073,14 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"type": "integer",
 							"name": "numberOfCharacters",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "meterPointAdmNumberCharacter"
+									}
+								]
+							}
 						}
 					]
 				},

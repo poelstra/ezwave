@@ -23,13 +23,11 @@ export interface IndicatorV3IndicatorGetData {
 
 export interface IndicatorV3IndicatorReportData {
 	indicator0Value: number; // 1 byte unsigned integer
-	indicatorObjectCount: number; // properties1[4..0]
 	// TODO param vg1 type group
 }
 
 export interface IndicatorV3IndicatorSetData {
 	indicator0Value: number; // 1 byte unsigned integer
-	indicatorObjectCount: number; // properties1[4..0]
 	// TODO param vg1 type group
 }
 
@@ -336,7 +334,14 @@ export class IndicatorV3 extends CommandClassPacket<IndicatorV3Commands> {
 							"type": "integer",
 							"name": "indicatorObjectCount",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -591,7 +596,14 @@ export class IndicatorV3 extends CommandClassPacket<IndicatorV3Commands> {
 							"type": "integer",
 							"name": "indicatorObjectCount",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},

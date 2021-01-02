@@ -33,7 +33,6 @@ export interface SwitchColorV1SwitchColorReportData {
 }
 
 export interface SwitchColorV1SwitchColorSetData {
-	colorComponentCount: number; // properties1[4..0]
 	// TODO param vg1 type group
 }
 
@@ -192,7 +191,14 @@ export class SwitchColorV1 extends CommandClassPacket<SwitchColorV1Commands> {
 							"type": "integer",
 							"name": "colorComponentCount",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},

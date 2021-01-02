@@ -37,7 +37,6 @@ export interface ZipGatewayV1GatewayPeerSetData {
 	peerProfile: number; // 1 byte unsigned integer
 	// TODO param iPv6Address type blob
 	port: number; // 2 byte unsigned integer
-	peerNameLength: number; // properties1[5..0]
 	// TODO param peerName type blob
 }
 
@@ -50,7 +49,6 @@ export interface ZipGatewayV1GatewayPeerReportData {
 	peerCount: number; // 1 byte unsigned integer
 	// TODO param iPv6Address type blob
 	port: number; // 2 byte unsigned integer
-	peerNameLength: number; // properties1[5..0]
 	// TODO param peerName type blob
 }
 
@@ -235,7 +233,14 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 							"type": "integer",
 							"name": "peerNameLength",
 							"mask": 63,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "peerName"
+									}
+								]
+							}
 						}
 					]
 				},
@@ -341,7 +346,14 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 							"type": "integer",
 							"name": "peerNameLength",
 							"mask": 63,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "peerName"
+									}
+								]
+							}
 						}
 					]
 				},

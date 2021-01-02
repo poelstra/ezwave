@@ -36,7 +36,6 @@ export interface WindowCoveringV1WindowCoveringReportData {
 }
 
 export interface WindowCoveringV1WindowCoveringSetData {
-	parameterCount: number; // properties1[4..0]
 	// TODO param vg1 type group
 	duration: number; // 1 byte unsigned integer
 }
@@ -442,7 +441,14 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 							"type": "integer",
 							"name": "parameterCount",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									{
+										"name": "vg1"
+									}
+								]
+							}
 						}
 					]
 				},

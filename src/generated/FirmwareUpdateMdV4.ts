@@ -26,7 +26,6 @@ export interface FirmwareUpdateMdV4FirmwareMdReportData {
 	firmware0ID: number; // 2 byte unsigned integer
 	firmware0Checksum: number; // 2 byte unsigned integer
 	firmwareUpgradable: number; // 1 byte unsigned integer
-	numberOfFirmwareTargets: number; // 1 byte unsigned integer
 	maxFragmentSize: number; // 2 byte unsigned integer
 	// TODO param vg1 type group
 }
@@ -175,7 +174,14 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 					"type": "integer",
 					"name": "numberOfFirmwareTargets",
 					"help": "Number of Firmware Targets",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							{
+								"name": "vg1"
+							}
+						]
+					}
 				},
 				{
 					"type": "integer",
