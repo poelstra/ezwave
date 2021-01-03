@@ -30,7 +30,7 @@ export interface AssociationCommandConfigurationV1CommandConfigurationReportData
 	commandLength: number; // 1 byte unsigned integer
 	commandClassIdentifier: number; // 1 byte unsigned integer
 	commandIdentifier: number; // 1 byte unsigned integer
-	commandByte: Buffer; // automatic length
+	command: Buffer; // automatic length
 }
 
 export interface AssociationCommandConfigurationV1CommandConfigurationSetData {
@@ -39,7 +39,7 @@ export interface AssociationCommandConfigurationV1CommandConfigurationSetData {
 	commandLength: number; // 1 byte unsigned integer
 	commandClassIdentifier: number; // 1 byte unsigned integer
 	commandIdentifier: number; // 1 byte unsigned integer
-	commandByte: Buffer; // automatic length
+	command: Buffer; // automatic length
 }
 
 export interface AssociationCommandConfigurationV1CommandRecordsSupportedReportData {
@@ -166,8 +166,8 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 				},
 				{
 					"type": "blob",
-					"name": "commandByte",
-					"help": "Command byte",
+					"name": "command",
+					"help": "Command ",
 					"length": {
 						"lengthType": "auto",
 						"endOffset": 0
@@ -230,8 +230,8 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 				},
 				{
 					"type": "blob",
-					"name": "commandByte",
-					"help": "Command byte",
+					"name": "command",
+					"help": "Command ",
 					"length": {
 						"lengthType": "auto",
 						"endOffset": 0

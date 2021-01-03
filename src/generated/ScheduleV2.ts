@@ -47,7 +47,7 @@ export interface ScheduleV2CommandScheduleSetData {
 	durationType: number; // properties4[7..5]
 	startHour: number; // properties4[4..0]
 	startMinute: number; // properties5[5..0]
-	durationByte: number; // 2 byte unsigned integer
+	duration: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
@@ -68,7 +68,7 @@ export interface ScheduleV2CommandScheduleReportData {
 	durationType: number; // properties4[7..5]
 	startHour: number; // properties4[4..0]
 	startMinute: number; // properties5[5..0]
-	durationByte: number; // 2 byte unsigned integer
+	duration: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
@@ -403,8 +403,8 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "durationByte",
-					"help": "Duration Byte",
+					"name": "duration",
+					"help": "Duration ",
 					"length": 2
 				},
 				{
@@ -443,15 +443,15 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "cmdByte"
+										"name": "cmd"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "cmdByte",
-							"help": "Cmd Byte",
+							"name": "cmd",
+							"help": "Cmd ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "cmdLength"
@@ -650,8 +650,8 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "durationByte",
-					"help": "Duration Byte",
+					"name": "duration",
+					"help": "Duration ",
 					"length": 2
 				},
 				{
@@ -690,15 +690,15 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "cmdByte"
+										"name": "cmd"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "cmdByte",
-							"help": "Cmd Byte",
+							"name": "cmd",
+							"help": "Cmd ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "cmdLength"

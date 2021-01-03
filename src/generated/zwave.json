@@ -4366,8 +4366,8 @@
 						},
 						{
 							"type": "blob",
-							"name": "commandByte",
-							"help": "Command byte",
+							"name": "command",
+							"help": "Command ",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
@@ -4417,8 +4417,8 @@
 						},
 						{
 							"type": "blob",
-							"name": "commandByte",
-							"help": "Command byte",
+							"name": "command",
+							"help": "Command ",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
@@ -31255,8 +31255,8 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "networkKeyByte",
-							"help": "Network Key byte",
+							"name": "networkKey",
+							"help": "Network Key ",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
@@ -31326,8 +31326,8 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "initializationVectorByte",
-							"help": "Initialization Vector byte",
+							"name": "initializationVector",
+							"help": "Initialization Vector ",
 							"length": 8
 						},
 						{
@@ -31347,8 +31347,8 @@
 						},
 						{
 							"type": "blob",
-							"name": "messageAuthenticationCodeByte",
-							"help": "Message Authentication Code byte",
+							"name": "messageAuthenticationCode",
+							"help": "Message Authentication Code ",
 							"length": 8
 						}
 					]
@@ -31361,8 +31361,8 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "initializationVectorByte",
-							"help": "Initialization Vector byte",
+							"name": "initializationVector",
+							"help": "Initialization Vector ",
 							"length": 8
 						},
 						{
@@ -31382,8 +31382,8 @@
 						},
 						{
 							"type": "blob",
-							"name": "messageAuthenticationCodeByte",
-							"help": "Message Authentication Code byte",
+							"name": "messageAuthenticationCode",
+							"help": "Message Authentication Code ",
 							"length": 8
 						}
 					]
@@ -31403,8 +31403,8 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "nonceByte",
-							"help": "Nonce byte",
+							"name": "nonce",
+							"help": "Nonce ",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
@@ -50684,8 +50684,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -50724,15 +50724,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -50885,8 +50885,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -50925,15 +50925,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -51325,8 +51325,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -51365,15 +51365,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -51546,8 +51546,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -51586,15 +51586,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -52036,8 +52036,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -52076,15 +52076,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -52289,8 +52289,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -52329,15 +52329,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -52779,8 +52779,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -52819,15 +52819,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -53032,8 +53032,8 @@
 						},
 						{
 							"type": "integer",
-							"name": "durationByte",
-							"help": "Duration Byte",
+							"name": "duration",
+							"help": "Duration ",
 							"length": 2
 						},
 						{
@@ -53072,15 +53072,15 @@
 									"lengthOf": {
 										"refs": [
 											{
-												"name": "cmdByte"
+												"name": "cmd"
 											}
 										]
 									}
 								},
 								{
 									"type": "blob",
-									"name": "cmdByte",
-									"help": "Cmd Byte",
+									"name": "cmd",
+									"help": "Cmd ",
 									"length": {
 										"lengthType": "ref",
 										"ref": "cmdLength"
@@ -55778,15 +55778,15 @@
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "antiTheftHintByte"
+										"name": "antiTheftHint"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "antiTheftHintByte",
-							"help": "Anti-theft Hint Byte",
+							"name": "antiTheftHint",
+							"help": "Anti-theft Hint ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"
@@ -55827,15 +55827,15 @@
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "antiTheftHintByte"
+										"name": "antiTheftHint"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "antiTheftHintByte",
-							"help": "Anti-theft Hint Byte",
+							"name": "antiTheftHint",
+							"help": "Anti-theft Hint ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"
@@ -55913,15 +55913,15 @@
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "antiTheftHintByte"
+										"name": "antiTheftHint"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "antiTheftHintByte",
-							"help": "Anti-theft Hint Byte",
+							"name": "antiTheftHint",
+							"help": "Anti-theft Hint ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"
@@ -55962,15 +55962,15 @@
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "antiTheftHintByte"
+										"name": "antiTheftHint"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "antiTheftHintByte",
-							"help": "Anti-theft Hint Byte",
+							"name": "antiTheftHint",
+							"help": "Anti-theft Hint ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"

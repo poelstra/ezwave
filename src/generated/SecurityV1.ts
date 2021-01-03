@@ -24,7 +24,7 @@ export enum SecurityV1Commands {
 }
 
 export interface SecurityV1NetworkKeySetData {
-	networkKeyByte: Buffer; // automatic length
+	networkKey: Buffer; // automatic length
 }
 
 export interface SecurityV1SecurityCommandsSupportedReportData {
@@ -35,21 +35,21 @@ export interface SecurityV1SecurityCommandsSupportedReportData {
 }
 
 export interface SecurityV1SecurityMessageEncapsulationData {
-	initializationVectorByte: Buffer; // 8 bytes
+	initializationVector: Buffer; // 8 bytes
 	encryptedPayload: Buffer; // automatic length
 	receiversNonceIdentifier: number; // 1 byte unsigned integer
-	messageAuthenticationCodeByte: Buffer; // 8 bytes
+	messageAuthenticationCode: Buffer; // 8 bytes
 }
 
 export interface SecurityV1SecurityMessageEncapsulationNonceGetData {
-	initializationVectorByte: Buffer; // 8 bytes
+	initializationVector: Buffer; // 8 bytes
 	encryptedPayload: Buffer; // automatic length
 	receiversNonceIdentifier: number; // 1 byte unsigned integer
-	messageAuthenticationCodeByte: Buffer; // 8 bytes
+	messageAuthenticationCode: Buffer; // 8 bytes
 }
 
 export interface SecurityV1SecurityNonceReportData {
-	nonceByte: Buffer; // automatic length
+	nonce: Buffer; // automatic length
 }
 
 export interface SecurityV1SecuritySchemeGetData {
@@ -86,8 +86,8 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "networkKeyByte",
-					"help": "Network Key byte",
+					"name": "networkKey",
+					"help": "Network Key ",
 					"length": {
 						"lengthType": "auto",
 						"endOffset": 0
@@ -209,8 +209,8 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "initializationVectorByte",
-					"help": "Initialization Vector byte",
+					"name": "initializationVector",
+					"help": "Initialization Vector ",
 					"length": 8
 				},
 				{
@@ -230,8 +230,8 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "messageAuthenticationCodeByte",
-					"help": "Message Authentication Code byte",
+					"name": "messageAuthenticationCode",
+					"help": "Message Authentication Code ",
 					"length": 8
 				}
 			]
@@ -257,8 +257,8 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "initializationVectorByte",
-					"help": "Initialization Vector byte",
+					"name": "initializationVector",
+					"help": "Initialization Vector ",
 					"length": 8
 				},
 				{
@@ -278,8 +278,8 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "messageAuthenticationCodeByte",
-					"help": "Message Authentication Code byte",
+					"name": "messageAuthenticationCode",
+					"help": "Message Authentication Code ",
 					"length": 8
 				}
 			]
@@ -325,8 +325,8 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "nonceByte",
-					"help": "Nonce byte",
+					"name": "nonce",
+					"help": "Nonce ",
 					"length": {
 						"lengthType": "auto",
 						"endOffset": 0

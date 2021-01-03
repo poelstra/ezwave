@@ -19,13 +19,13 @@ export interface AntitheftV1AntitheftSetData {
 	enable: boolean; // properties1[7]
 	magicCode: Buffer; // variable length
 	manufacturerID: number; // 2 byte unsigned integer
-	antiTheftHintByte: Buffer; // variable length
+	antiTheftHint: Buffer; // variable length
 }
 
 export interface AntitheftV1AntitheftReportData {
 	antiTheftProtectionStatus: number; // 1 byte unsigned integer
 	manufacturerID: number; // 2 byte unsigned integer
-	antiTheftHintByte: Buffer; // variable length
+	antiTheftHint: Buffer; // variable length
 }
 
 // Obsolete
@@ -104,15 +104,15 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 					"lengthOf": {
 						"refs": [
 							{
-								"name": "antiTheftHintByte"
+								"name": "antiTheftHint"
 							}
 						]
 					}
 				},
 				{
 					"type": "blob",
-					"name": "antiTheftHintByte",
-					"help": "Anti-theft Hint Byte",
+					"name": "antiTheftHint",
+					"help": "Anti-theft Hint ",
 					"length": {
 						"lengthType": "ref",
 						"ref": "antiTheftHintNumberBytes"
@@ -179,15 +179,15 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 					"lengthOf": {
 						"refs": [
 							{
-								"name": "antiTheftHintByte"
+								"name": "antiTheftHint"
 							}
 						]
 					}
 				},
 				{
 					"type": "blob",
-					"name": "antiTheftHintByte",
-					"help": "Anti-theft Hint Byte",
+					"name": "antiTheftHint",
+					"help": "Anti-theft Hint ",
 					"length": {
 						"lengthType": "ref",
 						"ref": "antiTheftHintNumberBytes"

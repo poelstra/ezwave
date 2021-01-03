@@ -52,7 +52,7 @@ export interface ScheduleV4CommandScheduleSetData {
 	startHour: number; // properties4[4..0]
 	relative: boolean; // properties5[6]
 	startMinute: number; // properties5[5..0]
-	durationByte: number; // 2 byte unsigned integer
+	duration: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
@@ -77,7 +77,7 @@ export interface ScheduleV4CommandScheduleReportData {
 	startHour: number; // properties4[4..0]
 	relative: boolean; // properties5[6]
 	startMinute: number; // properties5[5..0]
-	durationByte: number; // 2 byte unsigned integer
+	duration: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
@@ -452,8 +452,8 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "durationByte",
-					"help": "Duration Byte",
+					"name": "duration",
+					"help": "Duration ",
 					"length": 2
 				},
 				{
@@ -492,15 +492,15 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "cmdByte"
+										"name": "cmd"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "cmdByte",
-							"help": "Cmd Byte",
+							"name": "cmd",
+							"help": "Cmd ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "cmdLength"
@@ -731,8 +731,8 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "durationByte",
-					"help": "Duration Byte",
+					"name": "duration",
+					"help": "Duration ",
 					"length": 2
 				},
 				{
@@ -771,15 +771,15 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"lengthOf": {
 								"refs": [
 									{
-										"name": "cmdByte"
+										"name": "cmd"
 									}
 								]
 							}
 						},
 						{
 							"type": "blob",
-							"name": "cmdByte",
-							"help": "Cmd Byte",
+							"name": "cmd",
+							"help": "Cmd ",
 							"length": {
 								"lengthType": "ref",
 								"ref": "cmdLength"

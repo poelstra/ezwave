@@ -1141,9 +1141,26 @@ function collapseEncryptedPayload(command: types.CommandDefinition) {
 	const prop1 = getParam("properties1", command.params);
 	const prop1Index = command.params.indexOf(prop1);
 	command.params.splice(prop1Index, 1);
-	const payload = getParam("commandByte", command.params);
+	const payload = getParam("command", command.params);
 	payload.name = "encryptedPayload";
 	payload.help = "Encrypted Payload";
+}
+
+function removeByteSuffix(cmd: types.CommandDefinition): void {
+	for (const param of cmd.params) {
+		if (/Byte$/.test(param.name)) {
+			param.name = param.name.slice(0, -4);
+			param.help = param.help.slice(0, -4);
+		}
+		if (param.type === types.ParameterType.ParameterGroup) {
+			for (const groupParam of param.params) {
+				if (/Byte$/.test(groupParam.name)) {
+					groupParam.name = groupParam.name.slice(0, -4);
+					groupParam.help = groupParam.help.slice(0, -4);
+				}
+			}
+		}
+	}
 }
 
 function applyFixes(classes: types.CommandClassDefinition[]): void {
@@ -1164,19 +1181,20 @@ function applyFixes(classes: types.CommandClassDefinition[]): void {
 			},
 		},
 	};
+	const always: Fixer[] = [removeByteSuffix];
 	for (const cmdClass of classes) {
 		const cmds = classFixes[cmdClass.name];
-		if (!cmds) {
-			continue;
-		}
 		for (const command of cmdClass.commands) {
-			const fixer = cmds[command.name];
-			if (Array.isArray(fixer)) {
-				for (const f of fixer) {
-					f(command, cmdClass);
-				}
-			} else if (fixer) {
+			for (const fixer of always) {
 				fixer(command, cmdClass);
+			}
+			const fixers = cmds && cmds[command.name];
+			if (Array.isArray(fixers)) {
+				for (const fixer of fixers) {
+					fixer(command, cmdClass);
+				}
+			} else if (fixers) {
+				fixers(command, cmdClass);
 			}
 		}
 	}
