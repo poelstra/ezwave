@@ -1146,6 +1146,19 @@ function collapseEncryptedPayload(command: types.CommandDefinition) {
 	payload.help = "Encrypted Payload";
 }
 
+function collapseCommandEncapsulation(command: types.CommandDefinition) {
+	const commandClassParam = getParam("commandClass", command.params);
+	const index = command.params.indexOf(commandClassParam);
+	command.params.splice(index, 2);
+	const encapParam = getParam("parameter", command.params);
+	if (encapParam.type !== types.ParameterType.Blob) {
+		throw new Error("unexpected parameter type");
+	}
+	encapParam.name = "command";
+	encapParam.help = "Encapsulated command";
+	encapParam.blobType = types.BlobType.CmdEncapsulation;
+}
+
 function removeByteSuffix(cmd: types.CommandDefinition): void {
 	for (const param of cmd.params) {
 		if (/Byte$/.test(param.name)) {
@@ -1169,6 +1182,10 @@ function applyFixes(classes: types.CommandClassDefinition[]): void {
 			[commandName: string]: Fixer | Fixer[];
 		};
 	} = {
+		MultiChannel: {
+			MultiChannelCmdEncap: collapseCommandEncapsulation,
+			MultiInstanceCmdEncap: collapseCommandEncapsulation,
+		},
 		Security: {
 			SecurityMessageEncapsulation: collapseEncryptedPayload,
 			SecurityMessageEncapsulationNonceGet: collapseEncryptedPayload,

@@ -38,9 +38,7 @@ export interface MultiChannelV2MultiChannelCmdEncapData {
 	sourceEndPoint: number; // properties1[6..0]
 	bitAddress: boolean; // properties2[7]
 	destinationEndPoint: number; // properties2[6..0]
-	commandClass: number; // 1 byte unsigned integer
-	command: number; // 1 byte unsigned integer
-	parameter: Buffer; // automatic length
+	command: Buffer; // automatic length
 }
 
 export interface MultiChannelV2MultiChannelEndPointFindData {
@@ -63,9 +61,7 @@ export interface MultiChannelV2MultiChannelEndPointReportData {
 
 export interface MultiChannelV2MultiInstanceCmdEncapData {
 	instance: number; // properties1[6..0]
-	commandClass: number; // 1 byte unsigned integer
-	command: number; // 1 byte unsigned integer
-	parameter: Buffer; // automatic length
+	command: Buffer; // automatic length
 }
 
 export interface MultiChannelV2MultiInstanceGetData {
@@ -248,28 +244,14 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
-					"name": "commandClass",
-					"help": "Command Class",
-					"length": 1,
-					"valueType": "CMD_CLASS_REF"
-				},
-				{
-					"type": "integer",
-					"name": "command",
-					"help": "Command",
-					"length": 1,
-					"valueType": "CMD_REF"
-				},
-				{
 					"type": "blob",
-					"name": "parameter",
-					"help": "Parameter",
+					"name": "command",
+					"help": "Encapsulated command",
 					"length": {
 						"lengthType": "auto",
 						"endOffset": 0
 					},
-					"blobType": "CMD_DATA"
+					"blobType": "CMD_ENCAP"
 				}
 			]
 		} as CommandDefinition;
@@ -512,28 +494,14 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
-					"name": "commandClass",
-					"help": "Command Class",
-					"length": 1,
-					"valueType": "CMD_CLASS_REF"
-				},
-				{
-					"type": "integer",
-					"name": "command",
-					"help": "Command",
-					"length": 1,
-					"valueType": "CMD_REF"
-				},
-				{
 					"type": "blob",
-					"name": "parameter",
-					"help": "Parameter",
+					"name": "command",
+					"help": "Encapsulated command",
 					"length": {
 						"lengthType": "auto",
 						"endOffset": 0
 					},
-					"blobType": "CMD_DATA"
+					"blobType": "CMD_ENCAP"
 				}
 			]
 		} as CommandDefinition;

@@ -1,5 +1,5 @@
-import { MultiChannelV3 } from "../classes/MultiChannelV3";
 import { Packet } from "../commands/packet";
+import { MultiChannelV3 } from "../generated/MultiChannelV3";
 import {
 	DispatchNext,
 	Layer,
@@ -21,7 +21,9 @@ export class MultiChannelLayer implements Layer {
 		this._requester.dispatch(event);
 
 		// Encapsulation is decoded and handled, EncapNonceGet is replied to afterwards
-		const encapPacket = event.packet.tryAs(MultiChannelV3.CmdEncap);
+		const encapPacket = event.packet.tryAs(
+			MultiChannelV3.MultiChannelCmdEncap
+		);
 
 		// Non-encapsulated packet, just pass through (but allow sender to still encapsulate
 		// messages if necessary)
@@ -38,7 +40,7 @@ export class MultiChannelLayer implements Layer {
 				nodeId: event.endpoint.nodeId,
 				channel: encapPacket.data.sourceEndPoint,
 			},
-			packet: new Packet(encapPacket.data.encapsulated),
+			packet: new Packet(encapPacket.data.command),
 		};
 
 		// TODO Force sends to always go back to the same channel?
@@ -72,11 +74,11 @@ export class MultiChannelLayer implements Layer {
 	): Promise<boolean> {
 		if (command.endpoint.channel) {
 			// TODO make source endpoint configurable
-			const encapsulated = new MultiChannelV3.CmdEncap({
+			const encapsulated = new MultiChannelV3.MultiChannelCmdEncap({
 				sourceEndPoint: 0,
 				destinationEndPoint: command.endpoint.channel,
 				bitAddress: false,
-				encapsulated: command.packet.serialize(),
+				command: command.packet.serialize(),
 			});
 			return send.send({
 				...command,

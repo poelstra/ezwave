@@ -21041,28 +21041,14 @@
 							]
 						},
 						{
-							"type": "integer",
-							"name": "commandClass",
-							"help": "Command Class",
-							"length": 1,
-							"valueType": "CMD_CLASS_REF"
-						},
-						{
-							"type": "integer",
-							"name": "command",
-							"help": "Command",
-							"length": 1,
-							"valueType": "CMD_REF"
-						},
-						{
 							"type": "blob",
-							"name": "parameter",
-							"help": "Parameter",
+							"name": "command",
+							"help": "Encapsulated command",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CMD_ENCAP"
 						}
 					]
 				},
@@ -21239,28 +21225,14 @@
 							]
 						},
 						{
-							"type": "integer",
-							"name": "commandClass",
-							"help": "Command Class",
-							"length": 1,
-							"valueType": "CMD_CLASS_REF"
-						},
-						{
-							"type": "integer",
-							"name": "command",
-							"help": "Command",
-							"length": 1,
-							"valueType": "CMD_REF"
-						},
-						{
 							"type": "blob",
-							"name": "parameter",
-							"help": "Parameter",
+							"name": "command",
+							"help": "Encapsulated command",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CMD_ENCAP"
 						}
 					]
 				},
@@ -21453,28 +21425,14 @@
 							]
 						},
 						{
-							"type": "integer",
-							"name": "commandClass",
-							"help": "Command Class",
-							"length": 1,
-							"valueType": "CMD_CLASS_REF"
-						},
-						{
-							"type": "integer",
-							"name": "command",
-							"help": "Command",
-							"length": 1,
-							"valueType": "CMD_REF"
-						},
-						{
 							"type": "blob",
-							"name": "parameter",
-							"help": "Parameter",
+							"name": "command",
+							"help": "Encapsulated command",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CMD_ENCAP"
 						}
 					]
 				},
@@ -21651,28 +21609,14 @@
 							]
 						},
 						{
-							"type": "integer",
-							"name": "commandClass",
-							"help": "Command Class",
-							"length": 1,
-							"valueType": "CMD_CLASS_REF"
-						},
-						{
-							"type": "integer",
-							"name": "command",
-							"help": "Command",
-							"length": 1,
-							"valueType": "CMD_REF"
-						},
-						{
 							"type": "blob",
-							"name": "parameter",
-							"help": "Parameter",
+							"name": "command",
+							"help": "Encapsulated command",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CMD_ENCAP"
 						}
 					]
 				},
@@ -21865,28 +21809,14 @@
 							]
 						},
 						{
-							"type": "integer",
-							"name": "commandClass",
-							"help": "Command Class",
-							"length": 1,
-							"valueType": "CMD_CLASS_REF"
-						},
-						{
-							"type": "integer",
-							"name": "command",
-							"help": "Command",
-							"length": 1,
-							"valueType": "CMD_REF"
-						},
-						{
 							"type": "blob",
-							"name": "parameter",
-							"help": "Parameter",
+							"name": "command",
+							"help": "Encapsulated command",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CMD_ENCAP"
 						}
 					]
 				},
@@ -22084,28 +22014,14 @@
 							]
 						},
 						{
-							"type": "integer",
-							"name": "commandClass",
-							"help": "Command Class",
-							"length": 1,
-							"valueType": "CMD_CLASS_REF"
-						},
-						{
-							"type": "integer",
-							"name": "command",
-							"help": "Command",
-							"length": 1,
-							"valueType": "CMD_REF"
-						},
-						{
 							"type": "blob",
-							"name": "parameter",
-							"help": "Parameter",
+							"name": "command",
+							"help": "Encapsulated command",
 							"length": {
 								"lengthType": "auto",
 								"endOffset": 0
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CMD_ENCAP"
 						}
 					]
 				},
