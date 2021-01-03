@@ -286,6 +286,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IndicatorReport = class IndicatorReport extends CommandPacket<IndicatorV2IndicatorReportData> {
 		public static readonly CommandClass = IndicatorV2;
 		public static readonly command = 0x03;
@@ -541,6 +542,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IndicatorSet = class IndicatorSet extends CommandPacket<IndicatorV2IndicatorSetData> {
 		public static readonly CommandClass = IndicatorV2;
 		public static readonly command = 0x01;
@@ -957,6 +959,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IndicatorSupportedReport = class IndicatorSupportedReport extends CommandPacket<IndicatorV2IndicatorSupportedReportData> {
 		public static readonly CommandClass = IndicatorV2;
 		public static readonly command = 0x05;

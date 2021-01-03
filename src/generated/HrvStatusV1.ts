@@ -222,6 +222,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly HrvStatusSupportedReport = class HrvStatusSupportedReport extends CommandPacket<HrvStatusV1HrvStatusSupportedReportData> {
 		public static readonly CommandClass = HrvStatusV1;
 		public static readonly command = 0x04;

@@ -106,6 +106,7 @@ export class FirmwareUpdateMdV3 extends CommandClassPacket<FirmwareUpdateMdV3Com
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly FirmwareMdReport = class FirmwareMdReport extends CommandPacket<FirmwareUpdateMdV3FirmwareMdReportData> {
 		public static readonly CommandClass = FirmwareUpdateMdV3;
 		public static readonly command = 0x02;

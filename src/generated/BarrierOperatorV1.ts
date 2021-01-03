@@ -201,6 +201,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly BarrierOperatorSignalSupportedReport = class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSupportedReportData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x05;

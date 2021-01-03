@@ -137,6 +137,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 		super(MeterTblMonitorV1, commandAndPayload);
 	}
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MeterTblStatusReport = class MeterTblStatusReport extends CommandPacket<MeterTblMonitorV1MeterTblStatusReportData> {
 		public static readonly CommandClass = MeterTblMonitorV1;
 		public static readonly command = 0x0b;
@@ -457,6 +458,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MeterTblCurrentDataReport = class MeterTblCurrentDataReport extends CommandPacket<MeterTblMonitorV1MeterTblCurrentDataReportData> {
 		public static readonly CommandClass = MeterTblMonitorV1;
 		public static readonly command = 0x0d;
@@ -696,6 +698,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MeterTblHistoricalDataReport = class MeterTblHistoricalDataReport extends CommandPacket<MeterTblMonitorV1MeterTblHistoricalDataReportData> {
 		public static readonly CommandClass = MeterTblMonitorV1;
 		public static readonly command = 0x0f;

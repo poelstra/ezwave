@@ -166,6 +166,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SwitchColorSet = class SwitchColorSet extends CommandPacket<SwitchColorV2SwitchColorSetData> {
 		public static readonly CommandClass = SwitchColorV2;
 		public static readonly command = 0x05;

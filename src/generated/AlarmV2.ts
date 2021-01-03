@@ -419,6 +419,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AlarmTypeSupportedReport = class AlarmTypeSupportedReport extends CommandPacket<AlarmV2AlarmTypeSupportedReportData> {
 		public static readonly CommandClass = AlarmV2;
 		public static readonly command = 0x08;

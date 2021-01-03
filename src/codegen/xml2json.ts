@@ -1462,6 +1462,7 @@ function determineEndOffset(
 			`TODO ${cmdClass.name}:${cmd.name} handle after-auto-length parameters`,
 			nonAutomaticLengthParams
 		);
+		param.length.endOffset = -1;
 		return;
 	}
 	param.length.endOffset = fixedSizes.reduce((sum, len) => sum + len, 0);

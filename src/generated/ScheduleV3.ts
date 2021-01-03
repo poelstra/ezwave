@@ -147,6 +147,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ScheduleSupportedReport = class ScheduleSupportedReport extends CommandPacket<ScheduleV3ScheduleSupportedReportData> {
 		public static readonly CommandClass = ScheduleV3;
 		public static readonly command = 0x02;
@@ -283,6 +284,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly CommandScheduleSet = class CommandScheduleSet extends CommandPacket<ScheduleV3CommandScheduleSetData> {
 		public static readonly CommandClass = ScheduleV3;
 		public static readonly command = 0x03;
@@ -563,6 +565,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly CommandScheduleReport = class CommandScheduleReport extends CommandPacket<ScheduleV3CommandScheduleReportData> {
 		public static readonly CommandClass = ScheduleV3;
 		public static readonly command = 0x05;
@@ -887,6 +890,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ScheduleStateReport = class ScheduleStateReport extends CommandPacket<ScheduleV3ScheduleStateReportData> {
 		public static readonly CommandClass = ScheduleV3;
 		public static readonly command = 0x09;

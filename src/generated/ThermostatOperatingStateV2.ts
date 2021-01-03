@@ -192,6 +192,7 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatOperatingLoggingSupportedReport = class ThermostatOperatingLoggingSupportedReport extends CommandPacket<ThermostatOperatingStateV2ThermostatOperatingLoggingSupportedReportData> {
 		public static readonly CommandClass = ThermostatOperatingStateV2;
 		public static readonly command = 0x04;
@@ -219,6 +220,7 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatOperatingStateLoggingGet = class ThermostatOperatingStateLoggingGet extends CommandPacket<ThermostatOperatingStateV2ThermostatOperatingStateLoggingGetData> {
 		public static readonly CommandClass = ThermostatOperatingStateV2;
 		public static readonly command = 0x05;
@@ -246,6 +248,7 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatOperatingStateLoggingReport = class ThermostatOperatingStateLoggingReport extends CommandPacket<ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData> {
 		public static readonly CommandClass = ThermostatOperatingStateV2;
 		public static readonly command = 0x06;

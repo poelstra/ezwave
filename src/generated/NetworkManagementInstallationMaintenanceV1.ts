@@ -306,6 +306,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly StatisticsReport = class StatisticsReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsReportData> {
 		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
 		public static readonly command = 0x05;

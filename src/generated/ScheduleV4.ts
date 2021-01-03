@@ -158,6 +158,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ScheduleSupportedReport = class ScheduleSupportedReport extends CommandPacket<ScheduleV4ScheduleSupportedReportData> {
 		public static readonly CommandClass = ScheduleV4;
 		public static readonly command = 0x02;
@@ -294,6 +295,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly CommandScheduleSet = class CommandScheduleSet extends CommandPacket<ScheduleV4CommandScheduleSetData> {
 		public static readonly CommandClass = ScheduleV4;
 		public static readonly command = 0x03;
@@ -574,6 +576,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly CommandScheduleReport = class CommandScheduleReport extends CommandPacket<ScheduleV4CommandScheduleReportData> {
 		public static readonly CommandClass = ScheduleV4;
 		public static readonly command = 0x05;
@@ -898,6 +901,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ScheduleStateReport = class ScheduleStateReport extends CommandPacket<ScheduleV4ScheduleStateReportData> {
 		public static readonly CommandClass = ScheduleV4;
 		public static readonly command = 0x09;
@@ -1009,6 +1013,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ScheduleSupportedCommandsReport = class ScheduleSupportedCommandsReport extends CommandPacket<ScheduleV4ScheduleSupportedCommandsReportData> {
 		public static readonly CommandClass = ScheduleV4;
 		public static readonly command = 0x0b;

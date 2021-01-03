@@ -301,6 +301,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationSystemStatusReport = class IrrigationSystemStatusReport extends CommandPacket<IrrigationV1IrrigationSystemStatusReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x04;
@@ -485,6 +486,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationSystemConfigSet = class IrrigationSystemConfigSet extends CommandPacket<IrrigationV1IrrigationSystemConfigSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x05;
@@ -632,6 +634,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationSystemConfigReport = class IrrigationSystemConfigReport extends CommandPacket<IrrigationV1IrrigationSystemConfigReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x07;
@@ -807,6 +810,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveInfoReport = class IrrigationValveInfoReport extends CommandPacket<IrrigationV1IrrigationValveInfoReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x09;
@@ -873,6 +877,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveConfigSet = class IrrigationValveConfigSet extends CommandPacket<IrrigationV1IrrigationValveConfigSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0a;
@@ -1128,6 +1133,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveConfigReport = class IrrigationValveConfigReport extends CommandPacket<IrrigationV1IrrigationValveConfigReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0c;
@@ -1389,6 +1395,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveTableSet = class IrrigationValveTableSet extends CommandPacket<IrrigationV1IrrigationValveTableSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0e;
@@ -1466,6 +1473,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveTableReport = class IrrigationValveTableReport extends CommandPacket<IrrigationV1IrrigationValveTableReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x10;

@@ -143,6 +143,7 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelCapabilityReport = class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV4MultiChannelCapabilityReportData> {
 		public static readonly CommandClass = MultiChannelV4;
 		public static readonly command = 0x0a;
@@ -329,6 +330,7 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelEndPointFindReport = class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV4MultiChannelEndPointFindReportData> {
 		public static readonly CommandClass = MultiChannelV4;
 		public static readonly command = 0x0c;
@@ -697,6 +699,7 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAggregatedMembersReport = class MultiChannelAggregatedMembersReport extends CommandPacket<MultiChannelV4MultiChannelAggregatedMembersReportData> {
 		public static readonly CommandClass = MultiChannelV4;
 		public static readonly command = 0x0f;

@@ -145,6 +145,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SecurityCommandsSupportedReport = class SecurityCommandsSupportedReport extends CommandPacket<SecurityV1SecurityCommandsSupportedReportData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x03;
@@ -166,7 +167,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"help": "Command Class support",
 					"length": {
 						"lengthType": "auto",
-						"endOffset": 0
+						"endOffset": -1
 					},
 					"valueType": "CMD_CLASS_REF"
 				},

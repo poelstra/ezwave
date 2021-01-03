@@ -81,6 +81,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ScreenMdReport = class ScreenMdReport extends CommandPacket<ScreenMdV2ScreenMdReportData> {
 		public static readonly CommandClass = ScreenMdV2;
 		public static readonly command = 0x02;
@@ -221,6 +222,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ScreenMdReportLegacy = class ScreenMdReportLegacy extends CommandPacket<ScreenMdV2ScreenMdReportLegacyData> {
 		public static readonly CommandClass = ScreenMdV2;
 		public static readonly command = 0x03;

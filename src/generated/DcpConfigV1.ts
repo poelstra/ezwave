@@ -123,6 +123,7 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly DcpListSet = class DcpListSet extends CommandPacket<DcpConfigV1DcpListSetData> {
 		public static readonly CommandClass = DcpConfigV1;
 		public static readonly command = 0x03;

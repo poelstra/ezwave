@@ -481,6 +481,7 @@ export class ThermostatSetpointV2 extends CommandClassPacket<ThermostatSetpointV
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatSetpointSupportedReport = class ThermostatSetpointSupportedReport extends CommandPacket<ThermostatSetpointV2ThermostatSetpointSupportedReportData> {
 		public static readonly CommandClass = ThermostatSetpointV2;
 		public static readonly command = 0x05;

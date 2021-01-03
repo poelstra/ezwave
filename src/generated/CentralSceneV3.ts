@@ -81,6 +81,7 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly CentralSceneSupportedReport = class CentralSceneSupportedReport extends CommandPacket<CentralSceneV3CentralSceneSupportedReportData> {
 		public static readonly CommandClass = CentralSceneV3;
 		public static readonly command = 0x02;

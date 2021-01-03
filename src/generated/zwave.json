@@ -20445,7 +20445,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20525,7 +20525,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20593,7 +20593,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20705,7 +20705,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20785,7 +20785,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20853,7 +20853,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -22378,7 +22378,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -22451,7 +22451,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -22512,7 +22512,7 @@
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -31296,7 +31296,7 @@
 							"help": "Command Class support",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							},
 							"valueType": "CMD_CLASS_REF"
 						},
@@ -56488,7 +56488,7 @@
 							"help": "Non-Secure Command Class",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							}
 						},
 						{
@@ -56527,7 +56527,7 @@
 							"help": "Non-Secure Command Class",
 							"length": {
 								"lengthType": "auto",
-								"endOffset": 0
+								"endOffset": -1
 							}
 						},
 						{

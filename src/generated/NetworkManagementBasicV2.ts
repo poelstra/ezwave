@@ -233,6 +233,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInformationSend = class NodeInformationSend extends CommandPacket<NetworkManagementBasicV2NodeInformationSendData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x05;

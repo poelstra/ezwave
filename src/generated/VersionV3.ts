@@ -150,6 +150,7 @@ export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly VersionReport = class VersionReport extends CommandPacket<VersionV3VersionReportData> {
 		public static readonly CommandClass = VersionV3;
 		public static readonly command = 0x12;

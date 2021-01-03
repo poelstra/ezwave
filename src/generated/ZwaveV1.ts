@@ -382,6 +382,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInfo = class NodeInfo extends CommandPacket<ZwaveV1NodeInfoData> {
 		public static readonly CommandClass = ZwaveV1;
 		public static readonly command = 0x01;

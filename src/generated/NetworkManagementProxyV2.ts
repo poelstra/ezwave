@@ -168,6 +168,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInfoCachedReport = class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV2NodeInfoCachedReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV2;
 		public static readonly command = 0x04;
@@ -333,6 +334,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeListReport = class NodeListReport extends CommandPacket<NetworkManagementProxyV2NodeListReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV2;
 		public static readonly command = 0x02;
@@ -560,6 +562,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NmMultiChannelCapabilityReport = class NmMultiChannelCapabilityReport extends CommandPacket<NetworkManagementProxyV2NmMultiChannelCapabilityReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV2;
 		public static readonly command = 0x08;
@@ -700,6 +703,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NmMultiChannelAggregatedMembersReport = class NmMultiChannelAggregatedMembersReport extends CommandPacket<NetworkManagementProxyV2NmMultiChannelAggregatedMembersReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV2;
 		public static readonly command = 0x0a;

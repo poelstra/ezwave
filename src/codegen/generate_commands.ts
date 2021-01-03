@@ -54,6 +54,7 @@ class CommandClassGenerator {
 
 	private _enums = new Map<string, types.EnumValues>();
 	private _enumsCanonical = new Map<string, string>();
+	private _incompleteCommands = new Set<number>();
 
 	private constructor(cmdClass: types.CommandClassDefinition) {
 		this._class = cmdClass;
@@ -205,6 +206,12 @@ class CommandClassGenerator {
 				command.params.length === 0
 					? `void`
 					: `${className}${command.name}Data`;
+			const isIncomplete = this._incompleteCommands.has(command.command);
+			if (isIncomplete) {
+				contents.push(
+					`// TODO This command is not yet fully supported by the decoder/encoder`
+				);
+			}
 			contents.push(
 				`public static readonly ${command.name} = class ${commandName} extends CommandPacket<${dataName}> {`
 			);
@@ -253,7 +260,7 @@ class CommandClassGenerator {
 		const typeName = `${className}${cmd.name}Data`;
 		contents.push(`export interface ${typeName} {`);
 		for (const param of cmd.params) {
-			contents.push(...this._generateParam(param));
+			contents.push(...this._generateParam(cmd, param));
 		}
 		contents.push(`}`, ``);
 
@@ -261,6 +268,7 @@ class CommandClassGenerator {
 	}
 
 	private _generateParam(
+		cmd: types.CommandDefinition,
 		param: types.Parameter | types.ParameterGroup
 	): Lines {
 		const contents: Lines = [];
@@ -271,6 +279,7 @@ class CommandClassGenerator {
 				{
 					if (param.length === 0) {
 						// TODO implement and remove
+						this._incompleteCommands.add(cmd.command);
 						contents.push(
 							`\t// TODO param ${param.name} type bitmask or marker`
 						);
@@ -367,6 +376,11 @@ class CommandClassGenerator {
 						switch (param.length.lengthType) {
 							case types.LengthType.Automatic:
 								lengthStr = `automatic length`;
+								// TODO Implement (in xml2json) and remove this
+								if (param.length.endOffset < 0) {
+									this._incompleteCommands.add(cmd.command);
+									lengthStr = "";
+								}
 								break;
 							case types.LengthType.ParameterReference:
 								// TODO If reference points to an explicit length prop,
@@ -386,13 +400,24 @@ class CommandClassGenerator {
 								throw new Error("unexpected length type");
 						}
 					}
-					contents.push(
-						`\t${param.name}${isOptional ? "?" : ""}: ${
-							param.type === types.ParameterType.Blob
-								? "Buffer"
-								: "string"
-						}; // ${lengthStr}`
-					);
+					if (lengthStr === "") {
+						// TODO Implement (in xml2json) and remove this
+						contents.push(
+							`\t// TODO ${param.name}${isOptional ? "?" : ""}: ${
+								param.type === types.ParameterType.Blob
+									? "Buffer"
+									: "string"
+							}; // automatic length`
+						);
+					} else {
+						contents.push(
+							`\t${param.name}${isOptional ? "?" : ""}: ${
+								param.type === types.ParameterType.Blob
+									? "Buffer"
+									: "string"
+							}; // ${lengthStr}`
+						);
+					}
 				}
 				break;
 
@@ -496,6 +521,7 @@ class CommandClassGenerator {
 				break;
 			case ParamType.MARKER:*/
 			default:
+				this._incompleteCommands.add(cmd.command);
 				contents.push(
 					`\t// TODO param ${param.name} type ${param.type}`
 				);

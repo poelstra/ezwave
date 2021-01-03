@@ -320,6 +320,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly HrvControlModeSupportedReport = class HrvControlModeSupportedReport extends CommandPacket<HrvControlV1HrvControlModeSupportedReportData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x0b;

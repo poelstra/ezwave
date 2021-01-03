@@ -63,6 +63,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 		super(NodeProvisioningV1, commandAndPayload);
 	}
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeProvisioningSet = class NodeProvisioningSet extends CommandPacket<NodeProvisioningV1NodeProvisioningSetData> {
 		public static readonly CommandClass = NodeProvisioningV1;
 		public static readonly command = 0x01;
@@ -287,6 +288,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeProvisioningListIterationReport = class NodeProvisioningListIterationReport extends CommandPacket<NodeProvisioningV1NodeProvisioningListIterationReportData> {
 		public static readonly CommandClass = NodeProvisioningV1;
 		public static readonly command = 0x04;
@@ -484,6 +486,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeProvisioningReport = class NodeProvisioningReport extends CommandPacket<NodeProvisioningV1NodeProvisioningReportData> {
 		public static readonly CommandClass = NodeProvisioningV1;
 		public static readonly command = 0x06;

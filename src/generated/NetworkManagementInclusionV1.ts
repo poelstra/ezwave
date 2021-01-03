@@ -211,6 +211,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeAdd = class NodeAdd extends CommandPacket<NetworkManagementInclusionV1NodeAddData> {
 		public static readonly CommandClass = NetworkManagementInclusionV1;
 		public static readonly command = 0x01;
@@ -283,6 +284,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeAddStatus = class NodeAddStatus extends CommandPacket<NetworkManagementInclusionV1NodeAddStatusData> {
 		public static readonly CommandClass = NetworkManagementInclusionV1;
 		public static readonly command = 0x02;
@@ -536,6 +538,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly FailedNodeReplace = class FailedNodeReplace extends CommandPacket<NetworkManagementInclusionV1FailedNodeReplaceData> {
 		public static readonly CommandClass = NetworkManagementInclusionV1;
 		public static readonly command = 0x09;

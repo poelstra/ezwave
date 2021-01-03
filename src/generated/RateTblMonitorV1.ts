@@ -190,6 +190,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly RateTblCurrentDataReport = class RateTblCurrentDataReport extends CommandPacket<RateTblMonitorV1RateTblCurrentDataReportData> {
 		public static readonly CommandClass = RateTblMonitorV1;
 		public static readonly command = 0x08;
@@ -447,6 +448,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly RateTblHistoricalDataReport = class RateTblHistoricalDataReport extends CommandPacket<RateTblMonitorV1RateTblHistoricalDataReportData> {
 		public static readonly CommandClass = RateTblMonitorV1;
 		public static readonly command = 0x0a;

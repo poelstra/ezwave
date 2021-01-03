@@ -134,6 +134,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAssociationRemove = class MultiChannelAssociationRemove extends CommandPacket<MultiChannelAssociationV3MultiChannelAssociationRemoveData> {
 		public static readonly CommandClass = MultiChannelAssociationV3;
 		public static readonly command = 0x04;
@@ -155,7 +156,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
-						"endOffset": 0
+						"endOffset": -1
 					},
 					"valueType": "NODE_NUMBER"
 				},
@@ -215,6 +216,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAssociationReport = class MultiChannelAssociationReport extends CommandPacket<MultiChannelAssociationV3MultiChannelAssociationReportData> {
 		public static readonly CommandClass = MultiChannelAssociationV3;
 		public static readonly command = 0x03;
@@ -248,7 +250,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
-						"endOffset": 0
+						"endOffset": -1
 					},
 					"valueType": "NODE_NUMBER"
 				},
@@ -308,6 +310,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAssociationSet = class MultiChannelAssociationSet extends CommandPacket<MultiChannelAssociationV3MultiChannelAssociationSetData> {
 		public static readonly CommandClass = MultiChannelAssociationV3;
 		public static readonly command = 0x01;
@@ -329,7 +332,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
-						"endOffset": 0
+						"endOffset": -1
 					},
 					"valueType": "NODE_NUMBER"
 				},

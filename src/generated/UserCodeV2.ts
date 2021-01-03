@@ -339,6 +339,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ExtendedUserCodeSet = class ExtendedUserCodeSet extends CommandPacket<UserCodeV2ExtendedUserCodeSetData> {
 		public static readonly CommandClass = UserCodeV2;
 		public static readonly command = 0x0b;
@@ -512,6 +513,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ExtendedUserCodeReport = class ExtendedUserCodeReport extends CommandPacket<UserCodeV2ExtendedUserCodeReportData> {
 		public static readonly CommandClass = UserCodeV2;
 		public static readonly command = 0x0d;

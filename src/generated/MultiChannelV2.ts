@@ -131,6 +131,7 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelCapabilityReport = class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV2MultiChannelCapabilityReportData> {
 		public static readonly CommandClass = MultiChannelV2;
 		public static readonly command = 0x0a;
@@ -317,6 +318,7 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelEndPointFindReport = class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV2MultiChannelEndPointFindReportData> {
 		public static readonly CommandClass = MultiChannelV2;
 		public static readonly command = 0x0c;

@@ -511,6 +511,7 @@ export class NotificationV5 extends CommandClassPacket<NotificationV5Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NotificationSupportedReport = class NotificationSupportedReport extends CommandPacket<NotificationV5NotificationSupportedReportData> {
 		public static readonly CommandClass = NotificationV5;
 		public static readonly command = 0x08;
@@ -654,6 +655,7 @@ export class NotificationV5 extends CommandClassPacket<NotificationV5Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly EventSupportedReport = class EventSupportedReport extends CommandPacket<NotificationV5EventSupportedReportData> {
 		public static readonly CommandClass = NotificationV5;
 		public static readonly command = 0x02;

@@ -260,6 +260,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SensorBinarySupportedSensorReport = class SensorBinarySupportedSensorReport extends CommandPacket<SensorBinaryV2SensorBinarySupportedSensorReportData> {
 		public static readonly CommandClass = SensorBinaryV2;
 		public static readonly command = 0x04;

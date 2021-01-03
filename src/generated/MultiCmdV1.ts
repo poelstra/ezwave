@@ -28,6 +28,7 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 		super(MultiCmdV1, commandAndPayload);
 	}
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiCmdEncap = class MultiCmdEncap extends CommandPacket<MultiCmdV1MultiCmdEncapData> {
 		public static readonly CommandClass = MultiCmdV1;
 		public static readonly command = 0x01;

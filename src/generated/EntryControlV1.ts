@@ -331,6 +331,7 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly EntryControlKeySupportedReport = class EntryControlKeySupportedReport extends CommandPacket<EntryControlV1EntryControlKeySupportedReportData> {
 		public static readonly CommandClass = EntryControlV1;
 		public static readonly command = 0x03;
@@ -384,6 +385,7 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly EntryControlEventSupportedReport = class EntryControlEventSupportedReport extends CommandPacket<EntryControlV1EntryControlEventSupportedReportData> {
 		public static readonly CommandClass = EntryControlV1;
 		public static readonly command = 0x05;

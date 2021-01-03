@@ -329,6 +329,7 @@ export class ThermostatFanModeV4 extends CommandClassPacket<ThermostatFanModeV4C
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatFanModeSupportedReport = class ThermostatFanModeSupportedReport extends CommandPacket<ThermostatFanModeV4ThermostatFanModeSupportedReportData> {
 		public static readonly CommandClass = ThermostatFanModeV4;
 		public static readonly command = 0x05;

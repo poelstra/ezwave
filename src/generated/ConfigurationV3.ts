@@ -143,6 +143,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ConfigurationBulkReport = class ConfigurationBulkReport extends CommandPacket<ConfigurationV3ConfigurationBulkReportData> {
 		public static readonly CommandClass = ConfigurationV3;
 		public static readonly command = 0x09;
@@ -256,6 +257,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ConfigurationBulkSet = class ConfigurationBulkSet extends CommandPacket<ConfigurationV3ConfigurationBulkSetData> {
 		public static readonly CommandClass = ConfigurationV3;
 		public static readonly command = 0x07;

@@ -234,6 +234,7 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly DcpListReport = class DcpListReport extends CommandPacket<DcpMonitorV1DcpListReportData> {
 		public static readonly CommandClass = DcpMonitorV1;
 		public static readonly command = 0x02;

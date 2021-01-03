@@ -132,6 +132,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiInstanceAssociationRemove = class MultiInstanceAssociationRemove extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationRemoveData> {
 		public static readonly CommandClass = MultiInstanceAssociationV1;
 		public static readonly command = 0x04;
@@ -160,7 +161,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
-						"endOffset": 0
+						"endOffset": -1
 					},
 					"valueType": "NODE_NUMBER"
 				},
@@ -206,6 +207,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiInstanceAssociationReport = class MultiInstanceAssociationReport extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationReportData> {
 		public static readonly CommandClass = MultiInstanceAssociationV1;
 		public static readonly command = 0x03;
@@ -246,7 +248,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
-						"endOffset": 0
+						"endOffset": -1
 					},
 					"valueType": "NODE_NUMBER"
 				},
@@ -292,6 +294,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiInstanceAssociationSet = class MultiInstanceAssociationSet extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationSetData> {
 		public static readonly CommandClass = MultiInstanceAssociationV1;
 		public static readonly command = 0x01;
@@ -320,7 +323,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
-						"endOffset": 0
+						"endOffset": -1
 					},
 					"valueType": "NODE_NUMBER"
 				},

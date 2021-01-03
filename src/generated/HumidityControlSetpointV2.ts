@@ -404,6 +404,7 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly HumidityControlSetpointSupportedReport = class HumidityControlSetpointSupportedReport extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointSupportedReportData> {
 		public static readonly CommandClass = HumidityControlSetpointV2;
 		public static readonly command = 0x05;

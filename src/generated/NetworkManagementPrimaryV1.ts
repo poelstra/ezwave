@@ -46,6 +46,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 		super(NetworkManagementPrimaryV1, commandAndPayload);
 	}
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ControllerChange = class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeData> {
 		public static readonly CommandClass = NetworkManagementPrimaryV1;
 		public static readonly command = 0x01;
@@ -102,6 +103,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ControllerChangeStatus = class ControllerChangeStatus extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeStatusData> {
 		public static readonly CommandClass = NetworkManagementPrimaryV1;
 		public static readonly command = 0x02;

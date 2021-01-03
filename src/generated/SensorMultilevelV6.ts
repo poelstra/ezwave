@@ -516,6 +516,7 @@ export class SensorMultilevelV6 extends CommandClassPacket<SensorMultilevelV6Com
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SensorMultilevelSupportedSensorReport = class SensorMultilevelSupportedSensorReport extends CommandPacket<SensorMultilevelV6SensorMultilevelSupportedSensorReportData> {
 		public static readonly CommandClass = SensorMultilevelV6;
 		public static readonly command = 0x02;

@@ -119,6 +119,7 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInfoCachedReport = class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV1NodeInfoCachedReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV1;
 		public static readonly command = 0x04;
@@ -285,6 +286,7 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeListReport = class NodeListReport extends CommandPacket<NetworkManagementProxyV1NodeListReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV1;
 		public static readonly command = 0x02;

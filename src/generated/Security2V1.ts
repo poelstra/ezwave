@@ -200,6 +200,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly Security2MessageEncapsulation = class Security2MessageEncapsulation extends CommandPacket<Security2V1Security2MessageEncapsulationData> {
 		public static readonly CommandClass = Security2V1;
 		public static readonly command = 0x03;
@@ -366,6 +367,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly KexReport = class KexReport extends CommandPacket<Security2V1KexReportData> {
 		public static readonly CommandClass = Security2V1;
 		public static readonly command = 0x05;
@@ -432,6 +434,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly KexSet = class KexSet extends CommandPacket<Security2V1KexSetData> {
 		public static readonly CommandClass = Security2V1;
 		public static readonly command = 0x06;
@@ -798,6 +801,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly Security2CommandsSupportedReport = class Security2CommandsSupportedReport extends CommandPacket<Security2V1Security2CommandsSupportedReportData> {
 		public static readonly CommandClass = Security2V1;
 		public static readonly command = 0x0e;

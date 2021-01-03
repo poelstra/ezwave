@@ -128,6 +128,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AssociationRemove = class AssociationRemove extends CommandPacket<AssociationV1AssociationRemoveData> {
 		public static readonly CommandClass = AssociationV1;
 		public static readonly command = 0x04;
@@ -165,6 +166,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AssociationReport = class AssociationReport extends CommandPacket<AssociationV1AssociationReportData> {
 		public static readonly CommandClass = AssociationV1;
 		public static readonly command = 0x03;
@@ -214,6 +216,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AssociationSet = class AssociationSet extends CommandPacket<AssociationV1AssociationSetData> {
 		public static readonly CommandClass = AssociationV1;
 		public static readonly command = 0x01;

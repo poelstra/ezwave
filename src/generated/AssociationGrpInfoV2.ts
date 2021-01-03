@@ -190,6 +190,7 @@ export class AssociationGrpInfoV2 extends CommandClassPacket<AssociationGrpInfoV
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AssociationGroupInfoReport = class AssociationGroupInfoReport extends CommandPacket<AssociationGrpInfoV2AssociationGroupInfoReportData> {
 		public static readonly CommandClass = AssociationGrpInfoV2;
 		public static readonly command = 0x04;

@@ -95,6 +95,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SimpleAvControlSet = class SimpleAvControlSet extends CommandPacket<SimpleAvControlV1SimpleAvControlSetData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x01;
@@ -193,6 +194,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SimpleAvControlSupportedReport = class SimpleAvControlSupportedReport extends CommandPacket<SimpleAvControlV1SimpleAvControlSupportedReportData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x05;

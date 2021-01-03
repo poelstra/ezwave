@@ -107,6 +107,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly WindowCoveringSupportedReport = class WindowCoveringSupportedReport extends CommandPacket<WindowCoveringV1WindowCoveringSupportedReportData> {
 		public static readonly CommandClass = WindowCoveringV1;
 		public static readonly command = 0x02;
@@ -415,6 +416,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 		}
 	};
 
+	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly WindowCoveringSet = class WindowCoveringSet extends CommandPacket<WindowCoveringV1WindowCoveringSetData> {
 		public static readonly CommandClass = WindowCoveringV1;
 		public static readonly command = 0x05;
