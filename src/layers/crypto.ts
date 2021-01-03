@@ -5,13 +5,13 @@
  */
 
 import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
-import {
-	SecurityV1,
-	SecurityV1MessageEncapsulationData,
-	SecurityV1MessageEncapsulationNonceGetData,
-} from "../classes/SecurityV1";
 import { Packet } from "../commands/packet";
 import { bufferToString } from "../common/util";
+import {
+	SecurityV1,
+	SecurityV1SecurityMessageEncapsulationData,
+	SecurityV1SecurityMessageEncapsulationNonceGetData,
+} from "../generated/SecurityV1";
 
 export type NonceId = number;
 
@@ -373,8 +373,8 @@ export class CryptoManager {
 		receiverNonce: Buffer,
 		requestNextNonce: boolean
 	):
-		| SecurityV1.MessageEncapsulation
-		| SecurityV1.MessageEncapsulationNonceGet {
+		| SecurityV1.SecurityMessageEncapsulation
+		| SecurityV1.SecurityMessageEncapsulationNonceGet {
 		const initVector = Buffer.concat([senderNonce, receiverNonce]);
 
 		const sequenceInfo = 0; // TODO sequence stuff
@@ -385,8 +385,8 @@ export class CryptoManager {
 		const encryptedPayload = this.aesEncrypt(initVector, plainPayload);
 
 		const secCmd = requestNextNonce
-			? SecurityV1.MessageEncapsulationNonceGet.command
-			: SecurityV1.MessageEncapsulation.command;
+			? SecurityV1.SecurityMessageEncapsulationNonceGet.command
+			: SecurityV1.SecurityMessageEncapsulation.command;
 		const authenticationDataRaw = Buffer.from([
 			...initVector,
 			secCmd,
@@ -399,23 +399,23 @@ export class CryptoManager {
 		const mac = this.computeMac(authenticationDataRaw);
 
 		const data:
-			| SecurityV1MessageEncapsulationData
-			| SecurityV1MessageEncapsulationNonceGetData = {
+			| SecurityV1SecurityMessageEncapsulationData
+			| SecurityV1SecurityMessageEncapsulationNonceGetData = {
 			initializationVector: senderNonce,
 			encryptedPayload,
 			receiversNonceIdentifier: nonceIdentifier,
 			messageAuthenticationCode: mac,
 		};
 		return requestNextNonce
-			? new SecurityV1.MessageEncapsulationNonceGet(data)
-			: new SecurityV1.MessageEncapsulation(data);
+			? new SecurityV1.SecurityMessageEncapsulationNonceGet(data)
+			: new SecurityV1.SecurityMessageEncapsulation(data);
 	}
 
 	// TODO move to SecurityS0 layer
 	public decapsulateS0(
 		packet:
-			| SecurityV1.MessageEncapsulation
-			| SecurityV1.MessageEncapsulationNonceGet,
+			| SecurityV1.SecurityMessageEncapsulation
+			| SecurityV1.SecurityMessageEncapsulationNonceGet,
 		sourceNode: number,
 		destNode: number,
 		nonceLookup: (id: number) => Buffer | undefined

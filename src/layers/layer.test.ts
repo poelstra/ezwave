@@ -1,7 +1,8 @@
 import { expect } from "chai";
-import { SecurityV1 } from "../classes/SecurityV1";
 import { Packet } from "../commands/packet";
+import { SecurityV1 } from "../generated/SecurityV1";
 import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
+import { DestinationType } from "../serialapi/serialapi";
 import {
 	Dispatch,
 	DispatchNext,
@@ -14,7 +15,6 @@ import {
 } from "./layer";
 import { Requester } from "./requester";
 import { Stack } from "./stack";
-import { DestinationType } from "../serialapi/serialapi";
 
 class FakeSecurityLayer implements Layer {
 	private _requester = new Requester();
@@ -26,10 +26,10 @@ class FakeSecurityLayer implements Layer {
 	): Promise<void> {
 		this._requester.dispatch(event);
 
-		if (event.packet.is(SecurityV1.NonceGet)) {
+		if (event.packet.is(SecurityV1.SecurityNonceGet)) {
 			await sender.send({
 				endpoint: event.endpoint,
-				packet: new SecurityV1.NonceReport({
+				packet: new SecurityV1.SecurityNonceReport({
 					nonce: Buffer.alloc(8, 0x55),
 				}),
 			});
@@ -37,11 +37,13 @@ class FakeSecurityLayer implements Layer {
 		}
 
 		// Nonce report is handled in _secureSend()
-		if (event.packet.is(SecurityV1.NonceReport)) {
+		if (event.packet.is(SecurityV1.SecurityNonceReport)) {
 			return;
 		}
 
-		const encap = event.packet.tryAs(SecurityV1.MessageEncapsulation);
+		const encap = event.packet.tryAs(
+			SecurityV1.SecurityMessageEncapsulation
+		);
 		if (!encap) {
 			return await next(event, sender);
 		}
@@ -78,17 +80,17 @@ class FakeSecurityLayer implements Layer {
 			const nonceEvent = await this._requester.sendAndWaitFor(
 				{
 					endpoint: command.endpoint,
-					packet: new SecurityV1.NonceGet(),
+					packet: new SecurityV1.SecurityNonceGet(),
 				},
 				send.send,
-				(evt) => evt.packet.tryAs(SecurityV1.NonceReport)
+				(evt) => evt.packet.tryAs(SecurityV1.SecurityNonceReport)
 			);
 			if (!nonceEvent) {
 				// Send was suppressed, stop further processing.
 				return false;
 			}
 			const senderNonce = Buffer.alloc(8, 0x44);
-			const encapsulated = new SecurityV1.MessageEncapsulation({
+			const encapsulated = new SecurityV1.SecurityMessageEncapsulation({
 				initializationVector: senderNonce,
 				encryptedPayload: command.packet.serialize(),
 				receiversNonceIdentifier: nonceEvent.packet.data.nonce[0],
@@ -165,8 +167,8 @@ describe("layers", () => {
 	it("sends secure message", async () => {
 		const actualSends: Packet[] = [];
 		const expectedSends: Packet[] = [
-			new SecurityV1.NonceGet(),
-			new SecurityV1.MessageEncapsulation({
+			new SecurityV1.SecurityNonceGet(),
+			new SecurityV1.SecurityMessageEncapsulation({
 				initializationVector: Buffer.alloc(8, 0x44),
 				encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelSet({
 					value: 20,
@@ -180,11 +182,11 @@ describe("layers", () => {
 			console.log("--> send", command);
 			command.afterSend && command.afterSend();
 			// Mimick response from remote device
-			if (command.packet.is(SecurityV1.NonceGet)) {
+			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				await stack.dispatch({
 					packetType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
-					packet: new SecurityV1.NonceReport({
+					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0xaa),
 					}),
 				});
@@ -202,8 +204,8 @@ describe("layers", () => {
 	it("correctly discards too early packets", async () => {
 		const actualSends: Packet[] = [];
 		const expectedSends: Packet[] = [
-			new SecurityV1.NonceGet(),
-			new SecurityV1.MessageEncapsulation({
+			new SecurityV1.SecurityNonceGet(),
+			new SecurityV1.SecurityMessageEncapsulation({
 				initializationVector: Buffer.alloc(8, 0x44),
 				encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelSet({
 					value: 20,
@@ -220,22 +222,22 @@ describe("layers", () => {
 			// Mimick response from remote device, but act like we just
 			// received a package before we *actually* sent out our
 			// nonce_get.
-			if (command.packet.is(SecurityV1.NonceGet)) {
+			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				await stack.dispatch({
 					packetType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
-					packet: new SecurityV1.NonceReport({
+					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0x77),
 					}),
 				});
 			}
 			command.afterSend && command.afterSend();
-			if (command.packet.is(SecurityV1.NonceGet)) {
+			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				expect(afterSendCalled).to.equal(0);
 				await stack.dispatch({
 					packetType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
-					packet: new SecurityV1.NonceReport({
+					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0x88),
 					}),
 				});
@@ -261,12 +263,16 @@ describe("layers", () => {
 				[],
 			],
 			[
-				new SecurityV1.NonceGet(),
+				new SecurityV1.SecurityNonceGet(),
 				[],
-				[new SecurityV1.NonceReport({ nonce: Buffer.alloc(8, 0x55) })],
+				[
+					new SecurityV1.SecurityNonceReport({
+						nonce: Buffer.alloc(8, 0x55),
+					}),
+				],
 			],
 			[
-				new SecurityV1.MessageEncapsulation({
+				new SecurityV1.SecurityMessageEncapsulation({
 					initializationVector: Buffer.alloc(8, 0x11),
 					encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelSet(
 						{
@@ -286,7 +292,7 @@ describe("layers", () => {
 				[],
 			],
 			[
-				new SecurityV1.MessageEncapsulation({
+				new SecurityV1.SecurityMessageEncapsulation({
 					initializationVector: Buffer.alloc(8, 0x11),
 					encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelGet().serialize(),
 					receiversNonceIdentifier: 0x12,
@@ -298,8 +304,8 @@ describe("layers", () => {
 					),
 				],
 				[
-					new SecurityV1.NonceGet(),
-					new SecurityV1.MessageEncapsulation({
+					new SecurityV1.SecurityNonceGet(),
+					new SecurityV1.SecurityMessageEncapsulation({
 						initializationVector: Buffer.alloc(8, 0x44),
 						encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelReport(
 							{
@@ -318,11 +324,11 @@ describe("layers", () => {
 			actualSends.push(command.packet);
 			command.afterSend && command.afterSend();
 			// Mimick response from remote device
-			if (command.packet.is(SecurityV1.NonceGet)) {
+			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				await stack.dispatch({
 					packetType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
-					packet: new SecurityV1.NonceReport({
+					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0xaa),
 					}),
 				});

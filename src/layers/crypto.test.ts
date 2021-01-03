@@ -1,9 +1,8 @@
-import { describe, it } from "mocha";
 import { expect } from "chai";
-
-import { CryptoManager } from "./crypto";
+import { describe, it } from "mocha";
 import { Packet } from "../commands/packet";
-import { SecurityV1 } from "../classes/SecurityV1";
+import { SecurityV1 } from "../generated/SecurityV1";
+import { CryptoManager } from "./crypto";
 
 const networkKey = Buffer.from("101112131415161718191a1b1c1d1e1f", "hex");
 
@@ -85,7 +84,7 @@ describe("Crypto", () => {
 			0x99, 0xdd, 0xbc, 0xd0, 0xfb, 0x8b, 0xc1, 0x66, // encrypted seq info + data
 			0x3a, // nonce id
 			0xcf, 0xd3, 0x66, 0xfd, 0xf2, 0xee, 0x19, 0x49, // mac
-		])).as(SecurityV1.MessageEncapsulation);
+		])).as(SecurityV1.SecurityMessageEncapsulation);
 		const nonceLookup = (id: number) => {
 			if (id !== 0x3a) throw new Error("unexpected receiverNonceId");
 			return receiverNonce;

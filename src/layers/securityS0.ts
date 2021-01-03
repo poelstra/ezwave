@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
-import { SecurityV1 } from "../classes/SecurityV1";
 import { Packet } from "../commands/packet";
 import { bufferToString } from "../common/util";
+import { SecurityV1 } from "../generated/SecurityV1";
 import { CryptoManager, NonceStore } from "./crypto";
 import {
 	DispatchNext,
@@ -31,19 +31,19 @@ export class SecurityS0Layer implements Layer {
 		this._requester.dispatch(event);
 
 		// NonceGet is just responded to, not passed through
-		if (event.packet.is(SecurityV1.NonceGet)) {
+		if (event.packet.is(SecurityV1.SecurityNonceGet)) {
 			return this._handleSecurityNonceGet(event, sender);
 		}
 
 		// NonceReport is handled in _secureSend, not passed through
-		if (event.packet.is(SecurityV1.NonceReport)) {
+		if (event.packet.is(SecurityV1.SecurityNonceReport)) {
 			return;
 		}
 
 		// Encapsulation is decoded and handled, EncapNonceGet is replied to afterwards
 		const encapPacket =
-			event.packet.tryAs(SecurityV1.MessageEncapsulation) ??
-			event.packet.tryAs(SecurityV1.MessageEncapsulationNonceGet);
+			event.packet.tryAs(SecurityV1.SecurityMessageEncapsulation) ??
+			event.packet.tryAs(SecurityV1.SecurityMessageEncapsulationNonceGet);
 
 		// Non-secure packet, just pass through (but allow sender to still encrypt
 		// messages if necessary)
@@ -65,7 +65,7 @@ export class SecurityS0Layer implements Layer {
 			packet: decoded,
 		};
 
-		if (event.packet.is(SecurityV1.MessageEncapsulationNonceGet)) {
+		if (event.packet.is(SecurityV1.SecurityMessageEncapsulationNonceGet)) {
 			// It doesn't seem to be mentioned in the docs, but at least one of my devices doesn't
 			// send back e.g. a Report to a Get when receiving a MessageEncapsulationNonceGet (only
 			// the nonce report is sent). Let's mimick that behavior here.
@@ -115,10 +115,10 @@ export class SecurityS0Layer implements Layer {
 			const nonceEvent = await this._requester.sendAndWaitFor(
 				{
 					endpoint: command.endpoint,
-					packet: new SecurityV1.NonceGet(),
+					packet: new SecurityV1.SecurityNonceGet(),
 				},
 				send.send,
-				(evt) => evt.packet.tryAs(SecurityV1.NonceReport)
+				(evt) => evt.packet.tryAs(SecurityV1.SecurityNonceReport)
 			);
 			if (!nonceEvent) {
 				// Send was suppressed, stop further processing.
@@ -157,7 +157,9 @@ export class SecurityS0Layer implements Layer {
 			);
 			await send.send({
 				endpoint: { nodeId: event.endpoint.nodeId },
-				packet: new SecurityV1.NonceReport({ nonce: nonce.data }),
+				packet: new SecurityV1.SecurityNonceReport({
+					nonce: nonce.data,
+				}),
 			});
 		} else {
 			console.log(
