@@ -18,7 +18,7 @@ export interface Zip6lowpanV1LowpanFirstFragmentData {
 	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
 	datagramTag: number; // 1 byte unsigned integer
-	// TODO param payload type blob
+	payload: Buffer; // automatic length
 }
 
 export interface Zip6lowpanV1LowpanSubsequentFragmentData {
@@ -26,7 +26,7 @@ export interface Zip6lowpanV1LowpanSubsequentFragmentData {
 	datagramSize2: number; // 1 byte unsigned integer
 	datagramTag: number; // 1 byte unsigned integer
 	datagramOffset: number; // 1 byte unsigned integer
-	// TODO param payload type blob
+	payload: Buffer; // automatic length
 }
 
 export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
@@ -81,7 +81,10 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"type": "blob",
 					"name": "payload",
 					"help": "Payload",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -142,7 +145,10 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"type": "blob",
 					"name": "payload",
 					"help": "Payload",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

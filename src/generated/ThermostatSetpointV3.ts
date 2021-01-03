@@ -27,14 +27,14 @@ export interface ThermostatSetpointV3ThermostatSetpointReportData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ThermostatSetpointV3ThermostatSetpointSetData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ThermostatSetpointV3ThermostatSetpointSupportedReportData {
@@ -49,10 +49,10 @@ export interface ThermostatSetpointV3ThermostatSetpointCapabilitiesReportData {
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision1: number; // properties2[7..5]
 	scale1: number; // properties2[4..3]
-	// TODO param minValue type blob
+	minValue: Buffer; // variable length
 	precision2: number; // properties3[7..5]
 	scale2: number; // properties3[4..3]
-	// TODO param maxValue type blob
+	maxValue: Buffer; // variable length
 }
 
 export enum SetpointTypeEnum {
@@ -327,6 +327,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level2",
 						"bitfield": {
 							"mask": 7,
@@ -481,6 +482,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level2",
 						"bitfield": {
 							"mask": 7,
@@ -790,6 +792,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "minValue",
 					"help": "Min Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -836,6 +839,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 					"name": "maxValue",
 					"help": "MaxValue",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,

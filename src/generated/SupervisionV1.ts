@@ -17,7 +17,7 @@ export enum SupervisionV1Commands {
 export interface SupervisionV1SupervisionGetData {
 	statusUpdates: boolean; // properties1[7]
 	sessionID: number; // properties1[5..0]
-	// TODO param encapsulatedCommand type blob
+	encapsulatedCommand: Buffer; // variable length
 }
 
 export interface SupervisionV1SupervisionReportData {
@@ -100,6 +100,7 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 					"name": "encapsulatedCommand",
 					"help": "Encapsulated Command",
 					"length": {
+						"lengthType": "ref",
 						"ref": "encapsulatedCommandLength"
 					},
 					"blobType": "CMD_ENCAP"

@@ -14,7 +14,7 @@ export enum MeterTblConfigV1Commands {
 }
 
 export interface MeterTblConfigV1MeterTblTablePointAdmNoSetData {
-	// TODO param meterPointAdmNumberCharacter type blob
+	meterPointAdmNumberCharacter: Buffer; // variable length
 }
 
 export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Commands> {
@@ -70,6 +70,7 @@ export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Command
 					"name": "meterPointAdmNumberCharacter",
 					"help": "Meter Point Adm Number Character",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,

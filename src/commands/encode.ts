@@ -1,6 +1,7 @@
 import {
 	BitfieldElementType,
 	BitfieldParameter,
+	BlobParameter,
 	CommandDefinition,
 	EnumParameter,
 	IntegerParameter,
@@ -9,6 +10,7 @@ import {
 	ParameterGroup,
 	ParameterReference,
 	ParameterType,
+	TextParameter,
 } from "./types";
 
 const MAX_SIZE = 2048; // Based on maximum frame size that can be encapsulated in any Z-Wave transport.
@@ -136,6 +138,12 @@ function encodeParam(
 
 		case ParameterType.Bitfield:
 			return encodeBitfield(param, slice, data, data);
+
+		case ParameterType.Blob:
+			return encodeBlob(param, slice, data, data);
+
+		case ParameterType.Text:
+			return encodeText(param, slice, data, data);
 
 		default:
 			throw new Error(
@@ -389,4 +397,44 @@ function encodeBitfield(
 
 	slice.writeUInt8(value, 0);
 	return 1;
+}
+
+function encodeBlob(
+	param: BlobParameter,
+	slice: Buffer,
+	localCtx: EncodedPacket,
+	parentCtx: EncodedPacket
+): number {
+	const value = localCtx[param.name];
+	if (!Buffer.isBuffer(value)) {
+		throw new EncodeDataError(
+			`invalid value for parameter ${
+				param.name
+			}, expected Buffer, got ${typeof value}`
+		);
+	}
+	if (value.length > slice.length) {
+		throw new EncodeDataError(`parameter ${param.name} too long`);
+	}
+	return value.copy(slice);
+}
+
+function encodeText(
+	param: TextParameter,
+	slice: Buffer,
+	localCtx: EncodedPacket,
+	parentCtx: EncodedPacket
+): number {
+	const value = localCtx[param.name];
+	if (typeof value !== "string") {
+		throw new EncodeDataError(
+			`invalid value for parameter ${
+				param.name
+			}, expected string, got ${typeof value}`
+		);
+	}
+	// TODO explicit error when string is too long
+	// TODO check encoding in spec
+	// TODO Check fixed-length fields (pad with zeroes?)
+	return slice.write(value, "ascii");
 }

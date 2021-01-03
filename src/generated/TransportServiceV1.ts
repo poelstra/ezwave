@@ -18,7 +18,7 @@ export interface TransportServiceV1CommandFirstFragmentData {
 	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
 	sequenceNo: number; // properties2[3..0]
-	// TODO param payload type blob
+	payload: Buffer; // automatic length
 	checksum: number; // 2 byte unsigned integer
 }
 
@@ -28,7 +28,7 @@ export interface TransportServiceV1CommandSubsequentFragmentData {
 	sequenceNo: number; // properties2[6..3]
 	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
-	// TODO param payload type blob
+	payload: Buffer; // automatic length
 	checksum: number; // 2 byte unsigned integer
 }
 
@@ -100,7 +100,10 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"type": "blob",
 					"name": "payload",
 					"help": "Payload",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 2
+					}
 				},
 				{
 					"type": "integer",
@@ -188,7 +191,10 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"type": "blob",
 					"name": "payload",
 					"help": "Payload",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 2
+					}
 				},
 				{
 					"type": "integer",

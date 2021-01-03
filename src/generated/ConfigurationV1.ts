@@ -21,13 +21,13 @@ export interface ConfigurationV1ConfigurationGetData {
 
 export interface ConfigurationV1ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export interface ConfigurationV1ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
 	default: boolean; // level[7]
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands> {
@@ -116,6 +116,7 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,
@@ -190,6 +191,7 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,

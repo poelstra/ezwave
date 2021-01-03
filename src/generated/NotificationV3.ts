@@ -32,7 +32,7 @@ export interface NotificationV3NotificationReportData {
 	notificationType: NotificationTypeEnum; // 1 byte enum value
 	event: number; // 1 byte unsigned integer
 	sequence: boolean; // properties1[7]
-	// TODO param eventParameter type blob
+	eventParameter: Buffer; // variable length
 	sequenceNumber: number; // 1 byte unsigned integer
 }
 
@@ -327,6 +327,7 @@ export class NotificationV3 extends CommandClassPacket<NotificationV3Commands> {
 					"name": "eventParameter",
 					"help": "Event Parameter",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,

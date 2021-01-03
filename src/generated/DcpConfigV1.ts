@@ -207,6 +207,7 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 3,

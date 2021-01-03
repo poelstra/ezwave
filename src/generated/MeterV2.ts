@@ -26,9 +26,9 @@ export interface MeterV2MeterReportData {
 	meterType: number; // properties1[4..0]
 	precision: number; // properties2[7..5]
 	scale: number; // properties2[4..3]
-	// TODO param meterValue type blob
+	meterValue: Buffer; // variable length
 	deltaTime: number; // 2 byte unsigned integer
-	// TODO param previousMeterValue type blob
+	previousMeterValue?: Buffer; // variable length
 }
 
 export interface MeterV2MeterSupportedReportData {
@@ -174,6 +174,7 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -204,6 +205,7 @@ export class MeterV2 extends CommandClassPacket<MeterV2Commands> {
 						"ref": "deltaTime"
 					},
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,

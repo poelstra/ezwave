@@ -20,13 +20,13 @@ export enum NodeProvisioningV1Commands {
 
 export interface NodeProvisioningV1NodeProvisioningSetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 	// TODO param vg1 type group
 }
 
 export interface NodeProvisioningV1NodeProvisioningDeleteData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 }
 
 export interface NodeProvisioningV1NodeProvisioningListIterationGetData {
@@ -37,18 +37,18 @@ export interface NodeProvisioningV1NodeProvisioningListIterationGetData {
 export interface NodeProvisioningV1NodeProvisioningListIterationReportData {
 	seqNo: number; // 1 byte unsigned integer
 	remainingCount: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 	// TODO param vg1 type group
 }
 
 export interface NodeProvisioningV1NodeProvisioningGetData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 }
 
 export interface NodeProvisioningV1NodeProvisioningReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 	// TODO param vg1 type group
 }
 
@@ -111,6 +111,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -123,7 +124,10 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "bitfield",
@@ -163,6 +167,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "length"
 							}
 						}
@@ -228,6 +233,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -335,6 +341,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -347,7 +354,10 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "bitfield",
@@ -387,6 +397,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "length"
 							}
 						}
@@ -452,6 +463,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -520,6 +532,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -532,7 +545,10 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "bitfield",
@@ -572,6 +588,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "length"
 							}
 						}

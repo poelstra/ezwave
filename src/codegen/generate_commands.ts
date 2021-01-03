@@ -270,7 +270,7 @@ class CommandClassGenerator {
 			case types.ParameterType.Integer:
 				{
 					if (param.length === 0) {
-						// TODO remove me
+						// TODO implement and remove
 						contents.push(
 							`\t// TODO param ${param.name} type bitmask or marker`
 						);
@@ -357,6 +357,45 @@ class CommandClassGenerator {
 				}
 				break;
 
+			case types.ParameterType.Blob:
+			case types.ParameterType.Text:
+				{
+					let lengthStr: string;
+					if (typeof param.length === "number") {
+						lengthStr = `${param.length} bytes`;
+					} else {
+						switch (param.length.lengthType) {
+							case types.LengthType.Automatic:
+								lengthStr = `automatic length`;
+								break;
+							case types.LengthType.ParameterReference:
+								// TODO If reference points to an explicit length prop,
+								// mention that property.
+								// const l = param.length;
+								// lengthStr = `length based on ${
+								// 	l.isParentReference ? "../" : ""
+								// }${l.ref}${
+								// 	l.bitfield ? `.${l.bitfield.name}` : ""
+								// }`;
+								lengthStr = `variable length`;
+								break;
+							case types.LengthType.MoreToFollow:
+								lengthStr = `length based on MoreToFollow flag`;
+								break;
+							default:
+								throw new Error("unexpected length type");
+						}
+					}
+					contents.push(
+						`\t${param.name}${isOptional ? "?" : ""}: ${
+							param.type === types.ParameterType.Blob
+								? "Buffer"
+								: "string"
+						}; // ${lengthStr}`
+					);
+				}
+				break;
+
 			/* case ParamType.ARRAY:
 				{
 					const attr = param.arrayattrib;
@@ -436,22 +475,6 @@ class CommandClassGenerator {
 					// TODO Generate all the enums, with names based on the enum values of the respective parameter,
 					// then create the union of all these enums
 					contents.push(`\t${param.name}: number; // ${param.type}`);
-				}
-				break;
-			case ParamType.VARIANT:
-				{
-					const v = param.variant;
-					assert(v.signed === true); // Seems to be unused?
-					if (v.paramoffs === 255) {
-						assert(v.sizemask === 0 && v.sizeoffs === 0);
-					}
-					// This is basically a variable-length Buffer or string
-					// TODO Handle sizechange (can be e.g. -1 or -2), apparently means to
-					// include that number of previous bytes into the payload
-					let variantType = v.is_ascii ? "string" : "Buffer";
-					const isOptional = param.optionalmask !== undefined; // optionaloffs = param ID, mask = AND mask, present if result after mask > 0
-					const lengthStr = v.paramoffs === 255 ? `according to message length` : `by param[${v.paramoffs}] & ${v.sizemask} >> ${v.sizeoffs}`;
-					contents.push(`\t${param.name}${isOptional ? "?" : ""}: ${variantType}; // ${param.type}, length ${lengthStr}`);
 				}
 				break;
 			case ParamType.VARIANT_GROUP:

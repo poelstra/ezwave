@@ -17,12 +17,12 @@ export enum ZipPortalV1Commands {
 }
 
 export interface ZipPortalV1GatewayConfigurationSetData {
-	// TODO param lANIPv6Address type blob
+	lANIPv6Address: Buffer; // 16 bytes
 	lANIPv6PrefixLength: number; // 1 byte unsigned integer
-	// TODO param portalIPv6Prefix type blob
+	portalIPv6Prefix: Buffer; // 16 bytes
 	portalIPv6PrefixLength: number; // 1 byte unsigned integer
-	// TODO param defaultGatewayIPv6Address type blob
-	// TODO param pANIPv6Prefix type blob
+	defaultGatewayIPv6Address: Buffer; // 16 bytes
+	pANIPv6Prefix: Buffer; // 16 bytes
 }
 
 export interface ZipPortalV1GatewayConfigurationStatusData {
@@ -30,12 +30,12 @@ export interface ZipPortalV1GatewayConfigurationStatusData {
 }
 
 export interface ZipPortalV1GatewayConfigurationReportData {
-	// TODO param lANIPv6Address type blob
+	lANIPv6Address: Buffer; // 16 bytes
 	lANIPv6PrefixLength: number; // 1 byte unsigned integer
-	// TODO param portalIPv6Prefix type blob
+	portalIPv6Prefix: Buffer; // 16 bytes
 	portalIPv6PrefixLength: number; // 1 byte unsigned integer
-	// TODO param defaultGatewayIPv6Address type blob
-	// TODO param pANIPv6Prefix type blob
+	defaultGatewayIPv6Address: Buffer; // 16 bytes
+	pANIPv6Prefix: Buffer; // 16 bytes
 }
 
 export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {

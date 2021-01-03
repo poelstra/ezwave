@@ -42,10 +42,10 @@ export interface IrrigationV1IrrigationSystemStatusReportData {
 	sensorStatus: SensorStatusEnum; // 1 byte enum value
 	flowPrecision: number; // properties1[7..5]
 	flowScale: number; // properties1[4..3]
-	// TODO param flowValue type blob
+	flowValue: Buffer; // variable length
 	pressurePrecision: number; // properties2[7..5]
 	pressureScale: number; // properties2[4..3]
-	// TODO param pressureValue type blob
+	pressureValue: Buffer; // variable length
 	shutoffDuration: number; // 1 byte unsigned integer
 	// TODO param systemErrorStatus type bitmask or marker
 	masterValve: boolean; // properties3[0]
@@ -56,10 +56,10 @@ export interface IrrigationV1IrrigationSystemConfigSetData {
 	masterValveDelay: number; // 1 byte unsigned integer
 	highPressureThresholdPrecision: number; // properties1[7..5]
 	highPressureThresholdScale: number; // properties1[4..3]
-	// TODO param highPressureThresholdValue type blob
+	highPressureThresholdValue: Buffer; // variable length
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
-	// TODO param lowPressureThresholdValue type blob
+	lowPressureThresholdValue: Buffer; // variable length
 	// TODO param sensorPolarity type bitmask or marker
 }
 
@@ -67,10 +67,10 @@ export interface IrrigationV1IrrigationSystemConfigReportData {
 	masterValveDelay: number; // 1 byte unsigned integer
 	highPressureThresholdPrecision: number; // properties1[7..5]
 	highPressureThresholdScale: number; // properties1[4..3]
-	// TODO param highPressureThresholdValue type blob
+	highPressureThresholdValue: Buffer; // variable length
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
-	// TODO param lowPressureThresholdValue type blob
+	lowPressureThresholdValue: Buffer; // variable length
 	// TODO param sensorPolarity type bitmask or marker
 }
 
@@ -94,13 +94,13 @@ export interface IrrigationV1IrrigationValveConfigSetData {
 	nominalCurrentLowThreshold: number; // 1 byte unsigned integer
 	maximumFlowPrecision: number; // properties2[7..5]
 	maximumFlowScale: number; // properties2[4..3]
-	// TODO param maximumFlowValue type blob
+	maximumFlowValue: Buffer; // variable length
 	flowHighThresholdPrecision: number; // properties3[7..5]
 	flowHighThresholdScale: number; // properties3[4..3]
-	// TODO param flowHighThresholdValue type blob
+	flowHighThresholdValue: Buffer; // variable length
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
-	// TODO param flowLowThresholdValue type blob
+	flowLowThresholdValue: Buffer; // variable length
 	// TODO param sensorUsage type bitmask or marker
 }
 
@@ -116,13 +116,13 @@ export interface IrrigationV1IrrigationValveConfigReportData {
 	nominalCurrentLowThreshold: number; // 1 byte unsigned integer
 	maximumFlowPrecision: number; // properties2[7..5]
 	maximumFlowScale: number; // properties2[4..3]
-	// TODO param maximumFlowValue type blob
+	maximumFlowValue: Buffer; // variable length
 	flowHighThresholdPrecision: number; // properties3[7..5]
 	flowHighThresholdScale: number; // properties3[4..3]
-	// TODO param flowHighThresholdValue type blob
+	flowHighThresholdValue: Buffer; // variable length
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
-	// TODO param flowLowThresholdValue type blob
+	flowLowThresholdValue: Buffer; // variable length
 	// TODO param sensorUsage type bitmask or marker
 }
 
@@ -147,7 +147,7 @@ export interface IrrigationV1IrrigationValveTableReportData {
 }
 
 export interface IrrigationV1IrrigationValveTableRunData {
-	// TODO param valveTableID type blob
+	valveTableID: Buffer; // automatic length
 }
 
 export interface IrrigationV1IrrigationSystemShutoffData {
@@ -378,6 +378,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowValue",
 					"help": "Flow Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -424,6 +425,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "pressureValue",
 					"help": "Pressure Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -536,6 +538,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "highPressureThresholdValue",
 					"help": "High Pressure Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -582,6 +585,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "lowPressureThresholdValue",
 					"help": "Low Pressure Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -681,6 +685,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "highPressureThresholdValue",
 					"help": "High Pressure Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -727,6 +732,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "lowPressureThresholdValue",
 					"help": "Low Pressure Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -953,6 +959,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "maximumFlowValue",
 					"help": "Maximum Flow Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -999,6 +1006,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowHighThresholdValue",
 					"help": "Flow High Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,
@@ -1045,6 +1053,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowLowThresholdValue",
 					"help": "Flow Low Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties4",
 						"bitfield": {
 							"mask": 7,
@@ -1205,6 +1214,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "maximumFlowValue",
 					"help": "Maximum Flow Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -1251,6 +1261,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowHighThresholdValue",
 					"help": "Flow High Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,
@@ -1297,6 +1308,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "flowLowThresholdValue",
 					"help": "Flow Low Threshold Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties4",
 						"bitfield": {
 							"mask": 7,
@@ -1396,7 +1408,10 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "integer",
@@ -1470,7 +1485,10 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "integer",
@@ -1511,7 +1529,10 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"type": "blob",
 					"name": "valveTableID",
 					"help": "Valve Table ID",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

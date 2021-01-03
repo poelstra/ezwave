@@ -28,7 +28,7 @@ export interface SensorAlarmV1SensorAlarmReportData {
 }
 
 export interface SensorAlarmV1SensorAlarmSupportedReportData {
-	// TODO param bitMask type blob
+	bitMask: Buffer; // variable length
 }
 
 export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
@@ -232,6 +232,7 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 					"name": "bitMask",
 					"help": "Bit Mask",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfBitMasks"
 					}
 				}

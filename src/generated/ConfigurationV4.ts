@@ -51,13 +51,13 @@ export interface ConfigurationV4ConfigurationGetData {
 
 export interface ConfigurationV4ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export interface ConfigurationV4ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
 	default: boolean; // level[7]
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export interface ConfigurationV4ConfigurationNameGetData {
@@ -67,7 +67,7 @@ export interface ConfigurationV4ConfigurationNameGetData {
 export interface ConfigurationV4ConfigurationNameReportData {
 	parameterNumber: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param name type blob
+	name: Buffer; // automatic length
 }
 
 export interface ConfigurationV4ConfigurationInfoGetData {
@@ -77,7 +77,7 @@ export interface ConfigurationV4ConfigurationInfoGetData {
 export interface ConfigurationV4ConfigurationInfoReportData {
 	parameterNumber: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param info type blob
+	info: Buffer; // automatic length
 }
 
 export interface ConfigurationV4ConfigurationPropertiesGetData {
@@ -89,9 +89,9 @@ export interface ConfigurationV4ConfigurationPropertiesReportData {
 	alteringCapabilities: boolean; // properties1[7]
 	readonly: boolean; // properties1[6]
 	format: FormatEnum; // properties1[5..3]
-	// TODO param minValue type blob
-	// TODO param maxValue type blob
-	// TODO param defaultValue type blob
+	minValue: Buffer; // variable length
+	maxValue: Buffer; // variable length
+	defaultValue: Buffer; // variable length
 	nextParameterNumber: number; // 2 byte unsigned integer
 	noBulkSupport: boolean; // properties2[1]
 	advanced: boolean; // properties2[0]
@@ -228,6 +228,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfParameters"
 					},
 					"params": [
@@ -236,6 +237,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
@@ -333,6 +335,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfParameters"
 					},
 					"params": [
@@ -341,6 +344,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
@@ -439,6 +443,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,
@@ -513,6 +518,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,
@@ -585,7 +591,10 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"type": "blob",
 					"name": "name",
 					"help": "Name",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -651,7 +660,10 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"type": "blob",
 					"name": "info",
 					"help": "Info",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -775,6 +787,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "minValue",
 					"help": "Min Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -788,6 +801,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "maxValue",
 					"help": "Max Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -801,6 +815,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "defaultValue",
 					"help": "Default Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,

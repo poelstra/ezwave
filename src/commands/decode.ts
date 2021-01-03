@@ -1,14 +1,17 @@
 import {
 	BitfieldElementType,
 	BitfieldParameter,
+	BlobParameter,
 	CommandDefinition,
 	EnumParameter,
 	IntegerParameter,
+	LengthType,
 	LocalParameterReference,
 	Parameter,
 	ParameterGroup,
 	ParameterReference,
 	ParameterType,
+	TextParameter,
 } from "./types";
 
 /**
@@ -125,14 +128,20 @@ function decodeParam(
 
 	// Determine length of buffer and create slice
 	let length: number;
-	if (
-		param.length === "auto" ||
-		param.type === ParameterType.ParameterGroup
-	) {
-		length = packet.length - pos;
-	} else if (typeof param.length === "number") {
+	if (typeof param.length === "number") {
 		length = param.length;
+	} else if (param.length.lengthType === LengthType.Automatic) {
+		length = packet.length - pos - param.length.endOffset;
+	} else if (
+		param.type === ParameterType.ParameterGroup ||
+		param.length.lengthType === LengthType.MoreToFollow
+	) {
+		// For non-automatic-size parameter groups, the length is given in
+		// number of elements, not bytes. So just give the rest of the packet
+		// to the group parser and let it use whatever it needs.
+		length = packet.length - pos;
 	} else {
+		// Parameter reference-based length
 		length = resolveNumericReference(param.length, result, parent);
 	}
 	const slice = packet.slice(pos, pos + length);
@@ -164,6 +173,12 @@ function decodeParam(
 
 		case ParameterType.Bitfield:
 			return decodeBitfield(param, slice, result);
+
+		case ParameterType.Blob:
+			return decodeBlob(param, slice, result);
+
+		case ParameterType.Text:
+			return decodeText(param, slice, result);
 
 		default:
 			throw new Error(
@@ -218,7 +233,7 @@ function decodeGroup(
 	let groupLength: number | "auto";
 	if (typeof param.length === "number") {
 		groupLength = param.length;
-	} else if (typeof param.length === "object") {
+	} else if (param.length.lengthType === LengthType.ParameterReference) {
 		groupLength = resolveNumericReference(param.length, result);
 	} else {
 		// Number of groups determined by end of packet, or
@@ -304,4 +319,24 @@ function decodeBitfield(
 				: fieldValue;
 	}
 	return 1;
+}
+
+function decodeBlob(
+	param: BlobParameter,
+	slice: Buffer,
+	result: DecodedPacket
+): number {
+	result[param.name] = slice;
+	return slice.length;
+}
+
+function decodeText(
+	param: TextParameter,
+	slice: Buffer,
+	result: DecodedPacket
+): number {
+	// TODO check encoding in spec
+	// TODO Check fixed-length fields (pad with zeroes?)
+	result[param.name] = slice.toString("ascii");
+	return slice.length;
 }

@@ -326,7 +326,10 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 					"type": "group",
 					"name": "statistics",
 					"help": "Statistics",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "enum",
@@ -378,6 +381,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "length"
 							}
 						}

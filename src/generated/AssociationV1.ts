@@ -147,7 +147,10 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				}
 			]
@@ -193,7 +196,10 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "NodeID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				}
 			]
@@ -227,7 +233,10 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				}
 			]

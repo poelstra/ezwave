@@ -141,7 +141,10 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					"type": "group",
 					"name": "vg",
 					"help": "vg",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "integer",

@@ -251,6 +251,7 @@
 							"name": "eventParameter",
 							"help": "Event Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfEventParameters"
 							}
 						}
@@ -623,6 +624,7 @@
 							"name": "eventParameter",
 							"help": "Event Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -1189,6 +1191,7 @@
 							"name": "eventParameter",
 							"help": "Event Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -1783,6 +1786,7 @@
 							"name": "eventParameter",
 							"help": "Event Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -2385,6 +2389,7 @@
 							"name": "eventParameter",
 							"help": "Event Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -3031,6 +3036,7 @@
 							"name": "eventParameter",
 							"help": "Event Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -3757,6 +3763,7 @@
 							"name": "eventParameter",
 							"help": "Event Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -4361,7 +4368,10 @@
 							"type": "blob",
 							"name": "commandByte",
 							"help": "Command byte",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -4409,7 +4419,10 @@
 							"type": "blob",
 							"name": "commandByte",
 							"help": "Command byte",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -4527,7 +4540,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						}
 					]
@@ -4560,7 +4576,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "NodeID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						}
 					]
@@ -4581,7 +4600,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						}
 					]
@@ -4646,7 +4668,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						}
 					]
@@ -4679,7 +4704,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "NodeID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						}
 					]
@@ -4700,7 +4728,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						}
 					]
@@ -5607,6 +5638,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -5661,6 +5693,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -5888,6 +5921,7 @@
 							"name": "startTemperature",
 							"help": "Start Temperature",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -5934,6 +5968,7 @@
 							"name": "stopTemperature",
 							"help": "Stop Temperature",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -5980,6 +6015,7 @@
 							"name": "alarmTemperatureValue",
 							"help": "Alarm Temperature Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 7,
@@ -6068,6 +6104,7 @@
 							"name": "startTemperature",
 							"help": "Start Temperature",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -6114,6 +6151,7 @@
 							"name": "stopTemperature",
 							"help": "Stop Temperature",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -6160,6 +6198,7 @@
 							"name": "alarmTemperatureValue",
 							"help": "Alarm Temperature Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 7,
@@ -6266,6 +6305,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -6320,6 +6360,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -6576,6 +6617,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -6637,6 +6679,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -6691,6 +6734,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -7226,6 +7270,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -7287,6 +7332,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -7403,6 +7449,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfParameters"
 							},
 							"params": [
@@ -7411,6 +7458,7 @@
 									"name": "parameter",
 									"help": "Parameter",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"isParentReference": true,
 										"bitfield": {
@@ -7495,6 +7543,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfParameters"
 							},
 							"params": [
@@ -7503,6 +7552,7 @@
 									"name": "parameter",
 									"help": "Parameter",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"isParentReference": true,
 										"bitfield": {
@@ -7575,6 +7625,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -7636,6 +7687,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -7752,6 +7804,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfParameters"
 							},
 							"params": [
@@ -7760,6 +7813,7 @@
 									"name": "parameter",
 									"help": "Parameter",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"isParentReference": true,
 										"bitfield": {
@@ -7844,6 +7898,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfParameters"
 							},
 							"params": [
@@ -7852,6 +7907,7 @@
 									"name": "parameter",
 									"help": "Parameter",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"isParentReference": true,
 										"bitfield": {
@@ -7924,6 +7980,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -7985,6 +8042,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -8031,7 +8089,10 @@
 							"type": "blob",
 							"name": "name",
 							"help": "Name",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -8071,7 +8132,10 @@
 							"type": "blob",
 							"name": "info",
 							"help": "Info",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -8164,6 +8228,7 @@
 							"name": "minValue",
 							"help": "Min Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -8177,6 +8242,7 @@
 							"name": "maxValue",
 							"help": "Max Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -8190,6 +8256,7 @@
 							"name": "defaultValue",
 							"help": "Default Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -8312,6 +8379,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfParameters"
 							},
 							"params": [
@@ -8320,6 +8388,7 @@
 									"name": "parameter",
 									"help": "Parameter",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"isParentReference": true,
 										"bitfield": {
@@ -8404,6 +8473,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfParameters"
 							},
 							"params": [
@@ -8412,6 +8482,7 @@
 									"name": "parameter",
 									"help": "Parameter",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"isParentReference": true,
 										"bitfield": {
@@ -8484,6 +8555,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -8545,6 +8617,7 @@
 							"name": "configurationValue",
 							"help": "Configuration Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -8591,7 +8664,10 @@
 							"type": "blob",
 							"name": "name",
 							"help": "Name",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -8631,7 +8707,10 @@
 							"type": "blob",
 							"name": "info",
 							"help": "Info",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -8729,6 +8808,7 @@
 							"name": "minValue",
 							"help": "Min Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -8742,6 +8822,7 @@
 							"name": "maxValue",
 							"help": "Max Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -8755,6 +8836,7 @@
 							"name": "defaultValue",
 							"help": "Default Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -8863,7 +8945,10 @@
 							"type": "blob",
 							"name": "groupName",
 							"help": "Group Name",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -8922,7 +9007,10 @@
 							"type": "blob",
 							"name": "sceneName",
 							"help": "Scene Name",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -8959,7 +9047,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							},
 							"blobType": "CMD_DATA"
 						},
 						{
@@ -9104,6 +9195,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 3,
@@ -9460,6 +9552,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -9693,7 +9786,10 @@
 							"type": "blob",
 							"name": "userCode",
 							"help": "USER_CODE",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -10970,6 +11066,7 @@
 							"name": "supportedOperationTypeBitMask",
 							"help": "Supported Operation Type Bit Mask",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -10996,6 +11093,7 @@
 							"name": "supportedDoorLockMode",
 							"help": "Supported Door Lock Mode",
 							"length": {
+								"lengthType": "ref",
 								"ref": "supportedDoorLockModeListLength"
 							}
 						},
@@ -11175,6 +11273,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -11303,7 +11402,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -11507,7 +11609,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -11669,6 +11774,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfFirmwareTargets"
 							},
 							"params": [
@@ -11758,7 +11864,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -11950,6 +12059,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfFirmwareTargets"
 							},
 							"params": [
@@ -12039,7 +12149,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -12364,6 +12477,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfFirmwareTargets"
 							},
 							"params": [
@@ -12459,7 +12573,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -13454,7 +13571,10 @@
 							"type": "blob",
 							"name": "value",
 							"help": "Value",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -13755,6 +13875,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -13996,6 +14117,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -14861,6 +14983,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -15110,6 +15233,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -16275,6 +16399,7 @@
 							"name": "deviceIDData",
 							"help": "Device ID Data",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 31,
@@ -16371,6 +16496,7 @@
 							"name": "meterPointAdmNumberCharacter",
 							"help": "Meter Point Adm Number Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -16420,6 +16546,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -16718,6 +16845,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -16930,6 +17058,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -17101,6 +17230,7 @@
 							"name": "meterIDCharacter",
 							"help": "Meter ID Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -17157,6 +17287,7 @@
 							"name": "meterPointAdmNumberCharacter",
 							"help": "Meter Point Adm Number Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -17206,6 +17337,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -17510,6 +17642,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -17728,6 +17861,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -17899,6 +18033,7 @@
 							"name": "meterIDCharacter",
 							"help": "Meter ID Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -17955,6 +18090,7 @@
 							"name": "meterPointAdmNumberCharacter",
 							"help": "Meter Point Adm Number Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -18004,6 +18140,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -18308,6 +18445,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -18526,6 +18664,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -18697,6 +18836,7 @@
 							"name": "meterIDCharacter",
 							"help": "Meter ID Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -18753,6 +18893,7 @@
 							"name": "meterPointAdmNumberCharacter",
 							"help": "Meter Point Adm Number Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -19003,6 +19144,7 @@
 							"name": "meterValue",
 							"help": "Meter Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -19132,6 +19274,7 @@
 							"name": "meterValue",
 							"help": "Meter Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -19162,6 +19305,7 @@
 								"ref": "deltaTime"
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -19360,6 +19504,7 @@
 							"name": "meterValue",
 							"help": "Meter Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -19390,6 +19535,7 @@
 								"ref": "deltaTime"
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -19632,6 +19778,7 @@
 							"name": "meterValue",
 							"help": "Meter Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -19662,6 +19809,7 @@
 								"ref": "deltaTime"
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -19798,6 +19946,7 @@
 							"name": "scaleSupported",
 							"help": "Scale Supported",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfScaleSupportedBytesToFollow"
 							}
 						}
@@ -19988,6 +20137,7 @@
 							"name": "meterValue",
 							"help": "Meter Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -20018,6 +20168,7 @@
 								"ref": "deltaTime"
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -20162,6 +20313,7 @@
 							"name": "scaleSupported",
 							"help": "Scale Supported",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfScaleSupportedBytesToFollow"
 							}
 						}
@@ -20291,7 +20443,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -20304,7 +20459,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -20365,7 +20523,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -20378,7 +20539,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -20427,7 +20591,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -20440,7 +20607,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -20533,7 +20703,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -20546,7 +20719,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -20607,7 +20783,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -20620,7 +20799,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -20669,7 +20851,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -20682,7 +20867,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -20797,7 +20985,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -20867,7 +21058,10 @@
 							"type": "blob",
 							"name": "parameter",
 							"help": "Parameter",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -20924,7 +21118,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -21059,7 +21256,10 @@
 							"type": "blob",
 							"name": "parameter",
 							"help": "Parameter",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -21197,7 +21397,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -21267,7 +21470,10 @@
 							"type": "blob",
 							"name": "parameter",
 							"help": "Parameter",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -21324,7 +21530,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -21459,7 +21668,10 @@
 							"type": "blob",
 							"name": "parameter",
 							"help": "Parameter",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -21597,7 +21809,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -21667,7 +21882,10 @@
 							"type": "blob",
 							"name": "parameter",
 							"help": "Parameter",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -21724,7 +21942,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -21880,7 +22101,10 @@
 							"type": "blob",
 							"name": "parameter",
 							"help": "Parameter",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -22039,6 +22263,7 @@
 							"name": "encapsulatedCommand",
 							"help": "Encapsulated_Command",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCommands"
 							},
 							"params": [
@@ -22074,6 +22299,7 @@
 									"name": "data",
 									"help": "Data",
 									"length": {
+										"lengthType": "ref",
 										"ref": "commandLength"
 									},
 									"blobType": "CMD_DATA",
@@ -22150,7 +22376,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -22164,6 +22393,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "groupingIdentifier"
 							},
 							"params": [
@@ -22219,7 +22449,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -22233,6 +22466,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "groupingIdentifier"
 							},
 							"params": [
@@ -22276,7 +22510,10 @@
 							"type": "enumarray",
 							"name": "nodeID",
 							"help": "Node ID",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "NODE_NUMBER"
 						},
 						{
@@ -22290,6 +22527,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "groupingIdentifier"
 							},
 							"params": [
@@ -22349,7 +22587,10 @@
 							"type": "blob",
 							"name": "parameter",
 							"help": "Parameter",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"blobType": "CMD_DATA"
 						}
 					]
@@ -22559,7 +22800,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -22788,7 +23032,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -23046,7 +23293,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -23143,7 +23393,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -24005,6 +24258,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
+								"lengthType": "ref",
 								"ref": "nodeInfoLength"
 							},
 							"valueType": "CMD_CLASS_REF"
@@ -24594,6 +24848,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
+								"lengthType": "ref",
 								"ref": "nodeInfoLength"
 							},
 							"valueType": "CMD_CLASS_REF"
@@ -25128,6 +25383,7 @@
 							"name": "inputDSK",
 							"help": "Input DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 15,
@@ -25397,6 +25653,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
+								"lengthType": "ref",
 								"ref": "nodeInfoLength"
 							},
 							"valueType": "CMD_CLASS_REF"
@@ -25446,6 +25703,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 31,
@@ -25972,6 +26230,7 @@
 							"name": "inputDSK",
 							"help": "Input DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 15,
@@ -26041,6 +26300,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -26136,6 +26396,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -26607,7 +26868,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -26834,7 +27098,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -26848,7 +27115,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -26862,7 +27132,10 @@
 							"type": "blob",
 							"name": "data",
 							"help": "Data",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -27248,6 +27521,7 @@
 							"name": "rateParameterSetID",
 							"help": "Rate Parameter Set ID",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 63,
@@ -27309,6 +27583,7 @@
 							"name": "rateCharacter",
 							"help": "Rate Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -27523,6 +27798,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -27740,6 +28016,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -27824,6 +28101,7 @@
 							"name": "rateCharacter",
 							"help": "Rate Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -30217,7 +30495,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -30269,6 +30550,7 @@
 									"name": "character",
 									"help": "Character",
 									"length": {
+										"lengthType": "ref",
 										"ref": "numberOfCharacters"
 									}
 								}
@@ -30349,7 +30631,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 1
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -30401,6 +30686,7 @@
 									"name": "character",
 									"help": "Character",
 									"length": {
+										"lengthType": "ref",
 										"ref": "numberOfCharacters"
 									}
 								}
@@ -30472,7 +30758,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 1
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -30524,6 +30813,7 @@
 									"name": "character",
 									"help": "Character",
 									"length": {
+										"lengthType": "ref",
 										"ref": "numberOfCharacters"
 									}
 								}
@@ -30967,7 +31257,10 @@
 							"type": "blob",
 							"name": "networkKeyByte",
 							"help": "Network Key byte",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -31001,7 +31294,10 @@
 							"type": "enumarray",
 							"name": "commandClassSupport",
 							"help": "Command Class support",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						},
 						{
@@ -31014,7 +31310,10 @@
 							"type": "enumarray",
 							"name": "commandClassControl",
 							"help": "Command Class control",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -31032,43 +31331,13 @@
 							"length": 8
 						},
 						{
-							"type": "bitfield",
-							"name": "properties1",
-							"help": "Properties1",
-							"length": 1,
-							"fields": [
-								{
-									"type": "integer",
-									"name": "sequenceCounter",
-									"mask": 15,
-									"shift": 0
-								},
-								{
-									"type": "boolean",
-									"name": "sequenced",
-									"mask": 16,
-									"shift": 4
-								},
-								{
-									"type": "boolean",
-									"name": "secondFrame",
-									"mask": 32,
-									"shift": 5
-								},
-								{
-									"type": "integer",
-									"name": "reserved",
-									"mask": 192,
-									"shift": 6,
-									"reserved": true
-								}
-							]
-						},
-						{
 							"type": "blob",
-							"name": "commandByte",
-							"help": "Command byte",
-							"length": "auto"
+							"name": "encryptedPayload",
+							"help": "Encrypted Payload",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 9
+							}
 						},
 						{
 							"type": "integer",
@@ -31097,43 +31366,13 @@
 							"length": 8
 						},
 						{
-							"type": "bitfield",
-							"name": "properties1",
-							"help": "Properties1",
-							"length": 1,
-							"fields": [
-								{
-									"type": "integer",
-									"name": "sequenceCounter",
-									"mask": 15,
-									"shift": 0
-								},
-								{
-									"type": "boolean",
-									"name": "sequenced",
-									"mask": 16,
-									"shift": 4
-								},
-								{
-									"type": "boolean",
-									"name": "secondFrame",
-									"mask": 32,
-									"shift": 5
-								},
-								{
-									"type": "integer",
-									"name": "reserved",
-									"mask": 192,
-									"shift": 6,
-									"reserved": true
-								}
-							]
-						},
-						{
 							"type": "blob",
-							"name": "commandByte",
-							"help": "Command byte",
-							"length": "auto"
+							"name": "encryptedPayload",
+							"help": "Encrypted Payload",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 9
+							}
 						},
 						{
 							"type": "integer",
@@ -31166,7 +31405,10 @@
 							"type": "blob",
 							"name": "nonceByte",
 							"help": "Nonce byte",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -31369,6 +31611,7 @@
 							"name": "bitMask",
 							"help": "Bit Mask",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfBitMasks"
 							}
 						}
@@ -31732,6 +31975,7 @@
 							"name": "triggerValue",
 							"help": "Trigger Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -31873,6 +32117,7 @@
 							"name": "triggerValue",
 							"help": "Trigger Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -31963,6 +32208,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -32093,6 +32339,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -32251,6 +32498,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -32413,6 +32661,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -32776,6 +33025,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -33485,6 +33735,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -34354,6 +34605,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -35391,6 +35643,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -36484,6 +36737,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -37617,6 +37871,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -38838,6 +39093,7 @@
 							"name": "sensorValue",
 							"help": "Sensor Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 7,
@@ -39537,6 +39793,7 @@
 							"name": "bitMask",
 							"help": "Bit Mask",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfBitMasks"
 							}
 						}
@@ -39615,7 +39872,10 @@
 							"type": "group",
 							"name": "vg",
 							"help": "vg",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -40896,6 +41156,7 @@
 							"name": "rateParameterSetID",
 							"help": "Rate Parameter Set ID",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 63,
@@ -41054,6 +41315,7 @@
 							"name": "supplierCharacter",
 							"help": "Supplier Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 31,
@@ -41444,6 +41706,7 @@
 							"name": "supplierCharacter",
 							"help": "Supplier Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 31,
@@ -42521,6 +42784,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -42581,6 +42845,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -43224,6 +43489,7 @@
 							"name": "manufacturerData",
 							"help": "Manufacturer Data",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 224,
@@ -43402,6 +43668,7 @@
 							"name": "manufacturerData",
 							"help": "Manufacturer Data",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level",
 								"bitfield": {
 									"mask": 224,
@@ -43662,6 +43929,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "reportsToFollow"
 							},
 							"params": [
@@ -44091,6 +44359,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level2",
 								"bitfield": {
 									"mask": 7,
@@ -44212,6 +44481,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level2",
 								"bitfield": {
 									"mask": 7,
@@ -44462,6 +44732,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level2",
 								"bitfield": {
 									"mask": 7,
@@ -44595,6 +44866,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level2",
 								"bitfield": {
 									"mask": 7,
@@ -44861,6 +45133,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level2",
 								"bitfield": {
 									"mask": 7,
@@ -45002,6 +45275,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "level2",
 								"bitfield": {
 									"mask": 7,
@@ -45259,6 +45533,7 @@
 							"name": "minValue",
 							"help": "Min Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -45305,6 +45580,7 @@
 							"name": "maxValue",
 							"help": "MaxValue",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 7,
@@ -45906,6 +46182,7 @@
 								}
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "headerExtensionLength"
 							}
 						},
@@ -45913,7 +46190,10 @@
 							"type": "blob",
 							"name": "payload",
 							"help": "Payload",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -46162,6 +46442,7 @@
 								}
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "headerExtensionLength"
 							}
 						},
@@ -46169,7 +46450,10 @@
 							"type": "blob",
 							"name": "payload",
 							"help": "Payload",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -46241,7 +46525,10 @@
 							"type": "blob",
 							"name": "payload",
 							"help": "Payload",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -46316,7 +46603,10 @@
 							"type": "blob",
 							"name": "payload",
 							"help": "Payload",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 2
+							}
 						},
 						{
 							"type": "integer",
@@ -46389,7 +46679,10 @@
 							"type": "text",
 							"name": "userCode",
 							"help": "USER_CODE",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -46433,7 +46726,10 @@
 							"type": "text",
 							"name": "userCode",
 							"help": "USER_CODE",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -46529,7 +46825,10 @@
 							"type": "text",
 							"name": "userCode",
 							"help": "USER_CODE",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -46581,7 +46880,10 @@
 							"type": "text",
 							"name": "userCode",
 							"help": "USER_CODE",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -46636,6 +46938,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfUserCodes"
 							},
 							"params": [
@@ -46710,6 +47013,7 @@
 									"name": "userCode",
 									"help": "User Code",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"bitfield": {
 											"mask": 15,
@@ -46787,6 +47091,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfUserCodes"
 							},
 							"params": [
@@ -46861,6 +47166,7 @@
 									"name": "userCode",
 									"help": "User Code",
 									"length": {
+										"lengthType": "ref",
 										"ref": "properties1",
 										"bitfield": {
 											"mask": 15,
@@ -46931,6 +47237,7 @@
 							"name": "supportedUserIDStatusBitMask",
 							"help": "Supported User ID Status Bit Mask",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -46983,6 +47290,7 @@
 							"name": "supportedKeypadModesBitMask",
 							"help": "Supported Keypad Modes Bit Mask",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 31,
@@ -47024,6 +47332,7 @@
 							"name": "supportedKeysBitMask",
 							"help": "Supported Keys Bit Mask",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 15,
@@ -47144,6 +47453,7 @@
 							"name": "masterCode",
 							"help": "Master Code",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 15,
@@ -47200,6 +47510,7 @@
 							"name": "masterCode",
 							"help": "Master Code",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 15,
@@ -47433,6 +47744,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfFirmwareTargets"
 							},
 							"params": [
@@ -47564,6 +47876,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfFirmwareTargets"
 							},
 							"params": [
@@ -47960,7 +48273,10 @@
 							"type": "blob",
 							"name": "payload",
 							"help": "Payload",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -48008,7 +48324,10 @@
 							"type": "blob",
 							"name": "payload",
 							"help": "Payload",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -48184,7 +48503,10 @@
 									"name": "headerExtIncluded"
 								}
 							},
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						},
 						{
 							"type": "blob",
@@ -48198,7 +48520,10 @@
 									"name": "zWaveCmdIncluded"
 								}
 							},
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -48405,6 +48730,7 @@
 								}
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "headerLength"
 							},
 							"includeBytesBefore": 1
@@ -48421,7 +48747,10 @@
 									"name": "zWaveCmdIncluded"
 								}
 							},
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -48628,6 +48957,7 @@
 								}
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "headerLength"
 							},
 							"includeBytesBefore": 1
@@ -48644,7 +48974,10 @@
 									"name": "zWaveCmdIncluded"
 								}
 							},
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -48851,6 +49184,7 @@
 								}
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "headerLength"
 							},
 							"includeBytesBefore": 1
@@ -48867,7 +49201,10 @@
 									"name": "zWaveCmdIncluded"
 								}
 							},
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -49231,7 +49568,10 @@
 							"type": "enumarray",
 							"name": "commandClasses",
 							"help": "Command Classes",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -49538,6 +49878,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -49733,6 +50074,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -49960,6 +50302,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -50156,6 +50499,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfSupportedCC"
 							},
 							"params": [
@@ -50368,6 +50712,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -50389,6 +50734,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -50567,6 +50913,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -50588,6 +50935,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -50672,7 +51020,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -50777,6 +51128,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfSupportedCC"
 							},
 							"params": [
@@ -51001,6 +51353,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -51022,6 +51375,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -51220,6 +51574,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -51241,6 +51596,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -51344,7 +51700,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 1
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -51455,6 +51814,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfSupportedCC"
 							},
 							"params": [
@@ -51704,6 +52064,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -51725,6 +52086,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -51955,6 +52317,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -51976,6 +52339,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -52079,7 +52443,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 1
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -52190,6 +52557,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfSupportedCC"
 							},
 							"params": [
@@ -52439,6 +52807,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -52460,6 +52829,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -52690,6 +53060,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCmdToFollow"
 							},
 							"params": [
@@ -52711,6 +53082,7 @@
 									"name": "cmdByte",
 									"help": "Cmd Byte",
 									"length": {
+										"lengthType": "ref",
 										"ref": "cmdLength"
 									}
 								}
@@ -52814,7 +53186,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 1
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -52890,6 +53265,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "commandClassListLength"
 							},
 							"params": [
@@ -52918,6 +53294,7 @@
 									"name": "supportedCommand",
 									"help": "Supported Command",
 									"length": {
+										"lengthType": "ref",
 										"ref": "supportedCommandListLength"
 									}
 								}
@@ -53094,7 +53471,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -53300,6 +53680,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
+								"lengthType": "ref",
 								"ref": "lengthOfName"
 							}
 						}
@@ -53390,6 +53771,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 63,
@@ -53667,6 +54049,7 @@
 							"name": "command",
 							"help": "Command",
 							"length": {
+								"lengthType": "ref",
 								"ref": "listLength"
 							}
 						}
@@ -53725,6 +54108,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
+								"lengthType": "ref",
 								"ref": "lengthOfName"
 							}
 						}
@@ -53815,6 +54199,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 63,
@@ -54130,6 +54515,7 @@
 							"name": "command",
 							"help": "Command",
 							"length": {
+								"lengthType": "ref",
 								"ref": "listLength"
 							}
 						}
@@ -54188,6 +54574,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
+								"lengthType": "ref",
 								"ref": "lengthOfName"
 							}
 						}
@@ -54278,6 +54665,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 63,
@@ -54727,6 +55115,7 @@
 							"name": "command",
 							"help": "Command",
 							"length": {
+								"lengthType": "ref",
 								"ref": "listLength"
 							}
 						}
@@ -54886,6 +55275,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "supportedScenes"
 							},
 							"params": [
@@ -55043,6 +55433,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "supportedScenes"
 							},
 							"params": [
@@ -55364,6 +55755,7 @@
 							"name": "magicCode",
 							"help": "Magic Code",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 127,
@@ -55396,6 +55788,7 @@
 							"name": "antiTheftHintByte",
 							"help": "Anti-theft Hint Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"
 							}
 						}
@@ -55444,6 +55837,7 @@
 							"name": "antiTheftHintByte",
 							"help": "Anti-theft Hint Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"
 							}
 						}
@@ -55496,6 +55890,7 @@
 							"name": "magicCode",
 							"help": "Magic Code",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 127,
@@ -55528,6 +55923,7 @@
 							"name": "antiTheftHintByte",
 							"help": "Anti-theft Hint Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"
 							}
 						}
@@ -55576,6 +55972,7 @@
 							"name": "antiTheftHintByte",
 							"help": "Anti-theft Hint Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "antiTheftHintNumberBytes"
 							}
 						}
@@ -55898,6 +56295,7 @@
 							"name": "peerName",
 							"help": "Peer Name",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 63,
@@ -55985,6 +56383,7 @@
 							"name": "peerName",
 							"help": "Peer Name",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 63,
@@ -56087,7 +56486,10 @@
 							"type": "blob",
 							"name": "nonSecureCommandClass",
 							"help": "Non-Secure Command Class",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						},
 						{
 							"type": "integer",
@@ -56099,7 +56501,10 @@
 							"type": "blob",
 							"name": "securityScheme0CommandClass",
 							"help": "Security Scheme 0 Command Class",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -56120,7 +56525,10 @@
 							"type": "blob",
 							"name": "nonSecureCommandClass",
 							"help": "Non-Secure Command Class",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						},
 						{
 							"type": "integer",
@@ -56132,7 +56540,10 @@
 							"type": "blob",
 							"name": "securityScheme0CommandClass",
 							"help": "Security Scheme 0 Command Class",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -56429,7 +56840,10 @@
 							"type": "blob",
 							"name": "dMXChannel",
 							"help": "DMX channel",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -56852,7 +57266,10 @@
 							"type": "group",
 							"name": "statistics",
 							"help": "Statistics",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "enum",
@@ -56904,6 +57321,7 @@
 									"name": "value",
 									"help": "Value",
 									"length": {
+										"lengthType": "ref",
 										"ref": "length"
 									}
 								}
@@ -57124,7 +57542,10 @@
 							"type": "group",
 							"name": "statistics",
 							"help": "Statistics",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "enum",
@@ -57176,6 +57597,7 @@
 									"name": "value",
 									"help": "Value",
 									"length": {
+										"lengthType": "ref",
 										"ref": "length"
 									}
 								}
@@ -57242,7 +57664,10 @@
 							"type": "text",
 							"name": "name",
 							"help": "Name",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -57263,7 +57688,10 @@
 							"type": "text",
 							"name": "name",
 							"help": "Name",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -57277,7 +57705,10 @@
 							"type": "text",
 							"name": "location",
 							"help": "Location",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -57298,7 +57729,10 @@
 							"type": "text",
 							"name": "location",
 							"help": "Location",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				}
@@ -57529,7 +57963,10 @@
 							"type": "blob",
 							"name": "mailboxEntry",
 							"help": "Mailbox Entry",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -57885,6 +58322,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -58325,7 +58763,10 @@
 							"type": "blob",
 							"name": "receiversEntropyInput",
 							"help": "Receivers Entropy Input",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -58387,7 +58828,9 @@
 									"name": "extension"
 								}
 							},
-							"length": "auto",
+							"length": {
+								"lengthType": "moretofollow"
+							},
 							"moreToFollow": {
 								"ref": "properties1",
 								"bitfield": {
@@ -58442,6 +58885,7 @@
 									"name": "extension",
 									"help": "Extension",
 									"length": {
+										"lengthType": "ref",
 										"ref": "extensionLength"
 									},
 									"includeBytesBefore": 2
@@ -58452,7 +58896,10 @@
 							"type": "blob",
 							"name": "cCMCiphertextObject",
 							"help": "CCM Ciphertext Object",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -58652,7 +59099,10 @@
 							"type": "blob",
 							"name": "eCDHPublicKey",
 							"help": "ECDH Public Key",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -58785,7 +59235,10 @@
 							"type": "enumarray",
 							"name": "commandClass",
 							"help": "Command Class",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"valueType": "CMD_CLASS_REF"
 						}
 					]
@@ -58963,6 +59416,7 @@
 							"name": "flowValue",
 							"help": "Flow Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -59009,6 +59463,7 @@
 							"name": "pressureValue",
 							"help": "Pressure Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -59108,6 +59563,7 @@
 							"name": "highPressureThresholdValue",
 							"help": "High Pressure Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -59154,6 +59610,7 @@
 							"name": "lowPressureThresholdValue",
 							"help": "Low Pressure Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -59227,6 +59684,7 @@
 							"name": "highPressureThresholdValue",
 							"help": "High Pressure Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 7,
@@ -59273,6 +59731,7 @@
 							"name": "lowPressureThresholdValue",
 							"help": "Low Pressure Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -59460,6 +59919,7 @@
 							"name": "maximumFlowValue",
 							"help": "Maximum Flow Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -59506,6 +59966,7 @@
 							"name": "flowHighThresholdValue",
 							"help": "Flow High Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 7,
@@ -59552,6 +60013,7 @@
 							"name": "flowLowThresholdValue",
 							"help": "Flow Low Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties4",
 								"bitfield": {
 									"mask": 7,
@@ -59686,6 +60148,7 @@
 							"name": "maximumFlowValue",
 							"help": "Maximum Flow Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -59732,6 +60195,7 @@
 							"name": "flowHighThresholdValue",
 							"help": "Flow High Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 7,
@@ -59778,6 +60242,7 @@
 							"name": "flowLowThresholdValue",
 							"help": "Flow Low Threshold Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties4",
 								"bitfield": {
 									"mask": 7,
@@ -59851,7 +60316,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -59899,7 +60367,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "integer",
@@ -59927,7 +60398,10 @@
 							"type": "blob",
 							"name": "valveTableID",
 							"help": "Valve Table ID",
-							"length": "auto"
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							}
 						}
 					]
 				},
@@ -60005,6 +60479,7 @@
 							"name": "encapsulatedCommand",
 							"help": "Encapsulated Command",
 							"length": {
+								"lengthType": "ref",
 								"ref": "encapsulatedCommandLength"
 							},
 							"blobType": "CMD_ENCAP"
@@ -60174,6 +60649,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -60308,6 +60784,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -60541,6 +61018,7 @@
 							"name": "minimumValue",
 							"help": "Minimum Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -60597,6 +61075,7 @@
 							"name": "maximumValue",
 							"help": "Maximum Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 7,
@@ -60705,6 +61184,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -60847,6 +61327,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -61092,6 +61573,7 @@
 							"name": "minimumValue",
 							"help": "Minimum Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties2",
 								"bitfield": {
 									"mask": 7,
@@ -61148,6 +61630,7 @@
 							"name": "maximumValue",
 							"help": "Maximum Value",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties3",
 								"bitfield": {
 									"mask": 7,
@@ -61672,6 +62155,7 @@
 								"ref": "sequenceNumber"
 							},
 							"length": {
+								"lengthType": "ref",
 								"ref": "eventDataLength"
 							}
 						}
@@ -61994,6 +62478,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -62006,7 +62491,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -62046,6 +62534,7 @@
 									"name": "value",
 									"help": "Value",
 									"length": {
+										"lengthType": "ref",
 										"ref": "length"
 									}
 								}
@@ -62098,6 +62587,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -62179,6 +62669,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -62191,7 +62682,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -62231,6 +62725,7 @@
 									"name": "value",
 									"help": "Value",
 									"length": {
+										"lengthType": "ref",
 										"ref": "length"
 									}
 								}
@@ -62283,6 +62778,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -62338,6 +62834,7 @@
 							"name": "dsk",
 							"help": "DSK",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 31,
@@ -62350,7 +62847,10 @@
 							"type": "group",
 							"name": "vg1",
 							"help": "vg1",
-							"length": "auto",
+							"length": {
+								"lengthType": "auto",
+								"endOffset": 0
+							},
 							"params": [
 								{
 									"type": "bitfield",
@@ -62390,6 +62890,7 @@
 									"name": "value",
 									"help": "Value",
 									"length": {
+										"lengthType": "ref",
 										"ref": "length"
 									}
 								}
@@ -62477,6 +62978,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
+								"lengthType": "ref",
 								"ref": "nameLength"
 							}
 						}

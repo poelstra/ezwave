@@ -16,7 +16,7 @@ export enum Crc16EncapV1Commands {
 export interface Crc16EncapV1Crc16EncapData {
 	commandClass: number; // 1 byte unsigned integer
 	command: number; // 1 byte unsigned integer
-	// TODO param data type blob
+	data: Buffer; // automatic length
 	checksum: number; // 2 byte unsigned integer
 }
 
@@ -58,7 +58,10 @@ export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 					"type": "blob",
 					"name": "data",
 					"help": "Data",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 2
+					},
 					"blobType": "CMD_DATA"
 				},
 				{

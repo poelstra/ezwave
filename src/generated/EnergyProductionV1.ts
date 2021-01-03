@@ -22,7 +22,7 @@ export interface EnergyProductionV1EnergyProductionReportData {
 	parameterNumber: ParameterNumberEnum; // 1 byte enum value
 	precision: number; // level[7..5]
 	scale: number; // level[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export enum ParameterNumberEnum {
@@ -159,6 +159,7 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,

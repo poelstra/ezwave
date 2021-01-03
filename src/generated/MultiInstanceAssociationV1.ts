@@ -158,7 +158,10 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				},
 				{
@@ -172,6 +175,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "groupingIdentifier"
 					},
 					"params": [
@@ -240,7 +244,10 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				},
 				{
@@ -254,6 +261,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "groupingIdentifier"
 					},
 					"params": [
@@ -310,7 +318,10 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				},
 				{
@@ -324,6 +335,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "groupingIdentifier"
 					},
 					"params": [

@@ -27,7 +27,7 @@ export interface SensorMultilevelV7SensorMultilevelReportData {
 	sensorType: SensorTypeEnum; // 1 byte enum value
 	precision: number; // level[7..5]
 	scale: number; // level[4..3]
-	// TODO param sensorValue type blob
+	sensorValue: Buffer; // variable length
 }
 
 export interface SensorMultilevelV7SensorMultilevelSupportedSensorReportData {
@@ -628,6 +628,7 @@ export class SensorMultilevelV7 extends CommandClassPacket<SensorMultilevelV7Com
 					"name": "sensorValue",
 					"help": "Sensor Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,

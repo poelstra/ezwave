@@ -43,7 +43,7 @@ export interface DmxV1DmxDataData {
 	source: number; // 1 byte unsigned integer
 	sequenceNo: number; // properties1[5..4]
 	page: number; // properties1[3..0]
-	// TODO param dMXChannel type blob
+	dMXChannel: Buffer; // automatic length
 }
 
 export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
@@ -291,7 +291,10 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"type": "blob",
 					"name": "dMXChannel",
 					"help": "DMX channel",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

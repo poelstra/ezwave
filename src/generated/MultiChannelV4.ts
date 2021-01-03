@@ -42,7 +42,7 @@ export interface MultiChannelV4MultiChannelCmdEncapData {
 	destinationEndPoint: number; // properties2[6..0]
 	commandClass: number; // 1 byte unsigned integer
 	command: number; // 1 byte unsigned integer
-	// TODO param parameter type blob
+	parameter: Buffer; // automatic length
 }
 
 export interface MultiChannelV4MultiChannelEndPointFindData {
@@ -68,7 +68,7 @@ export interface MultiChannelV4MultiInstanceCmdEncapData {
 	instance: number; // properties1[6..0]
 	commandClass: number; // 1 byte unsigned integer
 	command: number; // 1 byte unsigned integer
-	// TODO param parameter type blob
+	parameter: Buffer; // automatic length
 }
 
 export interface MultiChannelV4MultiInstanceGetData {
@@ -190,7 +190,10 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					"type": "enumarray",
 					"name": "commandClass",
 					"help": "Command Class",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "CMD_CLASS_REF"
 				}
 			]
@@ -273,7 +276,10 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					"type": "blob",
 					"name": "parameter",
 					"help": "Parameter",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"blobType": "CMD_DATA"
 				}
 			]
@@ -356,7 +362,10 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					"type": "group",
 					"name": "vg",
 					"help": "vg",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "bitfield",
@@ -551,7 +560,10 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					"type": "blob",
 					"name": "parameter",
 					"help": "Parameter",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"blobType": "CMD_DATA"
 				}
 			]

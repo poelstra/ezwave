@@ -117,7 +117,10 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 					"type": "group",
 					"name": "vg",
 					"help": "vg",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "bitfield",
@@ -169,6 +172,7 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 							"name": "character",
 							"help": "Character",
 							"length": {
+								"lengthType": "ref",
 								"ref": "numberOfCharacters"
 							}
 						}

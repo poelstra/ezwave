@@ -27,8 +27,8 @@ export interface ZipV4CommandZipPacketData {
 	sourceEndPoint: number; // properties3[6..0]
 	bitAddress: boolean; // properties4[7]
 	destinationEndPoint: number; // properties4[6..0]
-	// TODO param headerExtension type blob
-	// TODO param zWaveCommand type blob
+	headerExtension?: Buffer; // variable length
+	zWaveCommand?: Buffer; // automatic length
 }
 
 export interface ZipV4CommandZipKeepAliveData {
@@ -244,6 +244,7 @@ export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
 						}
 					},
 					"length": {
+						"lengthType": "ref",
 						"ref": "headerLength"
 					},
 					"includeBytesBefore": 1
@@ -260,7 +261,10 @@ export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
 							"name": "zWaveCmdIncluded"
 						}
 					},
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

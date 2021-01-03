@@ -217,6 +217,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfSupportedCC"
 					},
 					"params": [
@@ -479,6 +480,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfCmdToFollow"
 					},
 					"params": [
@@ -500,6 +502,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "cmdLength"
 							}
 						}
@@ -756,6 +759,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfCmdToFollow"
 					},
 					"params": [
@@ -777,6 +781,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "cmdLength"
 							}
 						}
@@ -932,7 +937,10 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 1
+					},
 					"params": [
 						{
 							"type": "bitfield",
@@ -1034,6 +1042,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "commandClassListLength"
 					},
 					"params": [
@@ -1062,6 +1071,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 							"name": "supportedCommand",
 							"help": "Supported Command",
 							"length": {
+								"lengthType": "ref",
 								"ref": "supportedCommandListLength"
 							}
 						}

@@ -36,7 +36,7 @@ export interface FirmwareUpdateMdV1FirmwareUpdateMdReportData {
 	last: boolean; // properties1[7]
 	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
-	// TODO param data type blob
+	data: Buffer; // automatic length
 }
 
 export interface FirmwareUpdateMdV1FirmwareUpdateMdRequestGetData {
@@ -228,7 +228,10 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					"type": "blob",
 					"name": "data",
 					"help": "Data",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

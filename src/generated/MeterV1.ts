@@ -18,7 +18,7 @@ export interface MeterV1MeterReportData {
 	meterType: MeterTypeEnum; // 1 byte enum value
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param meterValue type blob
+	meterValue: Buffer; // variable length
 }
 
 export enum MeterTypeEnum {
@@ -125,6 +125,7 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,

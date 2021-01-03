@@ -25,7 +25,7 @@ export interface HrvStatusV1HrvStatusReportData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
 	size: number; // properties1[2..0]
-	// TODO param value type blob
+	value: Buffer; // automatic length
 }
 
 export interface HrvStatusV1HrvStatusSupportedReportData {
@@ -185,7 +185,10 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					"type": "blob",
 					"name": "value",
 					"help": "Value",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

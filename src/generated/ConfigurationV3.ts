@@ -50,13 +50,13 @@ export interface ConfigurationV3ConfigurationGetData {
 
 export interface ConfigurationV3ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export interface ConfigurationV3ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
 	default: boolean; // level[7]
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export interface ConfigurationV3ConfigurationNameGetData {
@@ -66,7 +66,7 @@ export interface ConfigurationV3ConfigurationNameGetData {
 export interface ConfigurationV3ConfigurationNameReportData {
 	parameterNumber: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param name type blob
+	name: Buffer; // automatic length
 }
 
 export interface ConfigurationV3ConfigurationInfoGetData {
@@ -76,7 +76,7 @@ export interface ConfigurationV3ConfigurationInfoGetData {
 export interface ConfigurationV3ConfigurationInfoReportData {
 	parameterNumber: number; // 2 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param info type blob
+	info: Buffer; // automatic length
 }
 
 export interface ConfigurationV3ConfigurationPropertiesGetData {
@@ -86,9 +86,9 @@ export interface ConfigurationV3ConfigurationPropertiesGetData {
 export interface ConfigurationV3ConfigurationPropertiesReportData {
 	parameterNumber: number; // 2 byte unsigned integer
 	format: FormatEnum; // properties1[5..3]
-	// TODO param minValue type blob
-	// TODO param maxValue type blob
-	// TODO param defaultValue type blob
+	minValue: Buffer; // variable length
+	maxValue: Buffer; // variable length
+	defaultValue: Buffer; // variable length
 	nextParameterNumber: number; // 2 byte unsigned integer
 }
 
@@ -223,6 +223,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfParameters"
 					},
 					"params": [
@@ -231,6 +232,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
@@ -328,6 +330,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfParameters"
 					},
 					"params": [
@@ -336,6 +339,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
@@ -434,6 +438,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,
@@ -508,6 +513,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,
@@ -580,7 +586,10 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"type": "blob",
 					"name": "name",
 					"help": "Name",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -646,7 +655,10 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"type": "blob",
 					"name": "info",
 					"help": "Info",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -765,6 +777,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "minValue",
 					"help": "Min Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -778,6 +791,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "maxValue",
 					"help": "Max Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -791,6 +805,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "defaultValue",
 					"help": "Default Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,

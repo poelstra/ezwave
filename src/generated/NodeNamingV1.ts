@@ -20,22 +20,22 @@ export enum NodeNamingV1Commands {
 
 export interface NodeNamingV1NodeNamingNodeLocationReportData {
 	charPresentation: number; // level[2..0]
-	// TODO param nodeLocationChar type text
+	nodeLocationChar: string; // 16 bytes
 }
 
 export interface NodeNamingV1NodeNamingNodeLocationSetData {
 	charPresentation: number; // level[2..0]
-	// TODO param nodeLocationChar type text
+	nodeLocationChar: string; // 16 bytes
 }
 
 export interface NodeNamingV1NodeNamingNodeNameReportData {
 	charPresentation: number; // level[2..0]
-	// TODO param nodeNameChar type text
+	nodeNameChar: string; // 16 bytes
 }
 
 export interface NodeNamingV1NodeNamingNodeNameSetData {
 	charPresentation: number; // level[2..0]
-	// TODO param nodeNameChar type text
+	nodeNameChar: string; // 16 bytes
 }
 
 export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {

@@ -19,7 +19,7 @@ export interface MultiInstanceV1MultiInstanceCmdEncapData {
 	instance: number; // 1 byte unsigned integer
 	commandClass: number; // 1 byte unsigned integer
 	command: number; // 1 byte unsigned integer
-	// TODO param parameter type blob
+	parameter: Buffer; // automatic length
 }
 
 export interface MultiInstanceV1MultiInstanceGetData {
@@ -76,7 +76,10 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 					"type": "blob",
 					"name": "parameter",
 					"help": "Parameter",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"blobType": "CMD_DATA"
 				}
 			]

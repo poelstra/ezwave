@@ -645,16 +645,22 @@ function generateParameter(
 
 					let length: types.LengthInfo;
 					if (attr.paramoffs === 255) {
-						length = "auto";
+						length = {
+							lengthType: types.LengthType.Automatic,
+							endOffset: 0, // Assigned later
+						};
 					} else {
-						length = buildParamRef(
-							attr.paramoffs,
-							attr.sizemask,
-							attr.sizeoffs ?? 0,
-							true,
-							mainIdMap,
-							groupIdMap
-						);
+						length = {
+							lengthType: types.LengthType.ParameterReference,
+							...buildParamRef(
+								attr.paramoffs,
+								attr.sizemask,
+								attr.sizeoffs ?? 0,
+								true,
+								mainIdMap,
+								groupIdMap
+							),
+						};
 					}
 					if (attr.is_ascii) {
 						return {
@@ -809,7 +815,7 @@ function generateParameter(
 						length: 1,
 						reference: buildParamRef(
 							descloc.param,
-							undefined, // TODO mask/shift can probably exist here
+							undefined, // mask/shift can probably exist here, but at least currently aren't
 							undefined,
 							true,
 							mainIdMap,
@@ -851,7 +857,6 @@ function generateParameter(
 		let moreToFollow: types.MoreToFollowInfo | undefined;
 		let length: types.LengthInfo;
 		if (param.paramOffs === 255) {
-			length = "auto";
 			if (
 				typeof param.moretofollowoffs === "number" &&
 				typeof param.moretofollowmask === "number"
@@ -864,6 +869,14 @@ function generateParameter(
 					mainIdMap,
 					groupIdMap
 				);
+				length = {
+					lengthType: types.LengthType.MoreToFollow,
+				};
+			} else {
+				length = {
+					lengthType: types.LengthType.Automatic,
+					endOffset: 0, // Assigned later
+				};
 			}
 		} else {
 			assert(
@@ -872,13 +885,17 @@ function generateParameter(
 			);
 			assert(typeof param.sizeoffs === "number");
 			// Note: for groups, length is indicated as number of elements, not bytes
-			length = buildParamRef(
-				param.paramOffs,
-				param.sizemask,
-				param.sizeoffs,
-				true,
-				mainIdMap
-			); // paramOffs is always in main group, so don't pass in groupIdMap
+			length = {
+				lengthType: types.LengthType.ParameterReference,
+				...buildParamRef(
+					param.paramOffs,
+					param.sizemask,
+					param.sizeoffs,
+					true,
+					mainIdMap
+					// paramOffs is always in main group, so don't pass in groupIdMap
+				),
+			};
 		}
 		return {
 			type: types.ParameterType.ParameterGroup,
@@ -1086,31 +1103,61 @@ function getParam(
 	return param;
 }
 
+type Fixer = (
+	command: types.CommandDefinition,
+	cmdClass: types.CommandClassDefinition
+) => void;
+
+/**
+ * The referenced optional parameter is actually a size field, so don't just look
+ * at the packet length, but use the explicit size field.
+ * Also, when optional ref is referring to an integer parameter, the integer parameter is
+ * generated as an explicit field by the decoder, and a required field for the encoder,
+ * but it should be derived from the number of elements present.
+ */
 function fixUseDynamicLengthInsteadOfOptional(
 	param: types.Parameter | types.ParameterGroup
 ): void {
-	// The referenced optional parameter is actually a size field, so don't just look
-	// at the packet length, but use the explicit size field.
-	// Also, when optional ref is referring to an integer parameter, the integer parameter is
-	// generated as an explicit field by the decoder, and a required field for the encoder,
-	// but it should be derived from the number of elements present.
-	if (param.length === "auto" && param.optional) {
-		param.length = param.optional;
+	if (
+		typeof param.length === "object" &&
+		param.length.lengthType === types.LengthType.Automatic &&
+		param.optional
+	) {
+		param.length = {
+			lengthType: types.LengthType.ParameterReference,
+			...param.optional,
+		};
 		param.optional = undefined;
 	}
+}
+
+/**
+ * Security S0 defines sequence info explicitly in the XML, but in fact
+ * these bytes are embedded in the encrypted payload, together with the
+ * encapsulated commandclass.
+ * This function corrects that.
+ */
+function collapseEncryptedPayload(command: types.CommandDefinition) {
+	const prop1 = getParam("properties1", command.params);
+	const prop1Index = command.params.indexOf(prop1);
+	command.params.splice(prop1Index, 1);
+	const payload = getParam("commandByte", command.params);
+	payload.name = "encryptedPayload";
+	payload.help = "Encrypted Payload";
 }
 
 function applyFixes(classes: types.CommandClassDefinition[]): void {
 	const classFixes: {
 		[className: string]: {
-			[commandName: string]: (
-				cmdClass: types.CommandClassDefinition,
-				command: types.CommandDefinition
-			) => void;
+			[commandName: string]: Fixer | Fixer[];
 		};
 	} = {
+		Security: {
+			SecurityMessageEncapsulation: collapseEncryptedPayload,
+			SecurityMessageEncapsulationNonceGet: collapseEncryptedPayload,
+		},
 		UserCode: {
-			ExtendedUserCodeReport: (cmdClass, cmd) => {
+			ExtendedUserCodeReport: (cmd) => {
 				fixUseDynamicLengthInsteadOfOptional(
 					getParam("vg1", cmd.params)
 				);
@@ -1124,8 +1171,12 @@ function applyFixes(classes: types.CommandClassDefinition[]): void {
 		}
 		for (const command of cmdClass.commands) {
 			const fixer = cmds[command.name];
-			if (fixer) {
-				fixer(cmdClass, command);
+			if (Array.isArray(fixer)) {
+				for (const f of fixer) {
+					f(command, cmdClass);
+				}
+			} else if (fixer) {
+				fixer(command, cmdClass);
 			}
 		}
 	}
@@ -1303,7 +1354,10 @@ function assignSourceReferences(defs: CommandsByClassByVersion): void {
 					isExplicitFieldOverrides
 				);
 			}
-			if (typeof param.length === "object") {
+			if (
+				typeof param.length === "object" &&
+				param.length.lengthType === types.LengthType.ParameterReference
+			) {
 				assignReference(
 					cmdClass,
 					cmd,
@@ -1340,7 +1394,11 @@ function assignSourceReferences(defs: CommandsByClassByVersion): void {
 							isExplicitFieldOverrides
 						);
 					}
-					if (typeof groupParam.length === "object") {
+					if (
+						typeof groupParam.length === "object" &&
+						groupParam.length.lengthType ===
+							types.LengthType.ParameterReference
+					) {
 						assignReference(
 							cmdClass,
 							cmd,
@@ -1351,6 +1409,53 @@ function assignSourceReferences(defs: CommandsByClassByVersion): void {
 							isExplicitFieldOverrides
 						);
 					}
+				}
+			}
+		}
+	});
+}
+
+function determineEndOffset(
+	cmdClass: types.CommandClassDefinition,
+	cmd: types.CommandDefinition,
+	param: types.Parameter | types.ParameterGroup,
+	params: Array<types.Parameter | types.ParameterGroup>
+): void {
+	if (
+		typeof param.length !== "object" ||
+		param.length.lengthType !== types.LengthType.Automatic
+	) {
+		return;
+	}
+	const remainingParams = params.slice(params.indexOf(param) + 1);
+	if (remainingParams.length === 0) {
+		return;
+	}
+	const nonAutomaticLengthParams = remainingParams.filter(
+		(p) =>
+			typeof p.length === "number" ||
+			p.length.lengthType !== types.LengthType.Automatic
+	);
+	const fixedSizes = nonAutomaticLengthParams
+		.map((p) => p.length)
+		.filter((len): len is number => typeof len === "number" && len > 0);
+	if (fixedSizes.length !== nonAutomaticLengthParams.length) {
+		console.log(
+			`TODO ${cmdClass.name}:${cmd.name} handle after-auto-length parameters`,
+			nonAutomaticLengthParams
+		);
+		return;
+	}
+	param.length.endOffset = fixedSizes.reduce((sum, len) => sum + len, 0);
+}
+
+function determineEndOffsets(defs: CommandsByClassByVersion): void {
+	forEachCommand(defs, (cmdClass, cmd) => {
+		for (const param of cmd.params) {
+			determineEndOffset(cmdClass, cmd, param, cmd.params);
+			if (param.type === types.ParameterType.ParameterGroup) {
+				for (const groupParam of param.params) {
+					determineEndOffset(cmdClass, cmd, groupParam, param.params);
 				}
 			}
 		}
@@ -1385,6 +1490,7 @@ async function xml2json(xmlString: string): Promise<types.ZwaveSpec> {
 
 	applyFixes(classes);
 	assignSourceReferences(commandsByClassByVersion);
+	determineEndOffsets(commandsByClassByVersion);
 
 	// Generate final output JSON structure, by adding header and stripping out unwanted members
 	const spec: types.ZwaveSpec = {

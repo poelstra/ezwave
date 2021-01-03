@@ -153,7 +153,10 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				},
 				{
@@ -166,7 +169,10 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"type": "group",
 					"name": "vg",
 					"help": "vg",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "integer",
@@ -240,7 +246,10 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				},
 				{
@@ -253,7 +262,10 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"type": "group",
 					"name": "vg",
 					"help": "vg",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "integer",
@@ -315,7 +327,10 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"type": "enumarray",
 					"name": "nodeID",
 					"help": "Node ID",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "NODE_NUMBER"
 				},
 				{
@@ -328,7 +343,10 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"type": "group",
 					"name": "vg",
 					"help": "vg",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"params": [
 						{
 							"type": "integer",

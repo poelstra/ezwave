@@ -29,9 +29,9 @@ export interface MeterV5MeterReportData {
 	meterType: MeterTypeEnum; // properties1[4..0]
 	precision: number; // properties2[7..5]
 	scaleBits10: number; // properties2[4..3]
-	// TODO param meterValue type blob
+	meterValue: Buffer; // variable length
 	deltaTime: number; // 2 byte unsigned integer
-	// TODO param previousMeterValue type blob
+	previousMeterValue?: Buffer; // variable length
 	scale2: number; // 1 byte unsigned integer
 }
 
@@ -41,7 +41,7 @@ export interface MeterV5MeterSupportedReportData {
 	meterType: MeterTypeEnum; // properties1[4..0]
 	mST: boolean; // properties2[7]
 	scaleSupported0: number; // properties2[6..0]
-	// TODO param scaleSupported type blob
+	scaleSupported: Buffer; // variable length
 }
 
 export enum RateTypeEnum {
@@ -270,6 +270,7 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -300,6 +301,7 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 						"ref": "deltaTime"
 					},
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -483,6 +485,7 @@ export class MeterV5 extends CommandClassPacket<MeterV5Commands> {
 					"name": "scaleSupported",
 					"help": "Scale Supported",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfScaleSupportedBytesToFollow"
 					}
 				}

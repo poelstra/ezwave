@@ -25,14 +25,14 @@ export interface ThermostatSetpointV2ThermostatSetpointReportData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ThermostatSetpointV2ThermostatSetpointSetData {
 	setpointType: SetpointTypeEnum; // level[3..0]
 	precision: number; // level2[7..5]
 	scale: number; // level2[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ThermostatSetpointV2ThermostatSetpointSupportedReportData {
@@ -293,6 +293,7 @@ export class ThermostatSetpointV2 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level2",
 						"bitfield": {
 							"mask": 7,
@@ -439,6 +440,7 @@ export class ThermostatSetpointV2 extends CommandClassPacket<ThermostatSetpointV
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level2",
 						"bitfield": {
 							"mask": 7,

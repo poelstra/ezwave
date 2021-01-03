@@ -20,7 +20,7 @@ export enum MailboxV1Commands {
 
 export interface MailboxV1MailboxConfigurationSetData {
 	mode: ModeEnum; // properties1[2..0]
-	// TODO param forwardingDestinationIPv6Address type blob
+	forwardingDestinationIPv6Address: Buffer; // 16 bytes
 	uDPPortNumber: number; // 2 byte unsigned integer
 }
 
@@ -28,7 +28,7 @@ export interface MailboxV1MailboxConfigurationReportData {
 	supportedModes: SupportedModesEnum; // properties1[4..3]
 	mode: ModeEnum; // properties1[2..0]
 	mailboxCapacity: number; // 2 byte unsigned integer
-	// TODO param forwardingDestinationIPv6Address type blob
+	forwardingDestinationIPv6Address: Buffer; // 16 bytes
 	uDPPortNumber: number; // 2 byte unsigned integer
 }
 
@@ -37,7 +37,7 @@ export interface MailboxV1MailboxQueueData {
 	last: boolean; // properties1[2]
 	mode: Mode2Enum; // properties1[1..0]
 	queueHandle: number; // 1 byte unsigned integer
-	// TODO param mailboxEntry type blob
+	mailboxEntry: Buffer; // automatic length
 }
 
 export interface MailboxV1MailboxWakeupNotificationData {
@@ -340,7 +340,10 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					"type": "blob",
 					"name": "mailboxEntry",
 					"help": "Mailbox Entry",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

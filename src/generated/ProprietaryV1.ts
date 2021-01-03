@@ -16,15 +16,15 @@ export enum ProprietaryV1Commands {
 }
 
 export interface ProprietaryV1ProprietaryGetData {
-	// TODO param data type blob
+	data: Buffer; // automatic length
 }
 
 export interface ProprietaryV1ProprietaryReportData {
-	// TODO param data type blob
+	data: Buffer; // automatic length
 }
 
 export interface ProprietaryV1ProprietarySetData {
-	// TODO param data type blob
+	data: Buffer; // automatic length
 }
 
 // Deprecated
@@ -52,7 +52,10 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					"type": "blob",
 					"name": "data",
 					"help": "Data",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -79,7 +82,10 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					"type": "blob",
 					"name": "data",
 					"help": "Data",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -106,7 +112,10 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					"type": "blob",
 					"name": "data",
 					"help": "Data",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

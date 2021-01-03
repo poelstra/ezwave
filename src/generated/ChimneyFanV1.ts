@@ -99,13 +99,13 @@ export interface ChimneyFanV1ChimneyFanAlarmStatusSetData {
 export interface ChimneyFanV1ChimneyFanAlarmTempReportData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanAlarmTempSetData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanBoostTimeReportData {
@@ -139,13 +139,13 @@ export interface ChimneyFanV1ChimneyFanSetupReportData {
 	minSpeed: number; // 1 byte unsigned integer
 	precision1: number; // properties1[7..5]
 	scale1: number; // properties1[4..3]
-	// TODO param startTemperature type blob
+	startTemperature: Buffer; // variable length
 	precision2: number; // properties2[7..5]
 	scale2: number; // properties2[4..3]
-	// TODO param stopTemperature type blob
+	stopTemperature: Buffer; // variable length
 	precision3: number; // properties3[7..5]
 	scale3: number; // properties3[4..3]
-	// TODO param alarmTemperatureValue type blob
+	alarmTemperatureValue: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanSetupSetData {
@@ -155,13 +155,13 @@ export interface ChimneyFanV1ChimneyFanSetupSetData {
 	minSpeed: number; // 1 byte unsigned integer
 	precision1: number; // properties1[7..5]
 	scale1: number; // properties1[4..3]
-	// TODO param startTemperature type blob
+	startTemperature: Buffer; // variable length
 	precision2: number; // properties2[7..5]
 	scale2: number; // properties2[4..3]
-	// TODO param stopTemperature type blob
+	stopTemperature: Buffer; // variable length
 	precision3: number; // properties3[7..5]
 	scale3: number; // properties3[4..3]
-	// TODO param alarmTemperatureValue type blob
+	alarmTemperatureValue: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanSpeedReportData {
@@ -175,13 +175,13 @@ export interface ChimneyFanV1ChimneyFanSpeedSetData {
 export interface ChimneyFanV1ChimneyFanStartTempReportData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanStartTempSetData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanStateReportData {
@@ -204,19 +204,19 @@ export interface ChimneyFanV1ChimneyFanStatusReportData {
 	service: boolean; // alarmStatus[0]
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanStopTempReportData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanStopTempSetData {
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ChimneyFanV1ChimneyFanStopTimeReportData {
@@ -786,6 +786,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -853,6 +854,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -1236,6 +1238,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "startTemperature",
 					"help": "Start Temperature",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -1282,6 +1285,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "stopTemperature",
 					"help": "Stop Temperature",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -1328,6 +1332,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "alarmTemperatureValue",
 					"help": "Alarm Temperature Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,
@@ -1429,6 +1434,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "startTemperature",
 					"help": "Start Temperature",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -1475,6 +1481,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "stopTemperature",
 					"help": "Stop Temperature",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -1521,6 +1528,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "alarmTemperatureValue",
 					"help": "Alarm Temperature Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,
@@ -1692,6 +1700,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -1759,6 +1768,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -2080,6 +2090,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -2167,6 +2178,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -2234,6 +2246,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,

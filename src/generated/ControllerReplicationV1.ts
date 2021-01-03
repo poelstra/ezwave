@@ -25,7 +25,7 @@ export interface ControllerReplicationV1CtrlReplicationTransferGroupData {
 export interface ControllerReplicationV1CtrlReplicationTransferGroupNameData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	groupID: number; // 1 byte unsigned integer
-	// TODO param groupName type blob
+	groupName: Buffer; // automatic length
 }
 
 export interface ControllerReplicationV1CtrlReplicationTransferSceneData {
@@ -38,7 +38,7 @@ export interface ControllerReplicationV1CtrlReplicationTransferSceneData {
 export interface ControllerReplicationV1CtrlReplicationTransferSceneNameData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	sceneID: number; // 1 byte unsigned integer
-	// TODO param sceneName type blob
+	sceneName: Buffer; // automatic length
 }
 
 export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplicationV1Commands> {
@@ -117,7 +117,10 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					"type": "blob",
 					"name": "groupName",
 					"help": "Group Name",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -202,7 +205,10 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					"type": "blob",
 					"name": "sceneName",
 					"help": "Scene Name",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

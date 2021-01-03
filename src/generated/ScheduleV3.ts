@@ -206,6 +206,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfSupportedCC"
 					},
 					"params": [
@@ -468,6 +469,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfCmdToFollow"
 					},
 					"params": [
@@ -489,6 +491,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "cmdLength"
 							}
 						}
@@ -745,6 +748,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfCmdToFollow"
 					},
 					"params": [
@@ -766,6 +770,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 							"name": "cmdByte",
 							"help": "Cmd Byte",
 							"length": {
+								"lengthType": "ref",
 								"ref": "cmdLength"
 							}
 						}
@@ -921,7 +926,10 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 					"type": "group",
 					"name": "vg1",
 					"help": "vg1",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 1
+					},
 					"params": [
 						{
 							"type": "bitfield",

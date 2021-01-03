@@ -114,11 +114,11 @@ export interface MeterTblMonitorV3MeterTblReportData {
 }
 
 export interface MeterTblMonitorV3MeterTblTableIdReportData {
-	// TODO param meterIDCharacter type blob
+	meterIDCharacter: Buffer; // variable length
 }
 
 export interface MeterTblMonitorV3MeterTblTablePointAdmNoReportData {
-	// TODO param meterPointAdmNumberCharacter type blob
+	meterPointAdmNumberCharacter: Buffer; // variable length
 }
 
 export enum PayMeterEnum {
@@ -172,6 +172,7 @@ export class MeterTblMonitorV3 extends CommandClassPacket<MeterTblMonitorV3Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "reportsToFollow"
 					},
 					"params": [
@@ -554,6 +555,7 @@ export class MeterTblMonitorV3 extends CommandClassPacket<MeterTblMonitorV3Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "reportsToFollow"
 					},
 					"params": [
@@ -798,6 +800,7 @@ export class MeterTblMonitorV3 extends CommandClassPacket<MeterTblMonitorV3Comma
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "reportsToFollow"
 					},
 					"params": [
@@ -1021,6 +1024,7 @@ export class MeterTblMonitorV3 extends CommandClassPacket<MeterTblMonitorV3Comma
 					"name": "meterIDCharacter",
 					"help": "Meter ID Character",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -1103,6 +1107,7 @@ export class MeterTblMonitorV3 extends CommandClassPacket<MeterTblMonitorV3Comma
 					"name": "meterPointAdmNumberCharacter",
 					"help": "Meter Point Adm Number Character",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,

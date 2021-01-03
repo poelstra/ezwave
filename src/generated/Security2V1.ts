@@ -34,14 +34,14 @@ export interface Security2V1Security2NonceReportData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	mos: boolean; // properties1[1]
 	sos: boolean; // properties1[0]
-	// TODO param receiversEntropyInput type blob
+	receiversEntropyInput: Buffer; // automatic length
 }
 
 export interface Security2V1Security2MessageEncapsulationData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	encryptedExtension: boolean; // properties1[1]
 	// TODO param vg1 type group
-	// TODO param cCMCiphertextObject type blob
+	cCMCiphertextObject: Buffer; // automatic length
 }
 
 export interface Security2V1KexReportData {
@@ -66,7 +66,7 @@ export interface Security2V1KexFailData {
 
 export interface Security2V1PublicKeyReportData {
 	includingNode: boolean; // properties1[0]
-	// TODO param eCDHPublicKey type blob
+	eCDHPublicKey: Buffer; // automatic length
 }
 
 export interface Security2V1Security2NetworkKeyGetData {
@@ -75,7 +75,7 @@ export interface Security2V1Security2NetworkKeyGetData {
 
 export interface Security2V1Security2NetworkKeyReportData {
 	grantedKey: number; // 1 byte unsigned integer
-	// TODO param networkKey type blob
+	networkKey: Buffer; // 16 bytes
 }
 
 export interface Security2V1Security2TransferEndData {
@@ -183,7 +183,10 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"type": "blob",
 					"name": "receiversEntropyInput",
 					"help": "Receivers Entropy Input",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -258,7 +261,9 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 							"name": "extension"
 						}
 					},
-					"length": "auto",
+					"length": {
+						"lengthType": "moretofollow"
+					},
 					"moreToFollow": {
 						"ref": "properties1",
 						"bitfield": {
@@ -313,6 +318,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 							"name": "extension",
 							"help": "Extension",
 							"length": {
+								"lengthType": "ref",
 								"ref": "extensionLength"
 							},
 							"includeBytesBefore": 2
@@ -323,7 +329,10 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"type": "blob",
 					"name": "cCMCiphertextObject",
 					"help": "CCM Ciphertext Object",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -588,7 +597,10 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"type": "blob",
 					"name": "eCDHPublicKey",
 					"help": "ECDH Public Key",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -799,7 +811,10 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"type": "enumarray",
 					"name": "commandClass",
 					"help": "Command Class",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "CMD_CLASS_REF"
 				}
 			]

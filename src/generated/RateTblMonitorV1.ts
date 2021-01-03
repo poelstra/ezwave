@@ -80,7 +80,7 @@ export interface RateTblMonitorV1RateTblHistoricalDataReportData {
 export interface RateTblMonitorV1RateTblReportData {
 	rateParameterSetID: number; // 1 byte unsigned integer
 	rateType: number; // properties1[6..5]
-	// TODO param rateCharacter type blob
+	rateCharacter: Buffer; // variable length
 	startHourLocalTime: number; // 1 byte unsigned integer
 	startMinuteLocalTime: number; // 1 byte unsigned integer
 	durationMinute: number; // 2 byte unsigned integer
@@ -265,6 +265,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "reportsToFollow"
 					},
 					"params": [
@@ -521,6 +522,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "reportsToFollow"
 					},
 					"params": [
@@ -618,6 +620,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 					"name": "rateCharacter",
 					"help": "Rate Character",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,

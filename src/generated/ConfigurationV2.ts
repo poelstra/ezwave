@@ -44,13 +44,13 @@ export interface ConfigurationV2ConfigurationGetData {
 
 export interface ConfigurationV2ConfigurationReportData {
 	parameterNumber: number; // 1 byte unsigned integer
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export interface ConfigurationV2ConfigurationSetData {
 	parameterNumber: number; // 1 byte unsigned integer
 	default: boolean; // level[7]
-	// TODO param configurationValue type blob
+	configurationValue: Buffer; // variable length
 }
 
 export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands> {
@@ -177,6 +177,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfParameters"
 					},
 					"params": [
@@ -185,6 +186,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
@@ -282,6 +284,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "vg",
 					"help": "vg",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfParameters"
 					},
 					"params": [
@@ -290,6 +293,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"isParentReference": true,
 								"bitfield": {
@@ -388,6 +392,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,
@@ -462,6 +467,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 7,

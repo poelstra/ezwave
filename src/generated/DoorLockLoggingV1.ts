@@ -36,7 +36,7 @@ export interface DoorLockLoggingV1RecordReportData {
 	eventType: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
 	userCodeLength: number; // 1 byte unsigned integer
-	// TODO param userCode type blob
+	userCode: Buffer; // automatic length
 }
 
 export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Commands> {
@@ -211,7 +211,10 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					"type": "blob",
 					"name": "userCode",
 					"help": "USER_CODE",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

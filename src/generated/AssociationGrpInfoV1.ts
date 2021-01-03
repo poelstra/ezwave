@@ -24,7 +24,7 @@ export interface AssociationGrpInfoV1AssociationGroupNameGetData {
 
 export interface AssociationGrpInfoV1AssociationGroupNameReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param name type text
+	name: string; // variable length
 }
 
 export interface AssociationGrpInfoV1AssociationGroupInfoGetData {
@@ -46,7 +46,7 @@ export interface AssociationGrpInfoV1AssociationGroupCommandListGetData {
 
 export interface AssociationGrpInfoV1AssociationGroupCommandListReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param command type blob
+	command: Buffer; // variable length
 }
 
 export class AssociationGrpInfoV1 extends CommandClassPacket<AssociationGrpInfoV1Commands> {
@@ -120,6 +120,7 @@ export class AssociationGrpInfoV1 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "name",
 					"help": "Name",
 					"length": {
+						"lengthType": "ref",
 						"ref": "lengthOfName"
 					}
 				}
@@ -236,6 +237,7 @@ export class AssociationGrpInfoV1 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 63,
@@ -539,6 +541,7 @@ export class AssociationGrpInfoV1 extends CommandClassPacket<AssociationGrpInfoV
 					"name": "command",
 					"help": "Command",
 					"length": {
+						"lengthType": "ref",
 						"ref": "listLength"
 					}
 				}

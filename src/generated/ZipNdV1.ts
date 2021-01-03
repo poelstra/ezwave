@@ -17,7 +17,7 @@ export enum ZipNdV1Commands {
 
 export interface ZipNdV1ZipNodeSolicitationData {
 	nodeID: number; // 1 byte unsigned integer
-	// TODO param iPv6Address type blob
+	iPv6Address: Buffer; // 16 bytes
 }
 
 export interface ZipNdV1ZipInvNodeSolicitationData {
@@ -29,8 +29,8 @@ export interface ZipNdV1ZipNodeAdvertisementData {
 	local: boolean; // properties1[2]
 	validity: ValidityEnum; // properties1[1..0]
 	nodeID: number; // 1 byte unsigned integer
-	// TODO param iPv6Address type blob
-	// TODO param homeID type blob
+	iPv6Address: Buffer; // 16 bytes
+	homeID: Buffer; // 4 bytes
 }
 
 export enum ValidityEnum {

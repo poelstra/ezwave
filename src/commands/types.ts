@@ -329,11 +329,61 @@ export interface SourceRefs {
 }
 
 /**
- * Determine length of parameter (in bytes, except for ParameterGroup, see below).
- * Fixed length (number), rest of message or based on MoreToFollow info in ParameterGroup ("auto"),
- * or based on a value in the message payload itself.
+ * Determine length of parameter (in bytes or number of elements).
+ * Fixed length (number), or dynamically determined by packet length
+ * or value of another parameter.
  */
-export type LengthInfo = number | "auto" | DynamicLengthInfo;
+export type LengthInfo =
+	| number
+	| ParamRefLengthInfo
+	| AutomaticLengthInfo
+	| MoreToFollowLengthInfo;
+
+export enum LengthType {
+	/**
+	 * Length of parameter is determined by the value of another
+	 * parameter or field.
+	 */
+	ParameterReference = "ref",
+
+	/**
+	 * Length of parameter is determined by the size of the packet,
+	 * possibly leaving room for some fixed fields at the end.
+	 */
+	Automatic = "auto",
+
+	/**
+	 * Number of group elements is determined by MoreToFollow flag
+	 * in each element.
+	 *
+	 * Only used for parameter group length.
+	 */
+	MoreToFollow = "moretofollow",
+}
+
+/**
+ * Length of parameter in bytes (for blob/text) or number of elements
+ * (for ParamRef-based groups) based on value of another parameter/field.
+ */
+export interface ParamRefLengthInfo extends ParameterReference {
+	lengthType: LengthType.ParameterReference;
+}
+
+/**
+ * Length of parameter determined by available size in packet, possibly
+ * reserving some space at the end for a number of fixed-length parameters.
+ */
+export interface AutomaticLengthInfo {
+	lengthType: LengthType.Automatic;
+	endOffset: number;
+}
+
+/**
+ * Length of parameter group based on a MoreToFollow flag in each element.
+ */
+export interface MoreToFollowLengthInfo {
+	lengthType: LengthType.MoreToFollow;
+}
 
 export interface LocalParameterReference {
 	/**
@@ -384,14 +434,6 @@ export interface BitfieldReference {
 	 */
 	shift: number;
 }
-
-/**
- * Length of parameter in bytes.
- * Note: for ParameterGroups, the dynamic length is given as number of
- * elements, not bytes, because the actual size of each element can
- * vary.
- */
-export type DynamicLengthInfo = ParameterReference;
 
 /**
  * Specifies enum values and their names.

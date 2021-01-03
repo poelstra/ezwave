@@ -14,7 +14,7 @@ export enum PrepaymentEncapsulationV1Commands {
 }
 
 export interface PrepaymentEncapsulationV1CmdEncapsulationData {
-	// TODO param data type blob
+	data: Buffer; // automatic length
 }
 
 export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEncapsulationV1Commands> {
@@ -41,7 +41,10 @@ export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEnca
 					"type": "blob",
 					"name": "data",
 					"help": "Data",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

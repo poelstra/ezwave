@@ -33,7 +33,7 @@ export interface NetworkManagementBasicV2LearnModeSetStatusData {
 	newNodeID: number; // 1 byte unsigned integer
 	grantedKeys: number; // 1 byte unsigned integer
 	kEXFailType: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // 16 bytes
 }
 
 export interface NetworkManagementBasicV2NodeInformationSendData {
@@ -68,7 +68,7 @@ export interface NetworkManagementBasicV2DskGetData {
 export interface NetworkManagementBasicV2DskReportData {
 	seqNo: number; // 1 byte unsigned integer
 	addMode: boolean; // properties1[0]
-	// TODO param dsk type blob
+	dsk: Buffer; // 16 bytes
 }
 
 export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManagementBasicV2Commands> {

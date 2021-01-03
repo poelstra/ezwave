@@ -19,19 +19,19 @@ export enum ZipNamingV1Commands {
 }
 
 export interface ZipNamingV1ZipNamingNameSetData {
-	// TODO param name type text
+	name: string; // automatic length
 }
 
 export interface ZipNamingV1ZipNamingNameReportData {
-	// TODO param name type text
+	name: string; // automatic length
 }
 
 export interface ZipNamingV1ZipNamingLocationSetData {
-	// TODO param location type text
+	location: string; // automatic length
 }
 
 export interface ZipNamingV1ZipNamingLocationReportData {
-	// TODO param location type text
+	location: string; // automatic length
 }
 
 export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
@@ -58,7 +58,10 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"type": "text",
 					"name": "name",
 					"help": "Name",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -105,7 +108,10 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"type": "text",
 					"name": "name",
 					"help": "Name",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -132,7 +138,10 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"type": "text",
 					"name": "location",
 					"help": "Location",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -179,7 +188,10 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"type": "text",
 					"name": "location",
 					"help": "Location",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

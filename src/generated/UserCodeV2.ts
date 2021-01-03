@@ -37,13 +37,13 @@ export interface UserCodeV2UserCodeGetData {
 export interface UserCodeV2UserCodeReportData {
 	userIdentifier: number; // 1 byte unsigned integer
 	userIDStatus: UserIDStatusEnum; // 1 byte enum value
-	// TODO param userCode type text
+	userCode: string; // automatic length
 }
 
 export interface UserCodeV2UserCodeSetData {
 	userIdentifier: number; // 1 byte unsigned integer
 	userIDStatus: UserIDStatusEnum; // 1 byte enum value
-	// TODO param userCode type text
+	userCode: string; // automatic length
 }
 
 export interface UserCodeV2UsersNumberReportData {
@@ -68,12 +68,12 @@ export interface UserCodeV2ExtendedUserCodeReportData {
 export interface UserCodeV2UserCodeCapabilitiesReportData {
 	mCSupport: boolean; // properties1[7]
 	mCDSupport: boolean; // properties1[6]
-	// TODO param supportedUserIDStatusBitMask type blob
+	supportedUserIDStatusBitMask: Buffer; // variable length
 	uCCSupport: boolean; // properties2[7]
 	mUCRSupport: boolean; // properties2[6]
 	mUCSSupport: boolean; // properties2[5]
-	// TODO param supportedKeypadModesBitMask type blob
-	// TODO param supportedKeysBitMask type blob
+	supportedKeypadModesBitMask: Buffer; // variable length
+	supportedKeysBitMask: Buffer; // variable length
 }
 
 export interface UserCodeV2UserCodeKeypadModeSetData {
@@ -85,11 +85,11 @@ export interface UserCodeV2UserCodeKeypadModeReportData {
 }
 
 export interface UserCodeV2MasterCodeSetData {
-	// TODO param masterCode type blob
+	masterCode: Buffer; // variable length
 }
 
 export interface UserCodeV2MasterCodeReportData {
-	// TODO param masterCode type blob
+	masterCode: Buffer; // variable length
 }
 
 export interface UserCodeV2UserCodeChecksumReportData {
@@ -201,7 +201,10 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"type": "text",
 					"name": "userCode",
 					"help": "USER_CODE",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -266,7 +269,10 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"type": "text",
 					"name": "userCode",
 					"help": "USER_CODE",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -360,6 +366,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfUserCodes"
 					},
 					"params": [
@@ -434,6 +441,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"name": "userCode",
 							"help": "User Code",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 15,
@@ -537,6 +545,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfUserCodes"
 					},
 					"params": [
@@ -611,6 +620,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 							"name": "userCode",
 							"help": "User Code",
 							"length": {
+								"lengthType": "ref",
 								"ref": "properties1",
 								"bitfield": {
 									"mask": 15,
@@ -707,6 +717,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "supportedUserIDStatusBitMask",
 					"help": "Supported User ID Status Bit Mask",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -759,6 +770,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "supportedKeypadModesBitMask",
 					"help": "Supported Keypad Modes Bit Mask",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 31,
@@ -800,6 +812,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "supportedKeysBitMask",
 					"help": "Supported Keys Bit Mask",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 15,
@@ -972,6 +985,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "masterCode",
 					"help": "Master Code",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 15,
@@ -1054,6 +1068,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "masterCode",
 					"help": "Master Code",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 15,

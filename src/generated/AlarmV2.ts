@@ -29,7 +29,7 @@ export interface AlarmV2AlarmReportData {
 	zWaveAlarmStatus: number; // 1 byte unsigned integer
 	zWaveAlarmType: ZWaveAlarmTypeEnum; // 1 byte enum value
 	zWaveAlarmEvent: number; // 1 byte unsigned integer
-	// TODO param eventParameter type blob
+	eventParameter: Buffer; // variable length
 }
 
 export interface AlarmV2AlarmSetData {
@@ -286,6 +286,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 					"name": "eventParameter",
 					"help": "Event Parameter",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfEventParameters"
 					}
 				}

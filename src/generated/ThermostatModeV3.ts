@@ -19,12 +19,12 @@ export enum ThermostatModeV3Commands {
 
 export interface ThermostatModeV3ThermostatModeReportData {
 	mode: ModeEnum; // level[4..0]
-	// TODO param manufacturerData type blob
+	manufacturerData: Buffer; // variable length
 }
 
 export interface ThermostatModeV3ThermostatModeSetData {
 	mode: ModeEnum; // level[4..0]
-	// TODO param manufacturerData type blob
+	manufacturerData: Buffer; // variable length
 }
 
 export interface ThermostatModeV3ThermostatModeSupportedReportData {
@@ -268,6 +268,7 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"name": "manufacturerData",
 					"help": "Manufacturer Data",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 224,
@@ -459,6 +460,7 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 					"name": "manufacturerData",
 					"help": "Manufacturer Data",
 					"length": {
+						"lengthType": "ref",
 						"ref": "level",
 						"bitfield": {
 							"mask": 224,

@@ -24,7 +24,7 @@ export interface EntryControlV1EntryControlNotificationData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	dataType: DataTypeEnum; // properties1[1..0]
 	eventType: EventTypeEnum; // 1 byte enum value
-	// TODO param eventData type blob
+	eventData?: Buffer; // variable length
 }
 
 export interface EntryControlV1EntryControlKeySupportedReportData {
@@ -295,6 +295,7 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 						"ref": "sequenceNumber"
 					},
 					"length": {
+						"lengthType": "ref",
 						"ref": "eventDataLength"
 					}
 				}

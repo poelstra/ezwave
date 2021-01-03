@@ -39,7 +39,7 @@ export interface FirmwareUpdateMdV3FirmwareUpdateMdReportData {
 	last: boolean; // properties1[7]
 	reportNumber1: number; // properties1[6..0]
 	reportNumber2: number; // 1 byte unsigned integer
-	// TODO param data type blob
+	data: Buffer; // automatic length
 	checksum: number; // 2 byte unsigned integer
 }
 
@@ -163,6 +163,7 @@ export class FirmwareUpdateMdV3 extends CommandClassPacket<FirmwareUpdateMdV3Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "numberOfFirmwareTargets"
 					},
 					"params": [
@@ -278,7 +279,10 @@ export class FirmwareUpdateMdV3 extends CommandClassPacket<FirmwareUpdateMdV3Com
 					"type": "blob",
 					"name": "data",
 					"help": "Data",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 2
+					}
 				},
 				{
 					"type": "integer",

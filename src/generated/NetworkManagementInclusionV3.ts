@@ -66,7 +66,7 @@ export interface NetworkManagementInclusionV3NodeAddStatusData {
 	// TODO param commandClass type enumarray
 	grantedKeys: number; // 1 byte unsigned integer
 	kEXFailType: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 }
 
 export interface NetworkManagementInclusionV3NodeRemoveData {
@@ -142,13 +142,13 @@ export interface NetworkManagementInclusionV3NodeAddKeysSetData {
 export interface NetworkManagementInclusionV3NodeAddDskReportData {
 	seqNo: number; // 1 byte unsigned integer
 	inputDSKLength: number; // properties1[3..0]
-	// TODO param dsk type blob
+	dsk: Buffer; // 16 bytes
 }
 
 export interface NetworkManagementInclusionV3NodeAddDskSetData {
 	seqNo: number; // 1 byte unsigned integer
 	accept: boolean; // properties1[7]
-	// TODO param inputDSK type blob
+	inputDSK: Buffer; // variable length
 }
 
 export interface NetworkManagementInclusionV3S2AdvancedJoinModeGetData {
@@ -157,7 +157,7 @@ export interface NetworkManagementInclusionV3S2AdvancedJoinModeGetData {
 
 export interface NetworkManagementInclusionV3SmartStartJoinStartedReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 }
 
 export interface NetworkManagementInclusionV3S2AdvancedJoinModeSetData {
@@ -172,7 +172,7 @@ export interface NetworkManagementInclusionV3S2AdvancedJoinModeReportData {
 
 export interface NetworkManagementInclusionV3IncludedNifReportData {
 	seqNo: number; // 1 byte unsigned integer
-	// TODO param dsk type blob
+	dsk: Buffer; // variable length
 }
 
 export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkManagementInclusionV3Commands> {
@@ -478,6 +478,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
+						"lengthType": "ref",
 						"ref": "nodeInfoLength"
 					},
 					"valueType": "CMD_CLASS_REF"
@@ -527,6 +528,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 31,
@@ -1235,6 +1237,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "inputDSK",
 					"help": "Input DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 15,
@@ -1330,6 +1333,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -1464,6 +1468,7 @@ export class NetworkManagementInclusionV3 extends CommandClassPacket<NetworkMana
 					"name": "dsk",
 					"help": "DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,

@@ -21,8 +21,8 @@ export interface TransportServiceV2CommandFirstSegmentData {
 	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
 	sessionID: number; // properties2[7..4]
-	// TODO param headerExtension type blob
-	// TODO param payload type blob
+	headerExtension?: Buffer; // variable length
+	payload: Buffer; // automatic length
 	frameCheckSequence: number; // 2 byte unsigned integer
 }
 
@@ -46,8 +46,8 @@ export interface TransportServiceV2CommandSubsequentSegmentData {
 	sessionID: number; // properties2[7..4]
 	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
-	// TODO param headerExtension type blob
-	// TODO param payload type blob
+	headerExtension?: Buffer; // variable length
+	payload: Buffer; // automatic length
 	frameCheckSequence: number; // 2 byte unsigned integer
 }
 
@@ -164,6 +164,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 						}
 					},
 					"length": {
+						"lengthType": "ref",
 						"ref": "headerExtensionLength"
 					}
 				},
@@ -171,7 +172,10 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"type": "blob",
 					"name": "payload",
 					"help": "Payload",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 2
+					}
 				},
 				{
 					"type": "integer",
@@ -472,6 +476,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 						}
 					},
 					"length": {
+						"lengthType": "ref",
 						"ref": "headerExtensionLength"
 					}
 				},
@@ -479,7 +484,10 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"type": "blob",
 					"name": "payload",
 					"help": "Payload",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 2
+					}
 				},
 				{
 					"type": "integer",

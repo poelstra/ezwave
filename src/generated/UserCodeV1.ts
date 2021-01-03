@@ -24,13 +24,13 @@ export interface UserCodeV1UserCodeGetData {
 export interface UserCodeV1UserCodeReportData {
 	userIdentifier: number; // 1 byte unsigned integer
 	userIDStatus: UserIDStatusEnum; // 1 byte enum value
-	// TODO param userCode type text
+	userCode: string; // automatic length
 }
 
 export interface UserCodeV1UserCodeSetData {
 	userIdentifier: number; // 1 byte unsigned integer
 	userIDStatus: UserIDStatusEnum; // 1 byte enum value
-	// TODO param userCode type text
+	userCode: string; // automatic length
 }
 
 export interface UserCodeV1UsersNumberReportData {
@@ -125,7 +125,10 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 					"type": "text",
 					"name": "userCode",
 					"help": "USER_CODE",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -182,7 +185,10 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 					"type": "text",
 					"name": "userCode",
 					"help": "USER_CODE",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

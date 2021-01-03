@@ -33,7 +33,7 @@ export interface SoundSwitchV1SoundSwitchToneInfoGetData {
 export interface SoundSwitchV1SoundSwitchToneInfoReportData {
 	toneIdentifier: number; // 1 byte unsigned integer
 	toneDuration: number; // 2 byte unsigned integer
-	// TODO param name type text
+	name: string; // variable length
 }
 
 export interface SoundSwitchV1SoundSwitchConfigurationSetData {
@@ -178,6 +178,7 @@ export class SoundSwitchV1 extends CommandClassPacket<SoundSwitchV1Commands> {
 					"name": "name",
 					"help": "Name",
 					"length": {
+						"lengthType": "ref",
 						"ref": "nameLength"
 					}
 				}

@@ -19,7 +19,7 @@ export interface SensorConfigurationV1SensorTriggerLevelReportData {
 	sensorType: number; // 1 byte unsigned integer
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param triggerValue type blob
+	triggerValue: Buffer; // variable length
 }
 
 export interface SensorConfigurationV1SensorTriggerLevelSetData {
@@ -28,7 +28,7 @@ export interface SensorConfigurationV1SensorTriggerLevelSetData {
 	sensorType: number; // 1 byte unsigned integer
 	precision: number; // properties2[7..5]
 	scale: number; // properties2[4..3]
-	// TODO param triggerValue type blob
+	triggerValue: Buffer; // variable length
 }
 
 // Obsolete
@@ -170,6 +170,7 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"name": "triggerValue",
 					"help": "Trigger Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -324,6 +325,7 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					"name": "triggerValue",
 					"help": "Trigger Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,

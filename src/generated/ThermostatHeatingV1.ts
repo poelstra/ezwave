@@ -48,14 +48,14 @@ export interface ThermostatHeatingV1ThermostatHeatingSetpointReportData {
 	setpointNr: number; // 1 byte unsigned integer
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ThermostatHeatingV1ThermostatHeatingSetpointSetData {
 	setpointNr: number; // 1 byte unsigned integer
 	precision: number; // properties1[7..5]
 	scale: number; // properties1[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface ThermostatHeatingV1ThermostatHeatingStatusSetData {
@@ -415,6 +415,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,
@@ -488,6 +489,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 7,

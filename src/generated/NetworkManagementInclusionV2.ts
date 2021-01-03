@@ -136,13 +136,13 @@ export interface NetworkManagementInclusionV2NodeAddKeysSetData {
 export interface NetworkManagementInclusionV2NodeAddDskReportData {
 	seqNo: number; // 1 byte unsigned integer
 	inputDSKLength: number; // properties1[3..0]
-	// TODO param dsk type blob
+	dsk: Buffer; // 16 bytes
 }
 
 export interface NetworkManagementInclusionV2NodeAddDskSetData {
 	seqNo: number; // 1 byte unsigned integer
 	accept: boolean; // properties1[7]
-	// TODO param inputDSK type blob
+	inputDSK: Buffer; // variable length
 }
 
 export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkManagementInclusionV2Commands> {
@@ -448,6 +448,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
+						"lengthType": "ref",
 						"ref": "nodeInfoLength"
 					},
 					"valueType": "CMD_CLASS_REF"
@@ -1164,6 +1165,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 					"name": "inputDSK",
 					"help": "Input DSK",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 15,

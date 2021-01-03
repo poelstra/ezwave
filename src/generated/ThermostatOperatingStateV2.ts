@@ -273,6 +273,7 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "reportsToFollow"
 					},
 					"params": [

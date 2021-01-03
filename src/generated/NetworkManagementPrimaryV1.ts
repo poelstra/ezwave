@@ -222,7 +222,10 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"type": "enumarray",
 					"name": "commandClass",
 					"help": "Command Class",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "CMD_CLASS_REF"
 				}
 			]

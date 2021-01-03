@@ -25,7 +25,7 @@ export interface HumidityControlSetpointV1HumidityControlSetpointSetData {
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision: number; // properties2[7..5]
 	scale: ScaleEnum; // properties2[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface HumidityControlSetpointV1HumidityControlSetpointGetData {
@@ -36,7 +36,7 @@ export interface HumidityControlSetpointV1HumidityControlSetpointReportData {
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision: number; // properties2[7..5]
 	scale: ScaleEnum; // properties2[4..3]
-	// TODO param value type blob
+	value: Buffer; // variable length
 }
 
 export interface HumidityControlSetpointV1HumidityControlSetpointSupportedReportData {
@@ -59,10 +59,10 @@ export interface HumidityControlSetpointV1HumidityControlSetpointCapabilitiesRep
 	setpointType: SetpointTypeEnum; // properties1[3..0]
 	precision1: number; // properties2[7..5]
 	scale1: Scale1Enum; // properties2[4..3]
-	// TODO param minimumValue type blob
+	minimumValue: Buffer; // variable length
 	precision2: number; // properties3[7..5]
 	scale2: Scale2Enum; // properties3[4..3]
-	// TODO param maximumValue type blob
+	maximumValue: Buffer; // variable length
 }
 
 export enum SetpointTypeEnum {
@@ -189,6 +189,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -349,6 +350,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "value",
 					"help": "Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -660,6 +662,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "minimumValue",
 					"help": "Minimum Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties2",
 						"bitfield": {
 							"mask": 7,
@@ -716,6 +719,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 					"name": "maximumValue",
 					"help": "Maximum Value",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties3",
 						"bitfield": {
 							"mask": 7,

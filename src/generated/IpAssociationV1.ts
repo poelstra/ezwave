@@ -18,7 +18,7 @@ export enum IpAssociationV1Commands {
 
 export interface IpAssociationV1IpAssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param iPv6Address type blob
+	iPv6Address: Buffer; // 16 bytes
 	endPoint: number; // 1 byte unsigned integer
 }
 
@@ -31,13 +31,13 @@ export interface IpAssociationV1IpAssociationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	index: number; // 1 byte unsigned integer
 	actualNodes: number; // 1 byte unsigned integer
-	// TODO param iPv6Address type blob
+	iPv6Address: Buffer; // 16 bytes
 	endPoint: number; // 1 byte unsigned integer
 }
 
 export interface IpAssociationV1IpAssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param iPv6Address type blob
+	iPv6Address: Buffer; // 16 bytes
 	endPoint: number; // 1 byte unsigned integer
 }
 

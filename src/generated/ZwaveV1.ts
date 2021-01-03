@@ -603,7 +603,10 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"type": "enumarray",
 					"name": "commandClasses",
 					"help": "Command Classes",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "CMD_CLASS_REF"
 				}
 			]

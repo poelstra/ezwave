@@ -22,13 +22,13 @@ export interface GroupingNameV1GroupingNameGetData {
 export interface GroupingNameV1GroupingNameReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	charPresentation: number; // properties1[2..0]
-	// TODO param groupingName type text
+	groupingName: string; // 16 bytes
 }
 
 export interface GroupingNameV1GroupingNameSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	charPresentation: number; // properties1[2..0]
-	// TODO param groupingName type text
+	groupingName: string; // 16 bytes
 }
 
 // Deprecated

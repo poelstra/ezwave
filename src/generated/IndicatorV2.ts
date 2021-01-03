@@ -344,6 +344,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
@@ -598,6 +599,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,

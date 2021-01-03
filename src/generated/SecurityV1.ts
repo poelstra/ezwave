@@ -24,7 +24,7 @@ export enum SecurityV1Commands {
 }
 
 export interface SecurityV1NetworkKeySetData {
-	// TODO param networkKeyByte type blob
+	networkKeyByte: Buffer; // automatic length
 }
 
 export interface SecurityV1SecurityCommandsSupportedReportData {
@@ -35,27 +35,21 @@ export interface SecurityV1SecurityCommandsSupportedReportData {
 }
 
 export interface SecurityV1SecurityMessageEncapsulationData {
-	// TODO param initializationVectorByte type blob
-	secondFrame: boolean; // properties1[5]
-	sequenced: boolean; // properties1[4]
-	sequenceCounter: number; // properties1[3..0]
-	// TODO param commandByte type blob
+	initializationVectorByte: Buffer; // 8 bytes
+	encryptedPayload: Buffer; // automatic length
 	receiversNonceIdentifier: number; // 1 byte unsigned integer
-	// TODO param messageAuthenticationCodeByte type blob
+	messageAuthenticationCodeByte: Buffer; // 8 bytes
 }
 
 export interface SecurityV1SecurityMessageEncapsulationNonceGetData {
-	// TODO param initializationVectorByte type blob
-	secondFrame: boolean; // properties1[5]
-	sequenced: boolean; // properties1[4]
-	sequenceCounter: number; // properties1[3..0]
-	// TODO param commandByte type blob
+	initializationVectorByte: Buffer; // 8 bytes
+	encryptedPayload: Buffer; // automatic length
 	receiversNonceIdentifier: number; // 1 byte unsigned integer
-	// TODO param messageAuthenticationCodeByte type blob
+	messageAuthenticationCodeByte: Buffer; // 8 bytes
 }
 
 export interface SecurityV1SecurityNonceReportData {
-	// TODO param nonceByte type blob
+	nonceByte: Buffer; // automatic length
 }
 
 export interface SecurityV1SecuritySchemeGetData {
@@ -94,7 +88,10 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"type": "blob",
 					"name": "networkKeyByte",
 					"help": "Network Key byte",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -167,7 +164,10 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"type": "enumarray",
 					"name": "commandClassSupport",
 					"help": "Command Class support",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "CMD_CLASS_REF"
 				},
 				{
@@ -180,7 +180,10 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"type": "enumarray",
 					"name": "commandClassControl",
 					"help": "Command Class control",
-					"length": "auto",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					},
 					"valueType": "CMD_CLASS_REF"
 				}
 			]
@@ -211,43 +214,13 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 8
 				},
 				{
-					"type": "bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"type": "integer",
-							"name": "reserved",
-							"mask": 192,
-							"shift": 6,
-							"reserved": true
-						},
-						{
-							"type": "boolean",
-							"name": "secondFrame",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "sequenced",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"type": "integer",
-							"name": "sequenceCounter",
-							"mask": 15,
-							"shift": 0
-						}
-					]
-				},
-				{
 					"type": "blob",
-					"name": "commandByte",
-					"help": "Command byte",
-					"length": "auto"
+					"name": "encryptedPayload",
+					"help": "Encrypted Payload",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 9
+					}
 				},
 				{
 					"type": "integer",
@@ -289,43 +262,13 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 8
 				},
 				{
-					"type": "bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"type": "integer",
-							"name": "reserved",
-							"mask": 192,
-							"shift": 6,
-							"reserved": true
-						},
-						{
-							"type": "boolean",
-							"name": "secondFrame",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"type": "boolean",
-							"name": "sequenced",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"type": "integer",
-							"name": "sequenceCounter",
-							"mask": 15,
-							"shift": 0
-						}
-					]
-				},
-				{
 					"type": "blob",
-					"name": "commandByte",
-					"help": "Command byte",
-					"length": "auto"
+					"name": "encryptedPayload",
+					"help": "Encrypted Payload",
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 9
+					}
 				},
 				{
 					"type": "integer",
@@ -384,7 +327,10 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"type": "blob",
 					"name": "nonceByte",
 					"help": "Nonce byte",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

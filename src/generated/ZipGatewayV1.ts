@@ -35,9 +35,9 @@ export interface ZipGatewayV1GatewayModeReportData {
 
 export interface ZipGatewayV1GatewayPeerSetData {
 	peerProfile: number; // 1 byte unsigned integer
-	// TODO param iPv6Address type blob
+	iPv6Address: Buffer; // 16 bytes
 	port: number; // 2 byte unsigned integer
-	// TODO param peerName type blob
+	peerName: Buffer; // variable length
 }
 
 export interface ZipGatewayV1GatewayPeerGetData {
@@ -47,9 +47,9 @@ export interface ZipGatewayV1GatewayPeerGetData {
 export interface ZipGatewayV1GatewayPeerReportData {
 	peerProfile: number; // 1 byte unsigned integer
 	peerCount: number; // 1 byte unsigned integer
-	// TODO param iPv6Address type blob
+	iPv6Address: Buffer; // 16 bytes
 	port: number; // 2 byte unsigned integer
-	// TODO param peerName type blob
+	peerName: Buffer; // variable length
 }
 
 export interface ZipGatewayV1GatewayLockSetData {
@@ -58,25 +58,25 @@ export interface ZipGatewayV1GatewayLockSetData {
 }
 
 export interface ZipGatewayV1UnsolicitedDestinationSetData {
-	// TODO param unsolicitedIPv6Destination type blob
+	unsolicitedIPv6Destination: Buffer; // 16 bytes
 	unsolicitedDestinationPort: number; // 2 byte unsigned integer
 }
 
 export interface ZipGatewayV1UnsolicitedDestinationReportData {
-	// TODO param unsolicitedIPv6Destination type blob
+	unsolicitedIPv6Destination: Buffer; // 16 bytes
 	unsolicitedDestinationPort: number; // 2 byte unsigned integer
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoSetData {
-	// TODO param nonSecureCommandClass type blob
+	nonSecureCommandClass: Buffer; // automatic length
 	// TODO param securityScheme0MARK type bitmask or marker
-	// TODO param securityScheme0CommandClass type blob
+	securityScheme0CommandClass: Buffer; // automatic length
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoReportData {
-	// TODO param nonSecureCommandClass type blob
+	nonSecureCommandClass: Buffer; // automatic length
 	// TODO param securityScheme0MARK type bitmask or marker
-	// TODO param securityScheme0CommandClass type blob
+	securityScheme0CommandClass: Buffer; // automatic length
 }
 
 export enum ModeEnum {
@@ -249,6 +249,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "peerName",
 					"help": "Peer Name",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 63,
@@ -362,6 +363,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "peerName",
 					"help": "Peer Name",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 63,
@@ -529,7 +531,10 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"type": "blob",
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				},
 				{
 					"type": "integer",
@@ -541,7 +546,10 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"type": "blob",
 					"name": "securityScheme0CommandClass",
 					"help": "Security Scheme 0 Command Class",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;
@@ -588,7 +596,10 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"type": "blob",
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				},
 				{
 					"type": "integer",
@@ -600,7 +611,10 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"type": "blob",
 					"name": "securityScheme0CommandClass",
 					"help": "Security Scheme 0 Command Class",
-					"length": "auto"
+					"length": {
+						"lengthType": "auto",
+						"endOffset": 0
+					}
 				}
 			]
 		} as CommandDefinition;

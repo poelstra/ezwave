@@ -248,6 +248,7 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
+						"lengthType": "ref",
 						"ref": "properties1",
 						"bitfield": {
 							"mask": 31,
