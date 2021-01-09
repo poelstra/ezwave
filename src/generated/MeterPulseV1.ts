@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum MeterPulseV1Commands {
@@ -33,13 +34,13 @@ export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 	public static readonly MeterPulseGet = class MeterPulseGet extends CommandPacket<void> {
 		public static readonly CommandClass = MeterPulseV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "MeterPulseGet",
 			"help": "Meter Pulse Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MeterPulseV1)?.command === this.command;
@@ -53,7 +54,7 @@ export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 	public static readonly MeterPulseReport = class MeterPulseReport extends CommandPacket<MeterPulseV1MeterPulseReportData> {
 		public static readonly CommandClass = MeterPulseV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "MeterPulseReport",
 			"help": "Meter Pulse Report",
@@ -66,7 +67,7 @@ export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 					"length": 4
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MeterPulseV1)?.command === this.command;

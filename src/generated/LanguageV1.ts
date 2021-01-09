@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum LanguageV1Commands {
@@ -39,13 +40,13 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 	public static readonly LanguageGet = class LanguageGet extends CommandPacket<void> {
 		public static readonly CommandClass = LanguageV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "LanguageGet",
 			"help": "Language Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(LanguageV1)?.command === this.command;
@@ -59,7 +60,7 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 	public static readonly LanguageReport = class LanguageReport extends CommandPacket<LanguageV1LanguageReportData> {
 		public static readonly CommandClass = LanguageV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "LanguageReport",
 			"help": "Language Report",
@@ -78,7 +79,7 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(LanguageV1)?.command === this.command;
@@ -92,7 +93,7 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 	public static readonly LanguageSet = class LanguageSet extends CommandPacket<LanguageV1LanguageSetData> {
 		public static readonly CommandClass = LanguageV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "LanguageSet",
 			"help": "Language Set",
@@ -111,7 +112,7 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(LanguageV1)?.command === this.command;

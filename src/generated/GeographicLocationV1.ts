@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum GeographicLocationV1Commands {
@@ -47,13 +48,13 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 	public static readonly GeographicLocationGet = class GeographicLocationGet extends CommandPacket<void> {
 		public static readonly CommandClass = GeographicLocationV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "GeographicLocationGet",
 			"help": "Geographic Location Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(GeographicLocationV1)?.command === this.command;
@@ -67,7 +68,7 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 	public static readonly GeographicLocationReport = class GeographicLocationReport extends CommandPacket<GeographicLocationV1GeographicLocationReportData> {
 		public static readonly CommandClass = GeographicLocationV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "GeographicLocationReport",
 			"help": "Geographic Location Report",
@@ -86,13 +87,13 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "longSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "longitudeMinutes",
 							"mask": 127,
 							"shift": 0
@@ -112,13 +113,13 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "latSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "latitudeMinutes",
 							"mask": 127,
 							"shift": 0
@@ -126,7 +127,7 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(GeographicLocationV1)?.command === this.command;
@@ -140,7 +141,7 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 	public static readonly GeographicLocationSet = class GeographicLocationSet extends CommandPacket<GeographicLocationV1GeographicLocationSetData> {
 		public static readonly CommandClass = GeographicLocationV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "GeographicLocationSet",
 			"help": "Geographic Location Set",
@@ -159,13 +160,13 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "longSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "longitudeMinutes",
 							"mask": 127,
 							"shift": 0
@@ -185,13 +186,13 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "latSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "latitudeMinutes",
 							"mask": 127,
 							"shift": 0
@@ -199,7 +200,7 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(GeographicLocationV1)?.command === this.command;

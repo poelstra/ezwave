@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum TimeV2Commands {
@@ -74,13 +75,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly DateGet = class DateGet extends CommandPacket<void> {
 		public static readonly CommandClass = TimeV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "DateGet",
 			"help": "Date Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TimeV2)?.command === this.command;
@@ -94,7 +95,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly DateReport = class DateReport extends CommandPacket<TimeV2DateReportData> {
 		public static readonly CommandClass = TimeV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "DateReport",
 			"help": "Date Report",
@@ -119,7 +120,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TimeV2)?.command === this.command;
@@ -133,13 +134,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly TimeGet = class TimeGet extends CommandPacket<void> {
 		public static readonly CommandClass = TimeV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "TimeGet",
 			"help": "Time Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TimeV2)?.command === this.command;
@@ -153,13 +154,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly TimeOffsetGet = class TimeOffsetGet extends CommandPacket<void> {
 		public static readonly CommandClass = TimeV2;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "TimeOffsetGet",
 			"help": "Time Offset Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TimeV2)?.command === this.command;
@@ -173,7 +174,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly TimeOffsetReport = class TimeOffsetReport extends CommandPacket<TimeV2TimeOffsetReportData> {
 		public static readonly CommandClass = TimeV2;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "TimeOffsetReport",
 			"help": "Time Offset Report",
@@ -186,13 +187,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hourTZO",
 							"mask": 127,
 							"shift": 0
@@ -212,13 +213,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "minuteOffsetDST",
 							"mask": 127,
 							"shift": 0
@@ -262,7 +263,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TimeV2)?.command === this.command;
@@ -276,7 +277,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly TimeOffsetSet = class TimeOffsetSet extends CommandPacket<TimeV2TimeOffsetSetData> {
 		public static readonly CommandClass = TimeV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "TimeOffsetSet",
 			"help": "Time Offset Set",
@@ -289,13 +290,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hourTZO",
 							"mask": 127,
 							"shift": 0
@@ -315,13 +316,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "minuteOffsetDST",
 							"mask": 127,
 							"shift": 0
@@ -365,7 +366,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TimeV2)?.command === this.command;
@@ -379,7 +380,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly TimeReport = class TimeReport extends CommandPacket<TimeV2TimeReportData> {
 		public static readonly CommandClass = TimeV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "TimeReport",
 			"help": "Time Report",
@@ -392,20 +393,20 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "rTCFailure",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 96,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hourLocalTime",
 							"mask": 31,
 							"shift": 0
@@ -425,7 +426,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TimeV2)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum GroupingNameV1Commands {
@@ -46,7 +47,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 	public static readonly GroupingNameGet = class GroupingNameGet extends CommandPacket<GroupingNameV1GroupingNameGetData> {
 		public static readonly CommandClass = GroupingNameV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "GroupingNameGet",
 			"help": "Grouping Name Get",
@@ -59,7 +60,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(GroupingNameV1)?.command === this.command;
@@ -73,7 +74,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 	public static readonly GroupingNameReport = class GroupingNameReport extends CommandPacket<GroupingNameV1GroupingNameReportData> {
 		public static readonly CommandClass = GroupingNameV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "GroupingNameReport",
 			"help": "Grouping Name Report",
@@ -92,14 +93,14 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -113,7 +114,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					"length": 16
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(GroupingNameV1)?.command === this.command;
@@ -127,7 +128,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 	public static readonly GroupingNameSet = class GroupingNameSet extends CommandPacket<GroupingNameV1GroupingNameSetData> {
 		public static readonly CommandClass = GroupingNameV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "GroupingNameSet",
 			"help": "Grouping Name Set",
@@ -146,14 +147,14 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -167,7 +168,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					"length": 16
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(GroupingNameV1)?.command === this.command;

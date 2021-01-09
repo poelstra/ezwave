@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ProprietaryV1Commands {
@@ -42,7 +43,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 	public static readonly ProprietaryGet = class ProprietaryGet extends CommandPacket<ProprietaryV1ProprietaryGetData> {
 		public static readonly CommandClass = ProprietaryV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ProprietaryGet",
 			"help": "Proprietary Get",
@@ -58,7 +59,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProprietaryV1)?.command === this.command;
@@ -72,7 +73,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 	public static readonly ProprietaryReport = class ProprietaryReport extends CommandPacket<ProprietaryV1ProprietaryReportData> {
 		public static readonly CommandClass = ProprietaryV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ProprietaryReport",
 			"help": "Proprietary Report",
@@ -88,7 +89,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProprietaryV1)?.command === this.command;
@@ -102,7 +103,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 	public static readonly ProprietarySet = class ProprietarySet extends CommandPacket<ProprietaryV1ProprietarySetData> {
 		public static readonly CommandClass = ProprietaryV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ProprietarySet",
 			"help": "Proprietary Set",
@@ -118,7 +119,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProprietaryV1)?.command === this.command;

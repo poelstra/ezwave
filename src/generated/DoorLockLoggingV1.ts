@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum DoorLockLoggingV1Commands {
@@ -53,13 +54,13 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 	public static readonly DoorLockLoggingRecordsSupportedGet = class DoorLockLoggingRecordsSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = DoorLockLoggingV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "DoorLockLoggingRecordsSupportedGet",
 			"help": "Door Lock Logging Records Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
@@ -73,7 +74,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 	public static readonly DoorLockLoggingRecordsSupportedReport = class DoorLockLoggingRecordsSupportedReport extends CommandPacket<DoorLockLoggingV1DoorLockLoggingRecordsSupportedReportData> {
 		public static readonly CommandClass = DoorLockLoggingV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "DoorLockLoggingRecordsSupportedReport",
 			"help": "Door Lock Logging Records Supported Report",
@@ -86,7 +87,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
@@ -100,7 +101,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 	public static readonly RecordGet = class RecordGet extends CommandPacket<DoorLockLoggingV1RecordGetData> {
 		public static readonly CommandClass = DoorLockLoggingV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "RecordGet",
 			"help": "Record Get",
@@ -113,7 +114,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
@@ -127,7 +128,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 	public static readonly RecordReport = class RecordReport extends CommandPacket<DoorLockLoggingV1RecordReportData> {
 		public static readonly CommandClass = DoorLockLoggingV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "RecordReport",
 			"help": "Record Report",
@@ -164,13 +165,13 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "recordStatus",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hourLocalTime",
 							"mask": 31,
 							"shift": 0
@@ -217,7 +218,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ProtectionV2Commands {
@@ -70,13 +71,13 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionEcGet = class ProtectionEcGet extends CommandPacket<void> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "ProtectionEcGet",
 			"help": "Protection Ec Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -90,7 +91,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionEcReport = class ProtectionEcReport extends CommandPacket<ProtectionV2ProtectionEcReportData> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "ProtectionEcReport",
 			"help": "Protection Ec Report",
@@ -104,7 +105,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -118,7 +119,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionEcSet = class ProtectionEcSet extends CommandPacket<ProtectionV2ProtectionEcSetData> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "ProtectionEcSet",
 			"help": "Protection Ec Set",
@@ -132,7 +133,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -146,13 +147,13 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionGet = class ProtectionGet extends CommandPacket<void> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ProtectionGet",
 			"help": "Protection Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -166,7 +167,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionReport = class ProtectionReport extends CommandPacket<ProtectionV2ProtectionReportData> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ProtectionReport",
 			"help": "Protection Report",
@@ -179,14 +180,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved1",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "localProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -200,14 +201,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved2",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "rFProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -215,7 +216,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -229,7 +230,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionSet = class ProtectionSet extends CommandPacket<ProtectionV2ProtectionSetData> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ProtectionSet",
 			"help": "Protection Set",
@@ -242,14 +243,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved1",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "localProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -263,14 +264,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved2",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "rFProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -278,7 +279,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -292,13 +293,13 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionSupportedGet = class ProtectionSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ProtectionSupportedGet",
 			"help": "Protection Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -312,7 +313,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionSupportedReport = class ProtectionSupportedReport extends CommandPacket<ProtectionV2ProtectionSupportedReportData> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "ProtectionSupportedReport",
 			"help": "Protection Supported Report",
@@ -325,20 +326,20 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "exclusiveControl",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "timeout",
 							"mask": 1,
 							"shift": 0
@@ -358,7 +359,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -372,13 +373,13 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionTimeoutGet = class ProtectionTimeoutGet extends CommandPacket<void> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x0a;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 10,
 			"name": "ProtectionTimeoutGet",
 			"help": "Protection Timeout Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -392,7 +393,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionTimeoutReport = class ProtectionTimeoutReport extends CommandPacket<ProtectionV2ProtectionTimeoutReportData> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x0b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 11,
 			"name": "ProtectionTimeoutReport",
 			"help": "Protection Timeout Report",
@@ -415,7 +416,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;
@@ -429,7 +430,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly ProtectionTimeoutSet = class ProtectionTimeoutSet extends CommandPacket<ProtectionV2ProtectionTimeoutSetData> {
 		public static readonly CommandClass = ProtectionV2;
 		public static readonly command = 0x09;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 9,
 			"name": "ProtectionTimeoutSet",
 			"help": "Protection Timeout Set",
@@ -452,7 +453,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ProtectionV2)?.command === this.command;

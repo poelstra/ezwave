@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum VersionV1Commands {
@@ -47,7 +48,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 	public static readonly VersionCommandClassGet = class VersionCommandClassGet extends CommandPacket<VersionV1VersionCommandClassGetData> {
 		public static readonly CommandClass = VersionV1;
 		public static readonly command = 0x13;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 19,
 			"name": "VersionCommandClassGet",
 			"help": "Version Command Class Get",
@@ -61,7 +62,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 					"valueType": "CMD_CLASS_REF"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(VersionV1)?.command === this.command;
@@ -75,7 +76,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 	public static readonly VersionCommandClassReport = class VersionCommandClassReport extends CommandPacket<VersionV1VersionCommandClassReportData> {
 		public static readonly CommandClass = VersionV1;
 		public static readonly command = 0x14;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 20,
 			"name": "VersionCommandClassReport",
 			"help": "Version Command Class Report",
@@ -95,7 +96,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(VersionV1)?.command === this.command;
@@ -109,13 +110,13 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 	public static readonly VersionGet = class VersionGet extends CommandPacket<void> {
 		public static readonly CommandClass = VersionV1;
 		public static readonly command = 0x11;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 17,
 			"name": "VersionGet",
 			"help": "Version Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(VersionV1)?.command === this.command;
@@ -129,7 +130,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 	public static readonly VersionReport = class VersionReport extends CommandPacket<VersionV1VersionReportData> {
 		public static readonly CommandClass = VersionV1;
 		public static readonly command = 0x12;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 18,
 			"name": "VersionReport",
 			"help": "Version Report",
@@ -166,7 +167,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(VersionV1)?.command === this.command;

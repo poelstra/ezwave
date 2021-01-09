@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ScreenAttributesV2Commands {
@@ -47,13 +48,13 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 	public static readonly ScreenAttributesGet = class ScreenAttributesGet extends CommandPacket<void> {
 		public static readonly CommandClass = ScreenAttributesV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ScreenAttributesGet",
 			"help": "Screen Attributes Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScreenAttributesV2)?.command === this.command;
@@ -67,7 +68,7 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 	public static readonly ScreenAttributesReport = class ScreenAttributesReport extends CommandPacket<ScreenAttributesV2ScreenAttributesReportData> {
 		public static readonly CommandClass = ScreenAttributesV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ScreenAttributesReport",
 			"help": "Screen Attributes Report",
@@ -80,20 +81,20 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "escapeSequence",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "numberOfLines",
 							"mask": 31,
 							"shift": 0
@@ -125,7 +126,7 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScreenAttributesV2)?.command === this.command;
@@ -139,7 +140,7 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 	public static readonly ScreenAttributesReportLegacy = class ScreenAttributesReportLegacy extends CommandPacket<ScreenAttributesV2ScreenAttributesReportLegacyData> {
 		public static readonly CommandClass = ScreenAttributesV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ScreenAttributesReportLegacy",
 			"help": "Screen Attributes Report",
@@ -152,20 +153,20 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "escapeSequence",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "numberOfLines",
 							"mask": 31,
 							"shift": 0
@@ -197,7 +198,7 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScreenAttributesV2)?.command === this.command;

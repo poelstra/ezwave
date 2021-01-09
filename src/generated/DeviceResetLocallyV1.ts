@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum DeviceResetLocallyV1Commands {
@@ -27,13 +28,13 @@ export class DeviceResetLocallyV1 extends CommandClassPacket<DeviceResetLocallyV
 	public static readonly DeviceResetLocallyNotification = class DeviceResetLocallyNotification extends CommandPacket<void> {
 		public static readonly CommandClass = DeviceResetLocallyV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "DeviceResetLocallyNotification",
 			"help": "Device Reset Locally Notification",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DeviceResetLocallyV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum BasicV1Commands {
@@ -37,13 +38,13 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static readonly BasicGet = class BasicGet extends CommandPacket<void> {
 		public static readonly CommandClass = BasicV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "BasicGet",
 			"help": "Basic Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicV1)?.command === this.command;
@@ -57,7 +58,7 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static readonly BasicReport = class BasicReport extends CommandPacket<BasicV1BasicReportData> {
 		public static readonly CommandClass = BasicV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "BasicReport",
 			"help": "Basic Report",
@@ -70,7 +71,7 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicV1)?.command === this.command;
@@ -84,7 +85,7 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static readonly BasicSet = class BasicSet extends CommandPacket<BasicV1BasicSetData> {
 		public static readonly CommandClass = BasicV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "BasicSet",
 			"help": "Basic Set",
@@ -97,7 +98,7 @@ export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicV1)?.command === this.command;

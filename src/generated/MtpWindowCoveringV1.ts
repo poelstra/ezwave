@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum MtpWindowCoveringV1Commands {
@@ -38,13 +39,13 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 	public static readonly MoveToPositionGet = class MoveToPositionGet extends CommandPacket<void> {
 		public static readonly CommandClass = MtpWindowCoveringV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "MoveToPositionGet",
 			"help": "Move To Position Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
@@ -58,7 +59,7 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 	public static readonly MoveToPositionReport = class MoveToPositionReport extends CommandPacket<MtpWindowCoveringV1MoveToPositionReportData> {
 		public static readonly CommandClass = MtpWindowCoveringV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "MoveToPositionReport",
 			"help": "Move To Position Report",
@@ -81,7 +82,7 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
@@ -95,7 +96,7 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 	public static readonly MoveToPositionSet = class MoveToPositionSet extends CommandPacket<MtpWindowCoveringV1MoveToPositionSetData> {
 		public static readonly CommandClass = MtpWindowCoveringV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "MoveToPositionSet",
 			"help": "Move To Position Set",
@@ -118,7 +119,7 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;

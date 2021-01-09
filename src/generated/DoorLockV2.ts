@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum DoorLockV2Commands {
@@ -77,13 +78,13 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 	public static readonly DoorLockConfigurationGet = class DoorLockConfigurationGet extends CommandPacket<void> {
 		public static readonly CommandClass = DoorLockV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "DoorLockConfigurationGet",
 			"help": "Door Lock Configuration Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV2)?.command === this.command;
@@ -97,7 +98,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 	public static readonly DoorLockConfigurationReport = class DoorLockConfigurationReport extends CommandPacket<DoorLockV2DoorLockConfigurationReportData> {
 		public static readonly CommandClass = DoorLockV2;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "DoorLockConfigurationReport",
 			"help": "Door Lock Configuration Report",
@@ -126,13 +127,13 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -152,7 +153,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV2)?.command === this.command;
@@ -166,7 +167,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 	public static readonly DoorLockConfigurationSet = class DoorLockConfigurationSet extends CommandPacket<DoorLockV2DoorLockConfigurationSetData> {
 		public static readonly CommandClass = DoorLockV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "DoorLockConfigurationSet",
 			"help": "Door Lock Configuration Set",
@@ -195,13 +196,13 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -221,7 +222,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV2)?.command === this.command;
@@ -235,13 +236,13 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 	public static readonly DoorLockOperationGet = class DoorLockOperationGet extends CommandPacket<void> {
 		public static readonly CommandClass = DoorLockV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "DoorLockOperationGet",
 			"help": "Door Lock Operation Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV2)?.command === this.command;
@@ -255,7 +256,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 	public static readonly DoorLockOperationReport = class DoorLockOperationReport extends CommandPacket<DoorLockV2DoorLockOperationReportData> {
 		public static readonly CommandClass = DoorLockV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "DoorLockOperationReport",
 			"help": "Door Lock Operation Report",
@@ -308,13 +309,13 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "outsideDoorHandlesMode",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "insideDoorHandlesMode",
 							"mask": 15,
 							"shift": 0
@@ -340,7 +341,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV2)?.command === this.command;
@@ -354,7 +355,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 	public static readonly DoorLockOperationSet = class DoorLockOperationSet extends CommandPacket<DoorLockV2DoorLockOperationSetData> {
 		public static readonly CommandClass = DoorLockV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "DoorLockOperationSet",
 			"help": "Door Lock Operation Set",
@@ -401,7 +402,7 @@ export class DoorLockV2 extends CommandClassPacket<DoorLockV2Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV2)?.command === this.command;

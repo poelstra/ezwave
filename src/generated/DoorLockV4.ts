@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum DoorLockV4Commands {
@@ -125,13 +126,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockConfigurationGet = class DoorLockConfigurationGet extends CommandPacket<void> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "DoorLockConfigurationGet",
 			"help": "Door Lock Configuration Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;
@@ -145,7 +146,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockConfigurationReport = class DoorLockConfigurationReport extends CommandPacket<DoorLockV4DoorLockConfigurationReportData> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "DoorLockConfigurationReport",
 			"help": "Door Lock Configuration Report",
@@ -174,13 +175,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -218,20 +219,20 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "btb",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "ta",
 							"mask": 1,
 							"shift": 0
@@ -239,7 +240,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;
@@ -253,7 +254,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockConfigurationSet = class DoorLockConfigurationSet extends CommandPacket<DoorLockV4DoorLockConfigurationSetData> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "DoorLockConfigurationSet",
 			"help": "Door Lock Configuration Set",
@@ -282,13 +283,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -308,7 +309,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;
@@ -322,13 +323,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockOperationGet = class DoorLockOperationGet extends CommandPacket<void> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "DoorLockOperationGet",
 			"help": "Door Lock Operation Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;
@@ -342,7 +343,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockOperationReport = class DoorLockOperationReport extends CommandPacket<DoorLockV4DoorLockOperationReportData> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "DoorLockOperationReport",
 			"help": "Door Lock Operation Report",
@@ -395,13 +396,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "outsideDoorHandlesMode",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "insideDoorHandlesMode",
 							"mask": 15,
 							"shift": 0
@@ -487,7 +488,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;
@@ -501,7 +502,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockOperationSet = class DoorLockOperationSet extends CommandPacket<DoorLockV4DoorLockOperationSetData> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "DoorLockOperationSet",
 			"help": "Door Lock Operation Set",
@@ -548,7 +549,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;
@@ -562,13 +563,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockCapabilitiesGet = class DoorLockCapabilitiesGet extends CommandPacket<void> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "DoorLockCapabilitiesGet",
 			"help": "Door Lock Capabilities Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;
@@ -582,7 +583,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly DoorLockCapabilitiesReport = class DoorLockCapabilitiesReport extends CommandPacket<DoorLockV4DoorLockCapabilitiesReportData> {
 		public static readonly CommandClass = DoorLockV4;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "DoorLockCapabilitiesReport",
 			"help": "Door Lock Capabilities Report",
@@ -595,24 +596,23 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "supportedOperationTypeBitMaskLength",
 							"mask": 31,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "supportedOperationTypeBitMask"
-									}
+									"supportedOperationTypeBitMask"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -622,11 +622,8 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"help": "Supported Operation Type Bit Mask",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 31,
-							"shift": 0,
-							"name": "supportedOperationTypeBitMaskLength"
+						"from": {
+							"ref": "properties1.supportedOperationTypeBitMaskLength"
 						}
 					}
 				},
@@ -637,11 +634,10 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"lengthOf": {
 						"refs": [
-							{
-								"name": "supportedDoorLockMode"
-							}
+							"supportedDoorLockMode"
 						]
-					}
+					},
+					"isAutogenerated": true
 				},
 				{
 					"type": "blob",
@@ -649,7 +645,9 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"help": "Supported Door Lock Mode",
 					"length": {
 						"lengthType": "ref",
-						"ref": "supportedDoorLockModeListLength"
+						"from": {
+							"ref": "supportedDoorLockModeListLength"
+						}
 					}
 				},
 				{
@@ -659,13 +657,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "supportedOutsideHandleModesBitmask",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "supportedInsideHandleModesBitmask",
 							"mask": 15,
 							"shift": 0
@@ -685,32 +683,32 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "ars",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "hrs",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "tas",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "btbs",
 							"mask": 1,
 							"shift": 0
@@ -718,7 +716,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DoorLockV4)?.command === this.command;

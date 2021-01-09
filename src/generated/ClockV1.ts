@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ClockV1Commands {
@@ -41,13 +42,13 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 	public static readonly ClockGet = class ClockGet extends CommandPacket<void> {
 		public static readonly CommandClass = ClockV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "ClockGet",
 			"help": "Clock Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ClockV1)?.command === this.command;
@@ -61,7 +62,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 	public static readonly ClockReport = class ClockReport extends CommandPacket<ClockV1ClockReportData> {
 		public static readonly CommandClass = ClockV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "ClockReport",
 			"help": "Clock Report",
@@ -74,13 +75,13 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "weekday",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hour",
 							"mask": 31,
 							"shift": 0
@@ -94,7 +95,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ClockV1)?.command === this.command;
@@ -108,7 +109,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 	public static readonly ClockSet = class ClockSet extends CommandPacket<ClockV1ClockSetData> {
 		public static readonly CommandClass = ClockV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ClockSet",
 			"help": "Clock Set",
@@ -121,13 +122,13 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "weekday",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hour",
 							"mask": 31,
 							"shift": 0
@@ -141,7 +142,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ClockV1)?.command === this.command;

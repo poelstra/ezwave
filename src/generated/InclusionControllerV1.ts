@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum InclusionControllerV1Commands {
@@ -51,7 +52,7 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 	public static readonly Initiate = class Initiate extends CommandPacket<InclusionControllerV1InitiateData> {
 		public static readonly CommandClass = InclusionControllerV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "Initiate",
 			"help": "Initiate",
@@ -85,7 +86,7 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(InclusionControllerV1)?.command === this.command;
@@ -99,7 +100,7 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 	public static readonly Complete = class Complete extends CommandPacket<InclusionControllerV1CompleteData> {
 		public static readonly CommandClass = InclusionControllerV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "Complete",
 			"help": "Complete",
@@ -150,7 +151,7 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(InclusionControllerV1)?.command === this.command;

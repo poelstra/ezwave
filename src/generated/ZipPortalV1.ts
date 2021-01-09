@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ZipPortalV1Commands {
@@ -52,7 +53,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 	public static readonly GatewayConfigurationSet = class GatewayConfigurationSet extends CommandPacket<ZipPortalV1GatewayConfigurationSetData> {
 		public static readonly CommandClass = ZipPortalV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "GatewayConfigurationSet",
 			"help": "Gateway Configuration Set",
@@ -95,7 +96,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 					"length": 16
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZipPortalV1)?.command === this.command;
@@ -109,7 +110,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 	public static readonly GatewayConfigurationStatus = class GatewayConfigurationStatus extends CommandPacket<ZipPortalV1GatewayConfigurationStatusData> {
 		public static readonly CommandClass = ZipPortalV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "GatewayConfigurationStatus",
 			"help": "Gateway Configuration Status",
@@ -122,7 +123,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZipPortalV1)?.command === this.command;
@@ -136,13 +137,13 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 	public static readonly GatewayConfigurationGet = class GatewayConfigurationGet extends CommandPacket<void> {
 		public static readonly CommandClass = ZipPortalV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "GatewayConfigurationGet",
 			"help": "Gateway Configuration Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZipPortalV1)?.command === this.command;
@@ -156,7 +157,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 	public static readonly GatewayConfigurationReport = class GatewayConfigurationReport extends CommandPacket<ZipPortalV1GatewayConfigurationReportData> {
 		public static readonly CommandClass = ZipPortalV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "GatewayConfigurationReport",
 			"help": "Gateway Configuration Report",
@@ -199,7 +200,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 					"length": 16
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZipPortalV1)?.command === this.command;

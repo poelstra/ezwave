@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ChimneyFanV1Commands {
@@ -268,13 +269,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmLogGet = class ChimneyFanAlarmLogGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x20;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 32,
 			"name": "ChimneyFanAlarmLogGet",
 			"help": "Chimney Fan Alarm Log Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -288,7 +289,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmLogReport = class ChimneyFanAlarmLogReport extends CommandPacket<ChimneyFanV1ChimneyFanAlarmLogReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x21;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 33,
 			"name": "ChimneyFanAlarmLogReport",
 			"help": "Chimney Fan Alarm Log Report",
@@ -301,38 +302,38 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmStillActive1",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved12",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmTemperatureExceeded1",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "sensorError1",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "externalAlarm1",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved11",
 							"mask": 1,
 							"shift": 0,
@@ -347,38 +348,38 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmStillActive2",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved22",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmTemperatureExceeded2",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "sensorError2",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "externalAlarm2",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved21",
 							"mask": 1,
 							"shift": 0,
@@ -393,38 +394,38 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmStillActive3",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved32",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmTemperatureExceeded3",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "sensorError3",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "externalAlarm3",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved31",
 							"mask": 1,
 							"shift": 0,
@@ -439,38 +440,38 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmStillActive4",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved42",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmTemperatureExceeded4",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "sensorError4",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "externalAlarm4",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved41",
 							"mask": 1,
 							"shift": 0,
@@ -485,38 +486,38 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmStillActive5",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved52",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmTemperatureExceeded5",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "sensorError5",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "externalAlarm5",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved51",
 							"mask": 1,
 							"shift": 0,
@@ -525,7 +526,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -539,7 +540,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmLogSet = class ChimneyFanAlarmLogSet extends CommandPacket<ChimneyFanV1ChimneyFanAlarmLogSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x1f;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 31,
 			"name": "ChimneyFanAlarmLogSet",
 			"help": "Chimney Fan Alarm Log Set",
@@ -558,7 +559,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -572,13 +573,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmStatusGet = class ChimneyFanAlarmStatusGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x23;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 35,
 			"name": "ChimneyFanAlarmStatusGet",
 			"help": "Chimney Fan Alarm Status Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -592,7 +593,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmStatusReport = class ChimneyFanAlarmStatusReport extends CommandPacket<ChimneyFanV1ChimneyFanAlarmStatusReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x24;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 36,
 			"name": "ChimneyFanAlarmStatusReport",
 			"help": "Chimney Fan Alarm Status Report",
@@ -605,43 +606,43 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "startTemperatureExceeded",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "speedChangeEnable",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "notUsed",
 							"mask": 48,
 							"shift": 4
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmTemperatureExceeded",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "sensorError",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "externalAlarm",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "service",
 							"mask": 1,
 							"shift": 0
@@ -649,7 +650,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -663,7 +664,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmStatusSet = class ChimneyFanAlarmStatusSet extends CommandPacket<ChimneyFanV1ChimneyFanAlarmStatusSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x22;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 34,
 			"name": "ChimneyFanAlarmStatusSet",
 			"help": "Chimney Fan Alarm Status Set",
@@ -676,31 +677,31 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "notUsed2",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "acknowledgeAlarmTemperatureExceeded",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "acknowledgeSensorError",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "acknowledgeExternalAlarm",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "notUsed1",
 							"mask": 1,
 							"shift": 0
@@ -708,7 +709,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -722,13 +723,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmTempGet = class ChimneyFanAlarmTempGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x0e;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 14,
 			"name": "ChimneyFanAlarmTempGet",
 			"help": "Chimney Fan Alarm Temp Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -742,7 +743,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmTempReport = class ChimneyFanAlarmTempReport extends CommandPacket<ChimneyFanV1ChimneyFanAlarmTempReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x0f;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 15,
 			"name": "ChimneyFanAlarmTempReport",
 			"help": "Chimney Fan Alarm Temp Report",
@@ -755,29 +756,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -787,16 +787,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -810,7 +807,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanAlarmTempSet = class ChimneyFanAlarmTempSet extends CommandPacket<ChimneyFanV1ChimneyFanAlarmTempSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x0d;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 13,
 			"name": "ChimneyFanAlarmTempSet",
 			"help": "Chimney Fan Alarm Temp Set",
@@ -823,29 +820,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -855,16 +851,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -878,13 +871,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanBoostTimeGet = class ChimneyFanBoostTimeGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x11;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 17,
 			"name": "ChimneyFanBoostTimeGet",
 			"help": "Chimney Fan Boost Time Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -898,7 +891,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanBoostTimeReport = class ChimneyFanBoostTimeReport extends CommandPacket<ChimneyFanV1ChimneyFanBoostTimeReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x12;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 18,
 			"name": "ChimneyFanBoostTimeReport",
 			"help": "Chimney Fan Boost Time Report",
@@ -911,7 +904,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -925,7 +918,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanBoostTimeSet = class ChimneyFanBoostTimeSet extends CommandPacket<ChimneyFanV1ChimneyFanBoostTimeSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x10;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 16,
 			"name": "ChimneyFanBoostTimeSet",
 			"help": "Chimney Fan Boost Time Set",
@@ -938,7 +931,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -952,13 +945,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanDefaultSet = class ChimneyFanDefaultSet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x28;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 40,
 			"name": "ChimneyFanDefaultSet",
 			"help": "Chimney Fan Default Set",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -972,13 +965,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanMinSpeedGet = class ChimneyFanMinSpeedGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x26;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 38,
 			"name": "ChimneyFanMinSpeedGet",
 			"help": "Chimney Fan Min Speed Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -992,7 +985,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanMinSpeedReport = class ChimneyFanMinSpeedReport extends CommandPacket<ChimneyFanV1ChimneyFanMinSpeedReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x27;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 39,
 			"name": "ChimneyFanMinSpeedReport",
 			"help": "Chimney Fan Min Speed Report",
@@ -1005,7 +998,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1019,7 +1012,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanMinSpeedSet = class ChimneyFanMinSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanMinSpeedSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x25;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 37,
 			"name": "ChimneyFanMinSpeedSet",
 			"help": "Chimney Fan Min Speed Set",
@@ -1032,7 +1025,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1046,13 +1039,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanModeGet = class ChimneyFanModeGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x17;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 23,
 			"name": "ChimneyFanModeGet",
 			"help": "Chimney Fan Mode Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1066,7 +1059,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanModeReport = class ChimneyFanModeReport extends CommandPacket<ChimneyFanV1ChimneyFanModeReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x18;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 24,
 			"name": "ChimneyFanModeReport",
 			"help": "Chimney Fan Mode Report",
@@ -1089,7 +1082,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1103,7 +1096,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanModeSet = class ChimneyFanModeSet extends CommandPacket<ChimneyFanV1ChimneyFanModeSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x16;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 22,
 			"name": "ChimneyFanModeSet",
 			"help": "Chimney Fan Mode Set",
@@ -1126,7 +1119,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1140,13 +1133,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanSetupGet = class ChimneyFanSetupGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x1a;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 26,
 			"name": "ChimneyFanSetupGet",
 			"help": "Chimney Fan Setup Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1160,7 +1153,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanSetupReport = class ChimneyFanSetupReport extends CommandPacket<ChimneyFanV1ChimneyFanSetupReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x1b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 27,
 			"name": "ChimneyFanSetupReport",
 			"help": "Chimney Fan Setup Report",
@@ -1207,29 +1200,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision1",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale1",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size1",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "startTemperature"
-									}
+									"startTemperature"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1239,11 +1231,8 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Start Temperature",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size1"
+						"from": {
+							"ref": "properties1.size1"
 						}
 					}
 				},
@@ -1254,29 +1243,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision2",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale2",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size2",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "stopTemperature"
-									}
+									"stopTemperature"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1286,11 +1274,8 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Stop Temperature",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size2"
+						"from": {
+							"ref": "properties2.size2"
 						}
 					}
 				},
@@ -1301,29 +1286,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision3",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale3",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size3",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "alarmTemperatureValue"
-									}
+									"alarmTemperatureValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1333,16 +1317,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Alarm Temperature Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties3",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size3"
+						"from": {
+							"ref": "properties3.size3"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1356,7 +1337,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanSetupSet = class ChimneyFanSetupSet extends CommandPacket<ChimneyFanV1ChimneyFanSetupSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x19;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 25,
 			"name": "ChimneyFanSetupSet",
 			"help": "Chimney Fan Setup Set",
@@ -1403,29 +1384,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision1",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale1",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size1",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "startTemperature"
-									}
+									"startTemperature"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1435,11 +1415,8 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Start Temperature",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size1"
+						"from": {
+							"ref": "properties1.size1"
 						}
 					}
 				},
@@ -1450,29 +1427,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision2",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale2",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size2",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "stopTemperature"
-									}
+									"stopTemperature"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1482,11 +1458,8 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Stop Temperature",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size2"
+						"from": {
+							"ref": "properties2.size2"
 						}
 					}
 				},
@@ -1497,29 +1470,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision3",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale3",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size3",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "alarmTemperatureValue"
-									}
+									"alarmTemperatureValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1529,16 +1501,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Alarm Temperature Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties3",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size3"
+						"from": {
+							"ref": "properties3.size3"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1552,13 +1521,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanSpeedGet = class ChimneyFanSpeedGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "ChimneyFanSpeedGet",
 			"help": "Chimney Fan Speed Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1572,7 +1541,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanSpeedReport = class ChimneyFanSpeedReport extends CommandPacket<ChimneyFanV1ChimneyFanSpeedReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "ChimneyFanSpeedReport",
 			"help": "Chimney Fan Speed Report",
@@ -1585,7 +1554,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1599,7 +1568,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanSpeedSet = class ChimneyFanSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanSpeedSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ChimneyFanSpeedSet",
 			"help": "Chimney Fan Speed Set",
@@ -1622,7 +1591,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1636,13 +1605,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStartTempGet = class ChimneyFanStartTempGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "ChimneyFanStartTempGet",
 			"help": "Chimney Fan Start Temp Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1656,7 +1625,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStartTempReport = class ChimneyFanStartTempReport extends CommandPacket<ChimneyFanV1ChimneyFanStartTempReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x09;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 9,
 			"name": "ChimneyFanStartTempReport",
 			"help": "Chimney Fan Start Temp Report",
@@ -1669,29 +1638,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1701,16 +1669,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1724,7 +1689,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStartTempSet = class ChimneyFanStartTempSet extends CommandPacket<ChimneyFanV1ChimneyFanStartTempSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "ChimneyFanStartTempSet",
 			"help": "Chimney Fan Start Temp Set",
@@ -1737,29 +1702,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1769,16 +1733,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1792,13 +1753,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStateGet = class ChimneyFanStateGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ChimneyFanStateGet",
 			"help": "Chimney Fan State Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1812,7 +1773,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStateReport = class ChimneyFanStateReport extends CommandPacket<ChimneyFanV1ChimneyFanStateReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ChimneyFanStateReport",
 			"help": "Chimney Fan State Report",
@@ -1871,7 +1832,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1885,7 +1846,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStateSet = class ChimneyFanStateSet extends CommandPacket<ChimneyFanV1ChimneyFanStateSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ChimneyFanStateSet",
 			"help": "Chimney Fan State Set",
@@ -1904,7 +1865,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1918,13 +1879,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStatusGet = class ChimneyFanStatusGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x1d;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 29,
 			"name": "ChimneyFanStatusGet",
 			"help": "Chimney Fan Status Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -1938,7 +1899,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStatusReport = class ChimneyFanStatusReport extends CommandPacket<ChimneyFanV1ChimneyFanStatusReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x1e;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 30,
 			"name": "ChimneyFanStatusReport",
 			"help": "Chimney Fan Status Report",
@@ -2009,43 +1970,43 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "startTemperatureExceeded",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "speedChangeEnable",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "notUsed",
 							"mask": 48,
 							"shift": 4
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "alarmTemperatureExceeded",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "sensorError",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "externalAlarm",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "service",
 							"mask": 1,
 							"shift": 0
@@ -2059,29 +2020,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -2091,16 +2051,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -2114,13 +2071,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStopTempGet = class ChimneyFanStopTempGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x0b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 11,
 			"name": "ChimneyFanStopTempGet",
 			"help": "Chimney Fan Stop Temp Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -2134,7 +2091,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStopTempReport = class ChimneyFanStopTempReport extends CommandPacket<ChimneyFanV1ChimneyFanStopTempReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x0c;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 12,
 			"name": "ChimneyFanStopTempReport",
 			"help": "Chimney Fan Stop Temp Report",
@@ -2147,29 +2104,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -2179,16 +2135,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -2202,7 +2155,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStopTempSet = class ChimneyFanStopTempSet extends CommandPacket<ChimneyFanV1ChimneyFanStopTempSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x0a;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 10,
 			"name": "ChimneyFanStopTempSet",
 			"help": "Chimney Fan Stop Temp Set",
@@ -2215,29 +2168,28 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -2247,16 +2199,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -2270,13 +2219,13 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStopTimeGet = class ChimneyFanStopTimeGet extends CommandPacket<void> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x14;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 20,
 			"name": "ChimneyFanStopTimeGet",
 			"help": "Chimney Fan Stop Time Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -2290,7 +2239,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStopTimeReport = class ChimneyFanStopTimeReport extends CommandPacket<ChimneyFanV1ChimneyFanStopTimeReportData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x15;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 21,
 			"name": "ChimneyFanStopTimeReport",
 			"help": "Chimney Fan Stop Time Report",
@@ -2303,7 +2252,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;
@@ -2317,7 +2266,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly ChimneyFanStopTimeSet = class ChimneyFanStopTimeSet extends CommandPacket<ChimneyFanV1ChimneyFanStopTimeSetData> {
 		public static readonly CommandClass = ChimneyFanV1;
 		public static readonly command = 0x13;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 19,
 			"name": "ChimneyFanStopTimeSet",
 			"help": "Chimney Fan Stop Time Set",
@@ -2330,7 +2279,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ChimneyFanV1)?.command === this.command;

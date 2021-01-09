@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SimpleAvControlV1Commands {
@@ -51,13 +52,13 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 	public static readonly SimpleAvControlGet = class SimpleAvControlGet extends CommandPacket<void> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SimpleAvControlGet",
 			"help": "Simple Av Control Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SimpleAvControlV1)?.command === this.command;
@@ -71,7 +72,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 	public static readonly SimpleAvControlReport = class SimpleAvControlReport extends CommandPacket<SimpleAvControlV1SimpleAvControlReportData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SimpleAvControlReport",
 			"help": "Simple Av Control Report",
@@ -84,7 +85,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SimpleAvControlV1)?.command === this.command;
@@ -99,7 +100,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 	public static readonly SimpleAvControlSet = class SimpleAvControlSet extends CommandPacket<SimpleAvControlV1SimpleAvControlSetData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "SimpleAvControlSet",
 			"help": "Simple Av Control Set",
@@ -118,14 +119,14 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "keyAttributes",
 							"mask": 7,
 							"shift": 0
@@ -156,7 +157,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SimpleAvControlV1)?.command === this.command;
@@ -170,7 +171,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 	public static readonly SimpleAvControlSupportedGet = class SimpleAvControlSupportedGet extends CommandPacket<SimpleAvControlV1SimpleAvControlSupportedGetData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "SimpleAvControlSupportedGet",
 			"help": "Simple Av Control Supported Get",
@@ -183,7 +184,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SimpleAvControlV1)?.command === this.command;
@@ -198,7 +199,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 	public static readonly SimpleAvControlSupportedReport = class SimpleAvControlSupportedReport extends CommandPacket<SimpleAvControlV1SimpleAvControlSupportedReportData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "SimpleAvControlSupportedReport",
 			"help": "Simple Av Control Supported Report",
@@ -217,7 +218,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SimpleAvControlV1)?.command === this.command;

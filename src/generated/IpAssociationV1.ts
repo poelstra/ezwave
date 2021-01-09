@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum IpAssociationV1Commands {
@@ -55,7 +56,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 	public static readonly IpAssociationSet = class IpAssociationSet extends CommandPacket<IpAssociationV1IpAssociationSetData> {
 		public static readonly CommandClass = IpAssociationV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "IpAssociationSet",
 			"help": "IP Association Set",
@@ -80,7 +81,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpAssociationV1)?.command === this.command;
@@ -94,7 +95,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 	public static readonly IpAssociationGet = class IpAssociationGet extends CommandPacket<IpAssociationV1IpAssociationGetData> {
 		public static readonly CommandClass = IpAssociationV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "IpAssociationGet",
 			"help": "IP Association Get",
@@ -113,7 +114,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpAssociationV1)?.command === this.command;
@@ -127,7 +128,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 	public static readonly IpAssociationReport = class IpAssociationReport extends CommandPacket<IpAssociationV1IpAssociationReportData> {
 		public static readonly CommandClass = IpAssociationV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "IpAssociationReport",
 			"help": "IP Association Report",
@@ -164,7 +165,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpAssociationV1)?.command === this.command;
@@ -178,7 +179,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 	public static readonly IpAssociationRemove = class IpAssociationRemove extends CommandPacket<IpAssociationV1IpAssociationRemoveData> {
 		public static readonly CommandClass = IpAssociationV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "IpAssociationRemove",
 			"help": "IP Association Remove",
@@ -203,7 +204,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpAssociationV1)?.command === this.command;

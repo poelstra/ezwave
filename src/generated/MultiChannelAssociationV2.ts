@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum MultiChannelAssociationV2Commands {
@@ -63,7 +64,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 	public static readonly MultiChannelAssociationGet = class MultiChannelAssociationGet extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationGetData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "MultiChannelAssociationGet",
 			"help": "Multi Channel Association Get",
@@ -76,7 +77,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
@@ -90,13 +91,13 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 	public static readonly MultiChannelAssociationGroupingsGet = class MultiChannelAssociationGroupingsGet extends CommandPacket<void> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "MultiChannelAssociationGroupingsGet",
 			"help": "Multi Channel Association Groupings Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
@@ -110,7 +111,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 	public static readonly MultiChannelAssociationGroupingsReport = class MultiChannelAssociationGroupingsReport extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationGroupingsReportData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "MultiChannelAssociationGroupingsReport",
 			"help": "Multi Channel Association Groupings Report",
@@ -123,7 +124,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
@@ -138,7 +139,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 	public static readonly MultiChannelAssociationRemove = class MultiChannelAssociationRemove extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationRemoveData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "MultiChannelAssociationRemove",
 			"help": "Multi Channel Association Remove",
@@ -189,13 +190,13 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 							"length": 1,
 							"fields": [
 								{
-									"type": "integer",
+									"fieldType": "integer",
 									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
-									"type": "boolean",
+									"fieldType": "boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
@@ -205,7 +206,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
@@ -220,7 +221,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 	public static readonly MultiChannelAssociationReport = class MultiChannelAssociationReport extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationReportData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "MultiChannelAssociationReport",
 			"help": "Multi Channel Association Report",
@@ -283,13 +284,13 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 							"length": 1,
 							"fields": [
 								{
-									"type": "integer",
+									"fieldType": "integer",
 									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
-									"type": "boolean",
+									"fieldType": "boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
@@ -299,7 +300,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
@@ -314,7 +315,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 	public static readonly MultiChannelAssociationSet = class MultiChannelAssociationSet extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationSetData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "MultiChannelAssociationSet",
 			"help": "Multi Channel Association Set",
@@ -365,13 +366,13 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 							"length": 1,
 							"fields": [
 								{
-									"type": "integer",
+									"fieldType": "integer",
 									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
 								},
 								{
-									"type": "boolean",
+									"fieldType": "boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
@@ -381,7 +382,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;

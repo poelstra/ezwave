@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SecurityV1Commands {
@@ -78,7 +79,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly NetworkKeySet = class NetworkKeySet extends CommandPacket<SecurityV1NetworkKeySetData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "NetworkKeySet",
 			"help": "Network Key Set",
@@ -94,7 +95,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -108,13 +109,13 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly NetworkKeyVerify = class NetworkKeyVerify extends CommandPacket<void> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "NetworkKeyVerify",
 			"help": "Network Key Verify",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -128,13 +129,13 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecurityCommandsSupportedGet = class SecurityCommandsSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SecurityCommandsSupportedGet",
 			"help": "Security Commands Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -149,7 +150,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecurityCommandsSupportedReport = class SecurityCommandsSupportedReport extends CommandPacket<SecurityV1SecurityCommandsSupportedReportData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SecurityCommandsSupportedReport",
 			"help": "Security Commands Supported Report",
@@ -188,7 +189,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"valueType": "CMD_CLASS_REF"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -202,7 +203,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecurityMessageEncapsulation = class SecurityMessageEncapsulation extends CommandPacket<SecurityV1SecurityMessageEncapsulationData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x81;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 129,
 			"name": "SecurityMessageEncapsulation",
 			"help": "Security Message Encapsulation",
@@ -236,7 +237,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 8
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -250,7 +251,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecurityMessageEncapsulationNonceGet = class SecurityMessageEncapsulationNonceGet extends CommandPacket<SecurityV1SecurityMessageEncapsulationNonceGetData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0xc1;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 193,
 			"name": "SecurityMessageEncapsulationNonceGet",
 			"help": "Security Message Encapsulation Nonce Get",
@@ -284,7 +285,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 8
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -298,13 +299,13 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecurityNonceGet = class SecurityNonceGet extends CommandPacket<void> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x40;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 64,
 			"name": "SecurityNonceGet",
 			"help": "Security Nonce Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -318,7 +319,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecurityNonceReport = class SecurityNonceReport extends CommandPacket<SecurityV1SecurityNonceReportData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x80;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 128,
 			"name": "SecurityNonceReport",
 			"help": "Security Nonce Report",
@@ -334,7 +335,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -348,7 +349,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecuritySchemeGet = class SecuritySchemeGet extends CommandPacket<SecurityV1SecuritySchemeGetData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "SecuritySchemeGet",
 			"help": "Security Scheme Get",
@@ -361,7 +362,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -375,7 +376,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecuritySchemeInherit = class SecuritySchemeInherit extends CommandPacket<SecurityV1SecuritySchemeInheritData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "SecuritySchemeInherit",
 			"help": "Security Scheme Inherit",
@@ -388,7 +389,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;
@@ -402,7 +403,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 	public static readonly SecuritySchemeReport = class SecuritySchemeReport extends CommandPacket<SecurityV1SecuritySchemeReportData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "SecuritySchemeReport",
 			"help": "Security Scheme Report",
@@ -415,7 +416,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityV1)?.command === this.command;

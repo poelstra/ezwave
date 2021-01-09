@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum MultiInstanceV1Commands {
@@ -46,7 +47,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 	public static readonly MultiInstanceCmdEncap = class MultiInstanceCmdEncap extends CommandPacket<MultiInstanceV1MultiInstanceCmdEncapData> {
 		public static readonly CommandClass = MultiInstanceV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "MultiInstanceCmdEncap",
 			"help": "Multi Instance Cmd Encap",
@@ -83,7 +84,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 					"blobType": "CMD_DATA"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiInstanceV1)?.command === this.command;
@@ -97,7 +98,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 	public static readonly MultiInstanceGet = class MultiInstanceGet extends CommandPacket<MultiInstanceV1MultiInstanceGetData> {
 		public static readonly CommandClass = MultiInstanceV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "MultiInstanceGet",
 			"help": "Multi Instance Get",
@@ -111,7 +112,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 					"valueType": "CMD_CLASS_REF"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiInstanceV1)?.command === this.command;
@@ -125,7 +126,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 	public static readonly MultiInstanceReport = class MultiInstanceReport extends CommandPacket<MultiInstanceV1MultiInstanceReportData> {
 		public static readonly CommandClass = MultiInstanceV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "MultiInstanceReport",
 			"help": "Multi Instance Report",
@@ -145,7 +146,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(MultiInstanceV1)?.command === this.command;

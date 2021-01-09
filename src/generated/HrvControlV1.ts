@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum HrvControlV1Commands {
@@ -81,13 +82,13 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlBypassGet = class HrvControlBypassGet extends CommandPacket<void> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "HrvControlBypassGet",
 			"help": "Hrv Control Bypass  Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -101,7 +102,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlBypassReport = class HrvControlBypassReport extends CommandPacket<HrvControlV1HrvControlBypassReportData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "HrvControlBypassReport",
 			"help": "Hrv Control Bypass Report",
@@ -114,7 +115,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -128,7 +129,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlBypassSet = class HrvControlBypassSet extends CommandPacket<HrvControlV1HrvControlBypassSetData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "HrvControlBypassSet",
 			"help": "Hrv Control Bypass Set",
@@ -141,7 +142,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -155,13 +156,13 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlModeGet = class HrvControlModeGet extends CommandPacket<void> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "HrvControlModeGet",
 			"help": "Hrv Control Mode Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -175,7 +176,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlModeReport = class HrvControlModeReport extends CommandPacket<HrvControlV1HrvControlModeReportData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "HrvControlModeReport",
 			"help": "Hrv Control Mode Report",
@@ -188,14 +189,14 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "mode",
 							"mask": 31,
 							"shift": 0,
@@ -225,7 +226,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -239,7 +240,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlModeSet = class HrvControlModeSet extends CommandPacket<HrvControlV1HrvControlModeSetData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "HrvControlModeSet",
 			"help": "Hrv Control Mode Set",
@@ -252,14 +253,14 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "mode",
 							"mask": 31,
 							"shift": 0,
@@ -289,7 +290,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -303,13 +304,13 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlModeSupportedGet = class HrvControlModeSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x0a;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 10,
 			"name": "HrvControlModeSupportedGet",
 			"help": "Hrv Control Mode Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -324,7 +325,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlModeSupportedReport = class HrvControlModeSupportedReport extends CommandPacket<HrvControlV1HrvControlModeSupportedReportData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x0b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 11,
 			"name": "HrvControlModeSupportedReport",
 			"help": "Hrv Control Mode Supported Report",
@@ -337,14 +338,14 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "manualControlSupported",
 							"mask": 15,
 							"shift": 0,
@@ -376,7 +377,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -390,13 +391,13 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlVentilationRateGet = class HrvControlVentilationRateGet extends CommandPacket<void> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "HrvControlVentilationRateGet",
 			"help": "Hrv Control Ventilation Rate  Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -410,7 +411,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlVentilationRateReport = class HrvControlVentilationRateReport extends CommandPacket<HrvControlV1HrvControlVentilationRateReportData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x09;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 9,
 			"name": "HrvControlVentilationRateReport",
 			"help": "Hrv Control Ventilation Rate  Report",
@@ -423,7 +424,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;
@@ -437,7 +438,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly HrvControlVentilationRateSet = class HrvControlVentilationRateSet extends CommandPacket<HrvControlV1HrvControlVentilationRateSetData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "HrvControlVentilationRateSet",
 			"help": "Hrv Control Ventilation Rate Set",
@@ -450,7 +451,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvControlV1)?.command === this.command;

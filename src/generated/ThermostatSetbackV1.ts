@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ThermostatSetbackV1Commands {
@@ -46,13 +47,13 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 	public static readonly ThermostatSetbackGet = class ThermostatSetbackGet extends CommandPacket<void> {
 		public static readonly CommandClass = ThermostatSetbackV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ThermostatSetbackGet",
 			"help": "Thermostat Setback Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
@@ -66,7 +67,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 	public static readonly ThermostatSetbackReport = class ThermostatSetbackReport extends CommandPacket<ThermostatSetbackV1ThermostatSetbackReportData> {
 		public static readonly CommandClass = ThermostatSetbackV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ThermostatSetbackReport",
 			"help": "Thermostat Setback Report",
@@ -79,14 +80,14 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "setbackType",
 							"mask": 3,
 							"shift": 0,
@@ -148,7 +149,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
@@ -162,7 +163,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 	public static readonly ThermostatSetbackSet = class ThermostatSetbackSet extends CommandPacket<ThermostatSetbackV1ThermostatSetbackSetData> {
 		public static readonly CommandClass = ThermostatSetbackV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ThermostatSetbackSet",
 			"help": "Thermostat Setback Set",
@@ -175,14 +176,14 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "setbackType",
 							"mask": 3,
 							"shift": 0,
@@ -244,7 +245,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatSetbackV1)?.command === this.command;

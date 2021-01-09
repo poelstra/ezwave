@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ApplicationStatusV1Commands {
@@ -43,7 +44,7 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 	public static readonly ApplicationBusy = class ApplicationBusy extends CommandPacket<ApplicationStatusV1ApplicationBusyData> {
 		public static readonly CommandClass = ApplicationStatusV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ApplicationBusy",
 			"help": "Application Busy",
@@ -76,7 +77,7 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ApplicationStatusV1)?.command === this.command;
@@ -90,7 +91,7 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 	public static readonly ApplicationRejectedRequest = class ApplicationRejectedRequest extends CommandPacket<ApplicationStatusV1ApplicationRejectedRequestData> {
 		public static readonly CommandClass = ApplicationStatusV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ApplicationRejectedRequest",
 			"help": "Application Rejected Request",
@@ -103,7 +104,7 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ApplicationStatusV1)?.command === this.command;

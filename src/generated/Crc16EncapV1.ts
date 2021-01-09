@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum Crc16EncapV1Commands {
@@ -34,7 +35,7 @@ export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 	public static readonly Crc16Encap = class Crc16Encap extends CommandPacket<Crc16EncapV1Crc16EncapData> {
 		public static readonly CommandClass = Crc16EncapV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "Crc16Encap",
 			"help": "CRC16 Encap",
@@ -71,7 +72,7 @@ export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(Crc16EncapV1)?.command === this.command;

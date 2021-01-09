@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ThermostatHeatingV1Commands {
@@ -102,7 +103,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingStatusReport = class ThermostatHeatingStatusReport extends CommandPacket<ThermostatHeatingV1ThermostatHeatingStatusReportData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x0d;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 13,
 			"name": "ThermostatHeatingStatusReport",
 			"help": "Thermostat Heating Heating Status Report",
@@ -125,7 +126,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -139,13 +140,13 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingModeGet = class ThermostatHeatingModeGet extends CommandPacket<void> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ThermostatHeatingModeGet",
 			"help": "Thermostat Heating Mode Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -159,7 +160,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingModeReport = class ThermostatHeatingModeReport extends CommandPacket<ThermostatHeatingV1ThermostatHeatingModeReportData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ThermostatHeatingModeReport",
 			"help": "Thermostat Heating Mode Report",
@@ -206,7 +207,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -220,7 +221,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingModeSet = class ThermostatHeatingModeSet extends CommandPacket<ThermostatHeatingV1ThermostatHeatingModeSetData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ThermostatHeatingModeSet",
 			"help": "Thermostat Heating Mode Set",
@@ -267,7 +268,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -281,13 +282,13 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingRelayStatusGet = class ThermostatHeatingRelayStatusGet extends CommandPacket<void> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x09;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 9,
 			"name": "ThermostatHeatingRelayStatusGet",
 			"help": "Thermostat Heating Relay Status Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -301,7 +302,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingRelayStatusReport = class ThermostatHeatingRelayStatusReport extends CommandPacket<ThermostatHeatingV1ThermostatHeatingRelayStatusReportData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x0a;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 10,
 			"name": "ThermostatHeatingRelayStatusReport",
 			"help": "Thermostat Heating Relay Status Report",
@@ -324,7 +325,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -338,7 +339,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingSetpointGet = class ThermostatHeatingSetpointGet extends CommandPacket<ThermostatHeatingV1ThermostatHeatingSetpointGetData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "ThermostatHeatingSetpointGet",
 			"help": "Thermostat Heating Setpoint Get",
@@ -351,7 +352,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -365,7 +366,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingSetpointReport = class ThermostatHeatingSetpointReport extends CommandPacket<ThermostatHeatingV1ThermostatHeatingSetpointReportData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "ThermostatHeatingSetpointReport",
 			"help": "Thermostat Heating Setpoint Report",
@@ -384,29 +385,28 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -416,16 +416,13 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -439,7 +436,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingSetpointSet = class ThermostatHeatingSetpointSet extends CommandPacket<ThermostatHeatingV1ThermostatHeatingSetpointSetData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ThermostatHeatingSetpointSet",
 			"help": "Thermostat Heating Setpoint Set",
@@ -458,29 +455,28 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"value"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -490,16 +486,13 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"help": "Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "size"
+						"from": {
+							"ref": "properties1.size"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -513,13 +506,13 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingStatusGet = class ThermostatHeatingStatusGet extends CommandPacket<void> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x0c;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 12,
 			"name": "ThermostatHeatingStatusGet",
 			"help": "Thermostat Heating Status Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -533,7 +526,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingStatusSet = class ThermostatHeatingStatusSet extends CommandPacket<ThermostatHeatingV1ThermostatHeatingStatusSetData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x0b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 11,
 			"name": "ThermostatHeatingStatusSet",
 			"help": "Thermostat Heating Status Set",
@@ -556,7 +549,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;
@@ -570,7 +563,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 	public static readonly ThermostatHeatingTimedOffSet = class ThermostatHeatingTimedOffSet extends CommandPacket<ThermostatHeatingV1ThermostatHeatingTimedOffSetData> {
 		public static readonly CommandClass = ThermostatHeatingV1;
 		public static readonly command = 0x11;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 17,
 			"name": "ThermostatHeatingTimedOffSet",
 			"help": "Thermostat Heating Timed Off Set",
@@ -589,7 +582,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatHeatingV1)?.command === this.command;

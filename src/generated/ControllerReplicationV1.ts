@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ControllerReplicationV1Commands {
@@ -55,7 +56,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 	public static readonly CtrlReplicationTransferGroup = class CtrlReplicationTransferGroup extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferGroupData> {
 		public static readonly CommandClass = ControllerReplicationV1;
 		public static readonly command = 0x31;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 49,
 			"name": "CtrlReplicationTransferGroup",
 			"help": "Ctrl Replication Transfer Group",
@@ -81,7 +82,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ControllerReplicationV1)?.command === this.command;
@@ -95,7 +96,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 	public static readonly CtrlReplicationTransferGroupName = class CtrlReplicationTransferGroupName extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferGroupNameData> {
 		public static readonly CommandClass = ControllerReplicationV1;
 		public static readonly command = 0x32;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 50,
 			"name": "CtrlReplicationTransferGroupName",
 			"help": "Ctrl Replication Transfer Group Name",
@@ -123,7 +124,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ControllerReplicationV1)?.command === this.command;
@@ -137,7 +138,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 	public static readonly CtrlReplicationTransferScene = class CtrlReplicationTransferScene extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferSceneData> {
 		public static readonly CommandClass = ControllerReplicationV1;
 		public static readonly command = 0x33;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 51,
 			"name": "CtrlReplicationTransferScene",
 			"help": "Ctrl Replication Transfer Scene",
@@ -169,7 +170,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ControllerReplicationV1)?.command === this.command;
@@ -183,7 +184,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 	public static readonly CtrlReplicationTransferSceneName = class CtrlReplicationTransferSceneName extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferSceneNameData> {
 		public static readonly CommandClass = ControllerReplicationV1;
 		public static readonly command = 0x34;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 52,
 			"name": "CtrlReplicationTransferSceneName",
 			"help": "Ctrl Replication Transfer Scene Name",
@@ -211,7 +212,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ControllerReplicationV1)?.command === this.command;

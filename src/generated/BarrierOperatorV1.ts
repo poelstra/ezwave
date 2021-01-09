@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum BarrierOperatorV1Commands {
@@ -78,7 +79,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorSet = class BarrierOperatorSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSetData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "BarrierOperatorSet",
 			"help": "Barrier Operator Set",
@@ -101,7 +102,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
@@ -115,13 +116,13 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorGet = class BarrierOperatorGet extends CommandPacket<void> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "BarrierOperatorGet",
 			"help": "Barrier Operator Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
@@ -135,7 +136,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorReport = class BarrierOperatorReport extends CommandPacket<BarrierOperatorV1BarrierOperatorReportData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "BarrierOperatorReport",
 			"help": "Barrier Operator Report",
@@ -170,7 +171,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
@@ -184,13 +185,13 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorSignalSupportedGet = class BarrierOperatorSignalSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "BarrierOperatorSignalSupportedGet",
 			"help": "Barrier Operator Signal Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
@@ -205,7 +206,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorSignalSupportedReport = class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSupportedReportData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "BarrierOperatorSignalSupportedReport",
 			"help": "Barrier Operator Signal Supported Report",
@@ -218,7 +219,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
@@ -232,7 +233,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorSignalSet = class BarrierOperatorSignalSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSetData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "BarrierOperatorSignalSet",
 			"help": "Barrier Operator Signal Set",
@@ -275,7 +276,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
@@ -289,7 +290,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorSignalGet = class BarrierOperatorSignalGet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalGetData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "BarrierOperatorSignalGet",
 			"help": "Barrier Operator Signal Get",
@@ -316,7 +317,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
@@ -330,7 +331,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	public static readonly BarrierOperatorSignalReport = class BarrierOperatorSignalReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalReportData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "BarrierOperatorSignalReport",
 			"help": "Barrier Operator Signal Report",
@@ -373,7 +374,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BarrierOperatorV1)?.command === this.command;

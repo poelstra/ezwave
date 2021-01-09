@@ -1,11 +1,16 @@
-import "source-map-support/register";
-import main from "async-main";
-import { promises as pfs, existsSync } from "fs";
-import * as path from "path";
-import * as Case from "case";
 import * as assert from "assert";
-
-import * as types from "../commands/types";
+import main from "async-main";
+import * as Case from "case";
+import { promises as pfs } from "fs";
+import * as path from "path";
+import "source-map-support/register";
+import * as jsonSpec from "../commands/jsonSpec";
+import * as spec from "../commands/spec";
+import {
+	convertToJsonCommand,
+	convertToJsonParams,
+	convertFromJsonCommandClass,
+} from "../commands/specHelpers";
 
 /**
  * 'Map' over all key/values of a Map, and return an array of all the results.
@@ -24,11 +29,11 @@ function mapMap<K, V, R>(
  */
 type Lines = (string | undefined)[];
 
-function createKeyValues(): types.EnumValues {
+function createKeyValues(): spec.EnumValues {
 	return Object.create(null);
 }
 
-function sortKeyValues(keyValues: types.EnumValues): types.EnumValues {
+function sortKeyValues(keyValues: spec.EnumValues): spec.EnumValues {
 	const keys = Object.keys(keyValues).sort();
 	const result = createKeyValues();
 	for (const key of keys) {
@@ -37,8 +42,9 @@ function sortKeyValues(keyValues: types.EnumValues): types.EnumValues {
 	return result;
 }
 
-function jsonify(value: unknown): Lines {
-	return JSON.stringify(value, undefined, "\t").split("\n");
+function jsonifyCommandDefinition(command: spec.CommandDefinition): Lines {
+	const jsonCommand = convertToJsonCommand(command);
+	return JSON.stringify(jsonCommand, undefined, "\t").split("\n");
 }
 
 function indent(lines: string[]): string[] {
@@ -46,21 +52,21 @@ function indent(lines: string[]): string[] {
 }
 
 class CommandClassGenerator {
-	public static generate(cmdClass: types.CommandClassDefinition): Lines {
+	public static generate(cmdClass: spec.CommandClassDefinition): Lines {
 		return new CommandClassGenerator(cmdClass)._generate();
 	}
 
-	private _class: types.CommandClassDefinition;
+	private _class: spec.CommandClassDefinition;
 
-	private _enums = new Map<string, types.EnumValues>();
+	private _enums = new Map<string, spec.EnumValues>();
 	private _enumsCanonical = new Map<string, string>();
 	private _incompleteCommands = new Set<number>();
 
-	private constructor(cmdClass: types.CommandClassDefinition) {
+	private constructor(cmdClass: spec.CommandClassDefinition) {
 		this._class = cmdClass;
 	}
 
-	private _registerEnum(name: string, values: types.EnumValues): string {
+	private _registerEnum(name: string, values: spec.EnumValues): string {
 		// Create unique name, unless it's the same enum
 		const origName = Case.pascal(name);
 		name = `${origName}Enum`;
@@ -109,8 +115,9 @@ class CommandClassGenerator {
 			` */`,
 			``,
 			`import { CommandClassPacket, CommandPacket } from "../commands/command";`,
+			`import * as jsonSpec from "../commands/jsonSpec";`,
 			`import { Packet } from "../commands/packet";`,
-			`import { CommandDefinition } from "../commands/types";`,
+			`import { convertFromJsonCommand } from "../commands/specHelpers";`,
 			`import CommandClasses from "../generated/CommandClasses";`,
 			``
 		);
@@ -164,9 +171,9 @@ class CommandClassGenerator {
 	private _generateCommandClass(className: string): Lines {
 		const contents: Lines = [];
 
-		if (this._class.status !== types.ObsolescenceStatus.Active) {
+		if (this._class.status !== spec.ObsolescenceStatus.Active) {
 			contents.push(
-				"// " + types.OBSOLESCENCE_STATUS_TO_STRING[this._class.status]
+				"// " + spec.OBSOLESCENCE_STATUS_TO_STRING[this._class.status]
 			);
 		}
 
@@ -221,9 +228,9 @@ class CommandClassGenerator {
 					`public static readonly command = 0x${command.command
 						.toString(16)
 						.padStart(2, "0")};`,
-					`public static readonly definition = ${jsonify(
+					`public static readonly definition = convertFromJsonCommand(${jsonifyCommandDefinition(
 						command
-					).join("\n\t\t")} as CommandDefinition;`,
+					).join("\n\t\t")} as jsonSpec.CommandDefinition);`,
 					``,
 					`static matches(packet: Packet): boolean {`,
 					`	return packet.tryAs(${className})?.command === this.command;`,
@@ -243,7 +250,7 @@ class CommandClassGenerator {
 
 	private _generateCommandDataInterface(
 		className: string,
-		cmd: types.CommandDefinition
+		cmd: spec.CommandDefinition
 	): Lines {
 		if (cmd.params.length === 0) {
 			return [];
@@ -251,9 +258,9 @@ class CommandClassGenerator {
 
 		const contents: Lines = [];
 
-		if (cmd.status !== types.ObsolescenceStatus.Active) {
+		if (cmd.status !== spec.ObsolescenceStatus.Active) {
 			contents.push(
-				"// " + types.OBSOLESCENCE_STATUS_TO_STRING[cmd.status]
+				"// " + spec.OBSOLESCENCE_STATUS_TO_STRING[cmd.status]
 			);
 		}
 
@@ -268,14 +275,14 @@ class CommandClassGenerator {
 	}
 
 	private _generateParam(
-		cmd: types.CommandDefinition,
-		param: types.Parameter | types.ParameterGroup
+		cmd: spec.CommandDefinition,
+		param: spec.LocalParameter | spec.ParameterGroup
 	): Lines {
 		const contents: Lines = [];
 
 		const isOptional = param.optional !== undefined;
 		switch (param.type) {
-			case types.ParameterType.Integer:
+			case spec.ParameterType.Integer:
 				{
 					if (param.length === 0) {
 						// TODO implement and remove
@@ -284,15 +291,7 @@ class CommandClassGenerator {
 							`\t// TODO param ${param.name} type bitmask or marker`
 						);
 					} else {
-						const isExplicit =
-							(param.lengthOf && param.lengthOf.isExplicit) ||
-							(param.presenceOf && param.presenceOf.isExplicit);
-						const autoGenerated =
-							!isExplicit &&
-							((param.lengthOf && !param.lengthOf.isExplicit) ||
-								(param.presenceOf &&
-									!param.presenceOf.isExplicit));
-						if (!param.reserved && !autoGenerated) {
+						if (!param.reserved && !param.isAutogenerated) {
 							contents.push(
 								`\t${param.name}${
 									isOptional ? "?" : ""
@@ -305,7 +304,7 @@ class CommandClassGenerator {
 				}
 				break;
 
-			case types.ParameterType.Enum:
+			case spec.ParameterType.Enum:
 				{
 					const enumName = this._registerEnum(
 						param.name,
@@ -319,34 +318,25 @@ class CommandClassGenerator {
 				}
 				break;
 
-			case types.ParameterType.Bitfield:
+			case spec.ParameterType.Bitfield:
 				{
 					const msbFirstFields = param.fields.sort(
 						(f1, f2) => f2.shift - f1.shift
 					);
 					for (const field of msbFirstFields) {
-						const isExplicit =
-							(field.lengthOf && field.lengthOf.isExplicit) ||
-							(field.presenceOf && field.presenceOf.isExplicit);
-						const autoGenerated =
-							!isExplicit &&
-							((field.lengthOf && !field.lengthOf.isExplicit) ||
-								(field.presenceOf &&
-									!field.presenceOf.isExplicit) ||
-								field.isMoreToFollowFlag);
-						if (field.reserved || autoGenerated) {
+						if (field.reserved || field.isAutogenerated) {
 							continue;
 						}
 						const len = Math.log2((field.mask >> field.shift) + 1);
 						let type: string;
-						switch (field.type) {
-							case types.BitfieldElementType.Boolean:
+						switch (field.fieldType) {
+							case spec.BitfieldElementType.Boolean:
 								type = "boolean";
 								break;
-							case types.BitfieldElementType.Integer:
+							case spec.BitfieldElementType.Integer:
 								type = "number";
 								break;
-							case types.BitfieldElementType.Enum:
+							case spec.BitfieldElementType.Enum:
 								type = this._registerEnum(
 									field.name,
 									field.values!
@@ -356,7 +346,7 @@ class CommandClassGenerator {
 								throw new Error("unknown bitfield type");
 						}
 						const bits =
-							field.type === types.BitfieldElementType.Boolean
+							field.fieldType === spec.BitfieldElementType.Boolean
 								? `${field.shift}`
 								: `${field.shift + len - 1}..${field.shift}`;
 						contents.push(
@@ -366,15 +356,15 @@ class CommandClassGenerator {
 				}
 				break;
 
-			case types.ParameterType.Blob:
-			case types.ParameterType.Text:
+			case spec.ParameterType.Blob:
+			case spec.ParameterType.Text:
 				{
 					let lengthStr: string;
 					if (typeof param.length === "number") {
 						lengthStr = `${param.length} bytes`;
 					} else {
 						switch (param.length.lengthType) {
-							case types.LengthType.Automatic:
+							case spec.LengthType.Automatic:
 								lengthStr = `automatic length`;
 								// TODO Implement (in xml2json) and remove this
 								if (param.length.endOffset < 0) {
@@ -382,7 +372,7 @@ class CommandClassGenerator {
 									lengthStr = "";
 								}
 								break;
-							case types.LengthType.ParameterReference:
+							case spec.LengthType.ParameterReference:
 								// TODO If reference points to an explicit length prop,
 								// mention that property.
 								// const l = param.length;
@@ -393,7 +383,7 @@ class CommandClassGenerator {
 								// }`;
 								lengthStr = `variable length`;
 								break;
-							case types.LengthType.MoreToFollow:
+							case spec.LengthType.MoreToFollow:
 								lengthStr = `length based on MoreToFollow flag`;
 								break;
 							default:
@@ -404,7 +394,7 @@ class CommandClassGenerator {
 						// TODO Implement (in xml2json) and remove this
 						contents.push(
 							`\t// TODO ${param.name}${isOptional ? "?" : ""}: ${
-								param.type === types.ParameterType.Blob
+								param.type === spec.ParameterType.Blob
 									? "Buffer"
 									: "string"
 							}; // automatic length`
@@ -412,7 +402,7 @@ class CommandClassGenerator {
 					} else {
 						contents.push(
 							`\t${param.name}${isOptional ? "?" : ""}: ${
-								param.type === types.ParameterType.Blob
+								param.type === spec.ParameterType.Blob
 									? "Buffer"
 									: "string"
 							}; // ${lengthStr}`
@@ -554,15 +544,16 @@ main(async () => {
 		path.resolve(rootDir, "src", "generated", "zwave.json"),
 		"utf8"
 	);
-	const spec = JSON.parse(jsonText) as types.ZwaveSpec;
-
+	const spec = JSON.parse(jsonText) as jsonSpec.ZwaveSpec;
 	assert(
-		spec.jsonVersion === types.JSON_VERSION,
+		spec.jsonVersion === jsonSpec.JSON_VERSION,
 		"Unsupported JSON spec version"
 	);
 
+	const classes = spec.classes.map(convertFromJsonCommandClass);
+
 	// Iterate over JSON structure, generate our own structure
-	for (const cmdClass of spec.classes) {
+	for (const cmdClass of classes) {
 		const lines = CommandClassGenerator.generate(cmdClass);
 
 		const className = `${cmdClass.name}V${cmdClass.version}`;
@@ -576,9 +567,9 @@ main(async () => {
 	// Build an enum of all available command classes.
 	// Note: COMMAND_CLASS_ALARM was renamed to COMMAND_CLASS_NOTIFICATION,
 	// so this Map has key and value 'reversed' to what you'd expect.
-	const classes = new Map<string, number>();
+	const classesMap = new Map<string, number>();
 	for (const cmdClass of spec.classes) {
-		classes.set(cmdClass.name, cmdClass.commandClass);
+		classesMap.set(cmdClass.name, cmdClass.commandClass);
 	}
 	const classesContents = [
 		`/**`,
@@ -587,7 +578,7 @@ main(async () => {
 		``,
 		`export enum CommandClasses {`,
 		`\t${mapMap(
-			classes,
+			classesMap,
 			(v, k) =>
 				`${k} = 0x${v
 					.toString(16)

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum TransportServiceV1Commands {
@@ -47,7 +48,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 	public static readonly CommandFirstFragment = class CommandFirstFragment extends CommandPacket<TransportServiceV1CommandFirstFragmentData> {
 		public static readonly CommandClass = TransportServiceV1;
 		public static readonly command = 0xc0;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 192,
 			"name": "CommandFirstFragment",
 			"help": "First Fragment",
@@ -61,7 +62,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -82,14 +83,14 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "sequenceNo",
 							"mask": 15,
 							"shift": 0
@@ -112,7 +113,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TransportServiceV1)?.command === this.command;
@@ -126,7 +127,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 	public static readonly CommandSubsequentFragment = class CommandSubsequentFragment extends CommandPacket<TransportServiceV1CommandSubsequentFragmentData> {
 		public static readonly CommandClass = TransportServiceV1;
 		public static readonly command = 0xe0;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 224,
 			"name": "CommandSubsequentFragment",
 			"help": "Subsequent Fragment",
@@ -140,7 +141,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -161,20 +162,20 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "sequenceNo",
 							"mask": 120,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "datagramOffset1",
 							"mask": 7,
 							"shift": 0
@@ -203,7 +204,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(TransportServiceV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ZipNdV1Commands {
@@ -53,7 +54,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 	public static readonly ZipNodeSolicitation = class ZipNodeSolicitation extends CommandPacket<ZipNdV1ZipNodeSolicitationData> {
 		public static readonly CommandClass = ZipNdV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ZipNodeSolicitation",
 			"help": "Zip Node Solicitation",
@@ -80,7 +81,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"length": 16
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZipNdV1)?.command === this.command;
@@ -94,7 +95,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 	public static readonly ZipInvNodeSolicitation = class ZipInvNodeSolicitation extends CommandPacket<ZipNdV1ZipInvNodeSolicitationData> {
 		public static readonly CommandClass = ZipNdV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ZipInvNodeSolicitation",
 			"help": "Zip Inverse Node Solicitation",
@@ -107,20 +108,20 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved2",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "local",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved1",
 							"mask": 3,
 							"shift": 0,
@@ -136,7 +137,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZipNdV1)?.command === this.command;
@@ -150,7 +151,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 	public static readonly ZipNodeAdvertisement = class ZipNodeAdvertisement extends CommandPacket<ZipNdV1ZipNodeAdvertisementData> {
 		public static readonly CommandClass = ZipNdV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ZipNodeAdvertisement",
 			"help": "Zip Node Advertisement",
@@ -163,20 +164,20 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "local",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "validity",
 							"mask": 3,
 							"shift": 0,
@@ -217,7 +218,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					"length": 4
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZipNdV1)?.command === this.command;

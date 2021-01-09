@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SecurityPanelZoneSensorV1Commands {
@@ -65,7 +66,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 	public static readonly CommandClassSecurityPanelZoneSensorInstalledReport = class CommandClassSecurityPanelZoneSensorInstalledReport extends CommandPacket<SecurityPanelZoneSensorV1CommandClassSecurityPanelZoneSensorInstalledReportData> {
 		public static readonly CommandClass = SecurityPanelZoneSensorV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "CommandClassSecurityPanelZoneSensorInstalledReport",
 			"help": "Command Class Security Panel Zone Sensor Installed Report",
@@ -84,7 +85,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
@@ -98,7 +99,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 	public static readonly SecurityPanelZoneSensorTypeGet = class SecurityPanelZoneSensorTypeGet extends CommandPacket<SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeGetData> {
 		public static readonly CommandClass = SecurityPanelZoneSensorV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SecurityPanelZoneSensorTypeGet",
 			"help": "Security Panel Zone Sensor Type Get",
@@ -117,7 +118,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
@@ -131,7 +132,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 	public static readonly SecurityPanelZoneSensorTypeReport = class SecurityPanelZoneSensorTypeReport extends CommandPacket<SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeReportData> {
 		public static readonly CommandClass = SecurityPanelZoneSensorV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "SecurityPanelZoneSensorTypeReport",
 			"help": "Security Panel Zone Sensor Type Report",
@@ -156,7 +157,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
@@ -170,7 +171,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 	public static readonly SecurityPanelZoneSensorInstalledGet = class SecurityPanelZoneSensorInstalledGet extends CommandPacket<SecurityPanelZoneSensorV1SecurityPanelZoneSensorInstalledGetData> {
 		public static readonly CommandClass = SecurityPanelZoneSensorV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "SecurityPanelZoneSensorInstalledGet",
 			"help": "Security Panel Zone Sensor Installed Get",
@@ -183,7 +184,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
@@ -197,7 +198,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 	public static readonly SecurityPanelZoneSensorStateGet = class SecurityPanelZoneSensorStateGet extends CommandPacket<SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateGetData> {
 		public static readonly CommandClass = SecurityPanelZoneSensorV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "SecurityPanelZoneSensorStateGet",
 			"help": "Security Panel Zone Sensor State Get",
@@ -216,7 +217,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
@@ -230,7 +231,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 	public static readonly SecurityPanelZoneSensorStateReport = class SecurityPanelZoneSensorStateReport extends CommandPacket<SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateReportData> {
 		public static readonly CommandClass = SecurityPanelZoneSensorV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "SecurityPanelZoneSensorStateReport",
 			"help": "Security Panel Zone Sensor State Report",
@@ -267,7 +268,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;

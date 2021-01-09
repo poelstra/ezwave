@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum BasicTariffInfoV1Commands {
@@ -40,13 +41,13 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 	public static readonly BasicTariffInfoGet = class BasicTariffInfoGet extends CommandPacket<void> {
 		public static readonly CommandClass = BasicTariffInfoV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "BasicTariffInfoGet",
 			"help": "Basic Tariff Info Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicTariffInfoV1)?.command === this.command;
@@ -60,7 +61,7 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 	public static readonly BasicTariffInfoReport = class BasicTariffInfoReport extends CommandPacket<BasicTariffInfoV1BasicTariffInfoReportData> {
 		public static readonly CommandClass = BasicTariffInfoV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "BasicTariffInfoReport",
 			"help": "Basic Tariff Info Report",
@@ -73,20 +74,20 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "dual",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved1",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "totalNoImportRates",
 							"mask": 15,
 							"shift": 0
@@ -100,14 +101,14 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved2",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "e1CurrentRateInUse",
 							"mask": 15,
 							"shift": 0
@@ -145,14 +146,14 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved3",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "e2CurrentRateInUse",
 							"mask": 15,
 							"shift": 0
@@ -166,7 +167,7 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					"length": 4
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicTariffInfoV1)?.command === this.command;

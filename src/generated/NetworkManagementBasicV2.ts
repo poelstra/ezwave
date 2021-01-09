@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum NetworkManagementBasicV2Commands {
@@ -85,7 +86,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly LearnModeSet = class LearnModeSet extends CommandPacket<NetworkManagementBasicV2LearnModeSetData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "LearnModeSet",
 			"help": "Learn Mode Set",
@@ -104,14 +105,14 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "returnInterviewStatus",
 							"mask": 1,
 							"shift": 0
@@ -139,7 +140,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -153,7 +154,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly LearnModeSetStatus = class LearnModeSetStatus extends CommandPacket<NetworkManagementBasicV2LearnModeSetStatusData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "LearnModeSetStatus",
 			"help": "Learn Mode Set Status",
@@ -222,7 +223,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 16
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -237,7 +238,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly NodeInformationSend = class NodeInformationSend extends CommandPacket<NetworkManagementBasicV2NodeInformationSendData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "NodeInformationSend",
 			"help": "Node Information Send",
@@ -270,7 +271,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -284,7 +285,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly NetworkUpdateRequest = class NetworkUpdateRequest extends CommandPacket<NetworkManagementBasicV2NetworkUpdateRequestData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "NetworkUpdateRequest",
 			"help": "Network Update Request",
@@ -297,7 +298,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -311,7 +312,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly NetworkUpdateRequestStatus = class NetworkUpdateRequestStatus extends CommandPacket<NetworkManagementBasicV2NetworkUpdateRequestStatusData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "NetworkUpdateRequestStatus",
 			"help": "Network Update Request Status",
@@ -352,7 +353,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -366,7 +367,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly DefaultSet = class DefaultSet extends CommandPacket<NetworkManagementBasicV2DefaultSetData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "DefaultSet",
 			"help": "Default Set",
@@ -379,7 +380,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -393,7 +394,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly DefaultSetComplete = class DefaultSetComplete extends CommandPacket<NetworkManagementBasicV2DefaultSetCompleteData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "DefaultSetComplete",
 			"help": "Default Set Complete",
@@ -422,7 +423,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -436,7 +437,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly DskGet = class DskGet extends CommandPacket<NetworkManagementBasicV2DskGetData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "DskGet",
 			"help": "DSK Get",
@@ -455,14 +456,14 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "addMode",
 							"mask": 1,
 							"shift": 0
@@ -470,7 +471,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;
@@ -484,7 +485,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 	public static readonly DskReport = class DskReport extends CommandPacket<NetworkManagementBasicV2DskReportData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x09;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 9,
 			"name": "DskReport",
 			"help": "DSK Report",
@@ -503,14 +504,14 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "addMode",
 							"mask": 1,
 							"shift": 0
@@ -524,7 +525,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					"length": 16
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementBasicV2)?.command === this.command;

@@ -21,14 +21,41 @@
  * https://www.silabs.com/support/resources.p-wireless_z-wave?query=Z-Wave%20Device%20and%20Command%20Classes%20Definition%20Files
  */
 
+// TODO Handle bitmasks
+// TODO Handle marker type, or rewrite it to something else
+// TODO ValueType is used on IntegerParameter and EnumParameter, but will likely only appear in certain combinations
+
+// TODO
+// encaptype CMD_DATA and CMD_ENCAP is always a VARIANT
+// CMD_DATA is ALWAYS preceded by a CMD_CLASS_REF and CMD_REF param
+// There is one instance of CMD_ENCAP, which is NOT preceded by CMD_CLASS_REF or CMD_REF
+// => It seems that CMD_ENCAP means one Buffer including class and cmd, and
+//    CMD_DATA being just the data part. So sizechange=-2 for this seems incorrect.
+// May want to just convert CMD_ENCAP to separate fields, just like CMD_DATA
+// Or, because of cmd_mask and generally easier handling, convert all of them to
+// CMD_ENCAP.
+
+// TODO
+// All CMD_REFs are preceded by a CMD_CLASS_REF, which determines the range of valid
+// values for the CMD_REF param itself. For GEN_DEV_REF and SPEC_DEV_REF, a special construct
+// exists that selects the right enum.
+
 import * as assert from "assert";
 import main from "async-main";
+import * as Case from "case";
 import * as parser from "fast-xml-parser";
 import { promises as pfs } from "fs";
 import * as path from "path";
 import "source-map-support/register";
-import * as types from "../commands/types";
-import * as Case from "case";
+import * as jsonSpec from "../commands/jsonSpec";
+import * as spec from "../commands/spec";
+import {
+	convertToJsonCommand,
+	convertToJsonParams,
+	isBitfieldElement,
+	isParameter,
+	convertFromJsonCommandClasses,
+} from "../commands/specHelpers";
 
 function toArray<T>(value: MaybeArray<T>): T[] {
 	if (value === undefined) {
@@ -308,34 +335,23 @@ interface Variant {
 	sizechange?: number; // E.g. -1 or -2, means to include one or two previous bytes
 }
 
-type CommandsByClassByVersion = Map<
-	number /* class */,
-	Map<number /* version */, CommandClassMap>
->;
-
-interface CommandClassMap extends types.CommandClassDefinition {
-	commandsById: Map<number, CommandMap>;
-}
-
-interface CommandMap extends types.CommandDefinition {
-	paramsByName: Map<string, types.Parameter | types.ParameterGroup>;
-}
-
 function isReserved(name: string): boolean {
 	// Reserved names are e.g. Reserved, reserved11, ReservedA.
 	// But should not match e.g. ReservedByAdministrator or CmdReservedIds.
 	return /^[Rr]eserved[A-F]?[0-9]*$/.test(name) || /^res[0-9]*$/.test(name);
 }
 
-function makeEnumValue(name: string): types.EnumValue {
+function makeEnumValue(name: string): spec.EnumValue {
 	return {
 		name: Case.pascal(name),
 		help: name,
 	};
 }
 
-function generateBitfields(param: StructByteParam): types.BitfieldElement[] {
-	let result: types.BitfieldElement[] = [];
+function generateBitfields(
+	param: StructByteParam
+): spec.BitfieldElement<spec.RefMode.Json>[] {
+	let result: spec.BitfieldElement<spec.RefMode.Json>[] = [];
 	for (const flag of toArray(param.bitflag)) {
 		// Remap key to just append at end in case of duplicate, e.g.
 		// necessary for COMMAND_CLASS_ZIP:COMMAND_ZIP_PACKET
@@ -343,22 +359,24 @@ function generateBitfields(param: StructByteParam): types.BitfieldElement[] {
 
 		const elementName = Case.camel(flag.flagname);
 		result[key] = {
-			type: types.BitfieldElementType.Boolean,
+			fieldType: spec.BitfieldElementType.Boolean,
 			name: elementName,
 			mask: flag.flagmask,
 			shift: Math.log2(flag.flagmask),
 			reserved: isReserved(elementName) ? true : undefined,
+			parent: undefined,
 		};
 	}
 	for (const field of toArray(param.bitfield)) {
 		const key = !result[field.key] ? field.key : result.length;
 		const elementName = Case.camel(field.fieldname);
 		result[key] = {
-			type: types.BitfieldElementType.Integer,
+			fieldType: spec.BitfieldElementType.Integer,
 			name: elementName,
 			mask: field.fieldmask,
 			shift: field.shifter ?? 0,
 			reserved: isReserved(elementName) ? true : undefined,
+			parent: undefined,
 		};
 	}
 	for (const enm of toArray(param.fieldenum)) {
@@ -377,12 +395,13 @@ function generateBitfields(param: StructByteParam): types.BitfieldElement[] {
 		const key = !result[enm.key] ? enm.key : result.length;
 		const elementName = Case.camel(enm.fieldname);
 		result[key] = {
-			type: types.BitfieldElementType.Enum,
+			fieldType: spec.BitfieldElementType.Enum,
 			name: elementName,
 			mask: enm.fieldmask,
 			shift: enm.shifter ?? 0,
 			reserved: isReserved(elementName) ? true : undefined,
 			values,
+			parent: undefined,
 		};
 	}
 
@@ -415,8 +434,9 @@ function buildParamRef(
 	shift: number | undefined,
 	numericOnly: boolean,
 	mainMap: Map<number, Param>,
-	groupMap?: Map<number, Param>
-): types.ParameterReference {
+	groupMap?: Map<number, Param>,
+	groupName?: string
+): spec.Ref {
 	const isParentReference = key >= 128 ? true : undefined; // Less noisy in JSON
 	if (isParentReference && !groupMap) {
 		throw new Error(`invalid parent parameter reference, not in a group`);
@@ -437,7 +457,7 @@ function buildParamRef(
 		);
 	}
 
-	let bitfieldRef: types.BitfieldReference | undefined;
+	let bitfieldName: string | undefined;
 	if (mask !== undefined && mask !== 255) {
 		if (param.type !== ParamType.STRUCT_BYTE) {
 			throw new Error("parameter reference must be struct byte");
@@ -451,7 +471,7 @@ function buildParamRef(
 			}
 		}
 		if (!fieldName && numericOnly) {
-			throw new Error(`parameter reference must be numeric for instance`);
+			throw new Error(`numeric parameter reference expected`);
 		}
 		if (!fieldName && param.bitflag) {
 			const bitflags = toArray(param.bitflag);
@@ -461,22 +481,25 @@ function buildParamRef(
 			}
 		}
 		if (!fieldName) {
-			throw new Error("no bitfield or bitflag defined for mask");
+			throw new Error(
+				"no integer bitfield or boolean bitflag defined for mask"
+			);
 		}
-		bitfieldRef = {
-			mask: mask,
-			shift: shift ?? shiftFromMask(mask),
-			name: Case.camel(fieldName),
-		};
+		bitfieldName = Case.camel(fieldName);
 	} else {
 		assert(shift === undefined || shift === 0);
-		bitfieldRef = undefined;
+		bitfieldName = undefined;
 	}
 
+	let refName: string = Case.camel(param.name);
+	if (groupName && !isParentReference) {
+		refName = `${Case.camel(groupName)}.${refName}`;
+	}
+	if (bitfieldName) {
+		refName = `${refName}.${bitfieldName}`;
+	}
 	return {
-		ref: Case.camel(param.name),
-		isParentReference,
-		bitfield: bitfieldRef,
+		ref: refName,
 	};
 }
 
@@ -486,19 +509,29 @@ function buildLocalParamRef(
 	shift: number | undefined,
 	numericOnly: boolean,
 	mainMap: Map<number, Param>,
-	groupMap?: Map<number, Param>
-): types.LocalParameterReference {
-	const ref = buildParamRef(key, mask, shift, numericOnly, mainMap, groupMap);
-	assert(!ref.isParentReference, "expected local reference");
+	groupMap?: Map<number, Param>,
+	groupName?: string
+): spec.Ref {
+	assert(key >= 0, "expected local reference");
+	const ref = buildParamRef(
+		key,
+		mask,
+		shift,
+		numericOnly,
+		mainMap,
+		groupMap,
+		groupName
+	);
 	return ref;
 }
 
 function generateParameter(
 	param: Param | VariantGroup,
 	mainIdMap: Map<number, Param>,
-	groupIdMap?: Map<number, Param>
-): types.Parameter | types.ParameterGroup {
-	let optional: types.OptionalInfo | undefined;
+	groupIdMap?: Map<number, Param>,
+	groupName?: string
+): spec.Parameter<spec.RefMode.Json> {
+	let optional: spec.Ref | undefined;
 	if (
 		typeof param.optionalmask === "number" &&
 		typeof param.optionaloffs === "number"
@@ -510,12 +543,16 @@ function generateParameter(
 			undefined,
 			false,
 			mainIdMap,
-			groupIdMap
+			groupIdMap,
+			groupName
 		);
 	}
 
 	const paramName = Case.camel(param.name);
-	const paramBase: Omit<types.ParameterBase, "type" | "length"> = {
+	const paramBase: Omit<
+		spec.ParameterBase<spec.RefMode.Json>,
+		"type" | "length"
+	> = {
 		name: paramName,
 		help: param.name,
 		optional,
@@ -539,7 +576,7 @@ function generateParameter(
 					// A BYTE can define some 'special' values, but it can just as well
 					// be any other value, i.e. if the value happens to be one of the
 					// enum values, use it, otherwise just display the number itself.
-					let values: types.EnumValues | undefined;
+					let values: spec.EnumValues | undefined;
 					if (param.bitflag) {
 						values = createKeyValues();
 						for (const flag of toArray(param.bitflag)) {
@@ -549,7 +586,7 @@ function generateParameter(
 						}
 					}
 					return {
-						type: types.ParameterType.Integer,
+						type: spec.ParameterType.Integer,
 						...paramBase,
 						length: 1,
 						valueType: encaptypeToValueType(param.encaptype),
@@ -570,7 +607,7 @@ function generateParameter(
 						values[enm.flagmask] = makeEnumValue(enm.flagname);
 					}
 					return {
-						type: types.ParameterType.Enum,
+						type: spec.ParameterType.Enum,
 						...paramBase,
 						length: 1,
 						valueType: encaptypeToValueType(param.encaptype),
@@ -581,7 +618,7 @@ function generateParameter(
 
 			case ParamType.WORD:
 				return {
-					type: types.ParameterType.Integer,
+					type: spec.ParameterType.Integer,
 					...paramBase,
 					length: 2,
 				};
@@ -589,7 +626,7 @@ function generateParameter(
 
 			case ParamType.BIT_24:
 				return {
-					type: types.ParameterType.Integer,
+					type: spec.ParameterType.Integer,
 					...paramBase,
 					length: 3,
 				};
@@ -597,7 +634,7 @@ function generateParameter(
 
 			case ParamType.DWORD:
 				return {
-					type: types.ParameterType.Integer,
+					type: spec.ParameterType.Integer,
 					...paramBase,
 					length: 4,
 				};
@@ -617,13 +654,13 @@ function generateParameter(
 
 					if (attr.is_ascii) {
 						return {
-							type: types.ParameterType.Text,
+							type: spec.ParameterType.Text,
 							...paramBase,
 							length: attr.len,
 						};
 					} else {
 						return {
-							type: types.ParameterType.Blob,
+							type: spec.ParameterType.Blob,
 							...paramBase,
 							length: attr.len,
 						};
@@ -643,28 +680,32 @@ function generateParameter(
 						);
 					}
 
-					let length: types.LengthInfo;
+					let length: spec.LengthInfo<spec.RefMode.Json>;
 					if (attr.paramoffs === 255) {
 						length = {
-							lengthType: types.LengthType.Automatic,
+							lengthType: spec.LengthType.Automatic,
 							endOffset: 0, // Assigned later
 						};
 					} else {
 						length = {
-							lengthType: types.LengthType.ParameterReference,
-							...buildParamRef(
+							lengthType: spec.LengthType.ParameterReference,
+							from: buildParamRef(
 								attr.paramoffs,
 								attr.sizemask,
 								attr.sizeoffs ?? 0,
 								true,
 								mainIdMap,
-								groupIdMap
+								groupIdMap,
+								groupName
 							),
+							offset: attr.sizechange
+								? -attr.sizechange
+								: undefined,
 						};
 					}
 					if (attr.is_ascii) {
 						return {
-							type: types.ParameterType.Text,
+							type: spec.ParameterType.Text,
 							...paramBase,
 							length,
 						};
@@ -672,7 +713,7 @@ function generateParameter(
 						const valueType = encaptypeToValueType(param.encaptype);
 						if (valueType) {
 							return {
-								type: types.ParameterType.EnumArray,
+								type: spec.ParameterType.EnumArray,
 								...paramBase,
 								length,
 								valueType,
@@ -682,13 +723,10 @@ function generateParameter(
 								param.encaptype
 							);
 							return {
-								type: types.ParameterType.Blob,
+								type: spec.ParameterType.Blob,
 								...paramBase,
 								length,
 								blobType,
-								includeBytesBefore: param.variant.sizechange
-									? -param.variant.sizechange
-									: undefined,
 							};
 						}
 					}
@@ -698,7 +736,7 @@ function generateParameter(
 			case ParamType.STRUCT_BYTE:
 				{
 					return {
-						type: types.ParameterType.Bitfield,
+						type: spec.ParameterType.Bitfield,
 						...paramBase,
 						length: 1,
 						fields: generateBitfields(param),
@@ -768,7 +806,7 @@ function generateParameter(
 					const valueType = encaptypeToValueType(param.encaptype);
 					assert(valueType === undefined); // With valuetype is no longer used in current spec
 					let enums:
-						| { [enumIndex: number]: types.EnumValues }
+						| { [enumIndex: number]: spec.EnumValues }
 						| undefined;
 					if (!valueType) {
 						// XML configuration looks like a bunch of these:
@@ -810,7 +848,7 @@ function generateParameter(
 					// A multi-array is basically a union of enums, where the specific enum is chosen based on
 					// the value of another parameter (i.e. descloc.param)
 					return {
-						type: types.ParameterType.EnumUnion,
+						type: spec.ParameterType.EnumUnion,
 						...paramBase,
 						length: 1,
 						reference: buildParamRef(
@@ -819,7 +857,8 @@ function generateParameter(
 							undefined,
 							true,
 							mainIdMap,
-							groupIdMap
+							groupIdMap,
+							groupName
 						),
 						enums,
 						valueType,
@@ -831,7 +870,7 @@ function generateParameter(
 			default:
 				console.log("TODO", param.type);
 				return {
-					type: types.ParameterType.Integer,
+					type: spec.ParameterType.Integer,
 					...paramBase,
 					length: 0,
 				};
@@ -852,10 +891,10 @@ function generateParameter(
 		toArray(param.param).forEach((p) => groupIdMap.set(p.key, p));
 
 		const params = toArray(param.param).map((p) =>
-			generateParameter(p, mainIdMap, groupIdMap)
-		) as types.Parameter[];
-		let moreToFollow: types.MoreToFollowInfo | undefined;
-		let length: types.LengthInfo;
+			generateParameter(p, mainIdMap, groupIdMap, param.name)
+		) as spec.LocalParameter<spec.RefMode.Json>[];
+		let moreToFollow: spec.Ref | undefined;
+		let length: spec.LengthInfo<spec.RefMode.Json>;
 		if (param.paramOffs === 255) {
 			if (
 				typeof param.moretofollowoffs === "number" &&
@@ -867,14 +906,15 @@ function generateParameter(
 					undefined,
 					false,
 					mainIdMap,
-					groupIdMap
+					groupIdMap,
+					param.name
 				);
 				length = {
-					lengthType: types.LengthType.MoreToFollow,
+					lengthType: spec.LengthType.MoreToFollow,
 				};
 			} else {
 				length = {
-					lengthType: types.LengthType.Automatic,
+					lengthType: spec.LengthType.Automatic,
 					endOffset: 0, // Assigned later
 				};
 			}
@@ -886,8 +926,8 @@ function generateParameter(
 			assert(typeof param.sizeoffs === "number");
 			// Note: for groups, length is indicated as number of elements, not bytes
 			length = {
-				lengthType: types.LengthType.ParameterReference,
-				...buildParamRef(
+				lengthType: spec.LengthType.ParameterReference,
+				from: buildParamRef(
 					param.paramOffs,
 					param.sizemask,
 					param.sizeoffs,
@@ -898,7 +938,7 @@ function generateParameter(
 			};
 		}
 		return {
-			type: types.ParameterType.ParameterGroup,
+			type: spec.ParameterType.ParameterGroup,
 			...paramBase,
 			length,
 			moreToFollow,
@@ -907,7 +947,10 @@ function generateParameter(
 	}
 }
 
-function generateCommand(cmdClass: CommandClass, cmd: Command): CommandMap {
+function generateCommand(
+	cmdClass: CommandClass,
+	cmd: Command
+): jsonSpec.CommandDefinition {
 	//console.log(cmdClass.name, cmd.name);
 
 	// Convert params and VariantGroups to a single array of params, in the right order
@@ -942,14 +985,13 @@ function generateCommand(cmdClass: CommandClass, cmd: Command): CommandMap {
 
 	const convertedParams = params.map((p) => generateParameter(p, idMap));
 
-	let command: CommandMap = {
+	let command: jsonSpec.CommandDefinition = {
 		command: cmd.key,
 		name: Case.pascal(cmd.name),
 		help: cmd.help,
 		status: commentToStatus(cmd.comment),
 		cmdMask: cmd.cmd_mask,
 		params: convertedParams,
-		paramsByName: new Map(convertedParams.map((p) => [p.name, p])),
 	};
 
 	// Add cmdMask, if necessary
@@ -973,7 +1015,9 @@ function generateCommand(cmdClass: CommandClass, cmd: Command): CommandMap {
 	return command;
 }
 
-function generateCommandClass(cmdClass: CommandClass): CommandClassMap {
+function generateCommandClass(
+	cmdClass: CommandClass
+): jsonSpec.CommandClassDefinition {
 	const commands = toArray(cmdClass.cmd).map((cmd) => {
 		try {
 			return generateCommand(cmdClass, cmd);
@@ -995,54 +1039,51 @@ function generateCommandClass(cmdClass: CommandClass): CommandClassMap {
 		status: commentToStatus(cmdClass.comment),
 		version: cmdClass.version,
 		commands: commands,
-		commandsById: new Map(commands.map((cmd) => [cmd.command, cmd])),
 	};
 }
 
-function commentToStatus(
-	comment: string | undefined
-): types.ObsolescenceStatus {
+function commentToStatus(comment: string | undefined): spec.ObsolescenceStatus {
 	switch (comment) {
 		case "[OBSOLETED]":
-			return types.ObsolescenceStatus.Obsolete;
+			return spec.ObsolescenceStatus.Obsolete;
 		case "[DEPRECATED]":
-			return types.ObsolescenceStatus.Deprecated;
+			return spec.ObsolescenceStatus.Deprecated;
 		default:
-			return types.ObsolescenceStatus.Active;
+			return spec.ObsolescenceStatus.Active;
 	}
 }
 
-function encapTypeToBlobType(encaptype?: string): types.BlobType | undefined {
+function encapTypeToBlobType(encaptype?: string): spec.BlobType | undefined {
 	if (!encaptype) {
 		return undefined;
 	}
 	switch (encaptype) {
 		case "CMD_DATA":
-			return types.BlobType.CmdData;
+			return spec.BlobType.CmdData;
 		case "CMD_ENCAP":
-			return types.BlobType.CmdEncapsulation;
+			return spec.BlobType.CmdEncapsulation;
 		default:
 			throw new Error("Unsupported blob encaptype");
 	}
 }
 
-function encaptypeToValueType(encaptype?: string): types.ValueType | undefined {
+function encaptypeToValueType(encaptype?: string): spec.ValueType | undefined {
 	if (!encaptype) {
 		return undefined;
 	}
 	switch (encaptype) {
 		case "NODE_NUMBER":
-			return types.ValueType.NodeNumber;
+			return spec.ValueType.NodeNumber;
 		case "CMD_CLASS_REF":
-			return types.ValueType.CommandClass;
+			return spec.ValueType.CommandClass;
 		case "CMD_REF":
-			return types.ValueType.Command;
+			return spec.ValueType.Command;
 		case "BAS_DEV_REF":
-			return types.ValueType.BasicDevice;
+			return spec.ValueType.BasicDevice;
 		case "GEN_DEV_REF":
-			return types.ValueType.GenericDevice;
+			return spec.ValueType.GenericDevice;
 		case "SPEC_DEV_REF":
-			return types.ValueType.SpecificDevice;
+			return spec.ValueType.SpecificDevice;
 		case "CMD_DATA":
 		case "CMD_ENCAP":
 			// known, but a blob type, not value type
@@ -1052,7 +1093,7 @@ function encaptypeToValueType(encaptype?: string): types.ValueType | undefined {
 	}
 }
 
-function createKeyValues(): types.EnumValues {
+function createKeyValues(): spec.EnumValues {
 	return Object.create(null);
 }
 
@@ -1080,12 +1121,15 @@ function fixDuplicateParamKey(xml: ZwClassesXml): void {
 }
 
 function forEachCommand(
-	defs: CommandsByClassByVersion,
-	callback: (commandClass: CommandClassMap, command: CommandMap) => void
+	defs: spec.CommandsByClassByVersion,
+	callback: (
+		commandClass: spec.CommandClassDefinition,
+		command: spec.CommandDefinition
+	) => void
 ): void {
 	for (const versions of defs.values()) {
 		for (const cmdClass of versions.values()) {
-			for (const cmd of cmdClass.commandsById.values()) {
+			for (const cmd of cmdClass.commands) {
 				callback(cmdClass, cmd);
 			}
 		}
@@ -1094,8 +1138,8 @@ function forEachCommand(
 
 function getParam(
 	paramName: string,
-	params: Array<types.Parameter | types.ParameterGroup>
-): types.Parameter | types.ParameterGroup {
+	params: Array<spec.LocalParameter | spec.ParameterGroup>
+): spec.LocalParameter | spec.ParameterGroup {
 	const param = params.find((p) => p.name === paramName);
 	if (!param) {
 		throw new Error("parameter not found");
@@ -1104,8 +1148,8 @@ function getParam(
 }
 
 type Fixer = (
-	command: types.CommandDefinition,
-	cmdClass: types.CommandClassDefinition
+	command: spec.CommandDefinition,
+	cmdClass: spec.CommandClassDefinition
 ) => void;
 
 /**
@@ -1116,16 +1160,16 @@ type Fixer = (
  * but it should be derived from the number of elements present.
  */
 function fixUseDynamicLengthInsteadOfOptional(
-	param: types.Parameter | types.ParameterGroup
+	param: spec.LocalParameter | spec.ParameterGroup
 ): void {
 	if (
 		typeof param.length === "object" &&
-		param.length.lengthType === types.LengthType.Automatic &&
+		param.length.lengthType === spec.LengthType.Automatic &&
 		param.optional
 	) {
 		param.length = {
-			lengthType: types.LengthType.ParameterReference,
-			...param.optional,
+			lengthType: spec.LengthType.ParameterReference,
+			from: param.optional,
 		};
 		param.optional = undefined;
 	}
@@ -1137,7 +1181,7 @@ function fixUseDynamicLengthInsteadOfOptional(
  * encapsulated commandclass.
  * This function corrects that.
  */
-function collapseEncryptedPayload(command: types.CommandDefinition) {
+function collapseEncryptedPayload(command: spec.CommandDefinition) {
 	const prop1 = getParam("properties1", command.params);
 	const prop1Index = command.params.indexOf(prop1);
 	command.params.splice(prop1Index, 1);
@@ -1146,26 +1190,34 @@ function collapseEncryptedPayload(command: types.CommandDefinition) {
 	payload.help = "Encrypted Payload";
 }
 
-function collapseCommandEncapsulation(command: types.CommandDefinition) {
+function collapseCommandEncapsulation(command: spec.CommandDefinition) {
 	const commandClassParam = getParam("commandClass", command.params);
 	const index = command.params.indexOf(commandClassParam);
 	command.params.splice(index, 2);
 	const encapParam = getParam("parameter", command.params);
-	if (encapParam.type !== types.ParameterType.Blob) {
+	if (encapParam.type !== spec.ParameterType.Blob) {
 		throw new Error("unexpected parameter type");
 	}
 	encapParam.name = "command";
 	encapParam.help = "Encapsulated command";
-	encapParam.blobType = types.BlobType.CmdEncapsulation;
+	encapParam.blobType = spec.BlobType.CmdEncapsulation;
 }
 
-function removeByteSuffix(cmd: types.CommandDefinition): void {
+function renameParam(oldName: string, newName: string, newHelp: string): Fixer {
+	return (cmd: spec.CommandDefinition) => {
+		const param = getParam(oldName, cmd.params);
+		param.name = newName;
+		param.help = newHelp;
+	};
+}
+
+function removeByteSuffix(cmd: spec.CommandDefinition): void {
 	for (const param of cmd.params) {
 		if (/Byte$/.test(param.name)) {
 			param.name = param.name.slice(0, -4);
 			param.help = param.help.slice(0, -4);
 		}
-		if (param.type === types.ParameterType.ParameterGroup) {
+		if (param.type === spec.ParameterType.ParameterGroup) {
 			for (const groupParam of param.params) {
 				if (/Byte$/.test(groupParam.name)) {
 					groupParam.name = groupParam.name.slice(0, -4);
@@ -1176,8 +1228,8 @@ function removeByteSuffix(cmd: types.CommandDefinition): void {
 	}
 }
 
-function applyFixes(classes: types.CommandClassDefinition[]): void {
-	const classFixes: {
+function applyFixes(defs: spec.CommandsByClassByVersion): void {
+	const commandFixers: {
 		[className: string]: {
 			[commandName: string]: Fixer | Fixer[];
 		};
@@ -1198,28 +1250,107 @@ function applyFixes(classes: types.CommandClassDefinition[]): void {
 			},
 		},
 	};
-	const always: Fixer[] = [removeByteSuffix];
-	for (const cmdClass of classes) {
-		const cmds = classFixes[cmdClass.name];
-		for (const command of cmdClass.commands) {
-			for (const fixer of always) {
+	const alwaysFixers: Fixer[] = [removeByteSuffix];
+
+	forEachCommand(defs, (cmdClass, command) => {
+		for (const fixer of alwaysFixers) {
+			fixer(command, cmdClass);
+		}
+		const fixers = commandFixers[cmdClass.name]?.[command.name];
+		if (Array.isArray(fixers)) {
+			for (const fixer of fixers) {
 				fixer(command, cmdClass);
 			}
-			const fixers = cmds && cmds[command.name];
-			if (Array.isArray(fixers)) {
-				for (const fixer of fixers) {
-					fixer(command, cmdClass);
-				}
-			} else if (fixers) {
-				fixers(command, cmdClass);
-			}
+		} else if (fixers) {
+			fixers(command, cmdClass);
 		}
-	}
+	});
 }
 
-interface ParameterContext {
-	name: string;
-	params: Array<types.Parameter | types.ParameterGroup>;
+function isNumericParamOrField(
+	x: spec.Parameter | spec.BitfieldElement
+): boolean {
+	return (
+		(isParameter(x) && x.type === spec.ParameterType.Integer) ||
+		(isBitfieldElement(x) &&
+			x.fieldType === spec.BitfieldElementType.Integer)
+	);
+}
+
+function addRef<T>(existing: T[] | undefined, element: T): T[] {
+	return existing ? [...existing, element] : [element];
+}
+
+function assignSourceReferences(defs: spec.CommandsByClassByVersion): void {
+	forEachCommand(defs, (cmdClass, cmd) => {
+		for (const param of cmd.params) {
+			if (param.optional) {
+				assert(
+					(isParameter(param.optional) &&
+						param.optional.type === spec.ParameterType.Integer) ||
+						(isBitfieldElement(param.optional) &&
+							(param.optional.fieldType ===
+								spec.BitfieldElementType.Integer ||
+								param.optional.fieldType ===
+									spec.BitfieldElementType.Boolean))
+				);
+				param.optional.presenceOf = addRef(
+					param.optional.presenceOf,
+					param
+				);
+			}
+			if (
+				typeof param.length === "object" &&
+				param.length.lengthType === spec.LengthType.ParameterReference
+			) {
+				assert(isNumericParamOrField(param.length.from));
+				param.length.from.lengthOf = addRef(
+					param.length.from.lengthOf,
+					param
+				);
+			}
+			if (param.type === spec.ParameterType.ParameterGroup) {
+				if (param.moreToFollow) {
+					assert(
+						param.moreToFollow.fieldType ===
+							spec.BitfieldElementType.Boolean
+					);
+					param.moreToFollow.isMoreToFollowFlag = true;
+				}
+
+				// Traverse group
+				for (const groupParam of param.params) {
+					if (groupParam.optional) {
+						assert(
+							(isParameter(groupParam.optional) &&
+								groupParam.optional.type ===
+									spec.ParameterType.Integer) ||
+								(isBitfieldElement(groupParam.optional) &&
+									(groupParam.optional.fieldType ===
+										spec.BitfieldElementType.Integer ||
+										groupParam.optional.fieldType ===
+											spec.BitfieldElementType.Boolean))
+						);
+						groupParam.optional.presenceOf = addRef(
+							groupParam.optional.presenceOf,
+							groupParam
+						);
+					}
+					if (
+						typeof groupParam.length === "object" &&
+						groupParam.length.lengthType ===
+							spec.LengthType.ParameterReference
+					) {
+						assert(isNumericParamOrField(groupParam.length.from));
+						groupParam.length.from.lengthOf = addRef(
+							groupParam.length.from.lengthOf,
+							groupParam
+						);
+					}
+				}
+			}
+		}
+	});
 }
 
 interface ExplicitFieldOverrides {
@@ -1230,220 +1361,65 @@ interface ExplicitFieldOverrides {
 	};
 }
 
-enum RefType {
-	Optional,
-	Length,
-	MoreToFollow,
-}
-
-function assignReference(
-	cmdClass: types.CommandClassDefinition,
-	cmd: types.CommandDefinition,
-	source: types.Parameter | types.ParameterGroup,
-	localCtx: ParameterContext,
-	ref: types.ParameterReference | types.LocalParameterReference,
-	refType: RefType,
-	isExplicitOverrides: ExplicitFieldOverrides
-): void {
-	const isParentReference =
-		"isParentReference" in ref && ref.isParentReference;
-	const ctx: ParameterContext = isParentReference ? cmd : localCtx;
-	const param = ctx.params.find((p) => p.name === ref.ref);
-	if (!param) {
-		throw new Error(`invalid reference: parameter not found`);
-	}
-
-	const refName = `${isParentReference ? `${localCtx.name}.` : ""}${ref.ref}${
-		ref.bitfield ? `.${ref.bitfield.name}` : ""
-	}`;
-	const isExplicitOverride =
-		isExplicitOverrides[cmdClass.name]?.[cmd.name]?.[refName];
-
-	let sourceRef: types.SourceRef;
-	if (cmd !== localCtx && isParentReference) {
-		// If source is in a group, but its size/presence is determined
-		// by a field in the parent context, the 'path' from that referenced
-		// property to the source needs to include the group's name.
-		sourceRef = {
-			group: localCtx.name,
-			name: source.name,
-		};
-	} else {
-		sourceRef = {
-			name: source.name,
-		};
-	}
-
-	if (!ref.bitfield) {
-		switch (param.type) {
-			case types.ParameterType.Integer:
-				if (refType === RefType.Length) {
-					param.lengthOf = {
-						isExplicit: isExplicitOverride ? true : undefined,
-						refs: param.lengthOf
-							? [...param.lengthOf.refs, sourceRef]
-							: [sourceRef],
-					};
-				} else if (refType === RefType.Optional) {
-					// Integer value can be derived for a length, but not from presence of
-					// a field, so integer field is always explicit in that case.
-					param.presenceOf = {
-						isExplicit: true,
-						refs: param.presenceOf
-							? [...param.presenceOf.refs, sourceRef]
-							: [sourceRef],
-					};
-				} else {
-					throw new Error(`unexpected refType ${RefType[refType]}`);
-				}
-				break;
-			default:
-				throw new Error(
-					`unexpected referenced field type: integer expected, got ${param.type}`
-				);
-		}
-	} else {
-		if (param.type !== types.ParameterType.Bitfield) {
-			throw new Error(
-				"invalid bitfield reference: referee is not a bitfield"
-			);
-		}
-		const bfName = ref.bitfield.name;
-		const bitfield = param.fields.find((f) => f.name === bfName);
-		if (!bitfield) {
-			throw new Error(
-				"invalid bitfield reference: bitfield element not found"
-			);
-		}
-		switch (bitfield.type) {
-			case types.BitfieldElementType.Boolean:
-				// Booleans can be auto-generated from presence of parameter
-				if (refType === RefType.Optional) {
-					assert(
-						!sourceRef.group,
-						"presenceOf is typed as LocalSourceRef"
-					);
-					bitfield.presenceOf = {
-						isExplicit: isExplicitOverride ? true : undefined,
-						refs: bitfield.presenceOf
-							? [...bitfield.presenceOf.refs, sourceRef]
-							: [sourceRef],
-					};
-				} else if (refType === RefType.MoreToFollow) {
-					bitfield.isMoreToFollowFlag = true;
-				} else {
-					throw new Error(`unexpected refType ${RefType[refType]}`);
-				}
-				assert(
-					!(bitfield.presenceOf && bitfield.isMoreToFollowFlag),
-					"presenceOf and isMoreToFollowFlag cannot both be present"
-				);
-				break;
-			case types.BitfieldElementType.Integer:
-				if (refType === RefType.Length) {
-					bitfield.lengthOf = {
-						isExplicit: isExplicitOverride ? true : undefined,
-						refs: bitfield.lengthOf
-							? [...bitfield.lengthOf.refs, sourceRef]
-							: [sourceRef],
-					};
-				} else if (refType === RefType.Optional) {
-					// Integer value can be derived for a length, but not from presence of
-					// a field, so integer field is always explicit in that case.
-					bitfield.presenceOf = {
-						isExplicit: true,
-						refs: bitfield.presenceOf
-							? [...bitfield.presenceOf.refs, sourceRef]
-							: [sourceRef],
-					};
-				} else {
-					throw new Error(`unexpected refType ${RefType[refType]}`);
-				}
-				break;
-			default:
-				throw new Error(
-					`unexpected referenced field type: integer or boolean expected, got ${bitfield.type}`
-				);
-		}
-	}
-}
-
-function assignSourceReferences(defs: CommandsByClassByVersion): void {
-	const isExplicitFieldOverrides: ExplicitFieldOverrides = {
+function assignAutogenerated(defs: spec.CommandsByClassByVersion): void {
+	const hasExplicitOverrides: ExplicitFieldOverrides = {
 		Zwave: {
 			NodeInfo: {
-				"properties2.controller": true,
+				controller: true,
 			},
 		},
 	};
-	forEachCommand(defs, (cmdClass, cmd) => {
-		for (const param of cmd.params) {
-			if (param.optional) {
-				assignReference(
-					cmdClass,
-					cmd,
-					param,
-					cmd,
-					param.optional,
-					RefType.Optional,
-					isExplicitFieldOverrides
-				);
-			}
-			if (
-				typeof param.length === "object" &&
-				param.length.lengthType === types.LengthType.ParameterReference
-			) {
-				assignReference(
-					cmdClass,
-					cmd,
-					param,
-					cmd,
-					param.length,
-					RefType.Length,
-					isExplicitFieldOverrides
-				);
-			}
-			if (param.type === types.ParameterType.ParameterGroup) {
-				if (param.moreToFollow) {
-					assignReference(
-						cmdClass,
-						cmd,
-						param,
-						param,
-						param.moreToFollow,
-						RefType.MoreToFollow,
-						isExplicitFieldOverrides
-					);
+	const handleParam = (
+		names: { [name: string]: boolean } | undefined,
+		param: spec.LocalParameter | spec.ParameterGroup,
+		groupPrefix: string
+	) => {
+		if (param.type === spec.ParameterType.Integer) {
+			if (names?.[`${groupPrefix}${param.name}`]) {
+				// If explicitly marked as non-autogenerated, make that
+				// explicit in the output, too.
+				param.isAutogenerated = false;
+			} else {
+				// Integers can only be autogenerated when they indicate
+				// the length of another field, not just their presence
+				if (param.lengthOf) {
+					param.isAutogenerated = true;
 				}
-
-				// Traverse group
+			}
+		}
+		if (param.type === spec.ParameterType.Bitfield) {
+			for (const field of param.fields) {
+				if (names?.[`${groupPrefix}${field.name}`]) {
+					field.isAutogenerated = false;
+				} else {
+					switch (field.fieldType) {
+						case spec.BitfieldElementType.Integer:
+							// Integers can only be autogenerated when they indicate
+							// the length of another field, not just their presence
+							if (field.lengthOf) {
+								field.isAutogenerated = true;
+							}
+							break;
+						case spec.BitfieldElementType.Boolean:
+							// Booleans can be autogenerated when they indicate presence
+							if (field.presenceOf) {
+								field.isAutogenerated = true;
+							}
+							break;
+						default:
+						// Enums are never autogenerated
+					}
+				}
+			}
+		}
+	};
+	forEachCommand(defs, (cmdClass, cmd) => {
+		const paramOverrides = hasExplicitOverrides[cmdClass.name]?.[cmd.name];
+		for (const param of cmd.params) {
+			handleParam(paramOverrides, param, "");
+			if (param.type === spec.ParameterType.ParameterGroup) {
 				for (const groupParam of param.params) {
-					if (groupParam.optional) {
-						assignReference(
-							cmdClass,
-							cmd,
-							groupParam,
-							param,
-							groupParam.optional,
-							RefType.Optional,
-							isExplicitFieldOverrides
-						);
-					}
-					if (
-						typeof groupParam.length === "object" &&
-						groupParam.length.lengthType ===
-							types.LengthType.ParameterReference
-					) {
-						assignReference(
-							cmdClass,
-							cmd,
-							groupParam,
-							param,
-							groupParam.length,
-							RefType.Length,
-							isExplicitFieldOverrides
-						);
-					}
+					handleParam(paramOverrides, param, `${param.name}.`);
 				}
 			}
 		}
@@ -1451,14 +1427,14 @@ function assignSourceReferences(defs: CommandsByClassByVersion): void {
 }
 
 function determineEndOffset(
-	cmdClass: types.CommandClassDefinition,
-	cmd: types.CommandDefinition,
-	param: types.Parameter | types.ParameterGroup,
-	params: Array<types.Parameter | types.ParameterGroup>
+	cmdClass: spec.CommandClassDefinition,
+	cmd: spec.CommandDefinition,
+	param: spec.LocalParameter | spec.ParameterGroup,
+	params: Array<spec.LocalParameter | spec.ParameterGroup>
 ): void {
 	if (
 		typeof param.length !== "object" ||
-		param.length.lengthType !== types.LengthType.Automatic
+		param.length.lengthType !== spec.LengthType.Automatic
 	) {
 		return;
 	}
@@ -1469,7 +1445,7 @@ function determineEndOffset(
 	const nonAutomaticLengthParams = remainingParams.filter(
 		(p) =>
 			typeof p.length === "number" ||
-			p.length.lengthType !== types.LengthType.Automatic
+			p.length.lengthType !== spec.LengthType.Automatic
 	);
 	const fixedSizes = nonAutomaticLengthParams
 		.map((p) => p.length)
@@ -1485,11 +1461,11 @@ function determineEndOffset(
 	param.length.endOffset = fixedSizes.reduce((sum, len) => sum + len, 0);
 }
 
-function determineEndOffsets(defs: CommandsByClassByVersion): void {
+function determineEndOffsets(defs: spec.CommandsByClassByVersion): void {
 	forEachCommand(defs, (cmdClass, cmd) => {
 		for (const param of cmd.params) {
 			determineEndOffset(cmdClass, cmd, param, cmd.params);
-			if (param.type === types.ParameterType.ParameterGroup) {
+			if (param.type === spec.ParameterType.ParameterGroup) {
 				for (const groupParam of param.params) {
 					determineEndOffset(cmdClass, cmd, groupParam, param.params);
 				}
@@ -1498,7 +1474,7 @@ function determineEndOffsets(defs: CommandsByClassByVersion): void {
 	});
 }
 
-async function xml2json(xmlString: string): Promise<types.ZwaveSpec> {
+async function xml2json(xmlString: string): Promise<jsonSpec.ZwaveSpec> {
 	// Convert to (somewhat) easier to use JSON-representation-of-XML
 	const xml = parser.parse(xmlString, {
 		attributeNamePrefix: "",
@@ -1512,34 +1488,31 @@ async function xml2json(xmlString: string): Promise<types.ZwaveSpec> {
 	// Convert XML definition of each class into our own JSON definition
 	const classes = toArray(xml.zw_classes.cmd_class).map(generateCommandClass);
 
-	// Build commandclass+version map
-	const commandsByClassByVersion: CommandsByClassByVersion = new Map();
-	for (const cmdClass of classes) {
-		let versions = commandsByClassByVersion.get(cmdClass.commandClass);
-		if (!versions) {
-			versions = new Map();
-			commandsByClassByVersion.set(cmdClass.commandClass, versions);
-		}
-		assert(!versions.has(cmdClass.version));
-		versions.set(cmdClass.version, cmdClass);
-	}
+	// Build commandclass+version map and convert from JSON to native in-memory
+	// representation (i.e. using 'real' references instead of reference strings)
+	const commandsByClassByVersion = convertFromJsonCommandClasses(classes);
 
-	applyFixes(classes);
+	applyFixes(commandsByClassByVersion);
 	assignSourceReferences(commandsByClassByVersion);
+	assignAutogenerated(commandsByClassByVersion);
 	determineEndOffsets(commandsByClassByVersion);
 
+	const newClasses: spec.CommandClassDefinition[] = [];
+	for (const versions of commandsByClassByVersion.values()) {
+		for (const cmdClass of versions.values()) {
+			newClasses.push(cmdClass);
+		}
+	}
+
 	// Generate final output JSON structure, by adding header and stripping out unwanted members
-	const spec: types.ZwaveSpec = {
+	const spec: jsonSpec.ZwaveSpec = {
 		xmlVersion: xml.zw_classes.version,
-		jsonVersion: types.JSON_VERSION,
-		classes: classes.map((cmdClassMap) => {
-			const { commandsById, ...cmdClass } = cmdClassMap;
+		jsonVersion: jsonSpec.JSON_VERSION,
+		classes: newClasses.map((cmdClassFull) => {
+			const { commandsById, ...cmdClass } = cmdClassFull;
 			return {
 				...cmdClass,
-				commands: [...commandsById.values()].map((cmdMap) => {
-					const { paramsByName, ...command } = cmdMap;
-					return command;
-				}),
+				commands: cmdClass.commands.map(convertToJsonCommand),
 			};
 		}),
 	};

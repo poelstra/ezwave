@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ManufacturerSpecificV1Commands {
@@ -34,13 +35,13 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 	public static readonly ManufacturerSpecificGet = class ManufacturerSpecificGet extends CommandPacket<void> {
 		public static readonly CommandClass = ManufacturerSpecificV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ManufacturerSpecificGet",
 			"help": "Manufacturer Specific Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;
@@ -54,7 +55,7 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 	public static readonly ManufacturerSpecificReport = class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecificV1ManufacturerSpecificReportData> {
 		public static readonly CommandClass = ManufacturerSpecificV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "ManufacturerSpecificReport",
 			"help": "Manufacturer Specific Report",
@@ -79,7 +80,7 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;

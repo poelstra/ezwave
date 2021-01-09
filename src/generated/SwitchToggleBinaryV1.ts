@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SwitchToggleBinaryV1Commands {
@@ -34,13 +35,13 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 	public static readonly SwitchToggleBinarySet = class SwitchToggleBinarySet extends CommandPacket<void> {
 		public static readonly CommandClass = SwitchToggleBinaryV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "SwitchToggleBinarySet",
 			"help": "Switch Toggle Binary Set",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
@@ -54,13 +55,13 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 	public static readonly SwitchToggleBinaryGet = class SwitchToggleBinaryGet extends CommandPacket<void> {
 		public static readonly CommandClass = SwitchToggleBinaryV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SwitchToggleBinaryGet",
 			"help": "Switch Toggle Binary Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
@@ -74,7 +75,7 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 	public static readonly SwitchToggleBinaryReport = class SwitchToggleBinaryReport extends CommandPacket<SwitchToggleBinaryV1SwitchToggleBinaryReportData> {
 		public static readonly CommandClass = SwitchToggleBinaryV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SwitchToggleBinaryReport",
 			"help": "Switch Toggle Binary Report",
@@ -97,7 +98,7 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;

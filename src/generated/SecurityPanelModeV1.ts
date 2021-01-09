@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SecurityPanelModeV1Commands {
@@ -43,13 +44,13 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 	public static readonly SecurityPanelModeGet = class SecurityPanelModeGet extends CommandPacket<void> {
 		public static readonly CommandClass = SecurityPanelModeV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SecurityPanelModeGet",
 			"help": "Security Panel Mode Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
@@ -63,7 +64,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 	public static readonly SecurityPanelModeReport = class SecurityPanelModeReport extends CommandPacket<SecurityPanelModeV1SecurityPanelModeReportData> {
 		public static readonly CommandClass = SecurityPanelModeV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "SecurityPanelModeReport",
 			"help": "Security Panel Mode Report",
@@ -98,7 +99,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
@@ -112,7 +113,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 	public static readonly SecurityPanelModeSet = class SecurityPanelModeSet extends CommandPacket<SecurityPanelModeV1SecurityPanelModeSetData> {
 		public static readonly CommandClass = SecurityPanelModeV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "SecurityPanelModeSet",
 			"help": "Security Panel Mode Set",
@@ -147,7 +148,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
@@ -161,13 +162,13 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 	public static readonly SecurityPanelModeSupportedGet = class SecurityPanelModeSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = SecurityPanelModeV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "SecurityPanelModeSupportedGet",
 			"help": "Security Panel Mode Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
@@ -181,7 +182,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 	public static readonly SecurityPanelModeSupportedReport = class SecurityPanelModeSupportedReport extends CommandPacket<SecurityPanelModeV1SecurityPanelModeSupportedReportData> {
 		public static readonly CommandClass = SecurityPanelModeV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SecurityPanelModeSupportedReport",
 			"help": "Security Panel Mode Supported Report",
@@ -194,7 +195,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;

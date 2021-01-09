@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ThermostatFanStateV1Commands {
@@ -37,13 +38,13 @@ export class ThermostatFanStateV1 extends CommandClassPacket<ThermostatFanStateV
 	public static readonly ThermostatFanStateGet = class ThermostatFanStateGet extends CommandPacket<void> {
 		public static readonly CommandClass = ThermostatFanStateV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ThermostatFanStateGet",
 			"help": "Thermostat Fan State Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatFanStateV1)?.command === this.command;
@@ -57,7 +58,7 @@ export class ThermostatFanStateV1 extends CommandClassPacket<ThermostatFanStateV
 	public static readonly ThermostatFanStateReport = class ThermostatFanStateReport extends CommandPacket<ThermostatFanStateV1ThermostatFanStateReportData> {
 		public static readonly CommandClass = ThermostatFanStateV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ThermostatFanStateReport",
 			"help": "Thermostat Fan State Report",
@@ -70,14 +71,14 @@ export class ThermostatFanStateV1 extends CommandClassPacket<ThermostatFanStateV
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "fanOperatingState",
 							"mask": 15,
 							"shift": 0,
@@ -95,7 +96,7 @@ export class ThermostatFanStateV1 extends CommandClassPacket<ThermostatFanStateV
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ThermostatFanStateV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum BasicWindowCoveringV1Commands {
@@ -33,7 +34,7 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 	public static readonly BasicWindowCoveringStartLevelChange = class BasicWindowCoveringStartLevelChange extends CommandPacket<BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData> {
 		public static readonly CommandClass = BasicWindowCoveringV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "BasicWindowCoveringStartLevelChange",
 			"help": "Basic Window Covering Start Level Change",
@@ -46,20 +47,20 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved2",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "openClose",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved1",
 							"mask": 63,
 							"shift": 0,
@@ -68,7 +69,7 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;
@@ -82,13 +83,13 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 	public static readonly BasicWindowCoveringStopLevelChange = class BasicWindowCoveringStopLevelChange extends CommandPacket<void> {
 		public static readonly CommandClass = BasicWindowCoveringV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "BasicWindowCoveringStopLevelChange",
 			"help": "Basic Window Covering Stop Level Change",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;

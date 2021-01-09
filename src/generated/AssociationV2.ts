@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum AssociationV2Commands {
@@ -63,7 +64,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationGet = class AssociationGet extends CommandPacket<AssociationV2AssociationGetData> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "AssociationGet",
 			"help": "Association Get",
@@ -76,7 +77,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;
@@ -90,13 +91,13 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationGroupingsGet = class AssociationGroupingsGet extends CommandPacket<void> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "AssociationGroupingsGet",
 			"help": "Association Groupings Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;
@@ -110,7 +111,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationGroupingsReport = class AssociationGroupingsReport extends CommandPacket<AssociationV2AssociationGroupingsReportData> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "AssociationGroupingsReport",
 			"help": "Association Groupings Report",
@@ -123,7 +124,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;
@@ -138,7 +139,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationRemove = class AssociationRemove extends CommandPacket<AssociationV2AssociationRemoveData> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "AssociationRemove",
 			"help": "Association Remove",
@@ -161,7 +162,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;
@@ -176,7 +177,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationReport = class AssociationReport extends CommandPacket<AssociationV2AssociationReportData> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "AssociationReport",
 			"help": "Association Report",
@@ -211,7 +212,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;
@@ -226,7 +227,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationSet = class AssociationSet extends CommandPacket<AssociationV2AssociationSetData> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "AssociationSet",
 			"help": "Association Set",
@@ -249,7 +250,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;
@@ -263,13 +264,13 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationSpecificGroupGet = class AssociationSpecificGroupGet extends CommandPacket<void> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x0b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 11,
 			"name": "AssociationSpecificGroupGet",
 			"help": "Association Specific Group Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;
@@ -283,7 +284,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 	public static readonly AssociationSpecificGroupReport = class AssociationSpecificGroupReport extends CommandPacket<AssociationV2AssociationSpecificGroupReportData> {
 		public static readonly CommandClass = AssociationV2;
 		public static readonly command = 0x0c;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 12,
 			"name": "AssociationSpecificGroupReport",
 			"help": "Association Specific Group Report",
@@ -296,7 +297,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationV2)?.command === this.command;

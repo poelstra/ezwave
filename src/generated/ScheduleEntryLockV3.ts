@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ScheduleEntryLockV3Commands {
@@ -162,7 +163,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockEnableAllSet = class ScheduleEntryLockEnableAllSet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockEnableAllSetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ScheduleEntryLockEnableAllSet",
 			"help": "Schedule Entry Lock Enable All Set",
@@ -185,7 +186,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -199,7 +200,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockEnableSet = class ScheduleEntryLockEnableSet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockEnableSetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ScheduleEntryLockEnableSet",
 			"help": "Schedule Entry Lock Enable Set",
@@ -228,7 +229,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -242,13 +243,13 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockTimeOffsetGet = class ScheduleEntryLockTimeOffsetGet extends CommandPacket<void> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x0b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 11,
 			"name": "ScheduleEntryLockTimeOffsetGet",
 			"help": "Schedule Entry Lock Time Offset Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -262,7 +263,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockTimeOffsetReport = class ScheduleEntryLockTimeOffsetReport extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockTimeOffsetReportData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x0c;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 12,
 			"name": "ScheduleEntryLockTimeOffsetReport",
 			"help": "Schedule Entry Lock Time Offset Report",
@@ -275,13 +276,13 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hourTZO",
 							"mask": 127,
 							"shift": 0
@@ -301,13 +302,13 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "minuteOffsetDST",
 							"mask": 127,
 							"shift": 0
@@ -315,7 +316,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -329,7 +330,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockTimeOffsetSet = class ScheduleEntryLockTimeOffsetSet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockTimeOffsetSetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x0d;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 13,
 			"name": "ScheduleEntryLockTimeOffsetSet",
 			"help": "Schedule Entry Lock Time Offset Set",
@@ -342,13 +343,13 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signTZO",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "hourTZO",
 							"mask": 127,
 							"shift": 0
@@ -368,13 +369,13 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "signOffsetDST",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "minuteOffsetDST",
 							"mask": 127,
 							"shift": 0
@@ -382,7 +383,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -396,7 +397,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockWeekDayGet = class ScheduleEntryLockWeekDayGet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockWeekDayGetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ScheduleEntryLockWeekDayGet",
 			"help": "Schedule Entry Lock Week Day Get",
@@ -415,7 +416,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -429,7 +430,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockWeekDayReport = class ScheduleEntryLockWeekDayReport extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockWeekDayReportData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "ScheduleEntryLockWeekDayReport",
 			"help": "Schedule Entry Lock Week Day Report",
@@ -478,7 +479,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -492,7 +493,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockWeekDaySet = class ScheduleEntryLockWeekDaySet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockWeekDaySetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "ScheduleEntryLockWeekDaySet",
 			"help": "Schedule Entry Lock Week Day Set",
@@ -557,7 +558,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -571,7 +572,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockYearDayGet = class ScheduleEntryLockYearDayGet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockYearDayGetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "ScheduleEntryLockYearDayGet",
 			"help": "Schedule Entry Lock Year Day Get",
@@ -590,7 +591,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -604,7 +605,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockYearDayReport = class ScheduleEntryLockYearDayReport extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockYearDayReportData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "ScheduleEntryLockYearDayReport",
 			"help": "Schedule Entry Lock Year Day Report",
@@ -683,7 +684,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -697,7 +698,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockYearDaySet = class ScheduleEntryLockYearDaySet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockYearDaySetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "ScheduleEntryLockYearDaySet",
 			"help": "Schedule Entry Lock Year Day Set",
@@ -792,7 +793,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -806,13 +807,13 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryTypeSupportedGet = class ScheduleEntryTypeSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x09;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 9,
 			"name": "ScheduleEntryTypeSupportedGet",
 			"help": "Schedule Entry Type Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -826,7 +827,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryTypeSupportedReport = class ScheduleEntryTypeSupportedReport extends CommandPacket<ScheduleEntryLockV3ScheduleEntryTypeSupportedReportData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x0a;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 10,
 			"name": "ScheduleEntryTypeSupportedReport",
 			"help": "Schedule Entry Type Supported Report",
@@ -851,7 +852,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -865,7 +866,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockDailyRepeatingGet = class ScheduleEntryLockDailyRepeatingGet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingGetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x0e;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 14,
 			"name": "ScheduleEntryLockDailyRepeatingGet",
 			"help": "Schedule Entry Lock Daily Repeating Get",
@@ -884,7 +885,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -898,7 +899,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockDailyRepeatingReport = class ScheduleEntryLockDailyRepeatingReport extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingReportData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x0f;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 15,
 			"name": "ScheduleEntryLockDailyRepeatingReport",
 			"help": "Schedule Entry Lock Daily Repeating Report",
@@ -947,7 +948,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
@@ -961,7 +962,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 	public static readonly ScheduleEntryLockDailyRepeatingSet = class ScheduleEntryLockDailyRepeatingSet extends CommandPacket<ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingSetData> {
 		public static readonly CommandClass = ScheduleEntryLockV3;
 		public static readonly command = 0x10;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 16,
 			"name": "ScheduleEntryLockDailyRepeatingSet",
 			"help": "Schedule Entry Lock Daily Repeating Set",
@@ -1026,7 +1027,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;

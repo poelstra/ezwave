@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum AvContentDirectoryMdV1Commands {
@@ -34,13 +35,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvContentBrowseMdByLetterGet = class AvContentBrowseMdByLetterGet extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "AvContentBrowseMdByLetterGet",
 			"help": "Av Content Browse Md By Letter Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
@@ -54,13 +55,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvContentBrowseMdByLetterReport = class AvContentBrowseMdByLetterReport extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "AvContentBrowseMdByLetterReport",
 			"help": "Av Content Browse Md By Letter Report",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
@@ -74,13 +75,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvContentBrowseMdChildCountGet = class AvContentBrowseMdChildCountGet extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "AvContentBrowseMdChildCountGet",
 			"help": "Av Content Browse Md Child Count Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
@@ -94,13 +95,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvContentBrowseMdChildCountReport = class AvContentBrowseMdChildCountReport extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "AvContentBrowseMdChildCountReport",
 			"help": "Av Content Browse Md Child Count Report",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
@@ -114,13 +115,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvContentBrowseMdGet = class AvContentBrowseMdGet extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "AvContentBrowseMdGet",
 			"help": "Av Content Browse Md Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
@@ -134,13 +135,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvContentBrowseMdReport = class AvContentBrowseMdReport extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "AvContentBrowseMdReport",
 			"help": "Av Content Browse Md Report",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
@@ -154,13 +155,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvMatchItemToRendererMdGet = class AvMatchItemToRendererMdGet extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "AvMatchItemToRendererMdGet",
 			"help": "Av Match Item To Renderer Md Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
@@ -174,13 +175,13 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 	public static readonly AvMatchItemToRendererMdReport = class AvMatchItemToRendererMdReport extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentDirectoryMdV1;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "AvMatchItemToRendererMdReport",
 			"help": "Av Match Item To Renderer Md Report",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;

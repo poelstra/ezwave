@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SensorBinaryV1Commands {
@@ -38,13 +39,13 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 	public static readonly SensorBinaryGet = class SensorBinaryGet extends CommandPacket<void> {
 		public static readonly CommandClass = SensorBinaryV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SensorBinaryGet",
 			"help": "Sensor Binary Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SensorBinaryV1)?.command === this.command;
@@ -58,7 +59,7 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 	public static readonly SensorBinaryReport = class SensorBinaryReport extends CommandPacket<SensorBinaryV1SensorBinaryReportData> {
 		public static readonly CommandClass = SensorBinaryV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SensorBinaryReport",
 			"help": "Sensor Binary Report",
@@ -81,7 +82,7 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SensorBinaryV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum NetworkManagementInstallationMaintenanceV1Commands {
@@ -77,7 +78,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 	public static readonly PriorityRouteSet = class PriorityRouteSet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteSetData> {
 		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "PriorityRouteSet",
 			"help": "Priority Route Set",
@@ -139,7 +140,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
@@ -153,7 +154,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 	public static readonly PriorityRouteGet = class PriorityRouteGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteGetData> {
 		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "PriorityRouteGet",
 			"help": "Priority Route Get",
@@ -167,7 +168,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
@@ -181,7 +182,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 	public static readonly PriorityRouteReport = class PriorityRouteReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteReportData> {
 		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "PriorityRouteReport",
 			"help": "Priority Route Report",
@@ -267,7 +268,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
@@ -281,7 +282,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 	public static readonly StatisticsGet = class StatisticsGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsGetData> {
 		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "StatisticsGet",
 			"help": "Statistics Get",
@@ -295,7 +296,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
@@ -310,7 +311,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 	public static readonly StatisticsReport = class StatisticsReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsReportData> {
 		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "StatisticsReport",
 			"help": "Statistics Report",
@@ -371,9 +372,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 							"length": 1,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "value"
-									}
+									"statistics.value"
 								]
 							}
 						},
@@ -383,13 +382,15 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 							"help": "Value",
 							"length": {
 								"lengthType": "ref",
-								"ref": "length"
+								"from": {
+									"ref": "statistics.length"
+								}
 							}
 						}
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
@@ -403,13 +404,13 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 	public static readonly StatisticsClear = class StatisticsClear extends CommandPacket<void> {
 		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "StatisticsClear",
 			"help": "Statistics Clear",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;

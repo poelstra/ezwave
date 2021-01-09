@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum LockV1Commands {
@@ -38,13 +39,13 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 	public static readonly LockGet = class LockGet extends CommandPacket<void> {
 		public static readonly CommandClass = LockV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "LockGet",
 			"help": "Lock Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(LockV1)?.command === this.command;
@@ -58,7 +59,7 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 	public static readonly LockReport = class LockReport extends CommandPacket<LockV1LockReportData> {
 		public static readonly CommandClass = LockV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "LockReport",
 			"help": "Lock Report",
@@ -81,7 +82,7 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(LockV1)?.command === this.command;
@@ -95,7 +96,7 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 	public static readonly LockSet = class LockSet extends CommandPacket<LockV1LockSetData> {
 		public static readonly CommandClass = LockV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "LockSet",
 			"help": "Lock Set",
@@ -118,7 +119,7 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(LockV1)?.command === this.command;

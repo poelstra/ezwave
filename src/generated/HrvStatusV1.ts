@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum HrvStatusV1Commands {
@@ -56,7 +57,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 	public static readonly HrvStatusGet = class HrvStatusGet extends CommandPacket<HrvStatusV1HrvStatusGetData> {
 		public static readonly CommandClass = HrvStatusV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "HrvStatusGet",
 			"help": "Hrv Status Get",
@@ -99,7 +100,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvStatusV1)?.command === this.command;
@@ -113,7 +114,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 	public static readonly HrvStatusReport = class HrvStatusReport extends CommandPacket<HrvStatusV1HrvStatusReportData> {
 		public static readonly CommandClass = HrvStatusV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "HrvStatusReport",
 			"help": "Hrv Status Report",
@@ -162,19 +163,19 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0
@@ -191,7 +192,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvStatusV1)?.command === this.command;
@@ -205,13 +206,13 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 	public static readonly HrvStatusSupportedGet = class HrvStatusSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = HrvStatusV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "HrvStatusSupportedGet",
 			"help": "Hrv Status Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvStatusV1)?.command === this.command;
@@ -226,7 +227,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 	public static readonly HrvStatusSupportedReport = class HrvStatusSupportedReport extends CommandPacket<HrvStatusV1HrvStatusSupportedReportData> {
 		public static readonly CommandClass = HrvStatusV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "HrvStatusSupportedReport",
 			"help": "Hrv Status Supported Report",
@@ -239,7 +240,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HrvStatusV1)?.command === this.command;

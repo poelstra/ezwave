@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum NetworkManagementPrimaryV1Commands {
@@ -50,7 +51,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 	public static readonly ControllerChange = class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeData> {
 		public static readonly CommandClass = NetworkManagementPrimaryV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ControllerChange",
 			"help": "Controller Change",
@@ -92,7 +93,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
@@ -107,7 +108,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 	public static readonly ControllerChangeStatus = class ControllerChangeStatus extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeStatusData> {
 		public static readonly CommandClass = NetworkManagementPrimaryV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ControllerChangeStatus",
 			"help": "Controller Change Status",
@@ -166,13 +167,13 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "listening",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "zWaveProtocolSpecificPart1",
 							"mask": 127,
 							"shift": 0
@@ -186,13 +187,13 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "opt",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "zWaveProtocolSpecificPart2",
 							"mask": 127,
 							"shift": 0
@@ -231,7 +232,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"valueType": "CMD_CLASS_REF"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;

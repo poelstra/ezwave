@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum IrrigationV1Commands {
@@ -175,13 +176,13 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemInfoGet = class IrrigationSystemInfoGet extends CommandPacket<void> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "IrrigationSystemInfoGet",
 			"help": "Irrigation System Info Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -195,7 +196,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemInfoReport = class IrrigationSystemInfoReport extends CommandPacket<IrrigationV1IrrigationSystemInfoReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "IrrigationSystemInfoReport",
 			"help": "Irrigation System Info Report",
@@ -208,28 +209,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved3",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved2",
 							"mask": 24,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved1",
 							"mask": 6,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -255,14 +256,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "valveTableMaxSize",
 							"mask": 15,
 							"shift": 0
@@ -270,7 +271,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -284,13 +285,13 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemStatusGet = class IrrigationSystemStatusGet extends CommandPacket<void> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "IrrigationSystemStatusGet",
 			"help": "Irrigation System Status Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -305,7 +306,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemStatusReport = class IrrigationSystemStatusReport extends CommandPacket<IrrigationV1IrrigationSystemStatusReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "IrrigationSystemStatusReport",
 			"help": "Irrigation System Status Report",
@@ -348,29 +349,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "flowValue"
-									}
+									"flowValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -380,11 +380,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Flow Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "flowSize"
+						"from": {
+							"ref": "properties1.flowSize"
 						}
 					}
 				},
@@ -395,29 +392,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "pressurePrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "pressureScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "pressureSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "pressureValue"
-									}
+									"pressureValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -427,11 +423,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Pressure Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "pressureSize"
+						"from": {
+							"ref": "properties2.pressureSize"
 						}
 					}
 				},
@@ -454,14 +447,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -475,7 +468,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -490,7 +483,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemConfigSet = class IrrigationSystemConfigSet extends CommandPacket<IrrigationV1IrrigationSystemConfigSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "IrrigationSystemConfigSet",
 			"help": "Irrigation System Config Set",
@@ -509,29 +502,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "highPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "highPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "highPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "highPressureThresholdValue"
-									}
+									"highPressureThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -541,11 +533,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "High Pressure Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "highPressureThresholdSize"
+						"from": {
+							"ref": "properties1.highPressureThresholdSize"
 						}
 					}
 				},
@@ -556,29 +545,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "lowPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "lowPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "lowPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "lowPressureThresholdValue"
-									}
+									"lowPressureThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -588,11 +576,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Low Pressure Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "lowPressureThresholdSize"
+						"from": {
+							"ref": "properties2.lowPressureThresholdSize"
 						}
 					}
 				},
@@ -603,7 +588,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -617,13 +602,13 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemConfigGet = class IrrigationSystemConfigGet extends CommandPacket<void> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "IrrigationSystemConfigGet",
 			"help": "Irrigation System Config Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -638,7 +623,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemConfigReport = class IrrigationSystemConfigReport extends CommandPacket<IrrigationV1IrrigationSystemConfigReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "IrrigationSystemConfigReport",
 			"help": "Irrigation System Config Report",
@@ -657,29 +642,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "highPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "highPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "highPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "highPressureThresholdValue"
-									}
+									"highPressureThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -689,11 +673,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "High Pressure Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties1",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "highPressureThresholdSize"
+						"from": {
+							"ref": "properties1.highPressureThresholdSize"
 						}
 					}
 				},
@@ -704,29 +685,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "lowPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "lowPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "lowPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "lowPressureThresholdValue"
-									}
+									"lowPressureThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -736,11 +716,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Low Pressure Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "lowPressureThresholdSize"
+						"from": {
+							"ref": "properties2.lowPressureThresholdSize"
 						}
 					}
 				},
@@ -751,7 +728,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -765,7 +742,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveInfoGet = class IrrigationValveInfoGet extends CommandPacket<IrrigationV1IrrigationValveInfoGetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "IrrigationValveInfoGet",
 			"help": "Irrigation Valve Info Get",
@@ -778,14 +755,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -799,7 +776,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -814,7 +791,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveInfoReport = class IrrigationValveInfoReport extends CommandPacket<IrrigationV1IrrigationValveInfoReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x09;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 9,
 			"name": "IrrigationValveInfoReport",
 			"help": "Irrigation Valve Info Report",
@@ -827,20 +804,20 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "connected",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "master",
 							"mask": 1,
 							"shift": 0
@@ -866,7 +843,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -881,7 +858,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveConfigSet = class IrrigationValveConfigSet extends CommandPacket<IrrigationV1IrrigationValveConfigSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0a;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 10,
 			"name": "IrrigationValveConfigSet",
 			"help": "Irrigation Valve Config Set",
@@ -894,14 +871,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -933,29 +910,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "maximumFlowPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "maximumFlowScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "maximumFlowSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "maximumFlowValue"
-									}
+									"maximumFlowValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -965,11 +941,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Maximum Flow Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "maximumFlowSize"
+						"from": {
+							"ref": "properties2.maximumFlowSize"
 						}
 					}
 				},
@@ -980,29 +953,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowHighThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowHighThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowHighThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "flowHighThresholdValue"
-									}
+									"flowHighThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1012,11 +984,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Flow High Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties3",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "flowHighThresholdSize"
+						"from": {
+							"ref": "properties3.flowHighThresholdSize"
 						}
 					}
 				},
@@ -1027,29 +996,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowLowThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowLowThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowLowThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "flowLowThresholdValue"
-									}
+									"flowLowThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1059,11 +1027,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Flow Low Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties4",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "flowLowThresholdSize"
+						"from": {
+							"ref": "properties4.flowLowThresholdSize"
 						}
 					}
 				},
@@ -1074,7 +1039,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1088,7 +1053,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveConfigGet = class IrrigationValveConfigGet extends CommandPacket<IrrigationV1IrrigationValveConfigGetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0b;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 11,
 			"name": "IrrigationValveConfigGet",
 			"help": "Irrigation Valve Config Get",
@@ -1101,14 +1066,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -1122,7 +1087,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1137,7 +1102,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveConfigReport = class IrrigationValveConfigReport extends CommandPacket<IrrigationV1IrrigationValveConfigReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0c;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 12,
 			"name": "IrrigationValveConfigReport",
 			"help": "Irrigation Valve Config Report",
@@ -1150,14 +1115,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -1189,29 +1154,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "maximumFlowPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "maximumFlowScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "maximumFlowSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "maximumFlowValue"
-									}
+									"maximumFlowValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1221,11 +1185,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Maximum Flow Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "maximumFlowSize"
+						"from": {
+							"ref": "properties2.maximumFlowSize"
 						}
 					}
 				},
@@ -1236,29 +1197,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowHighThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowHighThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowHighThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "flowHighThresholdValue"
-									}
+									"flowHighThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1268,11 +1228,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Flow High Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties3",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "flowHighThresholdSize"
+						"from": {
+							"ref": "properties3.flowHighThresholdSize"
 						}
 					}
 				},
@@ -1283,29 +1240,28 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowLowThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowLowThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "flowLowThresholdSize",
 							"mask": 7,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "flowLowThresholdValue"
-									}
+									"flowLowThresholdValue"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -1315,11 +1271,8 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"help": "Flow Low Threshold Value",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties4",
-						"bitfield": {
-							"mask": 7,
-							"shift": 0,
-							"name": "flowLowThresholdSize"
+						"from": {
+							"ref": "properties4.flowLowThresholdSize"
 						}
 					}
 				},
@@ -1330,7 +1283,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1344,7 +1297,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveRun = class IrrigationValveRun extends CommandPacket<IrrigationV1IrrigationValveRunData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0d;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 13,
 			"name": "IrrigationValveRun",
 			"help": "Irrigation Valve Run",
@@ -1357,14 +1310,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -1384,7 +1337,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1399,7 +1352,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveTableSet = class IrrigationValveTableSet extends CommandPacket<IrrigationV1IrrigationValveTableSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0e;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 14,
 			"name": "IrrigationValveTableSet",
 			"help": "Irrigation Valve Table Set",
@@ -1435,7 +1388,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1449,7 +1402,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveTableGet = class IrrigationValveTableGet extends CommandPacket<IrrigationV1IrrigationValveTableGetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0f;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 15,
 			"name": "IrrigationValveTableGet",
 			"help": "Irrigation Valve Table Get",
@@ -1462,7 +1415,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1477,7 +1430,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveTableReport = class IrrigationValveTableReport extends CommandPacket<IrrigationV1IrrigationValveTableReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x10;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 16,
 			"name": "IrrigationValveTableReport",
 			"help": "Irrigation Valve Table Report",
@@ -1513,7 +1466,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1527,7 +1480,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationValveTableRun = class IrrigationValveTableRun extends CommandPacket<IrrigationV1IrrigationValveTableRunData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x11;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 17,
 			"name": "IrrigationValveTableRun",
 			"help": "Irrigation Valve Table Run",
@@ -1543,7 +1496,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;
@@ -1557,7 +1510,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly IrrigationSystemShutoff = class IrrigationSystemShutoff extends CommandPacket<IrrigationV1IrrigationSystemShutoffData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x12;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 18,
 			"name": "IrrigationSystemShutoff",
 			"help": "Irrigation System Shutoff",
@@ -1570,7 +1523,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IrrigationV1)?.command === this.command;

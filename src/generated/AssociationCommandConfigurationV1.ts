@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum AssociationCommandConfigurationV1Commands {
@@ -64,7 +65,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 	public static readonly CommandConfigurationGet = class CommandConfigurationGet extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationGetData> {
 		public static readonly CommandClass = AssociationCommandConfigurationV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "CommandConfigurationGet",
 			"help": "Command Configuration Get",
@@ -84,7 +85,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
@@ -98,7 +99,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 	public static readonly CommandConfigurationReport = class CommandConfigurationReport extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationReportData> {
 		public static readonly CommandClass = AssociationCommandConfigurationV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "CommandConfigurationReport",
 			"help": "Command Configuration Report",
@@ -124,20 +125,20 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "first",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reportsToFollow",
 							"mask": 15,
 							"shift": 0
@@ -175,7 +176,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"blobType": "CMD_DATA"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
@@ -189,7 +190,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 	public static readonly CommandConfigurationSet = class CommandConfigurationSet extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationSetData> {
 		public static readonly CommandClass = AssociationCommandConfigurationV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "CommandConfigurationSet",
 			"help": "Command Configuration Set",
@@ -239,7 +240,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"blobType": "CMD_DATA"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
@@ -253,13 +254,13 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 	public static readonly CommandRecordsSupportedGet = class CommandRecordsSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = AssociationCommandConfigurationV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "CommandRecordsSupportedGet",
 			"help": "Command Records Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
@@ -273,7 +274,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 	public static readonly CommandRecordsSupportedReport = class CommandRecordsSupportedReport extends CommandPacket<AssociationCommandConfigurationV1CommandRecordsSupportedReportData> {
 		public static readonly CommandClass = AssociationCommandConfigurationV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "CommandRecordsSupportedReport",
 			"help": "Command Records Supported Report",
@@ -286,19 +287,19 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "maxCommandLength",
 							"mask": 252,
 							"shift": 2
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "vC",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "confCmd",
 							"mask": 1,
 							"shift": 0
@@ -318,7 +319,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;

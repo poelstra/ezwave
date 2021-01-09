@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum PrepaymentV1Commands {
@@ -57,7 +58,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 	public static readonly PrepaymentBalanceGet = class PrepaymentBalanceGet extends CommandPacket<PrepaymentV1PrepaymentBalanceGetData> {
 		public static readonly CommandClass = PrepaymentV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "PrepaymentBalanceGet",
 			"help": "Prepayment Balance Get",
@@ -70,7 +71,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "balanceType",
 							"mask": 192,
 							"shift": 6,
@@ -86,7 +87,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 							}
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 63,
 							"shift": 0,
@@ -95,7 +96,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(PrepaymentV1)?.command === this.command;
@@ -109,7 +110,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 	public static readonly PrepaymentBalanceReport = class PrepaymentBalanceReport extends CommandPacket<PrepaymentV1PrepaymentBalanceReportData> {
 		public static readonly CommandClass = PrepaymentV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "PrepaymentBalanceReport",
 			"help": "Prepayment Balance Report",
@@ -122,13 +123,13 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "balanceType",
 							"mask": 192,
 							"shift": 6
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "meterType",
 							"mask": 63,
 							"shift": 0
@@ -142,13 +143,13 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "balancePrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "scale",
 							"mask": 31,
 							"shift": 0
@@ -168,13 +169,13 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "debtPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved1",
 							"mask": 31,
 							"shift": 0,
@@ -195,13 +196,13 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "emerCreditPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved2",
 							"mask": 31,
 							"shift": 0,
@@ -228,7 +229,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(PrepaymentV1)?.command === this.command;
@@ -242,13 +243,13 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 	public static readonly PrepaymentSupportedGet = class PrepaymentSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = PrepaymentV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "PrepaymentSupportedGet",
 			"help": "Prepayment Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(PrepaymentV1)?.command === this.command;
@@ -262,7 +263,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 	public static readonly PrepaymentSupportedReport = class PrepaymentSupportedReport extends CommandPacket<PrepaymentV1PrepaymentSupportedReportData> {
 		public static readonly CommandClass = PrepaymentV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "PrepaymentSupportedReport",
 			"help": "Prepayment Supported Report",
@@ -275,14 +276,14 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "typesSupported",
 							"mask": 15,
 							"shift": 0
@@ -290,7 +291,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(PrepaymentV1)?.command === this.command;

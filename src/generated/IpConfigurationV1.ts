@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum IpConfigurationV1Commands {
@@ -53,13 +54,13 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 	public static readonly IpConfigurationGet = class IpConfigurationGet extends CommandPacket<void> {
 		public static readonly CommandClass = IpConfigurationV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "IpConfigurationGet",
 			"help": "Ip Configuration Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpConfigurationV1)?.command === this.command;
@@ -73,13 +74,13 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 	public static readonly IpConfigurationRelease = class IpConfigurationRelease extends CommandPacket<void> {
 		public static readonly CommandClass = IpConfigurationV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "IpConfigurationRelease",
 			"help": "Ip Configuration Release",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpConfigurationV1)?.command === this.command;
@@ -93,13 +94,13 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 	public static readonly IpConfigurationRenew = class IpConfigurationRenew extends CommandPacket<void> {
 		public static readonly CommandClass = IpConfigurationV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "IpConfigurationRenew",
 			"help": "Ip Configuration Renew",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpConfigurationV1)?.command === this.command;
@@ -113,7 +114,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 	public static readonly IpConfigurationReport = class IpConfigurationReport extends CommandPacket<IpConfigurationV1IpConfigurationReportData> {
 		public static readonly CommandClass = IpConfigurationV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "IpConfigurationReport",
 			"help": "Ip Configuration Report",
@@ -126,20 +127,20 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "autoIP",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "autoDNS",
 							"mask": 1,
 							"shift": 0
@@ -183,7 +184,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					"length": 4
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpConfigurationV1)?.command === this.command;
@@ -197,7 +198,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 	public static readonly IpConfigurationSet = class IpConfigurationSet extends CommandPacket<IpConfigurationV1IpConfigurationSetData> {
 		public static readonly CommandClass = IpConfigurationV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "IpConfigurationSet",
 			"help": "Ip Configuration Set",
@@ -210,20 +211,20 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "autoIP",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "autoDNS",
 							"mask": 1,
 							"shift": 0
@@ -261,7 +262,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					"length": 4
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(IpConfigurationV1)?.command === this.command;

@@ -2,7 +2,7 @@ import CommandClasses from "../generated/CommandClasses";
 import { decodeCommandAndPayload } from "./decode";
 import { encodeCommandAndPayload } from "./encode";
 import { CommandMatcher, Packet } from "./packet";
-import { CommandDefinition } from "./types";
+import { CommandDefinition } from "./spec";
 
 export interface CommandClassDescriptor extends CommandMatcher {
 	commandClass: CommandClasses;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SceneActuatorConfV1Commands {
@@ -46,7 +47,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 	public static readonly SceneActuatorConfGet = class SceneActuatorConfGet extends CommandPacket<SceneActuatorConfV1SceneActuatorConfGetData> {
 		public static readonly CommandClass = SceneActuatorConfV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SceneActuatorConfGet",
 			"help": "Scene Actuator Conf Get",
@@ -59,7 +60,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SceneActuatorConfV1)?.command === this.command;
@@ -73,7 +74,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 	public static readonly SceneActuatorConfReport = class SceneActuatorConfReport extends CommandPacket<SceneActuatorConfV1SceneActuatorConfReportData> {
 		public static readonly CommandClass = SceneActuatorConfV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SceneActuatorConfReport",
 			"help": "Scene Actuator Conf Report",
@@ -104,7 +105,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SceneActuatorConfV1)?.command === this.command;
@@ -118,7 +119,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 	public static readonly SceneActuatorConfSet = class SceneActuatorConfSet extends CommandPacket<SceneActuatorConfV1SceneActuatorConfSetData> {
 		public static readonly CommandClass = SceneActuatorConfV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "SceneActuatorConfSet",
 			"help": "Scene Actuator Conf Set",
@@ -153,13 +154,13 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "override",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 127,
 							"shift": 0,
@@ -174,7 +175,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SceneActuatorConfV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ZwaveplusInfoV1Commands {
@@ -54,13 +55,13 @@ export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands>
 	public static readonly ZwaveplusInfoGet = class ZwaveplusInfoGet extends CommandPacket<void> {
 		public static readonly CommandClass = ZwaveplusInfoV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ZwaveplusInfoGet",
 			"help": "Z-Wave+ Info Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZwaveplusInfoV1)?.command === this.command;
@@ -74,7 +75,7 @@ export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands>
 	public static readonly ZwaveplusInfoReport = class ZwaveplusInfoReport extends CommandPacket<ZwaveplusInfoV1ZwaveplusInfoReportData> {
 		public static readonly CommandClass = ZwaveplusInfoV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ZwaveplusInfoReport",
 			"help": "Z-Wave+ Info Report",
@@ -155,7 +156,7 @@ export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands>
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ZwaveplusInfoV1)?.command === this.command;

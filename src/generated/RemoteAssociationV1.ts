@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum RemoteAssociationV1Commands {
@@ -46,7 +47,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 	public static readonly RemoteAssociationConfigurationGet = class RemoteAssociationConfigurationGet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationGetData> {
 		public static readonly CommandClass = RemoteAssociationV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "RemoteAssociationConfigurationGet",
 			"help": "Remote Association Configuration Get",
@@ -59,7 +60,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(RemoteAssociationV1)?.command === this.command;
@@ -73,7 +74,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 	public static readonly RemoteAssociationConfigurationReport = class RemoteAssociationConfigurationReport extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationReportData> {
 		public static readonly CommandClass = RemoteAssociationV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "RemoteAssociationConfigurationReport",
 			"help": "Remote Association Configuration Report",
@@ -111,7 +112,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(RemoteAssociationV1)?.command === this.command;
@@ -125,7 +126,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 	public static readonly RemoteAssociationConfigurationSet = class RemoteAssociationConfigurationSet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationSetData> {
 		public static readonly CommandClass = RemoteAssociationV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "RemoteAssociationConfigurationSet",
 			"help": "Remote Association Configuration Set",
@@ -163,7 +164,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(RemoteAssociationV1)?.command === this.command;

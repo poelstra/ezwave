@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum HumidityControlOperatingStateV1Commands {
@@ -38,13 +39,13 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 	public static readonly HumidityControlOperatingStateGet = class HumidityControlOperatingStateGet extends CommandPacket<void> {
 		public static readonly CommandClass = HumidityControlOperatingStateV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "HumidityControlOperatingStateGet",
 			"help": "Humidity Control Operating State Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HumidityControlOperatingStateV1)?.command === this.command;
@@ -58,7 +59,7 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 	public static readonly HumidityControlOperatingStateReport = class HumidityControlOperatingStateReport extends CommandPacket<HumidityControlOperatingStateV1HumidityControlOperatingStateReportData> {
 		public static readonly CommandClass = HumidityControlOperatingStateV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "HumidityControlOperatingStateReport",
 			"help": "Humidity Control Operating State Report",
@@ -71,14 +72,14 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "operatingState",
 							"mask": 15,
 							"shift": 0,
@@ -100,7 +101,7 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HumidityControlOperatingStateV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum WakeUpV1Commands {
@@ -41,13 +42,13 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 	public static readonly WakeUpIntervalGet = class WakeUpIntervalGet extends CommandPacket<void> {
 		public static readonly CommandClass = WakeUpV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "WakeUpIntervalGet",
 			"help": "Wake Up Interval Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(WakeUpV1)?.command === this.command;
@@ -61,7 +62,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 	public static readonly WakeUpIntervalReport = class WakeUpIntervalReport extends CommandPacket<WakeUpV1WakeUpIntervalReportData> {
 		public static readonly CommandClass = WakeUpV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "WakeUpIntervalReport",
 			"help": "Wake Up Interval Report",
@@ -81,7 +82,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(WakeUpV1)?.command === this.command;
@@ -95,7 +96,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 	public static readonly WakeUpIntervalSet = class WakeUpIntervalSet extends CommandPacket<WakeUpV1WakeUpIntervalSetData> {
 		public static readonly CommandClass = WakeUpV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "WakeUpIntervalSet",
 			"help": "Wake Up Interval Set",
@@ -115,7 +116,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(WakeUpV1)?.command === this.command;
@@ -129,13 +130,13 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 	public static readonly WakeUpNoMoreInformation = class WakeUpNoMoreInformation extends CommandPacket<void> {
 		public static readonly CommandClass = WakeUpV1;
 		public static readonly command = 0x08;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 8,
 			"name": "WakeUpNoMoreInformation",
 			"help": "Wake Up No More Information",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(WakeUpV1)?.command === this.command;
@@ -149,13 +150,13 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 	public static readonly WakeUpNotification = class WakeUpNotification extends CommandPacket<void> {
 		public static readonly CommandClass = WakeUpV1;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "WakeUpNotification",
 			"help": "Wake Up Notification",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(WakeUpV1)?.command === this.command;

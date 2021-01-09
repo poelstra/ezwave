@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ManufacturerSpecificV2Commands {
@@ -56,13 +57,13 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 	public static readonly ManufacturerSpecificGet = class ManufacturerSpecificGet extends CommandPacket<void> {
 		public static readonly CommandClass = ManufacturerSpecificV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "ManufacturerSpecificGet",
 			"help": "Manufacturer Specific Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
@@ -76,7 +77,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 	public static readonly ManufacturerSpecificReport = class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecificV2ManufacturerSpecificReportData> {
 		public static readonly CommandClass = ManufacturerSpecificV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "ManufacturerSpecificReport",
 			"help": "Manufacturer Specific Report",
@@ -101,7 +102,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"length": 2
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
@@ -115,7 +116,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 	public static readonly DeviceSpecificGet = class DeviceSpecificGet extends CommandPacket<ManufacturerSpecificV2DeviceSpecificGetData> {
 		public static readonly CommandClass = ManufacturerSpecificV2;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "DeviceSpecificGet",
 			"help": "Device Specific Get",
@@ -128,14 +129,14 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "deviceIDType",
 							"mask": 7,
 							"shift": 0,
@@ -153,7 +154,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
@@ -167,7 +168,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 	public static readonly DeviceSpecificReport = class DeviceSpecificReport extends CommandPacket<ManufacturerSpecificV2DeviceSpecificReportData> {
 		public static readonly CommandClass = ManufacturerSpecificV2;
 		public static readonly command = 0x07;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 7,
 			"name": "DeviceSpecificReport",
 			"help": "Device Specific Report",
@@ -180,14 +181,14 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "deviceIDType",
 							"mask": 7,
 							"shift": 0,
@@ -211,7 +212,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"length": 1,
 					"fields": [
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "deviceIDDataFormat",
 							"mask": 224,
 							"shift": 5,
@@ -227,17 +228,16 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 							}
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "deviceIDDataLengthIndicator",
 							"mask": 31,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "deviceIDData"
-									}
+									"deviceIDData"
 								]
-							}
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
@@ -247,16 +247,13 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					"help": "Device ID Data",
 					"length": {
 						"lengthType": "ref",
-						"ref": "properties2",
-						"bitfield": {
-							"mask": 31,
-							"shift": 0,
-							"name": "deviceIDDataLengthIndicator"
+						"from": {
+							"ref": "properties2.deviceIDDataLengthIndicator"
 						}
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;

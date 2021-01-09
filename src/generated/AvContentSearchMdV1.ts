@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum AvContentSearchMdV1Commands {
@@ -28,13 +29,13 @@ export class AvContentSearchMdV1 extends CommandClassPacket<AvContentSearchMdV1C
 	public static readonly AvContentSearchMdGet = class AvContentSearchMdGet extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentSearchMdV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "AvContentSearchMdGet",
 			"help": "Av Content Search Md Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentSearchMdV1)?.command === this.command;
@@ -48,13 +49,13 @@ export class AvContentSearchMdV1 extends CommandClassPacket<AvContentSearchMdV1C
 	public static readonly AvContentSearchMdReport = class AvContentSearchMdReport extends CommandPacket<void> {
 		public static readonly CommandClass = AvContentSearchMdV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "AvContentSearchMdReport",
 			"help": "Av Content Search Md Report",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(AvContentSearchMdV1)?.command === this.command;

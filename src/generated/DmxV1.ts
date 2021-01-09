@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum DmxV1Commands {
@@ -60,7 +61,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 	public static readonly DmxAddressSet = class DmxAddressSet extends CommandPacket<DmxV1DmxAddressSetData> {
 		public static readonly CommandClass = DmxV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "DmxAddressSet",
 			"help": "DMX Address Set",
@@ -73,14 +74,14 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "pageID",
 							"mask": 15,
 							"shift": 0
@@ -94,7 +95,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DmxV1)?.command === this.command;
@@ -108,13 +109,13 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 	public static readonly DmxAddressGet = class DmxAddressGet extends CommandPacket<void> {
 		public static readonly CommandClass = DmxV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "DmxAddressGet",
 			"help": "DMX Address Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DmxV1)?.command === this.command;
@@ -128,7 +129,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 	public static readonly DmxAddressReport = class DmxAddressReport extends CommandPacket<DmxV1DmxAddressReportData> {
 		public static readonly CommandClass = DmxV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "DmxAddressReport",
 			"help": "DMX Address Report",
@@ -141,14 +142,14 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "pageID",
 							"mask": 15,
 							"shift": 0
@@ -162,7 +163,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DmxV1)?.command === this.command;
@@ -176,7 +177,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 	public static readonly DmxCapabilityGet = class DmxCapabilityGet extends CommandPacket<DmxV1DmxCapabilityGetData> {
 		public static readonly CommandClass = DmxV1;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "DmxCapabilityGet",
 			"help": "DMX Capability Get",
@@ -189,7 +190,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DmxV1)?.command === this.command;
@@ -203,7 +204,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 	public static readonly DmxCapabilityReport = class DmxCapabilityReport extends CommandPacket<DmxV1DmxCapabilityReportData> {
 		public static readonly CommandClass = DmxV1;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "DmxCapabilityReport",
 			"help": "DMX Capability Report",
@@ -234,7 +235,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DmxV1)?.command === this.command;
@@ -248,7 +249,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 	public static readonly DmxData = class DmxData extends CommandPacket<DmxV1DmxDataData> {
 		public static readonly CommandClass = DmxV1;
 		public static readonly command = 0x06;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 6,
 			"name": "DmxData",
 			"help": "DMX Data",
@@ -267,20 +268,20 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "sequenceNo",
 							"mask": 48,
 							"shift": 4
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "page",
 							"mask": 15,
 							"shift": 0
@@ -297,7 +298,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(DmxV1)?.command === this.command;

@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SceneControllerConfV1Commands {
@@ -45,7 +46,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 	public static readonly SceneControllerConfGet = class SceneControllerConfGet extends CommandPacket<SceneControllerConfV1SceneControllerConfGetData> {
 		public static readonly CommandClass = SceneControllerConfV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SceneControllerConfGet",
 			"help": "Scene Controller Conf Get",
@@ -58,7 +59,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 					"length": 1
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SceneControllerConfV1)?.command === this.command;
@@ -72,7 +73,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 	public static readonly SceneControllerConfReport = class SceneControllerConfReport extends CommandPacket<SceneControllerConfV1SceneControllerConfReportData> {
 		public static readonly CommandClass = SceneControllerConfV1;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SceneControllerConfReport",
 			"help": "Scene Controller Conf Report",
@@ -103,7 +104,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SceneControllerConfV1)?.command === this.command;
@@ -117,7 +118,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 	public static readonly SceneControllerConfSet = class SceneControllerConfSet extends CommandPacket<SceneControllerConfV1SceneControllerConfSetData> {
 		public static readonly CommandClass = SceneControllerConfV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "SceneControllerConfSet",
 			"help": "Scene Controller Conf Set",
@@ -152,7 +153,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SceneControllerConfV1)?.command === this.command;

@@ -1,23 +1,16 @@
 /**
- * Specification of ZWave JSON format.
+ * Helpers for reading JSON definition and parsing it
+ * into an somewhat easier runtime representation.
  */
 
-// TODO Handle bitmasks
-// TODO Handle marker type, or rewrite it to something else
-// TODO ValueType is used on IntegerParameter and EnumParameter, but will likely only appear in certain combinations
-// TODO Handle the two todos at the bottom
+export type CommandClassNumber = number;
+export type CommandClassVersionNumber = number;
+export type CommandNumber = number;
 
-/**
- * Major version of Z-WAVE JSON schema.
- */
-export const JSON_VERSION = 2;
-
-export interface ZwaveSpec {
-	xmlVersion: string; // 3-part version number of XML specification
-	jsonVersion: number; // Single major version number of JSON format
-	classes: CommandClassDefinition[];
-	// TODO basic, generic and specific device types
-}
+export type CommandsByClassByVersion = Map<
+	CommandClassNumber,
+	Map<CommandClassVersionNumber, CommandClassDefinition>
+>;
 
 export interface CommandClassDefinition {
 	/**
@@ -50,6 +43,11 @@ export interface CommandClassDefinition {
 	 * List of all defined commands in this command class.
 	 */
 	commands: CommandDefinition[];
+
+	/**
+	 * Map of command number to command definition.
+	 */
+	commandsById: Map<number, CommandDefinition>;
 }
 
 export interface CommandDefinition {
@@ -74,7 +72,20 @@ export interface CommandDefinition {
 	 */
 	status: ObsolescenceStatus;
 
-	params: Array<Parameter | ParameterGroup>;
+	/**
+	 * List of parameters in order of appearance in Z-Wave packet.
+	 */
+	params: Array<Parameter>;
+
+	/**
+	 * Mapping of parameter name to its definition.
+	 * Parameter name is given in dotted notation, e.g. "myGroup.myParam",
+	 * if "myParam" is a parameter inside a group.
+	 * Because (bitfield) fields are extracted out of their parameter, they
+	 * are not encoded with a dot, e.g. "controller" (instead of "properties1.controller"),
+	 * unless they are located in a group ("myGroup.controller").
+	 */
+	//paramsByName: Map<string, Parameter2>;
 
 	/**
 	 * If set, indicates a mask to apply to the command byte.
@@ -85,74 +96,121 @@ export interface CommandDefinition {
 	cmdMask?: number;
 }
 
-export enum ParameterType {
-	ParameterGroup = "group",
-	Integer = "integer",
-	Enum = "enum",
-	Bitfield = "bitfield",
-	EnumUnion = "enumunion",
-	Text = "text",
-	Blob = "blob",
-	EnumArray = "enumarray",
+/**
+ * Types used in both JSON as well as in-memory representation of Z-Wave spec.
+ */
+
+export enum RefMode {
+	Json,
+	Direct,
 }
+
+/**
+ * Parameter or bitfield reference as encoded in JSON file.
+ */
+export interface Ref {
+	ref: string;
+}
+
+export interface Refs {
+	refs: string[];
+}
+
+/**
+ * Dynamic 'real' or 'string-based' reference type, depending
+ * on whether the type hierarchy is intended to be used for
+ * JSON storage, or in-memory representation.
+ *
+ * If Mode is RefMode.Json, the reference is an object containing a
+ * string-based reference.
+ * If Mode is RefMode.Direct, the reference will be the value itself.
+ */
+export type Reference<
+	Mode extends RefMode,
+	T extends Parameter<Mode> | BitfieldElement<Mode>
+> = Mode extends RefMode.Json ? Ref : T;
+
+export type References<
+	Mode extends RefMode,
+	T extends Parameter<Mode> | BitfieldElement<Mode>
+> = Mode extends RefMode.Json ? Refs : T[];
+
+export type Parameter<Mode extends RefMode = RefMode.Direct> =
+	| LocalParameter<Mode>
+	| ParameterGroup<Mode>;
+
+export type LocalParameter<Mode extends RefMode = RefMode.Direct> =
+	| IntegerParameter<Mode>
+	| EnumParameter<Mode>
+	| BitfieldParameter<Mode>
+	| EnumUnionParameter<Mode>
+	| TextParameter<Mode>
+	| BlobParameter<Mode>
+	| EnumArrayParameter<Mode>;
 
 /**
  * Nested set of parameters.
  *
  * Equivalent to VARIANT_GROUP in XML.
  */
-export interface ParameterGroup extends ParameterBase {
+export interface ParameterGroup<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.ParameterGroup;
+
 	/**
 	 * If length is "auto" either the rest of the message
 	 * should be considered for the parameter group (in case
-	 * moreToFollow is undefined), or the info in moreToFollow
-	 * indicates for each record whether there will be another
+	 * moreToFollow is undefined), or the value of the moreToFollow
+	 * field indicates for each record whether there will be another
 	 * record.
 	 */
-	moreToFollow?: MoreToFollowInfo;
-	params: Parameter[];
+	moreToFollow?: Reference<Mode, BitfieldElement<Mode>>;
+
+	/**
+	 * List of parameters in order of appearance in Z-Wave packet.
+	 */
+	params: LocalParameter<Mode>[];
 }
 
-export type Parameter =
-	| IntegerParameter
-	| EnumParameter
-	| BitfieldParameter
-	| EnumUnionParameter
-	| TextParameter
-	| BlobParameter
-	| EnumArrayParameter;
-
-export interface ParameterBase {
+export interface ParameterBase<Mode extends RefMode = RefMode.Direct> {
 	type: ParameterType;
 
 	/**
-	 * Name of field in object.
+	 * Name of parameter in object.
 	 *
 	 * Given as lowerCamelCase.
 	 */
 	name: string;
 
 	/**
-	 * Human-readable name of field.
+	 * Human-readable name of parameter.
 	 */
 	help: string;
 
 	/**
-	 * Length of this field.
+	 * Length of this parameter.
 	 * Some fields have a fixed length (e.g. a BYTE has length 1), some
-	 * are determined by the contents of another field, and some span until
+	 * are determined by the contents of another parameter, and some span until
 	 * the end of the packet ("auto").
 	 *
 	 * @see LengthInfo for more details.
 	 */
-	length: LengthInfo;
+	length: LengthInfo<Mode>;
 
 	/**
-	 * Whether this field is optional, as determined by the value of
-	 * another field.
+	 * Whether this parameter is optional, as determined by the value of
+	 * a boolean bitfield (true means present), or integer bitfield or parameter
+	 * (non-zero means present).
 	 */
-	optional?: OptionalInfo;
+	optional?: Reference<Mode, BitfieldElement<Mode> | IntegerParameter<Mode>>;
+
+	/**
+	 * If present, points to the parameter group parameter of which this parameter
+	 * is a member.
+	 *
+	 * Not stored in the JSON version of the spec, as it can be trivially derived.
+	 */
+	group?: Mode extends RefMode.Json ? undefined : ParameterGroup<Mode>;
 }
 
 /**
@@ -167,7 +225,8 @@ export interface ParameterBase {
  *
  * Equivalent to BYTE, WORD, BIT_24 or DWORD in XML.
  */
-export interface IntegerParameter extends ParameterBase {
+export interface IntegerParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.Integer;
 
 	/**
@@ -203,7 +262,10 @@ export interface IntegerParameter extends ParameterBase {
 	 * encoding, and omitted from the decoded object when decoding,
 	 * unless the `isExplicit` flag is set.
 	 */
-	lengthOf?: SourceRefs;
+	lengthOf?: References<
+		Mode,
+		TextParameter<Mode> | BlobParameter<Mode> | ParameterGroup<Mode>
+	>;
 
 	/**
 	 * When defined, indicates that this parameter
@@ -215,7 +277,21 @@ export interface IntegerParameter extends ParameterBase {
 	 * automatically derived, but it should be checked that the referenced field is
 	 * actually present or not as required.
 	 */
-	presenceOf?: SourceRefs;
+	presenceOf?: References<Mode, LocalParameter<Mode> | ParameterGroup<Mode>>;
+
+	/**
+	 * Whether this parameter is auto-generated, e.g. when it records
+	 * the length of another parameter or its presence.
+	 *
+	 * If isAutogenerated is true, the value should be omitted from
+	 * end-user objects, if it is false or undefined, it should be
+	 * included in end-user objects.
+	 *
+	 * Note: in some cases, the parameter is to be explicitly included,
+	 * even though it could have been auto-generated. In these cases,
+	 * this property will be false.
+	 */
+	isAutogenerated?: boolean;
 }
 
 /**
@@ -230,7 +306,8 @@ export interface IntegerParameter extends ParameterBase {
  *
  * Equivalent to CONST in XML.
  */
-export interface EnumParameter extends ParameterBase {
+export interface EnumParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.Enum;
 
 	/**
@@ -251,9 +328,10 @@ export interface EnumParameter extends ParameterBase {
  *
  * Equivalent to STRUCT_BYTE in XML.
  */
-export interface BitfieldParameter extends ParameterBase {
+export interface BitfieldParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.Bitfield;
-	fields: BitfieldElement[];
+	fields: BitfieldElement<Mode>[];
 	/**
 	 * Only used when cmdMask on the Command is set.
 	 * In that case, the first parameter of each command will
@@ -269,12 +347,13 @@ export interface BitfieldParameter extends ParameterBase {
 /**
  * Equivalent to MULTI_ARRAY in XML, always 1 byte.
  */
-export interface EnumUnionParameter extends ParameterBase {
+export interface EnumUnionParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.EnumUnion;
-	reference: ParameterReference;
+	reference: Reference<Mode, IntegerParameter<Mode> | BitfieldElement<Mode>>;
 	// Either enums or valueType will be present
 	enums?: {
-		[enumIndex: string /* number, actually */]: EnumValues;
+		[enumIndex: number]: EnumValues;
 	};
 	valueType?: ValueType;
 }
@@ -282,21 +361,17 @@ export interface EnumUnionParameter extends ParameterBase {
 /**
  * Equivalent to ARRAY and VARIANT in XML, when is_ascii === true.
  */
-export interface TextParameter extends ParameterBase {
+export interface TextParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.Text;
 }
 
 /**
  * Equivalent to ARRAY and VARIANT in XML, when is_ascii === false, and encaptype is not enum-like.
  */
-export interface BlobParameter extends ParameterBase {
+export interface BlobParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.Blob;
-	/**
-	 * Number of bytes to include into this parameter that are actually already specified before this param.
-	 * This is used to e.g. have an explicit length field to refer to in parameters, yet that length needs
-	 * to be part of an encapsulated payload.
-	 */
-	includeBytesBefore?: number; // TODO Probably not the right description to use, and perhaps better to collapse the separate fields into one
 	blobType?: BlobType;
 }
 
@@ -305,27 +380,10 @@ export interface BlobParameter extends ParameterBase {
  *
  * Equivalent to VARIANTs with an enum-like encaptype (e.g. CMD_CLASS_REF).
  */
-export interface EnumArrayParameter extends ParameterBase {
+export interface EnumArrayParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
 	type: ParameterType.EnumArray;
 	valueType: ValueType;
-}
-
-export interface LocalSourceRef {
-	name: string;
-}
-
-export interface SourceRef extends LocalSourceRef {
-	group?: string;
-}
-
-export interface LocalSourceRefs {
-	refs: LocalSourceRef[];
-	isExplicit?: boolean;
-}
-
-export interface SourceRefs {
-	refs: SourceRef[];
-	isExplicit?: boolean;
 }
 
 /**
@@ -333,40 +391,32 @@ export interface SourceRefs {
  * Fixed length (number), or dynamically determined by packet length
  * or value of another parameter.
  */
-export type LengthInfo =
+export type LengthInfo<Mode extends RefMode = RefMode.Direct> =
 	| number
-	| ParamRefLengthInfo
+	| ParamRefLengthInfo<Mode>
 	| AutomaticLengthInfo
 	| MoreToFollowLengthInfo;
-
-export enum LengthType {
-	/**
-	 * Length of parameter is determined by the value of another
-	 * parameter or field.
-	 */
-	ParameterReference = "ref",
-
-	/**
-	 * Length of parameter is determined by the size of the packet,
-	 * possibly leaving room for some fixed fields at the end.
-	 */
-	Automatic = "auto",
-
-	/**
-	 * Number of group elements is determined by MoreToFollow flag
-	 * in each element.
-	 *
-	 * Only used for parameter group length.
-	 */
-	MoreToFollow = "moretofollow",
-}
 
 /**
  * Length of parameter in bytes (for blob/text) or number of elements
  * (for ParamRef-based groups) based on value of another parameter/field.
  */
-export interface ParamRefLengthInfo extends ParameterReference {
+export interface ParamRefLengthInfo<Mode extends RefMode = RefMode.Direct> {
 	lengthType: LengthType.ParameterReference;
+
+	/**
+	 * Reference to integer parameter or integer bitfield that determines length
+	 * of current parameter.
+	 */
+	from: Reference<Mode, IntegerParameter<Mode> | BitfieldElement<Mode>>;
+
+	/**
+	 * If present, the number of bytes to add to the referenced
+	 * parameter's length, to obtain value to be written to packet.
+	 * Or, vice-versa, value to subtract from value read from packet
+	 * to obtain length of referenced parameter.
+	 */
+	offset?: number;
 }
 
 /**
@@ -375,6 +425,11 @@ export interface ParamRefLengthInfo extends ParameterReference {
  */
 export interface AutomaticLengthInfo {
 	lengthType: LengthType.Automatic;
+
+	/**
+	 * Number of bytes to leave at end of message, due to more elements
+	 * following the current (automatic-length) parameter.
+	 */
 	endOffset: number;
 }
 
@@ -385,64 +440,11 @@ export interface MoreToFollowLengthInfo {
 	lengthType: LengthType.MoreToFollow;
 }
 
-export interface LocalParameterReference {
-	/**
-	 * Parameter name in current context (i.e. Command or current ParameterGroup).
-	 *
-	 * If isParentReference field is present and true, always referes to a parameter
-	 * in the Command, not the current ParameterGroup.
-	 */
-	ref: string;
-
-	/**
-	 * Select a sub-field of the given parameter.
-	 * When present, 'mask' certain bits out of the given parameter to obtain the
-	 * final value to use.
-	 */
-	bitfield?: BitfieldReference;
-}
-
-export interface ParameterReference extends LocalParameterReference {
-	isParentReference?: boolean; // True if `name` refers to a parameter name in the command, even when currently in a ParameterGroup
-}
-
-/**
- * Reference to a field within a Bitfield parameter.
- * Use either the name OR the mask+shift to obtain the final value.
- */
-export interface BitfieldReference {
-	/**
-	 * Name of sub-parameter of Bitfield.
-	 *
-	 * Given as lowerCamelCase.
-	 */
-	name: string; // TODO rename to fieldRef
-
-	/**
-	 * Mask to apply to raw value given by (Local)ParameterReference.
-	 *
-	 * Do not apply mask when using the BitfieldReference's name, it
-	 * will already be applied.
-	 */
-	mask: number;
-
-	/**
-	 * Number of bits to right-shift masked value to obtain final value.
-	 *
-	 * Do not apply shift when using the BitfieldReference's name, it
-	 * will already be applied.
-	 */
-	shift: number;
-}
-
 /**
  * Specifies enum values and their names.
- *
- * Each key is actually a number, but because of JSON representation is
- * stored as a string, the index type is a string.
  */
 export interface EnumValues {
-	[key: string /* number, actually */]: EnumValue;
+	[key: string /* number encoded as string */]: EnumValue;
 }
 
 export interface EnumValue {
@@ -460,24 +462,12 @@ export interface EnumValue {
 }
 
 /**
- * Parameters can be optional. If the parameter at `index` is masked with
- * `mask` and the result is zero, the parameter is optional.
- */
-export type OptionalInfo = ParameterReference;
-
-/**
- * Used in ParameterGroup (when length is "auto").
- * Each record will indicate whether another record is
- * expected after this one.
- * If (param[name] & mask > 0), another record will follow.
- */
-export type MoreToFollowInfo = LocalParameterReference;
-
-/**
  * One value inside a BitFieldParameter.
+ *
  */
-export interface BitfieldElement {
-	type: BitfieldElementType;
+// TODO split into int/enum/boolean
+export interface BitfieldElement<Mode extends RefMode = RefMode.Direct> {
+	fieldType: BitfieldElementType;
 	name: string;
 	shift: number;
 	mask: number;
@@ -508,7 +498,7 @@ export interface BitfieldElement {
 	 * Will not be defined on enum bitfields.
 	 * Will never be defined when `isMoreToFollowFlag` is defined.
 	 */
-	presenceOf?: LocalSourceRefs;
+	presenceOf?: References<Mode, LocalParameter<Mode> | ParameterGroup<Mode>>;
 
 	/**
 	 * When defined and true, indicates that this boolean bitfield element
@@ -538,9 +528,64 @@ export interface BitfieldElement {
 	 *
 	 * Will only be defined on integer bit fields.
 	 */
-	lengthOf?: SourceRefs;
+	lengthOf?: References<Mode, LocalParameter<Mode> | ParameterGroup<Mode>>;
+
+	/**
+	 * Whether this field is auto-generated, e.g. when it records
+	 * the length of another parameter or its presence.
+	 *
+	 * If isAutogenerated is true, the value should be omitted from
+	 * end-user objects, if it is false or undefined, it should be
+	 * included in end-user objects.
+	 *
+	 * Note: in some cases, the field is to be explicitly included,
+	 * even though it could have been auto-generated. In these cases,
+	 * this property will be false.
+	 */
+	isAutogenerated?: boolean;
+
+	/**
+	 * Reference to the parameter in which this bitfield is defined.
+	 *
+	 * Not stored in the JSON version of the spec, as it can be trivially derived.
+	 */
+	parent: Mode extends RefMode.Json ? void : BitfieldParameter<Mode>;
 }
 
+export enum ParameterType {
+	ParameterGroup = "group",
+	Integer = "integer",
+	Enum = "enum",
+	Bitfield = "bitfield",
+	EnumUnion = "enumunion",
+	Text = "text",
+	Blob = "blob",
+	EnumArray = "enumarray",
+}
+
+export enum LengthType {
+	/**
+	 * Length of parameter is determined by the value of another
+	 * parameter or field.
+	 */
+	ParameterReference = "ref",
+
+	/**
+	 * Length of parameter is determined by the size of the packet,
+	 * possibly leaving room for some fixed fields at the end.
+	 */
+	Automatic = "auto",
+
+	/**
+	 * Number of group elements is determined by MoreToFollow flag
+	 * in each element.
+	 *
+	 * Only used for parameter group length.
+	 */
+	MoreToFollow = "moretofollow",
+}
+
+/**
 /**
  * When a byte is split into pieces, each piece
  * can be a boolean, an integer, or an enum.
@@ -604,16 +649,3 @@ export const OBSOLESCENCE_STATUS_TO_STRING = {
 	[ObsolescenceStatus.Obsolete]: "Obsolete",
 	[ObsolescenceStatus.Deprecated]: "Deprecated",
 };
-
-// encaptype CMD_DATA and CMD_ENCAP is always a VARIANT
-// CMD_DATA is ALWAYS preceded by a CMD_CLASS_REF and CMD_REF param
-// There is one instance of CMD_ENCAP, which is NOT preceded by CMD_CLASS_REF or CMD_REF
-// => It seems that CMD_ENCAP means one Buffer including class and cmd, and
-//    CMD_DATA being just the data part. So sizechange=-2 for this seems incorrect.
-// May want to just convert CMD_ENCAP to separate fields, just like CMD_DATA
-// Or, because of cmd_mask and generally easier handling, convert all of them to
-// CMD_ENCAP.
-
-// All CMD_REFs are preceded by a CMD_CLASS_REF, which determines the range of valid
-// values for the CMD_REF param itself. For GEN_DEV_REF and SPEC_DEV_REF, a special construct
-// exists that selects the right enum.

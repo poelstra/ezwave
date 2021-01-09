@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum Zip6lowpanV1Commands {
@@ -43,7 +44,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 	public static readonly LowpanFirstFragment = class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFragmentData> {
 		public static readonly CommandClass = Zip6lowpanV1;
 		public static readonly command = 0xc0;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 192,
 			"name": "LowpanFirstFragment",
 			"help": "Lowpan First Fragment",
@@ -57,7 +58,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -87,7 +88,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(Zip6lowpanV1)?.command === this.command;
@@ -101,7 +102,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 	public static readonly LowpanSubsequentFragment = class LowpanSubsequentFragment extends CommandPacket<Zip6lowpanV1LowpanSubsequentFragmentData> {
 		public static readonly CommandClass = Zip6lowpanV1;
 		public static readonly command = 0xe0;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 224,
 			"name": "LowpanSubsequentFragment",
 			"help": "Lowpan Subsequent Fragment",
@@ -115,7 +116,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -151,7 +152,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(Zip6lowpanV1)?.command === this.command;

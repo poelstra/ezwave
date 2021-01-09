@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum SensorBinaryV2Commands {
@@ -49,7 +50,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 	public static readonly SensorBinaryGet = class SensorBinaryGet extends CommandPacket<SensorBinaryV2SensorBinaryGetData> {
 		public static readonly CommandClass = SensorBinaryV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "SensorBinaryGet",
 			"help": "Sensor Binary Get",
@@ -124,7 +125,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SensorBinaryV2)?.command === this.command;
@@ -138,7 +139,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 	public static readonly SensorBinaryReport = class SensorBinaryReport extends CommandPacket<SensorBinaryV2SensorBinaryReportData> {
 		public static readonly CommandClass = SensorBinaryV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "SensorBinaryReport",
 			"help": "Sensor Binary Report",
@@ -229,7 +230,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 					}
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SensorBinaryV2)?.command === this.command;
@@ -243,13 +244,13 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 	public static readonly SensorBinarySupportedGetSensor = class SensorBinarySupportedGetSensor extends CommandPacket<void> {
 		public static readonly CommandClass = SensorBinaryV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "SensorBinarySupportedGetSensor",
 			"help": "Sensor Binary Supported Get Sensor",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SensorBinaryV2)?.command === this.command;
@@ -264,7 +265,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 	public static readonly SensorBinarySupportedSensorReport = class SensorBinarySupportedSensorReport extends CommandPacket<SensorBinaryV2SensorBinarySupportedSensorReportData> {
 		public static readonly CommandClass = SensorBinaryV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "SensorBinarySupportedSensorReport",
 			"help": "Sensor Binary Supported Sensor Report",
@@ -277,7 +278,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(SensorBinaryV2)?.command === this.command;

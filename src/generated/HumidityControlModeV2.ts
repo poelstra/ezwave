@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum HumidityControlModeV2Commands {
@@ -50,7 +51,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 	public static readonly HumidityControlModeSet = class HumidityControlModeSet extends CommandPacket<HumidityControlModeV2HumidityControlModeSetData> {
 		public static readonly CommandClass = HumidityControlModeV2;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "HumidityControlModeSet",
 			"help": "Humidity Control Mode Set",
@@ -63,14 +64,14 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "mode",
 							"mask": 15,
 							"shift": 0,
@@ -96,7 +97,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HumidityControlModeV2)?.command === this.command;
@@ -110,13 +111,13 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 	public static readonly HumidityControlModeGet = class HumidityControlModeGet extends CommandPacket<void> {
 		public static readonly CommandClass = HumidityControlModeV2;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "HumidityControlModeGet",
 			"help": "Humidity Control Mode Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HumidityControlModeV2)?.command === this.command;
@@ -130,7 +131,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 	public static readonly HumidityControlModeReport = class HumidityControlModeReport extends CommandPacket<HumidityControlModeV2HumidityControlModeReportData> {
 		public static readonly CommandClass = HumidityControlModeV2;
 		public static readonly command = 0x03;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 3,
 			"name": "HumidityControlModeReport",
 			"help": "Humidity Control Mode Report",
@@ -143,14 +144,14 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 					"length": 1,
 					"fields": [
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"type": "enum",
+							"fieldType": "enum",
 							"name": "mode",
 							"mask": 15,
 							"shift": 0,
@@ -176,7 +177,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HumidityControlModeV2)?.command === this.command;
@@ -190,13 +191,13 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 	public static readonly HumidityControlModeSupportedGet = class HumidityControlModeSupportedGet extends CommandPacket<void> {
 		public static readonly CommandClass = HumidityControlModeV2;
 		public static readonly command = 0x04;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 4,
 			"name": "HumidityControlModeSupportedGet",
 			"help": "Humidity Control Mode Supported Get",
 			"status": "active",
 			"params": []
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HumidityControlModeV2)?.command === this.command;
@@ -211,7 +212,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 	public static readonly HumidityControlModeSupportedReport = class HumidityControlModeSupportedReport extends CommandPacket<HumidityControlModeV2HumidityControlModeSupportedReportData> {
 		public static readonly CommandClass = HumidityControlModeV2;
 		public static readonly command = 0x05;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 5,
 			"name": "HumidityControlModeSupportedReport",
 			"help": "Humidity Control Mode Supported Report",
@@ -224,7 +225,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 					"length": 0
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(HumidityControlModeV2)?.command === this.command;

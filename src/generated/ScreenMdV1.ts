@@ -5,8 +5,9 @@
  */
 
 import { CommandClassPacket, CommandPacket } from "../commands/command";
+import * as jsonSpec from "../commands/jsonSpec";
 import { Packet } from "../commands/packet";
-import { CommandDefinition } from "../commands/types";
+import { convertFromJsonCommand } from "../commands/specHelpers";
 import CommandClasses from "../generated/CommandClasses";
 
 export enum ScreenMdV1Commands {
@@ -40,7 +41,7 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 	public static readonly ScreenMdGet = class ScreenMdGet extends CommandPacket<ScreenMdV1ScreenMdGetData> {
 		public static readonly CommandClass = ScreenMdV1;
 		public static readonly command = 0x01;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 1,
 			"name": "ScreenMdGet",
 			"help": "Screen Md Get",
@@ -60,7 +61,7 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 					"valueType": "NODE_NUMBER"
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScreenMdV1)?.command === this.command;
@@ -75,7 +76,7 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 	public static readonly ScreenMdReport = class ScreenMdReport extends CommandPacket<ScreenMdV1ScreenMdReportData> {
 		public static readonly CommandClass = ScreenMdV1;
 		public static readonly command = 0x02;
-		public static readonly definition = {
+		public static readonly definition = convertFromJsonCommand({
 			"command": 2,
 			"name": "ScreenMdReport",
 			"help": "Screen Md Report",
@@ -88,26 +89,26 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 					"length": 1,
 					"fields": [
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "moreData",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"type": "boolean",
+							"fieldType": "boolean",
 							"name": "reserved",
 							"mask": 64,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "screenSettings",
 							"mask": 56,
 							"shift": 3
 						},
 						{
-							"type": "integer",
+							"fieldType": "integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -130,19 +131,19 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 							"length": 1,
 							"fields": [
 								{
-									"type": "integer",
+									"fieldType": "integer",
 									"name": "lineNumber",
 									"mask": 15,
 									"shift": 0
 								},
 								{
-									"type": "boolean",
+									"fieldType": "boolean",
 									"name": "clear",
 									"mask": 16,
 									"shift": 4
 								},
 								{
-									"type": "integer",
+									"fieldType": "integer",
 									"name": "lineSettings",
 									"mask": 224,
 									"shift": 5
@@ -162,9 +163,7 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 							"length": 1,
 							"lengthOf": {
 								"refs": [
-									{
-										"name": "character"
-									}
+									"vg.character"
 								]
 							}
 						},
@@ -174,13 +173,15 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 							"help": "Character",
 							"length": {
 								"lengthType": "ref",
-								"ref": "numberOfCharacters"
+								"from": {
+									"ref": "vg.numberOfCharacters"
+								}
 							}
 						}
 					]
 				}
 			]
-		} as CommandDefinition;
+		} as jsonSpec.CommandDefinition);
 
 		static matches(packet: Packet): boolean {
 			return packet.tryAs(ScreenMdV1)?.command === this.command;
