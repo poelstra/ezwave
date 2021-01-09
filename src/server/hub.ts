@@ -1,4 +1,4 @@
-import MHubClient, { Message } from "mhub";
+import MHubClient, { Headers, Message } from "mhub";
 import { EventEmitter, once } from "events";
 import { defer, Deferred, delay } from "../common/util";
 

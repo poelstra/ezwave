@@ -75,7 +75,7 @@ class FakeFramer extends EventEmitter implements IFramer {
 	}
 
 	async close(): Promise<void> {
-		closed = true;
+		this.closed = true;
 	}
 }
 

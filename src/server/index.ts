@@ -44,7 +44,7 @@ async function open(portName?: string): Promise<SerialPort> {
 }
 
 function prefixTimestamp(console: Console, method: keyof Console): void {
-	const origMethod = console[method];
+	const origMethod = console[method] as (this: any, ...args: any[]) => void;
 	console[method] = function (this: any, ...args: any[]) {
 		args.unshift(`${new Date().toISOString()} [${method}]`);
 		return origMethod.apply(this, args);
