@@ -299,7 +299,6 @@ function decodeText(
 	slice: Buffer,
 	context: Context
 ): number {
-	// TODO check encoding in spec
 	// TODO Check fixed-length fields (pad with zeroes?)
 	const value = slice.toString("ascii");
 	context.setValue(param, value);

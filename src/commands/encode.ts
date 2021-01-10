@@ -222,9 +222,8 @@ function encodeText(param: TextParameter, context: Context): Buffer {
 		);
 	}
 
-	// TODO check encoding in spec
 	// TODO Check fixed-length fields (pad with zeroes?)
-	const buffer = Buffer.from(value, "utf-8");
+	const buffer = Buffer.from(value, "ascii");
 
 	validateLength(buffer, param, context);
 	return buffer;
