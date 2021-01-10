@@ -25,28 +25,28 @@ export enum ProtectionV2Commands {
 }
 
 export interface ProtectionV2ProtectionEcReportData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface ProtectionV2ProtectionEcSetData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface ProtectionV2ProtectionReportData {
 	localProtectionState: number; // level[3..0]
-	rFProtectionState: number; // level2[3..0]
+	rfProtectionState: number; // level2[3..0]
 }
 
 export interface ProtectionV2ProtectionSetData {
 	localProtectionState: number; // level[3..0]
-	rFProtectionState: number; // level2[3..0]
+	rfProtectionState: number; // level2[3..0]
 }
 
 export interface ProtectionV2ProtectionSupportedReportData {
 	exclusiveControl: boolean; // level[1]
 	timeout: boolean; // level[0]
 	localProtectionState: number; // 2 byte unsigned integer
-	rFProtectionState: number; // 2 byte unsigned integer
+	rfProtectionState: number; // 2 byte unsigned integer
 }
 
 export interface ProtectionV2ProtectionTimeoutReportData {
@@ -99,7 +99,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -127,7 +127,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -209,7 +209,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "rFProtectionState",
+							"name": "rfProtectionState",
 							"mask": 15,
 							"shift": 0
 						}
@@ -272,7 +272,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "rFProtectionState",
+							"name": "rfProtectionState",
 							"mask": 15,
 							"shift": 0
 						}
@@ -354,7 +354,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "rFProtectionState",
+					"name": "rfProtectionState",
 					"help": "RF Protection State",
 					"length": 2
 				}

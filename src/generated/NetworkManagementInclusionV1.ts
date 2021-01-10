@@ -29,12 +29,12 @@ export enum NetworkManagementInclusionV1Commands {
 
 export interface NetworkManagementInclusionV1FailedNodeRemoveData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV1FailedNodeRemoveStatusData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 }
 
@@ -47,7 +47,7 @@ export interface NetworkManagementInclusionV1NodeAddData {
 export interface NetworkManagementInclusionV1NodeAddStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	newNodeID: number; // 1 byte unsigned integer
+	newNodeId: number; // 1 byte unsigned integer
 	listening: boolean; // properties1[7]
 	zWaveProtocolSpecificPart1: number; // properties1[6..0]
 	opt: boolean; // properties2[7]
@@ -66,12 +66,12 @@ export interface NetworkManagementInclusionV1NodeRemoveData {
 export interface NetworkManagementInclusionV1NodeRemoveStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV1FailedNodeReplaceData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	// TODO param txOptions type bitmask or marker
 	mode: number; // 1 byte unsigned integer
 }
@@ -79,12 +79,12 @@ export interface NetworkManagementInclusionV1FailedNodeReplaceData {
 export interface NetworkManagementInclusionV1FailedNodeReplaceStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV1NodeNeighborUpdateRequestData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV1NodeNeighborUpdateStatusData {
@@ -94,8 +94,8 @@ export interface NetworkManagementInclusionV1NodeNeighborUpdateStatusData {
 
 export interface NetworkManagementInclusionV1ReturnRouteAssignData {
 	seqNo: number; // 1 byte unsigned integer
-	sourceNodeID: number; // 1 byte unsigned integer
-	destinationNodeID: number; // 1 byte unsigned integer
+	sourceNodeId: number; // 1 byte unsigned integer
+	destinationNodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV1ReturnRouteAssignCompleteData {
@@ -105,7 +105,7 @@ export interface NetworkManagementInclusionV1ReturnRouteAssignCompleteData {
 
 export interface NetworkManagementInclusionV1ReturnRouteDeleteData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV1ReturnRouteDeleteCompleteData {
@@ -141,7 +141,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -175,7 +175,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -330,7 +330,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "newNodeID",
+					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -524,7 +524,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -559,7 +559,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -625,7 +625,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -659,7 +659,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -736,14 +736,14 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "sourceNodeID",
+					"name": "sourceNodeId",
 					"help": "Source Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
 				},
 				{
 					"type": "integer",
-					"name": "destinationNodeID",
+					"name": "destinationNodeId",
 					"help": "Destination Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -824,7 +824,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

@@ -23,7 +23,7 @@ export enum ScheduleV1Commands {
 }
 
 export interface ScheduleV1ScheduleSupportedReportData {
-	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
+	numberOfSupportedScheduleId: number; // 1 byte unsigned integer
 	supportEnableDisable: boolean; // properties1[7]
 	fallbackSupport: boolean; // properties1[6]
 	startTimeSupport: number; // properties1[5..0]
@@ -33,7 +33,7 @@ export interface ScheduleV1ScheduleSupportedReportData {
 }
 
 export interface ScheduleV1CommandScheduleSetData {
-	scheduleID: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
 	startMonth: number; // properties1[3..0]
@@ -48,14 +48,14 @@ export interface ScheduleV1CommandScheduleSetData {
 }
 
 export interface ScheduleV1CommandScheduleGetData {
-	scheduleID: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV1CommandScheduleReportData {
-	scheduleID: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
-	activeID: number; // properties1[7..4]
+	activeId: number; // properties1[7..4]
 	startMonth: number; // properties1[3..0]
 	startDayOfMonth: number; // properties2[4..0]
 	startWeekday: number; // properties3[6..0]
@@ -68,16 +68,16 @@ export interface ScheduleV1CommandScheduleReportData {
 }
 
 export interface ScheduleV1ScheduleRemoveData {
-	scheduleID: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV1ScheduleStateSetData {
-	scheduleID: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
 	scheduleState: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV1ScheduleStateReportData {
-	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
+	numberOfSupportedScheduleId: number; // 1 byte unsigned integer
 	reportsToFollow: number; // properties1[7..1]
 	override: boolean; // properties1[0]
 	// TODO param vg1 type group
@@ -126,7 +126,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "numberOfSupportedScheduleID",
+					"name": "numberOfSupportedScheduleId",
 					"help": "Number of Supported Schedule ID",
 					"length": 1
 				},
@@ -158,7 +158,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "numberOfSupportedCC",
+					"name": "numberOfSupportedCc",
 					"help": "Number of supported CC",
 					"length": 1,
 					"lengthOf": {
@@ -175,13 +175,13 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "numberOfSupportedCC"
+							"ref": "numberOfSupportedCc"
 						}
 					},
 					"params": [
 						{
 							"type": "integer",
-							"name": "supportedCC",
+							"name": "supportedCc",
 							"help": "Supported CC",
 							"length": 1
 						},
@@ -252,7 +252,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
@@ -454,7 +454,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				}
@@ -482,7 +482,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
@@ -506,7 +506,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"fields": [
 						{
 							"fieldType": "integer",
-							"name": "activeID",
+							"name": "activeId",
 							"mask": 240,
 							"shift": 4
 						},
@@ -683,7 +683,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				}
@@ -710,7 +710,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
@@ -764,7 +764,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "numberOfSupportedScheduleID",
+					"name": "numberOfSupportedScheduleId",
 					"help": "Number of Supported Schedule ID",
 					"length": 1
 				},
@@ -805,13 +805,13 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "activeID1",
+									"name": "activeId1",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"fieldType": "integer",
-									"name": "activeID2",
+									"name": "activeId2",
 									"mask": 240,
 									"shift": 4
 								}

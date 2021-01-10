@@ -34,12 +34,12 @@ export interface ScheduleEntryLockV1ScheduleEntryLockEnableSetData {
 
 export interface ScheduleEntryLockV1ScheduleEntryLockWeekDayGetData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleEntryLockV1ScheduleEntryLockWeekDayReportData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	dayOfWeek: number; // 1 byte unsigned integer
 	startHour: number; // 1 byte unsigned integer
 	startMinute: number; // 1 byte unsigned integer
@@ -50,7 +50,7 @@ export interface ScheduleEntryLockV1ScheduleEntryLockWeekDayReportData {
 export interface ScheduleEntryLockV1ScheduleEntryLockWeekDaySetData {
 	setAction: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	dayOfWeek: number; // 1 byte unsigned integer
 	startHour: number; // 1 byte unsigned integer
 	startMinute: number; // 1 byte unsigned integer
@@ -60,12 +60,12 @@ export interface ScheduleEntryLockV1ScheduleEntryLockWeekDaySetData {
 
 export interface ScheduleEntryLockV1ScheduleEntryLockYearDayGetData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleEntryLockV1ScheduleEntryLockYearDayReportData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -81,7 +81,7 @@ export interface ScheduleEntryLockV1ScheduleEntryLockYearDayReportData {
 export interface ScheduleEntryLockV1ScheduleEntryLockYearDaySetData {
 	setAction: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -208,7 +208,7 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				}
@@ -241,7 +241,7 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
@@ -320,7 +320,7 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
@@ -383,7 +383,7 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				}
@@ -416,7 +416,7 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
@@ -525,7 +525,7 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},

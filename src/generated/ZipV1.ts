@@ -17,10 +17,10 @@ export enum ZipV1Commands {
 export interface ZipV1CommandZipPacketData {
 	ackRequest: boolean; // properties1[7]
 	ackResponse: boolean; // properties1[6]
-	nAckResponse: boolean; // properties1[5]
-	nAckWaiting: boolean; // properties1[4]
-	nAckQueueFull: boolean; // properties1[3]
-	nAckOptionError: boolean; // properties1[2]
+	nackResponse: boolean; // properties1[5]
+	nackWaiting: boolean; // properties1[4]
+	nackQueueFull: boolean; // properties1[3]
+	nackOptionError: boolean; // properties1[2]
 	moreInformation: boolean; // properties2[5]
 	seqNo: number; // 1 byte unsigned integer
 	sourceEndPoint: number; // properties3[6..0]
@@ -71,25 +71,25 @@ export class ZipV1 extends CommandClassPacket<ZipV1Commands> {
 						},
 						{
 							"fieldType": "boolean",
-							"name": "nAckResponse",
+							"name": "nackResponse",
 							"mask": 32,
 							"shift": 5
 						},
 						{
 							"fieldType": "boolean",
-							"name": "nAckWaiting",
+							"name": "nackWaiting",
 							"mask": 16,
 							"shift": 4
 						},
 						{
 							"fieldType": "boolean",
-							"name": "nAckQueueFull",
+							"name": "nackQueueFull",
 							"mask": 8,
 							"shift": 3
 						},
 						{
 							"fieldType": "boolean",
-							"name": "nAckOptionError",
+							"name": "nackOptionError",
 							"mask": 4,
 							"shift": 2
 						},

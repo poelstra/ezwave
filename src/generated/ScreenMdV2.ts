@@ -18,7 +18,7 @@ export enum ScreenMdV2Commands {
 
 export interface ScreenMdV2ScreenMdGetData {
 	numberOfReports: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface ScreenMdV2ScreenMdReportData {
@@ -65,7 +65,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

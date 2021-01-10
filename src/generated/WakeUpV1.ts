@@ -20,12 +20,12 @@ export enum WakeUpV1Commands {
 
 export interface WakeUpV1WakeUpIntervalReportData {
 	seconds: number; // 3 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface WakeUpV1WakeUpIntervalSetData {
 	seconds: number; // 3 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
@@ -76,7 +76,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -110,7 +110,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

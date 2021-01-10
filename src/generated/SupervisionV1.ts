@@ -17,13 +17,13 @@ export enum SupervisionV1Commands {
 
 export interface SupervisionV1SupervisionGetData {
 	statusUpdates: boolean; // properties1[7]
-	sessionID: number; // properties1[5..0]
+	sessionId: number; // properties1[5..0]
 	encapsulatedCommand: Buffer; // variable length
 }
 
 export interface SupervisionV1SupervisionReportData {
 	moreStatusUpdates: boolean; // properties1[7]
-	sessionID: number; // properties1[5..0]
+	sessionId: number; // properties1[5..0]
 	status: StatusEnum; // 1 byte enum value
 	duration: number; // 1 byte unsigned integer
 }
@@ -77,7 +77,7 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "sessionID",
+							"name": "sessionId",
 							"mask": 63,
 							"shift": 0
 						}
@@ -149,7 +149,7 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "sessionID",
+							"name": "sessionId",
 							"mask": 63,
 							"shift": 0
 						}

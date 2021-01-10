@@ -10,7 +10,7 @@
 import { expect } from "chai";
 import { CommandPacket } from "../commands/command";
 import { CommandPacketConstructor, Packet } from "../commands/packet";
-import { AlarmV2, ZWaveAlarmTypeEnum } from "../generated/AlarmV2";
+import { AlarmV2, ZwaveAlarmTypeEnum } from "../generated/AlarmV2";
 import { BasicV2 } from "../generated/BasicV2";
 import { SecurityV1 } from "../generated/SecurityV1";
 import { ZipV4 } from "../generated/ZipV4";
@@ -60,7 +60,7 @@ describe("generate_commands", () => {
 			Buffer.from([0x71, 0x04, 0x01, 0x08]),
 			{
 				alarmType: 0x01,
-				zWaveAlarmType: ZWaveAlarmTypeEnum.PowerManagement,
+				zwaveAlarmType: ZwaveAlarmTypeEnum.PowerManagement,
 			}
 		);
 	});
@@ -116,10 +116,10 @@ describe("generate_commands", () => {
 				{
 					ackRequest: false, // properties1[7]
 					ackResponse: false, // properties1[6]
-					nAckResponse: false, // properties1[5]
-					nAckWaiting: false, // properties1[4]
-					nAckQueueFull: false, // properties1[3]
-					nAckOptionError: false, // properties1[2]
+					nackResponse: false, // properties1[5]
+					nackWaiting: false, // properties1[4]
+					nackQueueFull: false, // properties1[3]
+					nackOptionError: false, // properties1[2]
 					moreInformation: false, // properties2[5]
 					secureOrigin: false, // properties2[4]
 					seqNo: 0x12, // 1 byte unsigned integer

@@ -20,18 +20,18 @@ export interface TimeParametersV1TimeParametersReportData {
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
 	day: number; // 1 byte unsigned integer
-	hourUTC: number; // 1 byte unsigned integer
-	minuteUTC: number; // 1 byte unsigned integer
-	secondUTC: number; // 1 byte unsigned integer
+	hourUtc: number; // 1 byte unsigned integer
+	minuteUtc: number; // 1 byte unsigned integer
+	secondUtc: number; // 1 byte unsigned integer
 }
 
 export interface TimeParametersV1TimeParametersSetData {
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
 	day: number; // 1 byte unsigned integer
-	hourUTC: number; // 1 byte unsigned integer
-	minuteUTC: number; // 1 byte unsigned integer
-	secondUTC: number; // 1 byte unsigned integer
+	hourUtc: number; // 1 byte unsigned integer
+	minuteUtc: number; // 1 byte unsigned integer
+	secondUtc: number; // 1 byte unsigned integer
 }
 
 export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Commands> {
@@ -94,19 +94,19 @@ export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Command
 				},
 				{
 					"type": "integer",
-					"name": "hourUTC",
+					"name": "hourUtc",
 					"help": "Hour UTC",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "minuteUTC",
+					"name": "minuteUtc",
 					"help": "Minute UTC",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "secondUTC",
+					"name": "secondUtc",
 					"help": "Second UTC",
 					"length": 1
 				}
@@ -151,19 +151,19 @@ export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Command
 				},
 				{
 					"type": "integer",
-					"name": "hourUTC",
+					"name": "hourUtc",
 					"help": "Hour UTC",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "minuteUTC",
+					"name": "minuteUtc",
 					"help": "Minute UTC",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "secondUTC",
+					"name": "secondUtc",
 					"help": "Second UTC",
 					"length": 1
 				}

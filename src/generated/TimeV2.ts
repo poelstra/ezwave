@@ -27,35 +27,35 @@ export interface TimeV2DateReportData {
 }
 
 export interface TimeV2TimeOffsetReportData {
-	signTZO: boolean; // level[7]
-	hourTZO: number; // level[6..0]
-	minuteTZO: number; // 1 byte unsigned integer
-	signOffsetDST: boolean; // level2[7]
-	minuteOffsetDST: number; // level2[6..0]
-	monthStartDST: number; // 1 byte unsigned integer
-	dayStartDST: number; // 1 byte unsigned integer
-	hourStartDST: number; // 1 byte unsigned integer
-	monthEndDST: number; // 1 byte unsigned integer
-	dayEndDST: number; // 1 byte unsigned integer
-	hourEndDST: number; // 1 byte unsigned integer
+	signTzo: boolean; // level[7]
+	hourTzo: number; // level[6..0]
+	minuteTzo: number; // 1 byte unsigned integer
+	signOffsetDst: boolean; // level2[7]
+	minuteOffsetDst: number; // level2[6..0]
+	monthStartDst: number; // 1 byte unsigned integer
+	dayStartDst: number; // 1 byte unsigned integer
+	hourStartDst: number; // 1 byte unsigned integer
+	monthEndDst: number; // 1 byte unsigned integer
+	dayEndDst: number; // 1 byte unsigned integer
+	hourEndDst: number; // 1 byte unsigned integer
 }
 
 export interface TimeV2TimeOffsetSetData {
-	signTZO: boolean; // level[7]
-	hourTZO: number; // level[6..0]
-	minuteTZO: number; // 1 byte unsigned integer
-	signOffsetDST: boolean; // level2[7]
-	minuteOffsetDST: number; // level2[6..0]
-	monthStartDST: number; // 1 byte unsigned integer
-	dayStartDST: number; // 1 byte unsigned integer
-	hourStartDST: number; // 1 byte unsigned integer
-	monthEndDST: number; // 1 byte unsigned integer
-	dayEndDST: number; // 1 byte unsigned integer
-	hourEndDST: number; // 1 byte unsigned integer
+	signTzo: boolean; // level[7]
+	hourTzo: number; // level[6..0]
+	minuteTzo: number; // 1 byte unsigned integer
+	signOffsetDst: boolean; // level2[7]
+	minuteOffsetDst: number; // level2[6..0]
+	monthStartDst: number; // 1 byte unsigned integer
+	dayStartDst: number; // 1 byte unsigned integer
+	hourStartDst: number; // 1 byte unsigned integer
+	monthEndDst: number; // 1 byte unsigned integer
+	dayEndDst: number; // 1 byte unsigned integer
+	hourEndDst: number; // 1 byte unsigned integer
 }
 
 export interface TimeV2TimeReportData {
-	rTCFailure: boolean; // properties1[7]
+	rtcFailure: boolean; // properties1[7]
 	hourLocalTime: number; // properties1[4..0]
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
@@ -188,13 +188,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signTZO",
+							"name": "signTzo",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "hourTZO",
+							"name": "hourTzo",
 							"mask": 127,
 							"shift": 0
 						}
@@ -202,7 +202,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "minuteTZO",
+					"name": "minuteTzo",
 					"help": "Minute TZO",
 					"length": 1
 				},
@@ -214,13 +214,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signOffsetDST",
+							"name": "signOffsetDst",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "minuteOffsetDST",
+							"name": "minuteOffsetDst",
 							"mask": 127,
 							"shift": 0
 						}
@@ -228,37 +228,37 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "monthStartDST",
+					"name": "monthStartDst",
 					"help": "Month Start DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "dayStartDST",
+					"name": "dayStartDst",
 					"help": "Day Start DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "hourStartDST",
+					"name": "hourStartDst",
 					"help": "Hour Start DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "monthEndDST",
+					"name": "monthEndDst",
 					"help": "Month End DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "dayEndDST",
+					"name": "dayEndDst",
 					"help": "Day End DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "hourEndDST",
+					"name": "hourEndDst",
 					"help": "Hour End DST",
 					"length": 1
 				}
@@ -291,13 +291,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signTZO",
+							"name": "signTzo",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "hourTZO",
+							"name": "hourTzo",
 							"mask": 127,
 							"shift": 0
 						}
@@ -305,7 +305,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "minuteTZO",
+					"name": "minuteTzo",
 					"help": "Minute TZO",
 					"length": 1
 				},
@@ -317,13 +317,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signOffsetDST",
+							"name": "signOffsetDst",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "minuteOffsetDST",
+							"name": "minuteOffsetDst",
 							"mask": 127,
 							"shift": 0
 						}
@@ -331,37 +331,37 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "monthStartDST",
+					"name": "monthStartDst",
 					"help": "Month Start DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "dayStartDST",
+					"name": "dayStartDst",
 					"help": "Day Start DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "hourStartDST",
+					"name": "hourStartDst",
 					"help": "Hour Start DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "monthEndDST",
+					"name": "monthEndDst",
 					"help": "Month End DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "dayEndDST",
+					"name": "dayEndDst",
 					"help": "Day End DST",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "hourEndDST",
+					"name": "hourEndDst",
 					"help": "Hour End DST",
 					"length": 1
 				}
@@ -394,7 +394,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "rTCFailure",
+							"name": "rtcFailure",
 							"mask": 128,
 							"shift": 7
 						},

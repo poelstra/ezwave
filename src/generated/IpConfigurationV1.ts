@@ -19,9 +19,9 @@ export enum IpConfigurationV1Commands {
 }
 
 export interface IpConfigurationV1IpConfigurationReportData {
-	autoIP: boolean; // properties1[1]
-	autoDNS: boolean; // properties1[0]
-	iPAddress: number; // 4 byte unsigned integer
+	autoIp: boolean; // properties1[1]
+	autoDns: boolean; // properties1[0]
+	ipAddress: number; // 4 byte unsigned integer
 	subnetMask: number; // 4 byte unsigned integer
 	gateway: number; // 4 byte unsigned integer
 	dns1: number; // 4 byte unsigned integer
@@ -30,9 +30,9 @@ export interface IpConfigurationV1IpConfigurationReportData {
 }
 
 export interface IpConfigurationV1IpConfigurationSetData {
-	autoIP: boolean; // properties1[1]
-	autoDNS: boolean; // properties1[0]
-	iPAddress: number; // 4 byte unsigned integer
+	autoIp: boolean; // properties1[1]
+	autoDns: boolean; // properties1[0]
+	ipAddress: number; // 4 byte unsigned integer
 	subnetMask: number; // 4 byte unsigned integer
 	gateway: number; // 4 byte unsigned integer
 	dns1: number; // 4 byte unsigned integer
@@ -135,13 +135,13 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 						},
 						{
 							"fieldType": "boolean",
-							"name": "autoIP",
+							"name": "autoIp",
 							"mask": 2,
 							"shift": 1
 						},
 						{
 							"fieldType": "boolean",
-							"name": "autoDNS",
+							"name": "autoDns",
 							"mask": 1,
 							"shift": 0
 						}
@@ -149,7 +149,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 				},
 				{
 					"type": "integer",
-					"name": "iPAddress",
+					"name": "ipAddress",
 					"help": "IP Address",
 					"length": 4
 				},
@@ -219,13 +219,13 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 						},
 						{
 							"fieldType": "boolean",
-							"name": "autoIP",
+							"name": "autoIp",
 							"mask": 2,
 							"shift": 1
 						},
 						{
 							"fieldType": "boolean",
-							"name": "autoDNS",
+							"name": "autoDns",
 							"mask": 1,
 							"shift": 0
 						}
@@ -233,7 +233,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 				},
 				{
 					"type": "integer",
-					"name": "iPAddress",
+					"name": "ipAddress",
 					"help": "IP Address",
 					"length": 4
 				},

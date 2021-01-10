@@ -114,7 +114,7 @@ export class HomeHub {
 
 	async _handleSceneActivationSet(event: LayerEvent<Packet>): Promise<void> {
 		const decoded = event.packet.as(SceneActivationV1.SceneActivationSet);
-		const scene = decoded.data.sceneID;
+		const scene = decoded.data.sceneId;
 		const duration = decoded.data.dimmingDuration;
 		console.log(
 			`-> scene activation from=${event.endpoint.nodeId} scene=${scene} duration=${duration}`

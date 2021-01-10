@@ -19,7 +19,7 @@ export enum IndicatorV2Commands {
 }
 
 export interface IndicatorV2IndicatorGetData {
-	indicatorID: IndicatorIDEnum; // 1 byte enum value
+	indicatorId: IndicatorIdEnum; // 1 byte enum value
 }
 
 export interface IndicatorV2IndicatorReportData {
@@ -33,17 +33,17 @@ export interface IndicatorV2IndicatorSetData {
 }
 
 export interface IndicatorV2IndicatorSupportedGetData {
-	indicatorID: IndicatorIDEnum; // 1 byte enum value
+	indicatorId: IndicatorIdEnum; // 1 byte enum value
 }
 
 export interface IndicatorV2IndicatorSupportedReportData {
-	indicatorID: IndicatorIDEnum; // 1 byte enum value
-	nextIndicatorID: NextIndicatorIDEnum; // 1 byte enum value
+	indicatorId: IndicatorIdEnum; // 1 byte enum value
+	nextIndicatorId: NextIndicatorIdEnum; // 1 byte enum value
 	propertySupportedBitMaskLength: number; // properties1[4..0]
 	// TODO param propertySupportedBitMask type bitmask or marker
 }
 
-export enum IndicatorIDEnum {
+export enum IndicatorIdEnum {
 	Na = 0x0,
 	Armed = 0x1,
 	NotArmed = 0x2,
@@ -79,7 +79,7 @@ export enum IndicatorIDEnum {
 	Buzzer = 0xf0,
 }
 
-export enum NextIndicatorIDEnum {
+export enum NextIndicatorIdEnum {
 	Na = 0x0,
 	Armed = 0x1,
 	NotArmed = 0x2,
@@ -137,7 +137,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"params": [
 				{
 					"type": "enum",
-					"name": "indicatorID",
+					"name": "indicatorId",
 					"help": "Indicator ID",
 					"length": 1,
 					"values": {
@@ -353,7 +353,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -493,7 +493,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 						},
 						{
 							"type": "enum",
-							"name": "propertyID",
+							"name": "propertyId",
 							"help": "Property ID",
 							"length": 1,
 							"values": {
@@ -605,7 +605,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -745,7 +745,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 						},
 						{
 							"type": "enum",
-							"name": "propertyID",
+							"name": "propertyId",
 							"help": "Property ID",
 							"length": 1,
 							"values": {
@@ -802,7 +802,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"params": [
 				{
 					"type": "enum",
-					"name": "indicatorID",
+					"name": "indicatorId",
 					"help": "Indicator ID",
 					"length": 1,
 					"values": {
@@ -964,7 +964,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"params": [
 				{
 					"type": "enum",
-					"name": "indicatorID",
+					"name": "indicatorId",
 					"help": "Indicator ID",
 					"length": 1,
 					"values": {
@@ -1104,7 +1104,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 				},
 				{
 					"type": "enum",
-					"name": "nextIndicatorID",
+					"name": "nextIndicatorId",
 					"help": "Next Indicator ID",
 					"length": 1,
 					"values": {

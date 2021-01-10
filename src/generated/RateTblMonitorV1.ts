@@ -24,16 +24,16 @@ export enum RateTblMonitorV1Commands {
 }
 
 export interface RateTblMonitorV1RateTblActiveRateReportData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 }
 
 export interface RateTblMonitorV1RateTblCurrentDataGetData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	datasetRequested: number; // 3 byte unsigned integer
 }
 
 export interface RateTblMonitorV1RateTblCurrentDataReportData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
@@ -45,12 +45,12 @@ export interface RateTblMonitorV1RateTblCurrentDataReportData {
 }
 
 export interface RateTblMonitorV1RateTblGetData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 }
 
 export interface RateTblMonitorV1RateTblHistoricalDataGetData {
 	maximumReports: number; // 1 byte unsigned integer
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	datasetRequested: number; // 3 byte unsigned integer
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
@@ -67,7 +67,7 @@ export interface RateTblMonitorV1RateTblHistoricalDataGetData {
 }
 
 export interface RateTblMonitorV1RateTblHistoricalDataReportData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	dataset: number; // 3 byte unsigned integer
 	year: number; // 2 byte unsigned integer
 	month: number; // 1 byte unsigned integer
@@ -79,7 +79,7 @@ export interface RateTblMonitorV1RateTblHistoricalDataReportData {
 }
 
 export interface RateTblMonitorV1RateTblReportData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	rateType: number; // properties1[6..5]
 	rateCharacter: Buffer; // variable length
 	startHourLocalTime: number; // 1 byte unsigned integer
@@ -92,7 +92,7 @@ export interface RateTblMonitorV1RateTblReportData {
 	maxDemandPrecision: number; // properties3[7..5]
 	maxDemandScale: number; // properties3[4..0]
 	maxDemandValue: number; // 4 byte unsigned integer
-	dCPRateID: number; // 1 byte unsigned integer
+	dcpRateId: number; // 1 byte unsigned integer
 }
 
 export interface RateTblMonitorV1RateTblSupportedReportData {
@@ -142,7 +142,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				}
@@ -169,7 +169,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
@@ -215,7 +215,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 				},
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
@@ -323,7 +323,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				}
@@ -356,7 +356,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 				},
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
@@ -474,7 +474,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 				},
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
@@ -582,7 +582,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
@@ -708,7 +708,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 				},
 				{
 					"type": "integer",
-					"name": "dCPRateID",
+					"name": "dcpRateId",
 					"help": "DCP Rate ID",
 					"length": 1
 				}

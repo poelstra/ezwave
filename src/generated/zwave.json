@@ -66,7 +66,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "zWaveAlarmType",
+							"name": "zwaveAlarmType",
 							"help": "ZWave Alarm Type",
 							"length": 1,
 							"values": {
@@ -146,14 +146,14 @@
 						},
 						{
 							"type": "integer",
-							"name": "zensorNetSourceNodeID",
+							"name": "zensorNetSourceNodeId",
 							"help": "Zensor Net Source Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
 						},
 						{
 							"type": "integer",
-							"name": "zWaveAlarmStatus",
+							"name": "zwaveAlarmStatus",
 							"help": "ZWave Alarm Status",
 							"length": 1,
 							"values": {
@@ -169,7 +169,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "zWaveAlarmType",
+							"name": "zwaveAlarmType",
 							"help": "ZWave Alarm Type",
 							"length": 1,
 							"values": {
@@ -229,7 +229,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "zWaveAlarmEvent",
+							"name": "zwaveAlarmEvent",
 							"help": "ZWave Alarm Event",
 							"length": 1
 						},
@@ -266,7 +266,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "zWaveAlarmType",
+							"name": "zwaveAlarmType",
 							"help": "ZWave Alarm Type",
 							"length": 1,
 							"values": {
@@ -326,7 +326,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "zWaveAlarmStatus",
+							"name": "zwaveAlarmStatus",
 							"help": "ZWave Alarm Status",
 							"length": 1,
 							"values": {
@@ -4268,7 +4268,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -4289,7 +4289,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -4367,7 +4367,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -4515,7 +4515,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -4551,7 +4551,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": {
 								"lengthType": "auto",
@@ -4575,7 +4575,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -4643,7 +4643,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -4679,7 +4679,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": {
 								"lengthType": "auto",
@@ -4703,7 +4703,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -8745,13 +8745,13 @@
 						},
 						{
 							"type": "integer",
-							"name": "groupID",
+							"name": "groupId",
 							"help": "Group ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -8772,7 +8772,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "groupID",
+							"name": "groupId",
 							"help": "Group ID",
 							"length": 1
 						},
@@ -8801,13 +8801,13 @@
 						},
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -8834,7 +8834,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						},
@@ -8993,7 +8993,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "dCPRateID",
+							"name": "dcpRateId",
 							"help": "DCP Rate ID",
 							"length": 1
 						},
@@ -9005,7 +9005,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "numberOfDC",
+									"name": "numberOfDc",
 									"mask": 3,
 									"shift": 0,
 									"lengthOf": {
@@ -9031,7 +9031,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.numberOfDC"
+									"ref": "properties1.numberOfDc"
 								}
 							},
 							"params": [
@@ -9152,13 +9152,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "dCPListSize",
+							"name": "dcpListSize",
 							"help": "DCP List Size",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "freeDCPListEntries",
+							"name": "freeDcpListEntries",
 							"help": "Free DCP List entries",
 							"length": 1
 						}
@@ -9364,7 +9364,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "numberOfDC",
+									"name": "numberOfDc",
 									"mask": 3,
 									"shift": 0
 								},
@@ -11133,13 +11133,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -11242,13 +11242,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -11340,13 +11340,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -11455,13 +11455,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -11553,13 +11553,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmware0ID",
+							"name": "firmware0Id",
 							"help": "Firmware 0 ID",
 							"length": 2
 						},
@@ -11606,7 +11606,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "firmwareID",
+									"name": "firmwareId",
 									"help": "Firmware ID",
 									"length": 2
 								}
@@ -11711,13 +11711,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -11839,13 +11839,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmware0ID",
+							"name": "firmware0Id",
 							"help": "Firmware 0 ID",
 							"length": 2
 						},
@@ -11892,7 +11892,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "firmwareID",
+									"name": "firmwareId",
 									"help": "Firmware ID",
 									"length": 2
 								}
@@ -11997,13 +11997,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -12158,13 +12158,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -12190,13 +12190,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -12258,13 +12258,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmware0ID",
+							"name": "firmware0Id",
 							"help": "Firmware 0 ID",
 							"length": 2
 						},
@@ -12311,7 +12311,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "firmwareID",
+									"name": "firmwareId",
 									"help": "Firmware ID",
 									"length": 2
 								}
@@ -12422,13 +12422,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -12597,13 +12597,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -12635,13 +12635,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -12693,13 +12693,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						},
@@ -13508,7 +13508,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -13710,7 +13710,7 @@
 							"params": [
 								{
 									"type": "enum",
-									"name": "indicatorID",
+									"name": "indicatorId",
 									"help": "Indicator ID",
 									"length": 1,
 									"values": {
@@ -13850,7 +13850,7 @@
 								},
 								{
 									"type": "enum",
-									"name": "propertyID",
+									"name": "propertyId",
 									"help": "Property ID",
 									"length": 1,
 									"values": {
@@ -13948,7 +13948,7 @@
 							"params": [
 								{
 									"type": "enum",
-									"name": "indicatorID",
+									"name": "indicatorId",
 									"help": "Indicator ID",
 									"length": 1,
 									"values": {
@@ -14088,7 +14088,7 @@
 								},
 								{
 									"type": "enum",
-									"name": "propertyID",
+									"name": "propertyId",
 									"help": "Property ID",
 									"length": 1,
 									"values": {
@@ -14132,7 +14132,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -14280,7 +14280,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -14420,7 +14420,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "nextIndicatorID",
+							"name": "nextIndicatorId",
 							"help": "Next Indicator ID",
 							"length": 1,
 							"values": {
@@ -14604,7 +14604,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -14810,7 +14810,7 @@
 							"params": [
 								{
 									"type": "enum",
-									"name": "indicatorID",
+									"name": "indicatorId",
 									"help": "Indicator ID",
 									"length": 1,
 									"values": {
@@ -14954,7 +14954,7 @@
 								},
 								{
 									"type": "enum",
-									"name": "propertyID",
+									"name": "propertyId",
 									"help": "Property ID",
 									"length": 1,
 									"values": {
@@ -15056,7 +15056,7 @@
 							"params": [
 								{
 									"type": "enum",
-									"name": "indicatorID",
+									"name": "indicatorId",
 									"help": "Indicator ID",
 									"length": 1,
 									"values": {
@@ -15200,7 +15200,7 @@
 								},
 								{
 									"type": "enum",
-									"name": "propertyID",
+									"name": "propertyId",
 									"help": "Property ID",
 									"length": 1,
 									"values": {
@@ -15248,7 +15248,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -15400,7 +15400,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "indicatorID",
+							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
 							"values": {
@@ -15544,7 +15544,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "nextIndicatorID",
+							"name": "nextIndicatorId",
 							"help": "Next Indicator ID",
 							"length": 1,
 							"values": {
@@ -15759,13 +15759,13 @@
 							"fields": [
 								{
 									"fieldType": "boolean",
-									"name": "autoDNS",
+									"name": "autoDns",
 									"mask": 1,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "autoIP",
+									"name": "autoIp",
 									"mask": 2,
 									"shift": 1
 								},
@@ -15780,7 +15780,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "iPAddress",
+							"name": "ipAddress",
 							"help": "IP Address",
 							"length": 4
 						},
@@ -15830,13 +15830,13 @@
 							"fields": [
 								{
 									"fieldType": "boolean",
-									"name": "autoDNS",
+									"name": "autoDns",
 									"mask": 1,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "autoIP",
+									"name": "autoIp",
 									"mask": 2,
 									"shift": 1
 								},
@@ -15851,7 +15851,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "iPAddress",
+							"name": "ipAddress",
 							"help": "IP Address",
 							"length": 4
 						},
@@ -16033,19 +16033,19 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "productTypeID",
+							"name": "productTypeId",
 							"help": "Product Type ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "productID",
+							"name": "productId",
 							"help": "Product ID",
 							"length": 2
 						}
@@ -16075,19 +16075,19 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "productTypeID",
+							"name": "productTypeId",
 							"help": "Product Type ID",
 							"length": 2
 						},
 						{
 							"type": "integer",
-							"name": "productID",
+							"name": "productId",
 							"help": "Product ID",
 							"length": 2
 						}
@@ -16107,7 +16107,7 @@
 							"fields": [
 								{
 									"fieldType": "enum",
-									"name": "deviceIDType",
+									"name": "deviceIdType",
 									"mask": 7,
 									"shift": 0,
 									"values": {
@@ -16146,7 +16146,7 @@
 							"fields": [
 								{
 									"fieldType": "enum",
-									"name": "deviceIDType",
+									"name": "deviceIdType",
 									"mask": 7,
 									"shift": 0,
 									"values": {
@@ -16177,19 +16177,19 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "deviceIDDataLengthIndicator",
+									"name": "deviceIdDataLengthIndicator",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"deviceIDData"
+											"deviceIdData"
 										]
 									},
 									"isAutogenerated": true
 								},
 								{
 									"fieldType": "enum",
-									"name": "deviceIDDataFormat",
+									"name": "deviceIdDataFormat",
 									"mask": 224,
 									"shift": 5,
 									"values": {
@@ -16207,12 +16207,12 @@
 						},
 						{
 							"type": "blob",
-							"name": "deviceIDData",
+							"name": "deviceIdData",
 							"help": "Device ID Data",
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties2.deviceIDDataLengthIndicator"
+									"ref": "properties2.deviceIdDataLengthIndicator"
 								}
 							}
 						}
@@ -16363,7 +16363,7 @@
 									"fields": [
 										{
 											"fieldType": "integer",
-											"name": "operatingStatusEventID",
+											"name": "operatingStatusEventId",
 											"mask": 31,
 											"shift": 0
 										},
@@ -17017,7 +17017,7 @@
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"meterIDCharacter"
+											"meterIdCharacter"
 										]
 									},
 									"isAutogenerated": true
@@ -17033,7 +17033,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "meterIDCharacter",
+							"name": "meterIdCharacter",
 							"help": "Meter ID Character",
 							"length": {
 								"lengthType": "ref",
@@ -17149,7 +17149,7 @@
 									"fields": [
 										{
 											"fieldType": "integer",
-											"name": "operatingStatusEventID",
+											"name": "operatingStatusEventId",
 											"mask": 31,
 											"shift": 0
 										},
@@ -17815,7 +17815,7 @@
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"meterIDCharacter"
+											"meterIdCharacter"
 										]
 									},
 									"isAutogenerated": true
@@ -17831,7 +17831,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "meterIDCharacter",
+							"name": "meterIdCharacter",
 							"help": "Meter ID Character",
 							"length": {
 								"lengthType": "ref",
@@ -17947,7 +17947,7 @@
 									"fields": [
 										{
 											"fieldType": "integer",
-											"name": "operatingStatusEventID",
+											"name": "operatingStatusEventId",
 											"mask": 31,
 											"shift": 0
 										},
@@ -18613,7 +18613,7 @@
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"meterIDCharacter"
+											"meterIdCharacter"
 										]
 									},
 									"isAutogenerated": true
@@ -18629,7 +18629,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "meterIDCharacter",
+							"name": "meterIdCharacter",
 							"help": "Meter ID Character",
 							"length": {
 								"lengthType": "ref",
@@ -18774,7 +18774,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "pushNodeID",
+							"name": "pushNodeId",
 							"help": "Push Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -18846,7 +18846,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "pushNodeID",
+							"name": "pushNodeId",
 							"help": "Push Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -20180,7 +20180,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20205,7 +20205,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiChannelNodeID",
+									"name": "multiChannelNodeId",
 									"help": "Multi Channel Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20260,7 +20260,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20285,7 +20285,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiChannelNodeID",
+									"name": "multiChannelNodeId",
 									"help": "Multi Channel Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20328,7 +20328,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20353,7 +20353,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiChannelNodeID",
+									"name": "multiChannelNodeId",
 									"help": "Multi Channel Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20440,7 +20440,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20465,7 +20465,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiChannelNodeID",
+									"name": "multiChannelNodeId",
 									"help": "Multi Channel Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20520,7 +20520,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20545,7 +20545,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiChannelNodeID",
+									"name": "multiChannelNodeId",
 									"help": "Multi Channel Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20588,7 +20588,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20613,7 +20613,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiChannelNodeID",
+									"name": "multiChannelNodeId",
 									"help": "Multi Channel Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20706,7 +20706,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20733,7 +20733,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiInstanceNodeID",
+									"name": "multiInstanceNodeId",
 									"help": "Multi Instance Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20780,7 +20780,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20807,7 +20807,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiInstanceNodeID",
+									"name": "multiInstanceNodeId",
 									"help": "Multi Instance Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -20842,7 +20842,7 @@
 						},
 						{
 							"type": "enumarray",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
 								"lengthType": "auto",
@@ -20869,7 +20869,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "multiInstanceNodeID",
+									"name": "multiInstanceNodeId",
 									"help": "Multi Instance Node ID",
 									"length": 1,
 									"valueType": "NODE_NUMBER"
@@ -22334,7 +22334,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -22511,7 +22511,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeListControllerID",
+							"name": "nodeListControllerId",
 							"help": "Node List Controller ID",
 							"length": 1
 						},
@@ -22567,7 +22567,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -22743,7 +22743,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeListControllerID",
+							"name": "nodeListControllerId",
 							"help": "Node List Controller ID",
 							"length": 1
 						},
@@ -22769,7 +22769,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -22790,7 +22790,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -22860,7 +22860,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -22902,7 +22902,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -22974,7 +22974,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23016,7 +23016,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23177,7 +23177,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "newNodeID",
+							"name": "newNodeId",
 							"help": "New Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23205,7 +23205,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "destinationNodeID",
+							"name": "destinationNodeId",
 							"help": "Destination Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23427,7 +23427,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "newNodeID",
+							"name": "newNodeId",
 							"help": "New Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23440,7 +23440,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "kEXFailType",
+							"name": "kexFailType",
 							"help": "KEX Fail Type",
 							"length": 1
 						},
@@ -23473,7 +23473,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "destinationNodeID",
+							"name": "destinationNodeId",
 							"help": "Destination Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23685,7 +23685,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23706,7 +23706,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -23833,7 +23833,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "newNodeID",
+							"name": "newNodeId",
 							"help": "New Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24001,7 +24001,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24022,7 +24022,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24075,7 +24075,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24096,7 +24096,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24147,14 +24147,14 @@
 						},
 						{
 							"type": "integer",
-							"name": "sourceNodeID",
+							"name": "sourceNodeId",
 							"help": "Source Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
 						},
 						{
 							"type": "integer",
-							"name": "destinationNodeID",
+							"name": "destinationNodeId",
 							"help": "Destination Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24209,7 +24209,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24273,7 +24273,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24294,7 +24294,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24425,7 +24425,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "newNodeID",
+							"name": "newNodeId",
 							"help": "New Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24524,7 +24524,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "kEXFailType",
+							"name": "kexFailType",
 							"help": "KEX Fail Type",
 							"length": 1
 						}
@@ -24605,7 +24605,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24626,7 +24626,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24679,7 +24679,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24692,7 +24692,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "kEXFailType",
+							"name": "kexFailType",
 							"help": "KEX Fail Type",
 							"length": 1
 						}
@@ -24712,7 +24712,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24763,14 +24763,14 @@
 						},
 						{
 							"type": "integer",
-							"name": "sourceNodeID",
+							"name": "sourceNodeId",
 							"help": "Source Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
 						},
 						{
 							"type": "integer",
-							"name": "destinationNodeID",
+							"name": "destinationNodeId",
 							"help": "Destination Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24825,7 +24825,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -24886,7 +24886,7 @@
 							"fields": [
 								{
 									"fieldType": "boolean",
-									"name": "requestCSA",
+									"name": "requestCsa",
 									"mask": 1,
 									"shift": 0
 								},
@@ -24933,7 +24933,7 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "grantCSA",
+									"name": "grantCsa",
 									"mask": 2,
 									"shift": 1
 								},
@@ -24974,7 +24974,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "inputDSKLength",
+									"name": "inputDskLength",
 									"mask": 15,
 									"shift": 0
 								},
@@ -25015,12 +25015,12 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "inputDSKLength",
+									"name": "inputDskLength",
 									"mask": 15,
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"inputDSK"
+											"inputDsk"
 										]
 									},
 									"isAutogenerated": true
@@ -25042,12 +25042,12 @@
 						},
 						{
 							"type": "blob",
-							"name": "inputDSK",
+							"name": "inputDsk",
 							"help": "Input DSK",
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.inputDSKLength"
+									"ref": "properties1.inputDskLength"
 								}
 							}
 						}
@@ -25076,7 +25076,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25097,7 +25097,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25228,7 +25228,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "newNodeID",
+							"name": "newNodeId",
 							"help": "New Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25327,7 +25327,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "kEXFailType",
+							"name": "kexFailType",
 							"help": "KEX Fail Type",
 							"length": 1
 						},
@@ -25339,7 +25339,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -25365,7 +25365,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties3.dSKLength"
+									"ref": "properties3.dskLength"
 								}
 							}
 						}
@@ -25446,7 +25446,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25467,7 +25467,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25520,7 +25520,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25533,7 +25533,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "kEXFailType",
+							"name": "kexFailType",
 							"help": "KEX Fail Type",
 							"length": 1
 						}
@@ -25553,7 +25553,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25604,14 +25604,14 @@
 						},
 						{
 							"type": "integer",
-							"name": "sourceNodeID",
+							"name": "sourceNodeId",
 							"help": "Source Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
 						},
 						{
 							"type": "integer",
-							"name": "destinationNodeID",
+							"name": "destinationNodeId",
 							"help": "Destination Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25666,7 +25666,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -25727,7 +25727,7 @@
 							"fields": [
 								{
 									"fieldType": "boolean",
-									"name": "requestCSA",
+									"name": "requestCsa",
 									"mask": 1,
 									"shift": 0
 								},
@@ -25774,7 +25774,7 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "grantCSA",
+									"name": "grantCsa",
 									"mask": 2,
 									"shift": 1
 								},
@@ -25815,7 +25815,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "inputDSKLength",
+									"name": "inputDskLength",
 									"mask": 15,
 									"shift": 0
 								},
@@ -25856,12 +25856,12 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "inputDSKLength",
+									"name": "inputDskLength",
 									"mask": 15,
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"inputDSK"
+											"inputDsk"
 										]
 									},
 									"isAutogenerated": true
@@ -25883,12 +25883,12 @@
 						},
 						{
 							"type": "blob",
-							"name": "inputDSK",
+							"name": "inputDsk",
 							"help": "Input DSK",
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.inputDSKLength"
+									"ref": "properties1.inputDskLength"
 								}
 							}
 						}
@@ -25928,7 +25928,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -25954,7 +25954,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.dSKLength"
+									"ref": "properties1.dskLength"
 								}
 							}
 						}
@@ -26020,7 +26020,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -26046,7 +26046,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.dSKLength"
+									"ref": "properties1.dskLength"
 								}
 							}
 						}
@@ -26386,7 +26386,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "testNodeID",
+							"name": "testNodeId",
 							"help": "Test NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER",
@@ -26433,7 +26433,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "testNodeID",
+							"name": "testNodeId",
 							"help": "Test NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -26880,7 +26880,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -26895,7 +26895,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -26944,7 +26944,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "rFProtectionState",
+									"name": "rfProtectionState",
 									"mask": 15,
 									"shift": 0
 								},
@@ -26994,7 +26994,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "rFProtectionState",
+									"name": "rfProtectionState",
 									"mask": 15,
 									"shift": 0
 								},
@@ -27057,7 +27057,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "rFProtectionState",
+							"name": "rfProtectionState",
 							"help": "RF Protection State",
 							"length": 2
 						}
@@ -27141,12 +27141,12 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "rateParameterSetIDs",
+									"name": "rateParameterSetIds",
 									"mask": 63,
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"rateParameterSetID"
+											"rateParameterSetId"
 										]
 									},
 									"isAutogenerated": true
@@ -27162,12 +27162,12 @@
 						},
 						{
 							"type": "blob",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.rateParameterSetIDs"
+									"ref": "properties1.rateParameterSetIds"
 								}
 							}
 						}
@@ -27181,7 +27181,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -27307,7 +27307,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "dCPRateID",
+							"name": "dcpRateId",
 							"help": "DCP Rate ID",
 							"length": 1
 						}
@@ -27337,7 +27337,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						}
@@ -27351,7 +27351,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -27383,7 +27383,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -27478,7 +27478,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						}
@@ -27498,7 +27498,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -27602,7 +27602,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -27697,7 +27697,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -27823,7 +27823,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "dCPRateID",
+							"name": "dcpRateId",
 							"help": "DCP Rate ID",
 							"length": 1
 						}
@@ -27922,7 +27922,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "remoteNodeID",
+							"name": "remoteNodeId",
 							"help": "Remote NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER",
@@ -27961,7 +27961,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "remoteNodeID",
+							"name": "remoteNodeId",
 							"help": "Remote NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER",
@@ -27997,7 +27997,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						},
@@ -28036,7 +28036,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						}
@@ -28050,7 +28050,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						},
@@ -28082,7 +28082,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						},
@@ -28148,7 +28148,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "groupID",
+							"name": "groupId",
 							"help": "Group ID",
 							"length": 1
 						}
@@ -28162,13 +28162,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "groupID",
+							"name": "groupId",
 							"help": "Group ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						},
@@ -28194,13 +28194,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "groupID",
+							"name": "groupId",
 							"help": "Group ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "sceneID",
+							"name": "sceneId",
 							"help": "Scene ID",
 							"length": 1
 						},
@@ -28299,7 +28299,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						}
@@ -28319,7 +28319,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -28385,7 +28385,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -28435,7 +28435,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						}
@@ -28455,7 +28455,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -28551,7 +28551,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -28728,13 +28728,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "hourTZO",
+									"name": "hourTzo",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signTZO",
+									"name": "signTzo",
 									"mask": 128,
 									"shift": 7
 								}
@@ -28742,7 +28742,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "minuteTZO",
+							"name": "minuteTzo",
 							"help": "Minute TZO",
 							"length": 1
 						},
@@ -28754,13 +28754,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "minuteOffsetDST",
+									"name": "minuteOffsetDst",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signOffsetDST",
+									"name": "signOffsetDst",
 									"mask": 128,
 									"shift": 7
 								}
@@ -28782,13 +28782,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "hourTZO",
+									"name": "hourTzo",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signTZO",
+									"name": "signTzo",
 									"mask": 128,
 									"shift": 7
 								}
@@ -28796,7 +28796,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "minuteTZO",
+							"name": "minuteTzo",
 							"help": "Minute TZO",
 							"length": 1
 						},
@@ -28808,13 +28808,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "minuteOffsetDST",
+									"name": "minuteOffsetDst",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signOffsetDST",
+									"name": "signOffsetDst",
 									"mask": 128,
 									"shift": 7
 								}
@@ -28836,7 +28836,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						}
@@ -28856,7 +28856,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -28922,7 +28922,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -28972,7 +28972,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						}
@@ -28992,7 +28992,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -29088,7 +29088,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -29265,13 +29265,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "hourTZO",
+									"name": "hourTzo",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signTZO",
+									"name": "signTzo",
 									"mask": 128,
 									"shift": 7
 								}
@@ -29279,7 +29279,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "minuteTZO",
+							"name": "minuteTzo",
 							"help": "Minute TZO",
 							"length": 1
 						},
@@ -29291,13 +29291,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "minuteOffsetDST",
+									"name": "minuteOffsetDst",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signOffsetDST",
+									"name": "signOffsetDst",
 									"mask": 128,
 									"shift": 7
 								}
@@ -29319,13 +29319,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "hourTZO",
+									"name": "hourTzo",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signTZO",
+									"name": "signTzo",
 									"mask": 128,
 									"shift": 7
 								}
@@ -29333,7 +29333,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "minuteTZO",
+							"name": "minuteTzo",
 							"help": "Minute TZO",
 							"length": 1
 						},
@@ -29345,13 +29345,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "minuteOffsetDST",
+									"name": "minuteOffsetDst",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signOffsetDST",
+									"name": "signOffsetDst",
 									"mask": 128,
 									"shift": 7
 								}
@@ -29373,7 +29373,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						}
@@ -29393,7 +29393,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -29459,7 +29459,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -29509,7 +29509,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						}
@@ -29529,7 +29529,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -29625,7 +29625,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -29738,7 +29738,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						}
@@ -29758,7 +29758,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -29824,7 +29824,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleSlotID",
+							"name": "scheduleSlotId",
 							"help": "Schedule Slot ID",
 							"length": 1
 						},
@@ -30080,7 +30080,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -30216,7 +30216,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -30655,7 +30655,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "zWaveAlarmType",
+							"name": "zwaveAlarmType",
 							"help": "ZWave Alarm Type",
 							"length": 1
 						}
@@ -30715,13 +30715,13 @@
 						},
 						{
 							"type": "integer",
-							"name": "zWaveAlarmType",
+							"name": "zwaveAlarmType",
 							"help": "ZWave Alarm Type",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "zWaveAlarmEvent",
+							"name": "zwaveAlarmEvent",
 							"help": "ZWave Alarm Event",
 							"length": 1
 						},
@@ -31150,7 +31150,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "sourceNodeID",
+							"name": "sourceNodeId",
 							"help": "Source Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -40716,12 +40716,12 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "rateParameterSetIDs",
+									"name": "rateParameterSetIds",
 									"mask": 63,
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"rateParameterSetID"
+											"rateParameterSetId"
 										]
 									},
 									"isAutogenerated": true
@@ -40737,12 +40737,12 @@
 						},
 						{
 							"type": "blob",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.rateParameterSetIDs"
+									"ref": "properties1.rateParameterSetIds"
 								}
 							}
 						}
@@ -40756,7 +40756,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -40920,7 +40920,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -40994,7 +40994,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -41122,7 +41122,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						}
@@ -41136,7 +41136,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "rateParameterSetID",
+							"name": "rateParameterSetId",
 							"help": "Rate Parameter Set ID",
 							"length": 1
 						},
@@ -45159,19 +45159,19 @@
 						},
 						{
 							"type": "integer",
-							"name": "hourUTC",
+							"name": "hourUtc",
 							"help": "Hour UTC",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "minuteUTC",
+							"name": "minuteUtc",
 							"help": "Minute UTC",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "secondUTC",
+							"name": "secondUtc",
 							"help": "Second UTC",
 							"length": 1
 						}
@@ -45203,19 +45203,19 @@
 						},
 						{
 							"type": "integer",
-							"name": "hourUTC",
+							"name": "hourUtc",
 							"help": "Hour UTC",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "minuteUTC",
+							"name": "minuteUtc",
 							"help": "Minute UTC",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "secondUTC",
+							"name": "secondUtc",
 							"help": "Second UTC",
 							"length": 1
 						}
@@ -45297,7 +45297,7 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "rTCFailure",
+									"name": "rtcFailure",
 									"mask": 128,
 									"shift": 7
 								}
@@ -45387,13 +45387,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "hourTZO",
+									"name": "hourTzo",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signTZO",
+									"name": "signTzo",
 									"mask": 128,
 									"shift": 7
 								}
@@ -45401,7 +45401,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "minuteTZO",
+							"name": "minuteTzo",
 							"help": "Minute TZO",
 							"length": 1
 						},
@@ -45413,13 +45413,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "minuteOffsetDST",
+									"name": "minuteOffsetDst",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signOffsetDST",
+									"name": "signOffsetDst",
 									"mask": 128,
 									"shift": 7
 								}
@@ -45427,37 +45427,37 @@
 						},
 						{
 							"type": "integer",
-							"name": "monthStartDST",
+							"name": "monthStartDst",
 							"help": "Month Start DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "dayStartDST",
+							"name": "dayStartDst",
 							"help": "Day Start DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "hourStartDST",
+							"name": "hourStartDst",
 							"help": "Hour Start DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "monthEndDST",
+							"name": "monthEndDst",
 							"help": "Month End DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "dayEndDST",
+							"name": "dayEndDst",
 							"help": "Day End DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "hourEndDST",
+							"name": "hourEndDst",
 							"help": "Hour End DST",
 							"length": 1
 						}
@@ -45477,13 +45477,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "hourTZO",
+									"name": "hourTzo",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signTZO",
+									"name": "signTzo",
 									"mask": 128,
 									"shift": 7
 								}
@@ -45491,7 +45491,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "minuteTZO",
+							"name": "minuteTzo",
 							"help": "Minute TZO",
 							"length": 1
 						},
@@ -45503,13 +45503,13 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "minuteOffsetDST",
+									"name": "minuteOffsetDst",
 									"mask": 127,
 									"shift": 0
 								},
 								{
 									"fieldType": "boolean",
-									"name": "signOffsetDST",
+									"name": "signOffsetDst",
 									"mask": 128,
 									"shift": 7
 								}
@@ -45517,37 +45517,37 @@
 						},
 						{
 							"type": "integer",
-							"name": "monthStartDST",
+							"name": "monthStartDst",
 							"help": "Month Start DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "dayStartDST",
+							"name": "dayStartDst",
 							"help": "Day Start DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "hourStartDST",
+							"name": "hourStartDst",
 							"help": "Hour Start DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "monthEndDST",
+							"name": "monthEndDst",
 							"help": "Month End DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "dayEndDST",
+							"name": "dayEndDst",
 							"help": "Day End DST",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "hourEndDST",
+							"name": "hourEndDst",
 							"help": "Hour End DST",
 							"length": 1
 						}
@@ -45580,7 +45580,7 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "rTCFailure",
+									"name": "rtcFailure",
 									"mask": 128,
 									"shift": 7
 								}
@@ -45665,7 +45665,7 @@
 								},
 								{
 									"fieldType": "integer",
-									"name": "sessionID",
+									"name": "sessionId",
 									"mask": 240,
 									"shift": 4
 								}
@@ -45755,7 +45755,7 @@
 								},
 								{
 									"fieldType": "integer",
-									"name": "sessionID",
+									"name": "sessionId",
 									"mask": 240,
 									"shift": 4
 								}
@@ -45807,7 +45807,7 @@
 								},
 								{
 									"fieldType": "integer",
-									"name": "sessionID",
+									"name": "sessionId",
 									"mask": 240,
 									"shift": 4
 								}
@@ -45894,7 +45894,7 @@
 								},
 								{
 									"fieldType": "integer",
-									"name": "sessionID",
+									"name": "sessionId",
 									"mask": 240,
 									"shift": 4
 								},
@@ -46155,7 +46155,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "userIDStatus",
+							"name": "userIdStatus",
 							"help": "User ID Status",
 							"length": 1,
 							"values": {
@@ -46202,7 +46202,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "userIDStatus",
+							"name": "userIdStatus",
 							"help": "User ID Status",
 							"length": 1,
 							"values": {
@@ -46293,7 +46293,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "userIDStatus",
+							"name": "userIdStatus",
 							"help": "User ID Status",
 							"length": 1,
 							"values": {
@@ -46348,7 +46348,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "userIDStatus",
+							"name": "userIdStatus",
 							"help": "User ID Status",
 							"length": 1,
 							"values": {
@@ -46453,7 +46453,7 @@
 								},
 								{
 									"type": "enum",
-									"name": "userIDStatus",
+									"name": "userIdStatus",
 									"help": "User ID Status",
 									"length": 1,
 									"values": {
@@ -46602,7 +46602,7 @@
 								},
 								{
 									"type": "enum",
-									"name": "userIDStatus",
+									"name": "userIdStatus",
 									"help": "User ID Status",
 									"length": 1,
 									"values": {
@@ -46694,12 +46694,12 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "supportedUserIDStatusBitMaskLength",
+									"name": "supportedUserIdStatusBitMaskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
 										"refs": [
-											"supportedUserIDStatusBitMask"
+											"supportedUserIdStatusBitMask"
 										]
 									},
 									"isAutogenerated": true
@@ -46713,13 +46713,13 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "mCDSupport",
+									"name": "mcdSupport",
 									"mask": 64,
 									"shift": 6
 								},
 								{
 									"fieldType": "boolean",
-									"name": "mCSupport",
+									"name": "mcSupport",
 									"mask": 128,
 									"shift": 7
 								}
@@ -46727,12 +46727,12 @@
 						},
 						{
 							"type": "blob",
-							"name": "supportedUserIDStatusBitMask",
+							"name": "supportedUserIdStatusBitMask",
 							"help": "Supported User ID Status Bit Mask",
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.supportedUserIDStatusBitMaskLength"
+									"ref": "properties1.supportedUserIdStatusBitMaskLength"
 								}
 							}
 						},
@@ -46756,19 +46756,19 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "mUCSSupport",
+									"name": "mucsSupport",
 									"mask": 32,
 									"shift": 5
 								},
 								{
 									"fieldType": "boolean",
-									"name": "mUCRSupport",
+									"name": "mucrSupport",
 									"mask": 64,
 									"shift": 6
 								},
 								{
 									"fieldType": "boolean",
-									"name": "uCCSupport",
+									"name": "uccSupport",
 									"mask": 128,
 									"shift": 7
 								}
@@ -47435,13 +47435,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "sDKVersion",
+							"name": "sdkVersion",
 							"help": "SDK version",
 							"length": 3
 						},
 						{
 							"type": "integer",
-							"name": "applicationFrameworkAPIVersion",
+							"name": "applicationFrameworkApiVersion",
 							"help": "Application Framework API Version",
 							"length": 3
 						},
@@ -47519,7 +47519,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -47540,7 +47540,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -47630,7 +47630,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -47651,7 +47651,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -47836,25 +47836,25 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckOptionError",
+									"name": "nackOptionError",
 									"mask": 4,
 									"shift": 2
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckQueueFull",
+									"name": "nackQueueFull",
 									"mask": 8,
 									"shift": 3
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckWaiting",
+									"name": "nackWaiting",
 									"mask": 16,
 									"shift": 4
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckResponse",
+									"name": "nackResponse",
 									"mask": 32,
 									"shift": 5
 								},
@@ -48020,25 +48020,25 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckOptionError",
+									"name": "nackOptionError",
 									"mask": 4,
 									"shift": 2
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckQueueFull",
+									"name": "nackQueueFull",
 									"mask": 8,
 									"shift": 3
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckWaiting",
+									"name": "nackWaiting",
 									"mask": 16,
 									"shift": 4
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckResponse",
+									"name": "nackResponse",
 									"mask": 32,
 									"shift": 5
 								},
@@ -48229,25 +48229,25 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckOptionError",
+									"name": "nackOptionError",
 									"mask": 4,
 									"shift": 2
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckQueueFull",
+									"name": "nackQueueFull",
 									"mask": 8,
 									"shift": 3
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckWaiting",
+									"name": "nackWaiting",
 									"mask": 16,
 									"shift": 4
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckResponse",
+									"name": "nackResponse",
 									"mask": 32,
 									"shift": 5
 								},
@@ -48438,25 +48438,25 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckOptionError",
+									"name": "nackOptionError",
 									"mask": 4,
 									"shift": 2
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckQueueFull",
+									"name": "nackQueueFull",
 									"mask": 8,
 									"shift": 3
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckWaiting",
+									"name": "nackWaiting",
 									"mask": 16,
 									"shift": 4
 								},
 								{
 									"fieldType": "boolean",
-									"name": "nAckResponse",
+									"name": "nackResponse",
 									"mask": 32,
 									"shift": 5
 								},
@@ -49216,7 +49216,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						}
@@ -49230,7 +49230,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
@@ -49288,7 +49288,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "colorComponentID",
+									"name": "colorComponentId",
 									"help": "Color Component ID",
 									"length": 1
 								},
@@ -49344,7 +49344,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
@@ -49364,7 +49364,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						}
@@ -49408,7 +49408,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						}
@@ -49422,7 +49422,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
@@ -49480,7 +49480,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "colorComponentID",
+									"name": "colorComponentId",
 									"help": "Color Component ID",
 									"length": 1
 								},
@@ -49542,7 +49542,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
@@ -49562,7 +49562,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						}
@@ -49606,7 +49606,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						}
@@ -49620,7 +49620,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
@@ -49704,7 +49704,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "colorComponentID",
+									"name": "colorComponentId",
 									"help": "Color Component ID",
 									"length": 1
 								},
@@ -49776,7 +49776,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
@@ -49812,7 +49812,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						}
@@ -49842,7 +49842,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -49874,7 +49874,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "numberOfSupportedCC",
+							"name": "numberOfSupportedCc",
 							"help": "Number of supported CC",
 							"length": 1,
 							"lengthOf": {
@@ -49891,13 +49891,13 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "numberOfSupportedCC"
+									"ref": "numberOfSupportedCc"
 								}
 							},
 							"params": [
 								{
 									"type": "integer",
-									"name": "supportedCC",
+									"name": "supportedCc",
 									"help": "Supported CC",
 									"length": 1
 								},
@@ -49954,7 +49954,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
@@ -50143,7 +50143,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						}
@@ -50157,7 +50157,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
@@ -50187,7 +50187,7 @@
 								},
 								{
 									"fieldType": "integer",
-									"name": "activeID",
+									"name": "activeId",
 									"mask": 240,
 									"shift": 4
 								}
@@ -50345,7 +50345,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						}
@@ -50359,7 +50359,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
@@ -50386,7 +50386,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -50427,13 +50427,13 @@
 									"fields": [
 										{
 											"fieldType": "integer",
-											"name": "activeID1",
+											"name": "activeId1",
 											"mask": 15,
 											"shift": 0
 										},
 										{
 											"fieldType": "integer",
-											"name": "activeID2",
+											"name": "activeId2",
 											"mask": 240,
 											"shift": 4
 										}
@@ -50460,7 +50460,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -50474,7 +50474,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -50506,7 +50506,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "numberOfSupportedCC",
+							"name": "numberOfSupportedCc",
 							"help": "Number of supported CC",
 							"length": 1,
 							"lengthOf": {
@@ -50523,13 +50523,13 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "numberOfSupportedCC"
+									"ref": "numberOfSupportedCc"
 								}
 							},
 							"params": [
 								{
 									"type": "integer",
-									"name": "supportedCC",
+									"name": "supportedCc",
 									"help": "Supported CC",
 									"length": 1
 								},
@@ -50578,7 +50578,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -50598,13 +50598,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -50787,13 +50787,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -50807,13 +50807,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -50837,7 +50837,7 @@
 								},
 								{
 									"fieldType": "integer",
-									"name": "activeID",
+									"name": "activeId",
 									"mask": 240,
 									"shift": 4
 								}
@@ -51009,13 +51009,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51029,7 +51029,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
@@ -51041,7 +51041,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51055,7 +51055,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51069,7 +51069,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -51110,13 +51110,13 @@
 									"fields": [
 										{
 											"fieldType": "integer",
-											"name": "activeID1",
+											"name": "activeId1",
 											"mask": 15,
 											"shift": 0
 										},
 										{
 											"fieldType": "integer",
-											"name": "activeID2",
+											"name": "activeId2",
 											"mask": 240,
 											"shift": 4
 										}
@@ -51126,7 +51126,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51149,7 +51149,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51163,7 +51163,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -51195,7 +51195,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "numberOfSupportedCC",
+							"name": "numberOfSupportedCc",
 							"help": "Number of supported CC",
 							"length": 1,
 							"lengthOf": {
@@ -51212,13 +51212,13 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "numberOfSupportedCC"
+									"ref": "numberOfSupportedCc"
 								}
 							},
 							"params": [
 								{
 									"type": "integer",
-									"name": "supportedCC",
+									"name": "supportedCc",
 									"help": "Supported CC",
 									"length": 1
 								},
@@ -51267,7 +51267,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -51287,13 +51287,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -51501,13 +51501,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -51542,13 +51542,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -51755,13 +51755,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51775,7 +51775,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
@@ -51787,7 +51787,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51801,7 +51801,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51815,7 +51815,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -51856,13 +51856,13 @@
 									"fields": [
 										{
 											"fieldType": "integer",
-											"name": "activeID1",
+											"name": "activeId1",
 											"mask": 15,
 											"shift": 0
 										},
 										{
 											"fieldType": "integer",
-											"name": "activeID2",
+											"name": "activeId2",
 											"mask": 240,
 											"shift": 4
 										}
@@ -51872,7 +51872,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51895,7 +51895,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -51909,7 +51909,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -51941,7 +51941,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "numberOfSupportedCC",
+							"name": "numberOfSupportedCc",
 							"help": "Number of supported CC",
 							"length": 1,
 							"lengthOf": {
@@ -51958,13 +51958,13 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "numberOfSupportedCC"
+									"ref": "numberOfSupportedCc"
 								}
 							},
 							"params": [
 								{
 									"type": "integer",
-									"name": "supportedCC",
+									"name": "supportedCc",
 									"help": "Supported CC",
 									"length": 1
 								},
@@ -52013,7 +52013,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -52033,13 +52033,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -52247,13 +52247,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -52288,13 +52288,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -52501,13 +52501,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -52521,7 +52521,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleID",
+							"name": "scheduleId",
 							"help": "Schedule ID",
 							"length": 1
 						},
@@ -52533,7 +52533,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -52547,7 +52547,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -52561,7 +52561,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "numberOfSupportedScheduleID",
+							"name": "numberOfSupportedScheduleId",
 							"help": "Number of Supported Schedule ID",
 							"length": 1
 						},
@@ -52602,13 +52602,13 @@
 									"fields": [
 										{
 											"fieldType": "integer",
-											"name": "activeID1",
+											"name": "activeId1",
 											"mask": 15,
 											"shift": 0
 										},
 										{
 											"fieldType": "integer",
-											"name": "activeID2",
+											"name": "activeId2",
 											"mask": 240,
 											"shift": 4
 										}
@@ -52618,7 +52618,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -52632,7 +52632,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						}
@@ -52646,7 +52646,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "scheduleIDBlock",
+							"name": "scheduleIdBlock",
 							"help": "Schedule ID Block",
 							"length": 1
 						},
@@ -52799,7 +52799,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "newNodeID",
+							"name": "newNodeId",
 							"help": "New Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -52907,14 +52907,14 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
 						},
 						{
 							"type": "blob",
-							"name": "iPv6Address",
+							"name": "ipv6Address",
 							"help": "IPv6 Address",
 							"length": 16
 						}
@@ -52956,7 +52956,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -53012,20 +53012,20 @@
 						},
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
 						},
 						{
 							"type": "blob",
-							"name": "iPv6Address",
+							"name": "ipv6Address",
 							"help": "IPv6 Address",
 							"length": 16
 						},
 						{
 							"type": "blob",
-							"name": "homeID",
+							"name": "homeId",
 							"help": "Home ID",
 							"length": 4
 						}
@@ -55012,7 +55012,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "iPv6Address",
+							"name": "ipv6Address",
 							"help": "IPv6 Address",
 							"length": 16
 						},
@@ -55070,7 +55070,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "iPv6Address",
+							"name": "ipv6Address",
 							"help": "IPv6 Address",
 							"length": 16
 						},
@@ -55096,7 +55096,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "iPv6Address",
+							"name": "ipv6Address",
 							"help": "IPv6 Address",
 							"length": 16
 						},
@@ -55162,7 +55162,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
@@ -55212,7 +55212,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
@@ -55295,7 +55295,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
@@ -55345,7 +55345,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "manufacturerID",
+							"name": "manufacturerId",
 							"help": "Manufacturer ID",
 							"length": 2
 						},
@@ -55648,7 +55648,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "iPv6Address",
+							"name": "ipv6Address",
 							"help": "IPv6 Address",
 							"length": 16
 						},
@@ -55732,7 +55732,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "iPv6Address",
+							"name": "ipv6Address",
 							"help": "IPv6 Address",
 							"length": 16
 						},
@@ -55825,7 +55825,7 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "unsolicitedIPv6Destination",
+							"name": "unsolicitedIpv6Destination",
 							"help": "Unsolicited IPv6 Destination",
 							"length": 16
 						},
@@ -55852,7 +55852,7 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "unsolicitedIPv6Destination",
+							"name": "unsolicitedIpv6Destination",
 							"help": "Unsolicited IPv6 Destination",
 							"length": 16
 						},
@@ -55881,7 +55881,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "securityScheme0MARK",
+							"name": "securityScheme0Mark",
 							"help": "Security Scheme 0 MARK",
 							"length": 0
 						},
@@ -55920,7 +55920,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "securityScheme0MARK",
+							"name": "securityScheme0Mark",
 							"help": "Security Scheme 0 MARK",
 							"length": 0
 						},
@@ -55952,37 +55952,37 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "lANIPv6Address",
+							"name": "lanIpv6Address",
 							"help": "LAN IPv6 Address",
 							"length": 16
 						},
 						{
 							"type": "integer",
-							"name": "lANIPv6PrefixLength",
+							"name": "lanIpv6PrefixLength",
 							"help": "LAN IPv6 Prefix Length",
 							"length": 1
 						},
 						{
 							"type": "blob",
-							"name": "portalIPv6Prefix",
+							"name": "portalIpv6Prefix",
 							"help": "Portal IPv6 Prefix",
 							"length": 16
 						},
 						{
 							"type": "integer",
-							"name": "portalIPv6PrefixLength",
+							"name": "portalIpv6PrefixLength",
 							"help": "Portal IPv6 Prefix Length",
 							"length": 1
 						},
 						{
 							"type": "blob",
-							"name": "defaultGatewayIPv6Address",
+							"name": "defaultGatewayIpv6Address",
 							"help": "Default Gateway IPv6 Address",
 							"length": 16
 						},
 						{
 							"type": "blob",
-							"name": "pANIPv6Prefix",
+							"name": "panIpv6Prefix",
 							"help": "PAN IPv6 Prefix",
 							"length": 16
 						}
@@ -56017,37 +56017,37 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "lANIPv6Address",
+							"name": "lanIpv6Address",
 							"help": "LAN IPv6 Address",
 							"length": 16
 						},
 						{
 							"type": "integer",
-							"name": "lANIPv6PrefixLength",
+							"name": "lanIpv6PrefixLength",
 							"help": "LAN IPv6 Prefix Length",
 							"length": 1
 						},
 						{
 							"type": "blob",
-							"name": "portalIPv6Prefix",
+							"name": "portalIpv6Prefix",
 							"help": "Portal IPv6 Prefix",
 							"length": 16
 						},
 						{
 							"type": "integer",
-							"name": "portalIPv6PrefixLength",
+							"name": "portalIpv6PrefixLength",
 							"help": "Portal IPv6 Prefix Length",
 							"length": 1
 						},
 						{
 							"type": "blob",
-							"name": "defaultGatewayIPv6Address",
+							"name": "defaultGatewayIpv6Address",
 							"help": "Default Gateway IPv6 Address",
 							"length": 16
 						},
 						{
 							"type": "blob",
-							"name": "pANIPv6Prefix",
+							"name": "panIpv6Prefix",
 							"help": "PAN IPv6 Prefix",
 							"length": 16
 						}
@@ -56076,7 +56076,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "pageID",
+									"name": "pageId",
 									"mask": 15,
 									"shift": 0
 								},
@@ -56091,7 +56091,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "channelID",
+							"name": "channelId",
 							"help": "Channel ID",
 							"length": 1
 						}
@@ -56118,7 +56118,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "pageID",
+									"name": "pageId",
 									"mask": 15,
 									"shift": 0
 								},
@@ -56133,7 +56133,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "channelID",
+							"name": "channelId",
 							"help": "Channel ID",
 							"length": 1
 						}
@@ -56147,7 +56147,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "channelID",
+							"name": "channelId",
 							"help": "Channel ID",
 							"length": 1
 						}
@@ -56161,13 +56161,13 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "channelID",
+							"name": "channelId",
 							"help": "Channel ID",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "propertyID",
+							"name": "propertyId",
 							"help": "Property ID",
 							"length": 2
 						},
@@ -56226,7 +56226,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "dMXChannel",
+							"name": "dmxChannel",
 							"help": "DMX channel",
 							"length": {
 								"lengthType": "auto",
@@ -56465,7 +56465,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56528,7 +56528,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56543,7 +56543,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56630,7 +56630,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56645,7 +56645,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56741,7 +56741,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56804,7 +56804,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56819,7 +56819,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56906,7 +56906,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -56921,7 +56921,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "NodeID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -57015,19 +57015,19 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "channel1RSSI",
+							"name": "channel1Rssi",
 							"help": "Channel 1 RSSI",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "channel2RSSI",
+							"name": "channel2Rssi",
 							"help": "Channel 2 RSSI",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "channel3RSSI",
+							"name": "channel3Rssi",
 							"help": "Channel 3 RSSI",
 							"length": 1
 						}
@@ -57183,13 +57183,13 @@
 						},
 						{
 							"type": "blob",
-							"name": "forwardingDestinationIPv6Address",
+							"name": "forwardingDestinationIpv6Address",
 							"help": "Forwarding Destination IPv6 Address",
 							"length": 16
 						},
 						{
 							"type": "integer",
-							"name": "uDPPortNumber",
+							"name": "udpPortNumber",
 							"help": "UDP Port Number",
 							"length": 2
 						}
@@ -57260,13 +57260,13 @@
 						},
 						{
 							"type": "blob",
-							"name": "forwardingDestinationIPv6Address",
+							"name": "forwardingDestinationIpv6Address",
 							"help": "Forwarding Destination IPv6 Address",
 							"length": 16
 						},
 						{
 							"type": "integer",
-							"name": "uDPPortNumber",
+							"name": "udpPortNumber",
 							"help": "UDP Port Number",
 							"length": 2
 						}
@@ -57445,7 +57445,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "parameterID",
+							"name": "parameterId",
 							"help": "Parameter ID",
 							"length": 1,
 							"values": {
@@ -57553,7 +57553,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "parameterID",
+							"name": "parameterId",
 							"help": "Parameter ID",
 							"length": 1,
 							"values": {
@@ -57717,7 +57717,7 @@
 							"params": [
 								{
 									"type": "enum",
-									"name": "parameterID",
+									"name": "parameterId",
 									"help": "Parameter ID",
 									"length": 1,
 									"values": {
@@ -57867,7 +57867,7 @@
 						},
 						{
 							"type": "enum",
-							"name": "parameterID",
+							"name": "parameterId",
 							"help": "Parameter ID",
 							"length": 1,
 							"values": {
@@ -57981,7 +57981,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "parameterID",
+							"name": "parameterId",
 							"help": "Parameter ID",
 							"length": 1,
 							"values": {
@@ -58267,7 +58267,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "cCMCiphertextObject",
+							"name": "ccmCiphertextObject",
 							"help": "CCM Ciphertext Object",
 							"length": {
 								"lengthType": "auto",
@@ -58303,7 +58303,7 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "requestCSA",
+									"name": "requestCsa",
 									"mask": 2,
 									"shift": 1
 								},
@@ -58318,13 +58318,13 @@
 						},
 						{
 							"type": "integer",
-							"name": "supportedKEXSchemes",
+							"name": "supportedKexSchemes",
 							"help": "Supported KEX Schemes",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "supportedECDHProfiles",
+							"name": "supportedEcdhProfiles",
 							"help": "Supported ECDH Profiles",
 							"length": 1
 						},
@@ -58356,7 +58356,7 @@
 								},
 								{
 									"fieldType": "boolean",
-									"name": "requestCSA",
+									"name": "requestCsa",
 									"mask": 2,
 									"shift": 1
 								},
@@ -58371,13 +58371,13 @@
 						},
 						{
 							"type": "integer",
-							"name": "selectedKEXScheme",
+							"name": "selectedKexScheme",
 							"help": "Selected KEX Scheme",
 							"length": 1
 						},
 						{
 							"type": "integer",
-							"name": "selectedECDHProfile",
+							"name": "selectedEcdhProfile",
 							"help": "Selected ECDH Profile",
 							"length": 1
 						},
@@ -58397,7 +58397,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "kEXFailType",
+							"name": "kexFailType",
 							"help": "KEX Fail Type",
 							"length": 1,
 							"values": {
@@ -58470,7 +58470,7 @@
 						},
 						{
 							"type": "blob",
-							"name": "eCDHPublicKey",
+							"name": "ecdhPublicKey",
 							"help": "ECDH Public Key",
 							"length": {
 								"lengthType": "auto",
@@ -58872,7 +58872,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						}
@@ -59126,7 +59126,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						}
@@ -59167,7 +59167,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
@@ -59214,7 +59214,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
@@ -59396,7 +59396,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						}
@@ -59431,7 +59431,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
@@ -59613,7 +59613,7 @@
 						},
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
@@ -59633,7 +59633,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "valveTableID",
+							"name": "valveTableId",
 							"help": "Valve Table ID",
 							"length": 1
 						},
@@ -59648,7 +59648,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "valveID",
+									"name": "valveId",
 									"help": "Valve ID",
 									"length": 1
 								},
@@ -59670,7 +59670,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "valveTableID",
+							"name": "valveTableId",
 							"help": "Valve Table ID",
 							"length": 1
 						}
@@ -59684,7 +59684,7 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "valveTableID",
+							"name": "valveTableId",
 							"help": "Valve Table ID",
 							"length": 1
 						},
@@ -59699,7 +59699,7 @@
 							"params": [
 								{
 									"type": "integer",
-									"name": "valveID",
+									"name": "valveId",
 									"help": "Valve ID",
 									"length": 1
 								},
@@ -59721,7 +59721,7 @@
 					"params": [
 						{
 							"type": "blob",
-							"name": "valveTableID",
+							"name": "valveTableId",
 							"help": "Valve Table ID",
 							"length": {
 								"lengthType": "auto",
@@ -59767,7 +59767,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "sessionID",
+									"name": "sessionId",
 									"mask": 63,
 									"shift": 0
 								},
@@ -59826,7 +59826,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "sessionID",
+									"name": "sessionId",
 									"mask": 63,
 									"shift": 0
 								},
@@ -61637,14 +61637,14 @@
 					"params": [
 						{
 							"type": "integer",
-							"name": "nodeID",
+							"name": "nodeId",
 							"help": "Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
 						},
 						{
 							"type": "enum",
-							"name": "stepID",
+							"name": "stepId",
 							"help": "Step ID",
 							"length": 1,
 							"values": {
@@ -61672,7 +61672,7 @@
 					"params": [
 						{
 							"type": "enum",
-							"name": "stepID",
+							"name": "stepId",
 							"help": "Step ID",
 							"length": 1,
 							"values": {
@@ -61745,7 +61745,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -61771,7 +61771,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.dSKLength"
+									"ref": "properties1.dskLength"
 								}
 							}
 						},
@@ -61850,7 +61850,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -61876,7 +61876,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.dSKLength"
+									"ref": "properties1.dskLength"
 								}
 							}
 						}
@@ -61928,7 +61928,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -61954,7 +61954,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.dSKLength"
+									"ref": "properties1.dskLength"
 								}
 							}
 						},
@@ -62033,7 +62033,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -62059,7 +62059,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.dSKLength"
+									"ref": "properties1.dskLength"
 								}
 							}
 						}
@@ -62085,7 +62085,7 @@
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "dSKLength",
+									"name": "dskLength",
 									"mask": 31,
 									"shift": 0,
 									"lengthOf": {
@@ -62111,7 +62111,7 @@
 							"length": {
 								"lengthType": "ref",
 								"from": {
-									"ref": "properties1.dSKLength"
+									"ref": "properties1.dskLength"
 								}
 							}
 						},

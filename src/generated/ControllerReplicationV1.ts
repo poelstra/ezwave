@@ -19,26 +19,26 @@ export enum ControllerReplicationV1Commands {
 
 export interface ControllerReplicationV1CtrlReplicationTransferGroupData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	groupID: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	groupId: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface ControllerReplicationV1CtrlReplicationTransferGroupNameData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	groupID: number; // 1 byte unsigned integer
+	groupId: number; // 1 byte unsigned integer
 	groupName: Buffer; // automatic length
 }
 
 export interface ControllerReplicationV1CtrlReplicationTransferSceneData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	sceneID: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	level: number; // 1 byte unsigned integer
 }
 
 export interface ControllerReplicationV1CtrlReplicationTransferSceneNameData {
 	sequenceNumber: number; // 1 byte unsigned integer
-	sceneID: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
 	sceneName: Buffer; // automatic length
 }
 
@@ -70,13 +70,13 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 				},
 				{
 					"type": "integer",
-					"name": "groupID",
+					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -110,7 +110,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 				},
 				{
 					"type": "integer",
-					"name": "groupID",
+					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
@@ -152,13 +152,13 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 				},
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -198,7 +198,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 				},
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},

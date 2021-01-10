@@ -20,22 +20,22 @@ export enum AlarmV2Commands {
 
 export interface AlarmV2AlarmGetData {
 	alarmType: number; // 1 byte unsigned integer
-	zWaveAlarmType: ZWaveAlarmTypeEnum; // 1 byte enum value
+	zwaveAlarmType: ZwaveAlarmTypeEnum; // 1 byte enum value
 }
 
 export interface AlarmV2AlarmReportData {
 	alarmType: number; // 1 byte unsigned integer
 	alarmLevel: number; // 1 byte unsigned integer
-	zensorNetSourceNodeID: number; // 1 byte unsigned integer
-	zWaveAlarmStatus: number; // 1 byte unsigned integer
-	zWaveAlarmType: ZWaveAlarmTypeEnum; // 1 byte enum value
-	zWaveAlarmEvent: number; // 1 byte unsigned integer
+	zensorNetSourceNodeId: number; // 1 byte unsigned integer
+	zwaveAlarmStatus: number; // 1 byte unsigned integer
+	zwaveAlarmType: ZwaveAlarmTypeEnum; // 1 byte enum value
+	zwaveAlarmEvent: number; // 1 byte unsigned integer
 	eventParameter: Buffer; // variable length
 }
 
 export interface AlarmV2AlarmSetData {
-	zWaveAlarmType: ZWaveAlarmTypeEnum; // 1 byte enum value
-	zWaveAlarmStatus: number; // 1 byte unsigned integer
+	zwaveAlarmType: ZwaveAlarmTypeEnum; // 1 byte enum value
+	zwaveAlarmStatus: number; // 1 byte unsigned integer
 }
 
 export interface AlarmV2AlarmTypeSupportedReportData {
@@ -44,7 +44,7 @@ export interface AlarmV2AlarmTypeSupportedReportData {
 	// TODO param bitMask type bitmask or marker
 }
 
-export enum ZWaveAlarmTypeEnum {
+export enum ZwaveAlarmTypeEnum {
 	Reserved = 0x0,
 	Smoke = 0x1,
 	Co = 0x2,
@@ -89,7 +89,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 				},
 				{
 					"type": "enum",
-					"name": "zWaveAlarmType",
+					"name": "zwaveAlarmType",
 					"help": "ZWave Alarm Type",
 					"length": 1,
 					"values": {
@@ -182,14 +182,14 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "zensorNetSourceNodeID",
+					"name": "zensorNetSourceNodeId",
 					"help": "Zensor Net Source Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
 				},
 				{
 					"type": "integer",
-					"name": "zWaveAlarmStatus",
+					"name": "zwaveAlarmStatus",
 					"help": "ZWave Alarm Status",
 					"length": 1,
 					"values": {
@@ -205,7 +205,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 				},
 				{
 					"type": "enum",
-					"name": "zWaveAlarmType",
+					"name": "zwaveAlarmType",
 					"help": "ZWave Alarm Type",
 					"length": 1,
 					"values": {
@@ -265,7 +265,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "zWaveAlarmEvent",
+					"name": "zwaveAlarmEvent",
 					"help": "ZWave Alarm Event",
 					"length": 1
 				},
@@ -315,7 +315,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 			"params": [
 				{
 					"type": "enum",
-					"name": "zWaveAlarmType",
+					"name": "zwaveAlarmType",
 					"help": "ZWave Alarm Type",
 					"length": 1,
 					"values": {
@@ -375,7 +375,7 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "zWaveAlarmStatus",
+					"name": "zwaveAlarmStatus",
 					"help": "ZWave Alarm Status",
 					"length": 1,
 					"values": {

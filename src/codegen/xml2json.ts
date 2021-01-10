@@ -348,6 +348,14 @@ function makeEnumValue(name: string): spec.EnumValue {
 	};
 }
 
+function camelCase(name: string): string {
+	// Make sure that:
+	// - "NodeID" is translated to "nodeId" and not "nodeid" (same for "Remote NodeID")
+	name = name.replace("NodeID", "Node ID");
+	// Convert e.g. "SDK Version" to "SDK_VERSION", such that the final name becomes "sdkVersion".
+	return Case.camel(Case.constant(name));
+}
+
 function generateBitfields(
 	param: StructByteParam
 ): spec.BitfieldElement<spec.RefMode.Json>[] {
@@ -357,7 +365,7 @@ function generateBitfields(
 		// necessary for COMMAND_CLASS_ZIP:COMMAND_ZIP_PACKET
 		const key = !result[flag.key] ? flag.key : result.length;
 
-		const elementName = Case.camel(flag.flagname);
+		const elementName = camelCase(flag.flagname);
 		result[key] = {
 			fieldType: spec.BitfieldElementType.Boolean,
 			name: elementName,
@@ -369,7 +377,7 @@ function generateBitfields(
 	}
 	for (const field of toArray(param.bitfield)) {
 		const key = !result[field.key] ? field.key : result.length;
-		const elementName = Case.camel(field.fieldname);
+		const elementName = camelCase(field.fieldname);
 		result[key] = {
 			fieldType: spec.BitfieldElementType.Integer,
 			name: elementName,
@@ -393,7 +401,7 @@ function generateBitfields(
 			size++;
 		}
 		const key = !result[enm.key] ? enm.key : result.length;
-		const elementName = Case.camel(enm.fieldname);
+		const elementName = camelCase(enm.fieldname);
 		result[key] = {
 			fieldType: spec.BitfieldElementType.Enum,
 			name: elementName,
@@ -485,15 +493,15 @@ function buildParamRef(
 				"no integer bitfield or boolean bitflag defined for mask"
 			);
 		}
-		bitfieldName = Case.camel(fieldName);
+		bitfieldName = camelCase(fieldName);
 	} else {
 		assert(shift === undefined || shift === 0);
 		bitfieldName = undefined;
 	}
 
-	let refName: string = Case.camel(param.name);
+	let refName: string = camelCase(param.name);
 	if (groupName && !isParentReference) {
-		refName = `${Case.camel(groupName)}.${refName}`;
+		refName = `${camelCase(groupName)}.${refName}`;
 	}
 	if (bitfieldName) {
 		refName = `${refName}.${bitfieldName}`;
@@ -548,7 +556,7 @@ function generateParameter(
 		);
 	}
 
-	const paramName = Case.camel(param.name);
+	const paramName = camelCase(param.name);
 	const paramBase: Omit<
 		spec.ParameterBase<spec.RefMode.Json>,
 		"type" | "length"
@@ -787,7 +795,7 @@ function generateParameter(
 						bitmaskLength = `length by param[${bm.paramoffs}] & ${bm.lenmask} >> ${bm.lenoffs}`;
 					}
 					const bitmaskType = "number" + (param.bitmask.len === 1 ? "" : "[]");
-					//contents.push(`${indent}${Case.camel(param.name)}: ${bitmaskType}; // ${param.type}, ${bitmaskLength}${enumText}`);
+					//contents.push(`${indent}${camelCase(param.name)}: ${bitmaskType}; // ${param.type}, ${bitmaskLength}${enumText}`);
 				}
 				break;*/
 
@@ -1142,7 +1150,7 @@ function getParam(
 ): spec.LocalParameter | spec.ParameterGroup {
 	const param = params.find((p) => p.name === paramName);
 	if (!param) {
-		throw new Error("parameter not found");
+		throw new Error(`parameter ${paramName} not found`);
 	}
 	return param;
 }

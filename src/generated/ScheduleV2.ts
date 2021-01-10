@@ -23,24 +23,24 @@ export enum ScheduleV2Commands {
 }
 
 export interface ScheduleV2ScheduleSupportedGetData {
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV2ScheduleSupportedReportData {
-	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
+	numberOfSupportedScheduleId: number; // 1 byte unsigned integer
 	supportEnableDisable: boolean; // properties1[7]
 	fallbackSupport: boolean; // properties1[6]
 	startTimeSupport: number; // properties1[5..0]
 	// TODO param vg1 type group
 	overrideSupport: boolean; // properties3[7]
 	supportedOverrideTypes: number; // properties3[6..0]
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 	numberOfSupportedScheduleBlocks: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV2CommandScheduleSetData {
-	scheduleID: number; // 1 byte unsigned integer
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
 	startMonth: number; // properties1[3..0]
 	startDayOfMonth: number; // properties2[4..0]
@@ -54,15 +54,15 @@ export interface ScheduleV2CommandScheduleSetData {
 }
 
 export interface ScheduleV2CommandScheduleGetData {
-	scheduleID: number; // 1 byte unsigned integer
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV2CommandScheduleReportData {
-	scheduleID: number; // 1 byte unsigned integer
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
-	activeID: number; // properties1[7..4]
+	activeId: number; // properties1[7..4]
 	startMonth: number; // properties1[3..0]
 	startDayOfMonth: number; // properties2[4..0]
 	startWeekday: number; // properties3[6..0]
@@ -75,26 +75,26 @@ export interface ScheduleV2CommandScheduleReportData {
 }
 
 export interface ScheduleV2ScheduleRemoveData {
-	scheduleID: number; // 1 byte unsigned integer
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV2ScheduleStateSetData {
-	scheduleID: number; // 1 byte unsigned integer
+	scheduleId: number; // 1 byte unsigned integer
 	scheduleState: number; // 1 byte unsigned integer
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV2ScheduleStateGetData {
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleV2ScheduleStateReportData {
-	numberOfSupportedScheduleID: number; // 1 byte unsigned integer
+	numberOfSupportedScheduleId: number; // 1 byte unsigned integer
 	reportsToFollow: number; // properties1[7..1]
 	override: boolean; // properties1[0]
 	// TODO param vg1 type group
-	scheduleIDBlock: number; // 1 byte unsigned integer
+	scheduleIdBlock: number; // 1 byte unsigned integer
 }
 
 export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
@@ -119,7 +119,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				}
@@ -147,7 +147,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "numberOfSupportedScheduleID",
+					"name": "numberOfSupportedScheduleId",
 					"help": "Number of Supported Schedule ID",
 					"length": 1
 				},
@@ -179,7 +179,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "numberOfSupportedCC",
+					"name": "numberOfSupportedCc",
 					"help": "Number of supported CC",
 					"length": 1,
 					"lengthOf": {
@@ -196,13 +196,13 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "numberOfSupportedCC"
+							"ref": "numberOfSupportedCc"
 						}
 					},
 					"params": [
 						{
 							"type": "integer",
-							"name": "supportedCC",
+							"name": "supportedCc",
 							"help": "Supported CC",
 							"length": 1
 						},
@@ -251,7 +251,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				},
@@ -285,13 +285,13 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				},
@@ -487,13 +487,13 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				}
@@ -521,13 +521,13 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				},
@@ -545,7 +545,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 					"fields": [
 						{
 							"fieldType": "integer",
-							"name": "activeID",
+							"name": "activeId",
 							"mask": 240,
 							"shift": 4
 						},
@@ -736,13 +736,13 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				}
@@ -769,7 +769,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleID",
+					"name": "scheduleId",
 					"help": "Schedule ID",
 					"length": 1
 				},
@@ -781,7 +781,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				}
@@ -808,7 +808,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				}
@@ -836,7 +836,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "numberOfSupportedScheduleID",
+					"name": "numberOfSupportedScheduleId",
 					"help": "Number of Supported Schedule ID",
 					"length": 1
 				},
@@ -877,13 +877,13 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "activeID1",
+									"name": "activeId1",
 									"mask": 15,
 									"shift": 0
 								},
 								{
 									"fieldType": "integer",
-									"name": "activeID2",
+									"name": "activeId2",
 									"mask": 240,
 									"shift": 4
 								}
@@ -893,7 +893,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "scheduleIDBlock",
+					"name": "scheduleIdBlock",
 					"help": "Schedule ID Block",
 					"length": 1
 				}

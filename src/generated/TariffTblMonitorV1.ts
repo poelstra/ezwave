@@ -20,7 +20,7 @@ export enum TariffTblMonitorV1Commands {
 }
 
 export interface TariffTblMonitorV1TariffTblCostGetData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -34,7 +34,7 @@ export interface TariffTblMonitorV1TariffTblCostGetData {
 }
 
 export interface TariffTblMonitorV1TariffTblCostReportData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	rateType: number; // properties1[1..0]
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
@@ -52,11 +52,11 @@ export interface TariffTblMonitorV1TariffTblCostReportData {
 }
 
 export interface TariffTblMonitorV1TariffTblGetData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 }
 
 export interface TariffTblMonitorV1TariffTblReportData {
-	rateParameterSetID: number; // 1 byte unsigned integer
+	rateParameterSetId: number; // 1 byte unsigned integer
 	tariffPrecision: number; // properties1[7..5]
 	tariffValue: number; // 4 byte unsigned integer
 }
@@ -97,7 +97,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
@@ -184,7 +184,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
@@ -325,7 +325,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				}
@@ -352,7 +352,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "rateParameterSetID",
+					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},

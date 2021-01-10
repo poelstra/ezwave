@@ -17,21 +17,21 @@ export enum ZipNdV1Commands {
 }
 
 export interface ZipNdV1ZipNodeSolicitationData {
-	nodeID: number; // 1 byte unsigned integer
-	iPv6Address: Buffer; // 16 bytes
+	nodeId: number; // 1 byte unsigned integer
+	ipv6Address: Buffer; // 16 bytes
 }
 
 export interface ZipNdV1ZipInvNodeSolicitationData {
 	local: boolean; // properties1[2]
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface ZipNdV1ZipNodeAdvertisementData {
 	local: boolean; // properties1[2]
 	validity: ValidityEnum; // properties1[1..0]
-	nodeID: number; // 1 byte unsigned integer
-	iPv6Address: Buffer; // 16 bytes
-	homeID: Buffer; // 4 bytes
+	nodeId: number; // 1 byte unsigned integer
+	ipv6Address: Buffer; // 16 bytes
+	homeId: Buffer; // 4 bytes
 }
 
 export enum ValidityEnum {
@@ -69,14 +69,14 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
 				},
 				{
 					"type": "blob",
-					"name": "iPv6Address",
+					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				}
@@ -131,7 +131,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -200,20 +200,20 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
 				},
 				{
 					"type": "blob",
-					"name": "iPv6Address",
+					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
 				{
 					"type": "blob",
-					"name": "homeID",
+					"name": "homeId",
 					"help": "Home ID",
 					"length": 4
 				}

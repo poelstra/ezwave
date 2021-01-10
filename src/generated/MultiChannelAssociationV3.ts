@@ -29,7 +29,7 @@ export interface MultiChannelAssociationV3MultiChannelAssociationGroupingsReport
 
 export interface MultiChannelAssociationV3MultiChannelAssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
@@ -38,14 +38,14 @@ export interface MultiChannelAssociationV3MultiChannelAssociationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
 export interface MultiChannelAssociationV3MultiChannelAssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
@@ -153,7 +153,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
@@ -178,7 +178,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"params": [
 						{
 							"type": "integer",
-							"name": "multiChannelNodeID",
+							"name": "multiChannelNodeId",
 							"help": "Multi Channel Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -247,7 +247,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
@@ -272,7 +272,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"params": [
 						{
 							"type": "integer",
-							"name": "multiChannelNodeID",
+							"name": "multiChannelNodeId",
 							"help": "Multi Channel Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -329,7 +329,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
@@ -354,7 +354,7 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 					"params": [
 						{
 							"type": "integer",
-							"name": "multiChannelNodeID",
+							"name": "multiChannelNodeId",
 							"help": "Multi Channel Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"

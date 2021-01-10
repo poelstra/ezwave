@@ -33,12 +33,12 @@ export enum NetworkManagementInclusionV2Commands {
 
 export interface NetworkManagementInclusionV2FailedNodeRemoveData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2FailedNodeRemoveStatusData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 }
 
@@ -51,7 +51,7 @@ export interface NetworkManagementInclusionV2NodeAddData {
 export interface NetworkManagementInclusionV2NodeAddStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	newNodeID: number; // 1 byte unsigned integer
+	newNodeId: number; // 1 byte unsigned integer
 	listening: boolean; // properties1[7]
 	zWaveProtocolSpecificPart1: number; // properties1[6..0]
 	opt: boolean; // properties2[7]
@@ -61,7 +61,7 @@ export interface NetworkManagementInclusionV2NodeAddStatusData {
 	specificDeviceClass: number; // 1 byte unsigned integer
 	// TODO param commandClass type enumarray
 	grantedKeys: number; // 1 byte unsigned integer
-	kEXFailType: number; // 1 byte unsigned integer
+	kexFailType: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2NodeRemoveData {
@@ -72,12 +72,12 @@ export interface NetworkManagementInclusionV2NodeRemoveData {
 export interface NetworkManagementInclusionV2NodeRemoveStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2FailedNodeReplaceData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	// TODO param txOptions type bitmask or marker
 	mode: number; // 1 byte unsigned integer
 }
@@ -85,14 +85,14 @@ export interface NetworkManagementInclusionV2FailedNodeReplaceData {
 export interface NetworkManagementInclusionV2FailedNodeReplaceStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	grantedKeys: number; // 1 byte unsigned integer
-	kEXFailType: number; // 1 byte unsigned integer
+	kexFailType: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2NodeNeighborUpdateRequestData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2NodeNeighborUpdateStatusData {
@@ -102,8 +102,8 @@ export interface NetworkManagementInclusionV2NodeNeighborUpdateStatusData {
 
 export interface NetworkManagementInclusionV2ReturnRouteAssignData {
 	seqNo: number; // 1 byte unsigned integer
-	sourceNodeID: number; // 1 byte unsigned integer
-	destinationNodeID: number; // 1 byte unsigned integer
+	sourceNodeId: number; // 1 byte unsigned integer
+	destinationNodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2ReturnRouteAssignCompleteData {
@@ -113,7 +113,7 @@ export interface NetworkManagementInclusionV2ReturnRouteAssignCompleteData {
 
 export interface NetworkManagementInclusionV2ReturnRouteDeleteData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2ReturnRouteDeleteCompleteData {
@@ -123,27 +123,27 @@ export interface NetworkManagementInclusionV2ReturnRouteDeleteCompleteData {
 
 export interface NetworkManagementInclusionV2NodeAddKeysReportData {
 	seqNo: number; // 1 byte unsigned integer
-	requestCSA: boolean; // properties1[0]
+	requestCsa: boolean; // properties1[0]
 	requestedKeys: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2NodeAddKeysSetData {
 	seqNo: number; // 1 byte unsigned integer
-	grantCSA: boolean; // properties1[1]
+	grantCsa: boolean; // properties1[1]
 	accept: boolean; // properties1[0]
 	grantedKeys: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInclusionV2NodeAddDskReportData {
 	seqNo: number; // 1 byte unsigned integer
-	inputDSKLength: number; // properties1[3..0]
+	inputDskLength: number; // properties1[3..0]
 	dsk: Buffer; // 16 bytes
 }
 
 export interface NetworkManagementInclusionV2NodeAddDskSetData {
 	seqNo: number; // 1 byte unsigned integer
 	accept: boolean; // properties1[7]
-	inputDSK: Buffer; // variable length
+	inputDsk: Buffer; // variable length
 }
 
 export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkManagementInclusionV2Commands> {
@@ -174,7 +174,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -208,7 +208,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -367,7 +367,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "newNodeID",
+					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -466,7 +466,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "kEXFailType",
+					"name": "kexFailType",
 					"help": "KEX Fail Type",
 					"length": 1
 				}
@@ -573,7 +573,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -608,7 +608,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -674,7 +674,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -687,7 +687,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "kEXFailType",
+					"name": "kexFailType",
 					"help": "KEX Fail Type",
 					"length": 1
 				}
@@ -720,7 +720,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -797,14 +797,14 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "sourceNodeID",
+					"name": "sourceNodeId",
 					"help": "Source Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
 				},
 				{
 					"type": "integer",
-					"name": "destinationNodeID",
+					"name": "destinationNodeId",
 					"help": "Destination Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -885,7 +885,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -979,7 +979,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 						},
 						{
 							"fieldType": "boolean",
-							"name": "requestCSA",
+							"name": "requestCsa",
 							"mask": 1,
 							"shift": 0
 						}
@@ -1033,7 +1033,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 						},
 						{
 							"fieldType": "boolean",
-							"name": "grantCSA",
+							"name": "grantCsa",
 							"mask": 2,
 							"shift": 1
 						},
@@ -1093,7 +1093,7 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 						},
 						{
 							"fieldType": "integer",
-							"name": "inputDSKLength",
+							"name": "inputDskLength",
 							"mask": 15,
 							"shift": 0
 						}
@@ -1153,12 +1153,12 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 						},
 						{
 							"fieldType": "integer",
-							"name": "inputDSKLength",
+							"name": "inputDskLength",
 							"mask": 15,
 							"shift": 0,
 							"lengthOf": {
 								"refs": [
-									"inputDSK"
+									"inputDsk"
 								]
 							},
 							"isAutogenerated": true
@@ -1167,12 +1167,12 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 				},
 				{
 					"type": "blob",
-					"name": "inputDSK",
+					"name": "inputDsk",
 					"help": "Input DSK",
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "properties1.inputDSKLength"
+							"ref": "properties1.inputDskLength"
 						}
 					}
 				}

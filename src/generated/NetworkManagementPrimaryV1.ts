@@ -24,7 +24,7 @@ export interface NetworkManagementPrimaryV1ControllerChangeData {
 export interface NetworkManagementPrimaryV1ControllerChangeStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	newNodeID: number; // 1 byte unsigned integer
+	newNodeId: number; // 1 byte unsigned integer
 	nodeInfoLength: number; // 1 byte unsigned integer
 	listening: boolean; // properties1[7]
 	zWaveProtocolSpecificPart1: number; // properties1[6..0]
@@ -149,7 +149,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 				},
 				{
 					"type": "integer",
-					"name": "newNodeID",
+					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

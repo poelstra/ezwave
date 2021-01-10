@@ -29,19 +29,19 @@ export interface AssociationV1AssociationGroupingsReportData {
 
 export interface AssociationV1AssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 }
 
 export interface AssociationV1AssociationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 }
 
 export interface AssociationV1AssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 }
 
 export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
@@ -147,7 +147,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
@@ -197,7 +197,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": {
 						"lengthType": "auto",
@@ -235,7 +235,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",

@@ -28,7 +28,7 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationGroupingsRepo
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationRemoveData {
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
@@ -36,13 +36,13 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationRemoveData {
 export interface MultiInstanceAssociationV1MultiInstanceAssociationReportData {
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationSetData {
-	// TODO param nodeID type enumarray
+	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
 	// TODO param vg type group
 }
@@ -157,7 +157,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
@@ -184,7 +184,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"params": [
 						{
 							"type": "integer",
-							"name": "multiInstanceNodeID",
+							"name": "multiInstanceNodeId",
 							"help": "Multi Instance Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -245,7 +245,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
@@ -272,7 +272,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"params": [
 						{
 							"type": "integer",
-							"name": "multiInstanceNodeID",
+							"name": "multiInstanceNodeId",
 							"help": "Multi Instance Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"
@@ -321,7 +321,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 				},
 				{
 					"type": "enumarray",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
 						"lengthType": "auto",
@@ -348,7 +348,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"params": [
 						{
 							"type": "integer",
-							"name": "multiInstanceNodeID",
+							"name": "multiInstanceNodeId",
 							"help": "Multi Instance Node ID",
 							"length": 1,
 							"valueType": "NODE_NUMBER"

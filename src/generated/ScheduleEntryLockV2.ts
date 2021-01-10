@@ -36,29 +36,29 @@ export interface ScheduleEntryLockV2ScheduleEntryLockEnableSetData {
 }
 
 export interface ScheduleEntryLockV2ScheduleEntryLockTimeOffsetReportData {
-	signTZO: boolean; // level[7]
-	hourTZO: number; // level[6..0]
-	minuteTZO: number; // 1 byte unsigned integer
-	signOffsetDST: boolean; // level2[7]
-	minuteOffsetDST: number; // level2[6..0]
+	signTzo: boolean; // level[7]
+	hourTzo: number; // level[6..0]
+	minuteTzo: number; // 1 byte unsigned integer
+	signOffsetDst: boolean; // level2[7]
+	minuteOffsetDst: number; // level2[6..0]
 }
 
 export interface ScheduleEntryLockV2ScheduleEntryLockTimeOffsetSetData {
-	signTZO: boolean; // level[7]
-	hourTZO: number; // level[6..0]
-	minuteTZO: number; // 1 byte unsigned integer
-	signOffsetDST: boolean; // level2[7]
-	minuteOffsetDST: number; // level2[6..0]
+	signTzo: boolean; // level[7]
+	hourTzo: number; // level[6..0]
+	minuteTzo: number; // 1 byte unsigned integer
+	signOffsetDst: boolean; // level2[7]
+	minuteOffsetDst: number; // level2[6..0]
 }
 
 export interface ScheduleEntryLockV2ScheduleEntryLockWeekDayGetData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleEntryLockV2ScheduleEntryLockWeekDayReportData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	dayOfWeek: number; // 1 byte unsigned integer
 	startHour: number; // 1 byte unsigned integer
 	startMinute: number; // 1 byte unsigned integer
@@ -69,7 +69,7 @@ export interface ScheduleEntryLockV2ScheduleEntryLockWeekDayReportData {
 export interface ScheduleEntryLockV2ScheduleEntryLockWeekDaySetData {
 	setAction: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	dayOfWeek: number; // 1 byte unsigned integer
 	startHour: number; // 1 byte unsigned integer
 	startMinute: number; // 1 byte unsigned integer
@@ -79,12 +79,12 @@ export interface ScheduleEntryLockV2ScheduleEntryLockWeekDaySetData {
 
 export interface ScheduleEntryLockV2ScheduleEntryLockYearDayGetData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 }
 
 export interface ScheduleEntryLockV2ScheduleEntryLockYearDayReportData {
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -100,7 +100,7 @@ export interface ScheduleEntryLockV2ScheduleEntryLockYearDayReportData {
 export interface ScheduleEntryLockV2ScheduleEntryLockYearDaySetData {
 	setAction: number; // 1 byte unsigned integer
 	userIdentifier: number; // 1 byte unsigned integer
-	scheduleSlotID: number; // 1 byte unsigned integer
+	scheduleSlotId: number; // 1 byte unsigned integer
 	startYear: number; // 1 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -247,13 +247,13 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signTZO",
+							"name": "signTzo",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "hourTZO",
+							"name": "hourTzo",
 							"mask": 127,
 							"shift": 0
 						}
@@ -261,7 +261,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "minuteTZO",
+					"name": "minuteTzo",
 					"help": "Minute TZO",
 					"length": 1
 				},
@@ -273,13 +273,13 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signOffsetDST",
+							"name": "signOffsetDst",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "minuteOffsetDST",
+							"name": "minuteOffsetDst",
 							"mask": 127,
 							"shift": 0
 						}
@@ -314,13 +314,13 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signTZO",
+							"name": "signTzo",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "hourTZO",
+							"name": "hourTzo",
 							"mask": 127,
 							"shift": 0
 						}
@@ -328,7 +328,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "minuteTZO",
+					"name": "minuteTzo",
 					"help": "Minute TZO",
 					"length": 1
 				},
@@ -340,13 +340,13 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "signOffsetDST",
+							"name": "signOffsetDst",
 							"mask": 128,
 							"shift": 7
 						},
 						{
 							"fieldType": "integer",
-							"name": "minuteOffsetDST",
+							"name": "minuteOffsetDst",
 							"mask": 127,
 							"shift": 0
 						}
@@ -381,7 +381,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				}
@@ -414,7 +414,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
@@ -493,7 +493,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
@@ -556,7 +556,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				}
@@ -589,7 +589,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
@@ -698,7 +698,7 @@ export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2C
 				},
 				{
 					"type": "integer",
-					"name": "scheduleSlotID",
+					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},

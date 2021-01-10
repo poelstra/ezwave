@@ -47,8 +47,8 @@ export interface VersionV3VersionCapabilitiesReportData {
 }
 
 export interface VersionV3VersionZwaveSoftwareReportData {
-	sDKVersion: number; // 3 byte unsigned integer
-	applicationFrameworkAPIVersion: number; // 3 byte unsigned integer
+	sdkVersion: number; // 3 byte unsigned integer
+	applicationFrameworkApiVersion: number; // 3 byte unsigned integer
 	applicationFrameworkBuildNumber: number; // 2 byte unsigned integer
 	hostInterfaceVersion: number; // 3 byte unsigned integer
 	hostInterfaceBuildNumber: number; // 2 byte unsigned integer
@@ -351,13 +351,13 @@ export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "sDKVersion",
+					"name": "sdkVersion",
 					"help": "SDK version",
 					"length": 3
 				},
 				{
 					"type": "integer",
-					"name": "applicationFrameworkAPIVersion",
+					"name": "applicationFrameworkApiVersion",
 					"help": "Application Framework API Version",
 					"length": 3
 				},

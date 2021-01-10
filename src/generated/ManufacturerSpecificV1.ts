@@ -16,9 +16,9 @@ export enum ManufacturerSpecificV1Commands {
 }
 
 export interface ManufacturerSpecificV1ManufacturerSpecificReportData {
-	manufacturerID: number; // 2 byte unsigned integer
-	productTypeID: number; // 2 byte unsigned integer
-	productID: number; // 2 byte unsigned integer
+	manufacturerId: number; // 2 byte unsigned integer
+	productTypeId: number; // 2 byte unsigned integer
+	productId: number; // 2 byte unsigned integer
 }
 
 export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpecificV1Commands> {
@@ -63,19 +63,19 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 			"params": [
 				{
 					"type": "integer",
-					"name": "manufacturerID",
+					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
 					"type": "integer",
-					"name": "productTypeID",
+					"name": "productTypeId",
 					"help": "Product Type ID",
 					"length": 2
 				},
 				{
 					"type": "integer",
-					"name": "productID",
+					"name": "productId",
 					"help": "Product ID",
 					"length": 2
 				}

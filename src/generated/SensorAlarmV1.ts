@@ -22,7 +22,7 @@ export interface SensorAlarmV1SensorAlarmGetData {
 }
 
 export interface SensorAlarmV1SensorAlarmReportData {
-	sourceNodeID: number; // 1 byte unsigned integer
+	sourceNodeId: number; // 1 byte unsigned integer
 	sensorType: number; // 1 byte unsigned integer
 	sensorState: number; // 1 byte unsigned integer
 	seconds: number; // 2 byte unsigned integer
@@ -111,7 +111,7 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "sourceNodeID",
+					"name": "sourceNodeId",
 					"help": "Source Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

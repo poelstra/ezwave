@@ -22,13 +22,13 @@ export interface RemoteAssociationV1RemoteAssociationConfigurationGetData {
 
 export interface RemoteAssociationV1RemoteAssociationConfigurationReportData {
 	localGroupingIdentifier: number; // 1 byte unsigned integer
-	remoteNodeID: number; // 1 byte unsigned integer
+	remoteNodeId: number; // 1 byte unsigned integer
 	remoteGroupingIdentifier: number; // 1 byte unsigned integer
 }
 
 export interface RemoteAssociationV1RemoteAssociationConfigurationSetData {
 	localGroupingIdentifier: number; // 1 byte unsigned integer
-	remoteNodeID: number; // 1 byte unsigned integer
+	remoteNodeId: number; // 1 byte unsigned integer
 	remoteGroupingIdentifier: number; // 1 byte unsigned integer
 }
 
@@ -94,7 +94,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 				},
 				{
 					"type": "integer",
-					"name": "remoteNodeID",
+					"name": "remoteNodeId",
 					"help": "Remote NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER",
@@ -146,7 +146,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 				},
 				{
 					"type": "integer",
-					"name": "remoteNodeID",
+					"name": "remoteNodeId",
 					"help": "Remote NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER",

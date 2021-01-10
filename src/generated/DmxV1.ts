@@ -20,22 +20,22 @@ export enum DmxV1Commands {
 }
 
 export interface DmxV1DmxAddressSetData {
-	pageID: number; // properties1[3..0]
-	channelID: number; // 1 byte unsigned integer
+	pageId: number; // properties1[3..0]
+	channelId: number; // 1 byte unsigned integer
 }
 
 export interface DmxV1DmxAddressReportData {
-	pageID: number; // properties1[3..0]
-	channelID: number; // 1 byte unsigned integer
+	pageId: number; // properties1[3..0]
+	channelId: number; // 1 byte unsigned integer
 }
 
 export interface DmxV1DmxCapabilityGetData {
-	channelID: number; // 1 byte unsigned integer
+	channelId: number; // 1 byte unsigned integer
 }
 
 export interface DmxV1DmxCapabilityReportData {
-	channelID: number; // 1 byte unsigned integer
-	propertyID: number; // 2 byte unsigned integer
+	channelId: number; // 1 byte unsigned integer
+	propertyId: number; // 2 byte unsigned integer
 	deviceChannels: number; // 1 byte unsigned integer
 	maxChannels: number; // 1 byte unsigned integer
 }
@@ -44,7 +44,7 @@ export interface DmxV1DmxDataData {
 	source: number; // 1 byte unsigned integer
 	sequenceNo: number; // properties1[5..4]
 	page: number; // properties1[3..0]
-	dMXChannel: Buffer; // automatic length
+	dmxChannel: Buffer; // automatic length
 }
 
 export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
@@ -82,7 +82,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "pageID",
+							"name": "pageId",
 							"mask": 15,
 							"shift": 0
 						}
@@ -90,7 +90,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "channelID",
+					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
 				}
@@ -150,7 +150,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "pageID",
+							"name": "pageId",
 							"mask": 15,
 							"shift": 0
 						}
@@ -158,7 +158,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "channelID",
+					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
 				}
@@ -185,7 +185,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "channelID",
+					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
 				}
@@ -212,13 +212,13 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "channelID",
+					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "propertyID",
+					"name": "propertyId",
 					"help": "Property ID",
 					"length": 2
 				},
@@ -290,7 +290,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "dMXChannel",
+					"name": "dmxChannel",
 					"help": "DMX channel",
 					"length": {
 						"lengthType": "auto",

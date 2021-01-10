@@ -26,11 +26,11 @@ export interface WindowCoveringV1WindowCoveringSupportedReportData {
 }
 
 export interface WindowCoveringV1WindowCoveringGetData {
-	parameterID: ParameterIDEnum; // 1 byte enum value
+	parameterId: ParameterIdEnum; // 1 byte enum value
 }
 
 export interface WindowCoveringV1WindowCoveringReportData {
-	parameterID: ParameterIDEnum; // 1 byte enum value
+	parameterId: ParameterIdEnum; // 1 byte enum value
 	currentValue: number; // 1 byte unsigned integer
 	targetValue: number; // 1 byte unsigned integer
 	duration: number; // 1 byte unsigned integer
@@ -43,15 +43,15 @@ export interface WindowCoveringV1WindowCoveringSetData {
 
 export interface WindowCoveringV1WindowCoveringStartLevelChangeData {
 	upDown: boolean; // properties1[6]
-	parameterID: ParameterIDEnum; // 1 byte enum value
+	parameterId: ParameterIdEnum; // 1 byte enum value
 	duration: number; // 1 byte unsigned integer
 }
 
 export interface WindowCoveringV1WindowCoveringStopLevelChangeData {
-	parameterID: ParameterIDEnum; // 1 byte enum value
+	parameterId: ParameterIdEnum; // 1 byte enum value
 }
 
-export enum ParameterIDEnum {
+export enum ParameterIdEnum {
 	OutLeft1 = 0x0,
 	OutLeft2 = 0x1,
 	OutRight1 = 0x2,
@@ -168,7 +168,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 			"params": [
 				{
 					"type": "enum",
-					"name": "parameterID",
+					"name": "parameterId",
 					"help": "Parameter ID",
 					"length": 1,
 					"values": {
@@ -289,7 +289,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 			"params": [
 				{
 					"type": "enum",
-					"name": "parameterID",
+					"name": "parameterId",
 					"help": "Parameter ID",
 					"length": 1,
 					"values": {
@@ -467,7 +467,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 					"params": [
 						{
 							"type": "enum",
-							"name": "parameterID",
+							"name": "parameterId",
 							"help": "Parameter ID",
 							"length": 1,
 							"values": {
@@ -630,7 +630,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 				},
 				{
 					"type": "enum",
-					"name": "parameterID",
+					"name": "parameterId",
 					"help": "Parameter ID",
 					"length": 1,
 					"values": {
@@ -757,7 +757,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 			"params": [
 				{
 					"type": "enum",
-					"name": "parameterID",
+					"name": "parameterId",
 					"help": "Parameter ID",
 					"length": 1,
 					"values": {

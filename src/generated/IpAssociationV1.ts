@@ -19,7 +19,7 @@ export enum IpAssociationV1Commands {
 
 export interface IpAssociationV1IpAssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	iPv6Address: Buffer; // 16 bytes
+	ipv6Address: Buffer; // 16 bytes
 	endPoint: number; // 1 byte unsigned integer
 }
 
@@ -32,13 +32,13 @@ export interface IpAssociationV1IpAssociationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	index: number; // 1 byte unsigned integer
 	actualNodes: number; // 1 byte unsigned integer
-	iPv6Address: Buffer; // 16 bytes
+	ipv6Address: Buffer; // 16 bytes
 	endPoint: number; // 1 byte unsigned integer
 }
 
 export interface IpAssociationV1IpAssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	iPv6Address: Buffer; // 16 bytes
+	ipv6Address: Buffer; // 16 bytes
 	endPoint: number; // 1 byte unsigned integer
 }
 
@@ -70,7 +70,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 				},
 				{
 					"type": "blob",
-					"name": "iPv6Address",
+					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
@@ -154,7 +154,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 				},
 				{
 					"type": "blob",
-					"name": "iPv6Address",
+					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
@@ -193,7 +193,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 				},
 				{
 					"type": "blob",
-					"name": "iPv6Address",
+					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},

@@ -24,7 +24,7 @@ export interface MeterTblPushV1MeterTblPushConfigurationReportData {
 	intervalDays: number; // 1 byte unsigned integer
 	intervalHours: number; // 1 byte unsigned integer
 	intervalMinutes: number; // 1 byte unsigned integer
-	pushNodeID: number; // 1 byte unsigned integer
+	pushNodeId: number; // 1 byte unsigned integer
 }
 
 export interface MeterTblPushV1MeterTblPushConfigurationSetData {
@@ -35,7 +35,7 @@ export interface MeterTblPushV1MeterTblPushConfigurationSetData {
 	intervalDays: number; // 1 byte unsigned integer
 	intervalHours: number; // 1 byte unsigned integer
 	intervalMinutes: number; // 1 byte unsigned integer
-	pushNodeID: number; // 1 byte unsigned integer
+	pushNodeId: number; // 1 byte unsigned integer
 }
 
 export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
@@ -137,7 +137,7 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "pushNodeID",
+					"name": "pushNodeId",
 					"help": "Push Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -222,7 +222,7 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "pushNodeID",
+					"name": "pushNodeId",
 					"help": "Push Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

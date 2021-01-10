@@ -20,12 +20,12 @@ export enum AssociationCommandConfigurationV1Commands {
 
 export interface AssociationCommandConfigurationV1CommandConfigurationGetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface AssociationCommandConfigurationV1CommandConfigurationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	first: boolean; // properties1[7]
 	reportsToFollow: number; // properties1[3..0]
 	commandLength: number; // 1 byte unsigned integer
@@ -36,7 +36,7 @@ export interface AssociationCommandConfigurationV1CommandConfigurationReportData
 
 export interface AssociationCommandConfigurationV1CommandConfigurationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	commandLength: number; // 1 byte unsigned integer
 	commandClassIdentifier: number; // 1 byte unsigned integer
 	commandIdentifier: number; // 1 byte unsigned integer
@@ -79,7 +79,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -113,7 +113,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -204,7 +204,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

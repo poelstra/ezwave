@@ -28,12 +28,12 @@ export interface NetworkManagementBasicV1LearnModeSetData {
 export interface NetworkManagementBasicV1LearnModeSetStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	newNodeID: number; // 1 byte unsigned integer
+	newNodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementBasicV1NodeInformationSendData {
 	seqNo: number; // 1 byte unsigned integer
-	destinationNodeID: number; // 1 byte unsigned integer
+	destinationNodeId: number; // 1 byte unsigned integer
 	// TODO param txOptions type bitmask or marker
 }
 
@@ -168,7 +168,7 @@ export class NetworkManagementBasicV1 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "newNodeID",
+					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -210,7 +210,7 @@ export class NetworkManagementBasicV1 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "destinationNodeID",
+					"name": "destinationNodeId",
 					"help": "Destination Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

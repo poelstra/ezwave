@@ -31,15 +31,15 @@ export interface NetworkManagementBasicV2LearnModeSetData {
 export interface NetworkManagementBasicV2LearnModeSetStatusData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	newNodeID: number; // 1 byte unsigned integer
+	newNodeId: number; // 1 byte unsigned integer
 	grantedKeys: number; // 1 byte unsigned integer
-	kEXFailType: number; // 1 byte unsigned integer
+	kexFailType: number; // 1 byte unsigned integer
 	dsk: Buffer; // 16 bytes
 }
 
 export interface NetworkManagementBasicV2NodeInformationSendData {
 	seqNo: number; // 1 byte unsigned integer
-	destinationNodeID: number; // 1 byte unsigned integer
+	destinationNodeId: number; // 1 byte unsigned integer
 	// TODO param txOptions type bitmask or marker
 }
 
@@ -199,7 +199,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "newNodeID",
+					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -212,7 +212,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "kEXFailType",
+					"name": "kexFailType",
 					"help": "KEX Fail Type",
 					"length": 1
 				},
@@ -259,7 +259,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "destinationNodeID",
+					"name": "destinationNodeId",
 					"help": "Destination Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

@@ -32,7 +32,7 @@ export interface SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeGetData {
 export interface SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeReportData {
 	zoneNumber: number; // 1 byte unsigned integer
 	sensorNumber: number; // 1 byte unsigned integer
-	zWaveAlarmType: number; // 1 byte unsigned integer
+	zwaveAlarmType: number; // 1 byte unsigned integer
 }
 
 export interface SecurityPanelZoneSensorV1SecurityPanelZoneSensorInstalledGetData {
@@ -47,8 +47,8 @@ export interface SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateGetData {
 export interface SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateReportData {
 	zoneNumber: number; // 1 byte unsigned integer
 	sensorNumber: number; // 1 byte unsigned integer
-	zWaveAlarmType: number; // 1 byte unsigned integer
-	zWaveAlarmEvent: number; // 1 byte unsigned integer
+	zwaveAlarmType: number; // 1 byte unsigned integer
+	zwaveAlarmEvent: number; // 1 byte unsigned integer
 	eventParameters: number; // 1 byte unsigned integer
 }
 
@@ -152,7 +152,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 				},
 				{
 					"type": "integer",
-					"name": "zWaveAlarmType",
+					"name": "zwaveAlarmType",
 					"help": "ZWave Alarm Type",
 					"length": 1
 				}
@@ -251,13 +251,13 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 				},
 				{
 					"type": "integer",
-					"name": "zWaveAlarmType",
+					"name": "zwaveAlarmType",
 					"help": "ZWave Alarm Type",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "zWaveAlarmEvent",
+					"name": "zwaveAlarmEvent",
 					"help": "ZWave Alarm Event",
 					"length": 1
 				},

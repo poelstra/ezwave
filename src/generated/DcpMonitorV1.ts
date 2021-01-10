@@ -44,7 +44,7 @@ export interface DcpMonitorV1DcpListReportData {
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	dcpId: number; // 1 byte unsigned integer
-	numberOfDC: number; // properties1[1..0]
+	numberOfDc: number; // properties1[1..0]
 	// TODO param vg1 type group
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
@@ -314,7 +314,7 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "numberOfDC",
+							"name": "numberOfDc",
 							"mask": 3,
 							"shift": 0
 						}

@@ -50,7 +50,7 @@ export interface IrrigationV1IrrigationSystemStatusReportData {
 	shutoffDuration: number; // 1 byte unsigned integer
 	// TODO param systemErrorStatus type bitmask or marker
 	masterValve: boolean; // properties3[0]
-	valveID: number; // 1 byte unsigned integer
+	valveId: number; // 1 byte unsigned integer
 }
 
 export interface IrrigationV1IrrigationSystemConfigSetData {
@@ -77,20 +77,20 @@ export interface IrrigationV1IrrigationSystemConfigReportData {
 
 export interface IrrigationV1IrrigationValveInfoGetData {
 	masterValve: boolean; // properties1[0]
-	valveID: number; // 1 byte unsigned integer
+	valveId: number; // 1 byte unsigned integer
 }
 
 export interface IrrigationV1IrrigationValveInfoReportData {
 	connected: boolean; // properties1[1]
 	master: boolean; // properties1[0]
-	valveID: number; // 1 byte unsigned integer
+	valveId: number; // 1 byte unsigned integer
 	nominalCurrent: number; // 1 byte unsigned integer
 	// TODO param valveErrorStatus type bitmask or marker
 }
 
 export interface IrrigationV1IrrigationValveConfigSetData {
 	masterValve: boolean; // properties1[0]
-	valveID: number; // 1 byte unsigned integer
+	valveId: number; // 1 byte unsigned integer
 	nominalCurrentHighThreshold: number; // 1 byte unsigned integer
 	nominalCurrentLowThreshold: number; // 1 byte unsigned integer
 	maximumFlowPrecision: number; // properties2[7..5]
@@ -107,12 +107,12 @@ export interface IrrigationV1IrrigationValveConfigSetData {
 
 export interface IrrigationV1IrrigationValveConfigGetData {
 	masterValve: boolean; // properties1[0]
-	valveID: number; // 1 byte unsigned integer
+	valveId: number; // 1 byte unsigned integer
 }
 
 export interface IrrigationV1IrrigationValveConfigReportData {
 	masterValve: boolean; // properties1[0]
-	valveID: number; // 1 byte unsigned integer
+	valveId: number; // 1 byte unsigned integer
 	nominalCurrentHighThreshold: number; // 1 byte unsigned integer
 	nominalCurrentLowThreshold: number; // 1 byte unsigned integer
 	maximumFlowPrecision: number; // properties2[7..5]
@@ -129,26 +129,26 @@ export interface IrrigationV1IrrigationValveConfigReportData {
 
 export interface IrrigationV1IrrigationValveRunData {
 	masterValve: boolean; // properties1[0]
-	valveID: number; // 1 byte unsigned integer
+	valveId: number; // 1 byte unsigned integer
 	duration: number; // 2 byte unsigned integer
 }
 
 export interface IrrigationV1IrrigationValveTableSetData {
-	valveTableID: number; // 1 byte unsigned integer
+	valveTableId: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
 export interface IrrigationV1IrrigationValveTableGetData {
-	valveTableID: number; // 1 byte unsigned integer
+	valveTableId: number; // 1 byte unsigned integer
 }
 
 export interface IrrigationV1IrrigationValveTableReportData {
-	valveTableID: number; // 1 byte unsigned integer
+	valveTableId: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 }
 
 export interface IrrigationV1IrrigationValveTableRunData {
-	valveTableID: Buffer; // automatic length
+	valveTableId: Buffer; // automatic length
 }
 
 export interface IrrigationV1IrrigationSystemShutoffData {
@@ -463,7 +463,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "valveID",
+					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				}
@@ -771,7 +771,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "valveID",
+					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				}
@@ -826,7 +826,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "valveID",
+					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
@@ -887,7 +887,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "valveID",
+					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
@@ -1082,7 +1082,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "valveID",
+					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				}
@@ -1131,7 +1131,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "valveID",
+					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
@@ -1326,7 +1326,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "valveID",
+					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
@@ -1360,7 +1360,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "valveTableID",
+					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": 1
 				},
@@ -1375,7 +1375,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"params": [
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
@@ -1410,7 +1410,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "valveTableID",
+					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": 1
 				}
@@ -1438,7 +1438,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "valveTableID",
+					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": 1
 				},
@@ -1453,7 +1453,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"params": [
 						{
 							"type": "integer",
-							"name": "valveID",
+							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
@@ -1488,7 +1488,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "valveTableID",
+					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": {
 						"lengthType": "auto",

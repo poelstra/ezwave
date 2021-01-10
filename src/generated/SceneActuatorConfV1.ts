@@ -17,17 +17,17 @@ export enum SceneActuatorConfV1Commands {
 }
 
 export interface SceneActuatorConfV1SceneActuatorConfGetData {
-	sceneID: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
 }
 
 export interface SceneActuatorConfV1SceneActuatorConfReportData {
-	sceneID: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
 	level: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
 }
 
 export interface SceneActuatorConfV1SceneActuatorConfSetData {
-	sceneID: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
 	override: boolean; // level2[7]
 	level: number; // 1 byte unsigned integer
@@ -55,7 +55,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 			"params": [
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				}
@@ -82,7 +82,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 			"params": [
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
@@ -127,7 +127,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 			"params": [
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},

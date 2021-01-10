@@ -20,7 +20,7 @@ export enum NetworkManagementProxyV1Commands {
 export interface NetworkManagementProxyV1NodeInfoCachedGetData {
 	seqNo: number; // 1 byte unsigned integer
 	maxAge: number; // properties1[3..0]
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementProxyV1NodeInfoCachedReportData {
@@ -44,7 +44,7 @@ export interface NetworkManagementProxyV1NodeListGetData {
 export interface NetworkManagementProxyV1NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	nodeListControllerID: number; // 1 byte unsigned integer
+	nodeListControllerId: number; // 1 byte unsigned integer
 	// TODO param nodeListData type bitmask or marker
 }
 
@@ -103,7 +103,7 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -321,7 +321,7 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeListControllerID",
+					"name": "nodeListControllerId",
 					"help": "Node List Controller ID",
 					"length": 1
 				},

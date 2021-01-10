@@ -24,13 +24,13 @@ export interface UserCodeV1UserCodeGetData {
 
 export interface UserCodeV1UserCodeReportData {
 	userIdentifier: number; // 1 byte unsigned integer
-	userIDStatus: UserIDStatusEnum; // 1 byte enum value
+	userIdStatus: UserIdStatusEnum; // 1 byte enum value
 	userCode: string; // automatic length
 }
 
 export interface UserCodeV1UserCodeSetData {
 	userIdentifier: number; // 1 byte unsigned integer
-	userIDStatus: UserIDStatusEnum; // 1 byte enum value
+	userIdStatus: UserIdStatusEnum; // 1 byte enum value
 	userCode: string; // automatic length
 }
 
@@ -38,7 +38,7 @@ export interface UserCodeV1UsersNumberReportData {
 	supportedUsers: number; // 1 byte unsigned integer
 }
 
-export enum UserIDStatusEnum {
+export enum UserIdStatusEnum {
 	AvailableNotSet = 0x0,
 	Occupied = 0x1,
 	ReservedByAdministrator = 0x2,
@@ -100,7 +100,7 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 				},
 				{
 					"type": "enum",
-					"name": "userIDStatus",
+					"name": "userIdStatus",
 					"help": "User ID Status",
 					"length": 1,
 					"values": {
@@ -160,7 +160,7 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 				},
 				{
 					"type": "enum",
-					"name": "userIDStatus",
+					"name": "userIdStatus",
 					"help": "User ID Status",
 					"length": 1,
 					"values": {

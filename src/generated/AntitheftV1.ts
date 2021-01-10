@@ -19,13 +19,13 @@ export enum AntitheftV1Commands {
 export interface AntitheftV1AntitheftSetData {
 	enable: boolean; // properties1[7]
 	magicCode: Buffer; // variable length
-	manufacturerID: number; // 2 byte unsigned integer
+	manufacturerId: number; // 2 byte unsigned integer
 	antiTheftHint: Buffer; // variable length
 }
 
 export interface AntitheftV1AntitheftReportData {
 	antiTheftProtectionStatus: number; // 1 byte unsigned integer
-	manufacturerID: number; // 2 byte unsigned integer
+	manufacturerId: number; // 2 byte unsigned integer
 	antiTheftHint: Buffer; // variable length
 }
 
@@ -89,7 +89,7 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "manufacturerID",
+					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
@@ -165,7 +165,7 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "manufacturerID",
+					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},

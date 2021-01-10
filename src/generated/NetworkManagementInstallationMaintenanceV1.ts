@@ -20,7 +20,7 @@ export enum NetworkManagementInstallationMaintenanceV1Commands {
 }
 
 export interface NetworkManagementInstallationMaintenanceV1PriorityRouteSetData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	repeater1: number; // 1 byte unsigned integer
 	repeater2: number; // 1 byte unsigned integer
 	repeater3: number; // 1 byte unsigned integer
@@ -29,11 +29,11 @@ export interface NetworkManagementInstallationMaintenanceV1PriorityRouteSetData 
 }
 
 export interface NetworkManagementInstallationMaintenanceV1PriorityRouteGetData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInstallationMaintenanceV1PriorityRouteReportData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	type: TypeEnum; // 1 byte enum value
 	repeater1: number; // 1 byte unsigned integer
 	repeater2: number; // 1 byte unsigned integer
@@ -43,11 +43,11 @@ export interface NetworkManagementInstallationMaintenanceV1PriorityRouteReportDa
 }
 
 export interface NetworkManagementInstallationMaintenanceV1StatisticsGetData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInstallationMaintenanceV1StatisticsReportData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	// TODO param statistics type group
 }
 
@@ -86,7 +86,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -162,7 +162,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -190,7 +190,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -290,7 +290,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -319,7 +319,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

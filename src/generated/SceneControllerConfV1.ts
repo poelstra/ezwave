@@ -17,18 +17,18 @@ export enum SceneControllerConfV1Commands {
 }
 
 export interface SceneControllerConfV1SceneControllerConfGetData {
-	groupID: number; // 1 byte unsigned integer
+	groupId: number; // 1 byte unsigned integer
 }
 
 export interface SceneControllerConfV1SceneControllerConfReportData {
-	groupID: number; // 1 byte unsigned integer
-	sceneID: number; // 1 byte unsigned integer
+	groupId: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
 }
 
 export interface SceneControllerConfV1SceneControllerConfSetData {
-	groupID: number; // 1 byte unsigned integer
-	sceneID: number; // 1 byte unsigned integer
+	groupId: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
 }
 
@@ -54,7 +54,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 			"params": [
 				{
 					"type": "integer",
-					"name": "groupID",
+					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				}
@@ -81,13 +81,13 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 			"params": [
 				{
 					"type": "integer",
-					"name": "groupID",
+					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
@@ -126,13 +126,13 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 			"params": [
 				{
 					"type": "integer",
-					"name": "groupID",
+					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},

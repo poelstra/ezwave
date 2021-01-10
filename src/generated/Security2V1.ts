@@ -42,32 +42,32 @@ export interface Security2V1Security2MessageEncapsulationData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	encryptedExtension: boolean; // properties1[1]
 	// TODO param vg1 type group
-	cCMCiphertextObject: Buffer; // automatic length
+	ccmCiphertextObject: Buffer; // automatic length
 }
 
 export interface Security2V1KexReportData {
-	requestCSA: boolean; // properties1[1]
+	requestCsa: boolean; // properties1[1]
 	echo: boolean; // properties1[0]
-	supportedKEXSchemes: number; // 1 byte unsigned integer
-	supportedECDHProfiles: number; // 1 byte unsigned integer
+	supportedKexSchemes: number; // 1 byte unsigned integer
+	supportedEcdhProfiles: number; // 1 byte unsigned integer
 	// TODO param requestedKeys type bitmask or marker
 }
 
 export interface Security2V1KexSetData {
-	requestCSA: boolean; // properties1[1]
+	requestCsa: boolean; // properties1[1]
 	echo: boolean; // properties1[0]
-	selectedKEXScheme: number; // 1 byte unsigned integer
-	selectedECDHProfile: number; // 1 byte unsigned integer
+	selectedKexScheme: number; // 1 byte unsigned integer
+	selectedEcdhProfile: number; // 1 byte unsigned integer
 	// TODO param grantedKeys type bitmask or marker
 }
 
 export interface Security2V1KexFailData {
-	kEXFailType: KEXFailTypeEnum; // 1 byte enum value
+	kexFailType: KexFailTypeEnum; // 1 byte enum value
 }
 
 export interface Security2V1PublicKeyReportData {
 	includingNode: boolean; // properties1[0]
-	eCDHPublicKey: Buffer; // automatic length
+	ecdhPublicKey: Buffer; // automatic length
 }
 
 export interface Security2V1Security2NetworkKeyGetData {
@@ -88,7 +88,7 @@ export interface Security2V1Security2CommandsSupportedReportData {
 	// TODO param commandClass type enumarray
 }
 
-export enum KEXFailTypeEnum {
+export enum KexFailTypeEnum {
 	KexKey = 0x1,
 	KexScheme = 0x2,
 	KexCurves = 0x3,
@@ -318,7 +318,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "cCMCiphertextObject",
+					"name": "ccmCiphertextObject",
 					"help": "CCM Ciphertext Object",
 					"length": {
 						"lengthType": "auto",
@@ -382,7 +382,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 						},
 						{
 							"fieldType": "boolean",
-							"name": "requestCSA",
+							"name": "requestCsa",
 							"mask": 2,
 							"shift": 1
 						},
@@ -396,13 +396,13 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "supportedKEXSchemes",
+					"name": "supportedKexSchemes",
 					"help": "Supported KEX Schemes",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "supportedECDHProfiles",
+					"name": "supportedEcdhProfiles",
 					"help": "Supported ECDH Profiles",
 					"length": 1
 				},
@@ -449,7 +449,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 						},
 						{
 							"fieldType": "boolean",
-							"name": "requestCSA",
+							"name": "requestCsa",
 							"mask": 2,
 							"shift": 1
 						},
@@ -463,13 +463,13 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "selectedKEXScheme",
+					"name": "selectedKexScheme",
 					"help": "Selected KEX Scheme",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "selectedECDHProfile",
+					"name": "selectedEcdhProfile",
 					"help": "Selected ECDH Profile",
 					"length": 1
 				},
@@ -502,7 +502,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 			"params": [
 				{
 					"type": "enum",
-					"name": "kEXFailType",
+					"name": "kexFailType",
 					"help": "KEX Fail Type",
 					"length": 1,
 					"values": {
@@ -588,7 +588,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "eCDHPublicKey",
+					"name": "ecdhPublicKey",
 					"help": "ECDH Public Key",
 					"length": {
 						"lengthType": "auto",

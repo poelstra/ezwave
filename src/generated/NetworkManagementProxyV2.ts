@@ -26,7 +26,7 @@ export enum NetworkManagementProxyV2Commands {
 export interface NetworkManagementProxyV2NodeInfoCachedGetData {
 	seqNo: number; // 1 byte unsigned integer
 	maxAge: number; // properties1[3..0]
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementProxyV2NodeInfoCachedReportData {
@@ -51,31 +51,31 @@ export interface NetworkManagementProxyV2NodeListGetData {
 export interface NetworkManagementProxyV2NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
-	nodeListControllerID: number; // 1 byte unsigned integer
+	nodeListControllerId: number; // 1 byte unsigned integer
 	// TODO param nodeListData type bitmask or marker
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelEndPointGetData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelEndPointReportData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	individualEndPoints: number; // properties1[6..0]
 	aggregatedEndPoints: number; // properties2[6..0]
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelCapabilityGetData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	endPoint: number; // properties1[6..0]
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelCapabilityReportData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	commandClassLength: number; // 1 byte unsigned integer
 	endPoint: number; // properties1[6..0]
 	genericDeviceClass: number; // 1 byte unsigned integer
@@ -85,13 +85,13 @@ export interface NetworkManagementProxyV2NmMultiChannelCapabilityReportData {
 
 export interface NetworkManagementProxyV2NmMultiChannelAggregatedMembersGetData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	aggregatedEndPoint: number; // properties1[6..0]
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelAggregatedMembersReportData {
 	seqNo: number; // 1 byte unsigned integer
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	aggregatedEndPoint: number; // properties1[6..0]
 	numberOfMembers: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
@@ -152,7 +152,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -369,7 +369,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeListControllerID",
+					"name": "nodeListControllerId",
 					"help": "Node List Controller ID",
 					"length": 1
 				},
@@ -408,7 +408,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -442,7 +442,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -525,7 +525,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -581,7 +581,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -666,7 +666,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -722,7 +722,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 				},
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

@@ -23,8 +23,8 @@ export enum FirmwareUpdateMdV4Commands {
 }
 
 export interface FirmwareUpdateMdV4FirmwareMdReportData {
-	manufacturerID: number; // 2 byte unsigned integer
-	firmware0ID: number; // 2 byte unsigned integer
+	manufacturerId: number; // 2 byte unsigned integer
+	firmware0Id: number; // 2 byte unsigned integer
 	firmware0Checksum: number; // 2 byte unsigned integer
 	firmwareUpgradable: number; // 1 byte unsigned integer
 	maxFragmentSize: number; // 2 byte unsigned integer
@@ -47,8 +47,8 @@ export interface FirmwareUpdateMdV4FirmwareUpdateMdReportData {
 }
 
 export interface FirmwareUpdateMdV4FirmwareUpdateMdRequestGetData {
-	manufacturerID: number; // 2 byte unsigned integer
-	firmwareID: number; // 2 byte unsigned integer
+	manufacturerId: number; // 2 byte unsigned integer
+	firmwareId: number; // 2 byte unsigned integer
 	checksum: number; // 2 byte unsigned integer
 	firmwareTarget: number; // 1 byte unsigned integer
 	fragmentSize: number; // 2 byte unsigned integer
@@ -65,15 +65,15 @@ export interface FirmwareUpdateMdV4FirmwareUpdateMdStatusReportData {
 }
 
 export interface FirmwareUpdateMdV4FirmwareUpdateActivationSetData {
-	manufacturerID: number; // 2 byte unsigned integer
-	firmwareID: number; // 2 byte unsigned integer
+	manufacturerId: number; // 2 byte unsigned integer
+	firmwareId: number; // 2 byte unsigned integer
 	checksum: number; // 2 byte unsigned integer
 	firmwareTarget: number; // 1 byte unsigned integer
 }
 
 export interface FirmwareUpdateMdV4FirmwareUpdateActivationStatusReportData {
-	manufacturerID: number; // 2 byte unsigned integer
-	firmwareID: number; // 2 byte unsigned integer
+	manufacturerId: number; // 2 byte unsigned integer
+	firmwareId: number; // 2 byte unsigned integer
 	checksum: number; // 2 byte unsigned integer
 	firmwareTarget: number; // 1 byte unsigned integer
 	firmwareUpdateStatus: FirmwareUpdateStatusEnum; // 1 byte enum value
@@ -150,13 +150,13 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "manufacturerID",
+					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
 					"type": "integer",
-					"name": "firmware0ID",
+					"name": "firmware0Id",
 					"help": "Firmware 0 ID",
 					"length": 2
 				},
@@ -203,7 +203,7 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 					"params": [
 						{
 							"type": "integer",
-							"name": "firmwareID",
+							"name": "firmwareId",
 							"help": "Firmware ID",
 							"length": 2
 						}
@@ -347,13 +347,13 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "manufacturerID",
+					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
 					"type": "integer",
-					"name": "firmwareID",
+					"name": "firmwareId",
 					"help": "Firmware ID",
 					"length": 2
 				},
@@ -547,13 +547,13 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "manufacturerID",
+					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
 					"type": "integer",
-					"name": "firmwareID",
+					"name": "firmwareId",
 					"help": "Firmware ID",
 					"length": 2
 				},
@@ -592,13 +592,13 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 			"params": [
 				{
 					"type": "integer",
-					"name": "manufacturerID",
+					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
 					"type": "integer",
-					"name": "firmwareID",
+					"name": "firmwareId",
 					"help": "Firmware ID",
 					"length": 2
 				},

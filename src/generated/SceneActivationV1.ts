@@ -15,7 +15,7 @@ export enum SceneActivationV1Commands {
 }
 
 export interface SceneActivationV1SceneActivationSetData {
-	sceneID: number; // 1 byte unsigned integer
+	sceneId: number; // 1 byte unsigned integer
 	dimmingDuration: number; // 1 byte unsigned integer
 }
 
@@ -41,7 +41,7 @@ export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Comma
 			"params": [
 				{
 					"type": "integer",
-					"name": "sceneID",
+					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},

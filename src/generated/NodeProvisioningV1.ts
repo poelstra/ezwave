@@ -95,7 +95,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 						},
 						{
 							"fieldType": "integer",
-							"name": "dSKLength",
+							"name": "dskLength",
 							"mask": 31,
 							"shift": 0,
 							"lengthOf": {
@@ -114,7 +114,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "properties1.dSKLength"
+							"ref": "properties1.dskLength"
 						}
 					}
 				},
@@ -213,7 +213,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 						},
 						{
 							"fieldType": "integer",
-							"name": "dSKLength",
+							"name": "dskLength",
 							"mask": 31,
 							"shift": 0,
 							"lengthOf": {
@@ -232,7 +232,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "properties1.dSKLength"
+							"ref": "properties1.dskLength"
 						}
 					}
 				}
@@ -318,7 +318,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 						},
 						{
 							"fieldType": "integer",
-							"name": "dSKLength",
+							"name": "dskLength",
 							"mask": 31,
 							"shift": 0,
 							"lengthOf": {
@@ -337,7 +337,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "properties1.dSKLength"
+							"ref": "properties1.dskLength"
 						}
 					}
 				},
@@ -436,7 +436,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 						},
 						{
 							"fieldType": "integer",
-							"name": "dSKLength",
+							"name": "dskLength",
 							"mask": 31,
 							"shift": 0,
 							"lengthOf": {
@@ -455,7 +455,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "properties1.dSKLength"
+							"ref": "properties1.dskLength"
 						}
 					}
 				}
@@ -502,7 +502,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 						},
 						{
 							"fieldType": "integer",
-							"name": "dSKLength",
+							"name": "dskLength",
 							"mask": 31,
 							"shift": 0,
 							"lengthOf": {
@@ -521,7 +521,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "properties1.dSKLength"
+							"ref": "properties1.dskLength"
 						}
 					}
 				},

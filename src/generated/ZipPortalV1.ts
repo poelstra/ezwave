@@ -18,12 +18,12 @@ export enum ZipPortalV1Commands {
 }
 
 export interface ZipPortalV1GatewayConfigurationSetData {
-	lANIPv6Address: Buffer; // 16 bytes
-	lANIPv6PrefixLength: number; // 1 byte unsigned integer
-	portalIPv6Prefix: Buffer; // 16 bytes
-	portalIPv6PrefixLength: number; // 1 byte unsigned integer
-	defaultGatewayIPv6Address: Buffer; // 16 bytes
-	pANIPv6Prefix: Buffer; // 16 bytes
+	lanIpv6Address: Buffer; // 16 bytes
+	lanIpv6PrefixLength: number; // 1 byte unsigned integer
+	portalIpv6Prefix: Buffer; // 16 bytes
+	portalIpv6PrefixLength: number; // 1 byte unsigned integer
+	defaultGatewayIpv6Address: Buffer; // 16 bytes
+	panIpv6Prefix: Buffer; // 16 bytes
 }
 
 export interface ZipPortalV1GatewayConfigurationStatusData {
@@ -31,12 +31,12 @@ export interface ZipPortalV1GatewayConfigurationStatusData {
 }
 
 export interface ZipPortalV1GatewayConfigurationReportData {
-	lANIPv6Address: Buffer; // 16 bytes
-	lANIPv6PrefixLength: number; // 1 byte unsigned integer
-	portalIPv6Prefix: Buffer; // 16 bytes
-	portalIPv6PrefixLength: number; // 1 byte unsigned integer
-	defaultGatewayIPv6Address: Buffer; // 16 bytes
-	pANIPv6Prefix: Buffer; // 16 bytes
+	lanIpv6Address: Buffer; // 16 bytes
+	lanIpv6PrefixLength: number; // 1 byte unsigned integer
+	portalIpv6Prefix: Buffer; // 16 bytes
+	portalIpv6PrefixLength: number; // 1 byte unsigned integer
+	defaultGatewayIpv6Address: Buffer; // 16 bytes
+	panIpv6Prefix: Buffer; // 16 bytes
 }
 
 export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
@@ -61,37 +61,37 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "lANIPv6Address",
+					"name": "lanIpv6Address",
 					"help": "LAN IPv6 Address",
 					"length": 16
 				},
 				{
 					"type": "integer",
-					"name": "lANIPv6PrefixLength",
+					"name": "lanIpv6PrefixLength",
 					"help": "LAN IPv6 Prefix Length",
 					"length": 1
 				},
 				{
 					"type": "blob",
-					"name": "portalIPv6Prefix",
+					"name": "portalIpv6Prefix",
 					"help": "Portal IPv6 Prefix",
 					"length": 16
 				},
 				{
 					"type": "integer",
-					"name": "portalIPv6PrefixLength",
+					"name": "portalIpv6PrefixLength",
 					"help": "Portal IPv6 Prefix Length",
 					"length": 1
 				},
 				{
 					"type": "blob",
-					"name": "defaultGatewayIPv6Address",
+					"name": "defaultGatewayIpv6Address",
 					"help": "Default Gateway IPv6 Address",
 					"length": 16
 				},
 				{
 					"type": "blob",
-					"name": "pANIPv6Prefix",
+					"name": "panIpv6Prefix",
 					"help": "PAN IPv6 Prefix",
 					"length": 16
 				}
@@ -165,37 +165,37 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "lANIPv6Address",
+					"name": "lanIpv6Address",
 					"help": "LAN IPv6 Address",
 					"length": 16
 				},
 				{
 					"type": "integer",
-					"name": "lANIPv6PrefixLength",
+					"name": "lanIpv6PrefixLength",
 					"help": "LAN IPv6 Prefix Length",
 					"length": 1
 				},
 				{
 					"type": "blob",
-					"name": "portalIPv6Prefix",
+					"name": "portalIpv6Prefix",
 					"help": "Portal IPv6 Prefix",
 					"length": 16
 				},
 				{
 					"type": "integer",
-					"name": "portalIPv6PrefixLength",
+					"name": "portalIpv6PrefixLength",
 					"help": "Portal IPv6 Prefix Length",
 					"length": 1
 				},
 				{
 					"type": "blob",
-					"name": "defaultGatewayIPv6Address",
+					"name": "defaultGatewayIpv6Address",
 					"help": "Default Gateway IPv6 Address",
 					"length": 16
 				},
 				{
 					"type": "blob",
-					"name": "pANIPv6Prefix",
+					"name": "panIpv6Prefix",
 					"help": "PAN IPv6 Prefix",
 					"length": 16
 				}

@@ -21,16 +21,16 @@ export enum MailboxV1Commands {
 
 export interface MailboxV1MailboxConfigurationSetData {
 	mode: ModeEnum; // properties1[2..0]
-	forwardingDestinationIPv6Address: Buffer; // 16 bytes
-	uDPPortNumber: number; // 2 byte unsigned integer
+	forwardingDestinationIpv6Address: Buffer; // 16 bytes
+	udpPortNumber: number; // 2 byte unsigned integer
 }
 
 export interface MailboxV1MailboxConfigurationReportData {
 	supportedModes: SupportedModesEnum; // properties1[4..3]
 	mode: ModeEnum; // properties1[2..0]
 	mailboxCapacity: number; // 2 byte unsigned integer
-	forwardingDestinationIPv6Address: Buffer; // 16 bytes
-	uDPPortNumber: number; // 2 byte unsigned integer
+	forwardingDestinationIpv6Address: Buffer; // 16 bytes
+	udpPortNumber: number; // 2 byte unsigned integer
 }
 
 export interface MailboxV1MailboxQueueData {
@@ -147,13 +147,13 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "forwardingDestinationIPv6Address",
+					"name": "forwardingDestinationIpv6Address",
 					"help": "Forwarding Destination IPv6 Address",
 					"length": 16
 				},
 				{
 					"type": "integer",
-					"name": "uDPPortNumber",
+					"name": "udpPortNumber",
 					"help": "UDP Port Number",
 					"length": 2
 				}
@@ -237,13 +237,13 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "forwardingDestinationIPv6Address",
+					"name": "forwardingDestinationIpv6Address",
 					"help": "Forwarding Destination IPv6 Address",
 					"length": 16
 				},
 				{
 					"type": "integer",
-					"name": "uDPPortNumber",
+					"name": "udpPortNumber",
 					"help": "UDP Port Number",
 					"length": 2
 				}

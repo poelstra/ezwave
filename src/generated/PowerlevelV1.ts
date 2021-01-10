@@ -30,13 +30,13 @@ export interface PowerlevelV1PowerlevelSetData {
 }
 
 export interface PowerlevelV1PowerlevelTestNodeReportData {
-	testNodeID: TestNodeIDEnum; // 1 byte enum value
+	testNodeId: TestNodeIdEnum; // 1 byte enum value
 	statusOfOperation: StatusOfOperationEnum; // 1 byte enum value
 	testFrameCount: number; // 2 byte unsigned integer
 }
 
 export interface PowerlevelV1PowerlevelTestNodeSetData {
-	testNodeID: number; // 1 byte unsigned integer
+	testNodeId: number; // 1 byte unsigned integer
 	powerLevel: PowerLevelEnum; // 1 byte enum value
 	testFrameCount: number; // 2 byte unsigned integer
 }
@@ -54,7 +54,7 @@ export enum PowerLevelEnum {
 	Minus9dBm = 0x9,
 }
 
-export enum TestNodeIDEnum {
+export enum TestNodeIdEnum {
 	ZwTestNotANodeid = 0x0,
 }
 
@@ -276,7 +276,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"params": [
 				{
 					"type": "enum",
-					"name": "testNodeID",
+					"name": "testNodeId",
 					"help": "Test NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER",
@@ -336,7 +336,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "testNodeID",
+					"name": "testNodeId",
 					"help": "Test NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"

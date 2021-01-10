@@ -25,11 +25,11 @@ export interface SwitchColorV2SwitchColorSupportedReportData {
 }
 
 export interface SwitchColorV2SwitchColorGetData {
-	colorComponentID: number; // 1 byte unsigned integer
+	colorComponentId: number; // 1 byte unsigned integer
 }
 
 export interface SwitchColorV2SwitchColorReportData {
-	colorComponentID: number; // 1 byte unsigned integer
+	colorComponentId: number; // 1 byte unsigned integer
 	value: number; // 1 byte unsigned integer
 }
 
@@ -41,12 +41,12 @@ export interface SwitchColorV2SwitchColorSetData {
 export interface SwitchColorV2SwitchColorStartLevelChangeData {
 	upDown: boolean; // properties1[6]
 	ignoreStartState: boolean; // properties1[5]
-	colorComponentID: number; // 1 byte unsigned integer
+	colorComponentId: number; // 1 byte unsigned integer
 	startLevel: number; // 1 byte unsigned integer
 }
 
 export interface SwitchColorV2SwitchColorStopLevelChangeData {
-	colorComponentID: number; // 1 byte unsigned integer
+	colorComponentId: number; // 1 byte unsigned integer
 }
 
 export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
@@ -118,7 +118,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "colorComponentID",
+					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1
 				}
@@ -145,7 +145,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "colorComponentID",
+					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1
 				},
@@ -217,7 +217,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 					"params": [
 						{
 							"type": "integer",
-							"name": "colorComponentID",
+							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
@@ -292,7 +292,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "colorComponentID",
+					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1
 				},
@@ -325,7 +325,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "colorComponentID",
+					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1
 				}

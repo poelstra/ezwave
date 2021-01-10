@@ -21,18 +21,18 @@ export enum TransportServiceV2Commands {
 export interface TransportServiceV2CommandFirstSegmentData {
 	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
-	sessionID: number; // properties2[7..4]
+	sessionId: number; // properties2[7..4]
 	headerExtension?: Buffer; // variable length
 	payload: Buffer; // automatic length
 	frameCheckSequence: number; // 2 byte unsigned integer
 }
 
 export interface TransportServiceV2CommandSegmentCompleteData {
-	sessionID: number; // properties2[7..4]
+	sessionId: number; // properties2[7..4]
 }
 
 export interface TransportServiceV2CommandSegmentRequestData {
-	sessionID: number; // properties2[7..4]
+	sessionId: number; // properties2[7..4]
 	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
 }
@@ -44,7 +44,7 @@ export interface TransportServiceV2CommandSegmentWaitData {
 export interface TransportServiceV2CommandSubsequentSegmentData {
 	datagramSize1: number; // properties1[2..0]
 	datagramSize2: number; // 1 byte unsigned integer
-	sessionID: number; // properties2[7..4]
+	sessionId: number; // properties2[7..4]
 	datagramOffset1: number; // properties2[2..0]
 	datagramOffset2: number; // 1 byte unsigned integer
 	headerExtension?: Buffer; // variable length
@@ -102,7 +102,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"fieldType": "integer",
-							"name": "sessionID",
+							"name": "sessionId",
 							"mask": 240,
 							"shift": 4
 						},
@@ -218,7 +218,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"fieldType": "integer",
-							"name": "sessionID",
+							"name": "sessionId",
 							"mask": 240,
 							"shift": 4
 						},
@@ -277,7 +277,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"fieldType": "integer",
-							"name": "sessionID",
+							"name": "sessionId",
 							"mask": 240,
 							"shift": 4
 						},
@@ -397,7 +397,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 					"fields": [
 						{
 							"fieldType": "integer",
-							"name": "sessionID",
+							"name": "sessionId",
 							"mask": 240,
 							"shift": 4
 						},

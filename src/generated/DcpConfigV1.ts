@@ -33,7 +33,7 @@ export interface DcpConfigV1DcpListSetData {
 	hourLocalTime: number; // 1 byte unsigned integer
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
-	dCPRateID: number; // 1 byte unsigned integer
+	dcpRateId: number; // 1 byte unsigned integer
 	// TODO param vg1 type group
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
@@ -52,8 +52,8 @@ export interface DcpConfigV1DcpListSetData {
 }
 
 export interface DcpConfigV1DcpListSupportedReportData {
-	dCPListSize: number; // 1 byte unsigned integer
-	freeDCPListEntries: number; // 1 byte unsigned integer
+	dcpListSize: number; // 1 byte unsigned integer
+	freeDcpListEntries: number; // 1 byte unsigned integer
 }
 
 export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
@@ -172,7 +172,7 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "dCPRateID",
+					"name": "dcpRateId",
 					"help": "DCP Rate ID",
 					"length": 1
 				},
@@ -191,7 +191,7 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 						},
 						{
 							"fieldType": "integer",
-							"name": "numberOfDC",
+							"name": "numberOfDc",
 							"mask": 3,
 							"shift": 0,
 							"lengthOf": {
@@ -210,7 +210,7 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 					"length": {
 						"lengthType": "ref",
 						"from": {
-							"ref": "properties1.numberOfDC"
+							"ref": "properties1.numberOfDc"
 						}
 					},
 					"params": [
@@ -357,13 +357,13 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 			"params": [
 				{
 					"type": "integer",
-					"name": "dCPListSize",
+					"name": "dcpListSize",
 					"help": "DCP List Size",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "freeDCPListEntries",
+					"name": "freeDcpListEntries",
 					"help": "Free DCP List entries",
 					"length": 1
 				}

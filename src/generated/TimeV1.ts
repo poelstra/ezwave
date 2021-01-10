@@ -24,7 +24,7 @@ export interface TimeV1DateReportData {
 }
 
 export interface TimeV1TimeReportData {
-	rTCFailure: boolean; // properties1[7]
+	rtcFailure: boolean; // properties1[7]
 	hourLocalTime: number; // properties1[4..0]
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
@@ -137,7 +137,7 @@ export class TimeV1 extends CommandClassPacket<TimeV1Commands> {
 					"fields": [
 						{
 							"fieldType": "boolean",
-							"name": "rTCFailure",
+							"name": "rtcFailure",
 							"mask": 128,
 							"shift": 7
 						},

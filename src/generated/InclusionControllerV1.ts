@@ -16,16 +16,16 @@ export enum InclusionControllerV1Commands {
 }
 
 export interface InclusionControllerV1InitiateData {
-	nodeID: number; // 1 byte unsigned integer
-	stepID: StepIDEnum; // 1 byte enum value
+	nodeId: number; // 1 byte unsigned integer
+	stepId: StepIdEnum; // 1 byte enum value
 }
 
 export interface InclusionControllerV1CompleteData {
-	stepID: StepIDEnum; // 1 byte enum value
+	stepId: StepIdEnum; // 1 byte enum value
 	status: StatusEnum; // 1 byte enum value
 }
 
-export enum StepIDEnum {
+export enum StepIdEnum {
 	ProxyInclusion = 0x1,
 	S0Inclusion = 0x2,
 	ProxyInclusionReplace = 0x3,
@@ -60,14 +60,14 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
 				},
 				{
 					"type": "enum",
-					"name": "stepID",
+					"name": "stepId",
 					"help": "Step ID",
 					"length": 1,
 					"values": {
@@ -108,7 +108,7 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 			"params": [
 				{
 					"type": "enum",
-					"name": "stepID",
+					"name": "stepId",
 					"help": "Step ID",
 					"length": 1,
 					"values": {

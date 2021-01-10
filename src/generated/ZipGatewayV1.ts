@@ -36,7 +36,7 @@ export interface ZipGatewayV1GatewayModeReportData {
 
 export interface ZipGatewayV1GatewayPeerSetData {
 	peerProfile: number; // 1 byte unsigned integer
-	iPv6Address: Buffer; // 16 bytes
+	ipv6Address: Buffer; // 16 bytes
 	port: number; // 2 byte unsigned integer
 	peerName: Buffer; // variable length
 }
@@ -48,7 +48,7 @@ export interface ZipGatewayV1GatewayPeerGetData {
 export interface ZipGatewayV1GatewayPeerReportData {
 	peerProfile: number; // 1 byte unsigned integer
 	peerCount: number; // 1 byte unsigned integer
-	iPv6Address: Buffer; // 16 bytes
+	ipv6Address: Buffer; // 16 bytes
 	port: number; // 2 byte unsigned integer
 	peerName: Buffer; // variable length
 }
@@ -59,24 +59,24 @@ export interface ZipGatewayV1GatewayLockSetData {
 }
 
 export interface ZipGatewayV1UnsolicitedDestinationSetData {
-	unsolicitedIPv6Destination: Buffer; // 16 bytes
+	unsolicitedIpv6Destination: Buffer; // 16 bytes
 	unsolicitedDestinationPort: number; // 2 byte unsigned integer
 }
 
 export interface ZipGatewayV1UnsolicitedDestinationReportData {
-	unsolicitedIPv6Destination: Buffer; // 16 bytes
+	unsolicitedIpv6Destination: Buffer; // 16 bytes
 	unsolicitedDestinationPort: number; // 2 byte unsigned integer
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoSetData {
 	// TODO nonSecureCommandClass: Buffer; // automatic length
-	// TODO param securityScheme0MARK type bitmask or marker
+	// TODO param securityScheme0Mark type bitmask or marker
 	securityScheme0CommandClass: Buffer; // automatic length
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoReportData {
 	// TODO nonSecureCommandClass: Buffer; // automatic length
-	// TODO param securityScheme0MARK type bitmask or marker
+	// TODO param securityScheme0Mark type bitmask or marker
 	securityScheme0CommandClass: Buffer; // automatic length
 }
 
@@ -207,7 +207,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "iPv6Address",
+					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
@@ -317,7 +317,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 				},
 				{
 					"type": "blob",
-					"name": "iPv6Address",
+					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
@@ -436,7 +436,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "unsolicitedIPv6Destination",
+					"name": "unsolicitedIpv6Destination",
 					"help": "Unsolicited IPv6 Destination",
 					"length": 16
 				},
@@ -489,7 +489,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"params": [
 				{
 					"type": "blob",
-					"name": "unsolicitedIPv6Destination",
+					"name": "unsolicitedIpv6Destination",
 					"help": "Unsolicited IPv6 Destination",
 					"length": 16
 				},
@@ -532,7 +532,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "securityScheme0MARK",
+					"name": "securityScheme0Mark",
 					"help": "Security Scheme 0 MARK",
 					"length": 0
 				},
@@ -598,7 +598,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 				},
 				{
 					"type": "integer",
-					"name": "securityScheme0MARK",
+					"name": "securityScheme0Mark",
 					"help": "Security Scheme 0 MARK",
 					"length": 0
 				},

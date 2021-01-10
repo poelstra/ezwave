@@ -22,7 +22,7 @@ export enum NetworkManagementInstallationMaintenanceV2Commands {
 }
 
 export interface NetworkManagementInstallationMaintenanceV2PriorityRouteSetData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	repeater1: number; // 1 byte unsigned integer
 	repeater2: number; // 1 byte unsigned integer
 	repeater3: number; // 1 byte unsigned integer
@@ -31,11 +31,11 @@ export interface NetworkManagementInstallationMaintenanceV2PriorityRouteSetData 
 }
 
 export interface NetworkManagementInstallationMaintenanceV2PriorityRouteGetData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInstallationMaintenanceV2PriorityRouteReportData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	type: TypeEnum; // 1 byte enum value
 	repeater1: number; // 1 byte unsigned integer
 	repeater2: number; // 1 byte unsigned integer
@@ -45,18 +45,18 @@ export interface NetworkManagementInstallationMaintenanceV2PriorityRouteReportDa
 }
 
 export interface NetworkManagementInstallationMaintenanceV2StatisticsGetData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 }
 
 export interface NetworkManagementInstallationMaintenanceV2StatisticsReportData {
-	nodeID: number; // 1 byte unsigned integer
+	nodeId: number; // 1 byte unsigned integer
 	// TODO param statistics type group
 }
 
 export interface NetworkManagementInstallationMaintenanceV2RssiReportData {
-	channel1RSSI: number; // 1 byte unsigned integer
-	channel2RSSI: number; // 1 byte unsigned integer
-	channel3RSSI: number; // 1 byte unsigned integer
+	channel1Rssi: number; // 1 byte unsigned integer
+	channel2Rssi: number; // 1 byte unsigned integer
+	channel3Rssi: number; // 1 byte unsigned integer
 }
 
 export enum SpeedEnum {
@@ -94,7 +94,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -170,7 +170,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -198,7 +198,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -298,7 +298,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -327,7 +327,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "nodeID",
+					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
 					"valueType": "NODE_NUMBER"
@@ -460,19 +460,19 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"params": [
 				{
 					"type": "integer",
-					"name": "channel1RSSI",
+					"name": "channel1Rssi",
 					"help": "Channel 1 RSSI",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "channel2RSSI",
+					"name": "channel2Rssi",
 					"help": "Channel 2 RSSI",
 					"length": 1
 				},
 				{
 					"type": "integer",
-					"name": "channel3RSSI",
+					"name": "channel3Rssi",
 					"help": "Channel 3 RSSI",
 					"length": 1
 				}
