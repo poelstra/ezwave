@@ -25,40 +25,50 @@ interface CommandConstructor<T extends object | void>
 }
 
 function verifyRoundTrip<T extends object | void>(
+	name: string,
 	Command: CommandConstructor<T>,
 	fullPacket: Buffer,
 	data: T
 ): void {
-	// Decode
-	const packet = new Packet(fullPacket);
-	const decoded = packet.as(Command);
-	expect(decoded.data).to.deep.equal({ ...data });
+	it(`decodes ${name}`, () => {
+		const packet = new Packet(fullPacket);
+		const decoded = packet.as(Command);
+		expect(decoded.data).to.deep.equal({ ...data });
+	});
 
-	// Encode
-	const encoded = new Command(data);
-	expect(encoded.serialize()).to.deep.equal(fullPacket);
+	it(`encodes ${name}`, () => {
+		const encoded = new Command(data);
+		expect(encoded.serialize()).to.deep.equal(fullPacket);
+	});
 }
 
 describe("generate_commands", () => {
-	it("BasicV2.BasicSet", () => {
+	describe("BasicV2.BasicSet", () => {
 		// - byte field
-		verifyRoundTrip(BasicV2.BasicSet, Buffer.from([0x20, 0x01, 0x30]), {
-			value: 0x30,
-		});
+		verifyRoundTrip(
+			"example",
+			BasicV2.BasicSet,
+			Buffer.from([0x20, 0x01, 0x30]),
+			{
+				value: 0x30,
+			}
+		);
 	});
 
-	it("BasicV2.BasicReport", () => {
+	describe("BasicV2.BasicReport", () => {
 		// - multiple byte fields
 		verifyRoundTrip(
+			"example",
 			BasicV2.BasicReport,
 			Buffer.from([0x20, 0x03, 0x30, 0x1, 0x2]),
 			{ currentValue: 0x30, targetValue: 0x1, duration: 0x2 }
 		);
 	});
 
-	it("AlarmV2.AlarmGet", () => {
+	describe("AlarmV2.AlarmGet", () => {
 		// - integer and enum field
 		verifyRoundTrip(
+			"example",
 			AlarmV2.AlarmGet,
 			Buffer.from([0x71, 0x04, 0x01, 0x08]),
 			{
@@ -68,10 +78,11 @@ describe("generate_commands", () => {
 		);
 	});
 
-	it("VersionV3.VersionZwaveSoftwareReport", () => {
+	describe("VersionV3.VersionZwaveSoftwareReport", () => {
 		// - 2- and 3-byte integers
 		// prettier-ignore
 		verifyRoundTrip(
+			"example", 
 			VersionV3.VersionZwaveSoftwareReport,
 			Buffer.from([0x86, 0x18,
 				0x06, 0x33, 0x09,
@@ -98,9 +109,10 @@ describe("generate_commands", () => {
 		);
 	});
 
-	it("MeterPulseV1.MeterPulseReport", () => {
+	describe("MeterPulseV1.MeterPulseReport", () => {
 		// - 4-byte unsigned integer
 		verifyRoundTrip(
+			"example",
 			MeterPulseV1.MeterPulseReport,
 			Buffer.from([0x35, 0x05, 0xff, 0xfe, 0xfd, 0xfc]),
 			{
@@ -109,11 +121,12 @@ describe("generate_commands", () => {
 		);
 	});
 
-	it("RateTblConfigV1.RateTblSet", () => {
+	describe("RateTblConfigV1.RateTblSet", () => {
 		// - 4-byte integer
 		// - short variable-length text field
 		// prettier-ignore
 		verifyRoundTrip(
+			"example", 
 			RateTblConfigV1.RateTblSet,
 			Buffer.from([0x48, 0x01,
 				0x00, 0x05,
@@ -146,12 +159,13 @@ describe("generate_commands", () => {
 		);
 	});
 
-	it("SecurityV1.SecurityMessageEncapsulation", () => {
+	describe("SecurityV1.SecurityMessageEncapsulation", () => {
 		// - automatic length buffer followed by two fixed-length fields
 		// - sequence info has been merged into encryptedPayload
 		// - fields where 'Byte' suffix is removed
 		// prettier-ignore
 		verifyRoundTrip(
+			"example", 
 			SecurityV1.SecurityMessageEncapsulation,
 			Buffer.from([0x98, 0x81, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x22, 0x33, 0x33, 0x33, 0x44, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55]),
 			{
@@ -163,7 +177,35 @@ describe("generate_commands", () => {
 		);
 	});
 
-	it.skip("MeterV3.MeterReport", () => {
+	describe("ZipV4:CommandZipPacket", () => {
+		// - three optional fields, two of which are dictated by the same bitfield property
+		// - two optional fields dictated by one property, of which the first is an auto-generated one
+		// - dynamic field where length-byte itself is included in total size
+		// prettier-ignore
+		verifyRoundTrip(
+			"supports both blob fields being present",
+			ZipV4.CommandZipPacket,
+			Buffer.from([0x23, 0x02, 0x00, 0xc0, 0x12, 0x13, 0x14, 0x03, 0x01, 0x02, 0x0a, 0x0b]),
+			{
+				ackRequest: false, // properties1[7]
+				ackResponse: false, // properties1[6]
+				nackResponse: false, // properties1[5]
+				nackWaiting: false, // properties1[4]
+				nackQueueFull: false, // properties1[3]
+				nackOptionError: false, // properties1[2]
+				moreInformation: false, // properties2[5]
+				secureOrigin: false, // properties2[4]
+				seqNo: 0x12, // 1 byte unsigned integer
+				sourceEndPoint: 0x13, // properties3[6..0]
+				bitAddress: false, // properties4[7]
+				destinationEndPoint: 0x14, // properties4[6..0]
+				headerExtension: Buffer.from([0x01, 0x02]), // variable length
+				zWaveCommand: Buffer.from([0x0a, 0x0b]), // automatic length
+			}
+		);
+	});
+
+	describe.skip("MeterV3.MeterReport", () => {
 		// - 1 optional field, which depends on:
 		//   - a DWORD field (instead of a boolean bitfield element)
 		//   - the DWORD field is also used as a normal value (delta time), not just marker bit
@@ -172,79 +214,50 @@ describe("generate_commands", () => {
 		// - the Scale field is split across two different bitfields
 	});
 
-	it.skip("MeterV4:MeterReport", () => {
+	describe.skip("MeterV4:MeterReport", () => {
 		// - Scale 2 field was added since version 3, which must ONLY be present when the
 		//   Scale (1) field has the value 7.
 	});
 
-	describe("ZipV4:CommandZipPacket", () => {
-		// - three optional fields, two of which are dictated by the same bitfield property
-		// - two optional fields dictated by one property, of which the first is an auto-generated one
-		// - dynamic field where length-byte itself is included in total size
-		it("supports both blob fields being present", () => {
-			// prettier-ignore
-			verifyRoundTrip(
-				ZipV4.CommandZipPacket,
-				Buffer.from([0x23, 0x02, 0x00, 0xc0, 0x12, 0x13, 0x14, 0x03, 0x01, 0x02, 0x0a, 0x0b]),
-				{
-					ackRequest: false, // properties1[7]
-					ackResponse: false, // properties1[6]
-					nackResponse: false, // properties1[5]
-					nackWaiting: false, // properties1[4]
-					nackQueueFull: false, // properties1[3]
-					nackOptionError: false, // properties1[2]
-					moreInformation: false, // properties2[5]
-					secureOrigin: false, // properties2[4]
-					seqNo: 0x12, // 1 byte unsigned integer
-					sourceEndPoint: 0x13, // properties3[6..0]
-					bitAddress: false, // properties4[7]
-					destinationEndPoint: 0x14, // properties4[6..0]
-					headerExtension: Buffer.from([0x01, 0x02]), // variable length
-					zWaveCommand: Buffer.from([0x0a, 0x0b]), // automatic length
-				}
-			);
-		});
-	});
-
-	it.skip("Configuration.ConfigurationBulkReport", () => {
+	describe.skip("Configuration.ConfigurationBulkReport", () => {
 		// - length of parameter group
 		// - length of field inside parameter group determined by field outside of it
 	});
 
-	it.skip("Configuration.ConfigurationPropertiesReport", () => {
+	describe.skip("Configuration.ConfigurationPropertiesReport", () => {
 		// - length of multiple fields determined by a single param
 	});
 
-	it.skip("DoorLockV4.DoorLockCapabilitiesReport", () => {
+	describe.skip("DoorLockV4.DoorLockCapabilitiesReport", () => {
 		// - length of bitmask
 		// - two variable-length fields
 	});
 
-	it.skip("EntryControlV1.EntryControlNotification", () => {
+	describe.skip("EntryControlV1.EntryControlNotification", () => {
 		// - optional, variable length field
 	});
 
-	it.skip("MeterTblMonitorV3.MeterTblStatusReportData", () => {
+	describe.skip("MeterTblMonitorV3.MeterTblStatusReportData", () => {
 		// - Reports To Follow -> check whether this is actually specced correctly in XML
 	});
 
-	it.skip("Security2V1.Security2MessageEncapsulationData", () => {
+	describe.skip("Security2V1.Security2MessageEncapsulationData", () => {
 		// - Autogenerated PresenceOf based on vg elements, and moreToFollow flag
 	});
 
-	it.skip("TransportServiceV2.CommandFirstSegmentData", () => {
+	describe.skip("TransportServiceV2.CommandFirstSegmentData", () => {
 		// - presenceOf based on two different fields, one of them used for the next
 	});
 
-	it.skip("ZWaveV1.NodeInfo", () => {
+	describe.skip("ZWaveV1.NodeInfo", () => {
 		// - Not a real command, but has explicit Controller bitfield, does need to check presence of BasicDeviceClass field
 	});
 
-	it.skip("Schedule.ScheduleStateReport", () => {
+	describe.skip("Schedule.ScheduleStateReport", () => {
 		// - Group with auto-length, and remaining field
 	});
 
-	it.skip("MultiInstanceAssociation.MultiInstanceAssociationSet", () => {
+	describe.skip("MultiInstanceAssociation.MultiInstanceAssociationSet", () => {
 		// - Group with auto-length followed by marker and another group with ParamRef length
 	});
 });
