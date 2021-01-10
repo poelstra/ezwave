@@ -55,7 +55,7 @@ export interface Security2V1KexReportData {
 	echo: boolean; // properties1[0]
 	supportedKexSchemes: number; // 1 byte unsigned integer
 	supportedEcdhProfiles: number; // 1 byte unsigned integer
-	// TODO param requestedKeys type bitmask or marker
+	// TODO param requestedKeys type bitmask
 }
 
 export interface Security2V1KexSetData {
@@ -63,7 +63,7 @@ export interface Security2V1KexSetData {
 	echo: boolean; // properties1[0]
 	selectedKexScheme: number; // 1 byte unsigned integer
 	selectedEcdhProfile: number; // 1 byte unsigned integer
-	// TODO param grantedKeys type bitmask or marker
+	// TODO param grantedKeys type bitmask
 }
 
 export interface Security2V1KexFailData {
@@ -90,7 +90,7 @@ export interface Security2V1Security2TransferEndData {
 }
 
 export interface Security2V1Security2CommandsSupportedReportData {
-	// TODO param commandClass type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export enum KexFailTypeEnum {
@@ -793,7 +793,6 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly Security2CommandsSupportedReport = class Security2CommandsSupportedReport extends CommandPacket<Security2V1Security2CommandsSupportedReportData> {
 		public static readonly CommandClass = Security2V1;
 		public static readonly command = 0x0e;
@@ -804,13 +803,13 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 			"status": "active",
 			"params": [
 				{
-					"type": "enumarray",
-					"name": "commandClass",
-					"help": "Command Class",
+					"type": "blob",
+					"name": "commandClasses",
+					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

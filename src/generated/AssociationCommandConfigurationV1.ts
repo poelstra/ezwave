@@ -172,7 +172,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"length": {
 						"lengthType": "auto"
 					},
-					"blobType": "CMD_DATA"
+					"blobType": "CommandData"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -235,7 +235,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"length": {
 						"lengthType": "auto"
 					},
-					"blobType": "CMD_DATA"
+					"blobType": "CommandData"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

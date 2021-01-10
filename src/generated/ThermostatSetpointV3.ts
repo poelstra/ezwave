@@ -39,7 +39,7 @@ export interface ThermostatSetpointV3ThermostatSetpointSetData {
 }
 
 export interface ThermostatSetpointV3ThermostatSetpointSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface ThermostatSetpointV3ThermostatSetpointCapabilitiesGetData {

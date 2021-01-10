@@ -41,7 +41,7 @@ export interface AlarmV2AlarmSetData {
 export interface AlarmV2AlarmTypeSupportedReportData {
 	v1Alarm: boolean; // properties1[7]
 	numberOfBitMasks: number; // properties1[4..0]
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum ZwaveAlarmTypeEnum {

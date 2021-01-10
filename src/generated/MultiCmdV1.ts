@@ -102,7 +102,7 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 								},
 								"offset": 2
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CommandData"
 						}
 					]
 				}

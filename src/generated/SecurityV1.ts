@@ -30,9 +30,8 @@ export interface SecurityV1NetworkKeySetData {
 
 export interface SecurityV1SecurityCommandsSupportedReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param commandClassSupport type enumarray
-	// TODO param commandClassMark type bitmask or marker
-	// TODO param commandClassControl type enumarray
+	supportedCommandClasses: number[]; // automatic length
+	controlledCommandClasses: number[]; // automatic length
 }
 
 export interface SecurityV1SecurityMessageEncapsulationData {
@@ -145,7 +144,6 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SecurityCommandsSupportedReport = class SecurityCommandsSupportedReport extends CommandPacket<SecurityV1SecurityCommandsSupportedReportData> {
 		public static readonly CommandClass = SecurityV1;
 		public static readonly command = 0x03;
@@ -162,28 +160,25 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"length": 1
 				},
 				{
-					"type": "enumarray",
-					"name": "commandClassSupport",
-					"help": "Command Class support",
+					"type": "blob",
+					"name": "supportedCommandClasses",
+					"help": "Supported Command Classes",
+					"length": {
+						"lengthType": "auto",
+						"markers": [
+							239
+						]
+					},
+					"blobType": "CommandClasses"
+				},
+				{
+					"type": "blob",
+					"name": "controlledCommandClasses",
+					"help": "Controlled Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
-				},
-				{
-					"type": "integer",
-					"name": "commandClassMark",
-					"help": "COMMAND_CLASS_MARK",
-					"length": 0
-				},
-				{
-					"type": "enumarray",
-					"name": "commandClassControl",
-					"help": "Command Class control",
-					"length": {
-						"lengthType": "auto"
-					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

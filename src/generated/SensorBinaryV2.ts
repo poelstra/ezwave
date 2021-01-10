@@ -27,7 +27,7 @@ export interface SensorBinaryV2SensorBinaryReportData {
 }
 
 export interface SensorBinaryV2SensorBinarySupportedSensorReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum SensorValueEnum {

@@ -34,7 +34,7 @@ export interface NetworkManagementBasicV1LearnModeSetStatusData {
 export interface NetworkManagementBasicV1NodeInformationSendData {
 	seqNo: number; // 1 byte unsigned integer
 	destinationNodeId: number; // 1 byte unsigned integer
-	// TODO param txOptions type bitmask or marker
+	// TODO param txOptions type bitmask
 }
 
 export interface NetworkManagementBasicV1NetworkUpdateRequestData {

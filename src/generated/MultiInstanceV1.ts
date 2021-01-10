@@ -80,7 +80,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 					"length": {
 						"lengthType": "auto"
 					},
-					"blobType": "CMD_DATA"
+					"blobType": "CommandData"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

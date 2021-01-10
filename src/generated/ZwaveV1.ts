@@ -66,7 +66,7 @@ export interface ZwaveV1NodeInfoData {
 	basicDeviceClass?: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param commandClasses type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export enum MaxBaudRateEnum {
@@ -383,7 +383,6 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInfo = class NodeInfo extends CommandPacket<ZwaveV1NodeInfoData> {
 		public static readonly CommandClass = ZwaveV1;
 		public static readonly command = 0x01;
@@ -595,13 +594,13 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"valueType": "SPEC_DEV_REF"
 				},
 				{
-					"type": "enumarray",
+					"type": "blob",
 					"name": "commandClasses",
 					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

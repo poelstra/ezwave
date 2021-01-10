@@ -29,19 +29,19 @@ export interface AssociationV1AssociationGroupingsReportData {
 
 export interface AssociationV1AssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeId type enumarray
+	nodeIds: number[]; // automatic length
 }
 
 export interface AssociationV1AssociationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param nodeId type enumarray
+	nodeIds: number[]; // automatic length
 }
 
 export interface AssociationV1AssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeId type enumarray
+	nodeIds: number[]; // automatic length
 }
 
 export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
@@ -129,7 +129,6 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AssociationRemove = class AssociationRemove extends CommandPacket<AssociationV1AssociationRemoveData> {
 		public static readonly CommandClass = AssociationV1;
 		public static readonly command = 0x04;
@@ -146,13 +145,13 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"length": 1
 				},
 				{
-					"type": "enumarray",
-					"name": "nodeId",
-					"help": "Node ID",
+					"type": "blob",
+					"name": "nodeIds",
+					"help": "Node IDs",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "NODE_NUMBER"
+					"blobType": "NodeIds"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -166,7 +165,6 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AssociationReport = class AssociationReport extends CommandPacket<AssociationV1AssociationReportData> {
 		public static readonly CommandClass = AssociationV1;
 		public static readonly command = 0x03;
@@ -195,13 +193,13 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"length": 1
 				},
 				{
-					"type": "enumarray",
-					"name": "nodeId",
-					"help": "NodeID",
+					"type": "blob",
+					"name": "nodeIds",
+					"help": "NodeIDs",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "NODE_NUMBER"
+					"blobType": "NodeIds"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -215,7 +213,6 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly AssociationSet = class AssociationSet extends CommandPacket<AssociationV1AssociationSetData> {
 		public static readonly CommandClass = AssociationV1;
 		public static readonly command = 0x01;
@@ -232,13 +229,13 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"length": 1
 				},
 				{
-					"type": "enumarray",
-					"name": "nodeId",
-					"help": "Node ID",
+					"type": "blob",
+					"name": "nodeIds",
+					"help": "Node IDs",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "NODE_NUMBER"
+					"blobType": "NodeIds"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

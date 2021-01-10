@@ -24,7 +24,7 @@ export interface CentralSceneV3CentralSceneSupportedReportData {
 	numberOfBitMaskBytes: number; // properties1[2..1]
 	identical: boolean; // properties1[0]
 	vg1: Array<{ // variable length
-		// TODO param supportedKeyAttributesForScene type bitmask or marker
+		// TODO param supportedKeyAttributesForScene type bitmask
 	}>;
 }
 

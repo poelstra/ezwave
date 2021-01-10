@@ -24,11 +24,11 @@ export interface ThermostatOperatingStateV2ThermostatOperatingStateReportData {
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingLoggingSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingGetData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData {

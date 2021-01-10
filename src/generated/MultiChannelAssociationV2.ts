@@ -29,8 +29,7 @@ export interface MultiChannelAssociationV2MultiChannelAssociationGroupingsReport
 
 export interface MultiChannelAssociationV2MultiChannelAssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeId type enumarray
-	// TODO param marker type bitmask or marker
+	nodeIds: number[]; // automatic length
 	vg: Array<{ // automatic length
 		multiChannelNodeId: number; // 1 byte unsigned integer
 		bitAddress: boolean; // properties1[7]
@@ -42,8 +41,7 @@ export interface MultiChannelAssociationV2MultiChannelAssociationReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	maxNodesSupported: number; // 1 byte unsigned integer
 	reportsToFollow: number; // 1 byte unsigned integer
-	// TODO param nodeId type enumarray
-	// TODO param marker type bitmask or marker
+	nodeIds: number[]; // automatic length
 	vg: Array<{ // automatic length
 		multiChannelNodeId: number; // 1 byte unsigned integer
 		bitAddress: boolean; // properties1[7]
@@ -53,8 +51,7 @@ export interface MultiChannelAssociationV2MultiChannelAssociationReportData {
 
 export interface MultiChannelAssociationV2MultiChannelAssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
-	// TODO param nodeId type enumarray
-	// TODO param marker type bitmask or marker
+	nodeIds: number[]; // automatic length
 	vg: Array<{ // automatic length
 		multiChannelNodeId: number; // 1 byte unsigned integer
 		bitAddress: boolean; // properties1[7]
@@ -147,7 +144,6 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAssociationRemove = class MultiChannelAssociationRemove extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationRemoveData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x04;
@@ -164,19 +160,16 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"length": 1
 				},
 				{
-					"type": "enumarray",
-					"name": "nodeId",
-					"help": "Node ID",
+					"type": "blob",
+					"name": "nodeIds",
+					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "auto",
+						"markers": [
+							0
+						]
 					},
-					"valueType": "NODE_NUMBER"
-				},
-				{
-					"type": "integer",
-					"name": "marker",
-					"help": "Marker",
-					"length": 0
+					"blobType": "NodeIds"
 				},
 				{
 					"type": "group",
@@ -227,7 +220,6 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAssociationReport = class MultiChannelAssociationReport extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationReportData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x03;
@@ -256,19 +248,16 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"length": 1
 				},
 				{
-					"type": "enumarray",
-					"name": "nodeId",
-					"help": "Node ID",
+					"type": "blob",
+					"name": "nodeIds",
+					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "auto",
+						"markers": [
+							0
+						]
 					},
-					"valueType": "NODE_NUMBER"
-				},
-				{
-					"type": "integer",
-					"name": "marker",
-					"help": "Marker",
-					"length": 0
+					"blobType": "NodeIds"
 				},
 				{
 					"type": "group",
@@ -319,7 +308,6 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAssociationSet = class MultiChannelAssociationSet extends CommandPacket<MultiChannelAssociationV2MultiChannelAssociationSetData> {
 		public static readonly CommandClass = MultiChannelAssociationV2;
 		public static readonly command = 0x01;
@@ -336,19 +324,16 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"length": 1
 				},
 				{
-					"type": "enumarray",
-					"name": "nodeId",
-					"help": "Node ID",
+					"type": "blob",
+					"name": "nodeIds",
+					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "auto",
+						"markers": [
+							0
+						]
 					},
-					"valueType": "NODE_NUMBER"
-				},
-				{
-					"type": "integer",
-					"name": "marker",
-					"help": "Marker",
-					"length": 0
+					"blobType": "NodeIds"
 				},
 				{
 					"type": "group",

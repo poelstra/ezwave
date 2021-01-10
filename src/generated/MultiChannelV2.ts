@@ -32,14 +32,14 @@ export interface MultiChannelV2MultiChannelCapabilityReportData {
 	endPoint: number; // properties1[6..0]
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param commandClass type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export interface MultiChannelV2MultiChannelCmdEncapData {
 	sourceEndPoint: number; // properties1[6..0]
 	bitAddress: boolean; // properties2[7]
 	destinationEndPoint: number; // properties2[6..0]
-	command: Buffer; // automatic length
+	command: Packet; // automatic length
 }
 
 export interface MultiChannelV2MultiChannelEndPointFindData {
@@ -64,7 +64,7 @@ export interface MultiChannelV2MultiChannelEndPointReportData {
 
 export interface MultiChannelV2MultiInstanceCmdEncapData {
 	instance: number; // properties1[6..0]
-	command: Buffer; // automatic length
+	command: Packet; // automatic length
 }
 
 export interface MultiChannelV2MultiInstanceGetData {
@@ -130,7 +130,6 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelCapabilityReport = class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV2MultiChannelCapabilityReportData> {
 		public static readonly CommandClass = MultiChannelV2;
 		public static readonly command = 0x0a;
@@ -175,13 +174,13 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"valueType": "SPEC_DEV_REF"
 				},
 				{
-					"type": "enumarray",
-					"name": "commandClass",
-					"help": "Command Class",
+					"type": "blob",
+					"name": "commandClasses",
+					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -252,7 +251,7 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": {
 						"lengthType": "auto"
 					},
-					"blobType": "CMD_ENCAP"
+					"blobType": "CommandEncapsulation"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -499,7 +498,7 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 					"length": {
 						"lengthType": "auto"
 					},
-					"blobType": "CMD_ENCAP"
+					"blobType": "CommandEncapsulation"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

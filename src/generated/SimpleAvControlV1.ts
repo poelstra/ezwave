@@ -37,7 +37,7 @@ export interface SimpleAvControlV1SimpleAvControlSupportedGetData {
 
 export interface SimpleAvControlV1SimpleAvControlSupportedReportData {
 	reportNo: number; // 1 byte unsigned integer
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Commands> {

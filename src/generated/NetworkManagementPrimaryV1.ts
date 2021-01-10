@@ -18,7 +18,7 @@ export enum NetworkManagementPrimaryV1Commands {
 export interface NetworkManagementPrimaryV1ControllerChangeData {
 	seqNo: number; // 1 byte unsigned integer
 	mode: number; // 1 byte unsigned integer
-	// TODO param txOptions type bitmask or marker
+	// TODO param txOptions type bitmask
 }
 
 export interface NetworkManagementPrimaryV1ControllerChangeStatusData {
@@ -33,7 +33,7 @@ export interface NetworkManagementPrimaryV1ControllerChangeStatusData {
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param commandClass type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManagementPrimaryV1Commands> {
@@ -104,7 +104,6 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ControllerChangeStatus = class ControllerChangeStatus extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeStatusData> {
 		public static readonly CommandClass = NetworkManagementPrimaryV1;
 		public static readonly command = 0x02;
@@ -222,13 +221,13 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					"valueType": "SPEC_DEV_REF"
 				},
 				{
-					"type": "enumarray",
-					"name": "commandClass",
-					"help": "Command Class",
+					"type": "blob",
+					"name": "commandClasses",
+					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

@@ -30,7 +30,7 @@ export interface HrvStatusV1HrvStatusReportData {
 }
 
 export interface HrvStatusV1HrvStatusSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum StatusParameterEnum {

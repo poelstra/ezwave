@@ -41,7 +41,7 @@ export interface HumidityControlSetpointV2HumidityControlSetpointReportData {
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface HumidityControlSetpointV2HumidityControlSetpointScaleSupportedGetData {

@@ -145,8 +145,7 @@ export type LocalParameter<Mode extends RefMode = RefMode.Direct> =
 	| BitfieldParameter<Mode>
 	| EnumUnionParameter<Mode>
 	| TextParameter<Mode>
-	| BlobParameter<Mode>
-	| EnumArrayParameter<Mode>;
+	| BlobParameter<Mode>;
 
 /**
  * Nested set of parameters.
@@ -376,17 +375,6 @@ export interface BlobParameter<Mode extends RefMode = RefMode.Direct>
 }
 
 /**
- * Array of 'enum values', e.g. a list of node numbers, list of command classes, etc.
- *
- * Equivalent to VARIANTs with an enum-like encaptype (e.g. CMD_CLASS_REF).
- */
-export interface EnumArrayParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
-	type: ParameterType.EnumArray;
-	valueType: ValueType;
-}
-
-/**
  * Determine length of parameter (in bytes or number of elements).
  * Fixed length (number), or dynamically determined by packet length
  * or value of another parameter.
@@ -429,6 +417,13 @@ export interface ParamRefLengthInfo<Mode extends RefMode = RefMode.Direct> {
  */
 export interface AutomaticLengthInfo {
 	lengthType: LengthType.Automatic;
+
+	/**
+	 * If defined, contains a number of byte values that are used
+	 * to mark the end of the current parameter.
+	 * They are not part of the decoded value.
+	 */
+	markers?: number[];
 }
 
 /**
@@ -558,7 +553,6 @@ export enum ParameterType {
 	EnumUnion = "enumunion",
 	Text = "text",
 	Blob = "blob",
-	EnumArray = "enumarray",
 }
 
 export enum LengthType {
@@ -623,14 +617,19 @@ export enum ValueType {
  * BlobParameters can encode other commands.
  */
 export enum BlobType {
+	NodeIds = "NodeIds",
+	CommandClasses = "CommandClasses",
+
 	/**
 	 * Payload-portion of a command, without command class and command.
 	 */
-	CmdData = "CMD_DATA",
+	// TODO get rid of this, merge into the command/commandclass that precede it
+	CommandData = "CommandData",
+
 	/**
 	 * Full command, including class, command and payload.
 	 */
-	CmdEncapsulation = "CMD_ENCAP",
+	CommandEncapsulation = "CommandEncapsulation",
 }
 
 /**

@@ -48,7 +48,7 @@ export interface IrrigationV1IrrigationSystemStatusReportData {
 	pressureScale: number; // properties2[4..3]
 	pressureValue: Buffer; // variable length
 	shutoffDuration: number; // 1 byte unsigned integer
-	// TODO param systemErrorStatus type bitmask or marker
+	// TODO param systemErrorStatus type bitmask
 	masterValve: boolean; // properties3[0]
 	valveId: number; // 1 byte unsigned integer
 }
@@ -61,7 +61,7 @@ export interface IrrigationV1IrrigationSystemConfigSetData {
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
 	lowPressureThresholdValue: Buffer; // variable length
-	// TODO param sensorPolarity type bitmask or marker
+	// TODO param sensorPolarity type bitmask
 }
 
 export interface IrrigationV1IrrigationSystemConfigReportData {
@@ -72,7 +72,7 @@ export interface IrrigationV1IrrigationSystemConfigReportData {
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
 	lowPressureThresholdValue: Buffer; // variable length
-	// TODO param sensorPolarity type bitmask or marker
+	// TODO param sensorPolarity type bitmask
 }
 
 export interface IrrigationV1IrrigationValveInfoGetData {
@@ -85,7 +85,7 @@ export interface IrrigationV1IrrigationValveInfoReportData {
 	master: boolean; // properties1[0]
 	valveId: number; // 1 byte unsigned integer
 	nominalCurrent: number; // 1 byte unsigned integer
-	// TODO param valveErrorStatus type bitmask or marker
+	// TODO param valveErrorStatus type bitmask
 }
 
 export interface IrrigationV1IrrigationValveConfigSetData {
@@ -102,7 +102,7 @@ export interface IrrigationV1IrrigationValveConfigSetData {
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
 	flowLowThresholdValue: Buffer; // variable length
-	// TODO param sensorUsage type bitmask or marker
+	// TODO param sensorUsage type bitmask
 }
 
 export interface IrrigationV1IrrigationValveConfigGetData {
@@ -124,7 +124,7 @@ export interface IrrigationV1IrrigationValveConfigReportData {
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
 	flowLowThresholdValue: Buffer; // variable length
-	// TODO param sensorUsage type bitmask or marker
+	// TODO param sensorUsage type bitmask
 }
 
 export interface IrrigationV1IrrigationValveRunData {

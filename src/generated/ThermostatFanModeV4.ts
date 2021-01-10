@@ -29,7 +29,7 @@ export interface ThermostatFanModeV4ThermostatFanModeSetData {
 }
 
 export interface ThermostatFanModeV4ThermostatFanModeSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum FanModeEnum {

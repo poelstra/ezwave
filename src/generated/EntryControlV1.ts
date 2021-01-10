@@ -30,14 +30,14 @@ export interface EntryControlV1EntryControlNotificationData {
 
 export interface EntryControlV1EntryControlKeySupportedReportData {
 	keySupportedBitMaskLength: number; // 1 byte unsigned integer
-	// TODO param keySupportedBitMask type bitmask or marker
+	// TODO param keySupportedBitMask type bitmask
 }
 
 export interface EntryControlV1EntryControlEventSupportedReportData {
 	dataTypeSupportedBitMaskLength: number; // properties1[1..0]
-	// TODO param dataTypeSupportedBitMask type bitmask or marker
+	// TODO param dataTypeSupportedBitMask type bitmask
 	eventSupportedBitMaskLength: number; // properties2[4..0]
-	// TODO param eventTypeSupportedBitMask type bitmask or marker
+	// TODO param eventTypeSupportedBitMask type bitmask
 	keyCachedSizeSupportedMinimum: number; // 1 byte unsigned integer
 	keyCachedSizeSupportedMaximum: number; // 1 byte unsigned integer
 	keyCachedTimeoutSupportedMinimum: number; // 1 byte unsigned integer

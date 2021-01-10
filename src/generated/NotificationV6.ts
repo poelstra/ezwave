@@ -45,7 +45,7 @@ export interface NotificationV6NotificationSetData {
 export interface NotificationV6NotificationSupportedReportData {
 	v1Alarm: boolean; // properties1[7]
 	numberOfBitMasks: number; // properties1[4..0]
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface NotificationV6EventSupportedGetData {
@@ -55,7 +55,7 @@ export interface NotificationV6EventSupportedGetData {
 export interface NotificationV6EventSupportedReportData {
 	notificationType: NotificationTypeEnum; // 1 byte enum value
 	numberOfBitMasks: number; // properties1[4..0]
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum NotificationTypeEnum {

@@ -27,7 +27,7 @@ export interface HumidityControlModeV2HumidityControlModeReportData {
 }
 
 export interface HumidityControlModeV2HumidityControlModeSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum ModeEnum {

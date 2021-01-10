@@ -42,7 +42,7 @@ export interface HrvControlV1HrvControlModeSetData {
 
 export interface HrvControlV1HrvControlModeSupportedReportData {
 	manualControlSupported: ManualControlSupportedEnum; // properties1[3..0]
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface HrvControlV1HrvControlVentilationRateReportData {

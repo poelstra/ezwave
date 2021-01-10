@@ -5,10 +5,12 @@ import {
 	CodecUnexpectedEndOfPacketError,
 	Context,
 } from "./codec";
+import { Packet } from "./packet";
 import {
 	BitfieldElementType,
 	BitfieldParameter,
 	BlobParameter,
+	BlobType,
 	CommandDefinition,
 	EnumParameter,
 	IntegerParameter,
@@ -50,6 +52,10 @@ export function decodeCommandAndPayload<T extends object | void>(
 	return context.data as T;
 }
 
+function findMarkers(markers: number[], slice: Buffer): number {
+	return slice.indexOf(Buffer.from(markers));
+}
+
 function decodeParam(
 	packet: Buffer,
 	pos: number,
@@ -67,11 +73,32 @@ function decodeParam(
 
 	// Determine length of buffer and create slice
 	let length: number;
+	let skipMarkers = 0;
 	if (typeof param.length === "number") {
 		length = param.length;
 	} else if (param.length.lengthType === LengthType.Automatic) {
-		const endOffset = getRemainingParameterLengths(param, context, params);
-		length = packet.length - pos - endOffset;
+		if (param.length.markers) {
+			const markerIndex = findMarkers(
+				param.length.markers,
+				packet.slice(pos)
+			);
+			if (markerIndex < 0) {
+				throw new CodecUnexpectedEndOfPacketError(
+					`end-of-parameter marker not found while decoding parameter ${getReferencePath(
+						param
+					)}`
+				);
+			}
+			skipMarkers = param.length.markers.length;
+			length = markerIndex;
+		} else {
+			const endOffset = getRemainingParameterLengths(
+				param,
+				context,
+				params
+			);
+			length = packet.length - pos - endOffset;
+		}
 	} else if (
 		param.type === ParameterType.ParameterGroup ||
 		param.length.lengthType === LengthType.MoreToFollow
@@ -103,30 +130,39 @@ function decodeParam(
 		throw new CodecUnexpectedEndOfPacketError();
 	}
 
+	let decodedBytes: number;
 	switch (param.type) {
 		case ParameterType.Integer:
-			return decodeInteger(param, slice, context);
+			decodedBytes = decodeInteger(param, slice, context);
+			break;
 
 		case ParameterType.Enum:
-			return decodeEnum(param, slice, context);
+			decodedBytes = decodeEnum(param, slice, context);
+			break;
 
 		case ParameterType.ParameterGroup:
-			return decodeGroup(param, slice, context);
+			decodedBytes = decodeGroup(param, slice, context);
+			break;
 
 		case ParameterType.Bitfield:
-			return decodeBitfield(param, slice, context);
+			decodedBytes = decodeBitfield(param, slice, context);
+			break;
 
 		case ParameterType.Blob:
-			return decodeBlob(param, slice, context);
+			decodedBytes = decodeBlob(param, slice, context);
+			break;
 
 		case ParameterType.Text:
-			return decodeText(param, slice, context);
+			decodedBytes = decodeText(param, slice, context);
+			break;
 
 		default:
 			throw new Error(
 				`missing implementation for parameter type ${param.type}`
 			);
 	}
+
+	return decodedBytes + skipMarkers;
 }
 
 /**
@@ -338,7 +374,20 @@ function decodeBlob(
 	slice: Buffer,
 	context: Context
 ): number {
-	context.setValue(param, slice);
+	switch (param.blobType) {
+		case BlobType.NodeIds:
+		case BlobType.CommandClasses:
+			// Convert buffer to array of bytes
+			context.setValue(param, [...slice]);
+			break;
+
+		case BlobType.CommandEncapsulation:
+			context.setValue(param, new Packet(slice));
+			break;
+
+		default:
+			context.setValue(param, slice);
+	}
 	return slice.length;
 }
 

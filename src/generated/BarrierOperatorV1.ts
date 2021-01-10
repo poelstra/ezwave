@@ -30,7 +30,7 @@ export interface BarrierOperatorV1BarrierOperatorReportData {
 }
 
 export interface BarrierOperatorV1BarrierOperatorSignalSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface BarrierOperatorV1BarrierOperatorSignalSetData {

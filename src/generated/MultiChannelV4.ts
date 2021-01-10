@@ -34,14 +34,14 @@ export interface MultiChannelV4MultiChannelCapabilityReportData {
 	endPoint: number; // properties1[6..0]
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param commandClass type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export interface MultiChannelV4MultiChannelCmdEncapData {
 	sourceEndPoint: number; // properties1[6..0]
 	bitAddress: boolean; // properties2[7]
 	destinationEndPoint: number; // properties2[6..0]
-	command: Buffer; // automatic length
+	command: Packet; // automatic length
 }
 
 export interface MultiChannelV4MultiChannelEndPointFindData {
@@ -67,7 +67,7 @@ export interface MultiChannelV4MultiChannelEndPointReportData {
 
 export interface MultiChannelV4MultiInstanceCmdEncapData {
 	instance: number; // properties1[6..0]
-	command: Buffer; // automatic length
+	command: Packet; // automatic length
 }
 
 export interface MultiChannelV4MultiInstanceGetData {
@@ -86,7 +86,7 @@ export interface MultiChannelV4MultiChannelAggregatedMembersGetData {
 export interface MultiChannelV4MultiChannelAggregatedMembersReportData {
 	aggregatedEndPoint: number; // properties1[6..0]
 	numberOfBitMasks: number; // 1 byte unsigned integer
-	// TODO param aggregatedMembersBitMask type bitmask or marker
+	// TODO param aggregatedMembersBitMask type bitmask
 }
 
 export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
@@ -142,7 +142,6 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelCapabilityReport = class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV4MultiChannelCapabilityReportData> {
 		public static readonly CommandClass = MultiChannelV4;
 		public static readonly command = 0x0a;
@@ -187,13 +186,13 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					"valueType": "SPEC_DEV_REF"
 				},
 				{
-					"type": "enumarray",
-					"name": "commandClass",
-					"help": "Command Class",
+					"type": "blob",
+					"name": "commandClasses",
+					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -264,7 +263,7 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					"length": {
 						"lengthType": "auto"
 					},
-					"blobType": "CMD_ENCAP"
+					"blobType": "CommandEncapsulation"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -532,7 +531,7 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					"length": {
 						"lengthType": "auto"
 					},
-					"blobType": "CMD_ENCAP"
+					"blobType": "CommandEncapsulation"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

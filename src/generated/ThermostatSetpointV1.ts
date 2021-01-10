@@ -37,7 +37,7 @@ export interface ThermostatSetpointV1ThermostatSetpointSetData {
 }
 
 export interface ThermostatSetpointV1ThermostatSetpointSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum SetpointTypeEnum {

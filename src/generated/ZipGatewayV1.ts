@@ -70,13 +70,11 @@ export interface ZipGatewayV1UnsolicitedDestinationReportData {
 
 export interface ZipGatewayV1CommandApplicationNodeInfoSetData {
 	nonSecureCommandClass: Buffer; // automatic length
-	// TODO param securityScheme0Mark type bitmask or marker
 	securityScheme0CommandClass: Buffer; // automatic length
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoReportData {
 	nonSecureCommandClass: Buffer; // automatic length
-	// TODO param securityScheme0Mark type bitmask or marker
 	securityScheme0CommandClass: Buffer; // automatic length
 }
 
@@ -511,7 +509,6 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly CommandApplicationNodeInfoSet = class CommandApplicationNodeInfoSet extends CommandPacket<ZipGatewayV1CommandApplicationNodeInfoSetData> {
 		public static readonly CommandClass = ZipGatewayV1;
 		public static readonly command = 0x0b;
@@ -526,14 +523,12 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "auto",
+						"markers": [
+							241,
+							0
+						]
 					}
-				},
-				{
-					"type": "integer",
-					"name": "securityScheme0Mark",
-					"help": "Security Scheme 0 MARK",
-					"length": 0
 				},
 				{
 					"type": "blob",
@@ -575,7 +570,6 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly CommandApplicationNodeInfoReport = class CommandApplicationNodeInfoReport extends CommandPacket<ZipGatewayV1CommandApplicationNodeInfoReportData> {
 		public static readonly CommandClass = ZipGatewayV1;
 		public static readonly command = 0x0d;
@@ -590,14 +584,12 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "auto",
+						"markers": [
+							241,
+							0
+						]
 					}
-				},
-				{
-					"type": "integer",
-					"name": "securityScheme0Mark",
-					"help": "Security Scheme 0 MARK",
-					"length": 0
 				},
 				{
 					"type": "blob",

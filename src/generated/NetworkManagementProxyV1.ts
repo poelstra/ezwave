@@ -34,7 +34,7 @@ export interface NetworkManagementProxyV1NodeInfoCachedReportData {
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param commandClass type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export interface NetworkManagementProxyV1NodeListGetData {
@@ -45,7 +45,7 @@ export interface NetworkManagementProxyV1NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	nodeListControllerId: number; // 1 byte unsigned integer
-	// TODO param nodeListData type bitmask or marker
+	// TODO param nodeListData type bitmask
 }
 
 export enum StatusEnum {
@@ -120,7 +120,6 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInfoCachedReport = class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV1NodeInfoCachedReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV1;
 		public static readonly command = 0x04;
@@ -239,13 +238,13 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"valueType": "SPEC_DEV_REF"
 				},
 				{
-					"type": "enumarray",
-					"name": "commandClass",
-					"help": "Command Class",
+					"type": "blob",
+					"name": "commandClasses",
+					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

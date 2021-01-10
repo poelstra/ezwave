@@ -22,7 +22,6 @@
  */
 
 // TODO Handle bitmasks
-// TODO Handle marker type, or rewrite it to something else
 // TODO ValueType is used on IntegerParameter and EnumParameter, but will likely only appear in certain combinations
 
 // TODO
@@ -535,10 +534,11 @@ function buildLocalParamRef(
 
 function generateParameter(
 	param: Param | VariantGroup,
+	params: spec.Parameter<spec.RefMode.Json>[],
 	mainIdMap: Map<number, Param>,
 	groupIdMap?: Map<number, Param>,
 	groupName?: string
-): spec.Parameter<spec.RefMode.Json> {
+): spec.Parameter<spec.RefMode.Json> | undefined {
 	let optional: spec.Ref | undefined;
 	if (
 		typeof param.optionalmask === "number" &&
@@ -556,18 +556,17 @@ function generateParameter(
 		);
 	}
 
-	const paramName = camelCase(param.name);
 	const paramBase: Omit<
 		spec.ParameterBase<spec.RefMode.Json>,
 		"type" | "length"
 	> = {
-		name: paramName,
+		name: camelCase(param.name),
 		help: param.name,
 		optional,
 	};
 
 	if ("type" in param) {
-		const reserved = isReserved(paramName);
+		const reserved = isReserved(paramBase.name);
 		// Only integer parameters (and bitfield elements) can be reserved
 		// according to our type definitions, so make sure no other types
 		// can be marked as reserved in the XML.
@@ -717,25 +716,13 @@ function generateParameter(
 							length,
 						};
 					} else {
-						const valueType = encaptypeToValueType(param.encaptype);
-						if (valueType) {
-							return {
-								type: spec.ParameterType.EnumArray,
-								...paramBase,
-								length,
-								valueType,
-							};
-						} else {
-							const blobType = encapTypeToBlobType(
-								param.encaptype
-							);
-							return {
-								type: spec.ParameterType.Blob,
-								...paramBase,
-								length,
-								blobType,
-							};
-						}
+						const blobType = encapTypeToBlobType(param.encaptype);
+						return {
+							type: spec.ParameterType.Blob,
+							...paramBase,
+							length,
+							blobType,
+						};
 					}
 				}
 				break;
@@ -874,6 +861,20 @@ function generateParameter(
 				break;
 
 			case ParamType.MARKER:
+				const prevParam = params[params.length - 1];
+				assert(prevParam);
+				assert(prevParam.type === spec.ParameterType.Blob);
+				assert(
+					typeof prevParam.length === "object" &&
+						prevParam.length.lengthType ===
+							spec.LengthType.Automatic
+				);
+				const lengthInfo = prevParam.length as spec.AutomaticLengthInfo;
+				lengthInfo.markers = toArray(param.const).map(
+					(constValue) => constValue.flagmask
+				);
+				return undefined;
+
 			default:
 				console.log("TODO", param.type);
 				return {
@@ -897,9 +898,19 @@ function generateParameter(
 		const groupIdMap = new Map<number, Param>();
 		toArray(param.param).forEach((p) => groupIdMap.set(p.key, p));
 
-		const params = toArray(param.param).map((p) =>
-			generateParameter(p, mainIdMap, groupIdMap, param.name)
-		) as spec.LocalParameter<spec.RefMode.Json>[];
+		const groupParams: spec.LocalParameter<spec.RefMode.Json>[] = [];
+		for (const groupParam of toArray(param.param)) {
+			const convertedParam = generateParameter(
+				groupParam,
+				groupParams,
+				mainIdMap,
+				groupIdMap,
+				param.name
+			) as spec.LocalParameter<spec.RefMode.Json> | undefined;
+			if (convertedParam) {
+				groupParams.push(convertedParam);
+			}
+		}
 		let moreToFollow: spec.Ref | undefined;
 		let length: spec.LengthInfo<spec.RefMode.Json>;
 		if (param.paramOffs === 255) {
@@ -948,7 +959,7 @@ function generateParameter(
 			...paramBase,
 			length,
 			moreToFollow,
-			params,
+			params: groupParams,
 		};
 	}
 }
@@ -989,7 +1000,13 @@ function generateCommand(
 		.filter((x: Param | VariantGroup): x is Param => "type" in x)
 		.forEach((param) => idMap.set(param.key, param));
 
-	const convertedParams = params.map((p) => generateParameter(p, idMap));
+	const convertedParams: spec.Parameter<spec.RefMode.Json>[] = [];
+	for (const param of params) {
+		const convertedParam = generateParameter(param, convertedParams, idMap);
+		if (convertedParam) {
+			convertedParams.push(convertedParam);
+		}
+	}
 
 	let command: jsonSpec.CommandDefinition = {
 		command: cmd.key,
@@ -1064,10 +1081,14 @@ function encapTypeToBlobType(encaptype?: string): spec.BlobType | undefined {
 		return undefined;
 	}
 	switch (encaptype) {
+		case "NODE_NUMBER":
+			return spec.BlobType.NodeIds;
+		case "CMD_CLASS_REF":
+			return spec.BlobType.CommandClasses;
 		case "CMD_DATA":
-			return spec.BlobType.CmdData;
+			return spec.BlobType.CommandData;
 		case "CMD_ENCAP":
-			return spec.BlobType.CmdEncapsulation;
+			return spec.BlobType.CommandEncapsulation;
 		default:
 			throw new Error("Unsupported blob encaptype");
 	}
@@ -1090,12 +1111,8 @@ function encaptypeToValueType(encaptype?: string): spec.ValueType | undefined {
 			return spec.ValueType.GenericDevice;
 		case "SPEC_DEV_REF":
 			return spec.ValueType.SpecificDevice;
-		case "CMD_DATA":
-		case "CMD_ENCAP":
-			// known, but a blob type, not value type
-			return undefined;
 		default:
-			throw new Error(`Unsupported encaptype '${encaptype}'`);
+			throw new Error(`Unsupported valueType encaptype '${encaptype}'`);
 	}
 }
 
@@ -1206,7 +1223,7 @@ function collapseCommandEncapsulation(command: spec.CommandDefinition) {
 	}
 	encapParam.name = "command";
 	encapParam.help = "Encapsulated command";
-	encapParam.blobType = spec.BlobType.CmdEncapsulation;
+	encapParam.blobType = spec.BlobType.CommandEncapsulation;
 }
 
 function renameParam(oldName: string, newName: string, newHelp: string): Fixer {
@@ -1217,21 +1234,68 @@ function renameParam(oldName: string, newName: string, newHelp: string): Fixer {
 	};
 }
 
+function forEachParam(
+	params: spec.Parameter[],
+	cb: (param: spec.Parameter) => void
+): void {
+	for (const param of params) {
+		cb(param);
+		if (param.type === spec.ParameterType.ParameterGroup) {
+			forEachParam(param.params, cb);
+		}
+	}
+}
+
 function removeByteSuffix(cmd: spec.CommandDefinition): void {
-	for (const param of cmd.params) {
+	forEachParam(cmd.params, (param) => {
 		if (/Byte$/.test(param.name)) {
 			param.name = param.name.slice(0, -4);
 			param.help = param.help.slice(0, -4);
 		}
-		if (param.type === spec.ParameterType.ParameterGroup) {
-			for (const groupParam of param.params) {
-				if (/Byte$/.test(groupParam.name)) {
-					groupParam.name = groupParam.name.slice(0, -4);
-					groupParam.help = groupParam.help.slice(0, -4);
-				}
-			}
+	});
+}
+
+// If param is an array of numbers (enums), its name in XML spec
+// is typically still given in singular form, which is confusing
+function pluralEncapsulatedBlobNames(cmd: spec.CommandDefinition): void {
+	forEachParam(cmd.params, (param) => {
+		if (param.type !== spec.ParameterType.Blob) {
+			return;
 		}
-	}
+		switch (param.blobType) {
+			case spec.BlobType.NodeIds:
+				assert(
+					param.name.endsWith("nodeId") ||
+						param.name.endsWith("NodeId"),
+					`unexpected NodeIds parameter name ${param.name}`
+				);
+				param.name = param.name + "s";
+				param.help = param.help + "s";
+				break;
+			case spec.BlobType.CommandClasses:
+				switch (param.name) {
+					case "commandClass":
+						param.name = "commandClasses";
+						param.help = "Command Classes";
+						break;
+					case "commandClasses":
+						break;
+					case "commandClassSupport":
+						param.name = "supportedCommandClasses";
+						param.help = "Supported Command Classes";
+						break;
+					case "commandClassControl":
+						param.name = "controlledCommandClasses";
+						param.help = "Controlled Command Classes";
+						break;
+					default:
+						throw new Error(
+							`cannot translate CommandClasses parameter to plural, unexpected parameter name ${param.name}`
+						);
+				}
+				break;
+		}
+	});
 }
 
 function applyFixes(defs: spec.CommandsByClassByVersion): void {
@@ -1262,7 +1326,10 @@ function applyFixes(defs: spec.CommandsByClassByVersion): void {
 			},
 		},
 	};
-	const alwaysFixers: Fixer[] = [removeByteSuffix];
+	const alwaysFixers: Fixer[] = [
+		removeByteSuffix,
+		pluralEncapsulatedBlobNames,
+	];
 
 	forEachCommand(defs, (cmdClass, command) => {
 		for (const fixer of alwaysFixers) {

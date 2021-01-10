@@ -40,7 +40,7 @@ export class MultiChannelLayer implements Layer {
 				nodeId: event.endpoint.nodeId,
 				channel: encapPacket.data.sourceEndPoint,
 			},
-			packet: new Packet(encapPacket.data.command),
+			packet: encapPacket.data.command,
 		};
 
 		// TODO Force sends to always go back to the same channel?
@@ -78,7 +78,7 @@ export class MultiChannelLayer implements Layer {
 				sourceEndPoint: 0,
 				destinationEndPoint: command.endpoint.channel,
 				bitAddress: false,
-				command: command.packet.serialize(),
+				command: command.packet,
 			});
 			return send.send({
 				...command,

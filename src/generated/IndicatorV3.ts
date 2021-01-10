@@ -48,7 +48,7 @@ export interface IndicatorV3IndicatorSupportedReportData {
 	indicatorId: IndicatorIdEnum; // 1 byte enum value
 	nextIndicatorId: NextIndicatorIdEnum; // 1 byte enum value
 	propertySupportedBitMaskLength: number; // properties1[4..0]
-	// TODO param propertySupportedBitMask type bitmask or marker
+	// TODO param propertySupportedBitMask type bitmask
 }
 
 export enum IndicatorIdEnum {

@@ -32,7 +32,7 @@ export interface SensorMultilevelV6SensorMultilevelReportData {
 }
 
 export interface SensorMultilevelV6SensorMultilevelSupportedSensorReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export interface SensorMultilevelV6SensorMultilevelSupportedGetScaleData {

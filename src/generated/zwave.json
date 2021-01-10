@@ -4348,7 +4348,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CommandData"
 						}
 					]
 				},
@@ -4398,7 +4398,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CommandData"
 						}
 					]
 				},
@@ -4512,13 +4512,13 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "NODE_NUMBER"
+							"blobType": "NodeIds"
 						}
 					]
 				},
@@ -4547,13 +4547,13 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "NodeID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "NodeIDs",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "NODE_NUMBER"
+							"blobType": "NodeIds"
 						}
 					]
 				},
@@ -4570,13 +4570,13 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "NODE_NUMBER"
+							"blobType": "NodeIds"
 						}
 					]
 				}
@@ -4637,13 +4637,13 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "NODE_NUMBER"
+							"blobType": "NodeIds"
 						}
 					]
 				},
@@ -4672,13 +4672,13 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "NodeID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "NodeIDs",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "NODE_NUMBER"
+							"blobType": "NodeIds"
 						}
 					]
 				},
@@ -4695,13 +4695,13 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "NODE_NUMBER"
+							"blobType": "NodeIds"
 						}
 					]
 				},
@@ -8871,7 +8871,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CommandData"
 						},
 						{
 							"type": "integer",
@@ -20157,19 +20157,16 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20235,19 +20232,16 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20301,19 +20295,16 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20411,19 +20402,16 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20489,19 +20477,16 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20555,19 +20540,16 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20671,19 +20653,16 @@
 							"isAutogenerated": true
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20744,19 +20723,16 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20805,19 +20781,16 @@
 							"isAutogenerated": true
 						},
 						{
-							"type": "enumarray",
-							"name": "nodeId",
-							"help": "Node ID",
+							"type": "blob",
+							"name": "nodeIds",
+							"help": "Node IDs",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									0
+								]
 							},
-							"valueType": "NODE_NUMBER"
-						},
-						{
-							"type": "integer",
-							"name": "marker",
-							"help": "Marker",
-							"length": 0
+							"blobType": "NodeIds"
 						},
 						{
 							"type": "group",
@@ -20926,13 +20899,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -20990,7 +20963,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_ENCAP"
+							"blobType": "CommandEncapsulation"
 						}
 					]
 				},
@@ -21172,7 +21145,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_ENCAP"
+							"blobType": "CommandEncapsulation"
 						}
 					]
 				},
@@ -21306,13 +21279,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -21370,7 +21343,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_ENCAP"
+							"blobType": "CommandEncapsulation"
 						}
 					]
 				},
@@ -21552,7 +21525,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_ENCAP"
+							"blobType": "CommandEncapsulation"
 						}
 					]
 				},
@@ -21686,13 +21659,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -21750,7 +21723,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_ENCAP"
+							"blobType": "CommandEncapsulation"
 						}
 					]
 				},
@@ -21953,7 +21926,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_ENCAP"
+							"blobType": "CommandEncapsulation"
 						}
 					]
 				},
@@ -22120,7 +22093,7 @@
 							"length": {
 								"lengthType": "auto"
 							},
-							"blobType": "CMD_DATA"
+							"blobType": "CommandData"
 						}
 					]
 				},
@@ -22235,7 +22208,7 @@
 										},
 										"offset": 2
 									},
-									"blobType": "CMD_DATA"
+									"blobType": "CommandData"
 								}
 							]
 						}
@@ -22407,13 +22380,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -22638,13 +22611,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -22898,13 +22871,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -23792,7 +23765,7 @@
 							"length": 1,
 							"lengthOf": {
 								"refs": [
-									"commandClass"
+									"commandClasses"
 								]
 							},
 							"isAutogenerated": true
@@ -23859,9 +23832,9 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "ref",
 								"from": {
@@ -23869,7 +23842,7 @@
 								},
 								"offset": 6
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -24384,7 +24357,7 @@
 							"length": 1,
 							"lengthOf": {
 								"refs": [
-									"commandClass"
+									"commandClasses"
 								]
 							},
 							"isAutogenerated": true
@@ -24451,9 +24424,9 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "ref",
 								"from": {
@@ -24461,7 +24434,7 @@
 								},
 								"offset": 6
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						},
 						{
 							"type": "integer",
@@ -25187,7 +25160,7 @@
 							"length": 1,
 							"lengthOf": {
 								"refs": [
-									"commandClass"
+									"commandClasses"
 								]
 							},
 							"isAutogenerated": true
@@ -25254,9 +25227,9 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "ref",
 								"from": {
@@ -25264,7 +25237,7 @@
 								},
 								"offset": 6
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						},
 						{
 							"type": "integer",
@@ -30868,28 +30841,25 @@
 							"length": 1
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClassSupport",
-							"help": "Command Class support",
+							"type": "blob",
+							"name": "supportedCommandClasses",
+							"help": "Supported Command Classes",
+							"length": {
+								"lengthType": "auto",
+								"markers": [
+									239
+								]
+							},
+							"blobType": "CommandClasses"
+						},
+						{
+							"type": "blob",
+							"name": "controlledCommandClasses",
+							"help": "Controlled Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
-						},
-						{
-							"type": "integer",
-							"name": "commandClassMark",
-							"help": "COMMAND_CLASS_MARK",
-							"length": 0
-						},
-						{
-							"type": "enumarray",
-							"name": "commandClassControl",
-							"help": "Command Class control",
-							"length": {
-								"lengthType": "auto"
-							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -48891,13 +48861,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
+							"type": "blob",
 							"name": "commandClasses",
 							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				},
@@ -52799,13 +52769,13 @@
 							"valueType": "SPEC_DEV_REF"
 						},
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				}
@@ -55801,14 +55771,12 @@
 							"name": "nonSecureCommandClass",
 							"help": "Non-Secure Command Class",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									241,
+									0
+								]
 							}
-						},
-						{
-							"type": "integer",
-							"name": "securityScheme0Mark",
-							"help": "Security Scheme 0 MARK",
-							"length": 0
 						},
 						{
 							"type": "blob",
@@ -55838,14 +55806,12 @@
 							"name": "nonSecureCommandClass",
 							"help": "Non-Secure Command Class",
 							"length": {
-								"lengthType": "auto"
+								"lengthType": "auto",
+								"markers": [
+									241,
+									0
+								]
 							}
-						},
-						{
-							"type": "integer",
-							"name": "securityScheme0Mark",
-							"help": "Security Scheme 0 MARK",
-							"length": 0
 						},
 						{
 							"type": "blob",
@@ -58519,13 +58485,13 @@
 					"status": "active",
 					"params": [
 						{
-							"type": "enumarray",
-							"name": "commandClass",
-							"help": "Command Class",
+							"type": "blob",
+							"name": "commandClasses",
+							"help": "Command Classes",
 							"length": {
 								"lengthType": "auto"
 							},
-							"valueType": "CMD_CLASS_REF"
+							"blobType": "CommandClasses"
 						}
 					]
 				}
@@ -59718,7 +59684,7 @@
 									"ref": "encapsulatedCommandLength"
 								}
 							},
-							"blobType": "CMD_ENCAP"
+							"blobType": "CommandEncapsulation"
 						}
 					]
 				},

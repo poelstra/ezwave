@@ -34,8 +34,8 @@ export class CodecDataError extends Error {}
  * more elements should follow.
  */
 export class CodecUnexpectedEndOfPacketError extends CodecDataError {
-	constructor() {
-		super("unexpected end of packet");
+	constructor(message?: string) {
+		super(message ?? "unexpected end of packet");
 	}
 }
 

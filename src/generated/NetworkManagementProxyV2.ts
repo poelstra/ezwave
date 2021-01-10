@@ -41,7 +41,7 @@ export interface NetworkManagementProxyV2NodeInfoCachedReportData {
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param commandClass type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export interface NetworkManagementProxyV2NodeListGetData {
@@ -52,7 +52,7 @@ export interface NetworkManagementProxyV2NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	nodeListControllerId: number; // 1 byte unsigned integer
-	// TODO param nodeListData type bitmask or marker
+	// TODO param nodeListData type bitmask
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelEndPointGetData {
@@ -80,7 +80,7 @@ export interface NetworkManagementProxyV2NmMultiChannelCapabilityReportData {
 	endPoint: number; // properties1[6..0]
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param commandClass type enumarray
+	commandClasses: number[]; // automatic length
 }
 
 export interface NetworkManagementProxyV2NmMultiChannelAggregatedMembersGetData {
@@ -171,7 +171,6 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInfoCachedReport = class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV2NodeInfoCachedReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV2;
 		public static readonly command = 0x04;
@@ -289,13 +288,13 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"valueType": "SPEC_DEV_REF"
 				},
 				{
-					"type": "enumarray",
-					"name": "commandClass",
-					"help": "Command Class",
+					"type": "blob",
+					"name": "commandClasses",
+					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -564,7 +563,6 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NmMultiChannelCapabilityReport = class NmMultiChannelCapabilityReport extends CommandPacket<NetworkManagementProxyV2NmMultiChannelCapabilityReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV2;
 		public static readonly command = 0x08;
@@ -629,13 +627,13 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"valueType": "SPEC_DEV_REF"
 				},
 				{
-					"type": "enumarray",
-					"name": "commandClass",
-					"help": "Command Class",
+					"type": "blob",
+					"name": "commandClasses",
+					"help": "Command Classes",
 					"length": {
 						"lengthType": "auto"
 					},
-					"valueType": "CMD_CLASS_REF"
+					"blobType": "CommandClasses"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

@@ -8,10 +8,12 @@ import {
 	getParamPresence,
 	isValuePresent,
 } from "./codec";
+import { Packet } from "./packet";
 import {
 	BitfieldElementType,
 	BitfieldParameter,
 	BlobParameter,
+	BlobType,
 	CommandDefinition,
 	EnumParameter,
 	IntegerParameter,
@@ -202,16 +204,57 @@ function encodeBitfield(param: BitfieldParameter, context: Context): Buffer {
 
 function encodeBlob(param: BlobParameter, context: Context): Buffer {
 	const value = context.getValue(param);
-	if (!Buffer.isBuffer(value)) {
-		throw new CodecDataError(
-			`invalid value for parameter ${getReferencePath(
-				param
-			)}, expected Buffer, got ${typeof value}`
-		);
+
+	let buffer: Buffer;
+	switch (param.blobType) {
+		case BlobType.NodeIds:
+		case BlobType.CommandClasses:
+			if (!Array.isArray(value)) {
+				throw new CodecDataError(
+					`invalid value for parameter ${getReferencePath(
+						param
+					)}, expected array, got ${typeof value}`
+				);
+			}
+
+			value.forEach((v) => ensureNumericValue(v, param, 0, 255));
+			buffer = Buffer.from(value);
+			break;
+
+		case BlobType.CommandEncapsulation:
+			if (!(value instanceof Packet)) {
+				throw new CodecDataError(
+					`invalid value for parameter ${getReferencePath(
+						param
+					)}, expected Packet, got ${typeof value}`
+				);
+			}
+			buffer = value.serialize();
+			break;
+
+		default:
+			if (!Buffer.isBuffer(value)) {
+				throw new CodecDataError(
+					`invalid value for parameter ${getReferencePath(
+						param
+					)}, expected Buffer, got ${typeof value}`
+				);
+			}
+			buffer = value;
 	}
 
-	validateLength(value, param, context);
-	return value;
+	validateLength(buffer, param, context);
+
+	const length = param.length;
+	if (
+		typeof length === "object" &&
+		length.lengthType === LengthType.Automatic &&
+		length.markers
+	) {
+		return Buffer.concat([buffer, Buffer.from(length.markers)]);
+	} else {
+		return buffer;
+	}
 }
 
 function encodeText(param: TextParameter, context: Context): Buffer {
@@ -232,7 +275,7 @@ function encodeText(param: TextParameter, context: Context): Buffer {
 }
 
 function validateLength(
-	value: Buffer,
+	value: Buffer | unknown[],
 	param: TextParameter | BlobParameter,
 	context: Context
 ): void {

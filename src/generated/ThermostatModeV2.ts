@@ -27,7 +27,7 @@ export interface ThermostatModeV2ThermostatModeSetData {
 }
 
 export interface ThermostatModeV2ThermostatModeSupportedReportData {
-	// TODO param bitMask type bitmask or marker
+	// TODO param bitMask type bitmask
 }
 
 export enum ModeEnum {

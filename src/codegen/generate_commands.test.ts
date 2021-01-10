@@ -13,6 +13,7 @@ import { CommandPacketConstructor, Packet } from "../commands/packet";
 import { AlarmV2, ZwaveAlarmTypeEnum } from "../generated/AlarmV2";
 import { BasicV2 } from "../generated/BasicV2";
 import { MeterPulseV1 } from "../generated/MeterPulseV1";
+import { MultiChannelAssociationV2 } from "../generated/MultiChannelAssociationV2";
 import { NodeProvisioningV1 } from "../generated/NodeProvisioningV1";
 import { RateTblConfigV1 } from "../generated/RateTblConfigV1";
 import { SecurityV1 } from "../generated/SecurityV1";
@@ -296,6 +297,26 @@ describe("generate_commands", () => {
 
 	describe.skip("Schedule.ScheduleStateReport", () => {
 		// - Group with auto-length, and remaining field
+	});
+
+	describe("MultiChannelAssociationV2.MultiChannelAssociationRemove", () => {
+		// - enumArray with markers
+		verifyRoundTrip(
+			"example",
+			MultiChannelAssociationV2.MultiChannelAssociationRemove,
+			Buffer.from([0x8e, 0x04, 0x12, 0x01, 0x02, 0x03, 0x00, 0x0a, 0x0b]),
+			{
+				groupingIdentifier: 0x12,
+				nodeIds: [1, 2, 3],
+				vg: [
+					{
+						multiChannelNodeId: 10, // 1 byte unsigned integer
+						bitAddress: false, // properties1[7]
+						endPoint: 11, // properties1[6..0]
+					},
+				],
+			}
+		);
 	});
 
 	describe.skip("MultiInstanceAssociation.MultiInstanceAssociationSet", () => {

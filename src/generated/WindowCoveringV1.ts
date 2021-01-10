@@ -22,7 +22,7 @@ export enum WindowCoveringV1Commands {
 
 export interface WindowCoveringV1WindowCoveringSupportedReportData {
 	numberOfParameterMaskBytes: number; // properties1[3..0]
-	// TODO param parameterMask type bitmask or marker
+	// TODO param parameterMask type bitmask
 }
 
 export interface WindowCoveringV1WindowCoveringGetData {
