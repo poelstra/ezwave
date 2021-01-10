@@ -33,7 +33,10 @@ export interface VersionV2VersionReportData {
 	firmware0Version: number; // 1 byte unsigned integer
 	firmware0SubVersion: number; // 1 byte unsigned integer
 	hardwareVersion: number; // 1 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		firmwareVersion: number; // 1 byte unsigned integer
+		firmwareSubVersion: number; // 1 byte unsigned integer
+	}>;
 }
 
 export class VersionV2 extends CommandClassPacket<VersionV2Commands> {
@@ -129,7 +132,6 @@ export class VersionV2 extends CommandClassPacket<VersionV2Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly VersionReport = class VersionReport extends CommandPacket<VersionV2VersionReportData> {
 		public static readonly CommandClass = VersionV2;
 		public static readonly command = 0x12;

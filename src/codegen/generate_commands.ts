@@ -277,8 +277,8 @@ class CommandClassGenerator {
 	private _generateParam(
 		cmd: spec.CommandDefinition,
 		param: spec.LocalParameter | spec.ParameterGroup
-	): Lines {
-		const contents: Lines = [];
+	): string[] {
+		const contents: string[] = [];
 
 		const isOptional = param.optional !== undefined;
 		switch (param.type) {
@@ -383,9 +383,6 @@ class CommandClassGenerator {
 								// }`;
 								lengthStr = `variable length`;
 								break;
-							case spec.LengthType.MoreToFollow:
-								lengthStr = `length based on MoreToFollow flag`;
-								break;
 							default:
 								throw new Error("unexpected length type");
 						}
@@ -409,6 +406,46 @@ class CommandClassGenerator {
 						);
 					}
 				}
+				break;
+
+			case spec.ParameterType.ParameterGroup:
+				let lengthStr: string;
+				if (typeof param.length === "number") {
+					lengthStr = `${param.length} bytes`;
+				} else {
+					switch (param.length.lengthType) {
+						case spec.LengthType.Automatic:
+							lengthStr = `automatic length`;
+							break;
+						case spec.LengthType.ParameterReference:
+							// TODO If reference points to an explicit length prop,
+							// mention that property.
+							// const l = param.length;
+							// lengthStr = `length based on ${
+							// 	l.isParentReference ? "../" : ""
+							// }${l.ref}${
+							// 	l.bitfield ? `.${l.bitfield.name}` : ""
+							// }`;
+							lengthStr = `variable length`;
+							break;
+						case spec.LengthType.MoreToFollow:
+							lengthStr = `length based on MoreToFollow flag`;
+							break;
+						default:
+							throw new Error("unexpected length type");
+					}
+				}
+				contents.push(
+					`\t${param.name}${
+						isOptional ? "?" : ""
+					}: Array<{ // ${lengthStr}`
+				);
+				for (const groupParam of param.params) {
+					contents.push(
+						...indent(this._generateParam(cmd, groupParam))
+					);
+				}
+				contents.push(`\t}>;`);
 				break;
 
 			/* case ParamType.ARRAY:
@@ -491,23 +528,6 @@ class CommandClassGenerator {
 					// then create the union of all these enums
 					contents.push(`\t${param.name}: number; // ${param.type}`);
 				}
-				break;
-			case ParamType.VARIANT_GROUP:
-				// Nested set of params (only once, i.e. there cannot be a variant-group-in-variant-group)
-				// paramOffs, sizemask, sizeoffs determine how many times the group is present, or determined
-				// from message length (paramOffs === 255).
-				// Alternatively, moretofollowoffs and moretofollowmask can be used to denote number of
-				// groups (paramOffs === 255).
-				// optionaloffs and optionalmask determine whether the group is present at all.
-				// paramOffs and optionaloffs indicate a parameter ID in the 'root' params,
-				// moretofollowoffs indicates a parameter ID in the group itself.
-				// Note: Size of each element is dynamic, i.e. it can depend on presence of e.g. VARIANT
-				// inside the group (e.g. COMMAND_CLASS_MULTI_CMD:MULTI_CMD_ENCAP)
-				assert(param.variantKey === 0);
-				contents.push(`\t${param.name}: Array<{ // VARIANT_GROUP`);
-				const nestedParams = toArray(param.param);
-				processParams(nestedParams, `\t\t`);
-				contents.push(`\t}>;`);
 				break;
 			case ParamType.MARKER:*/
 			default:

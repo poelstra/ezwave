@@ -37,7 +37,10 @@ export interface VersionV3VersionReportData {
 	firmware0Version: number; // 1 byte unsigned integer
 	firmware0SubVersion: number; // 1 byte unsigned integer
 	hardwareVersion: number; // 1 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		firmwareVersion: number; // 1 byte unsigned integer
+		firmwareSubVersion: number; // 1 byte unsigned integer
+	}>;
 }
 
 export interface VersionV3VersionCapabilitiesReportData {
@@ -151,7 +154,6 @@ export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly VersionReport = class VersionReport extends CommandPacket<VersionV3VersionReportData> {
 		public static readonly CommandClass = VersionV3;
 		public static readonly command = 0x12;

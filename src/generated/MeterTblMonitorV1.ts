@@ -30,7 +30,16 @@ export enum MeterTblMonitorV1Commands {
 
 export interface MeterTblMonitorV1MeterTblStatusReportData {
 	currentOperatingStatus: number; // 3 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		type: boolean; // properties1[7]
+		operatingStatusEventId: number; // properties1[4..0]
+		year: number; // 2 byte unsigned integer
+		month: number; // 1 byte unsigned integer
+		day: number; // 1 byte unsigned integer
+		hourLocalTime: number; // 1 byte unsigned integer
+		minuteLocalTime: number; // 1 byte unsigned integer
+		secondLocalTime: number; // 1 byte unsigned integer
+	}>;
 }
 
 export interface MeterTblMonitorV1MeterTblStatusDateGetData {
@@ -71,7 +80,11 @@ export interface MeterTblMonitorV1MeterTblCurrentDataReportData {
 	hourLocalTime: number; // 1 byte unsigned integer
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		currentPrecision: number; // properties1[7..5]
+		currentScale: number; // properties1[4..0]
+		currentValue: number; // 4 byte unsigned integer
+	}>;
 }
 
 export interface MeterTblMonitorV1MeterTblHistoricalDataGetData {
@@ -100,7 +113,11 @@ export interface MeterTblMonitorV1MeterTblHistoricalDataReportData {
 	hourLocalTime: number; // 1 byte unsigned integer
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		historicalPrecision: number; // properties1[7..5]
+		historicalScale: number; // properties1[4..0]
+		historicalValue: number; // 4 byte unsigned integer
+	}>;
 }
 
 export interface MeterTblMonitorV1MeterTblReportData {
@@ -138,7 +155,6 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 		super(MeterTblMonitorV1, commandAndPayload);
 	}
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MeterTblStatusReport = class MeterTblStatusReport extends CommandPacket<MeterTblMonitorV1MeterTblStatusReportData> {
 		public static readonly CommandClass = MeterTblMonitorV1;
 		public static readonly command = 0x0b;
@@ -184,10 +200,10 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "integer",
-									"name": "operatingStatusEventId",
-									"mask": 31,
-									"shift": 0
+									"fieldType": "boolean",
+									"name": "type",
+									"mask": 128,
+									"shift": 7
 								},
 								{
 									"fieldType": "integer",
@@ -197,10 +213,10 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 									"reserved": true
 								},
 								{
-									"fieldType": "boolean",
-									"name": "type",
-									"mask": 128,
-									"shift": 7
+									"fieldType": "integer",
+									"name": "operatingStatusEventId",
+									"mask": 31,
+									"shift": 0
 								}
 							]
 						},
@@ -460,7 +476,6 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MeterTblCurrentDataReport = class MeterTblCurrentDataReport extends CommandPacket<MeterTblMonitorV1MeterTblCurrentDataReportData> {
 		public static readonly CommandClass = MeterTblMonitorV1;
 		public static readonly command = 0x0d;
@@ -564,15 +579,15 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "currentScale",
-									"mask": 31,
-									"shift": 0
-								},
-								{
-									"fieldType": "integer",
 									"name": "currentPrecision",
 									"mask": 224,
 									"shift": 5
+								},
+								{
+									"fieldType": "integer",
+									"name": "currentScale",
+									"mask": 31,
+									"shift": 0
 								}
 							]
 						},
@@ -701,7 +716,6 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MeterTblHistoricalDataReport = class MeterTblHistoricalDataReport extends CommandPacket<MeterTblMonitorV1MeterTblHistoricalDataReportData> {
 		public static readonly CommandClass = MeterTblMonitorV1;
 		public static readonly command = 0x0f;
@@ -805,15 +819,15 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "historicalScale",
-									"mask": 31,
-									"shift": 0
-								},
-								{
-									"fieldType": "integer",
 									"name": "historicalPrecision",
 									"mask": 224,
 									"shift": 5
+								},
+								{
+									"fieldType": "integer",
+									"name": "historicalScale",
+									"mask": 31,
+									"shift": 0
 								}
 							]
 						},

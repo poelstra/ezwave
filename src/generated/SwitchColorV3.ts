@@ -36,7 +36,10 @@ export interface SwitchColorV3SwitchColorReportData {
 }
 
 export interface SwitchColorV3SwitchColorSetData {
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		colorComponentId: number; // 1 byte unsigned integer
+		value: number; // 1 byte unsigned integer
+	}>;
 	duration: Duration2Enum; // 1 byte enum value
 }
 
@@ -207,7 +210,6 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SwitchColorSet = class SwitchColorSet extends CommandPacket<SwitchColorV3SwitchColorSetData> {
 		public static readonly CommandClass = SwitchColorV3;
 		public static readonly command = 0x05;

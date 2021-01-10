@@ -41,7 +41,11 @@ export interface RateTblMonitorV1RateTblCurrentDataReportData {
 	hourLocalTime: number; // 1 byte unsigned integer
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		currentPrecision: number; // properties1[7..5]
+		currentScale: number; // properties1[4..0]
+		currentValue: number; // 4 byte unsigned integer
+	}>;
 }
 
 export interface RateTblMonitorV1RateTblGetData {
@@ -75,7 +79,11 @@ export interface RateTblMonitorV1RateTblHistoricalDataReportData {
 	hourLocalTime: number; // 1 byte unsigned integer
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		historicalPrecision: number; // properties1[7..5]
+		historicalScale: number; // properties1[4..0]
+		historicalValue: number; // 4 byte unsigned integer
+	}>;
 }
 
 export interface RateTblMonitorV1RateTblReportData {
@@ -191,7 +199,6 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly RateTblCurrentDataReport = class RateTblCurrentDataReport extends CommandPacket<RateTblMonitorV1RateTblCurrentDataReportData> {
 		public static readonly CommandClass = RateTblMonitorV1;
 		public static readonly command = 0x08;
@@ -280,15 +287,15 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "currentScale",
-									"mask": 31,
-									"shift": 0
-								},
-								{
-									"fieldType": "integer",
 									"name": "currentPrecision",
 									"mask": 224,
 									"shift": 5
+								},
+								{
+									"fieldType": "integer",
+									"name": "currentScale",
+									"mask": 31,
+									"shift": 0
 								}
 							]
 						},
@@ -450,7 +457,6 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly RateTblHistoricalDataReport = class RateTblHistoricalDataReport extends CommandPacket<RateTblMonitorV1RateTblHistoricalDataReportData> {
 		public static readonly CommandClass = RateTblMonitorV1;
 		public static readonly command = 0x0a;
@@ -539,15 +545,15 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "historicalScale",
-									"mask": 31,
-									"shift": 0
-								},
-								{
-									"fieldType": "integer",
 									"name": "historicalPrecision",
 									"mask": 224,
 									"shift": 5
+								},
+								{
+									"fieldType": "integer",
+									"name": "historicalScale",
+									"mask": 31,
+									"shift": 0
 								}
 							]
 						},

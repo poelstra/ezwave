@@ -13,6 +13,7 @@ import { CommandPacketConstructor, Packet } from "../commands/packet";
 import { AlarmV2, ZwaveAlarmTypeEnum } from "../generated/AlarmV2";
 import { BasicV2 } from "../generated/BasicV2";
 import { MeterPulseV1 } from "../generated/MeterPulseV1";
+import { NodeProvisioningV1 } from "../generated/NodeProvisioningV1";
 import { RateTblConfigV1 } from "../generated/RateTblConfigV1";
 import { SecurityV1 } from "../generated/SecurityV1";
 import { VersionV3 } from "../generated/VersionV3";
@@ -201,6 +202,46 @@ describe("generate_commands", () => {
 				destinationEndPoint: 0x14, // properties4[6..0]
 				headerExtension: Buffer.from([0x01, 0x02]), // variable length
 				zWaveCommand: Buffer.from([0x0a, 0x0b]), // automatic length
+			}
+		);
+	});
+
+	describe("NodeProvisioningV1.NodeProvisioningSet", () => {
+		// - Group with auto-length
+		// - Length of group element dynamic
+		// prettier-ignore
+		verifyRoundTrip(
+			"example",
+			NodeProvisioningV1.NodeProvisioningSet,
+			Buffer.from([
+				0x78, 0x01,
+				0x12,
+				0x10,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+				0x03, 0x03, 0x01, 0x02, 0x03,
+				0x04, 0x00,
+				0x06, 0x02, 0x01, 0x02,
+			]),
+			{
+				seqNo: 0x12, // 1 byte unsigned integer
+				dsk: Buffer.from([0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F]), // variable length
+				vg1: [
+					{
+						metaDataType: 0x01,
+						critical: true,
+						value: Buffer.from([0x01, 0x02, 0x03]),
+					},
+					{
+						metaDataType: 0x02,
+						critical: false,
+						value: Buffer.from([]),
+					},
+					{
+						metaDataType: 0x03,
+						critical: false,
+						value: Buffer.from([0x01, 0x02]),
+					},
+				]
 			}
 		);
 	});

@@ -32,7 +32,13 @@ export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingGetDat
 }
 
 export interface ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData {
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		operatingStateLogType: number; // properties1[3..0]
+		usageTodayHours: number; // 1 byte unsigned integer
+		usageTodayMinutes: number; // 1 byte unsigned integer
+		usageYesterdayHours: number; // 1 byte unsigned integer
+		usageYesterdayMinutes: number; // 1 byte unsigned integer
+	}>;
 }
 
 export enum OperatingStateEnum {
@@ -249,7 +255,6 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatOperatingStateLoggingReport = class ThermostatOperatingStateLoggingReport extends CommandPacket<ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData> {
 		public static readonly CommandClass = ThermostatOperatingStateV2;
 		public static readonly command = 0x06;
@@ -290,16 +295,16 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 							"fields": [
 								{
 									"fieldType": "integer",
-									"name": "operatingStateLogType",
-									"mask": 15,
-									"shift": 0
-								},
-								{
-									"fieldType": "integer",
 									"name": "reserved",
 									"mask": 240,
 									"shift": 4,
 									"reserved": true
+								},
+								{
+									"fieldType": "integer",
+									"name": "operatingStateLogType",
+									"mask": 15,
+									"shift": 0
 								}
 							]
 						},

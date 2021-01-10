@@ -31,7 +31,11 @@ export interface MultiChannelAssociationV3MultiChannelAssociationRemoveData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
-	// TODO param vg type group
+	vg: Array<{ // automatic length
+		multiChannelNodeId: number; // 1 byte unsigned integer
+		bitAddress: boolean; // properties1[7]
+		endPoint: number; // properties1[6..0]
+	}>;
 }
 
 export interface MultiChannelAssociationV3MultiChannelAssociationReportData {
@@ -40,14 +44,22 @@ export interface MultiChannelAssociationV3MultiChannelAssociationReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
-	// TODO param vg type group
+	vg: Array<{ // automatic length
+		multiChannelNodeId: number; // 1 byte unsigned integer
+		bitAddress: boolean; // properties1[7]
+		endPoint: number; // properties1[6..0]
+	}>;
 }
 
 export interface MultiChannelAssociationV3MultiChannelAssociationSetData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
-	// TODO param vg type group
+	vg: Array<{ // automatic length
+		multiChannelNodeId: number; // 1 byte unsigned integer
+		bitAddress: boolean; // properties1[7]
+		endPoint: number; // properties1[6..0]
+	}>;
 }
 
 export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAssociationV3Commands> {
@@ -190,16 +202,16 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "integer",
-									"name": "endPoint",
-									"mask": 127,
-									"shift": 0
-								},
-								{
 									"fieldType": "boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
+								},
+								{
+									"fieldType": "integer",
+									"name": "endPoint",
+									"mask": 127,
+									"shift": 0
 								}
 							]
 						}
@@ -284,16 +296,16 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "integer",
-									"name": "endPoint",
-									"mask": 127,
-									"shift": 0
-								},
-								{
 									"fieldType": "boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
+								},
+								{
+									"fieldType": "integer",
+									"name": "endPoint",
+									"mask": 127,
+									"shift": 0
 								}
 							]
 						}
@@ -366,16 +378,16 @@ export class MultiChannelAssociationV3 extends CommandClassPacket<MultiChannelAs
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "integer",
-									"name": "endPoint",
-									"mask": 127,
-									"shift": 0
-								},
-								{
 									"fieldType": "boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
+								},
+								{
+									"fieldType": "integer",
+									"name": "endPoint",
+									"mask": 127,
+									"shift": 0
 								}
 							]
 						}

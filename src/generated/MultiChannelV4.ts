@@ -53,7 +53,9 @@ export interface MultiChannelV4MultiChannelEndPointFindReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // automatic length
+		endPoint: number; // properties1[6..0]
+	}>;
 }
 
 export interface MultiChannelV4MultiChannelEndPointReportData {
@@ -313,7 +315,6 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelEndPointFindReport = class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV4MultiChannelEndPointFindReportData> {
 		public static readonly CommandClass = MultiChannelV4;
 		public static readonly command = 0x0c;
@@ -359,17 +360,17 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "integer",
-									"name": "endPoint",
-									"mask": 127,
-									"shift": 0
-								},
-								{
 									"fieldType": "boolean",
 									"name": "res",
 									"mask": 128,
 									"shift": 7,
 									"reserved": true
+								},
+								{
+									"fieldType": "integer",
+									"name": "endPoint",
+									"mask": 127,
+									"shift": 0
 								}
 							]
 						}

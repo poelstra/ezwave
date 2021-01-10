@@ -5,6 +5,7 @@
 import {
 	BitfieldElement,
 	IntegerParameter,
+	LengthType,
 	Parameter,
 	ParameterGroup,
 	ParamRefLengthInfo,
@@ -273,9 +274,10 @@ export class Context {
 	 * either auto-generated or from payload data.
 	 *
 	 * If asked for a non-group value, that value is returned.
-	 * If asked for a group value, the value of that parameter in all
-	 * elements of the group is returned. It does not matter whether
-	 * the group is currently being decoded.
+	 * If asked for a group value, while not currently en/decoding a group,
+	 * the value of that parameter in all elements of the group is returned.
+	 * If asked for a group value, while en/decoding that group, the single
+	 * value of the parameter in the currently decoded element is returned.
 	 */
 	getValues(ref: Parameter | BitfieldElement): unknown[] {
 		const autoValue = this.auto.get(ref);
@@ -284,7 +286,19 @@ export class Context {
 		}
 
 		const paramOfRef = isParameter(ref) ? ref : ref.parent;
-		if (paramOfRef.group) {
+		if (paramOfRef.group && this.group) {
+			if (paramOfRef.group !== this.group.param) {
+				throw new CodecDefinitionError(
+					`attempt to get value from group parameter ${getReferencePath(
+						ref
+					)} while in group ${getReferencePath(this.group.param)}`
+				);
+			}
+			if (!this.group.data) {
+				throw new CodecDefinitionError("missing group element");
+			}
+			return [this.group.data[ref.name]];
+		} else if (paramOfRef.group) {
 			const groupElements = this.data[
 				paramOfRef.group.name
 			] as KeyValues[];

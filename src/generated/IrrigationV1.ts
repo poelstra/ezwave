@@ -135,7 +135,10 @@ export interface IrrigationV1IrrigationValveRunData {
 
 export interface IrrigationV1IrrigationValveTableSetData {
 	valveTableId: number; // 1 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // automatic length
+		valveId: number; // 1 byte unsigned integer
+		duration: number; // 2 byte unsigned integer
+	}>;
 }
 
 export interface IrrigationV1IrrigationValveTableGetData {
@@ -144,7 +147,10 @@ export interface IrrigationV1IrrigationValveTableGetData {
 
 export interface IrrigationV1IrrigationValveTableReportData {
 	valveTableId: number; // 1 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // automatic length
+		valveId: number; // 1 byte unsigned integer
+		duration: number; // 2 byte unsigned integer
+	}>;
 }
 
 export interface IrrigationV1IrrigationValveTableRunData {
@@ -1348,7 +1354,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveTableSet = class IrrigationValveTableSet extends CommandPacket<IrrigationV1IrrigationValveTableSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0e;
@@ -1426,7 +1431,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveTableReport = class IrrigationValveTableReport extends CommandPacket<IrrigationV1IrrigationValveTableReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x10;

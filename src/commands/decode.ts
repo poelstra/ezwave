@@ -4,7 +4,6 @@ import {
 	Context,
 } from "./codec";
 import {
-	BitfieldElement,
 	BitfieldElementType,
 	BitfieldParameter,
 	BlobParameter,
@@ -13,12 +12,10 @@ import {
 	IntegerParameter,
 	LengthType,
 	LocalParameter,
-	Parameter,
 	ParameterGroup,
 	ParameterType,
 	TextParameter,
 } from "./spec";
-import { getReferencePath, isParameter, KeyValues } from "./specHelpers";
 
 export function decodeCommandAndPayload<T extends object | void>(
 	commandDef: CommandDefinition,
@@ -42,43 +39,6 @@ export function decodeCommandAndPayload<T extends object | void>(
 	}
 	return context.data as T;
 }
-
-// function resolveReference(
-// 	ref: IntegerParameter | BitfieldElement,
-// 	currentContext: KeyValues,
-// 	parentContext?: KeyValues
-// ): number | boolean {
-// 	const paramOfRef = isParameter(ref) ? ref : ref.parent;
-// 	// TODO convoluted, probably easier to pass arguments in differently
-// 	const ctx = paramOfRef.group
-// 		? currentContext
-// 		: parentContext ?? currentContext;
-
-// 	const fieldValue = ctx[ref.name];
-// 	if (fieldValue === undefined) {
-// 		throw new DecodeDefinitionError("field reference does not exist");
-// 	}
-// 	if (typeof fieldValue !== "number" && typeof fieldValue !== "boolean") {
-// 		throw new DecodeDefinitionError(
-// 			"wrong type for field reference, expected number or boolean"
-// 		);
-// 	}
-// 	return fieldValue;
-// }
-
-// function resolveNumericReference(
-// 	ref: IntegerParameter | BitfieldElement,
-// 	currentContext: KeyValues,
-// 	parentContext?: KeyValues
-// ): number {
-// 	const fieldValue = resolveReference(ref, currentContext, parentContext);
-// 	if (typeof fieldValue !== "number") {
-// 		throw new DecodeDefinitionError(
-// 			"wrong type for field reference, expected number"
-// 		);
-// 	}
-// 	return fieldValue;
-// }
 
 function decodeParam(
 	packet: Buffer,
@@ -197,7 +157,7 @@ function decodeGroup(
 	slice: Buffer,
 	context: Context
 ): number {
-	const groupElements = context.enterGroup(param);
+	const groupElements = context.enterGroup(param, true);
 
 	let groupLength: number | "auto";
 	if (typeof param.length === "number") {
@@ -234,16 +194,16 @@ function decodeGroup(
 			break;
 		}
 		const groupElement = Object.create(null);
+		context.addGroupElement(groupElement);
 		for (const groupParam of param.params) {
-			processed += decodeParam(slice, processed, groupParam, context);
 			if (processed >= slice.length) {
 				// Decoder started decoding after end of packet
 				// (which could be OK when e.g. parsing older version of
 				// a command, but not in the middle of a group).
 				throw new CodecUnexpectedEndOfPacketError();
 			}
+			processed += decodeParam(slice, processed, groupParam, context);
 		}
-		context.addGroupElement(groupElement);
 		if (param.moreToFollow) {
 			// i.e. groupLength === "auto"
 			const moreToFollow = context.getValue(param.moreToFollow);

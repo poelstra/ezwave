@@ -37,7 +37,13 @@ export interface AssociationGrpInfoV2AssociationGroupInfoGetData {
 export interface AssociationGrpInfoV2AssociationGroupInfoReportData {
 	listMode: boolean; // properties1[7]
 	dynamicInfo: boolean; // properties1[6]
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		groupingIdentifier: number; // 1 byte unsigned integer
+		mode: number; // 1 byte unsigned integer
+		profile1: Profile1Enum; // 1 byte enum value
+		// TODO param profile2 type enumunion
+		eventCode: number; // 2 byte unsigned integer
+	}>;
 }
 
 export interface AssociationGrpInfoV2AssociationGroupCommandListGetData {
@@ -48,6 +54,14 @@ export interface AssociationGrpInfoV2AssociationGroupCommandListGetData {
 export interface AssociationGrpInfoV2AssociationGroupCommandListReportData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 	command: Buffer; // variable length
+}
+
+export enum Profile1Enum {
+	ProfileGeneral = 0x0,
+	ProfileControl = 0x20,
+	ProfileSensor = 0x31,
+	ProfileMeter = 0x32,
+	ProfileNotification = 0x71,
 }
 
 export class AssociationGrpInfoV2 extends CommandClassPacket<AssociationGrpInfoV2Commands> {

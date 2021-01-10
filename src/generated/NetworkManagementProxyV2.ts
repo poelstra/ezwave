@@ -94,7 +94,9 @@ export interface NetworkManagementProxyV2NmMultiChannelAggregatedMembersReportDa
 	nodeId: number; // 1 byte unsigned integer
 	aggregatedEndPoint: number; // properties1[6..0]
 	numberOfMembers: number; // 1 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // automatic length
+		memberEndpoint: number; // properties1[6..0]
+	}>;
 }
 
 export enum StatusEnum {
@@ -704,7 +706,6 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NmMultiChannelAggregatedMembersReport = class NmMultiChannelAggregatedMembersReport extends CommandPacket<NetworkManagementProxyV2NmMultiChannelAggregatedMembersReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV2;
 		public static readonly command = 0x0a;
@@ -770,17 +771,17 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "integer",
-									"name": "memberEndpoint",
-									"mask": 127,
-									"shift": 0
-								},
-								{
 									"fieldType": "boolean",
 									"name": "res2",
 									"mask": 128,
 									"shift": 7,
 									"reserved": true
+								},
+								{
+									"fieldType": "integer",
+									"name": "memberEndpoint",
+									"mask": 127,
+									"shift": 0
 								}
 							]
 						}

@@ -34,7 +34,10 @@ export interface DcpConfigV1DcpListSetData {
 	minuteLocalTime: number; // 1 byte unsigned integer
 	secondLocalTime: number; // 1 byte unsigned integer
 	dcpRateId: number; // 1 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		genericDeviceClass: number; // 1 byte unsigned integer
+		specificDeviceClass: number; // 1 byte unsigned integer
+	}>;
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -124,7 +127,6 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly DcpListSet = class DcpListSet extends CommandPacket<DcpConfigV1DcpListSetData> {
 		public static readonly CommandClass = DcpConfigV1;
 		public static readonly command = 0x03;

@@ -23,7 +23,9 @@ export interface CentralSceneV3CentralSceneSupportedReportData {
 	slowRefreshSupport: boolean; // properties1[7]
 	numberOfBitMaskBytes: number; // properties1[2..1]
 	identical: boolean; // properties1[0]
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		// TODO param supportedKeyAttributesForScene type bitmask or marker
+	}>;
 }
 
 export interface CentralSceneV3CentralSceneNotificationData {

@@ -24,12 +24,20 @@ export interface IndicatorV2IndicatorGetData {
 
 export interface IndicatorV2IndicatorReportData {
 	indicator0Value: number; // 1 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		indicatorId: IndicatorIdEnum; // 1 byte enum value
+		propertyId: PropertyIdEnum; // 1 byte enum value
+		value: number; // 1 byte unsigned integer
+	}>;
 }
 
 export interface IndicatorV2IndicatorSetData {
 	indicator0Value: number; // 1 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		indicatorId: IndicatorIdEnum; // 1 byte enum value
+		propertyId: PropertyIdEnum; // 1 byte enum value
+		value: number; // 1 byte unsigned integer
+	}>;
 }
 
 export interface IndicatorV2IndicatorSupportedGetData {
@@ -77,6 +85,14 @@ export enum IndicatorIdEnum {
 	Button11Indication = 0x4d,
 	Button12Indication = 0x4e,
 	Buzzer = 0xf0,
+}
+
+export enum PropertyIdEnum {
+	Multilevel = 0x1,
+	Binary = 0x2,
+	OnOffPeriod = 0x3,
+	OnOffCycles = 0x4,
+	LowPower = 0x10,
 }
 
 export enum NextIndicatorIdEnum {
@@ -287,7 +303,6 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IndicatorReport = class IndicatorReport extends CommandPacket<IndicatorV2IndicatorReportData> {
 		public static readonly CommandClass = IndicatorV2;
 		public static readonly command = 0x03;
@@ -539,7 +554,6 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IndicatorSet = class IndicatorSet extends CommandPacket<IndicatorV2IndicatorSetData> {
 		public static readonly CommandClass = IndicatorV2;
 		public static readonly command = 0x01;

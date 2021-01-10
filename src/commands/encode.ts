@@ -86,6 +86,9 @@ function encodeParam(
 		case ParameterType.Text:
 			return encodeText(param, context);
 
+		case ParameterType.ParameterGroup:
+			return encodeGroup(param, context);
+
 		default:
 			throw new Error(
 				`missing implementation for parameter type ${param.type}`
@@ -136,11 +139,7 @@ function encodeEnum(param: EnumParameter, context: Context): Buffer {
 	return Buffer.from([integerValue]);
 }
 
-function encodeBitfield(
-	param: BitfieldParameter,
-	context: Context,
-	isLastGroupElement?: boolean
-): Buffer {
+function encodeBitfield(param: BitfieldParameter, context: Context): Buffer {
 	let value = 0;
 	for (const field of param.fields) {
 		if (field.reserved) {
@@ -159,7 +158,10 @@ function encodeBitfield(
 				);
 			}
 		} else if (field.isMoreToFollowFlag) {
-			rawValue = !isLastGroupElement;
+			const group = context.group!;
+			const isLastElement =
+				group.data === group.elements[group.elements.length - 1];
+			rawValue = !isLastElement;
 		} else {
 			rawValue = context.getValue(field);
 		}
@@ -263,4 +265,61 @@ function validateLength(
 			)} to have length ${expectedLength}, got ${value.length}`
 		);
 	}
+}
+
+function encodeGroup(param: ParameterGroup, context: Context): Buffer {
+	const value = context.getValue(param);
+	if (!Array.isArray(value)) {
+		throw new CodecDataError(
+			`invalid value for parameter ${getReferencePath(
+				param
+			)}, expected array, got ${typeof value}`
+		);
+	}
+
+	let expectedLength: number | undefined;
+	if (typeof param.length === "number") {
+		expectedLength = param.length;
+	} else {
+		switch (param.length.lengthType) {
+			case LengthType.Automatic:
+				expectedLength = undefined;
+				break;
+			case LengthType.ParameterReference:
+				if (param.length.offset !== undefined) {
+					throw new CodecDefinitionError(
+						"length offset should be zero for groups"
+					);
+				}
+				expectedLength = context.getNumericValue(param.length.from);
+				break;
+			case LengthType.MoreToFollow:
+				expectedLength = undefined;
+				break;
+			default:
+				throw new CodecDefinitionError(
+					`cannot determine length of parameter ${getReferencePath(
+						param
+					)}`
+				);
+		}
+	}
+
+	if (expectedLength !== undefined && value.length !== expectedLength) {
+		throw new CodecDataError(
+			`expected group ${getReferencePath(
+				param
+			)} to have length ${expectedLength}, got ${value.length}`
+		);
+	}
+
+	const elements = context.enterGroup(param);
+	const buffers = elements.map((_, index) => {
+		context.selectGroupElement(index);
+		return Buffer.concat(
+			param.params.map((param) => encodeParam(param, context))
+		);
+	});
+	context.leaveGroup();
+	return Buffer.concat(buffers);
 }

@@ -30,7 +30,9 @@ export interface FirmwareUpdateMdV5FirmwareMdReportData {
 	firmware0Checksum: number; // 2 byte unsigned integer
 	firmwareUpgradable: number; // 1 byte unsigned integer
 	maxFragmentSize: number; // 2 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		firmwareId: number; // 2 byte unsigned integer
+	}>;
 	hardwareVersion: number; // 1 byte unsigned integer
 }
 
@@ -168,7 +170,6 @@ export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Com
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly FirmwareMdReport = class FirmwareMdReport extends CommandPacket<FirmwareUpdateMdV5FirmwareMdReportData> {
 		public static readonly CommandClass = FirmwareUpdateMdV5;
 		public static readonly command = 0x02;

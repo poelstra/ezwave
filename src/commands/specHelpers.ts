@@ -177,18 +177,23 @@ export function convertFromJsonParams(
 		}
 	}
 
-	replaceRefs((result as unknown) as KeyValues);
-	for (const param of result) {
-		if (param.type === ParameterType.ParameterGroup) {
-			for (const gp of param.params) {
-				gp.group = param;
-			}
-		} else if (param.type === ParameterType.Bitfield) {
-			for (const field of param.fields) {
-				field.parent = param;
+	function assignParents(params: Parameter[]): void {
+		for (const param of params) {
+			if (param.type === ParameterType.ParameterGroup) {
+				assignParents(param.params);
+				for (const gp of param.params) {
+					gp.group = param;
+				}
+			} else if (param.type === ParameterType.Bitfield) {
+				for (const field of param.fields) {
+					field.parent = param;
+				}
 			}
 		}
 	}
+
+	replaceRefs((result as unknown) as KeyValues);
+	assignParents(result);
 	return result;
 }
 
@@ -254,19 +259,24 @@ export function convertToJsonParams(
 		}
 	}
 
-	const result = params as Parameter<RefMode.Json>[];
-	for (const param of result) {
-		if (param.type === ParameterType.ParameterGroup) {
-			for (const gp of param.params) {
-				delete gp.group;
-			}
-		} else if (param.type === ParameterType.Bitfield) {
-			for (const field of param.fields) {
-				//delete field.parent;
-				field.parent = undefined;
+	function removeParents(params: Parameter<RefMode.Json>[]): void {
+		for (const param of params) {
+			if (param.type === ParameterType.ParameterGroup) {
+				removeParents(param.params);
+				for (const gp of param.params) {
+					delete gp.group;
+				}
+			} else if (param.type === ParameterType.Bitfield) {
+				for (const field of param.fields) {
+					//delete field.parent;
+					field.parent = undefined;
+				}
 			}
 		}
 	}
+
+	const result = params as Parameter<RefMode.Json>[];
+	removeParents(result);
 	params.forEach((param) => createRefs((param as unknown) as KeyValues));
 	return result;
 }

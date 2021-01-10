@@ -26,7 +26,9 @@ export interface SimpleAvControlV1SimpleAvControlSetData {
 	sequenceNumber: number; // 1 byte unsigned integer
 	keyAttributes: number; // properties1[2..0]
 	reserved2: number; // 2 byte unsigned integer
-	// TODO param vg type group
+	vg: Array<{ // automatic length
+		command: number; // 2 byte unsigned integer
+	}>;
 }
 
 export interface SimpleAvControlV1SimpleAvControlSupportedGetData {
@@ -96,7 +98,6 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SimpleAvControlSet = class SimpleAvControlSet extends CommandPacket<SimpleAvControlV1SimpleAvControlSetData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x01;

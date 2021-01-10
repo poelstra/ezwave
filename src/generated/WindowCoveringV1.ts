@@ -37,7 +37,10 @@ export interface WindowCoveringV1WindowCoveringReportData {
 }
 
 export interface WindowCoveringV1WindowCoveringSetData {
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		parameterId: ParameterIdEnum; // 1 byte enum value
+		value: number; // 1 byte unsigned integer
+	}>;
 	duration: number; // 1 byte unsigned integer
 }
 
@@ -417,7 +420,6 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly WindowCoveringSet = class WindowCoveringSet extends CommandPacket<WindowCoveringV1WindowCoveringSetData> {
 		public static readonly CommandClass = WindowCoveringV1;
 		public static readonly command = 0x05;

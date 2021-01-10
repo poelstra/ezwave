@@ -30,7 +30,10 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationGroupingsRepo
 export interface MultiInstanceAssociationV1MultiInstanceAssociationRemoveData {
 	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		multiInstanceNodeId: number; // 1 byte unsigned integer
+		instance: number; // 1 byte unsigned integer
+	}>;
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationReportData {
@@ -38,13 +41,19 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
 	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		multiInstanceNodeId: number; // 1 byte unsigned integer
+		instance: number; // 1 byte unsigned integer
+	}>;
 }
 
 export interface MultiInstanceAssociationV1MultiInstanceAssociationSetData {
 	// TODO param nodeId type enumarray
 	// TODO param marker type bitmask or marker
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		multiInstanceNodeId: number; // 1 byte unsigned integer
+		instance: number; // 1 byte unsigned integer
+	}>;
 }
 
 // Obsolete

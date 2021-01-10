@@ -28,7 +28,9 @@ export interface FirmwareUpdateMdV4FirmwareMdReportData {
 	firmware0Checksum: number; // 2 byte unsigned integer
 	firmwareUpgradable: number; // 1 byte unsigned integer
 	maxFragmentSize: number; // 2 byte unsigned integer
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		firmwareId: number; // 2 byte unsigned integer
+	}>;
 }
 
 export interface FirmwareUpdateMdV4FirmwareUpdateMdGetData {
@@ -138,7 +140,6 @@ export class FirmwareUpdateMdV4 extends CommandClassPacket<FirmwareUpdateMdV4Com
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly FirmwareMdReport = class FirmwareMdReport extends CommandPacket<FirmwareUpdateMdV4FirmwareMdReportData> {
 		public static readonly CommandClass = FirmwareUpdateMdV4;
 		public static readonly command = 0x02;

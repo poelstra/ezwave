@@ -45,7 +45,10 @@ export interface DcpMonitorV1DcpListReportData {
 	secondLocalTime: number; // 1 byte unsigned integer
 	dcpId: number; // 1 byte unsigned integer
 	numberOfDc: number; // properties1[1..0]
-	// TODO param vg1 type group
+	vg1: Array<{ // variable length
+		genericDeviceClass: number; // 1 byte unsigned integer
+		specificDeviceClass: number; // 1 byte unsigned integer
+	}>;
 	startYear: number; // 2 byte unsigned integer
 	startMonth: number; // 1 byte unsigned integer
 	startDay: number; // 1 byte unsigned integer
@@ -235,7 +238,6 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly DcpListReport = class DcpListReport extends CommandPacket<DcpMonitorV1DcpListReportData> {
 		public static readonly CommandClass = DcpMonitorV1;
 		public static readonly command = 0x02;

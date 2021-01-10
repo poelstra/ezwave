@@ -35,14 +35,18 @@ export interface ConfigurationV3ConfigurationBulkReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
 	default: boolean; // properties1[7]
 	handshake: boolean; // properties1[6]
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		parameter: Buffer; // variable length
+	}>;
 }
 
 export interface ConfigurationV3ConfigurationBulkSetData {
 	parameterOffset: number; // 2 byte unsigned integer
 	default: boolean; // properties1[7]
 	handshake: boolean; // properties1[6]
-	// TODO param vg type group
+	vg: Array<{ // variable length
+		parameter: Buffer; // variable length
+	}>;
 }
 
 export interface ConfigurationV3ConfigurationGetData {
@@ -144,7 +148,6 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ConfigurationBulkReport = class ConfigurationBulkReport extends CommandPacket<ConfigurationV3ConfigurationBulkReportData> {
 		public static readonly CommandClass = ConfigurationV3;
 		public static readonly command = 0x09;
@@ -253,7 +256,6 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ConfigurationBulkSet = class ConfigurationBulkSet extends CommandPacket<ConfigurationV3ConfigurationBulkSetData> {
 		public static readonly CommandClass = ConfigurationV3;
 		public static readonly command = 0x07;
