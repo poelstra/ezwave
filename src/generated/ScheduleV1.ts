@@ -801,8 +801,7 @@ export class ScheduleV1 extends CommandClassPacket<ScheduleV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{

@@ -293,8 +293,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					"name": "dmxChannel",
 					"help": "DMX channel",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

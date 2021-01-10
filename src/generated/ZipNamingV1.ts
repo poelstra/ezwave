@@ -60,8 +60,7 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -110,8 +109,7 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -140,8 +138,7 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"name": "location",
 					"help": "Location",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -190,8 +187,7 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 					"name": "location",
 					"help": "Location",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

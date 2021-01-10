@@ -4346,8 +4346,7 @@
 							"name": "command",
 							"help": "Command ",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_DATA"
 						}
@@ -4397,8 +4396,7 @@
 							"name": "command",
 							"help": "Command ",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_DATA"
 						}
@@ -4518,8 +4516,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						}
@@ -4554,8 +4551,7 @@
 							"name": "nodeId",
 							"help": "NodeID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						}
@@ -4578,8 +4574,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						}
@@ -4646,8 +4641,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						}
@@ -4682,8 +4676,7 @@
 							"name": "nodeId",
 							"help": "NodeID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						}
@@ -4706,8 +4699,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						}
@@ -7971,8 +7963,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -8014,8 +8005,7 @@
 							"name": "info",
 							"help": "Info",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -8514,8 +8504,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -8557,8 +8546,7 @@
 							"name": "info",
 							"help": "Info",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -8781,8 +8769,7 @@
 							"name": "groupName",
 							"help": "Group Name",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -8843,8 +8830,7 @@
 							"name": "sceneName",
 							"help": "Scene Name",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -8883,8 +8869,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_DATA"
 						},
@@ -9619,8 +9604,7 @@
 							"name": "userCode",
 							"help": "USER_CODE",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -11228,8 +11212,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -11435,8 +11418,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -11691,8 +11673,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -11977,8 +11958,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -12402,8 +12382,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -13400,8 +13379,7 @@
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -20183,8 +20161,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20199,8 +20176,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -20263,8 +20239,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20279,8 +20254,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -20331,8 +20305,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20347,8 +20320,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -20443,8 +20415,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20459,8 +20430,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -20523,8 +20493,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20539,8 +20508,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -20591,8 +20559,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20607,8 +20574,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -20709,8 +20675,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20783,8 +20748,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20845,8 +20809,7 @@
 							"name": "nodeId",
 							"help": "Node ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "NODE_NUMBER"
 						},
@@ -20967,8 +20930,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -21026,8 +20988,7 @@
 							"name": "command",
 							"help": "Encapsulated command",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_ENCAP"
 						}
@@ -21086,8 +21047,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -21210,8 +21170,7 @@
 							"name": "command",
 							"help": "Encapsulated command",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_ENCAP"
 						}
@@ -21351,8 +21310,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -21410,8 +21368,7 @@
 							"name": "command",
 							"help": "Encapsulated command",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_ENCAP"
 						}
@@ -21470,8 +21427,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -21594,8 +21550,7 @@
 							"name": "command",
 							"help": "Encapsulated command",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_ENCAP"
 						}
@@ -21735,8 +21690,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -21794,8 +21748,7 @@
 							"name": "command",
 							"help": "Encapsulated command",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_ENCAP"
 						}
@@ -21854,8 +21807,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -21999,8 +21951,7 @@
 							"name": "command",
 							"help": "Encapsulated command",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_ENCAP"
 						}
@@ -22167,8 +22118,7 @@
 							"name": "parameter",
 							"help": "Parameter",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"blobType": "CMD_DATA"
 						}
@@ -22461,8 +22411,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -22693,8 +22642,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -22954,8 +22902,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -23054,8 +23001,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -26515,8 +26461,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -26745,8 +26690,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -26762,8 +26706,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -26779,8 +26722,7 @@
 							"name": "data",
 							"help": "Data",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -30132,8 +30074,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -30269,8 +30210,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 1
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -30397,8 +30337,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 1
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -30897,8 +30836,7 @@
 							"name": "networkKey",
 							"help": "Network Key ",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -30934,8 +30872,7 @@
 							"name": "commandClassSupport",
 							"help": "Command Class support",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						},
@@ -30950,8 +30887,7 @@
 							"name": "commandClassControl",
 							"help": "Command Class control",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -30974,8 +30910,7 @@
 							"name": "encryptedPayload",
 							"help": "Encrypted Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 9
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -31009,8 +30944,7 @@
 							"name": "encryptedPayload",
 							"help": "Encrypted Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 9
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -31045,8 +30979,7 @@
 							"name": "nonce",
 							"help": "Nonce ",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -39462,8 +39395,7 @@
 							"name": "vg",
 							"help": "vg",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -45709,8 +45641,7 @@
 							"name": "payload",
 							"help": "Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -45957,8 +45888,7 @@
 							"name": "payload",
 							"help": "Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -46032,8 +45962,7 @@
 							"name": "payload",
 							"help": "Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -46110,8 +46039,7 @@
 							"name": "payload",
 							"help": "Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 2
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -46186,8 +46114,7 @@
 							"name": "userCode",
 							"help": "USER_CODE",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -46233,8 +46160,7 @@
 							"name": "userCode",
 							"help": "USER_CODE",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -46332,8 +46258,7 @@
 							"name": "userCode",
 							"help": "USER_CODE",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -46387,8 +46312,7 @@
 							"name": "userCode",
 							"help": "USER_CODE",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -47756,8 +47680,7 @@
 							"name": "payload",
 							"help": "Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -47807,8 +47730,7 @@
 							"name": "payload",
 							"help": "Payload",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -47979,8 +47901,7 @@
 								"ref": "properties2.headerExtIncluded"
 							},
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -47991,8 +47912,7 @@
 								"ref": "properties2.zWaveCmdIncluded"
 							},
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -48200,8 +48120,7 @@
 								"ref": "properties2.zWaveCmdIncluded"
 							},
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -48409,8 +48328,7 @@
 								"ref": "properties2.zWaveCmdIncluded"
 							},
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -48618,8 +48536,7 @@
 								"ref": "properties2.zWaveCmdIncluded"
 							},
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -48978,8 +48895,7 @@
 							"name": "commandClasses",
 							"help": "Command Classes",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -50423,8 +50339,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -51108,8 +51023,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 1
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -51856,8 +51770,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 1
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -52604,8 +52517,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 1
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -52891,8 +52803,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -55890,8 +55801,7 @@
 							"name": "nonSecureCommandClass",
 							"help": "Non-Secure Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -55905,8 +55815,7 @@
 							"name": "securityScheme0CommandClass",
 							"help": "Security Scheme 0 Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -55929,8 +55838,7 @@
 							"name": "nonSecureCommandClass",
 							"help": "Non-Secure Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": -1
+								"lengthType": "auto"
 							}
 						},
 						{
@@ -55944,8 +55852,7 @@
 							"name": "securityScheme0CommandClass",
 							"help": "Security Scheme 0 Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -56244,8 +56151,7 @@
 							"name": "dmxChannel",
 							"help": "DMX channel",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -56670,8 +56576,7 @@
 							"name": "statistics",
 							"help": "Statistics",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -56947,8 +56852,7 @@
 							"name": "statistics",
 							"help": "Statistics",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -57070,8 +56974,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -57094,8 +56997,7 @@
 							"name": "name",
 							"help": "Name",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -57111,8 +57013,7 @@
 							"name": "location",
 							"help": "Location",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -57135,8 +57036,7 @@
 							"name": "location",
 							"help": "Location",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -57369,8 +57269,7 @@
 							"name": "mailboxEntry",
 							"help": "Mailbox Entry",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -58165,8 +58064,7 @@
 							"name": "receiversEntropyInput",
 							"help": "Receivers Entropy Input",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -58288,8 +58186,7 @@
 							"name": "ccmCiphertextObject",
 							"help": "CCM Ciphertext Object",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -58491,8 +58388,7 @@
 							"name": "ecdhPublicKey",
 							"help": "ECDH Public Key",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -58627,8 +58523,7 @@
 							"name": "commandClass",
 							"help": "Command Class",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"valueType": "CMD_CLASS_REF"
 						}
@@ -59660,8 +59555,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -59711,8 +59605,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -59742,8 +59635,7 @@
 							"name": "valveTableId",
 							"help": "Valve Table ID",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							}
 						}
 					]
@@ -61798,8 +61690,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -61982,8 +61873,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{
@@ -62140,8 +62030,7 @@
 							"name": "vg1",
 							"help": "vg1",
 							"length": {
-								"lengthType": "auto",
-								"endOffset": 0
+								"lengthType": "auto"
 							},
 							"params": [
 								{

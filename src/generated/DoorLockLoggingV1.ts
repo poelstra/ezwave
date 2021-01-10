@@ -213,8 +213,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					"name": "userCode",
 					"help": "USER_CODE",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

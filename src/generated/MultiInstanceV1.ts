@@ -78,8 +78,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 					"name": "parameter",
 					"help": "Parameter",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"blobType": "CMD_DATA"
 				}

@@ -150,8 +150,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "NODE_NUMBER"
 				}
@@ -200,8 +199,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "NODE_NUMBER"
 				}
@@ -238,8 +236,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "NODE_NUMBER"
 				}

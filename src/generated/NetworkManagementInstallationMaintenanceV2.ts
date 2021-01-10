@@ -348,8 +348,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 					"name": "statistics",
 					"help": "Statistics",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{

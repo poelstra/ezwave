@@ -243,8 +243,7 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}

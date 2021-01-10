@@ -574,8 +574,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -643,8 +642,7 @@ export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands>
 					"name": "info",
 					"help": "Info",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

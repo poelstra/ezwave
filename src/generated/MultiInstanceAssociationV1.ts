@@ -169,8 +169,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": -1
+						"lengthType": "auto"
 					},
 					"valueType": "NODE_NUMBER"
 				},
@@ -257,8 +256,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": -1
+						"lengthType": "auto"
 					},
 					"valueType": "NODE_NUMBER"
 				},
@@ -333,8 +331,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": -1
+						"lengthType": "auto"
 					},
 					"valueType": "NODE_NUMBER"
 				},

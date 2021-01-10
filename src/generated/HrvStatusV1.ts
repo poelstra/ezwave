@@ -187,8 +187,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

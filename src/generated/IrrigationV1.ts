@@ -1374,8 +1374,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{
@@ -1451,8 +1450,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{
@@ -1495,8 +1493,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

@@ -342,8 +342,7 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					"name": "mailboxEntry",
 					"help": "Mailbox Entry",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

@@ -202,8 +202,7 @@ export class ZipV1 extends CommandClassPacket<ZipV1Commands> {
 						"ref": "properties2.headerExtIncluded"
 					},
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				},
 				{
@@ -214,8 +213,7 @@ export class ZipV1 extends CommandClassPacket<ZipV1Commands> {
 						"ref": "properties2.zWaveCmdIncluded"
 					},
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

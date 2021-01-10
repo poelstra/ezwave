@@ -190,8 +190,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"name": "receiversEntropyInput",
 					"help": "Receivers Entropy Input",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -326,8 +325,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"name": "ccmCiphertextObject",
 					"help": "CCM Ciphertext Object",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -596,8 +594,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"name": "ecdhPublicKey",
 					"help": "ECDH Public Key",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -811,8 +808,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}

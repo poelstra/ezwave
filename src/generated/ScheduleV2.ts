@@ -873,8 +873,7 @@ export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 1
+						"lengthType": "auto"
 					},
 					"params": [
 						{

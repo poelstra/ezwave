@@ -245,8 +245,7 @@ export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
 						"ref": "properties2.zWaveCmdIncluded"
 					},
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

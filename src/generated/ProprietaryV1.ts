@@ -54,8 +54,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -84,8 +83,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -114,8 +112,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

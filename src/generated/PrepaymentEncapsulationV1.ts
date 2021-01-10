@@ -43,8 +43,7 @@ export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEnca
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

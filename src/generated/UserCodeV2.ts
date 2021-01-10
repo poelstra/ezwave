@@ -211,8 +211,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "userCode",
 					"help": "USER_CODE",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -279,8 +278,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 					"name": "userCode",
 					"help": "USER_CODE",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

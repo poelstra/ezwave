@@ -102,8 +102,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 2
+						"lengthType": "auto"
 					}
 				},
 				{
@@ -193,8 +192,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 2
+						"lengthType": "auto"
 					}
 				},
 				{

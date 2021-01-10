@@ -366,11 +366,6 @@ class CommandClassGenerator {
 						switch (param.length.lengthType) {
 							case spec.LengthType.Automatic:
 								lengthStr = `automatic length`;
-								// TODO Implement (in xml2json) and remove this
-								if (param.length.endOffset < 0) {
-									this._incompleteCommands.add(cmd.command);
-									lengthStr = "";
-								}
 								break;
 							case spec.LengthType.ParameterReference:
 								// TODO If reference points to an explicit length prop,
@@ -387,24 +382,13 @@ class CommandClassGenerator {
 								throw new Error("unexpected length type");
 						}
 					}
-					if (lengthStr === "") {
-						// TODO Implement (in xml2json) and remove this
-						contents.push(
-							`\t// TODO ${param.name}${isOptional ? "?" : ""}: ${
-								param.type === spec.ParameterType.Blob
-									? "Buffer"
-									: "string"
-							}; // automatic length`
-						);
-					} else {
-						contents.push(
-							`\t${param.name}${isOptional ? "?" : ""}: ${
-								param.type === spec.ParameterType.Blob
-									? "Buffer"
-									: "string"
-							}; // ${lengthStr}`
-						);
-					}
+					contents.push(
+						`\t${param.name}${isOptional ? "?" : ""}: ${
+							param.type === spec.ParameterType.Blob
+								? "Buffer"
+								: "string"
+						}; // ${lengthStr}`
+					);
 				}
 				break;
 

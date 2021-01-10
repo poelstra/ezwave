@@ -239,8 +239,7 @@ export class ZipV2 extends CommandClassPacket<ZipV2Commands> {
 						"ref": "properties2.zWaveCmdIncluded"
 					},
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

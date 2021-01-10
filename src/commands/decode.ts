@@ -1,5 +1,7 @@
+import { parseCommandClasses } from "../server/commandClassInfo";
 import {
 	CodecDataError,
+	CodecDefinitionError,
 	CodecUnexpectedEndOfPacketError,
 	Context,
 } from "./codec";
@@ -12,10 +14,12 @@ import {
 	IntegerParameter,
 	LengthType,
 	LocalParameter,
+	Parameter,
 	ParameterGroup,
 	ParameterType,
 	TextParameter,
 } from "./spec";
+import { getReferencePath } from "./specHelpers";
 
 export function decodeCommandAndPayload<T extends object | void>(
 	commandDef: CommandDefinition,
@@ -35,7 +39,13 @@ export function decodeCommandAndPayload<T extends object | void>(
 	// commandMask being used.
 	let pos = commandDef.cmdMask !== undefined ? 0 : 1;
 	for (const param of commandDef.params) {
-		pos += decodeParam(commandAndPayload, pos, param, context);
+		pos += decodeParam(
+			commandAndPayload,
+			pos,
+			param,
+			context,
+			commandDef.params
+		);
 	}
 	return context.data as T;
 }
@@ -44,7 +54,8 @@ function decodeParam(
 	packet: Buffer,
 	pos: number,
 	param: LocalParameter | ParameterGroup,
-	context: Context
+	context: Context,
+	params: Parameter[]
 ): number {
 	// Skip optional param if necessary
 	if (param.optional) {
@@ -59,7 +70,8 @@ function decodeParam(
 	if (typeof param.length === "number") {
 		length = param.length;
 	} else if (param.length.lengthType === LengthType.Automatic) {
-		length = packet.length - pos - param.length.endOffset;
+		const endOffset = getRemainingParameterLengths(param, context, params);
+		length = packet.length - pos - endOffset;
 	} else if (
 		param.type === ParameterType.ParameterGroup ||
 		param.length.lengthType === LengthType.MoreToFollow
@@ -115,6 +127,76 @@ function decodeParam(
 				`missing implementation for parameter type ${param.type}`
 			);
 	}
+}
+
+/**
+ * In case a parameter is set to have automatic length, this means the parameter
+ * takes up 'the rest of the packet'. However, if there are parameters after the
+ * current one, any space they take up must be left for them.
+ * This function computes the total length of all of these parameters.
+ */
+function getRemainingParameterLengths(
+	param: Parameter,
+	context: Context,
+	params: Parameter[]
+): number {
+	const isLast = params[params.length - 1] === param;
+	if (isLast) {
+		// Trivial case
+		return 0;
+	}
+
+	const index = params.indexOf(param);
+	if (index < 0) {
+		throw new CodecDefinitionError("cannot determine index of parameter");
+	}
+
+	let endOffset = 0;
+	const remainingParams = params.slice(index + 1);
+	for (const rem of remainingParams) {
+		if (rem.optional) {
+			const shouldBePresent = !!context.getValue(rem.optional);
+			if (!shouldBePresent) {
+				continue;
+			}
+		}
+		const len = rem.length;
+		if (typeof len === "number") {
+			endOffset += len;
+		} else {
+			switch (len.lengthType) {
+				case LengthType.ParameterReference:
+					endOffset +=
+						context.getNumericValue(len.from) - (len.offset ?? 0);
+					break;
+				case LengthType.Automatic:
+					throw new CodecDefinitionError(
+						`cannot determine remaining parameter lengths for ${getReferencePath(
+							param
+						)}: parameter ${getReferencePath(
+							rem
+						)} also has automatic length`
+					);
+				case LengthType.MoreToFollow:
+					throw new CodecDefinitionError(
+						`cannot determine remaining parameter lengths for ${getReferencePath(
+							param
+						)}: parameter ${getReferencePath(
+							rem
+						)} also has more-to-follow length`
+					);
+				default:
+					throw new CodecDefinitionError(
+						`cannot determine remaining parameter lengths for ${getReferencePath(
+							param
+						)}: parameter ${getReferencePath(
+							rem
+						)} has unsupported length type`
+					);
+			}
+		}
+	}
+	return endOffset;
 }
 
 function decodeInteger(
@@ -202,7 +284,13 @@ function decodeGroup(
 				// a command, but not in the middle of a group).
 				throw new CodecUnexpectedEndOfPacketError();
 			}
-			processed += decodeParam(slice, processed, groupParam, context);
+			processed += decodeParam(
+				slice,
+				processed,
+				groupParam,
+				context,
+				param.params
+			);
 		}
 		if (param.moreToFollow) {
 			// i.e. groupLength === "auto"

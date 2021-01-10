@@ -60,8 +60,7 @@ export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 2
+						"lengthType": "auto"
 					},
 					"blobType": "CMD_DATA"
 				},

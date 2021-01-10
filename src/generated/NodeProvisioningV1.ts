@@ -134,8 +134,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{
@@ -357,8 +356,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{
@@ -541,8 +539,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{

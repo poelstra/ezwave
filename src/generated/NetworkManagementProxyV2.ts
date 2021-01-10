@@ -293,8 +293,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}
@@ -634,8 +633,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}
@@ -760,8 +758,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{

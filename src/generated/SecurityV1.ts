@@ -90,8 +90,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"name": "networkKey",
 					"help": "Network Key ",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -167,8 +166,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"name": "commandClassSupport",
 					"help": "Command Class support",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": -1
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				},
@@ -183,8 +181,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"name": "commandClassControl",
 					"help": "Command Class control",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}
@@ -220,8 +217,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"name": "encryptedPayload",
 					"help": "Encrypted Payload",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 9
+						"lengthType": "auto"
 					}
 				},
 				{
@@ -268,8 +264,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"name": "encryptedPayload",
 					"help": "Encrypted Payload",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 9
+						"lengthType": "auto"
 					}
 				},
 				{
@@ -330,8 +325,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"name": "nonce",
 					"help": "Nonce ",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

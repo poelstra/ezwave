@@ -579,8 +579,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -648,8 +647,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 					"name": "info",
 					"help": "Info",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

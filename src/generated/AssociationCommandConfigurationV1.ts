@@ -170,8 +170,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"name": "command",
 					"help": "Command ",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"blobType": "CMD_DATA"
 				}
@@ -234,8 +233,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					"name": "command",
 					"help": "Command ",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"blobType": "CMD_DATA"
 				}

@@ -957,8 +957,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 1
+						"lengthType": "auto"
 					},
 					"params": [
 						{

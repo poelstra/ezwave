@@ -230,8 +230,7 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

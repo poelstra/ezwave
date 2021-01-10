@@ -420,17 +420,15 @@ export interface ParamRefLengthInfo<Mode extends RefMode = RefMode.Direct> {
 }
 
 /**
- * Length of parameter determined by available size in packet, possibly
- * reserving some space at the end for a number of fixed-length parameters.
+ * Length of parameter determined by available size in packet.
+ *
+ * In some cases, more parameters can follow an automatic-length
+ * parameter, in which case a decoder should compute the length of
+ * all of these parameters, and leave that number of bytes for these
+ * parameters.
  */
 export interface AutomaticLengthInfo {
 	lengthType: LengthType.Automatic;
-
-	/**
-	 * Number of bytes to leave at end of message, due to more elements
-	 * following the current (automatic-length) parameter.
-	 */
-	endOffset: number;
 }
 
 /**

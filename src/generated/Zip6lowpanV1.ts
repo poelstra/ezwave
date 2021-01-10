@@ -83,8 +83,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -147,8 +146,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

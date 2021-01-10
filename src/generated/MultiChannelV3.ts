@@ -178,8 +178,7 @@ export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}
@@ -250,8 +249,7 @@ export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 					"name": "command",
 					"help": "Encapsulated command",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"blobType": "CMD_ENCAP"
 				}
@@ -336,8 +334,7 @@ export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"params": [
 						{
@@ -499,8 +496,7 @@ export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 					"name": "command",
 					"help": "Encapsulated command",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"blobType": "CMD_ENCAP"
 				}

@@ -69,13 +69,13 @@ export interface ZipGatewayV1UnsolicitedDestinationReportData {
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoSetData {
-	// TODO nonSecureCommandClass: Buffer; // automatic length
+	nonSecureCommandClass: Buffer; // automatic length
 	// TODO param securityScheme0Mark type bitmask or marker
 	securityScheme0CommandClass: Buffer; // automatic length
 }
 
 export interface ZipGatewayV1CommandApplicationNodeInfoReportData {
-	// TODO nonSecureCommandClass: Buffer; // automatic length
+	nonSecureCommandClass: Buffer; // automatic length
 	// TODO param securityScheme0Mark type bitmask or marker
 	securityScheme0CommandClass: Buffer; // automatic length
 }
@@ -526,8 +526,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": -1
+						"lengthType": "auto"
 					}
 				},
 				{
@@ -541,8 +540,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "securityScheme0CommandClass",
 					"help": "Security Scheme 0 Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -592,8 +590,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": -1
+						"lengthType": "auto"
 					}
 				},
 				{
@@ -607,8 +604,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					"name": "securityScheme0CommandClass",
 					"help": "Security Scheme 0 Command Class",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]

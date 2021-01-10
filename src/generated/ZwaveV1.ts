@@ -599,8 +599,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					"name": "commandClasses",
 					"help": "Command Classes",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					},
 					"valueType": "CMD_CLASS_REF"
 				}

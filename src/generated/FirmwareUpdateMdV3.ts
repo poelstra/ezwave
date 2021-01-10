@@ -284,8 +284,7 @@ export class FirmwareUpdateMdV3 extends CommandClassPacket<FirmwareUpdateMdV3Com
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 2
+						"lengthType": "auto"
 					}
 				},
 				{

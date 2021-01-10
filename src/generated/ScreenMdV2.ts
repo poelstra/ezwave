@@ -141,8 +141,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 1
+						"lengthType": "auto"
 					},
 					"params": [
 						{
@@ -282,8 +281,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 1
+						"lengthType": "auto"
 					},
 					"params": [
 						{

@@ -119,8 +119,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					"name": "groupName",
 					"help": "Group Name",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
@@ -207,8 +206,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 					"name": "sceneName",
 					"help": "Scene Name",
 					"length": {
-						"lengthType": "auto",
-						"endOffset": 0
+						"lengthType": "auto"
 					}
 				}
 			]
