@@ -114,7 +114,7 @@ export function getParamLength(
 		let rawLength: number;
 		if (
 			Array.isArray(value) ||
-			value === "string" ||
+			typeof value === "string" ||
 			Buffer.isBuffer(value)
 		) {
 			rawLength = value.length;

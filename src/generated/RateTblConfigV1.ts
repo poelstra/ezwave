@@ -22,7 +22,7 @@ export interface RateTblConfigV1RateTblRemoveData {
 export interface RateTblConfigV1RateTblSetData {
 	rateParameterSetId: number; // 1 byte unsigned integer
 	rateType: number; // properties1[6..5]
-	rateCharacter: Buffer; // variable length
+	rateCharacter: string; // variable length
 	startHourLocalTime: number; // 1 byte unsigned integer
 	startMinuteLocalTime: number; // 1 byte unsigned integer
 	durationMinute: number; // 2 byte unsigned integer
@@ -155,7 +155,7 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					]
 				},
 				{
-					"type": "blob",
+					"type": "text",
 					"name": "rateCharacter",
 					"help": "Rate Character",
 					"length": {

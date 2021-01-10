@@ -1246,6 +1246,12 @@ function applyFixes(defs: spec.CommandsByClassByVersion): void {
 			MultiChannelCmdEncap: collapseCommandEncapsulation,
 			MultiInstanceCmdEncap: collapseCommandEncapsulation,
 		},
+		RateTblConfig: {
+			RateTblSet: (cmd) => {
+				getParam("rateCharacter", cmd.params).type =
+					spec.ParameterType.Text;
+			},
+		},
 		Security: {
 			SecurityMessageEncapsulation: collapseEncryptedPayload,
 			SecurityMessageEncapsulationNonceGet: collapseEncryptedPayload,

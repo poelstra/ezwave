@@ -27219,7 +27219,7 @@
 							]
 						},
 						{
-							"type": "blob",
+							"type": "text",
 							"name": "rateCharacter",
 							"help": "Rate Character",
 							"length": {

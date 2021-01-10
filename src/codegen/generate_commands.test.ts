@@ -12,7 +12,10 @@ import { CommandPacket } from "../commands/command";
 import { CommandPacketConstructor, Packet } from "../commands/packet";
 import { AlarmV2, ZwaveAlarmTypeEnum } from "../generated/AlarmV2";
 import { BasicV2 } from "../generated/BasicV2";
+import { MeterPulseV1 } from "../generated/MeterPulseV1";
+import { RateTblConfigV1 } from "../generated/RateTblConfigV1";
 import { SecurityV1 } from "../generated/SecurityV1";
+import { VersionV3 } from "../generated/VersionV3";
 import { ZipV4 } from "../generated/ZipV4";
 
 interface CommandConstructor<T extends object | void>
@@ -65,12 +68,82 @@ describe("generate_commands", () => {
 		);
 	});
 
-	it.skip("VersionV3.VersionZwaveSoftwareReport", () => {
+	it("VersionV3.VersionZwaveSoftwareReport", () => {
 		// - 2- and 3-byte integers
+		// prettier-ignore
+		verifyRoundTrip(
+			VersionV3.VersionZwaveSoftwareReport,
+			Buffer.from([0x86, 0x18,
+				0x06, 0x33, 0x09,
+				0x00, 0x00, 0x00,
+				0x12, 0x34,
+				0x00, 0x00, 0x00,
+				0x00, 0x00,
+				0x00, 0x00, 0x00,
+				0x00, 0x00,
+				0x00, 0x00, 0x00,
+				0x00, 0x00,
+			]),
+			{
+				sdkVersion: 0x063309, // 3 byte unsigned integer, version 06.51.09 (example from SDS13782 Z-Wave Management Command Class Specification.pdf)
+				applicationFrameworkApiVersion: 0, // 3 byte unsigned integer
+				applicationFrameworkBuildNumber: 0x1234, // 2 byte unsigned integer
+				hostInterfaceVersion: 0, // 3 byte unsigned integer
+				hostInterfaceBuildNumber: 0, // 2 byte unsigned integer
+				zWaveProtocolVersion: 0, // 3 byte unsigned integer
+				zWaveProtocolBuildNumber: 0, // 2 byte unsigned integer
+				applicationVersion: 0, // 3 byte unsigned integer
+				applicationBuildNumber: 0, // 2 byte unsigned integer
+			}
+		);
 	});
 
-	it.skip("RateTblConfig.RateTblSet", () => {
+	it("MeterPulseV1.MeterPulseReport", () => {
+		// - 4-byte unsigned integer
+		verifyRoundTrip(
+			MeterPulseV1.MeterPulseReport,
+			Buffer.from([0x35, 0x05, 0xff, 0xfe, 0xfd, 0xfc]),
+			{
+				pulseCount: 0xfffefdfc,
+			}
+		);
+	});
+
+	it("RateTblConfigV1.RateTblSet", () => {
 		// - 4-byte integer
+		// - short variable-length text field
+		// prettier-ignore
+		verifyRoundTrip(
+			RateTblConfigV1.RateTblSet,
+			Buffer.from([0x48, 0x01,
+				0x00, 0x05,
+				0x41, 0x42, 0x43, 0x44, 0x45,
+				0x00, 0x00,
+				0xff, 0xfe,
+				0x00,
+				0xff, 0xfe, 0xfd, 0xfc,
+				0x01, 0x02, 0x03, 0x04,
+				0x00,
+				0x00, 0x00, 0x00, 0x00,
+				0x00
+			]),
+			{
+				rateParameterSetId: 0, // 1 byte unsigned integer
+				rateType: 0, // properties1[6..5]
+				rateCharacter: "ABCDE", // variable length
+				startHourLocalTime: 0, // 1 byte unsigned integer
+				startMinuteLocalTime: 0, // 1 byte unsigned integer
+				durationMinute: 0xfffe, // 2 byte unsigned integer
+				consumptionPrecision: 0, // properties2[7..5]
+				consumptionScale: 0, // properties2[4..0]
+				minConsumptionValue: 0xfffefdfc, // 4 byte unsigned integer
+				maxConsumptionValue: 0x01020304, // 4 byte unsigned integer
+				maxDemandPrecision: 0, // properties3[7..5]
+				maxDemandScale: 0, // properties3[4..0]
+				maxDemandValue: 0, // 4 byte unsigned integer
+				dcpRateId: 0, // 1 byte unsigned integer
+			}
+		);
 	});
 
 	it("SecurityV1.SecurityMessageEncapsulation", () => {
