@@ -16,11 +16,22 @@ export class Packet {
 	constructor(bufferOrClass: Buffer | number, commandAndPayload?: Buffer) {
 		if (Buffer.isBuffer(bufferOrClass)) {
 			const buffer = bufferOrClass;
+			if (buffer.length < 1) {
+				throw new Error(
+					"unexpected end-of-packet: missing command class"
+				);
+			}
 			const isSimpleClass = buffer[0] <= 0xf0;
+			if (!isSimpleClass && buffer.length < 2) {
+				throw new Error(
+					"unexpected end-of-packet: truncated multi-byte command class"
+				);
+			}
 			this.commandClass = isSimpleClass
 				? buffer[0]
 				: buffer.readUInt16BE(0);
-			this.commandAndPayload = buffer.slice(isSimpleClass ? 1 : 2);
+			const offset = isSimpleClass ? 1 : 2;
+			this.commandAndPayload = buffer.slice(offset);
 		} else {
 			this.commandClass = bufferOrClass;
 			this.commandAndPayload = commandAndPayload!;
@@ -62,6 +73,20 @@ export class Packet {
 		if (instance) {
 			return instance;
 		}
-		throw new Error(`cannot convert packet into requested command class`);
+		// Some command classes (e.g. NOP) do not have a command, which
+		// could also happen on invalid packets.
+		if (this.commandAndPayload.length > 0) {
+			throw new Error(
+				`cannot convert packet into requested command class or command, got 0x${this.commandClass.toString(
+					16
+				)}:0x${this.commandAndPayload[0].toString(16)}`
+			);
+		} else {
+			throw new Error(
+				`cannot convert packet into requested command class, got 0x${this.commandClass.toString(
+					16
+				)}`
+			);
+		}
 	}
 }
