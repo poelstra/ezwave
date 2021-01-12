@@ -69,20 +69,20 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 			"command": 4,
 			"name": "CommandConfigurationGet",
 			"help": "Command Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -103,42 +103,42 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 			"command": 5,
 			"name": "CommandConfigurationReport",
 			"help": "Command Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "first",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reportsToFollow",
 							"mask": 15,
 							"shift": 0
@@ -146,31 +146,31 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandLength",
 					"help": "Command length",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClassIdentifier",
 					"help": "Command Class identifier",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandIdentifier",
 					"help": "Command identifier",
 					"length": 1,
-					"valueType": "CMD_REF"
+					"valueType": "Command"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "command",
 					"help": "Command ",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandData"
 				}
@@ -193,47 +193,47 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 			"command": 3,
 			"name": "CommandConfigurationSet",
 			"help": "Command Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandLength",
 					"help": "Command length",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClassIdentifier",
 					"help": "Command Class identifier",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandIdentifier",
 					"help": "Command identifier",
 					"length": 1,
-					"valueType": "CMD_REF"
+					"valueType": "Command"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "command",
 					"help": "Command ",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandData"
 				}
@@ -256,7 +256,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 			"command": 1,
 			"name": "CommandRecordsSupportedGet",
 			"help": "Command Records Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -276,28 +276,28 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 			"command": 2,
 			"name": "CommandRecordsSupportedReport",
 			"help": "Command Records Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maxCommandLength",
 							"mask": 252,
 							"shift": 2
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "vC",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "confCmd",
 							"mask": 1,
 							"shift": 0
@@ -305,13 +305,13 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "freeCommandRecords",
 					"help": "Free Command records",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maxCommandRecords",
 					"help": "Max Command records",
 					"length": 2

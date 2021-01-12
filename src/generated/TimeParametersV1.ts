@@ -52,7 +52,7 @@ export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Command
 			"command": 2,
 			"name": "TimeParametersGet",
 			"help": "Time Parameters Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -72,40 +72,40 @@ export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Command
 			"command": 3,
 			"name": "TimeParametersReport",
 			"help": "Time Parameters Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourUtc",
 					"help": "Hour UTC",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteUtc",
 					"help": "Minute UTC",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondUtc",
 					"help": "Second UTC",
 					"length": 1
@@ -129,40 +129,40 @@ export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Command
 			"command": 1,
 			"name": "TimeParametersSet",
 			"help": "Time Parameters Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourUtc",
 					"help": "Hour UTC",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteUtc",
 					"help": "Minute UTC",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondUtc",
 					"help": "Second UTC",
 					"length": 1

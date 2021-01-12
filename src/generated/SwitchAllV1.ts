@@ -51,7 +51,7 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 			"command": 2,
 			"name": "SwitchAllGet",
 			"help": "Switch All Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -71,7 +71,7 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 			"command": 5,
 			"name": "SwitchAllOff",
 			"help": "Switch All Off",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -91,7 +91,7 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 			"command": 4,
 			"name": "SwitchAllOn",
 			"help": "Switch All On",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -111,10 +111,10 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 			"command": 3,
 			"name": "SwitchAllReport",
 			"help": "Switch All Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -156,10 +156,10 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 			"command": 1,
 			"name": "SwitchAllSet",
 			"help": "Switch All Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,

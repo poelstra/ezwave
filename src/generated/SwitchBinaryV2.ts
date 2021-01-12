@@ -66,7 +66,7 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 			"command": 2,
 			"name": "SwitchBinaryGet",
 			"help": "Switch Binary Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -86,10 +86,10 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 			"command": 3,
 			"name": "SwitchBinaryReport",
 			"help": "Switch Binary Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "currentValue",
 					"help": "Current Value",
 					"length": 1,
@@ -105,7 +105,7 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "targetValue",
 					"help": "Target Value",
 					"length": 1,
@@ -121,7 +121,7 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,
@@ -159,10 +159,10 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 			"command": 1,
 			"name": "SwitchBinarySet",
 			"help": "Switch Binary Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "targetValue",
 					"help": "Target Value",
 					"length": 1,
@@ -178,7 +178,7 @@ export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,

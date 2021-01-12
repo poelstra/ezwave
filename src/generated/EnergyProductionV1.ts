@@ -51,10 +51,10 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 			"command": 2,
 			"name": "EnergyProductionGet",
 			"help": "Energy Production Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "parameterNumber",
 					"help": "Parameter Number",
 					"length": 1,
@@ -96,10 +96,10 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 			"command": 3,
 			"name": "EnergyProductionReport",
 			"help": "Energy Production Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "parameterNumber",
 					"help": "Parameter Number",
 					"length": 1,
@@ -123,25 +123,25 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -155,11 +155,11 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "level.size"
 						}

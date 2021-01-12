@@ -52,17 +52,17 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 			"command": 192,
 			"name": "CommandFirstFragment",
 			"help": "First Fragment",
-			"status": "active",
+			"status": "Active",
 			"cmdMask": 248,
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -71,26 +71,26 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"cmdMask": 7
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramSize2",
 					"help": "datagram_size_2",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "sequenceNo",
 							"mask": 15,
 							"shift": 0
@@ -98,15 +98,15 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "checksum",
 					"help": "Checksum",
 					"length": 2
@@ -130,17 +130,17 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 			"command": 224,
 			"name": "CommandSubsequentFragment",
 			"help": "Subsequent Fragment",
-			"status": "active",
+			"status": "Active",
 			"cmdMask": 248,
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -149,32 +149,32 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					"cmdMask": 7
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramSize2",
 					"help": "datagram_size_2",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "reserved",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "sequenceNo",
 							"mask": 120,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "datagramOffset1",
 							"mask": 7,
 							"shift": 0
@@ -182,21 +182,21 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramOffset2",
 					"help": "datagram_offset_2",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "checksum",
 					"help": "Checksum",
 					"length": 2

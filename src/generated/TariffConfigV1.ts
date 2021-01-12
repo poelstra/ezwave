@@ -58,23 +58,23 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 			"command": 3,
 			"name": "TariffTblRemove",
 			"help": "Tariff Tbl Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "rateParameterSetIds",
 							"mask": 63,
 							"shift": 0,
@@ -88,11 +88,11 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.rateParameterSetIds"
 						}
@@ -117,28 +117,28 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 			"command": 2,
 			"name": "TariffTblSet",
 			"help": "Tariff Tbl Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "tariffPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 31,
 							"shift": 0,
@@ -147,7 +147,7 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "tariffValue",
 					"help": "Tariff Value",
 					"length": 4
@@ -171,64 +171,64 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 			"command": 1,
 			"name": "TariffTblSupplierSet",
 			"help": "Tariff Tbl Supplier Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourLocalTime",
 					"help": "Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteLocalTime",
 					"help": "Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondLocalTime",
 					"help": "Second Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "currency",
 					"help": "Currency",
 					"length": 3
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "standingChargePrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "standingChargePeriod",
 							"mask": 31,
 							"shift": 0
@@ -236,26 +236,26 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "standingChargeValue",
 					"help": "Standing Charge Value",
 					"length": 4
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfSupplierCharacters",
 							"mask": 31,
 							"shift": 0,
@@ -269,11 +269,11 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "supplierCharacter",
 					"help": "Supplier Character",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.numberOfSupplierCharacters"
 						}

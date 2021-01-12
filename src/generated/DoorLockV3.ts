@@ -112,7 +112,7 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 			"command": 5,
 			"name": "DoorLockConfigurationGet",
 			"help": "Door Lock Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -132,10 +132,10 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 			"command": 6,
 			"name": "DoorLockConfigurationReport",
 			"help": "Door Lock Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "operationType",
 					"help": "Operation Type",
 					"length": 1,
@@ -151,19 +151,19 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -171,13 +171,13 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutMinutes",
 					"help": "Lock Timeout Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutSeconds",
 					"help": "Lock Timeout Seconds",
 					"length": 1
@@ -201,10 +201,10 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 			"command": 4,
 			"name": "DoorLockConfigurationSet",
 			"help": "Door Lock Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "operationType",
 					"help": "Operation Type",
 					"length": 1,
@@ -220,19 +220,19 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -240,13 +240,13 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutMinutes",
 					"help": "Lock Timeout Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutSeconds",
 					"help": "Lock Timeout Seconds",
 					"length": 1
@@ -270,7 +270,7 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 			"command": 2,
 			"name": "DoorLockOperationGet",
 			"help": "Door Lock Operation Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -290,10 +290,10 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 			"command": 3,
 			"name": "DoorLockOperationReport",
 			"help": "Door Lock Operation Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "currentDoorLockMode",
 					"help": "Current Door Lock Mode",
 					"length": 1,
@@ -333,19 +333,19 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "outsideDoorHandlesMode",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "insideDoorHandlesMode",
 							"mask": 15,
 							"shift": 0
@@ -353,25 +353,25 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "doorCondition",
 					"help": "Door Condition",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutMinutes",
 					"help": "Lock Timeout Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutSeconds",
 					"help": "Lock Timeout Seconds",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "targetDoorLockMode",
 					"help": "Target Door Lock Mode",
 					"length": 1,
@@ -411,7 +411,7 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,
@@ -449,10 +449,10 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 			"command": 1,
 			"name": "DoorLockOperationSet",
 			"help": "Door Lock Operation Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "doorLockMode",
 					"help": "Door Lock Mode",
 					"length": 1,

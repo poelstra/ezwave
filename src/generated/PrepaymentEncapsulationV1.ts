@@ -36,14 +36,14 @@ export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEnca
 			"command": 1,
 			"name": "CmdEncapsulation",
 			"help": "Cmd Encapsulation",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

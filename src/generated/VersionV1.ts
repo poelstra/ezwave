@@ -52,14 +52,14 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 			"command": 19,
 			"name": "VersionCommandClassGet",
 			"help": "Version Command Class Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "requestedCommandClass",
 					"help": "Requested Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -80,17 +80,17 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 			"command": 20,
 			"name": "VersionCommandClassReport",
 			"help": "Version Command Class Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "requestedCommandClass",
 					"help": "Requested Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClassVersion",
 					"help": "Command Class Version",
 					"length": 1
@@ -114,7 +114,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 			"command": 17,
 			"name": "VersionGet",
 			"help": "Version Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -134,34 +134,34 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 			"command": 18,
 			"name": "VersionReport",
 			"help": "Version Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zWaveLibraryType",
 					"help": "Z-Wave Library Type",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zWaveProtocolVersion",
 					"help": "Z-Wave Protocol Version",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zWaveProtocolSubVersion",
 					"help": "Z-Wave Protocol Sub Version",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "applicationVersion",
 					"help": "Application Version",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "applicationSubVersion",
 					"help": "Application Sub Version",
 					"length": 1

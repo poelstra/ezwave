@@ -43,7 +43,7 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 			"command": 1,
 			"name": "HumidityControlOperatingStateGet",
 			"help": "Humidity Control Operating State Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -63,23 +63,23 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 			"command": 2,
 			"name": "HumidityControlOperatingStateReport",
 			"help": "Humidity Control Operating State Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "operatingState",
 							"mask": 15,
 							"shift": 0,

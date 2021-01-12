@@ -49,10 +49,10 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 			"command": 5,
 			"name": "ConfigurationGet",
 			"help": "Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "parameterNumber",
 					"help": "Parameter Number",
 					"length": 1
@@ -76,29 +76,29 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 			"command": 6,
 			"name": "ConfigurationReport",
 			"help": "Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "parameterNumber",
 					"help": "Parameter Number",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -112,11 +112,11 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "level.size"
 						}
@@ -141,35 +141,35 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 			"command": 4,
 			"name": "ConfigurationSet",
 			"help": "Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "parameterNumber",
 					"help": "Parameter Number",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "default",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 120,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -183,11 +183,11 @@ export class ConfigurationV1 extends CommandClassPacket<ConfigurationV1Commands>
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "configurationValue",
 					"help": "Configuration Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "level.size"
 						}

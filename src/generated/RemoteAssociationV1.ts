@@ -51,10 +51,10 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 			"command": 2,
 			"name": "RemoteAssociationConfigurationGet",
 			"help": "Remote Association Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "localGroupingIdentifier",
 					"help": "Local Grouping identifier",
 					"length": 1
@@ -78,10 +78,10 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 			"command": 3,
 			"name": "RemoteAssociationConfigurationReport",
 			"help": "Remote Association Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "localGroupingIdentifier",
 					"help": "Local Grouping identifier",
 					"length": 1,
@@ -93,11 +93,11 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "remoteNodeId",
 					"help": "Remote NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER",
+					"valueType": "NodeNumber",
 					"values": {
 						"0": {
 							"name": "RemoveALink",
@@ -106,7 +106,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "remoteGroupingIdentifier",
 					"help": "Remote Grouping identifier",
 					"length": 1
@@ -130,10 +130,10 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 			"command": 1,
 			"name": "RemoteAssociationConfigurationSet",
 			"help": "Remote Association Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "localGroupingIdentifier",
 					"help": "Local Grouping identifier",
 					"length": 1,
@@ -145,11 +145,11 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "remoteNodeId",
 					"help": "Remote NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER",
+					"valueType": "NodeNumber",
 					"values": {
 						"0": {
 							"name": "RemoveALink",
@@ -158,7 +158,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "remoteGroupingIdentifier",
 					"help": "Remote Grouping identifier",
 					"length": 1

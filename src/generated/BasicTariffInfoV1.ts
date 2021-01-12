@@ -45,7 +45,7 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 			"command": 1,
 			"name": "BasicTariffInfoGet",
 			"help": "Basic Tariff Info Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -65,29 +65,29 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 			"command": 2,
 			"name": "BasicTariffInfoReport",
 			"help": "Basic Tariff Info Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "dual",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "totalNoImportRates",
 							"mask": 15,
 							"shift": 0
@@ -95,20 +95,20 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "e1CurrentRateInUse",
 							"mask": 15,
 							"shift": 0
@@ -116,44 +116,44 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "e1RateConsumptionRegister",
 					"help": "E1 Rate Consumption Register",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "e1TimeForNextRateHours",
 					"help": "E1 Time for Next Rate Hours",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "e1TimeForNextRateMinutes",
 					"help": "E1 Time for Next Rate Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "e1TimeForNextRateSeconds",
 					"help": "E1 Time for Next Rate Seconds",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved3",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "e2CurrentRateInUse",
 							"mask": 15,
 							"shift": 0
@@ -161,7 +161,7 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "e2RateConsumptionRegister",
 					"help": "E2 Rate Consumption Register",
 					"length": 4

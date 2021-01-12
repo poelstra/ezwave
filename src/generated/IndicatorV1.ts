@@ -42,7 +42,7 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 			"command": 2,
 			"name": "IndicatorGet",
 			"help": "Indicator Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -62,10 +62,10 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 			"command": 3,
 			"name": "IndicatorReport",
 			"help": "Indicator Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,
@@ -99,10 +99,10 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 			"command": 1,
 			"name": "IndicatorSet",
 			"help": "Indicator Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,

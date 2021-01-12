@@ -57,23 +57,23 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 			"command": 6,
 			"name": "NodeNamingNodeLocationReport",
 			"help": "Node Naming Node Location  Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -81,7 +81,7 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					]
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "nodeLocationChar",
 					"help": "Node location char",
 					"length": 16
@@ -105,23 +105,23 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 			"command": 4,
 			"name": "NodeNamingNodeLocationSet",
 			"help": "Node Naming Node Location  Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -129,7 +129,7 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					]
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "nodeLocationChar",
 					"help": "Node location char",
 					"length": 16
@@ -153,7 +153,7 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 			"command": 5,
 			"name": "NodeNamingNodeLocationGet",
 			"help": "Node Naming Node Location Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -173,7 +173,7 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 			"command": 2,
 			"name": "NodeNamingNodeNameGet",
 			"help": "Node Naming Node Name Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -193,23 +193,23 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 			"command": 3,
 			"name": "NodeNamingNodeNameReport",
 			"help": "Node Naming Node Name Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -217,7 +217,7 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					]
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "nodeNameChar",
 					"help": "Node name char",
 					"length": 16
@@ -241,23 +241,23 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 			"command": 1,
 			"name": "NodeNamingNodeNameSet",
 			"help": "Node Naming Node Name Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -265,7 +265,7 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 					]
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "nodeNameChar",
 					"help": "Node name char",
 					"length": 16

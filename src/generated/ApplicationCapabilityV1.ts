@@ -39,22 +39,22 @@ export class ApplicationCapabilityV1 extends CommandClassPacket<ApplicationCapab
 			"command": 1,
 			"name": "CommandCommandClassNotSupported",
 			"help": "Command Command Class Not Supported",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "dynamic",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 127,
 							"shift": 0,
@@ -63,18 +63,18 @@ export class ApplicationCapabilityV1 extends CommandClassPacket<ApplicationCapab
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "offendingCommandClass",
 					"help": "Offending Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "offendingCommand",
 					"help": "Offending Command",
 					"length": 1,
-					"valueType": "CMD_REF"
+					"valueType": "Command"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

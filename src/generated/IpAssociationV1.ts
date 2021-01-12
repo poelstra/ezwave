@@ -60,22 +60,22 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 			"command": 1,
 			"name": "IpAssociationSet",
 			"help": "IP Association Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "endPoint",
 					"help": "End Point",
 					"length": 1
@@ -99,16 +99,16 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 			"command": 2,
 			"name": "IpAssociationGet",
 			"help": "IP Association Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "index",
 					"help": "Index",
 					"length": 1
@@ -132,34 +132,34 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 			"command": 3,
 			"name": "IpAssociationReport",
 			"help": "IP Association Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "index",
 					"help": "Index",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "actualNodes",
 					"help": "Actual Nodes",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "endPoint",
 					"help": "End Point",
 					"length": 1
@@ -183,22 +183,22 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 			"command": 4,
 			"name": "IpAssociationRemove",
 			"help": "IP Association Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "endPoint",
 					"help": "End Point",
 					"length": 1

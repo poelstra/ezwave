@@ -43,7 +43,7 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 			"command": 2,
 			"name": "MoveToPositionGet",
 			"help": "Move To Position Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -63,10 +63,10 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 			"command": 3,
 			"name": "MoveToPositionReport",
 			"help": "Move To Position Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,
@@ -100,10 +100,10 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 			"command": 1,
 			"name": "MoveToPositionSet",
 			"help": "Move To Position Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,

@@ -39,7 +39,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 3,
 			"name": "AvContentBrowseMdByLetterGet",
 			"help": "Av Content Browse Md By Letter Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -59,7 +59,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 4,
 			"name": "AvContentBrowseMdByLetterReport",
 			"help": "Av Content Browse Md By Letter Report",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -79,7 +79,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 5,
 			"name": "AvContentBrowseMdChildCountGet",
 			"help": "Av Content Browse Md Child Count Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -99,7 +99,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 6,
 			"name": "AvContentBrowseMdChildCountReport",
 			"help": "Av Content Browse Md Child Count Report",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -119,7 +119,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 1,
 			"name": "AvContentBrowseMdGet",
 			"help": "Av Content Browse Md Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -139,7 +139,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 2,
 			"name": "AvContentBrowseMdReport",
 			"help": "Av Content Browse Md Report",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -159,7 +159,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 7,
 			"name": "AvMatchItemToRendererMdGet",
 			"help": "Av Match Item To Renderer Md Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -179,7 +179,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 			"command": 8,
 			"name": "AvMatchItemToRendererMdReport",
 			"help": "Av Match Item To Renderer Md Report",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

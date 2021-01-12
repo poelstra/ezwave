@@ -34,7 +34,7 @@ export interface MultiChannelV4MultiChannelCapabilityReportData {
 	endPoint: number; // properties1[6..0]
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	commandClasses: number[]; // automatic length
+	commandClasses: CommandClasses[]; // automatic length
 }
 
 export interface MultiChannelV4MultiChannelCmdEncapData {
@@ -85,8 +85,7 @@ export interface MultiChannelV4MultiChannelAggregatedMembersGetData {
 
 export interface MultiChannelV4MultiChannelAggregatedMembersReportData {
 	aggregatedEndPoint: number; // properties1[6..0]
-	numberOfBitMasks: number; // 1 byte unsigned integer
-	// TODO param aggregatedMembersBitMask type bitmask
+	aggregatedMembersBitMask: Set<number>; // variable length
 }
 
 export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
@@ -107,23 +106,23 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 9,
 			"name": "MultiChannelCapabilityGet",
 			"help": "Multi Channel Capability Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "endPoint",
 							"mask": 127,
 							"shift": 0
@@ -149,22 +148,22 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 10,
 			"name": "MultiChannelCapabilityReport",
 			"help": "Multi Channel Capability Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "dynamic",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "endPoint",
 							"mask": 127,
 							"shift": 0
@@ -172,25 +171,25 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "genericDeviceClass",
 					"help": "Generic Device Class",
 					"length": 1,
-					"valueType": "GEN_DEV_REF"
+					"valueType": "GenericDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "specificDeviceClass",
 					"help": "Specific Device Class",
 					"length": 1,
-					"valueType": "SPEC_DEV_REF"
+					"valueType": "SpecificDevice"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "commandClasses",
 					"help": "Command Classes",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandClasses"
 				}
@@ -213,23 +212,23 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 13,
 			"name": "MultiChannelCmdEncap",
 			"help": "Multi Channel Command Encapsulation",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "sourceEndPoint",
 							"mask": 127,
 							"shift": 0
@@ -237,19 +236,19 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "bitAddress",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "destinationEndPoint",
 							"mask": 127,
 							"shift": 0
@@ -257,11 +256,11 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "command",
 					"help": "Encapsulated command",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandEncapsulation"
 				}
@@ -284,21 +283,21 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 11,
 			"name": "MultiChannelEndPointFind",
 			"help": "Multi Channel End Point Find",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "genericDeviceClass",
 					"help": "Generic Device Class",
 					"length": 1,
-					"valueType": "GEN_DEV_REF"
+					"valueType": "GenericDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "specificDeviceClass",
 					"help": "Specific Device Class",
 					"length": 1,
-					"valueType": "SPEC_DEV_REF"
+					"valueType": "SpecificDevice"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -319,51 +318,51 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 12,
 			"name": "MultiChannelEndPointFindReport",
 			"help": "Multi Channel End Point Find Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "genericDeviceClass",
 					"help": "Generic Device Class",
 					"length": 1,
-					"valueType": "GEN_DEV_REF"
+					"valueType": "GenericDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "specificDeviceClass",
 					"help": "Specific Device Class",
 					"length": 1,
-					"valueType": "SPEC_DEV_REF"
+					"valueType": "SpecificDevice"
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "bitfield",
+							"type": "Bitfield",
 							"name": "properties1",
 							"help": "Properties1",
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "boolean",
+									"fieldType": "Boolean",
 									"name": "res",
 									"mask": 128,
 									"shift": 7,
 									"reserved": true
 								},
 								{
-									"fieldType": "integer",
+									"fieldType": "Integer",
 									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
@@ -391,7 +390,7 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 7,
 			"name": "MultiChannelEndPointGet",
 			"help": "Multi Channel End Point Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -411,28 +410,28 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 8,
 			"name": "MultiChannelEndPointReport",
 			"help": "Multi Channel End Point Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "dynamic",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "identical",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "res1",
 							"mask": 63,
 							"shift": 0,
@@ -441,20 +440,20 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res2",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "individualEndPoints",
 							"mask": 127,
 							"shift": 0
@@ -462,20 +461,20 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res3",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "aggregatedEndPoints",
 							"mask": 127,
 							"shift": 0
@@ -501,23 +500,23 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 6,
 			"name": "MultiInstanceCmdEncap",
 			"help": "Multi Instance Cmd Encap",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "instance",
 							"mask": 127,
 							"shift": 0
@@ -525,11 +524,11 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "command",
 					"help": "Encapsulated command",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandEncapsulation"
 				}
@@ -552,14 +551,14 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 4,
 			"name": "MultiInstanceGet",
 			"help": "Multi Instance Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -580,30 +579,30 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 5,
 			"name": "MultiInstanceReport",
 			"help": "Multi Instance Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "instances",
 							"mask": 127,
 							"shift": 0
@@ -629,23 +628,23 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 14,
 			"name": "MultiChannelAggregatedMembersGet",
 			"help": "Multi Channel Aggregated Members Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "aggregatedEndPoint",
 							"mask": 127,
 							"shift": 0
@@ -664,7 +663,6 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly MultiChannelAggregatedMembersReport = class MultiChannelAggregatedMembersReport extends CommandPacket<MultiChannelV4MultiChannelAggregatedMembersReportData> {
 		public static readonly CommandClass = MultiChannelV4;
 		public static readonly command = 0x0f;
@@ -672,23 +670,23 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 			"command": 15,
 			"name": "MultiChannelAggregatedMembersReport",
 			"help": "Multi Channel Aggregated Members Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "aggregatedEndPoint",
 							"mask": 127,
 							"shift": 0
@@ -696,16 +694,27 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfBitMasks",
 					"help": "Number of Bit Masks",
-					"length": 1
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							"aggregatedMembersBitMask"
+						]
+					},
+					"isAutogenerated": true
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "aggregatedMembersBitMask",
 					"help": "Aggregated Members Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Ref",
+						"from": {
+							"ref": "numberOfBitMasks"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

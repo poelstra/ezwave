@@ -38,7 +38,7 @@ export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 			"command": 4,
 			"name": "MeterPulseGet",
 			"help": "Meter Pulse Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -58,10 +58,10 @@ export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 			"command": 5,
 			"name": "MeterPulseReport",
 			"help": "Meter Pulse Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "pulseCount",
 					"help": "Pulse Count",
 					"length": 4

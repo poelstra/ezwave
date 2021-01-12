@@ -41,7 +41,7 @@ export interface NetworkManagementInclusionV1FailedNodeRemoveStatusData {
 export interface NetworkManagementInclusionV1NodeAddData {
 	seqNo: number; // 1 byte unsigned integer
 	mode: number; // 1 byte unsigned integer
-	// TODO param txOptions type bitmask
+	txOptions: Set<TxOptionsEnum>; // 1 bytes
 }
 
 export interface NetworkManagementInclusionV1NodeAddStatusData {
@@ -55,7 +55,7 @@ export interface NetworkManagementInclusionV1NodeAddStatusData {
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	commandClasses: number[]; // variable length
+	commandClasses: CommandClasses[]; // variable length
 }
 
 export interface NetworkManagementInclusionV1NodeRemoveData {
@@ -72,7 +72,7 @@ export interface NetworkManagementInclusionV1NodeRemoveStatusData {
 export interface NetworkManagementInclusionV1FailedNodeReplaceData {
 	seqNo: number; // 1 byte unsigned integer
 	nodeId: number; // 1 byte unsigned integer
-	// TODO param txOptions type bitmask
+	txOptions: Set<TxOptionsEnum>; // 1 bytes
 	mode: number; // 1 byte unsigned integer
 }
 
@@ -113,6 +113,17 @@ export interface NetworkManagementInclusionV1ReturnRouteDeleteCompleteData {
 	status: number; // 1 byte unsigned integer
 }
 
+export enum TxOptionsEnum {
+	Ack = 0x0,
+	LowPower = 0x1,
+	AutoRoute = 0x2,
+	Reserved = 0x3,
+	NoRoute = 0x4,
+	Explore = 0x5,
+	NoRetransmission = 0x6,
+	HighPower = 0x7,
+}
+
 export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkManagementInclusionV1Commands> {
 	public static readonly commandClass = CommandClasses.NetworkManagementInclusion; // 0x34 (52)
 
@@ -131,20 +142,20 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 7,
 			"name": "FailedNodeRemove",
 			"help": "Failed Node Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -165,23 +176,23 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 8,
 			"name": "FailedNodeRemoveStatus",
 			"help": "Failed Node Remove Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -212,7 +223,6 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeAdd = class NodeAdd extends CommandPacket<NetworkManagementInclusionV1NodeAddData> {
 		public static readonly CommandClass = NetworkManagementInclusionV1;
 		public static readonly command = 0x01;
@@ -220,23 +230,23 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 1,
 			"name": "NodeAdd",
 			"help": "Node Add",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -268,10 +278,44 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "txOptions",
 					"help": "tx Options",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "Ack",
+							"help": "Ack"
+						},
+						"1": {
+							"name": "LowPower",
+							"help": "Low Power"
+						},
+						"2": {
+							"name": "AutoRoute",
+							"help": "Auto Route"
+						},
+						"3": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"4": {
+							"name": "NoRoute",
+							"help": "No Route"
+						},
+						"5": {
+							"name": "Explore",
+							"help": "Explore"
+						},
+						"6": {
+							"name": "NoRetransmission",
+							"help": "No Retransmission"
+						},
+						"7": {
+							"name": "HighPower",
+							"help": "High Power"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -292,16 +336,16 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 2,
 			"name": "NodeAddStatus",
 			"help": "Node Add Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -321,21 +365,21 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeInfoLength",
 					"help": "Node Info Length",
 					"length": 1,
@@ -347,19 +391,19 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					"isAutogenerated": true
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "listening",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "zWaveProtocolSpecificPart1",
 							"mask": 127,
 							"shift": 0
@@ -367,19 +411,19 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "opt",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "zWaveProtocolSpecificPart2",
 							"mask": 127,
 							"shift": 0
@@ -387,32 +431,32 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "basicDeviceClass",
 					"help": "Basic Device Class",
 					"length": 1,
-					"valueType": "BAS_DEV_REF"
+					"valueType": "BasicDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "genericDeviceClass",
 					"help": "Generic Device Class",
 					"length": 1,
-					"valueType": "GEN_DEV_REF"
+					"valueType": "GenericDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "specificDeviceClass",
 					"help": "Specific Device Class",
 					"length": 1,
-					"valueType": "SPEC_DEV_REF"
+					"valueType": "SpecificDevice"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "commandClasses",
 					"help": "Command Classes",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "nodeInfoLength"
 						},
@@ -439,23 +483,23 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 3,
 			"name": "NodeRemove",
 			"help": "Node Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -497,16 +541,16 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 4,
 			"name": "NodeRemoveStatus",
 			"help": "Node Remove Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -522,11 +566,11 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -540,7 +584,6 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly FailedNodeReplace = class FailedNodeReplace extends CommandPacket<NetworkManagementInclusionV1FailedNodeReplaceData> {
 		public static readonly CommandClass = NetworkManagementInclusionV1;
 		public static readonly command = 0x09;
@@ -548,29 +591,63 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 9,
 			"name": "FailedNodeReplace",
 			"help": "Failed Node Replace",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "txOptions",
 					"help": "tx Options",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "Ack",
+							"help": "Ack"
+						},
+						"1": {
+							"name": "LowPower",
+							"help": "Low Power"
+						},
+						"2": {
+							"name": "AutoRoute",
+							"help": "Auto Route"
+						},
+						"3": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"4": {
+							"name": "NoRoute",
+							"help": "No Route"
+						},
+						"5": {
+							"name": "Explore",
+							"help": "Explore"
+						},
+						"6": {
+							"name": "NoRetransmission",
+							"help": "No Retransmission"
+						},
+						"7": {
+							"name": "HighPower",
+							"help": "High Power"
+						}
+					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1
@@ -594,16 +671,16 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 10,
 			"name": "FailedNodeReplaceStatus",
 			"help": "Failed Node Replace Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -623,11 +700,11 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -648,20 +725,20 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 11,
 			"name": "NodeNeighborUpdateRequest",
 			"help": "Node Neighbor Update Request",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -682,16 +759,16 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 12,
 			"name": "NodeNeighborUpdateStatus",
 			"help": "Node Neighbor Update Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -725,27 +802,27 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 13,
 			"name": "ReturnRouteAssign",
 			"help": "Return Route Assign",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sourceNodeId",
 					"help": "Source Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "destinationNodeId",
 					"help": "Destination Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -766,16 +843,16 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 14,
 			"name": "ReturnRouteAssignComplete",
 			"help": "Return Route Assign Complete",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -813,20 +890,20 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 15,
 			"name": "ReturnRouteDelete",
 			"help": "Return Route Delete",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -847,16 +924,16 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 			"command": 16,
 			"name": "ReturnRouteDeleteComplete",
 			"help": "Return Route Delete Complete",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,

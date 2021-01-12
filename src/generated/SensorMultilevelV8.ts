@@ -32,7 +32,7 @@ export interface SensorMultilevelV8SensorMultilevelReportData {
 }
 
 export interface SensorMultilevelV8SensorMultilevelSupportedSensorReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export interface SensorMultilevelV8SensorMultilevelSupportedGetScaleData {
@@ -102,6 +102,64 @@ export enum SensorTypeEnum {
 	SmokeDensityV8 = 0x37,
 }
 
+export enum BitMaskEnum {
+	AirTemperature = 0x1,
+	GeneralPurposeValue = 0x2,
+	Luminance = 0x3,
+	Power = 0x4,
+	Humidity = 0x5,
+	Velocity = 0x6,
+	Direction = 0x7,
+	AtmosphericPressure = 0x8,
+	BarometricPressure = 0x9,
+	SolarRadiation = 0xa,
+	DewPoint = 0xb,
+	RainRate = 0xc,
+	TideLevel = 0xd,
+	Weight = 0xe,
+	Voltage = 0xf,
+	Current = 0x10,
+	CO2Level = 0x11,
+	AirFlow = 0x12,
+	TankCapacity = 0x13,
+	Distance = 0x14,
+	AnglePosition = 0x15,
+	Rotation = 0x16,
+	WaterTemperature = 0x17,
+	SoilTemperature = 0x18,
+	SeismicIntensity = 0x19,
+	SeismicMagnitude = 0x1a,
+	Ultraviolet = 0x1b,
+	ElectricalResistivity = 0x1c,
+	ElectricalConductivity = 0x1d,
+	Loudness = 0x1e,
+	Moisture = 0x1f,
+	Frequency = 0x20,
+	Time = 0x21,
+	TargetTemperature = 0x22,
+	ParticulateMatter25 = 0x23,
+	FormaldehydeCH2OLevel = 0x24,
+	RadonConcentration = 0x25,
+	MethaneDensityCH4 = 0x26,
+	VolatileOrganicCompound = 0x27,
+	CarbonMonoxideCOLevel = 0x28,
+	SoilHumidity = 0x29,
+	SoilReactivity = 0x2a,
+	SoilSalinity = 0x2b,
+	HeartRate = 0x2c,
+	BloodPressure = 0x2d,
+	MuscleMass = 0x2e,
+	FatMass = 0x2f,
+	BoneMass = 0x30,
+	TotalBodyWaterTBW = 0x31,
+	BasicMetabolicRateBMR = 0x32,
+	BodyMassIndexBMI = 0x33,
+	AccelerationXAxisV8 = 0x34,
+	AccelerationYAxisV8 = 0x35,
+	AccelerationZAxisV8 = 0x36,
+	SmokeDensityV8 = 0x37,
+}
+
 export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Commands> {
 	public static readonly commandClass = CommandClasses.SensorMultilevel; // 0x31 (49)
 
@@ -120,10 +178,10 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 			"command": 4,
 			"name": "SensorMultilevelGet",
 			"help": "Multilevel Sensor Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "sensorType",
 					"help": "Sensor Type",
 					"length": 1,
@@ -351,26 +409,26 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 7,
 							"shift": 0,
@@ -397,10 +455,10 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 			"command": 5,
 			"name": "SensorMultilevelReport",
 			"help": "Multilevel Sensor Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "sensorType",
 					"help": "Sensor Type",
 					"length": 1,
@@ -628,25 +686,25 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -660,11 +718,11 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "sensorValue",
 					"help": "Sensor Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "level.size"
 						}
@@ -689,7 +747,7 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 			"command": 1,
 			"name": "SensorMultilevelSupportedGetSensor",
 			"help": "Multilevel Sensor Get Supported Sensor",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -702,7 +760,6 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SensorMultilevelSupportedSensorReport = class SensorMultilevelSupportedSensorReport extends CommandPacket<SensorMultilevelV8SensorMultilevelSupportedSensorReportData> {
 		public static readonly CommandClass = SensorMultilevelV8;
 		public static readonly command = 0x02;
@@ -710,13 +767,237 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 			"command": 2,
 			"name": "SensorMultilevelSupportedSensorReport",
 			"help": "Multilevel Sensor Supported Sensor Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"1": {
+							"name": "AirTemperature",
+							"help": "Air temperature"
+						},
+						"2": {
+							"name": "GeneralPurposeValue",
+							"help": "General purpose value"
+						},
+						"3": {
+							"name": "Luminance",
+							"help": "Luminance"
+						},
+						"4": {
+							"name": "Power",
+							"help": "Power"
+						},
+						"5": {
+							"name": "Humidity",
+							"help": "Humidity"
+						},
+						"6": {
+							"name": "Velocity",
+							"help": "Velocity"
+						},
+						"7": {
+							"name": "Direction",
+							"help": "Direction"
+						},
+						"8": {
+							"name": "AtmosphericPressure",
+							"help": "Atmospheric pressure"
+						},
+						"9": {
+							"name": "BarometricPressure",
+							"help": "Barometric pressure"
+						},
+						"10": {
+							"name": "SolarRadiation",
+							"help": "Solar radiation"
+						},
+						"11": {
+							"name": "DewPoint",
+							"help": "Dew point"
+						},
+						"12": {
+							"name": "RainRate",
+							"help": "Rain rate"
+						},
+						"13": {
+							"name": "TideLevel",
+							"help": "Tide level"
+						},
+						"14": {
+							"name": "Weight",
+							"help": "Weight"
+						},
+						"15": {
+							"name": "Voltage",
+							"help": "Voltage"
+						},
+						"16": {
+							"name": "Current",
+							"help": "Current"
+						},
+						"17": {
+							"name": "CO2Level",
+							"help": "CO2-level"
+						},
+						"18": {
+							"name": "AirFlow",
+							"help": "Air flow"
+						},
+						"19": {
+							"name": "TankCapacity",
+							"help": "Tank capacity"
+						},
+						"20": {
+							"name": "Distance",
+							"help": "Distance"
+						},
+						"21": {
+							"name": "AnglePosition",
+							"help": "Angle Position"
+						},
+						"22": {
+							"name": "Rotation",
+							"help": "Rotation"
+						},
+						"23": {
+							"name": "WaterTemperature",
+							"help": "Water temperature"
+						},
+						"24": {
+							"name": "SoilTemperature",
+							"help": "Soil temperature"
+						},
+						"25": {
+							"name": "SeismicIntensity",
+							"help": "Seismic intensity"
+						},
+						"26": {
+							"name": "SeismicMagnitude",
+							"help": "Seismic magnitude"
+						},
+						"27": {
+							"name": "Ultraviolet",
+							"help": "Ultraviolet"
+						},
+						"28": {
+							"name": "ElectricalResistivity",
+							"help": "Electrical resistivity"
+						},
+						"29": {
+							"name": "ElectricalConductivity",
+							"help": "Electrical conductivity"
+						},
+						"30": {
+							"name": "Loudness",
+							"help": "Loudness"
+						},
+						"31": {
+							"name": "Moisture",
+							"help": "Moisture"
+						},
+						"32": {
+							"name": "Frequency",
+							"help": "Frequency"
+						},
+						"33": {
+							"name": "Time",
+							"help": "Time"
+						},
+						"34": {
+							"name": "TargetTemperature",
+							"help": "Target Temperature"
+						},
+						"35": {
+							"name": "ParticulateMatter25",
+							"help": "Particulate Matter 2.5"
+						},
+						"36": {
+							"name": "FormaldehydeCH2OLevel",
+							"help": "Formaldehyde CH2O-level"
+						},
+						"37": {
+							"name": "RadonConcentration",
+							"help": "Radon Concentration"
+						},
+						"38": {
+							"name": "MethaneDensityCH4",
+							"help": "Methane Density CH4"
+						},
+						"39": {
+							"name": "VolatileOrganicCompound",
+							"help": "Volatile Organic Compound"
+						},
+						"40": {
+							"name": "CarbonMonoxideCOLevel",
+							"help": "Carbon Monoxide CO-level"
+						},
+						"41": {
+							"name": "SoilHumidity",
+							"help": "Soil Humidity"
+						},
+						"42": {
+							"name": "SoilReactivity",
+							"help": "Soil Reactivity"
+						},
+						"43": {
+							"name": "SoilSalinity",
+							"help": "Soil Salinity"
+						},
+						"44": {
+							"name": "HeartRate",
+							"help": "Heart Rate"
+						},
+						"45": {
+							"name": "BloodPressure",
+							"help": "Blood Pressure"
+						},
+						"46": {
+							"name": "MuscleMass",
+							"help": "Muscle Mass"
+						},
+						"47": {
+							"name": "FatMass",
+							"help": "Fat Mass"
+						},
+						"48": {
+							"name": "BoneMass",
+							"help": "Bone Mass"
+						},
+						"49": {
+							"name": "TotalBodyWaterTBW",
+							"help": "Total Body Water, TBW"
+						},
+						"50": {
+							"name": "BasicMetabolicRateBMR",
+							"help": "Basic Metabolic Rate, BMR"
+						},
+						"51": {
+							"name": "BodyMassIndexBMI",
+							"help": "Body Mass Index, BMI"
+						},
+						"52": {
+							"name": "AccelerationXAxisV8",
+							"help": "Acceleration X-axis (v8)"
+						},
+						"53": {
+							"name": "AccelerationYAxisV8",
+							"help": "Acceleration Y-axis (v8)"
+						},
+						"54": {
+							"name": "AccelerationZAxisV8",
+							"help": "Acceleration Z-axis (v8)"
+						},
+						"55": {
+							"name": "SmokeDensityV8",
+							"help": "Smoke Density (v8)"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -737,10 +1018,10 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 			"command": 3,
 			"name": "SensorMultilevelSupportedGetScale",
 			"help": "Multilevel Sensor Get Supported Scale",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "sensorType",
 					"help": "Sensor Type",
 					"length": 1,
@@ -986,10 +1267,10 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 			"command": 6,
 			"name": "SensorMultilevelSupportedScaleReport",
 			"help": "Multilevel Sensor Supported Scale Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "sensorType",
 					"help": "Sensor Type",
 					"length": 1,
@@ -1217,20 +1498,20 @@ export class SensorMultilevelV8 extends CommandClassPacket<SensorMultilevelV8Com
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scaleBitMask",
 							"mask": 15,
 							"shift": 0

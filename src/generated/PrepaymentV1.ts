@@ -62,16 +62,16 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 			"command": 1,
 			"name": "PrepaymentBalanceGet",
 			"help": "Prepayment Balance Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "balanceType",
 							"mask": 192,
 							"shift": 6,
@@ -87,7 +87,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 							}
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 63,
 							"shift": 0,
@@ -114,22 +114,22 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 			"command": 2,
 			"name": "PrepaymentBalanceReport",
 			"help": "Prepayment Balance Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "balanceType",
 							"mask": 192,
 							"shift": 6
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "meterType",
 							"mask": 63,
 							"shift": 0
@@ -137,19 +137,19 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "balancePrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 31,
 							"shift": 0
@@ -157,25 +157,25 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "balanceValue",
 					"help": "Balance Value",
 					"length": 4
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "debtPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 31,
 							"shift": 0,
@@ -184,25 +184,25 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "debt",
 					"help": "Debt",
 					"length": 4
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties4",
 					"help": "Properties4",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "emerCreditPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 31,
 							"shift": 0,
@@ -211,19 +211,19 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "emerCredit",
 					"help": "Emer Credit",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "currency",
 					"help": "Currency",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "debtRecoveryPercentage",
 					"help": "Debt Recovery Percentage",
 					"length": 1
@@ -247,7 +247,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 			"command": 3,
 			"name": "PrepaymentSupportedGet",
 			"help": "Prepayment Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -267,23 +267,23 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 			"command": 4,
 			"name": "PrepaymentSupportedReport",
 			"help": "Prepayment Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "typesSupported",
 							"mask": 15,
 							"shift": 0

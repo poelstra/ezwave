@@ -58,7 +58,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 			"command": 2,
 			"name": "IpConfigurationGet",
 			"help": "Ip Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -78,7 +78,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 			"command": 4,
 			"name": "IpConfigurationRelease",
 			"help": "Ip Configuration Release",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -98,7 +98,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 			"command": 5,
 			"name": "IpConfigurationRenew",
 			"help": "Ip Configuration Renew",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -118,29 +118,29 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 			"command": 3,
 			"name": "IpConfigurationReport",
 			"help": "Ip Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "autoIp",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "autoDns",
 							"mask": 1,
 							"shift": 0
@@ -148,37 +148,37 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "ipAddress",
 					"help": "IP Address",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "subnetMask",
 					"help": "Subnet Mask",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "gateway",
 					"help": "Gateway",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dns1",
 					"help": "DNS1",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dns2",
 					"help": "DNS2",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "leaseTime",
 					"help": "LeaseTime",
 					"length": 4
@@ -202,29 +202,29 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 			"command": 1,
 			"name": "IpConfigurationSet",
 			"help": "Ip Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "autoIp",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "autoDns",
 							"mask": 1,
 							"shift": 0
@@ -232,31 +232,31 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "ipAddress",
 					"help": "IP Address",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "subnetMask",
 					"help": "Subnet Mask",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "gateway",
 					"help": "Gateway",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dns1",
 					"help": "DNS1",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dns2",
 					"help": "DNS2",
 					"length": 4

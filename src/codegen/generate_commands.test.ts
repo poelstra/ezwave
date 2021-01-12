@@ -11,9 +11,15 @@ import { expect } from "chai";
 import { CommandPacket } from "../commands/command";
 import { CommandPacketConstructor, Packet } from "../commands/packet";
 import { AlarmV2, ZwaveAlarmTypeEnum } from "../generated/AlarmV2";
+import {
+	AssociationGrpInfoV3,
+	Profile1Enum,
+	ProfileIrrigationEnum,
+} from "../generated/AssociationGrpInfoV3";
 import { BasicV2 } from "../generated/BasicV2";
 import { MeterPulseV1 } from "../generated/MeterPulseV1";
 import { MultiChannelAssociationV2 } from "../generated/MultiChannelAssociationV2";
+import { MultiChannelV4 } from "../generated/MultiChannelV4";
 import { NodeProvisioningV1 } from "../generated/NodeProvisioningV1";
 import { RateTblConfigV1 } from "../generated/RateTblConfigV1";
 import { SecurityV1 } from "../generated/SecurityV1";
@@ -243,6 +249,44 @@ describe("generate_commands", () => {
 						value: Buffer.from([0x01, 0x02]),
 					},
 				]
+			}
+		);
+	});
+
+	describe("MultiChannelV4.MultiChannelAggregatedMembersReport", () => {
+		// - numeric bitmask with variable length
+		verifyRoundTrip(
+			"example",
+			MultiChannelV4.MultiChannelAggregatedMembersReport,
+			Buffer.from([0x60, 0x0f, 0x12, 0x02, 0x81, 0xc0]),
+			{
+				aggregatedEndPoint: 0x12,
+				aggregatedMembersBitMask: new Set([0, 7, 14, 15]),
+			}
+		);
+	});
+
+	describe("AssociationGrpInfoV3.AssociationGroupInfoReport", () => {
+		// - EnumUnion
+		// Note: there's one extra 1-byte reserved integer before eventCode,
+		// which explains the extra 0x00 after 0x05.
+		verifyRoundTrip(
+			"example",
+			AssociationGrpInfoV3.AssociationGroupInfoReport,
+			// prettier-ignore
+			Buffer.from([0x59, 0x04, 0x01, 0x12, 0x13, 0x6b, 0x05, 0x00, 0x00, 0x14]),
+			{
+				listMode: false,
+				dynamicInfo: false,
+				vg1: [
+					{
+						groupingIdentifier: 0x12,
+						mode: 0x13,
+						profile1: Profile1Enum.ProfileIrrigation,
+						profile2: ProfileIrrigationEnum.IrrigationChannel05,
+						eventCode: 0x14,
+					},
+				],
 			}
 		);
 	});

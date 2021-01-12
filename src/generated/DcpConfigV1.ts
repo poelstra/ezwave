@@ -77,40 +77,40 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 			"command": 4,
 			"name": "DcpListRemove",
 			"help": "Dcp List Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourLocalTime",
 					"help": "Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteLocalTime",
 					"help": "Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondLocalTime",
 					"help": "Second Local Time",
 					"length": 1
@@ -134,65 +134,65 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 			"command": 3,
 			"name": "DcpListSet",
 			"help": "Dcp List Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourLocalTime",
 					"help": "Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteLocalTime",
 					"help": "Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondLocalTime",
 					"help": "Second Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dcpRateId",
 					"help": "DCP Rate ID",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfDc",
 							"mask": 3,
 							"shift": 0,
@@ -206,112 +206,112 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 					]
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.numberOfDc"
 						}
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "genericDeviceClass",
 							"help": "Generic Device Class",
 							"length": 1,
-							"valueType": "GEN_DEV_REF"
+							"valueType": "GenericDevice"
 						},
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "specificDeviceClass",
 							"help": "Specific Device Class",
 							"length": 1,
-							"valueType": "SPEC_DEV_REF"
+							"valueType": "SpecificDevice"
 						}
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startYear",
 					"help": "Start Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMonth",
 					"help": "Start Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startDay",
 					"help": "Start Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHourLocalTime",
 					"help": "Start Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinuteLocalTime",
 					"help": "Start Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startSecondLocalTime",
 					"help": "Start Second Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "durationHourTime",
 					"help": "Duration Hour Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "durationMinuteTime",
 					"help": "Duration Minute Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "durationSecondTime",
 					"help": "Duration Second Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "eventPriority",
 					"help": "Event Priority",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "loadShedding",
 					"help": "Load shedding",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startAssociationGroup",
 					"help": "Start Association Group",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopAssociationGroup",
 					"help": "Stop Association Group",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "randomizationInterval",
 					"help": "Randomization interval",
 					"length": 1
@@ -335,7 +335,7 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 			"command": 1,
 			"name": "DcpListSupportedGet",
 			"help": "Dcp List Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -355,16 +355,16 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 			"command": 2,
 			"name": "DcpListSupportedReport",
 			"help": "Dcp List Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dcpListSize",
 					"help": "DCP List Size",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "freeDcpListEntries",
 					"help": "Free DCP List entries",
 					"length": 1

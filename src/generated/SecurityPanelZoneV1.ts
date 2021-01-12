@@ -60,7 +60,7 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 			"command": 1,
 			"name": "SecurityPanelZoneNumberSupportedGet",
 			"help": "Security Panel Zone Number Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -80,10 +80,10 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 			"command": 5,
 			"name": "SecurityPanelZoneStateGet",
 			"help": "Security Panel Zone State Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone Number",
 					"length": 1
@@ -107,16 +107,16 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 			"command": 6,
 			"name": "SecurityPanelZoneStateReport",
 			"help": "Security Panel Zone State Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneState",
 					"help": "Zone State",
 					"length": 1,
@@ -158,22 +158,22 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 			"command": 2,
 			"name": "SecurityPanelZoneSupportedReport",
 			"help": "Security Panel Zone Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "parameters1",
 					"help": "Parameters1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "zm",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "zonesSupported",
 							"mask": 127,
 							"shift": 0
@@ -199,10 +199,10 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 			"command": 3,
 			"name": "SecurityPanelZoneTypeGet",
 			"help": "Security Panel Zone Type Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone Number",
 					"length": 1
@@ -226,16 +226,16 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 			"command": 4,
 			"name": "SecurityPanelZoneTypeReport",
 			"help": "Security Panel Zone Type Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneType",
 					"help": "Zone Type",
 					"length": 1,

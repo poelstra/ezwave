@@ -46,7 +46,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 			"command": 5,
 			"name": "ClockGet",
 			"help": "Clock Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -66,22 +66,22 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 			"command": 6,
 			"name": "ClockReport",
 			"help": "Clock Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "weekday",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "hour",
 							"mask": 31,
 							"shift": 0
@@ -89,7 +89,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minute",
 					"help": "Minute",
 					"length": 1
@@ -113,22 +113,22 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 			"command": 4,
 			"name": "ClockSet",
 			"help": "Clock Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "weekday",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "hour",
 							"mask": 31,
 							"shift": 0
@@ -136,7 +136,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minute",
 					"help": "Minute",
 					"length": 1

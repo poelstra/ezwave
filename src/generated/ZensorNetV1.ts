@@ -34,7 +34,7 @@ export class ZensorNetV1 extends CommandClassPacket<ZensorNetV1Commands> {
 			"command": 2,
 			"name": "BindAccept",
 			"help": "Bind Accept",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -54,7 +54,7 @@ export class ZensorNetV1 extends CommandClassPacket<ZensorNetV1Commands> {
 			"command": 3,
 			"name": "BindComplete",
 			"help": "Bind Complete",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -74,7 +74,7 @@ export class ZensorNetV1 extends CommandClassPacket<ZensorNetV1Commands> {
 			"command": 1,
 			"name": "BindRequest",
 			"help": "Bind Request",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

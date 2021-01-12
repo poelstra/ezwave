@@ -43,10 +43,10 @@ export class AlarmV1 extends CommandClassPacket<AlarmV1Commands> {
 			"command": 4,
 			"name": "AlarmGet",
 			"help": "Alarm Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "alarmType",
 					"help": "Alarm Type",
 					"length": 1
@@ -70,16 +70,16 @@ export class AlarmV1 extends CommandClassPacket<AlarmV1Commands> {
 			"command": 5,
 			"name": "AlarmReport",
 			"help": "Alarm Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "alarmType",
 					"help": "Alarm Type",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "alarmLevel",
 					"help": "Alarm Level",
 					"length": 1

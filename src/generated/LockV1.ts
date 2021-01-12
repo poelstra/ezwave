@@ -43,7 +43,7 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 			"command": 2,
 			"name": "LockGet",
 			"help": "Lock Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -63,10 +63,10 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 			"command": 3,
 			"name": "LockReport",
 			"help": "Lock Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockState",
 					"help": "Lock State",
 					"length": 1,
@@ -100,10 +100,10 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 			"command": 1,
 			"name": "LockSet",
 			"help": "Lock Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockState",
 					"help": "Lock State",
 					"length": 1,

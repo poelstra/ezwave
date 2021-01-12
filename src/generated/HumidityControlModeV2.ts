@@ -27,10 +27,17 @@ export interface HumidityControlModeV2HumidityControlModeReportData {
 }
 
 export interface HumidityControlModeV2HumidityControlModeSupportedReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // 1 bytes
 }
 
 export enum ModeEnum {
+	Off = 0x0,
+	Humidify = 0x1,
+	Dehumidify = 0x2,
+	Auto = 0x3,
+}
+
+export enum BitMaskEnum {
 	Off = 0x0,
 	Humidify = 0x1,
 	Dehumidify = 0x2,
@@ -55,23 +62,23 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 			"command": 1,
 			"name": "HumidityControlModeSet",
 			"help": "Humidity Control Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 15,
 							"shift": 0,
@@ -115,7 +122,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 			"command": 2,
 			"name": "HumidityControlModeGet",
 			"help": "Humidity Control Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -135,23 +142,23 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 			"command": 3,
 			"name": "HumidityControlModeReport",
 			"help": "Humidity Control Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 15,
 							"shift": 0,
@@ -195,7 +202,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 			"command": 4,
 			"name": "HumidityControlModeSupportedGet",
 			"help": "Humidity Control Mode Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -208,7 +215,6 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly HumidityControlModeSupportedReport = class HumidityControlModeSupportedReport extends CommandPacket<HumidityControlModeV2HumidityControlModeSupportedReportData> {
 		public static readonly CommandClass = HumidityControlModeV2;
 		public static readonly command = 0x05;
@@ -216,13 +222,31 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 			"command": 5,
 			"name": "HumidityControlModeSupportedReport",
 			"help": "Humidity Control Mode Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"1": {
+							"name": "Humidify",
+							"help": "Humidify"
+						},
+						"2": {
+							"name": "Dehumidify",
+							"help": "Dehumidify"
+						},
+						"3": {
+							"name": "Auto",
+							"help": "Auto"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

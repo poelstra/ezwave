@@ -37,10 +37,10 @@ export class RemoteAssociationActivateV1 extends CommandClassPacket<RemoteAssoci
 			"command": 1,
 			"name": "RemoteAssociationActivate",
 			"help": "Remote Association Activate",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
 					"length": 1

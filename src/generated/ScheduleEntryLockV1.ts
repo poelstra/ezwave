@@ -118,10 +118,10 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 2,
 			"name": "ScheduleEntryLockEnableAllSet",
 			"help": "Schedule Entry Lock Enable All Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "enabled",
 					"help": "Enabled",
 					"length": 1,
@@ -155,16 +155,16 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 1,
 			"name": "ScheduleEntryLockEnableSet",
 			"help": "Schedule Entry Lock Enable Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "enabled",
 					"help": "Enabled",
 					"length": 1,
@@ -198,16 +198,16 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 4,
 			"name": "ScheduleEntryLockWeekDayGet",
 			"help": "Schedule Entry Lock Week Day Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
@@ -231,46 +231,46 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 5,
 			"name": "ScheduleEntryLockWeekDayReport",
 			"help": "Schedule Entry Lock Week Day Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dayOfWeek",
 					"help": "Day of Week",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHour",
 					"help": "Start Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinute",
 					"help": "Start Minute",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopHour",
 					"help": "Stop Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMinute",
 					"help": "Stop Minute",
 					"length": 1
@@ -294,10 +294,10 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 3,
 			"name": "ScheduleEntryLockWeekDaySet",
 			"help": "Schedule Entry Lock Week Day Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "setAction",
 					"help": "Set Action",
 					"length": 1,
@@ -313,43 +313,43 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dayOfWeek",
 					"help": "Day of Week",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHour",
 					"help": "Start Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinute",
 					"help": "Start Minute",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopHour",
 					"help": "Stop Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMinute",
 					"help": "Stop Minute",
 					"length": 1
@@ -373,16 +373,16 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 7,
 			"name": "ScheduleEntryLockYearDayGet",
 			"help": "Schedule Entry Lock Year Day Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
@@ -406,76 +406,76 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 8,
 			"name": "ScheduleEntryLockYearDayReport",
 			"help": "Schedule Entry Lock Year Day Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startYear",
 					"help": "Start Year",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMonth",
 					"help": "Start Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startDay",
 					"help": "Start Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHour",
 					"help": "Start Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinute",
 					"help": "Start Minute",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopYear",
 					"help": "Stop Year",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMonth",
 					"help": "Stop Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopDay",
 					"help": "Stop Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopHour",
 					"help": "Stop Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMinute",
 					"help": "Stop Minute",
 					"length": 1
@@ -499,10 +499,10 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 6,
 			"name": "ScheduleEntryLockYearDaySet",
 			"help": "Schedule Entry Lock Year Day Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "setAction",
 					"help": "Set Action",
 					"length": 1,
@@ -518,73 +518,73 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scheduleSlotId",
 					"help": "Schedule Slot ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startYear",
 					"help": "Start Year",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMonth",
 					"help": "Start Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startDay",
 					"help": "Start Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHour",
 					"help": "Start Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinute",
 					"help": "Start Minute",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopYear",
 					"help": "Stop Year",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMonth",
 					"help": "Stop Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopDay",
 					"help": "Stop Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopHour",
 					"help": "Stop Hour",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMinute",
 					"help": "Stop Minute",
 					"length": 1
@@ -608,7 +608,7 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 9,
 			"name": "ScheduleEntryTypeSupportedGet",
 			"help": "Schedule Entry Type Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -628,16 +628,16 @@ export class ScheduleEntryLockV1 extends CommandClassPacket<ScheduleEntryLockV1C
 			"command": 10,
 			"name": "ScheduleEntryTypeSupportedReport",
 			"help": "Schedule Entry Type Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfSlotsWeekDay",
 					"help": "Number of Slots Week Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfSlotsYearDay",
 					"help": "Number of Slots Year Day",
 					"length": 1

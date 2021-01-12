@@ -33,7 +33,7 @@ export class AvRendererStatusV1 extends CommandClassPacket<AvRendererStatusV1Com
 			"command": 1,
 			"name": "AvRendererStatusGet",
 			"help": "Av Renderer Status Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -53,7 +53,7 @@ export class AvRendererStatusV1 extends CommandClassPacket<AvRendererStatusV1Com
 			"command": 2,
 			"name": "AvRendererStatusReport",
 			"help": "Av Renderer Status Report",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

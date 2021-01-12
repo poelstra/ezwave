@@ -42,7 +42,7 @@ export class SwitchBinaryV1 extends CommandClassPacket<SwitchBinaryV1Commands> {
 			"command": 2,
 			"name": "SwitchBinaryGet",
 			"help": "Switch Binary Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -62,10 +62,10 @@ export class SwitchBinaryV1 extends CommandClassPacket<SwitchBinaryV1Commands> {
 			"command": 3,
 			"name": "SwitchBinaryReport",
 			"help": "Switch Binary Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,
@@ -99,10 +99,10 @@ export class SwitchBinaryV1 extends CommandClassPacket<SwitchBinaryV1Commands> {
 			"command": 1,
 			"name": "SwitchBinarySet",
 			"help": "Switch Binary Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchValue",
 					"help": "Switch Value",
 					"length": 1,

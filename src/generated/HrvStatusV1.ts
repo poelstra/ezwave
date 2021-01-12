@@ -30,10 +30,20 @@ export interface HrvStatusV1HrvStatusReportData {
 }
 
 export interface HrvStatusV1HrvStatusSupportedReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export enum StatusParameterEnum {
+	OutdoorAirTemperature = 0x0,
+	SupplyAirTemperature = 0x1,
+	ExhaustAirTemperature = 0x2,
+	DischargeAirTemperature = 0x3,
+	RoomTemperature = 0x4,
+	RelativeHumidityInRoom = 0x5,
+	RemainingFilterLife = 0x6,
+}
+
+export enum BitMaskEnum {
 	OutdoorAirTemperature = 0x0,
 	SupplyAirTemperature = 0x1,
 	ExhaustAirTemperature = 0x2,
@@ -61,10 +71,10 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 			"command": 1,
 			"name": "HrvStatusGet",
 			"help": "Hrv Status Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "statusParameter",
 					"help": "Status Parameter",
 					"length": 1,
@@ -118,10 +128,10 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 			"command": 2,
 			"name": "HrvStatusReport",
 			"help": "Hrv Status Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "statusParameter",
 					"help": "Status Parameter",
 					"length": 1,
@@ -157,25 +167,25 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0
@@ -183,11 +193,11 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -209,7 +219,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 			"command": 3,
 			"name": "HrvStatusSupportedGet",
 			"help": "Hrv Status Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -222,7 +232,6 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly HrvStatusSupportedReport = class HrvStatusSupportedReport extends CommandPacket<HrvStatusV1HrvStatusSupportedReportData> {
 		public static readonly CommandClass = HrvStatusV1;
 		public static readonly command = 0x04;
@@ -230,13 +239,45 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 			"command": 4,
 			"name": "HrvStatusSupportedReport",
 			"help": "Hrv Status Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"0": {
+							"name": "OutdoorAirTemperature",
+							"help": "Outdoor Air temperature"
+						},
+						"1": {
+							"name": "SupplyAirTemperature",
+							"help": "Supply Air temperature"
+						},
+						"2": {
+							"name": "ExhaustAirTemperature",
+							"help": "Exhaust Air temperature"
+						},
+						"3": {
+							"name": "DischargeAirTemperature",
+							"help": "Discharge Air temperature"
+						},
+						"4": {
+							"name": "RoomTemperature",
+							"help": "Room temperature"
+						},
+						"5": {
+							"name": "RelativeHumidityInRoom",
+							"help": "Relative Humidity in room"
+						},
+						"6": {
+							"name": "RemainingFilterLife",
+							"help": "Remaining filter life"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

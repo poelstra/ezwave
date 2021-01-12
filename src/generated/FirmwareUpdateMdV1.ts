@@ -85,7 +85,7 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 			"command": 1,
 			"name": "FirmwareMdGet",
 			"help": "Firmware Md Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -105,22 +105,22 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 			"command": 2,
 			"name": "FirmwareMdReport",
 			"help": "Firmware Md Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "firmwareId",
 					"help": "Firmware ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "checksum",
 					"help": "Checksum",
 					"length": 2
@@ -144,28 +144,28 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 			"command": 5,
 			"name": "FirmwareUpdateMdGet",
 			"help": "Firmware Update Md Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfReports",
 					"help": "Number of Reports",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "zero",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reportNumber1",
 							"mask": 127,
 							"shift": 0
@@ -173,7 +173,7 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportNumber2",
 					"help": "Report number 2",
 					"length": 1
@@ -197,22 +197,22 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 			"command": 6,
 			"name": "FirmwareUpdateMdReport",
 			"help": "Firmware Update Md Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "last",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reportNumber1",
 							"mask": 127,
 							"shift": 0
@@ -220,17 +220,17 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportNumber2",
 					"help": "Report number 2",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -252,22 +252,22 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 			"command": 3,
 			"name": "FirmwareUpdateMdRequestGet",
 			"help": "Firmware Update Md Request Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "firmwareId",
 					"help": "Firmware ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "checksum",
 					"help": "Checksum",
 					"length": 2
@@ -291,10 +291,10 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 			"command": 4,
 			"name": "FirmwareUpdateMdRequestReport",
 			"help": "Firmware Update Md Request Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -332,10 +332,10 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 			"command": 7,
 			"name": "FirmwareUpdateMdStatusReport",
 			"help": "Firmware Update Md Status Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "status",
 					"help": "Status",
 					"length": 1,

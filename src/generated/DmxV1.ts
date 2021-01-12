@@ -65,23 +65,23 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"command": 1,
 			"name": "DmxAddressSet",
 			"help": "DMX Address Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "pageId",
 							"mask": 15,
 							"shift": 0
@@ -89,7 +89,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
@@ -113,7 +113,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"command": 2,
 			"name": "DmxAddressGet",
 			"help": "DMX Address Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -133,23 +133,23 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"command": 3,
 			"name": "DmxAddressReport",
 			"help": "DMX Address Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "pageId",
 							"mask": 15,
 							"shift": 0
@@ -157,7 +157,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
@@ -181,10 +181,10 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"command": 4,
 			"name": "DmxCapabilityGet",
 			"help": "DMX Capability Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
@@ -208,28 +208,28 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"command": 5,
 			"name": "DmxCapabilityReport",
 			"help": "DMX Capability Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "channelId",
 					"help": "Channel ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "propertyId",
 					"help": "Property ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "deviceChannels",
 					"help": "Device Channels",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maxChannels",
 					"help": "Max Channels",
 					"length": 1
@@ -253,35 +253,35 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 			"command": 6,
 			"name": "DmxData",
 			"help": "DMX Data",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "source",
 					"help": "Source",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "sequenceNo",
 							"mask": 48,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "page",
 							"mask": 15,
 							"shift": 0
@@ -289,11 +289,11 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "dmxChannel",
 					"help": "DMX channel",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

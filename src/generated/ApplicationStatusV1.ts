@@ -48,10 +48,10 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 			"command": 1,
 			"name": "ApplicationBusy",
 			"help": "Application Busy",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -71,7 +71,7 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "waitTime",
 					"help": "Wait Time",
 					"length": 1
@@ -95,10 +95,10 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 			"command": 2,
 			"name": "ApplicationRejectedRequest",
 			"help": "Application Rejected Request",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1

@@ -37,7 +37,7 @@ export interface ThermostatSetpointV1ThermostatSetpointSetData {
 }
 
 export interface ThermostatSetpointV1ThermostatSetpointSupportedReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export enum SetpointTypeEnum {
@@ -48,6 +48,16 @@ export enum SetpointTypeEnum {
 	NotSupported2 = 0x4,
 	NotSupported3 = 0x5,
 	NotSupported4 = 0x6,
+	Furnace = 0x7,
+	DryAir = 0x8,
+	MoistAir = 0x9,
+	AutoChangeover = 0xa,
+}
+
+export enum BitMaskEnum {
+	None = 0x0,
+	Heating = 0x1,
+	Cooling = 0x2,
 	Furnace = 0x7,
 	DryAir = 0x8,
 	MoistAir = 0x9,
@@ -72,23 +82,23 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 			"command": 2,
 			"name": "ThermostatSetpointGet",
 			"help": "Thermostat Setpoint Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
@@ -160,23 +170,23 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 			"command": 3,
 			"name": "ThermostatSetpointReport",
 			"help": "Thermostat Setpoint Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
@@ -230,25 +240,25 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -262,11 +272,11 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "level2.size"
 						}
@@ -291,23 +301,23 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 			"command": 1,
 			"name": "ThermostatSetpointSet",
 			"help": "Thermostat Setpoint Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "setpointType",
 							"mask": 15,
 							"shift": 0,
@@ -361,25 +371,25 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -393,11 +403,11 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "level2.size"
 						}
@@ -422,7 +432,7 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 			"command": 4,
 			"name": "ThermostatSetpointSupportedGet",
 			"help": "Thermostat Setpoint Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -435,7 +445,6 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatSetpointSupportedReport = class ThermostatSetpointSupportedReport extends CommandPacket<ThermostatSetpointV1ThermostatSetpointSupportedReportData> {
 		public static readonly CommandClass = ThermostatSetpointV1;
 		public static readonly command = 0x05;
@@ -443,13 +452,45 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 			"command": 5,
 			"name": "ThermostatSetpointSupportedReport",
 			"help": "Thermostat Setpoint Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"0": {
+							"name": "None",
+							"help": "None"
+						},
+						"1": {
+							"name": "Heating",
+							"help": "Heating"
+						},
+						"2": {
+							"name": "Cooling",
+							"help": "Cooling"
+						},
+						"7": {
+							"name": "Furnace",
+							"help": "Furnace"
+						},
+						"8": {
+							"name": "DryAir",
+							"help": "Dry Air"
+						},
+						"9": {
+							"name": "MoistAir",
+							"help": "Moist Air"
+						},
+						"10": {
+							"name": "AutoChangeover",
+							"help": "Auto changeover"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

@@ -66,7 +66,7 @@ export interface ZwaveV1NodeInfoData {
 	basicDeviceClass?: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	commandClasses: number[]; // automatic length
+	commandClasses: CommandClasses[]; // automatic length
 }
 
 export enum MaxBaudRateEnum {
@@ -110,7 +110,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 23,
 			"name": "AcceptLost",
 			"help": "Accept Lost",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -130,7 +130,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 3,
 			"name": "AssignId",
 			"help": "Assign Id",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -150,7 +150,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 12,
 			"name": "AssignReturnRoute",
 			"help": "Assign Return Route",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -170,7 +170,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 20,
 			"name": "CmdAssignSucReturnRoute",
 			"help": "Assign SUC Return Route",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -190,7 +190,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 16,
 			"name": "CmdAutomaticControllerUpdateStart",
 			"help": "Automatic Controller Update Start",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -210,7 +210,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 31,
 			"name": "CmdNodesExist",
 			"help": "Cmd Nodes Exist",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -230,7 +230,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 32,
 			"name": "CmdNodesExistReply",
 			"help": "Cmd Nodes Exist Reply",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -250,7 +250,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 34,
 			"name": "CmdSetNwiMode",
 			"help": "Cmd Set Nwi Mode",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -270,7 +270,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 7,
 			"name": "CommandComplete",
 			"help": "Command Complete",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -290,7 +290,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 4,
 			"name": "FindNodesInRange",
 			"help": "Find Nodes In Range",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -310,7 +310,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 5,
 			"name": "GetNodesInRange",
 			"help": "Get Nodes In Range",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -330,7 +330,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 22,
 			"name": "Lost",
 			"help": "Lost",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -350,7 +350,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 13,
 			"name": "NewNodeRegistered",
 			"help": "New Node Registered",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -370,7 +370,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 14,
 			"name": "NewRangeRegistered",
 			"help": "New Range Registered",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -390,28 +390,28 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 1,
 			"name": "NodeInfo",
 			"help": "Node Info",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "listening",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "routing",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "maxBaudRate",
 							"mask": 56,
 							"shift": 3,
@@ -431,7 +431,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 							}
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "protocolVersion",
 							"mask": 7,
 							"shift": 0,
@@ -473,49 +473,49 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "optionalFunctionality",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "sensor1000ms",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "sensor250ms",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "beamCapability",
 							"mask": 16,
 							"shift": 4
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "routingSlave",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "specificDevice",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "controller",
 							"mask": 2,
 							"shift": 1,
@@ -527,7 +527,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 							"isAutogenerated": false
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "security",
 							"mask": 1,
 							"shift": 0
@@ -535,20 +535,20 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "speedExtension",
 							"mask": 7,
 							"shift": 0,
@@ -570,35 +570,35 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "basicDeviceClass",
 					"help": "Basic Device Class",
 					"optional": {
 						"ref": "properties2.controller"
 					},
 					"length": 1,
-					"valueType": "BAS_DEV_REF"
+					"valueType": "BasicDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "genericDeviceClass",
 					"help": "Generic Device Class",
 					"length": 1,
-					"valueType": "GEN_DEV_REF"
+					"valueType": "GenericDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "specificDeviceClass",
 					"help": "Specific Device Class",
 					"length": 1,
-					"valueType": "SPEC_DEV_REF"
+					"valueType": "SpecificDevice"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "commandClasses",
 					"help": "Command Classes",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandClasses"
 				}
@@ -621,7 +621,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 6,
 			"name": "NodeRangeInfo",
 			"help": "Node Range Info",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -641,7 +641,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 0,
 			"name": "ZwaveCmdNop",
 			"help": "NOP",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -661,7 +661,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 24,
 			"name": "CmdNopPower",
 			"help": "NOP Power",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -681,7 +681,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 2,
 			"name": "RequestNodeInfo",
 			"help": "Request Node Info",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -701,7 +701,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 25,
 			"name": "ZwaveCmdReserveNodeIds",
 			"help": "Reserve Node ID",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -721,7 +721,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 26,
 			"name": "CmdReservedIds",
 			"help": "Reserved ID",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -741,7 +741,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 18,
 			"name": "CmdSetSuc",
 			"help": "Set SUC",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -761,7 +761,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 19,
 			"name": "CmdSetSucAck",
 			"help": "Set SUC ACK",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -781,7 +781,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 21,
 			"name": "CmdStaticRouteRequest",
 			"help": "Static Route Request",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -801,7 +801,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 17,
 			"name": "CmdSucNodeId",
 			"help": "SUC Node ID",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -821,7 +821,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 11,
 			"name": "TransferEnd",
 			"help": "Transfer End",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -841,7 +841,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 15,
 			"name": "TransferNewPrimaryComplete",
 			"help": "Transfer New Primary Complete",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -861,7 +861,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 9,
 			"name": "TransferNodeInfo",
 			"help": "Transfer Node Info",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -881,7 +881,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 8,
 			"name": "TransferPresentation",
 			"help": "Transfer Presentation",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -901,7 +901,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 10,
 			"name": "TransferRangeInfo",
 			"help": "Transfer Range Info",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -921,7 +921,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 35,
 			"name": "ExcludeRequest",
 			"help": "Exclude Request",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -941,7 +941,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 36,
 			"name": "AssignReturnRoutePriority",
 			"help": "Assign Return Route Priority",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -961,7 +961,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 37,
 			"name": "AssignSucReturnRoutePriority",
 			"help": "Assign SUC Return Route Priority",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -981,7 +981,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 38,
 			"name": "IncludedNodeInfo",
 			"help": "Included Node Info",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -1001,7 +1001,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 39,
 			"name": "SmartStartPrime",
 			"help": "Smart Start Prime",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -1021,7 +1021,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 			"command": 40,
 			"name": "SmartStartInclude",
 			"help": "Smart Start Include",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

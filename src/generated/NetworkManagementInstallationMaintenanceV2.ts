@@ -102,45 +102,45 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 1,
 			"name": "PriorityRouteSet",
 			"help": "Priority Route Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater1",
 					"help": "Repeater 1",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater2",
 					"help": "Repeater 2",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater3",
 					"help": "Repeater 3",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater4",
 					"help": "Repeater 4",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "speed",
 					"help": "Speed",
 					"length": 1,
@@ -178,14 +178,14 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 2,
 			"name": "PriorityRouteGet",
 			"help": "Priority Route Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -206,17 +206,17 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 3,
 			"name": "PriorityRouteReport",
 			"help": "Priority Route Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "type",
 					"help": "Type",
 					"length": 1,
@@ -240,35 +240,35 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater1",
 					"help": "Repeater 1",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater2",
 					"help": "Repeater 2",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater3",
 					"help": "Repeater 3",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "repeater4",
 					"help": "Repeater 4",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "speed",
 					"help": "Speed",
 					"length": 1,
@@ -306,14 +306,14 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 4,
 			"name": "StatisticsGet",
 			"help": "Statistics Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -334,25 +334,25 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 5,
 			"name": "StatisticsReport",
 			"help": "Statistics Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "statistics",
 					"help": "Statistics",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "enum",
+							"type": "Enum",
 							"name": "type",
 							"help": "Type",
 							"length": 1,
@@ -384,7 +384,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 							}
 						},
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "length",
 							"help": "Length",
 							"length": 1,
@@ -396,11 +396,11 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 							"isAutogenerated": true
 						},
 						{
-							"type": "blob",
+							"type": "Blob",
 							"name": "value",
 							"help": "Value",
 							"length": {
-								"lengthType": "ref",
+								"lengthType": "Ref",
 								"from": {
 									"ref": "statistics.length"
 								}
@@ -427,7 +427,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 6,
 			"name": "StatisticsClear",
 			"help": "Statistics Clear",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -447,7 +447,7 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 7,
 			"name": "RssiGet",
 			"help": "RSSI Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -467,22 +467,22 @@ export class NetworkManagementInstallationMaintenanceV2 extends CommandClassPack
 			"command": 8,
 			"name": "RssiReport",
 			"help": "RSSI Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "channel1Rssi",
 					"help": "Channel 1 RSSI",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "channel2Rssi",
 					"help": "Channel 2 RSSI",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "channel3Rssi",
 					"help": "Channel 3 RSSI",
 					"length": 1

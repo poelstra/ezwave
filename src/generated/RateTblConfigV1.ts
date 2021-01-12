@@ -54,23 +54,23 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 			"command": 2,
 			"name": "RateTblRemove",
 			"help": "Rate Tbl Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "rateParameterSetIds",
 							"mask": 63,
 							"shift": 0,
@@ -84,11 +84,11 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.rateParameterSetIds"
 						}
@@ -113,35 +113,35 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 			"command": 1,
 			"name": "RateTblSet",
 			"help": "Rate Tbl Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "reserved",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "rateType",
 							"mask": 96,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfRateChar",
 							"mask": 31,
 							"shift": 0,
@@ -155,48 +155,48 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					]
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "rateCharacter",
 					"help": "Rate Character",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.numberOfRateChar"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHourLocalTime",
 					"help": "Start Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinuteLocalTime",
 					"help": "Start Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "durationMinute",
 					"help": "Duration Minute",
 					"length": 2
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "consumptionPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "consumptionScale",
 							"mask": 31,
 							"shift": 0
@@ -204,31 +204,31 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minConsumptionValue",
 					"help": "Min Consumption Value",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maxConsumptionValue",
 					"help": "Max Consumption Value",
 					"length": 4
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maxDemandPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maxDemandScale",
 							"mask": 31,
 							"shift": 0
@@ -236,13 +236,13 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maxDemandValue",
 					"help": "Max Demand Value",
 					"length": 4
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dcpRateId",
 					"help": "DCP Rate ID",
 					"length": 1

@@ -119,6 +119,8 @@ export function getParamLength(
 			Buffer.isBuffer(value)
 		) {
 			rawLength = value.length;
+		} else if (value instanceof Set) {
+			rawLength = getEncodedSetLength(value);
 		} else {
 			throw new CodecDataError(
 				`cannot determine value of ${getReferencePath(
@@ -157,6 +159,42 @@ export function getParamPresence(
 		}
 	}
 	return false;
+}
+
+export function bufferToSet<T extends number>(buffer: Buffer): Set<T> {
+	let index = 0 as T;
+	const result = new Set<T>();
+	for (let offset = 0; offset < buffer.length; offset++) {
+		const byte = buffer[offset];
+		for (let bit = 0; bit < 8; bit++) {
+			if (byte & (1 << bit)) {
+				result.add(index);
+			}
+			index++;
+		}
+	}
+	return result;
+}
+
+export function getEncodedSetLength(values: Set<number>): number {
+	let highest: number = -1;
+	for (const bit of values) {
+		if (bit > highest) {
+			highest = bit;
+		}
+	}
+	return Math.ceil((highest + 1) / 8);
+}
+
+export function setToBuffer(values: Set<number>): Buffer {
+	const length = getEncodedSetLength(values);
+	const buffer = Buffer.alloc(length);
+	for (const bit of values) {
+		const byteOffset = bit >> 3;
+		const mask = 1 << (bit & 0x7);
+		buffer[byteOffset] = buffer[byteOffset] | mask;
+	}
+	return buffer;
 }
 
 export class Context {

@@ -93,70 +93,70 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"command": 5,
 			"name": "TariffTblCostGet",
 			"help": "Tariff Tbl Cost Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startYear",
 					"help": "Start Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMonth",
 					"help": "Start Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startDay",
 					"help": "Start Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHourLocalTime",
 					"help": "Start Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinuteLocalTime",
 					"help": "Start Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopYear",
 					"help": "Stop Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMonth",
 					"help": "Stop Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopDay",
 					"help": "Stop Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopHourLocalTime",
 					"help": "Stop Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMinuteLocalTime",
 					"help": "Stop Minute Local Time",
 					"length": 1
@@ -180,29 +180,29 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"command": 6,
 			"name": "TariffTblCostReport",
 			"help": "Tariff Tbl Cost Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "rateType",
 							"mask": 3,
 							"shift": 0
@@ -210,85 +210,85 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startYear",
 					"help": "Start Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMonth",
 					"help": "Start Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startDay",
 					"help": "Start Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startHourLocalTime",
 					"help": "Start Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startMinuteLocalTime",
 					"help": "Start Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopYear",
 					"help": "Stop Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMonth",
 					"help": "Stop Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopDay",
 					"help": "Stop Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopHourLocalTime",
 					"help": "Stop Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stopMinuteLocalTime",
 					"help": "Stop Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "currency",
 					"help": "Currency",
 					"length": 3
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "costPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 31,
 							"shift": 0,
@@ -297,7 +297,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "costValue",
 					"help": "Cost Value",
 					"length": 4
@@ -321,10 +321,10 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"command": 3,
 			"name": "TariffTblGet",
 			"help": "Tariff Tbl Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
@@ -348,28 +348,28 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"command": 4,
 			"name": "TariffTblReport",
 			"help": "Tariff Tbl Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "rateParameterSetId",
 					"help": "Rate Parameter Set ID",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "tariffPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 31,
 							"shift": 0,
@@ -378,7 +378,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "tariffValue",
 					"help": "Tariff Value",
 					"length": 4
@@ -402,7 +402,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"command": 1,
 			"name": "TariffTblSupplierGet",
 			"help": "Tariff Tbl Supplier Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -422,64 +422,64 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 			"command": 2,
 			"name": "TariffTblSupplierReport",
 			"help": "Tariff Tbl Supplier Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourLocalTime",
 					"help": "Hour Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteLocalTime",
 					"help": "Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondLocalTime",
 					"help": "Second Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "currency",
 					"help": "Currency",
 					"length": 3
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "standingChargePrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "standingChargePeriod",
 							"mask": 31,
 							"shift": 0
@@ -487,26 +487,26 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "standingChargeValue",
 					"help": "Standing Charge Value",
 					"length": 4
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfSupplierCharacters",
 							"mask": 31,
 							"shift": 0,
@@ -520,11 +520,11 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "supplierCharacter",
 					"help": "Supplier Character",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.numberOfSupplierCharacters"
 						}

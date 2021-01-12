@@ -30,7 +30,7 @@ export interface BarrierOperatorV1BarrierOperatorReportData {
 }
 
 export interface BarrierOperatorV1BarrierOperatorSignalSupportedReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export interface BarrierOperatorV1BarrierOperatorSignalSetData {
@@ -60,6 +60,11 @@ export enum StateEnum {
 	Open = 0xff,
 }
 
+export enum BitMaskEnum {
+	AudibleNotification = 0x0,
+	VisualNotification = 0x1,
+}
+
 export enum SubsystemStateEnum {
 	Off = 0x0,
 	On = 0xff,
@@ -83,10 +88,10 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 1,
 			"name": "BarrierOperatorSet",
 			"help": "Barrier Operator Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "targetValue",
 					"help": "Target Value",
 					"length": 1,
@@ -120,7 +125,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 2,
 			"name": "BarrierOperatorGet",
 			"help": "Barrier Operator Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -140,10 +145,10 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 3,
 			"name": "BarrierOperatorReport",
 			"help": "Barrier Operator Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "state",
 					"help": "State",
 					"length": 1,
@@ -189,7 +194,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 4,
 			"name": "BarrierOperatorSignalSupportedGet",
 			"help": "Barrier Operator Signal Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -202,7 +207,6 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly BarrierOperatorSignalSupportedReport = class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSupportedReportData> {
 		public static readonly CommandClass = BarrierOperatorV1;
 		public static readonly command = 0x05;
@@ -210,13 +214,25 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 5,
 			"name": "BarrierOperatorSignalSupportedReport",
 			"help": "Barrier Operator Signal Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"0": {
+							"name": "AudibleNotification",
+							"help": "Audible Notification"
+						},
+						"1": {
+							"name": "VisualNotification",
+							"help": "Visual Notification"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -237,10 +253,10 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 6,
 			"name": "BarrierOperatorSignalSet",
 			"help": "Barrier Operator Signal Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "subsystemType",
 					"help": "Subsystem Type",
 					"length": 1,
@@ -260,7 +276,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "subsystemState",
 					"help": "Subsystem State",
 					"length": 1,
@@ -294,10 +310,10 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 7,
 			"name": "BarrierOperatorSignalGet",
 			"help": "Barrier Operator Signal Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "subsystemType",
 					"help": "Subsystem Type",
 					"length": 1,
@@ -335,10 +351,10 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 			"command": 8,
 			"name": "BarrierOperatorSignalReport",
 			"help": "Barrier Operator Signal Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "subsystemType",
 					"help": "Subsystem Type",
 					"length": 1,
@@ -358,7 +374,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "subsystemState",
 					"help": "Subsystem State",
 					"length": 1,

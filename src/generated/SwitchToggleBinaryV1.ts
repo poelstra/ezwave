@@ -39,7 +39,7 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 			"command": 1,
 			"name": "SwitchToggleBinarySet",
 			"help": "Switch Toggle Binary Set",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -59,7 +59,7 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 			"command": 2,
 			"name": "SwitchToggleBinaryGet",
 			"help": "Switch Toggle Binary Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -79,10 +79,10 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 			"command": 3,
 			"name": "SwitchToggleBinaryReport",
 			"help": "Switch Toggle Binary Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,

@@ -48,7 +48,7 @@ export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 			"command": 2,
 			"name": "ProtectionGet",
 			"help": "Protection Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -68,10 +68,10 @@ export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 			"command": 3,
 			"name": "ProtectionReport",
 			"help": "Protection Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "protectionState",
 					"help": "Protection State",
 					"length": 1,
@@ -109,10 +109,10 @@ export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 			"command": 1,
 			"name": "ProtectionSet",
 			"help": "Protection Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "protectionState",
 					"help": "Protection State",
 					"length": 1,

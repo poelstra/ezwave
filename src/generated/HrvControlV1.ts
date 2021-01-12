@@ -42,7 +42,7 @@ export interface HrvControlV1HrvControlModeSetData {
 
 export interface HrvControlV1HrvControlModeSupportedReportData {
 	manualControlSupported: ManualControlSupportedEnum; // properties1[3..0]
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export interface HrvControlV1HrvControlVentilationRateReportData {
@@ -68,6 +68,14 @@ export enum ManualControlSupportedEnum {
 	VentilationRate = 0x3,
 }
 
+export enum BitMaskEnum {
+	Off = 0x0,
+	DemandAutomatic = 0x1,
+	Schedule = 0x2,
+	EnergySavingsMode = 0x3,
+	Manual = 0x4,
+}
+
 export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly commandClass = CommandClasses.HrvControl; // 0x39 (57)
 
@@ -86,7 +94,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 5,
 			"name": "HrvControlBypassGet",
 			"help": "Hrv Control Bypass  Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -106,10 +114,10 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 6,
 			"name": "HrvControlBypassReport",
 			"help": "Hrv Control Bypass Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "bypass",
 					"help": "Bypass",
 					"length": 1
@@ -133,10 +141,10 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 4,
 			"name": "HrvControlBypassSet",
 			"help": "Hrv Control Bypass Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "bypass",
 					"help": "Bypass",
 					"length": 1
@@ -160,7 +168,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 2,
 			"name": "HrvControlModeGet",
 			"help": "Hrv Control Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -180,23 +188,23 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 3,
 			"name": "HrvControlModeReport",
 			"help": "Hrv Control Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 31,
 							"shift": 0,
@@ -244,23 +252,23 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 1,
 			"name": "HrvControlModeSet",
 			"help": "Hrv Control Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 31,
 							"shift": 0,
@@ -308,7 +316,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 10,
 			"name": "HrvControlModeSupportedGet",
 			"help": "Hrv Control Mode Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -321,7 +329,6 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly HrvControlModeSupportedReport = class HrvControlModeSupportedReport extends CommandPacket<HrvControlV1HrvControlModeSupportedReportData> {
 		public static readonly CommandClass = HrvControlV1;
 		public static readonly command = 0x0b;
@@ -329,23 +336,23 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 11,
 			"name": "HrvControlModeSupportedReport",
 			"help": "Hrv Control Mode Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "manualControlSupported",
 							"mask": 15,
 							"shift": 0,
@@ -371,10 +378,34 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"1": {
+							"name": "DemandAutomatic",
+							"help": "Demand Automatic"
+						},
+						"2": {
+							"name": "Schedule",
+							"help": "Schedule"
+						},
+						"3": {
+							"name": "EnergySavingsMode",
+							"help": "Energy Savings Mode"
+						},
+						"4": {
+							"name": "Manual",
+							"help": "Manual"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -395,7 +426,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 8,
 			"name": "HrvControlVentilationRateGet",
 			"help": "Hrv Control Ventilation Rate  Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -415,10 +446,10 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 9,
 			"name": "HrvControlVentilationRateReport",
 			"help": "Hrv Control Ventilation Rate  Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "ventilationRate",
 					"help": "Ventilation Rate",
 					"length": 1
@@ -442,10 +473,10 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 			"command": 7,
 			"name": "HrvControlVentilationRateSet",
 			"help": "Hrv Control Ventilation Rate Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "ventilationRate",
 					"help": "Ventilation Rate",
 					"length": 1

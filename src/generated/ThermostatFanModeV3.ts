@@ -29,7 +29,7 @@ export interface ThermostatFanModeV3ThermostatFanModeSetData {
 }
 
 export interface ThermostatFanModeV3ThermostatFanModeSupportedReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export enum FanModeEnum {
@@ -41,6 +41,17 @@ export enum FanModeEnum {
 	Medium = 0x5,
 	Circulation = 0x6,
 	Humidity = 0x7,
+}
+
+export enum BitMaskEnum {
+	Auto = 0x0,
+	Low = 0x1,
+	AutoHigh = 0x2,
+	High = 0x3,
+	AutoMedium = 0x4,
+	Medium = 0x5,
+	Circulation = 0x6,
+	HumidityCirculation = 0x7,
 }
 
 export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3Commands> {
@@ -61,7 +72,7 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 			"command": 2,
 			"name": "ThermostatFanModeGet",
 			"help": "Thermostat Fan Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -81,29 +92,29 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 			"command": 3,
 			"name": "ThermostatFanModeReport",
 			"help": "Thermostat Fan Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "off",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "fanMode",
 							"mask": 15,
 							"shift": 0,
@@ -163,29 +174,29 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 			"command": 1,
 			"name": "ThermostatFanModeSet",
 			"help": "Thermostat Fan Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "off",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 112,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "fanMode",
 							"mask": 15,
 							"shift": 0,
@@ -245,7 +256,7 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 			"command": 4,
 			"name": "ThermostatFanModeSupportedGet",
 			"help": "Thermostat Fan Mode Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -258,7 +269,6 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatFanModeSupportedReport = class ThermostatFanModeSupportedReport extends CommandPacket<ThermostatFanModeV3ThermostatFanModeSupportedReportData> {
 		public static readonly CommandClass = ThermostatFanModeV3;
 		public static readonly command = 0x05;
@@ -266,13 +276,49 @@ export class ThermostatFanModeV3 extends CommandClassPacket<ThermostatFanModeV3C
 			"command": 5,
 			"name": "ThermostatFanModeSupportedReport",
 			"help": "Thermostat Fan Mode Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"0": {
+							"name": "Auto",
+							"help": "Auto"
+						},
+						"1": {
+							"name": "Low",
+							"help": "Low"
+						},
+						"2": {
+							"name": "AutoHigh",
+							"help": "Auto High"
+						},
+						"3": {
+							"name": "High",
+							"help": "High"
+						},
+						"4": {
+							"name": "AutoMedium",
+							"help": "Auto Medium"
+						},
+						"5": {
+							"name": "Medium",
+							"help": "Medium"
+						},
+						"6": {
+							"name": "Circulation",
+							"help": "Circulation"
+						},
+						"7": {
+							"name": "HumidityCirculation",
+							"help": "Humidity Circulation"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

@@ -44,7 +44,7 @@ export class BasicV2 extends CommandClassPacket<BasicV2Commands> {
 			"command": 2,
 			"name": "BasicGet",
 			"help": "Basic Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -64,22 +64,22 @@ export class BasicV2 extends CommandClassPacket<BasicV2Commands> {
 			"command": 3,
 			"name": "BasicReport",
 			"help": "Basic Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "currentValue",
 					"help": "Current Value",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "targetValue",
 					"help": "Target Value",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1
@@ -103,10 +103,10 @@ export class BasicV2 extends CommandClassPacket<BasicV2Commands> {
 			"command": 1,
 			"name": "BasicSet",
 			"help": "Basic Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1

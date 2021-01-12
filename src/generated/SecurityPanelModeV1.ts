@@ -48,7 +48,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 			"command": 3,
 			"name": "SecurityPanelModeGet",
 			"help": "Security Panel Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -68,10 +68,10 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 			"command": 4,
 			"name": "SecurityPanelModeReport",
 			"help": "Security Panel Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mode",
 					"help": "MODE",
 					"length": 1,
@@ -117,10 +117,10 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 			"command": 5,
 			"name": "SecurityPanelModeSet",
 			"help": "Security Panel Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mode",
 					"help": "MODE",
 					"length": 1,
@@ -166,7 +166,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 			"command": 1,
 			"name": "SecurityPanelModeSupportedGet",
 			"help": "Security Panel Mode Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -186,10 +186,10 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 			"command": 2,
 			"name": "SecurityPanelModeSupportedReport",
 			"help": "Security Panel Mode Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedModeBitMask",
 					"help": "Supported Mode Bit Mask",
 					"length": 2

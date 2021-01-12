@@ -77,10 +77,10 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 			"command": 2,
 			"name": "MultiChannelAssociationGet",
 			"help": "Multi Channel Association Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
@@ -104,7 +104,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 			"command": 5,
 			"name": "MultiChannelAssociationGroupingsGet",
 			"help": "Multi Channel Association Groupings Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -124,10 +124,10 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 			"command": 6,
 			"name": "MultiChannelAssociationGroupingsReport",
 			"help": "Multi Channel Association Groupings Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedGroupings",
 					"help": "Supported Groupings",
 					"length": 1
@@ -151,20 +151,20 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 			"command": 4,
 			"name": "MultiChannelAssociationRemove",
 			"help": "Multi Channel Association Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nodeIds",
 					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto",
+						"lengthType": "Auto",
 						"markers": [
 							0
 						]
@@ -172,34 +172,34 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"blobType": "NodeIds"
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "multiChannelNodeId",
 							"help": "Multi Channel Node ID",
 							"length": 1,
-							"valueType": "NODE_NUMBER"
+							"valueType": "NodeNumber"
 						},
 						{
-							"type": "bitfield",
+							"type": "Bitfield",
 							"name": "properties1",
 							"help": "Properties1",
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "boolean",
+									"fieldType": "Boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
 								},
 								{
-									"fieldType": "integer",
+									"fieldType": "Integer",
 									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
@@ -227,32 +227,32 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 			"command": 3,
 			"name": "MultiChannelAssociationReport",
 			"help": "Multi Channel Association Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maxNodesSupported",
 					"help": "Max Nodes Supported",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nodeIds",
 					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto",
+						"lengthType": "Auto",
 						"markers": [
 							0
 						]
@@ -260,34 +260,34 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"blobType": "NodeIds"
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "multiChannelNodeId",
 							"help": "Multi Channel Node ID",
 							"length": 1,
-							"valueType": "NODE_NUMBER"
+							"valueType": "NodeNumber"
 						},
 						{
-							"type": "bitfield",
+							"type": "Bitfield",
 							"name": "properties1",
 							"help": "Properties1",
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "boolean",
+									"fieldType": "Boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
 								},
 								{
-									"fieldType": "integer",
+									"fieldType": "Integer",
 									"name": "endPoint",
 									"mask": 127,
 									"shift": 0
@@ -315,20 +315,20 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 			"command": 1,
 			"name": "MultiChannelAssociationSet",
 			"help": "Multi Channel Association Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nodeIds",
 					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto",
+						"lengthType": "Auto",
 						"markers": [
 							0
 						]
@@ -336,34 +336,34 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 					"blobType": "NodeIds"
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "multiChannelNodeId",
 							"help": "Multi Channel Node ID",
 							"length": 1,
-							"valueType": "NODE_NUMBER"
+							"valueType": "NodeNumber"
 						},
 						{
-							"type": "bitfield",
+							"type": "Bitfield",
 							"name": "properties1",
 							"help": "Properties1",
 							"length": 1,
 							"fields": [
 								{
-									"fieldType": "boolean",
+									"fieldType": "Boolean",
 									"name": "bitAddress",
 									"mask": 128,
 									"shift": 7
 								},
 								{
-									"fieldType": "integer",
+									"fieldType": "Integer",
 									"name": "endPoint",
 									"mask": 127,
 									"shift": 0

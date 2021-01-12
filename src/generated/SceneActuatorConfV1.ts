@@ -51,10 +51,10 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 			"command": 2,
 			"name": "SceneActuatorConfGet",
 			"help": "Scene Actuator Conf Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
@@ -78,22 +78,22 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 			"command": 3,
 			"name": "SceneActuatorConfReport",
 			"help": "Scene Actuator Conf Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "level",
 					"help": "Level",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1,
@@ -123,16 +123,16 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 			"command": 1,
 			"name": "SceneActuatorConfSet",
 			"help": "Scene Actuator Conf Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1,
@@ -148,19 +148,19 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "override",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 127,
 							"shift": 0,
@@ -169,7 +169,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "level",
 					"help": "Level",
 					"length": 1

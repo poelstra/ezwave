@@ -51,10 +51,10 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 			"command": 2,
 			"name": "GroupingNameGet",
 			"help": "Grouping Name Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
 					"length": 1
@@ -78,29 +78,29 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 			"command": 3,
 			"name": "GroupingNameReport",
 			"help": "Grouping Name Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -108,7 +108,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					]
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "groupingName",
 					"help": "Grouping Name",
 					"length": 16
@@ -132,29 +132,29 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 			"command": 1,
 			"name": "GroupingNameSet",
 			"help": "Grouping Name Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping identifier",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "charPresentation",
 							"mask": 7,
 							"shift": 0
@@ -162,7 +162,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 					]
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "groupingName",
 					"help": "Grouping Name",
 					"length": 16

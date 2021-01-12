@@ -27,7 +27,7 @@ export interface ThermostatModeV1ThermostatModeSetData {
 }
 
 export interface ThermostatModeV1ThermostatModeSupportedReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export enum ModeEnum {
@@ -36,6 +36,20 @@ export enum ModeEnum {
 	Cool = 0x2,
 	Auto = 0x3,
 	AuxiliaryHeat = 0x4,
+	Resume = 0x5,
+	FanOnly = 0x6,
+	Furnace = 0x7,
+	DryAir = 0x8,
+	MoistAir = 0x9,
+	AutoChangeover = 0xa,
+}
+
+export enum BitMaskEnum {
+	Off = 0x0,
+	Heat = 0x1,
+	Cool = 0x2,
+	Auto = 0x3,
+	AuxiliaryEmergencyHeat = 0x4,
 	Resume = 0x5,
 	FanOnly = 0x6,
 	Furnace = 0x7,
@@ -62,7 +76,7 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 			"command": 2,
 			"name": "ThermostatModeGet",
 			"help": "Thermostat Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -82,23 +96,23 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 			"command": 3,
 			"name": "ThermostatModeReport",
 			"help": "Thermostat Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 31,
 							"shift": 0,
@@ -170,23 +184,23 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 			"command": 1,
 			"name": "ThermostatModeSet",
 			"help": "Thermostat Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 31,
 							"shift": 0,
@@ -258,7 +272,7 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 			"command": 4,
 			"name": "ThermostatModeSupportedGet",
 			"help": "Thermostat Mode Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -271,7 +285,6 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatModeSupportedReport = class ThermostatModeSupportedReport extends CommandPacket<ThermostatModeV1ThermostatModeSupportedReportData> {
 		public static readonly CommandClass = ThermostatModeV1;
 		public static readonly command = 0x05;
@@ -279,13 +292,61 @@ export class ThermostatModeV1 extends CommandClassPacket<ThermostatModeV1Command
 			"command": 5,
 			"name": "ThermostatModeSupportedReport",
 			"help": "Thermostat Mode Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"0": {
+							"name": "Off",
+							"help": "Off"
+						},
+						"1": {
+							"name": "Heat",
+							"help": "Heat"
+						},
+						"2": {
+							"name": "Cool",
+							"help": "Cool"
+						},
+						"3": {
+							"name": "Auto",
+							"help": "Auto"
+						},
+						"4": {
+							"name": "AuxiliaryEmergencyHeat",
+							"help": "Auxiliary/Emergency Heat"
+						},
+						"5": {
+							"name": "Resume",
+							"help": "Resume"
+						},
+						"6": {
+							"name": "FanOnly",
+							"help": "Fan Only"
+						},
+						"7": {
+							"name": "Furnace",
+							"help": "Furnace"
+						},
+						"8": {
+							"name": "DryAir",
+							"help": "Dry Air"
+						},
+						"9": {
+							"name": "MoistAir",
+							"help": "Moist Air"
+						},
+						"10": {
+							"name": "AutoChangeover",
+							"help": "Auto Changeover"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

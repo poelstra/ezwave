@@ -91,7 +91,7 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 4,
 			"name": "ScheduleChangedGet",
 			"help": "Schedule Changed Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -111,10 +111,10 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 5,
 			"name": "ScheduleChangedReport",
 			"help": "Schedule Changed Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "changeCounter",
 					"help": "ChangeCounter",
 					"length": 1
@@ -138,23 +138,23 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 2,
 			"name": "ScheduleGet",
 			"help": "Schedule Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "weekday",
 							"mask": 7,
 							"shift": 0
@@ -180,7 +180,7 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 7,
 			"name": "ScheduleOverrideGet",
 			"help": "Schedule Override Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -200,23 +200,23 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 8,
 			"name": "ScheduleOverrideReport",
 			"help": "Schedule Override Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "overrideType",
 							"mask": 3,
 							"shift": 0
@@ -224,7 +224,7 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					]
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "overrideState",
 					"help": "Override State",
 					"length": 1,
@@ -266,23 +266,23 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 6,
 			"name": "ScheduleOverrideSet",
 			"help": "Schedule Override Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "overrideType",
 							"mask": 3,
 							"shift": 0
@@ -290,7 +290,7 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					]
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "overrideState",
 					"help": "Override State",
 					"length": 1,
@@ -332,23 +332,23 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 3,
 			"name": "ScheduleReport",
 			"help": "Schedule Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "weekday",
 							"mask": 7,
 							"shift": 0
@@ -356,55 +356,55 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint0",
 					"help": "Switchpoint 0",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint1",
 					"help": "Switchpoint 1",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint2",
 					"help": "Switchpoint 2",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint3",
 					"help": "Switchpoint 3",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint4",
 					"help": "Switchpoint 4",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint5",
 					"help": "Switchpoint 5",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint6",
 					"help": "Switchpoint 6",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint7",
 					"help": "Switchpoint 7",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint8",
 					"help": "Switchpoint 8",
 					"length": 3
@@ -428,23 +428,23 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 			"command": 1,
 			"name": "ScheduleSet",
 			"help": "Schedule Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "weekday",
 							"mask": 7,
 							"shift": 0
@@ -452,55 +452,55 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint0",
 					"help": "Switchpoint 0",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint1",
 					"help": "Switchpoint 1",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint2",
 					"help": "Switchpoint 2",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint3",
 					"help": "Switchpoint 3",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint4",
 					"help": "Switchpoint 4",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint5",
 					"help": "Switchpoint 5",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint6",
 					"help": "Switchpoint 6",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint7",
 					"help": "Switchpoint 7",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "switchpoint8",
 					"help": "Switchpoint 8",
 					"length": 3

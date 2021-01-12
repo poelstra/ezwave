@@ -27,7 +27,7 @@ export interface ThermostatFanModeV1ThermostatFanModeSetData {
 }
 
 export interface ThermostatFanModeV1ThermostatFanModeSupportedReportData {
-	// TODO param bitMask type bitmask
+	bitMask: Set<BitMaskEnum>; // automatic length
 }
 
 export enum FanModeEnum {
@@ -35,6 +35,13 @@ export enum FanModeEnum {
 	Low = 0x1,
 	AutoHigh = 0x2,
 	High = 0x3,
+}
+
+export enum BitMaskEnum {
+	Auto = 0x0,
+	On = 0x1,
+	AutoHigh = 0x2,
+	OnHigh = 0x3,
 }
 
 export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1Commands> {
@@ -55,7 +62,7 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 			"command": 2,
 			"name": "ThermostatFanModeGet",
 			"help": "Thermostat Fan Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -75,23 +82,23 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 			"command": 3,
 			"name": "ThermostatFanModeReport",
 			"help": "Thermostat Fan Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "fanMode",
 							"mask": 15,
 							"shift": 0,
@@ -135,23 +142,23 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 			"command": 1,
 			"name": "ThermostatFanModeSet",
 			"help": "Thermostat Fan Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "fanMode",
 							"mask": 15,
 							"shift": 0,
@@ -195,7 +202,7 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 			"command": 4,
 			"name": "ThermostatFanModeSupportedGet",
 			"help": "Thermostat Fan Mode Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -208,7 +215,6 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ThermostatFanModeSupportedReport = class ThermostatFanModeSupportedReport extends CommandPacket<ThermostatFanModeV1ThermostatFanModeSupportedReportData> {
 		public static readonly CommandClass = ThermostatFanModeV1;
 		public static readonly command = 0x05;
@@ -216,13 +222,33 @@ export class ThermostatFanModeV1 extends CommandClassPacket<ThermostatFanModeV1C
 			"command": 5,
 			"name": "ThermostatFanModeSupportedReport",
 			"help": "Thermostat Fan Mode Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					},
+					"values": {
+						"0": {
+							"name": "Auto",
+							"help": "Auto"
+						},
+						"1": {
+							"name": "On",
+							"help": "On"
+						},
+						"2": {
+							"name": "AutoHigh",
+							"help": "Auto High"
+						},
+						"3": {
+							"name": "OnHigh",
+							"help": "On High"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

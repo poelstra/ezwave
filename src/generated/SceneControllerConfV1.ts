@@ -50,10 +50,10 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 			"command": 2,
 			"name": "SceneControllerConfGet",
 			"help": "Scene Controller Conf Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
@@ -77,22 +77,22 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 			"command": 3,
 			"name": "SceneControllerConfReport",
 			"help": "Scene Controller Conf Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1,
@@ -122,22 +122,22 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 			"command": 1,
 			"name": "SceneControllerConfSet",
 			"help": "Scene Controller Conf Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1,

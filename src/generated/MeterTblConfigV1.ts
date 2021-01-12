@@ -36,23 +36,23 @@ export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Command
 			"command": 1,
 			"name": "MeterTblTablePointAdmNoSet",
 			"help": "Meter Tbl Table Point Adm No Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfCharacters",
 							"mask": 31,
 							"shift": 0,
@@ -66,11 +66,11 @@ export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Command
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "meterPointAdmNumberCharacter",
 					"help": "Meter Point Adm Number Character",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.numberOfCharacters"
 						}

@@ -52,7 +52,7 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 			"command": 1,
 			"name": "ScreenAttributesGet",
 			"help": "Screen Attributes Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -72,29 +72,29 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 			"command": 2,
 			"name": "ScreenAttributesReport",
 			"help": "Screen Attributes Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "escapeSequence",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfLines",
 							"mask": 31,
 							"shift": 0
@@ -102,25 +102,25 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfCharactersPerLine",
 					"help": "Number of Characters per Line",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sizeOfLineBuffer",
 					"help": "Size of Line Buffer",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numericalPresentationOfACharacter",
 					"help": "Numerical Presentation of a Character",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "screenTimeout",
 					"help": "Screen Timeout",
 					"length": 1
@@ -144,29 +144,29 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 			"command": 3,
 			"name": "ScreenAttributesReportLegacy",
 			"help": "Screen Attributes Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "escapeSequence",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfLines",
 							"mask": 31,
 							"shift": 0
@@ -174,25 +174,25 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfCharactersPerLine",
 					"help": "Number of Characters per Line",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sizeOfLineBuffer",
 					"help": "Size of Line Buffer",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numericalPresentationOfACharacter",
 					"help": "Numerical Presentation of a Character",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "screenTimeout",
 					"help": "Screen Timeout",
 					"length": 1

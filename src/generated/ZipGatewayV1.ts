@@ -101,10 +101,10 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 1,
 			"name": "GatewayModeSet",
 			"help": "Gateway Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -138,7 +138,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 2,
 			"name": "GatewayModeGet",
 			"help": "Gateway Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -158,10 +158,10 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 3,
 			"name": "GatewayModeReport",
 			"help": "Gateway Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -195,41 +195,41 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 4,
 			"name": "GatewayPeerSet",
 			"help": "Gateway Peer Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "peerProfile",
 					"help": "Peer Profile",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "port",
 					"help": "Port",
 					"length": 2
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "peerNameLength",
 							"mask": 63,
 							"shift": 0,
@@ -243,11 +243,11 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "peerName",
 					"help": "Peer Name",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.peerNameLength"
 						}
@@ -272,10 +272,10 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 5,
 			"name": "GatewayPeerGet",
 			"help": "Gateway Peer Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "peerProfile",
 					"help": "Peer Profile",
 					"length": 1
@@ -299,47 +299,47 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 6,
 			"name": "GatewayPeerReport",
 			"help": "Gateway Peer Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "peerProfile",
 					"help": "Peer Profile",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "peerCount",
 					"help": "Peer Count",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "port",
 					"help": "Port",
 					"length": 2
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 192,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "peerNameLength",
 							"mask": 63,
 							"shift": 0,
@@ -353,11 +353,11 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "peerName",
 					"help": "Peer Name",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.peerNameLength"
 						}
@@ -382,29 +382,29 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 7,
 			"name": "GatewayLockSet",
 			"help": "Gateway Lock Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "show",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "lock",
 							"mask": 1,
 							"shift": 0
@@ -430,16 +430,16 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 8,
 			"name": "UnsolicitedDestinationSet",
 			"help": "Unsolicited Destination Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "unsolicitedIpv6Destination",
 					"help": "Unsolicited IPv6 Destination",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "unsolicitedDestinationPort",
 					"help": "Unsolicited Destination Port",
 					"length": 2
@@ -463,7 +463,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 9,
 			"name": "UnsolicitedDestinationGet",
 			"help": "Unsolicited Destination Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -483,16 +483,16 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 10,
 			"name": "UnsolicitedDestinationReport",
 			"help": "Unsolicited Destination Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "unsolicitedIpv6Destination",
 					"help": "Unsolicited IPv6 Destination",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "unsolicitedDestinationPort",
 					"help": "Unsolicited Destination Port",
 					"length": 2
@@ -516,14 +516,14 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 11,
 			"name": "CommandApplicationNodeInfoSet",
 			"help": "Application Node Info Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
 					"length": {
-						"lengthType": "auto",
+						"lengthType": "Auto",
 						"markers": [
 							241,
 							0
@@ -531,11 +531,11 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					}
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "securityScheme0CommandClass",
 					"help": "Security Scheme 0 Command Class",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -557,7 +557,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 12,
 			"name": "CommandApplicationNodeInfoGet",
 			"help": "Application Node Info Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -577,14 +577,14 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 			"command": 13,
 			"name": "CommandApplicationNodeInfoReport",
 			"help": "Application Node Info Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nonSecureCommandClass",
 					"help": "Non-Secure Command Class",
 					"length": {
-						"lengthType": "auto",
+						"lengthType": "Auto",
 						"markers": [
 							241,
 							0
@@ -592,11 +592,11 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 					}
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "securityScheme0CommandClass",
 					"help": "Security Scheme 0 Command Class",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

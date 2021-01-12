@@ -32,7 +32,7 @@ export class DeviceResetLocallyV1 extends CommandClassPacket<DeviceResetLocallyV
 			"command": 1,
 			"name": "DeviceResetLocallyNotification",
 			"help": "Device Reset Locally Notification",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

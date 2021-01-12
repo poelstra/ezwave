@@ -47,8 +47,7 @@ export interface IndicatorV2IndicatorSupportedGetData {
 export interface IndicatorV2IndicatorSupportedReportData {
 	indicatorId: IndicatorIdEnum; // 1 byte enum value
 	nextIndicatorId: NextIndicatorIdEnum; // 1 byte enum value
-	propertySupportedBitMaskLength: number; // properties1[4..0]
-	// TODO param propertySupportedBitMask type bitmask
+	propertySupportedBitMask: Set<PropertySupportedBitMaskEnum>; // variable length
 }
 
 export enum IndicatorIdEnum {
@@ -131,6 +130,14 @@ export enum NextIndicatorIdEnum {
 	Buzzer = 0xf0,
 }
 
+export enum PropertySupportedBitMaskEnum {
+	Multilevel = 0x1,
+	Binary = 0x2,
+	OnOffPeriod = 0x3,
+	OnOffCycles = 0x4,
+	LowPower = 0x10,
+}
+
 export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 	public static readonly commandClass = CommandClasses.Indicator; // 0x87 (135)
 
@@ -149,10 +156,10 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"command": 2,
 			"name": "IndicatorGet",
 			"help": "Indicator Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "indicatorId",
 					"help": "Indicator ID",
 					"length": 1,
@@ -310,10 +317,10 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"command": 3,
 			"name": "IndicatorReport",
 			"help": "Indicator Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "indicator0Value",
 					"help": "Indicator 0 Value",
 					"length": 1,
@@ -329,20 +336,20 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "indicatorObjectCount",
 							"mask": 31,
 							"shift": 0,
@@ -356,18 +363,18 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					]
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.indicatorObjectCount"
 						}
 					},
 					"params": [
 						{
-							"type": "enum",
+							"type": "Enum",
 							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
@@ -507,7 +514,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 							}
 						},
 						{
-							"type": "enum",
+							"type": "Enum",
 							"name": "propertyId",
 							"help": "Property ID",
 							"length": 1,
@@ -535,7 +542,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 							}
 						},
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "value",
 							"help": "Value",
 							"length": 1
@@ -561,10 +568,10 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"command": 1,
 			"name": "IndicatorSet",
 			"help": "Indicator Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "indicator0Value",
 					"help": "Indicator 0 Value",
 					"length": 1,
@@ -580,20 +587,20 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "indicatorObjectCount",
 							"mask": 31,
 							"shift": 0,
@@ -607,18 +614,18 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					]
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.indicatorObjectCount"
 						}
 					},
 					"params": [
 						{
-							"type": "enum",
+							"type": "Enum",
 							"name": "indicatorId",
 							"help": "Indicator ID",
 							"length": 1,
@@ -758,7 +765,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 							}
 						},
 						{
-							"type": "enum",
+							"type": "Enum",
 							"name": "propertyId",
 							"help": "Property ID",
 							"length": 1,
@@ -786,7 +793,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 							}
 						},
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "value",
 							"help": "Value",
 							"length": 1
@@ -812,10 +819,10 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"command": 4,
 			"name": "IndicatorSupportedGet",
 			"help": "Indicator Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "indicatorId",
 					"help": "Indicator ID",
 					"length": 1,
@@ -966,7 +973,6 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IndicatorSupportedReport = class IndicatorSupportedReport extends CommandPacket<IndicatorV2IndicatorSupportedReportData> {
 		public static readonly CommandClass = IndicatorV2;
 		public static readonly command = 0x05;
@@ -974,10 +980,10 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 			"command": 5,
 			"name": "IndicatorSupportedReport",
 			"help": "Indicator Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "indicatorId",
 					"help": "Indicator ID",
 					"length": 1,
@@ -1117,7 +1123,7 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "nextIndicatorId",
 					"help": "Next Indicator ID",
 					"length": 1,
@@ -1257,31 +1263,64 @@ export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "propertySupportedBitMaskLength",
 							"mask": 31,
-							"shift": 0
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									"propertySupportedBitMask"
+								]
+							},
+							"isAutogenerated": true
 						}
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "propertySupportedBitMask",
 					"help": "Property Supported Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Ref",
+						"from": {
+							"ref": "properties1.propertySupportedBitMaskLength"
+						}
+					},
+					"values": {
+						"1": {
+							"name": "Multilevel",
+							"help": "Multilevel"
+						},
+						"2": {
+							"name": "Binary",
+							"help": "Binary"
+						},
+						"3": {
+							"name": "OnOffPeriod",
+							"help": "On_Off_Period"
+						},
+						"4": {
+							"name": "OnOffCycles",
+							"help": "On_Off_Cycles"
+						},
+						"16": {
+							"name": "LowPower",
+							"help": "Low_power"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

@@ -51,34 +51,34 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 			"command": 6,
 			"name": "MultiInstanceCmdEncap",
 			"help": "Multi Instance Cmd Encap",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "instance",
 					"help": "Instance",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "command",
 					"help": "Command",
 					"length": 1,
-					"valueType": "CMD_REF"
+					"valueType": "Command"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "parameter",
 					"help": "Parameter",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandData"
 				}
@@ -101,14 +101,14 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 			"command": 4,
 			"name": "MultiInstanceGet",
 			"help": "Multi Instance Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -129,17 +129,17 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 			"command": 5,
 			"name": "MultiInstanceReport",
 			"help": "Multi Instance Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "instances",
 					"help": "Instances",
 					"length": 1

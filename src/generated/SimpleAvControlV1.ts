@@ -37,7 +37,7 @@ export interface SimpleAvControlV1SimpleAvControlSupportedGetData {
 
 export interface SimpleAvControlV1SimpleAvControlSupportedReportData {
 	reportNo: number; // 1 byte unsigned integer
-	// TODO param bitMask type bitmask
+	bitMask: Set<number>; // automatic length
 }
 
 export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Commands> {
@@ -58,7 +58,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 			"command": 2,
 			"name": "SimpleAvControlGet",
 			"help": "Simple Av Control Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -78,10 +78,10 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 			"command": 3,
 			"name": "SimpleAvControlReport",
 			"help": "Simple Av Control Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfReports",
 					"help": "Number of reports",
 					"length": 1
@@ -105,29 +105,29 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 			"command": 1,
 			"name": "SimpleAvControlSet",
 			"help": "Simple Av Control Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "keyAttributes",
 							"mask": 7,
 							"shift": 0
@@ -135,21 +135,21 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved2",
 					"help": "Reserved2",
 					"length": 2
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg",
 					"help": "vg",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "command",
 							"help": "Command",
 							"length": 2
@@ -175,10 +175,10 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 			"command": 4,
 			"name": "SimpleAvControlSupportedGet",
 			"help": "Simple Av Control Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportNo",
 					"help": "Report No",
 					"length": 1
@@ -195,7 +195,6 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly SimpleAvControlSupportedReport = class SimpleAvControlSupportedReport extends CommandPacket<SimpleAvControlV1SimpleAvControlSupportedReportData> {
 		public static readonly CommandClass = SimpleAvControlV1;
 		public static readonly command = 0x05;
@@ -203,19 +202,21 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 			"command": 5,
 			"name": "SimpleAvControlSupportedReport",
 			"help": "Simple Av Control Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportNo",
 					"help": "Report No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "bitMask",
 					"help": "Bit Mask",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

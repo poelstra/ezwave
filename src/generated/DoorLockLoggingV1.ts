@@ -58,7 +58,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 			"command": 1,
 			"name": "DoorLockLoggingRecordsSupportedGet",
 			"help": "Door Lock Logging Records Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -78,10 +78,10 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 			"command": 2,
 			"name": "DoorLockLoggingRecordsSupportedReport",
 			"help": "Door Lock Logging Records Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maxRecordsStored",
 					"help": "Max records stored",
 					"length": 1
@@ -105,10 +105,10 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 			"command": 3,
 			"name": "RecordGet",
 			"help": "Record Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "recordNumber",
 					"help": "Record number",
 					"length": 1
@@ -132,46 +132,46 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 			"command": 4,
 			"name": "RecordReport",
 			"help": "Record Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "recordNumber",
 					"help": "Record number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "recordStatus",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "hourLocalTime",
 							"mask": 31,
 							"shift": 0
@@ -179,41 +179,41 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteLocalTime",
 					"help": "Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondLocalTime",
 					"help": "Second Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "eventType",
 					"help": "Event Type",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userCodeLength",
 					"help": "User Code Length",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "userCode",
 					"help": "USER_CODE",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

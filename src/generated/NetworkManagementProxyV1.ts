@@ -34,7 +34,7 @@ export interface NetworkManagementProxyV1NodeInfoCachedReportData {
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	commandClasses: number[]; // automatic length
+	commandClasses: CommandClasses[]; // automatic length
 }
 
 export interface NetworkManagementProxyV1NodeListGetData {
@@ -45,7 +45,7 @@ export interface NetworkManagementProxyV1NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	nodeListControllerId: number; // 1 byte unsigned integer
-	// TODO param nodeListData type bitmask
+	nodeListData: Set<number>; // automatic length
 }
 
 export enum StatusEnum {
@@ -72,29 +72,29 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 			"command": 3,
 			"name": "NodeInfoCachedGet",
 			"help": "Node Info Cached Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maxAge",
 							"mask": 15,
 							"shift": 0
@@ -102,11 +102,11 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -127,22 +127,22 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 			"command": 4,
 			"name": "NodeInfoCachedReport",
 			"help": "Node Info Cached Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "status",
 							"mask": 240,
 							"shift": 4,
@@ -162,7 +162,7 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 							}
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "age",
 							"mask": 15,
 							"shift": 0
@@ -170,19 +170,19 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "listening",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "zWaveProtocolSpecificPart1",
 							"mask": 127,
 							"shift": 0
@@ -190,19 +190,19 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "opt",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "zWaveProtocolSpecificPart2",
 							"mask": 127,
 							"shift": 0
@@ -210,39 +210,39 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "basicDeviceClass",
 					"help": "Basic Device Class",
 					"length": 1,
-					"valueType": "BAS_DEV_REF"
+					"valueType": "BasicDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "genericDeviceClass",
 					"help": "Generic Device Class",
 					"length": 1,
-					"valueType": "GEN_DEV_REF"
+					"valueType": "GenericDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "specificDeviceClass",
 					"help": "Specific Device Class",
 					"length": 1,
-					"valueType": "SPEC_DEV_REF"
+					"valueType": "SpecificDevice"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "commandClasses",
 					"help": "Command Classes",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandClasses"
 				}
@@ -265,10 +265,10 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 			"command": 1,
 			"name": "NodeListGet",
 			"help": "Node List Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
@@ -285,7 +285,6 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeListReport = class NodeListReport extends CommandPacket<NetworkManagementProxyV1NodeListReportData> {
 		public static readonly CommandClass = NetworkManagementProxyV1;
 		public static readonly command = 0x02;
@@ -293,16 +292,16 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 			"command": 2,
 			"name": "NodeListReport",
 			"help": "Node List Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -318,16 +317,18 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeListControllerId",
 					"help": "Node List Controller ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "nodeListData",
 					"help": "Node List Data",
-					"length": 0
+					"length": {
+						"lengthType": "Auto"
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);

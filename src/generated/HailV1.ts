@@ -33,7 +33,7 @@ export class HailV1 extends CommandClassPacket<HailV1Commands> {
 			"command": 1,
 			"name": "Hail",
 			"help": "Hail",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

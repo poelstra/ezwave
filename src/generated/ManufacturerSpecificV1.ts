@@ -39,7 +39,7 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 			"command": 4,
 			"name": "ManufacturerSpecificGet",
 			"help": "Manufacturer Specific Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -59,22 +59,22 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 			"command": 5,
 			"name": "ManufacturerSpecificReport",
 			"help": "Manufacturer Specific Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "productTypeId",
 					"help": "Product Type ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "productId",
 					"help": "Product ID",
 					"length": 2

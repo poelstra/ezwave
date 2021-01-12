@@ -53,14 +53,14 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 			"command": 1,
 			"name": "ZipNamingNameSet",
 			"help": "Z/IP Name Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -82,7 +82,7 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 			"command": 2,
 			"name": "ZipNamingNameGet",
 			"help": "Z/IP Name Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -102,14 +102,14 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 			"command": 3,
 			"name": "ZipNamingNameReport",
 			"help": "Z/IP Name Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "name",
 					"help": "Name",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -131,14 +131,14 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 			"command": 4,
 			"name": "ZipNamingLocationSet",
 			"help": "Z/IP Location Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "location",
 					"help": "Location",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -160,7 +160,7 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 			"command": 5,
 			"name": "ZipNamingLocationGet",
 			"help": "Z/IP Location Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -180,14 +180,14 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 			"command": 6,
 			"name": "ZipNamingLocationReport",
 			"help": "Z/IP Location Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "location",
 					"help": "Location",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

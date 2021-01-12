@@ -56,7 +56,7 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 			"command": 2,
 			"name": "MeterTblPushConfigurationGet",
 			"help": "Meter Tbl Push Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -76,29 +76,29 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 			"command": 3,
 			"name": "MeterTblPushConfigurationReport",
 			"help": "Meter Tbl Push Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ps",
 							"mask": 16,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "operatingStatusPushMode",
 							"mask": 15,
 							"shift": 0
@@ -106,41 +106,41 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "pushDataset",
 					"help": "Push Dataset",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalMonths",
 					"help": "Interval Months",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalDays",
 					"help": "Interval Days",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalHours",
 					"help": "Interval Hours",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalMinutes",
 					"help": "Interval Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "pushNodeId",
 					"help": "Push Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -161,29 +161,29 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 			"command": 1,
 			"name": "MeterTblPushConfigurationSet",
 			"help": "Meter Tbl Push Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ps",
 							"mask": 16,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "operatingStatusPushMode",
 							"mask": 15,
 							"shift": 0
@@ -191,41 +191,41 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "pushDataset",
 					"help": "Push Dataset",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalMonths",
 					"help": "Interval Months",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalDays",
 					"help": "Interval Days",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalHours",
 					"help": "Interval Hours",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "intervalMinutes",
 					"help": "Interval Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "pushNodeId",
 					"help": "Push Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

@@ -47,7 +47,7 @@ export class ThermostatOperatingStateV1 extends CommandClassPacket<ThermostatOpe
 			"command": 2,
 			"name": "ThermostatOperatingStateGet",
 			"help": "Thermostat Operating State Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -67,23 +67,23 @@ export class ThermostatOperatingStateV1 extends CommandClassPacket<ThermostatOpe
 			"command": 3,
 			"name": "ThermostatOperatingStateReport",
 			"help": "Thermostat Operating State Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "operatingState",
 							"mask": 15,
 							"shift": 0,

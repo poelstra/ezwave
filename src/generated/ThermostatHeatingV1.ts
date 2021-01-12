@@ -107,10 +107,10 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 13,
 			"name": "ThermostatHeatingStatusReport",
 			"help": "Thermostat Heating Heating Status Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -144,7 +144,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 2,
 			"name": "ThermostatHeatingModeGet",
 			"help": "Thermostat Heating Mode Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -164,10 +164,10 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 3,
 			"name": "ThermostatHeatingModeReport",
 			"help": "Thermostat Heating Mode Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -225,10 +225,10 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 1,
 			"name": "ThermostatHeatingModeSet",
 			"help": "Thermostat Heating Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -286,7 +286,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 9,
 			"name": "ThermostatHeatingRelayStatusGet",
 			"help": "Thermostat Heating Relay Status Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -306,10 +306,10 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 10,
 			"name": "ThermostatHeatingRelayStatusReport",
 			"help": "Thermostat Heating Relay Status Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "relayStatus",
 					"help": "Relay Status",
 					"length": 1,
@@ -343,10 +343,10 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 5,
 			"name": "ThermostatHeatingSetpointGet",
 			"help": "Thermostat Heating Setpoint Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "setpointNr",
 					"help": "Setpoint Nr",
 					"length": 1
@@ -370,34 +370,34 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 6,
 			"name": "ThermostatHeatingSetpointReport",
 			"help": "Thermostat Heating Setpoint Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "setpointNr",
 					"help": "Setpoint Nr",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -411,11 +411,11 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.size"
 						}
@@ -440,34 +440,34 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 4,
 			"name": "ThermostatHeatingSetpointSet",
 			"help": "Thermostat Heating Setpoint Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "setpointNr",
 					"help": "Setpoint Nr",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -481,11 +481,11 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "value",
 					"help": "Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.size"
 						}
@@ -510,7 +510,7 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 12,
 			"name": "ThermostatHeatingStatusGet",
 			"help": "Thermostat Heating Status Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -530,10 +530,10 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 11,
 			"name": "ThermostatHeatingStatusSet",
 			"help": "Thermostat Heating Status Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -567,16 +567,16 @@ export class ThermostatHeatingV1 extends CommandClassPacket<ThermostatHeatingV1C
 			"command": 17,
 			"name": "ThermostatHeatingTimedOffSet",
 			"help": "Thermostat Heating Timed Off Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minutes",
 					"help": "Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hours",
 					"help": "Hours",
 					"length": 1

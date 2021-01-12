@@ -38,29 +38,29 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 			"command": 1,
 			"name": "BasicWindowCoveringStartLevelChange",
 			"help": "Basic Window Covering Start Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "reserved2",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "openClose",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 63,
 							"shift": 0,
@@ -87,7 +87,7 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 			"command": 2,
 			"name": "BasicWindowCoveringStopLevelChange",
 			"help": "Basic Window Covering Stop Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

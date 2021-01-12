@@ -56,17 +56,17 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 			"command": 1,
 			"name": "Initiate",
 			"help": "Initiate",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "stepId",
 					"help": "Step ID",
 					"length": 1,
@@ -104,10 +104,10 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 			"command": 2,
 			"name": "Complete",
 			"help": "Complete",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "stepId",
 					"help": "Step ID",
 					"length": 1,
@@ -127,7 +127,7 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "status",
 					"help": "Status",
 					"length": 1,

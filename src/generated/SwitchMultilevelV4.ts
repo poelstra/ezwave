@@ -88,7 +88,7 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 			"command": 2,
 			"name": "SwitchMultilevelGet",
 			"help": "Switch Multilevel Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -108,10 +108,10 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 			"command": 3,
 			"name": "SwitchMultilevelReport",
 			"help": "Switch Multilevel Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "currentValue",
 					"help": "Current Value",
 					"length": 1,
@@ -127,13 +127,13 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "targetValue",
 					"help": "Target Value",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,
@@ -171,10 +171,10 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 			"command": 1,
 			"name": "SwitchMultilevelSet",
 			"help": "Switch Multilevel Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,
@@ -190,7 +190,7 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1,
@@ -224,16 +224,16 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 			"command": 4,
 			"name": "SwitchMultilevelStartLevelChange",
 			"help": "Switch Multilevel Start Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "upDown",
 							"mask": 192,
 							"shift": 6,
@@ -257,13 +257,13 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 							}
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ignoreStartLevel",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "incDec",
 							"mask": 24,
 							"shift": 3,
@@ -287,7 +287,7 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 							}
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 7,
 							"shift": 0,
@@ -296,19 +296,19 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startLevel",
 					"help": "Start Level",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "stepSize",
 					"help": "Step Size",
 					"length": 1
@@ -332,7 +332,7 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 			"command": 5,
 			"name": "SwitchMultilevelStopLevelChange",
 			"help": "Switch Multilevel Stop Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -352,7 +352,7 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 			"command": 6,
 			"name": "SwitchMultilevelSupportedGet",
 			"help": "Switch Multilevel Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -372,23 +372,23 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 			"command": 7,
 			"name": "SwitchMultilevelSupportedReport",
 			"help": "Switch Multilevel Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "primarySwitchType",
 							"mask": 31,
 							"shift": 0
@@ -396,20 +396,20 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "secondarySwitchType",
 							"mask": 31,
 							"shift": 0

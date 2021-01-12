@@ -30,8 +30,8 @@ export interface SecurityV1NetworkKeySetData {
 
 export interface SecurityV1SecurityCommandsSupportedReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
-	supportedCommandClasses: number[]; // automatic length
-	controlledCommandClasses: number[]; // automatic length
+	supportedCommandClasses: CommandClasses[]; // automatic length
+	controlledCommandClasses: CommandClasses[]; // automatic length
 }
 
 export interface SecurityV1SecurityMessageEncapsulationData {
@@ -82,14 +82,14 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 6,
 			"name": "NetworkKeySet",
 			"help": "Network Key Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "networkKey",
 					"help": "Network Key ",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -111,7 +111,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 7,
 			"name": "NetworkKeyVerify",
 			"help": "Network Key Verify",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -131,7 +131,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 2,
 			"name": "SecurityCommandsSupportedGet",
 			"help": "Security Commands Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -151,20 +151,20 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 3,
 			"name": "SecurityCommandsSupportedReport",
 			"help": "Security Commands Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportsToFollow",
 					"help": "Reports to follow",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "supportedCommandClasses",
 					"help": "Supported Command Classes",
 					"length": {
-						"lengthType": "auto",
+						"lengthType": "Auto",
 						"markers": [
 							239
 						]
@@ -172,11 +172,11 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 					"blobType": "CommandClasses"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "controlledCommandClasses",
 					"help": "Controlled Command Classes",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandClasses"
 				}
@@ -199,30 +199,30 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 129,
 			"name": "SecurityMessageEncapsulation",
 			"help": "Security Message Encapsulation",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "initializationVector",
 					"help": "Initialization Vector ",
 					"length": 8
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "encryptedPayload",
 					"help": "Encrypted Payload",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "receiversNonceIdentifier",
 					"help": "Receivers nonce Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "messageAuthenticationCode",
 					"help": "Message Authentication Code ",
 					"length": 8
@@ -246,30 +246,30 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 193,
 			"name": "SecurityMessageEncapsulationNonceGet",
 			"help": "Security Message Encapsulation Nonce Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "initializationVector",
 					"help": "Initialization Vector ",
 					"length": 8
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "encryptedPayload",
 					"help": "Encrypted Payload",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "receiversNonceIdentifier",
 					"help": "Receivers nonce Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "messageAuthenticationCode",
 					"help": "Message Authentication Code ",
 					"length": 8
@@ -293,7 +293,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 64,
 			"name": "SecurityNonceGet",
 			"help": "Security Nonce Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -313,14 +313,14 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 128,
 			"name": "SecurityNonceReport",
 			"help": "Security Nonce Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nonce",
 					"help": "Nonce ",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -342,10 +342,10 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 4,
 			"name": "SecuritySchemeGet",
 			"help": "Security Scheme Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedSecuritySchemes",
 					"help": "Supported Security Schemes",
 					"length": 1
@@ -369,10 +369,10 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 8,
 			"name": "SecuritySchemeInherit",
 			"help": "Security Scheme Inherit",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedSecuritySchemes",
 					"help": "Supported Security Schemes",
 					"length": 1
@@ -396,10 +396,10 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 			"command": 5,
 			"name": "SecuritySchemeReport",
 			"help": "Security Scheme Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedSecuritySchemes",
 					"help": "Supported Security Schemes",
 					"length": 1

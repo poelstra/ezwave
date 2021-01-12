@@ -52,7 +52,7 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 			"command": 2,
 			"name": "GeographicLocationGet",
 			"help": "Geographic Location Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -72,28 +72,28 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 			"command": 3,
 			"name": "GeographicLocationReport",
 			"help": "Geographic Location Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "longitudeDegrees",
 					"help": "Longitude Degrees",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "longSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "longitudeMinutes",
 							"mask": 127,
 							"shift": 0
@@ -101,25 +101,25 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "latitudeDegrees",
 					"help": "Latitude Degrees",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "latSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "latitudeMinutes",
 							"mask": 127,
 							"shift": 0
@@ -145,28 +145,28 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 			"command": 1,
 			"name": "GeographicLocationSet",
 			"help": "Geographic Location Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "longitudeDegrees",
 					"help": "Longitude Degrees",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "longSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "longitudeMinutes",
 							"mask": 127,
 							"shift": 0
@@ -174,25 +174,25 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "latitudeDegrees",
 					"help": "Latitude Degrees",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "latSign",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "latitudeMinutes",
 							"mask": 127,
 							"shift": 0

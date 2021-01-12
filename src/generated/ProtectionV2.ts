@@ -75,7 +75,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 7,
 			"name": "ProtectionEcGet",
 			"help": "Protection Ec Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -95,14 +95,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 8,
 			"name": "ProtectionEcReport",
 			"help": "Protection Ec Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -123,14 +123,14 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 6,
 			"name": "ProtectionEcSet",
 			"help": "Protection Ec Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -151,7 +151,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 2,
 			"name": "ProtectionGet",
 			"help": "Protection Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -171,23 +171,23 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 3,
 			"name": "ProtectionReport",
 			"help": "Protection Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "localProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -195,20 +195,20 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "rfProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -234,23 +234,23 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 1,
 			"name": "ProtectionSet",
 			"help": "Protection Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "localProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -258,20 +258,20 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "rfProtectionState",
 							"mask": 15,
 							"shift": 0
@@ -297,7 +297,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 4,
 			"name": "ProtectionSupportedGet",
 			"help": "Protection Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -317,29 +317,29 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 5,
 			"name": "ProtectionSupportedReport",
 			"help": "Protection Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "exclusiveControl",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "timeout",
 							"mask": 1,
 							"shift": 0
@@ -347,13 +347,13 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "localProtectionState",
 					"help": "Local Protection State",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "rfProtectionState",
 					"help": "RF Protection State",
 					"length": 2
@@ -377,7 +377,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 10,
 			"name": "ProtectionTimeoutGet",
 			"help": "Protection Timeout Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -397,10 +397,10 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 11,
 			"name": "ProtectionTimeoutReport",
 			"help": "Protection Timeout Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "timeout",
 					"help": "Timeout",
 					"length": 1,
@@ -434,10 +434,10 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 			"command": 9,
 			"name": "ProtectionTimeoutSet",
 			"help": "Protection Timeout Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "timeout",
 					"help": "Timeout",
 					"length": 1,

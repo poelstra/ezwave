@@ -56,7 +56,7 @@ export class SensorMultilevelV2 extends CommandClassPacket<SensorMultilevelV2Com
 			"command": 4,
 			"name": "SensorMultilevelGet",
 			"help": "Sensor Multilevel Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -76,10 +76,10 @@ export class SensorMultilevelV2 extends CommandClassPacket<SensorMultilevelV2Com
 			"command": 5,
 			"name": "SensorMultilevelReport",
 			"help": "Sensor Multilevel Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "sensorType",
 					"help": "Sensor Type",
 					"length": 1,
@@ -139,25 +139,25 @@ export class SensorMultilevelV2 extends CommandClassPacket<SensorMultilevelV2Com
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -171,11 +171,11 @@ export class SensorMultilevelV2 extends CommandClassPacket<SensorMultilevelV2Com
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "sensorValue",
 					"help": "Sensor Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "level.size"
 						}

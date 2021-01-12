@@ -130,7 +130,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 5,
 			"name": "DoorLockConfigurationGet",
 			"help": "Door Lock Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -150,10 +150,10 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 6,
 			"name": "DoorLockConfigurationReport",
 			"help": "Door Lock Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "operationType",
 					"help": "Operation Type",
 					"length": 1,
@@ -169,19 +169,19 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -189,50 +189,50 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutMinutes",
 					"help": "Lock Timeout Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutSeconds",
 					"help": "Lock Timeout Seconds",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "autoRelockTime",
 					"help": "Auto-relock time",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "holdAndReleaseTime",
 					"help": "Hold and release time",
 					"length": 2
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "btb",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ta",
 							"mask": 1,
 							"shift": 0
@@ -258,10 +258,10 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 4,
 			"name": "DoorLockConfigurationSet",
 			"help": "Door Lock Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "operationType",
 					"help": "Operation Type",
 					"length": 1,
@@ -277,19 +277,19 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "outsideDoorHandlesState",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "insideDoorHandlesState",
 							"mask": 15,
 							"shift": 0
@@ -297,13 +297,13 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutMinutes",
 					"help": "Lock Timeout Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutSeconds",
 					"help": "Lock Timeout Seconds",
 					"length": 1
@@ -327,7 +327,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 2,
 			"name": "DoorLockOperationGet",
 			"help": "Door Lock Operation Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -347,10 +347,10 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 3,
 			"name": "DoorLockOperationReport",
 			"help": "Door Lock Operation Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "currentDoorLockMode",
 					"help": "Current Door Lock Mode",
 					"length": 1,
@@ -390,19 +390,19 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "outsideDoorHandlesMode",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "insideDoorHandlesMode",
 							"mask": 15,
 							"shift": 0
@@ -410,25 +410,25 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "doorCondition",
 					"help": "Door Condition",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutMinutes",
 					"help": "Lock Timeout Minutes",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lockTimeoutSeconds",
 					"help": "Lock Timeout Seconds",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "targetDoorLockMode",
 					"help": "Target Door Lock Mode",
 					"length": 1,
@@ -468,7 +468,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,
@@ -506,10 +506,10 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 1,
 			"name": "DoorLockOperationSet",
 			"help": "Door Lock Operation Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "doorLockMode",
 					"help": "Door Lock Mode",
 					"length": 1,
@@ -567,7 +567,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 7,
 			"name": "DoorLockCapabilitiesGet",
 			"help": "Door Lock Capabilities Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -587,23 +587,23 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 			"command": 8,
 			"name": "DoorLockCapabilitiesReport",
 			"help": "Door Lock Capabilities Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "supportedOperationTypeBitMaskLength",
 							"mask": 31,
 							"shift": 0,
@@ -617,18 +617,18 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "supportedOperationTypeBitMask",
 					"help": "Supported Operation Type Bit Mask",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.supportedOperationTypeBitMaskLength"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedDoorLockModeListLength",
 					"help": "Supported Door Lock Mode List Length",
 					"length": 1,
@@ -640,30 +640,30 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					"isAutogenerated": true
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "supportedDoorLockMode",
 					"help": "Supported Door Lock Mode",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "supportedDoorLockModeListLength"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "supportedOutsideHandleModesBitmask",
 							"mask": 240,
 							"shift": 4
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "supportedInsideHandleModesBitmask",
 							"mask": 15,
 							"shift": 0
@@ -671,44 +671,44 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedDoorComponents",
 					"help": "Supported door components",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ars",
 							"mask": 8,
 							"shift": 3
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "hrs",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "tas",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "btbs",
 							"mask": 1,
 							"shift": 0

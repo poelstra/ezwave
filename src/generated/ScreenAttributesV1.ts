@@ -40,7 +40,7 @@ export class ScreenAttributesV1 extends CommandClassPacket<ScreenAttributesV1Com
 			"command": 1,
 			"name": "ScreenAttributesGet",
 			"help": "Screen Attributes Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -60,23 +60,23 @@ export class ScreenAttributesV1 extends CommandClassPacket<ScreenAttributesV1Com
 			"command": 2,
 			"name": "ScreenAttributesReport",
 			"help": "Screen Attributes Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "numberOfLines",
 							"mask": 31,
 							"shift": 0
@@ -84,19 +84,19 @@ export class ScreenAttributesV1 extends CommandClassPacket<ScreenAttributesV1Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfCharactersPerLine",
 					"help": "Number of Characters per Line",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sizeOfLineBuffer",
 					"help": "Size of Line Buffer",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numericalPresentationOfACharacter",
 					"help": "Numerical Presentation of a Character",
 					"length": 1

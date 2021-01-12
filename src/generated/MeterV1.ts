@@ -46,7 +46,7 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 			"command": 1,
 			"name": "MeterGet",
 			"help": "Meter Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -66,10 +66,10 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 			"command": 2,
 			"name": "MeterReport",
 			"help": "Meter Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "meterType",
 					"help": "Meter Type",
 					"length": 1,
@@ -89,25 +89,25 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -121,11 +121,11 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.size"
 						}

@@ -18,7 +18,7 @@ export enum NetworkManagementPrimaryV1Commands {
 export interface NetworkManagementPrimaryV1ControllerChangeData {
 	seqNo: number; // 1 byte unsigned integer
 	mode: number; // 1 byte unsigned integer
-	// TODO param txOptions type bitmask
+	txOptions: Set<TxOptionsEnum>; // 1 bytes
 }
 
 export interface NetworkManagementPrimaryV1ControllerChangeStatusData {
@@ -33,7 +33,18 @@ export interface NetworkManagementPrimaryV1ControllerChangeStatusData {
 	basicDeviceClass: number; // 1 byte unsigned integer
 	genericDeviceClass: number; // 1 byte unsigned integer
 	specificDeviceClass: number; // 1 byte unsigned integer
-	commandClasses: number[]; // automatic length
+	commandClasses: CommandClasses[]; // automatic length
+}
+
+export enum TxOptionsEnum {
+	Ack = 0x0,
+	LowPower = 0x1,
+	AutoRoute = 0x2,
+	Reserved = 0x3,
+	NoRoute = 0x4,
+	Explore = 0x5,
+	NoRetransmission = 0x6,
+	HighPower = 0x7,
 }
 
 export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManagementPrimaryV1Commands> {
@@ -47,7 +58,6 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 		super(NetworkManagementPrimaryV1, commandAndPayload);
 	}
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly ControllerChange = class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeData> {
 		public static readonly CommandClass = NetworkManagementPrimaryV1;
 		public static readonly command = 0x01;
@@ -55,23 +65,23 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 			"command": 1,
 			"name": "ControllerChange",
 			"help": "Controller Change",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -87,10 +97,44 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "txOptions",
 					"help": "tx Options",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "Ack",
+							"help": "Ack"
+						},
+						"1": {
+							"name": "LowPower",
+							"help": "Low Power"
+						},
+						"2": {
+							"name": "AutoRoute",
+							"help": "Auto Route"
+						},
+						"3": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"4": {
+							"name": "NoRoute",
+							"help": "No Route"
+						},
+						"5": {
+							"name": "Explore",
+							"help": "Explore"
+						},
+						"6": {
+							"name": "NoRetransmission",
+							"help": "No Retransmission"
+						},
+						"7": {
+							"name": "HighPower",
+							"help": "High Power"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -111,16 +155,16 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 			"command": 2,
 			"name": "ControllerChangeStatus",
 			"help": "Controller Change Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -140,39 +184,39 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeInfoLength",
 					"help": "Node Info Length",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "listening",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "zWaveProtocolSpecificPart1",
 							"mask": 127,
 							"shift": 0
@@ -180,19 +224,19 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "opt",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "zWaveProtocolSpecificPart2",
 							"mask": 127,
 							"shift": 0
@@ -200,32 +244,32 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "basicDeviceClass",
 					"help": "Basic Device Class",
 					"length": 1,
-					"valueType": "BAS_DEV_REF"
+					"valueType": "BasicDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "genericDeviceClass",
 					"help": "Generic Device Class",
 					"length": 1,
-					"valueType": "GEN_DEV_REF"
+					"valueType": "GenericDevice"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "specificDeviceClass",
 					"help": "Specific Device Class",
 					"length": 1,
-					"valueType": "SPEC_DEV_REF"
+					"valueType": "SpecificDevice"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "commandClasses",
 					"help": "Command Classes",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandClasses"
 				}

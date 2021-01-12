@@ -84,16 +84,16 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 			"command": 1,
 			"name": "MeterGet",
 			"help": "Meter Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "rateType",
 							"mask": 192,
 							"shift": 6,
@@ -117,13 +117,13 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 							}
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 56,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 7,
 							"shift": 0,
@@ -132,7 +132,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scale2",
 					"help": "Scale 2",
 					"length": 1
@@ -156,22 +156,22 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 			"command": 2,
 			"name": "MeterReport",
 			"help": "Meter Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "scaleBit2",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "rateType",
 							"mask": 96,
 							"shift": 5,
@@ -195,7 +195,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 							}
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "meterType",
 							"mask": 31,
 							"shift": 0,
@@ -221,25 +221,25 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scaleBits10",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -254,18 +254,18 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "meterValue",
 					"help": "Meter Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.size"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "deltaTime",
 					"help": "Delta Time",
 					"length": 2,
@@ -276,21 +276,21 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					}
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "previousMeterValue",
 					"help": "Previous Meter Value",
 					"optional": {
 						"ref": "deltaTime"
 					},
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.size"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "scale2",
 					"help": "Scale 2",
 					"length": 1
@@ -314,7 +314,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 			"command": 5,
 			"name": "MeterReset",
 			"help": "Meter Reset",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -334,7 +334,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 			"command": 3,
 			"name": "MeterSupportedGet",
 			"help": "Meter Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -354,22 +354,22 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 			"command": 4,
 			"name": "MeterSupportedReport",
 			"help": "Meter Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "meterReset",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "rateType",
 							"mask": 96,
 							"shift": 5,
@@ -393,7 +393,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 							}
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "meterType",
 							"mask": 31,
 							"shift": 0,
@@ -419,19 +419,19 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "mST",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scaleSupported0",
 							"mask": 127,
 							"shift": 0
@@ -439,7 +439,7 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfScaleSupportedBytesToFollow",
 					"help": "Number of Scale Supported Bytes to Follow",
 					"length": 1,
@@ -451,11 +451,11 @@ export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 					"isAutogenerated": true
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "scaleSupported",
 					"help": "Scale Supported",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "numberOfScaleSupportedBytesToFollow"
 						}

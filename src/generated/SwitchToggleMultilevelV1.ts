@@ -47,7 +47,7 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 			"command": 1,
 			"name": "SwitchToggleMultilevelSet",
 			"help": "Switch Toggle Multilevel Set",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -67,7 +67,7 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 			"command": 2,
 			"name": "SwitchToggleMultilevelGet",
 			"help": "Switch Toggle Multilevel Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -87,10 +87,10 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 			"command": 3,
 			"name": "SwitchToggleMultilevelReport",
 			"help": "Switch Toggle Multilevel Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,
@@ -124,35 +124,35 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 			"command": 4,
 			"name": "SwitchToggleMultilevelStartLevelChange",
 			"help": "Switch Toggle Multilevel Start Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "rollOver",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "reserved2",
 							"mask": 64,
 							"shift": 6,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ignoreStartLevel",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 31,
 							"shift": 0,
@@ -161,7 +161,7 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startLevel",
 					"help": "Start Level",
 					"length": 1
@@ -185,7 +185,7 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 			"command": 5,
 			"name": "SwitchToggleMultilevelStopLevelChange",
 			"help": "Switch Toggle Multilevel Stop Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

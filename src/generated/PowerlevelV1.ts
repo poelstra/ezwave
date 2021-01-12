@@ -82,7 +82,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"command": 2,
 			"name": "PowerlevelGet",
 			"help": "Powerlevel Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -102,10 +102,10 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"command": 3,
 			"name": "PowerlevelReport",
 			"help": "Powerlevel Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "powerLevel",
 					"help": "Power level",
 					"length": 1,
@@ -153,7 +153,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "timeout",
 					"help": "Timeout",
 					"length": 1
@@ -177,10 +177,10 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"command": 1,
 			"name": "PowerlevelSet",
 			"help": "Powerlevel Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "powerLevel",
 					"help": "Power level",
 					"length": 1,
@@ -228,7 +228,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "timeout",
 					"help": "Timeout",
 					"length": 1
@@ -252,7 +252,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"command": 5,
 			"name": "PowerlevelTestNodeGet",
 			"help": "Powerlevel Test Node Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -272,14 +272,14 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"command": 6,
 			"name": "PowerlevelTestNodeReport",
 			"help": "Powerlevel Test Node Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "testNodeId",
 					"help": "Test NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER",
+					"valueType": "NodeNumber",
 					"values": {
 						"0": {
 							"name": "ZwTestNotANodeid",
@@ -288,7 +288,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "statusOfOperation",
 					"help": "Status of operation",
 					"length": 1,
@@ -308,7 +308,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "testFrameCount",
 					"help": "Test Frame Count",
 					"length": 2
@@ -332,17 +332,17 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 			"command": 4,
 			"name": "PowerlevelTestNodeSet",
 			"help": "Powerlevel Test Node Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "testNodeId",
 					"help": "Test NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "powerLevel",
 					"help": "Power level",
 					"length": 1,
@@ -390,7 +390,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "testFrameCount",
 					"help": "Test frame count",
 					"length": 2

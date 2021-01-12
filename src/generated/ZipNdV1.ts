@@ -58,24 +58,24 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 			"command": 3,
 			"name": "ZipNodeSolicitation",
 			"help": "Zip Node Solicitation",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
@@ -99,29 +99,29 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 			"command": 4,
 			"name": "ZipInvNodeSolicitation",
 			"help": "Zip Inverse Node Solicitation",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "local",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 3,
 							"shift": 0,
@@ -130,11 +130,11 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -155,29 +155,29 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 			"command": 1,
 			"name": "ZipNodeAdvertisement",
 			"help": "Zip Node Advertisement",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "local",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "validity",
 							"mask": 3,
 							"shift": 0,
@@ -199,20 +199,20 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "ipv6Address",
 					"help": "IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "homeId",
 					"help": "Home ID",
 					"length": 4

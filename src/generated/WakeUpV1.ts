@@ -46,7 +46,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 			"command": 5,
 			"name": "WakeUpIntervalGet",
 			"help": "Wake Up Interval Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -66,20 +66,20 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 			"command": 6,
 			"name": "WakeUpIntervalReport",
 			"help": "Wake Up Interval Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seconds",
 					"help": "Seconds",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -100,20 +100,20 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 			"command": 4,
 			"name": "WakeUpIntervalSet",
 			"help": "Wake Up Interval Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seconds",
 					"help": "Seconds",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -134,7 +134,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 			"command": 8,
 			"name": "WakeUpNoMoreInformation",
 			"help": "Wake Up No More Information",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -154,7 +154,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 			"command": 7,
 			"name": "WakeUpNotification",
 			"help": "Wake Up Notification",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

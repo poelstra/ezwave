@@ -60,26 +60,26 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 			"command": 49,
 			"name": "CtrlReplicationTransferGroup",
 			"help": "Ctrl Replication Transfer Group",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -100,26 +100,26 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 			"command": 50,
 			"name": "CtrlReplicationTransferGroupName",
 			"help": "Ctrl Replication Transfer Group Name",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupId",
 					"help": "Group ID",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "groupName",
 					"help": "Group Name",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -141,29 +141,29 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 			"command": 51,
 			"name": "CtrlReplicationTransferScene",
 			"help": "Ctrl Replication Transfer Scene",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "level",
 					"help": "Level",
 					"length": 1
@@ -187,26 +187,26 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 			"command": 52,
 			"name": "CtrlReplicationTransferSceneName",
 			"help": "Ctrl Replication Transfer Scene Name",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "sceneName",
 					"help": "Scene Name",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

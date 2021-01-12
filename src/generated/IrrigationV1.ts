@@ -48,7 +48,7 @@ export interface IrrigationV1IrrigationSystemStatusReportData {
 	pressureScale: number; // properties2[4..3]
 	pressureValue: Buffer; // variable length
 	shutoffDuration: number; // 1 byte unsigned integer
-	// TODO param systemErrorStatus type bitmask
+	systemErrorStatus: Set<SystemErrorStatusEnum>; // 1 bytes
 	masterValve: boolean; // properties3[0]
 	valveId: number; // 1 byte unsigned integer
 }
@@ -61,7 +61,7 @@ export interface IrrigationV1IrrigationSystemConfigSetData {
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
 	lowPressureThresholdValue: Buffer; // variable length
-	// TODO param sensorPolarity type bitmask
+	sensorPolarity: Set<SensorPolarityEnum>; // 1 bytes
 }
 
 export interface IrrigationV1IrrigationSystemConfigReportData {
@@ -72,7 +72,7 @@ export interface IrrigationV1IrrigationSystemConfigReportData {
 	lowPressureThresholdPrecision: number; // properties2[7..5]
 	lowPressureThresholdScale: number; // properties2[4..3]
 	lowPressureThresholdValue: Buffer; // variable length
-	// TODO param sensorPolarity type bitmask
+	sensorPolarity: Set<SensorPolarityEnum>; // 1 bytes
 }
 
 export interface IrrigationV1IrrigationValveInfoGetData {
@@ -85,7 +85,7 @@ export interface IrrigationV1IrrigationValveInfoReportData {
 	master: boolean; // properties1[0]
 	valveId: number; // 1 byte unsigned integer
 	nominalCurrent: number; // 1 byte unsigned integer
-	// TODO param valveErrorStatus type bitmask
+	valveErrorStatus: Set<ValveErrorStatusEnum>; // 1 bytes
 }
 
 export interface IrrigationV1IrrigationValveConfigSetData {
@@ -102,7 +102,7 @@ export interface IrrigationV1IrrigationValveConfigSetData {
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
 	flowLowThresholdValue: Buffer; // variable length
-	// TODO param sensorUsage type bitmask
+	sensorUsage: Set<SensorUsageEnum>; // 1 bytes
 }
 
 export interface IrrigationV1IrrigationValveConfigGetData {
@@ -124,7 +124,7 @@ export interface IrrigationV1IrrigationValveConfigReportData {
 	flowLowThresholdPrecision: number; // properties4[7..5]
 	flowLowThresholdScale: number; // properties4[4..3]
 	flowLowThresholdValue: Buffer; // variable length
-	// TODO param sensorUsage type bitmask
+	sensorUsage: Set<SensorUsageEnum>; // 1 bytes
 }
 
 export interface IrrigationV1IrrigationValveRunData {
@@ -168,6 +168,34 @@ export enum SensorStatusEnum {
 	MoistureSensorDetected = 0x3,
 }
 
+export enum SystemErrorStatusEnum {
+	NotProgrammed = 0x0,
+	EmergencyShutdown = 0x1,
+	HighThresholdTriggered = 0x2,
+	LowThresholdTriggered = 0x3,
+	ValveErrors = 0x4,
+}
+
+export enum SensorPolarityEnum {
+	RainSensorPolarity = 0x0,
+	MoistureSensorPolarity = 0x1,
+	Valid = 0x7,
+}
+
+export enum ValveErrorStatusEnum {
+	ShortCircuit = 0x0,
+	CurrentHighThreshold = 0x1,
+	CurrentLowThreshold = 0x2,
+	MaximumFlow = 0x3,
+	FlowHighThreshold = 0x4,
+	FlowLowThreshold = 0x5,
+}
+
+export enum SensorUsageEnum {
+	UseRainSensor = 0x0,
+	UseMoistureSensor = 0x1,
+}
+
 export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly commandClass = CommandClasses.Irrigation; // 0x6b (107)
 
@@ -186,7 +214,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 1,
 			"name": "IrrigationSystemInfoGet",
 			"help": "Irrigation System Info Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -206,37 +234,37 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 2,
 			"name": "IrrigationSystemInfoReport",
 			"help": "Irrigation System Info Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved3",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved2",
 							"mask": 24,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 6,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -244,32 +272,32 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "totalNumberOfValves",
 					"help": "Total Number of Valves",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "totalNumberOfValveTables",
 					"help": "Total Number of Valve Tables",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 240,
 							"shift": 4,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "valveTableMaxSize",
 							"mask": 15,
 							"shift": 0
@@ -295,7 +323,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 3,
 			"name": "IrrigationSystemStatusGet",
 			"help": "Irrigation System Status Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -308,7 +336,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationSystemStatusReport = class IrrigationSystemStatusReport extends CommandPacket<IrrigationV1IrrigationSystemStatusReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x04;
@@ -316,16 +343,16 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 4,
 			"name": "IrrigationSystemStatusReport",
 			"help": "Irrigation System Status Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "systemVoltage",
 					"help": "System Voltage",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "sensorStatus",
 					"help": "Sensor Status",
 					"length": 1,
@@ -349,25 +376,25 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowSize",
 							"mask": 7,
 							"shift": 0,
@@ -381,36 +408,36 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "flowValue",
 					"help": "Flow Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.flowSize"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "pressurePrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "pressureScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "pressureSize",
 							"mask": 7,
 							"shift": 0,
@@ -424,43 +451,65 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "pressureValue",
 					"help": "Pressure Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.pressureSize"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "shutoffDuration",
 					"help": "Shutoff Duration",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "systemErrorStatus",
 					"help": "System Error Status",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "NotProgrammed",
+							"help": "not programmed"
+						},
+						"1": {
+							"name": "EmergencyShutdown",
+							"help": "emergency shutdown"
+						},
+						"2": {
+							"name": "HighThresholdTriggered",
+							"help": "high threshold triggered"
+						},
+						"3": {
+							"name": "LowThresholdTriggered",
+							"help": "low threshold triggered"
+						},
+						"4": {
+							"name": "ValveErrors",
+							"help": "valve errors"
+						}
+					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -468,7 +517,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
@@ -485,7 +534,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationSystemConfigSet = class IrrigationSystemConfigSet extends CommandPacket<IrrigationV1IrrigationSystemConfigSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x05;
@@ -493,34 +541,34 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 5,
 			"name": "IrrigationSystemConfigSet",
 			"help": "Irrigation System Config Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "masterValveDelay",
 					"help": "Master Valve Delay",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "highPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "highPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "highPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -534,36 +582,36 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "highPressureThresholdValue",
 					"help": "High Pressure Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.highPressureThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "lowPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "lowPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "lowPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -577,21 +625,35 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "lowPressureThresholdValue",
 					"help": "Low Pressure Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.lowPressureThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "sensorPolarity",
 					"help": "Sensor Polarity",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "RainSensorPolarity",
+							"help": "Rain Sensor Polarity"
+						},
+						"1": {
+							"name": "MoistureSensorPolarity",
+							"help": "Moisture Sensor Polarity"
+						},
+						"7": {
+							"name": "Valid",
+							"help": "Valid"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -612,7 +674,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 6,
 			"name": "IrrigationSystemConfigGet",
 			"help": "Irrigation System Config Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -625,7 +687,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationSystemConfigReport = class IrrigationSystemConfigReport extends CommandPacket<IrrigationV1IrrigationSystemConfigReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x07;
@@ -633,34 +694,34 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 7,
 			"name": "IrrigationSystemConfigReport",
 			"help": "Irrigation System Config Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "masterValveDelay",
 					"help": "Master Valve Delay",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "highPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "highPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "highPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -674,36 +735,36 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "highPressureThresholdValue",
 					"help": "High Pressure Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.highPressureThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "lowPressureThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "lowPressureThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "lowPressureThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -717,21 +778,35 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "lowPressureThresholdValue",
 					"help": "Low Pressure Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.lowPressureThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "sensorPolarity",
 					"help": "Sensor Polarity",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "RainSensorPolarity",
+							"help": "Rain Sensor Polarity"
+						},
+						"1": {
+							"name": "MoistureSensorPolarity",
+							"help": "Moisture Sensor Polarity"
+						},
+						"7": {
+							"name": "Valid",
+							"help": "Valid"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -752,23 +827,23 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 8,
 			"name": "IrrigationValveInfoGet",
 			"help": "Irrigation Valve Info Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -776,7 +851,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
@@ -793,7 +868,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveInfoReport = class IrrigationValveInfoReport extends CommandPacket<IrrigationV1IrrigationValveInfoReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x09;
@@ -801,29 +875,29 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 9,
 			"name": "IrrigationValveInfoReport",
 			"help": "Irrigation Valve Info Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "connected",
 							"mask": 2,
 							"shift": 1
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "master",
 							"mask": 1,
 							"shift": 0
@@ -831,22 +905,48 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nominalCurrent",
 					"help": "Nominal Current",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "valveErrorStatus",
 					"help": "Valve Error Status",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "ShortCircuit",
+							"help": "short circuit"
+						},
+						"1": {
+							"name": "CurrentHighThreshold",
+							"help": "current high threshold"
+						},
+						"2": {
+							"name": "CurrentLowThreshold",
+							"help": "current low threshold"
+						},
+						"3": {
+							"name": "MaximumFlow",
+							"help": "maximum flow"
+						},
+						"4": {
+							"name": "FlowHighThreshold",
+							"help": "flow high threshold"
+						},
+						"5": {
+							"name": "FlowLowThreshold",
+							"help": "flow low threshold"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -860,7 +960,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveConfigSet = class IrrigationValveConfigSet extends CommandPacket<IrrigationV1IrrigationValveConfigSetData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0a;
@@ -868,23 +967,23 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 10,
 			"name": "IrrigationValveConfigSet",
 			"help": "Irrigation Valve Config Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -892,43 +991,43 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nominalCurrentHighThreshold",
 					"help": "Nominal Current High Threshold",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nominalCurrentLowThreshold",
 					"help": "Nominal Current Low Threshold",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maximumFlowPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maximumFlowScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maximumFlowSize",
 							"mask": 7,
 							"shift": 0,
@@ -942,36 +1041,36 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "maximumFlowValue",
 					"help": "Maximum Flow Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.maximumFlowSize"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowHighThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowHighThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowHighThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -985,36 +1084,36 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "flowHighThresholdValue",
 					"help": "Flow High Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties3.flowHighThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties4",
 					"help": "Properties4",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowLowThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowLowThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowLowThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -1028,21 +1127,31 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "flowLowThresholdValue",
 					"help": "Flow Low Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties4.flowLowThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "sensorUsage",
 					"help": "Sensor Usage",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "UseRainSensor",
+							"help": "Use Rain Sensor"
+						},
+						"1": {
+							"name": "UseMoistureSensor",
+							"help": "Use Moisture Sensor"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -1063,23 +1172,23 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 11,
 			"name": "IrrigationValveConfigGet",
 			"help": "Irrigation Valve Config Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -1087,7 +1196,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
@@ -1104,7 +1213,6 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly IrrigationValveConfigReport = class IrrigationValveConfigReport extends CommandPacket<IrrigationV1IrrigationValveConfigReportData> {
 		public static readonly CommandClass = IrrigationV1;
 		public static readonly command = 0x0c;
@@ -1112,23 +1220,23 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 12,
 			"name": "IrrigationValveConfigReport",
 			"help": "Irrigation Valve Config Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -1136,43 +1244,43 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nominalCurrentHighThreshold",
 					"help": "Nominal Current High Threshold",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nominalCurrentLowThreshold",
 					"help": "Nominal Current Low Threshold",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maximumFlowPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maximumFlowScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "maximumFlowSize",
 							"mask": 7,
 							"shift": 0,
@@ -1186,36 +1294,36 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "maximumFlowValue",
 					"help": "Maximum Flow Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.maximumFlowSize"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties3",
 					"help": "Properties3",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowHighThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowHighThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowHighThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -1229,36 +1337,36 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "flowHighThresholdValue",
 					"help": "Flow High Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties3.flowHighThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties4",
 					"help": "Properties4",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowLowThresholdPrecision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowLowThresholdScale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "flowLowThresholdSize",
 							"mask": 7,
 							"shift": 0,
@@ -1272,21 +1380,31 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "flowLowThresholdValue",
 					"help": "Flow Low Threshold Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties4.flowLowThresholdSize"
 						}
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "sensorUsage",
 					"help": "Sensor Usage",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "UseRainSensor",
+							"help": "Use Rain Sensor"
+						},
+						"1": {
+							"name": "UseMoistureSensor",
+							"help": "Use Moisture Sensor"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -1307,23 +1425,23 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 13,
 			"name": "IrrigationValveRun",
 			"help": "Irrigation Valve Run",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "masterValve",
 							"mask": 1,
 							"shift": 0
@@ -1331,13 +1449,13 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveId",
 					"help": "Valve ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "duration",
 					"help": "Duration",
 					"length": 2
@@ -1361,30 +1479,30 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 14,
 			"name": "IrrigationValveTableSet",
 			"help": "Irrigation Valve Table Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": 1
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "duration",
 							"help": "Duration",
 							"length": 2
@@ -1410,10 +1528,10 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 15,
 			"name": "IrrigationValveTableGet",
 			"help": "Irrigation Valve Table Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": 1
@@ -1437,30 +1555,30 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 16,
 			"name": "IrrigationValveTableReport",
 			"help": "Irrigation Valve Table Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": 1
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "valveId",
 							"help": "Valve ID",
 							"length": 1
 						},
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "duration",
 							"help": "Duration",
 							"length": 2
@@ -1486,14 +1604,14 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 17,
 			"name": "IrrigationValveTableRun",
 			"help": "Irrigation Valve Table Run",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "valveTableId",
 					"help": "Valve Table ID",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -1515,10 +1633,10 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 			"command": 18,
 			"name": "IrrigationSystemShutoff",
 			"help": "Irrigation System Shutoff",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1

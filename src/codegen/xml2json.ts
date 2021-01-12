@@ -54,6 +54,7 @@ import {
 	isBitfieldElement,
 	isParameter,
 	convertFromJsonCommandClasses,
+	KeyValues,
 } from "../commands/specHelpers";
 
 function toArray<T>(value: MaybeArray<T>): T[] {
@@ -387,7 +388,7 @@ function generateBitfields(
 		};
 	}
 	for (const enm of toArray(param.fieldenum)) {
-		const values = createKeyValues();
+		const values = createEnumValues();
 		// Enums are either auto-numbered, or specifically numbered
 		// Convert into explicitly numbered elements
 		let size = 0;
@@ -585,7 +586,7 @@ function generateParameter(
 					// enum values, use it, otherwise just display the number itself.
 					let values: spec.EnumValues | undefined;
 					if (param.bitflag) {
-						values = createKeyValues();
+						values = createEnumValues();
 						for (const flag of toArray(param.bitflag)) {
 							values[flag.flagmask] = makeEnumValue(
 								flag.flagname
@@ -609,7 +610,7 @@ function generateParameter(
 					// in which only the given values have a defined meaning.
 					// Note: it's still possible for the parsed value to not
 					// be in this list, e.g. when parsing a newer version packet.
-					const values = createKeyValues();
+					const values = createEnumValues();
 					for (const enm of toArray(param.const)) {
 						values[enm.flagmask] = makeEnumValue(enm.flagname);
 					}
@@ -739,54 +740,85 @@ function generateParameter(
 				}
 				break;
 
-			/* case ParamType.BITMASK:
+			case ParamType.BITMASK:
 				{
-					// Sometimes the flagmasks are more like enums, sometimes more like 'real' bit mask (i.e. 0x01, 0x02, 0x04, 0x08)
-					// HEURISTIC algorithm:
-					// - If len === 1, and first element has value 0, all flags are enum style
-					// - If len === 1, and first element !== 0, all flags are mask style
-					// - If len === undefined, all flags are mask style (even if first value !== 0)
-					// - If len !== undefined (and not 1), error (because we don't know what may happen)
-					// This is verified by hand, by looking at all bitmasks in current XML vs docs
-					const values = new Map<number, string>();
-					for (const flag of toArray(param.bitflag)) {
-						values.set(flag.flagmask, flag.flagname);
-					}
-					let bitmaskLength: string;
-					let enumText = "";
-					if (values.size > 0) {
-						const enumName = registerEnum(param.name, values);
-						enumText = `, see ${enumName}`;
-					}
-					if (param.bitmask.len !== undefined) {
-						assert(param.bitmask.len === 1, "fixed-length bitmask other than 1 byte not supported yet");
-						assert(param.bitmask.lenmask === 0 && param.bitmask.lenoffs === 0 && param.bitmask.paramoffs === 255);
-						bitmaskLength = `1 byte`;
-						if (!values.has(0)) {
-							// Values are given as bitmasks, convert back to enum style
-							const maskValues = new Map<number, string>();
-							values.clear();
-							for (const flag of toArray(param.bitflag)) {
-								maskValues.set(flag.flagmask, flag.flagname);
-								values.set(Math.log2(flag.flagmask), flag.flagname);
+					// Sometimes the flagmasks are more like enums, sometimes more like 'real' bit mask
+					// (i.e. 0x01, 0x02, 0x04, 0x08).
+					// Therefore, apply a heuristic algorithm:
+					// - If first element has value 0, all flags are enum style (can't be a mask)
+					// - Otherwise, try to convert mask values to enum values, but if they cannot
+					//   be converted nicely (i.e. don't form integer keys), assume they're masks afterall.
+					// Some bitmasks don't have any bitflags at all (i.e. they're just simple bits).
+					let values: spec.EnumValues | undefined;
+					const rawFlags = toArray(param.bitflag);
+					if (rawFlags.length > 0) {
+						if (rawFlags[0].flagmask !== 0) {
+							// If first value is not 0, it could be mask values, so
+							// convert them to their enum equivalent
+							values = createEnumValues();
+							for (const flag of rawFlags) {
+								const key = Math.log2(flag.flagmask);
+								if (key !== Math.floor(key)) {
+									// Key doesn't become integer value,
+									// so retry using mask strategy
+									values = undefined;
+									break;
+								}
+								values[key] = makeEnumValue(flag.flagname);
 							}
-							// Register original masks as separate enum
-							const maskEnumName = registerEnum(param.name + "Mask", maskValues);
-							enumText += ` and ${maskEnumName}`;
 						}
-					} else if (param.bitmask.paramoffs === 255) {
-						bitmaskLength = `length according to message length`;
-					} else {
-						const bm = param.bitmask;
-						bitmaskLength = `length by param[${bm.paramoffs}] & ${bm.lenmask} >> ${bm.lenoffs}`;
+						if (values === undefined) {
+							values = createEnumValues();
+							for (const flag of rawFlags) {
+								values[flag.flagmask] = makeEnumValue(
+									flag.flagname
+								);
+							}
+						}
 					}
-					const bitmaskType = "number" + (param.bitmask.len === 1 ? "" : "[]");
-					//contents.push(`${indent}${camelCase(param.name)}: ${bitmaskType}; // ${param.type}, ${bitmaskLength}${enumText}`);
+					let length: spec.LengthInfo<spec.RefMode.Json>;
+					const attr = param.bitmask;
+					if (typeof attr.len === "number") {
+						length = attr.len;
+					} else if (attr.paramoffs === 255) {
+						length = {
+							lengthType: spec.LengthType.Automatic,
+						};
+					} else {
+						length = {
+							lengthType: spec.LengthType.ParameterReference,
+							from: buildParamRef(
+								attr.paramoffs,
+								attr.lenmask,
+								attr.lenoffs ?? 0,
+								true,
+								mainIdMap,
+								groupIdMap,
+								groupName
+							),
+						};
+					}
+					return {
+						type: spec.ParameterType.Bitmask,
+						...paramBase,
+						length,
+						values,
+					};
 				}
-				break;*/
+				break;
 
 			case ParamType.MULTI_ARRAY:
 				{
+					// XML configuration looks like a bunch of these:
+					// <param key="0x03" name="Profile2" type="MULTI_ARRAY">
+					//   <multi_array>
+					//     <paramdescloc key="0x00" param="2" paramdesc="255" paramstart="2" />
+					//   </multi_array>
+					//   <multi_array>
+					//     <bitflag key="0x00" flagname="Profile General NA" flagmask="0x00" />
+					//     <bitflag key="0x00" flagname="Profile General Lifeline" flagmask="0x01" />
+					//   </multi_array>
+					// ...
 					const elems = toArray(param.multi_array);
 					const descloc = (elems.find(
 						(elem) => (elem as any).paramdescloc
@@ -797,48 +829,36 @@ function generateParameter(
 							descloc.paramdesc === 255 &&
 							descloc.param === descloc.paramstart
 					);
-					const valueType = encaptypeToValueType(param.encaptype);
-					assert(valueType === undefined); // With valuetype is no longer used in current spec
-					let enums:
-						| { [enumIndex: number]: spec.EnumValues }
-						| undefined;
-					if (!valueType) {
-						// XML configuration looks like a bunch of these:
-						// <param key="0x03" name="Profile2" type="MULTI_ARRAY">
-						//   <multi_array>
-						//     <paramdescloc key="0x00" param="2" paramdesc="255" paramstart="2" />
-						//   </multi_array>
-						//   <multi_array>
-						//     <bitflag key="0x00" flagname="Profile General NA" flagmask="0x00" />
-						//     <bitflag key="0x00" flagname="Profile General Lifeline" flagmask="0x01" />
-						//   </multi_array>
-						// ...
-						enums = Object.create(null);
-						// Remove the <paramdescloc> element
-						const bitflags = elems.filter(
-							(elem) => (elem as any).bitflag
-						) as MultiArrayParamBitFlags[];
-						// Keep only the <bitflag> tags
-						const valuedefs = bitflags.map((elem) =>
-							toArray(elem.bitflag)
-						) as ValueDef[][];
-						// Iterate over each enum
-						for (const e of valuedefs) {
-							let key: number | undefined;
-							// Iterate over each enum's key-value
-							for (const v of e) {
-								if (key === undefined) {
-									key = v.key;
-									enums![key] = createKeyValues();
-								} else {
-									assert(v.key === key);
-								}
-								enums![key][v.flagmask] = makeEnumValue(
-									v.flagname
-								);
+					assert(param.encaptype === undefined);
+
+					// Remove the <paramdescloc> element
+					const bitflags = elems.filter(
+						(elem) => (elem as any).bitflag
+					) as MultiArrayParamBitFlags[];
+
+					// Keep only the <bitflag> tags
+					const valuedefs = bitflags.map((elem) =>
+						toArray(elem.bitflag)
+					) as ValueDef[][];
+
+					// Iterate over each enum
+					const enums: {
+						[enumIndex: number]: spec.EnumValues;
+					} = Object.create(null);
+					for (const e of valuedefs) {
+						let key: number | undefined;
+						// Iterate over each enum's key-value
+						for (const v of e) {
+							if (key === undefined) {
+								key = v.key;
+								enums![key] = createEnumValues();
+							} else {
+								assert(v.key === key);
 							}
+							enums![key][v.flagmask] = makeEnumValue(v.flagname);
 						}
 					}
+
 					// A multi-array is basically a union of enums, where the specific enum is chosen based on
 					// the value of another parameter (i.e. descloc.param)
 					return {
@@ -855,7 +875,6 @@ function generateParameter(
 							groupName
 						),
 						enums,
-						valueType,
 					};
 				}
 				break;
@@ -876,12 +895,7 @@ function generateParameter(
 				return undefined;
 
 			default:
-				console.log("TODO", param.type);
-				return {
-					type: spec.ParameterType.Integer,
-					...paramBase,
-					length: 0,
-				};
+				throw new Error(`unknown parameter type`);
 		}
 	} else {
 		// Variant group
@@ -1028,7 +1042,7 @@ function generateCommand(
 		if (command.params.length > 0) {
 			const firstParam = command.params[0];
 			assert(
-				firstParam.type === "bitfield" &&
+				firstParam.type === spec.ParameterType.Bitfield &&
 					firstParam.cmdMask === paramMask,
 				"First parameter of cmdMask'ed command must have inverse mask"
 			);
@@ -1116,7 +1130,7 @@ function encaptypeToValueType(encaptype?: string): spec.ValueType | undefined {
 	}
 }
 
-function createKeyValues(): spec.EnumValues {
+function createEnumValues(): spec.EnumValues {
 	return Object.create(null);
 }
 

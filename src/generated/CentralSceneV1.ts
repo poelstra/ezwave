@@ -44,7 +44,7 @@ export class CentralSceneV1 extends CommandClassPacket<CentralSceneV1Commands> {
 			"command": 1,
 			"name": "CentralSceneSupportedGet",
 			"help": "Central Scene Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -64,10 +64,10 @@ export class CentralSceneV1 extends CommandClassPacket<CentralSceneV1Commands> {
 			"command": 2,
 			"name": "CentralSceneSupportedReport",
 			"help": "Central Scene Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedScenes",
 					"help": "Supported Scenes",
 					"length": 1
@@ -91,29 +91,29 @@ export class CentralSceneV1 extends CommandClassPacket<CentralSceneV1Commands> {
 			"command": 3,
 			"name": "CentralSceneNotification",
 			"help": "Central Scene Notification",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "keyAttributes",
 							"mask": 7,
 							"shift": 0
@@ -121,7 +121,7 @@ export class CentralSceneV1 extends CommandClassPacket<CentralSceneV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneNumber",
 					"help": "Scene Number",
 					"length": 1

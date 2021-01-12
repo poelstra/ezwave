@@ -33,7 +33,7 @@ export class AvTaggingMdV1 extends CommandClassPacket<AvTaggingMdV1Commands> {
 			"command": 1,
 			"name": "AvTaggingMdGet",
 			"help": "Av Tagging Md Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -53,7 +53,7 @@ export class AvTaggingMdV1 extends CommandClassPacket<AvTaggingMdV1Commands> {
 			"command": 2,
 			"name": "AvTaggingMdReport",
 			"help": "Av Tagging Md Report",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

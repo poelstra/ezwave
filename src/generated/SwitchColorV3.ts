@@ -84,7 +84,7 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 			"command": 1,
 			"name": "SwitchColorSupportedGet",
 			"help": "Color Switch Supported Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -104,10 +104,10 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 			"command": 2,
 			"name": "SwitchColorSupportedReport",
 			"help": "Color Switch Supported Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "colorComponentMask",
 					"help": "Color Component mask",
 					"length": 2
@@ -131,10 +131,10 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 			"command": 3,
 			"name": "SwitchColorGet",
 			"help": "Color Switch Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1
@@ -158,28 +158,28 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 			"command": 4,
 			"name": "SwitchColorReport",
 			"help": "Color Switch Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "currentValue",
 					"help": "Current Value",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "targetValue",
 					"help": "Target Value",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,
@@ -217,23 +217,23 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 			"command": 5,
 			"name": "SwitchColorSet",
 			"help": "Color Switch Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "colorComponentCount",
 							"mask": 31,
 							"shift": 0,
@@ -247,24 +247,24 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					]
 				},
 				{
-					"type": "group",
+					"type": "Group",
 					"name": "vg1",
 					"help": "vg1",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.colorComponentCount"
 						}
 					},
 					"params": [
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "colorComponentId",
 							"help": "Color Component ID",
 							"length": 1
 						},
 						{
-							"type": "integer",
+							"type": "Integer",
 							"name": "value",
 							"help": "Value",
 							"length": 1
@@ -272,7 +272,7 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					]
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,
@@ -306,35 +306,35 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 			"command": 6,
 			"name": "SwitchColorStartLevelChange",
 			"help": "Color Switch Start Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "res2",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "upDown",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ignoreStartState",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "res1",
 							"mask": 31,
 							"shift": 0,
@@ -343,19 +343,19 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startLevel",
 					"help": "Start Level",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "duration",
 					"help": "Duration",
 					"length": 1,
@@ -389,10 +389,10 @@ export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 			"command": 7,
 			"name": "SwitchColorStopLevelChange",
 			"help": "Color Switch Stop Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "colorComponentId",
 					"help": "Color Component ID",
 					"length": 1

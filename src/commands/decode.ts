@@ -1,5 +1,6 @@
 import { parseCommandClasses } from "../server/commandClassInfo";
 import {
+	bufferToSet,
 	CodecDataError,
 	CodecDefinitionError,
 	CodecUnexpectedEndOfPacketError,
@@ -9,10 +10,12 @@ import { Packet } from "./packet";
 import {
 	BitfieldElementType,
 	BitfieldParameter,
+	BitmaskParameter,
 	BlobParameter,
 	BlobType,
 	CommandDefinition,
 	EnumParameter,
+	EnumUnionParameter,
 	IntegerParameter,
 	LengthType,
 	LocalParameter,
@@ -140,6 +143,10 @@ function decodeParam(
 			decodedBytes = decodeEnum(param, slice, context);
 			break;
 
+		case ParameterType.EnumUnion:
+			decodedBytes = decodeEnumUnion(param, slice, context);
+			break;
+
 		case ParameterType.ParameterGroup:
 			decodedBytes = decodeGroup(param, slice, context);
 			break;
@@ -156,10 +163,12 @@ function decodeParam(
 			decodedBytes = decodeText(param, slice, context);
 			break;
 
+		case ParameterType.Bitmask:
+			decodedBytes = decodeBitmask(param, slice, context);
+			break;
+
 		default:
-			throw new Error(
-				`missing implementation for parameter type ${param.type}`
-			);
+			throw new Error(`unknown parameter type`);
 	}
 
 	return decodedBytes + skipMarkers;
@@ -257,6 +266,21 @@ function decodeInteger(
 
 function decodeEnum(
 	param: EnumParameter,
+	slice: Buffer,
+	context: Context
+): number {
+	let value: number;
+	if (slice.length === 0) {
+		value = 0;
+	} else {
+		value = slice.readUInt8(0);
+	}
+	context.setValue(param, value);
+	return 1;
+}
+
+function decodeEnumUnion(
+	param: EnumUnionParameter,
 	slice: Buffer,
 	context: Context
 ): number {
@@ -398,6 +422,16 @@ function decodeText(
 ): number {
 	// TODO Check fixed-length fields (pad with zeroes?)
 	const value = slice.toString("ascii");
+	context.setValue(param, value);
+	return slice.length;
+}
+
+function decodeBitmask(
+	param: BitmaskParameter,
+	slice: Buffer,
+	context: Context
+): number {
+	const value = bufferToSet(slice);
 	context.setValue(param, value);
 	return slice.length;
 }

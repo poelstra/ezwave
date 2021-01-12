@@ -33,7 +33,7 @@ export class AvContentSearchMdV1 extends CommandClassPacket<AvContentSearchMdV1C
 			"command": 1,
 			"name": "AvContentSearchMdGet",
 			"help": "Av Content Search Md Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -53,7 +53,7 @@ export class AvContentSearchMdV1 extends CommandClassPacket<AvContentSearchMdV1C
 			"command": 2,
 			"name": "AvContentSearchMdReport",
 			"help": "Av Content Search Md Report",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

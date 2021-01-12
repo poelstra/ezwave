@@ -44,7 +44,7 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 			"command": 2,
 			"name": "LanguageGet",
 			"help": "Language Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -64,16 +64,16 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 			"command": 3,
 			"name": "LanguageReport",
 			"help": "Language Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "language",
 					"help": "Language",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "country",
 					"help": "Country",
 					"length": 2
@@ -97,16 +97,16 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 			"command": 1,
 			"name": "LanguageSet",
 			"help": "Language Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "language",
 					"help": "Language",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "country",
 					"help": "Country",
 					"length": 2

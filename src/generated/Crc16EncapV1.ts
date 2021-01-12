@@ -39,33 +39,33 @@ export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 			"command": 1,
 			"name": "Crc16Encap",
 			"help": "CRC16 Encap",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "commandClass",
 					"help": "Command Class",
 					"length": 1,
-					"valueType": "CMD_CLASS_REF"
+					"valueType": "CommandClass"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "command",
 					"help": "Command",
 					"length": 1,
-					"valueType": "CMD_REF"
+					"valueType": "Command"
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "CommandData"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "checksum",
 					"help": "Checksum",
 					"length": 2

@@ -51,7 +51,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 			"command": 2,
 			"name": "ThermostatSetbackGet",
 			"help": "Thermostat Setback Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -71,23 +71,23 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 			"command": 3,
 			"name": "ThermostatSetbackReport",
 			"help": "Thermostat Setback Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "setbackType",
 							"mask": 3,
 							"shift": 0,
@@ -113,7 +113,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "setbackState",
 					"help": "Setback State",
 					"length": 1,
@@ -167,23 +167,23 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 			"command": 1,
 			"name": "ThermostatSetbackSet",
 			"help": "Thermostat Setback Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 252,
 							"shift": 2,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "setbackType",
 							"mask": 3,
 							"shift": 0,
@@ -209,7 +209,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "setbackState",
 					"help": "Setback State",
 					"length": 1,

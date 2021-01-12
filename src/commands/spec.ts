@@ -144,8 +144,9 @@ export type LocalParameter<Mode extends RefMode = RefMode.Direct> =
 	| EnumParameter<Mode>
 	| BitfieldParameter<Mode>
 	| EnumUnionParameter<Mode>
-	| TextParameter<Mode>
-	| BlobParameter<Mode>;
+	| TextParameter<Mode> // TODO merge with blob
+	| BlobParameter<Mode>
+	| BitmaskParameter<Mode>;
 
 /**
  * Nested set of parameters.
@@ -344,17 +345,22 @@ export interface BitfieldParameter<Mode extends RefMode = RefMode.Direct>
 }
 
 /**
+ * An enum union is a single-byte value of which the specific type
+ * depends on the value of another parameter.
+ *
+ * For example, profile1 could be an enum, and profile2 an enum union.
+ * If profile1 has value 0, then profile2 is of type SomeEnum, if profile1
+ * has value 32, then profile2 is of type SomeOtherEnum.
+ *
  * Equivalent to MULTI_ARRAY in XML, always 1 byte.
  */
 export interface EnumUnionParameter<Mode extends RefMode = RefMode.Direct>
 	extends ParameterBase<Mode> {
 	type: ParameterType.EnumUnion;
-	reference: Reference<Mode, IntegerParameter<Mode> | BitfieldElement<Mode>>;
-	// Either enums or valueType will be present
-	enums?: {
+	reference: Reference<Mode, EnumParameter<Mode>>;
+	enums: {
 		[enumIndex: number]: EnumValues;
 	};
-	valueType?: ValueType;
 }
 
 /**
@@ -545,14 +551,34 @@ export interface BitfieldElement<Mode extends RefMode = RefMode.Direct> {
 	parent: Mode extends RefMode.Json ? void : BitfieldParameter<Mode>;
 }
 
+/**
+ * A number of bits, encoded into one or more bytes.
+ *
+ * Bitmasks can encode a set of plain numbers, or a set of a specific
+ * set of numbers if `values` is set.
+ */
+export interface BitmaskParameter<Mode extends RefMode = RefMode.Direct>
+	extends ParameterBase<Mode> {
+	type: ParameterType.Bitmask;
+
+	/**
+	 * Dictionary of number => name mappings.
+	 *
+	 * If it exists, it defines which bit indexes can be set,
+	 * and what their name is.
+	 */
+	values?: EnumValues;
+}
+
 export enum ParameterType {
-	ParameterGroup = "group",
-	Integer = "integer",
-	Enum = "enum",
-	Bitfield = "bitfield",
-	EnumUnion = "enumunion",
-	Text = "text",
-	Blob = "blob",
+	ParameterGroup = "Group",
+	Integer = "Integer",
+	Enum = "Enum",
+	Bitfield = "Bitfield",
+	EnumUnion = "EnumUnion",
+	Text = "Text",
+	Blob = "Blob",
+	Bitmask = "Bitmask",
 }
 
 export enum LengthType {
@@ -560,13 +586,13 @@ export enum LengthType {
 	 * Length of parameter is determined by the value of another
 	 * parameter or field.
 	 */
-	ParameterReference = "ref",
+	ParameterReference = "Ref",
 
 	/**
 	 * Length of parameter is determined by the size of the packet,
 	 * possibly leaving room for some fixed fields at the end.
 	 */
-	Automatic = "auto",
+	Automatic = "Auto",
 
 	/**
 	 * Number of group elements is determined by MoreToFollow flag
@@ -574,7 +600,7 @@ export enum LengthType {
 	 *
 	 * Only used for parameter group length.
 	 */
-	MoreToFollow = "moretofollow",
+	MoreToFollow = "MoreToFollow",
 }
 
 /**
@@ -586,18 +612,18 @@ export enum BitfieldElementType {
 	/**
 	 * True or false.
 	 */
-	Boolean = "boolean",
+	Boolean = "Boolean",
 
 	/**
 	 * Any value within the range of its mask.
 	 */
-	Integer = "integer",
+	Integer = "Integer",
 
 	/**
 	 * A value in a specific set of possible values,
 	 * as given by `BitfieldElement.values`.
 	 */
-	Enum = "enum",
+	Enum = "Enum",
 }
 
 /**
@@ -605,19 +631,27 @@ export enum BitfieldElementType {
  * type, such as a reference to a command.
  */
 export enum ValueType {
-	NodeNumber = "NODE_NUMBER",
-	CommandClass = "CMD_CLASS_REF",
-	Command = "CMD_REF",
-	BasicDevice = "BAS_DEV_REF",
-	GenericDevice = "GEN_DEV_REF",
-	SpecificDevice = "SPEC_DEV_REF",
+	NodeNumber = "NodeNumber",
+	CommandClass = "CommandClass",
+	Command = "Command",
+	BasicDevice = "BasicDevice",
+	GenericDevice = "GenericDevice",
+	SpecificDevice = "SpecificDevice",
 }
 
 /**
  * BlobParameters can encode other commands.
  */
 export enum BlobType {
+	/**
+	 * List of Z-Wave Node IDs.
+	 */
 	NodeIds = "NodeIds",
+
+	/**
+	 * List of command classes.
+	 * Can be single- or multi-byte.
+	 */
 	CommandClasses = "CommandClasses",
 
 	/**
@@ -636,9 +670,9 @@ export enum BlobType {
  * Command classes and commands can be active, obsolete or deprecated.
  */
 export enum ObsolescenceStatus {
-	Active = "active",
-	Obsolete = "obsolete",
-	Deprecated = "deprecated",
+	Active = "Active",
+	Obsolete = "Obsolete",
+	Deprecated = "Deprecated",
 }
 
 export const OBSOLESCENCE_STATUS_TO_STRING = {

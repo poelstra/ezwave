@@ -79,7 +79,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 			"command": 3,
 			"name": "DateGet",
 			"help": "Date Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -99,22 +99,22 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 			"command": 4,
 			"name": "DateReport",
 			"help": "Date Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "year",
 					"help": "Year",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "month",
 					"help": "Month",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "day",
 					"help": "Day",
 					"length": 1
@@ -138,7 +138,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 			"command": 1,
 			"name": "TimeGet",
 			"help": "Time Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -158,7 +158,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 			"command": 6,
 			"name": "TimeOffsetGet",
 			"help": "Time Offset Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -178,22 +178,22 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 			"command": 7,
 			"name": "TimeOffsetReport",
 			"help": "Time Offset Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "signTzo",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "hourTzo",
 							"mask": 127,
 							"shift": 0
@@ -201,25 +201,25 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteTzo",
 					"help": "Minute TZO",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "signOffsetDst",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "minuteOffsetDst",
 							"mask": 127,
 							"shift": 0
@@ -227,37 +227,37 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "monthStartDst",
 					"help": "Month Start DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dayStartDst",
 					"help": "Day Start DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourStartDst",
 					"help": "Hour Start DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "monthEndDst",
 					"help": "Month End DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dayEndDst",
 					"help": "Day End DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourEndDst",
 					"help": "Hour End DST",
 					"length": 1
@@ -281,22 +281,22 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 			"command": 5,
 			"name": "TimeOffsetSet",
 			"help": "Time Offset Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level",
 					"help": "Level",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "signTzo",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "hourTzo",
 							"mask": 127,
 							"shift": 0
@@ -304,25 +304,25 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteTzo",
 					"help": "Minute TZO",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "level2",
 					"help": "Level2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "signOffsetDst",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "minuteOffsetDst",
 							"mask": 127,
 							"shift": 0
@@ -330,37 +330,37 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "monthStartDst",
 					"help": "Month Start DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dayStartDst",
 					"help": "Day Start DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourStartDst",
 					"help": "Hour Start DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "monthEndDst",
 					"help": "Month End DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dayEndDst",
 					"help": "Day End DST",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "hourEndDst",
 					"help": "Hour End DST",
 					"length": 1
@@ -384,29 +384,29 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 			"command": 2,
 			"name": "TimeReport",
 			"help": "Time Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "rtcFailure",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 96,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "hourLocalTime",
 							"mask": 31,
 							"shift": 0
@@ -414,13 +414,13 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minuteLocalTime",
 					"help": "Minute Local Time",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "secondLocalTime",
 					"help": "Second Local Time",
 					"length": 1

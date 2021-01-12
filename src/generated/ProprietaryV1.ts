@@ -47,14 +47,14 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 			"command": 2,
 			"name": "ProprietaryGet",
 			"help": "Proprietary Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -76,14 +76,14 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 			"command": 3,
 			"name": "ProprietaryReport",
 			"help": "Proprietary Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -105,14 +105,14 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 			"command": 1,
 			"name": "ProprietarySet",
 			"help": "Proprietary Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "data",
 					"help": "Data",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

@@ -88,7 +88,7 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 			"command": 1,
 			"name": "MailboxConfigurationGet",
 			"help": "Mailbox Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -108,23 +108,23 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 			"command": 2,
 			"name": "MailboxConfigurationSet",
 			"help": "Mailbox Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 7,
 							"shift": 0,
@@ -146,13 +146,13 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "forwardingDestinationIpv6Address",
 					"help": "Forwarding Destination IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "udpPortNumber",
 					"help": "UDP Port Number",
 					"length": 2
@@ -176,23 +176,23 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 			"command": 3,
 			"name": "MailboxConfigurationReport",
 			"help": "Mailbox Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 224,
 							"shift": 5,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "supportedModes",
 							"mask": 24,
 							"shift": 3,
@@ -208,7 +208,7 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 							}
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 7,
 							"shift": 0,
@@ -230,19 +230,19 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mailboxCapacity",
 					"help": "Mailbox Capacity",
 					"length": 2
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "forwardingDestinationIpv6Address",
 					"help": "Forwarding Destination IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "udpPortNumber",
 					"help": "UDP Port Number",
 					"length": 2
@@ -266,35 +266,35 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 			"command": 4,
 			"name": "MailboxQueue",
 			"help": "Mailbox Queue",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sequenceNumber",
 					"help": "Sequence Number",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "last",
 							"mask": 4,
 							"shift": 2
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "mode",
 							"mask": 3,
 							"shift": 0,
@@ -332,17 +332,17 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "queueHandle",
 					"help": "Queue Handle",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "mailboxEntry",
 					"help": "Mailbox Entry",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -364,10 +364,10 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 			"command": 5,
 			"name": "MailboxWakeupNotification",
 			"help": "Mailbox Wakeup Notification",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "queueHandle",
 					"help": "Queue Handle",
 					"length": 1
@@ -391,10 +391,10 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 			"command": 6,
 			"name": "MailboxNodeFailing",
 			"help": "Mailbox Failing Node",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "queueHandle",
 					"help": "Queue Handle",
 					"length": 1

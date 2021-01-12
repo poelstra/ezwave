@@ -51,7 +51,7 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 			"command": 2,
 			"name": "SensorTriggerLevelGet",
 			"help": "Sensor Trigger Level Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -71,10 +71,10 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 			"command": 3,
 			"name": "SensorTriggerLevelReport",
 			"help": "Sensor Trigger Level Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sensorType",
 					"help": "Sensor Type",
 					"length": 1,
@@ -134,25 +134,25 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -166,11 +166,11 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "triggerValue",
 					"help": "Trigger Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties1.size"
 						}
@@ -195,28 +195,28 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 			"command": 1,
 			"name": "SensorTriggerLevelSet",
 			"help": "Sensor Trigger Level Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "default",
 							"mask": 128,
 							"shift": 7
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "current",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 63,
 							"shift": 0,
@@ -225,7 +225,7 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sensorType",
 					"help": "Sensor Type",
 					"length": 1,
@@ -285,25 +285,25 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					}
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "precision",
 							"mask": 224,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "scale",
 							"mask": 24,
 							"shift": 3
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "size",
 							"mask": 7,
 							"shift": 0,
@@ -317,11 +317,11 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "triggerValue",
 					"help": "Trigger Value",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.size"
 						}

@@ -37,16 +37,16 @@ export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Comma
 			"command": 1,
 			"name": "SceneActivationSet",
 			"help": "Scene Activation Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sceneId",
 					"help": "Scene ID",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1,

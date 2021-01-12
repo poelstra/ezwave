@@ -57,40 +57,40 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 			"command": 1,
 			"name": "GatewayConfigurationSet",
 			"help": "Gateway Configuration Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "lanIpv6Address",
 					"help": "LAN IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lanIpv6PrefixLength",
 					"help": "LAN IPv6 Prefix Length",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "portalIpv6Prefix",
 					"help": "Portal IPv6 Prefix",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "portalIpv6PrefixLength",
 					"help": "Portal IPv6 Prefix Length",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "defaultGatewayIpv6Address",
 					"help": "Default Gateway IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "panIpv6Prefix",
 					"help": "PAN IPv6 Prefix",
 					"length": 16
@@ -114,10 +114,10 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 			"command": 2,
 			"name": "GatewayConfigurationStatus",
 			"help": "Gateway Configuration Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1
@@ -141,7 +141,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 			"command": 3,
 			"name": "GatewayConfigurationGet",
 			"help": "Gateway Configuration Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -161,40 +161,40 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 			"command": 4,
 			"name": "GatewayConfigurationReport",
 			"help": "Gateway Configuration Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "lanIpv6Address",
 					"help": "LAN IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "lanIpv6PrefixLength",
 					"help": "LAN IPv6 Prefix Length",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "portalIpv6Prefix",
 					"help": "Portal IPv6 Prefix",
 					"length": 16
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "portalIpv6PrefixLength",
 					"help": "Portal IPv6 Prefix Length",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "defaultGatewayIpv6Address",
 					"help": "Default Gateway IPv6 Address",
 					"length": 16
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "panIpv6Prefix",
 					"help": "PAN IPv6 Prefix",
 					"length": 16

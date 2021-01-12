@@ -40,7 +40,7 @@ export interface NetworkManagementBasicV2LearnModeSetStatusData {
 export interface NetworkManagementBasicV2NodeInformationSendData {
 	seqNo: number; // 1 byte unsigned integer
 	destinationNodeId: number; // 1 byte unsigned integer
-	// TODO param txOptions type bitmask
+	txOptions: Set<TxOptionsEnum>; // 1 bytes
 }
 
 export interface NetworkManagementBasicV2NetworkUpdateRequestData {
@@ -72,6 +72,17 @@ export interface NetworkManagementBasicV2DskReportData {
 	dsk: Buffer; // 16 bytes
 }
 
+export enum TxOptionsEnum {
+	Ack = 0x0,
+	LowPower = 0x1,
+	AutoRoute = 0x2,
+	Reserved = 0x3,
+	NoRoute = 0x4,
+	Explore = 0x5,
+	NoRetransmission = 0x6,
+	HighPower = 0x7,
+}
+
 export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManagementBasicV2Commands> {
 	public static readonly commandClass = CommandClasses.NetworkManagementBasic; // 0x4d (77)
 
@@ -90,29 +101,29 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 1,
 			"name": "LearnModeSet",
 			"help": "Learn Mode Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "returnInterviewStatus",
 							"mask": 1,
 							"shift": 0
@@ -120,7 +131,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "mode",
 					"help": "Mode",
 					"length": 1,
@@ -158,16 +169,16 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 2,
 			"name": "LearnModeSetStatus",
 			"help": "Learn Mode Set Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -191,33 +202,33 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "newNodeId",
 					"help": "New Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "grantedKeys",
 					"help": "Granted Keys",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "kexFailType",
 					"help": "KEX Fail Type",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "dsk",
 					"help": "DSK",
 					"length": 16
@@ -234,7 +245,6 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 		}
 	};
 
-	// TODO This command is not yet fully supported by the decoder/encoder
 	public static readonly NodeInformationSend = class NodeInformationSend extends CommandPacket<NetworkManagementBasicV2NodeInformationSendData> {
 		public static readonly CommandClass = NetworkManagementBasicV2;
 		public static readonly command = 0x05;
@@ -242,33 +252,67 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 5,
 			"name": "NodeInformationSend",
 			"help": "Node Information Send",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reserved",
 					"help": "Reserved",
 					"length": 1,
 					"reserved": true
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "destinationNodeId",
 					"help": "Destination Node ID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				},
 				{
-					"type": "integer",
+					"type": "Bitmask",
 					"name": "txOptions",
 					"help": "tx Options",
-					"length": 0
+					"length": 1,
+					"values": {
+						"0": {
+							"name": "Ack",
+							"help": "Ack"
+						},
+						"1": {
+							"name": "LowPower",
+							"help": "Low Power"
+						},
+						"2": {
+							"name": "AutoRoute",
+							"help": "Auto Route"
+						},
+						"3": {
+							"name": "Reserved",
+							"help": "Reserved"
+						},
+						"4": {
+							"name": "NoRoute",
+							"help": "No Route"
+						},
+						"5": {
+							"name": "Explore",
+							"help": "Explore"
+						},
+						"6": {
+							"name": "NoRetransmission",
+							"help": "No Retransmission"
+						},
+						"7": {
+							"name": "HighPower",
+							"help": "High Power"
+						}
+					}
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -289,10 +333,10 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 3,
 			"name": "NetworkUpdateRequest",
 			"help": "Network Update Request",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
@@ -316,16 +360,16 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 4,
 			"name": "NetworkUpdateRequestStatus",
 			"help": "Network Update Request Status",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -371,10 +415,10 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 6,
 			"name": "DefaultSet",
 			"help": "Default Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
@@ -398,16 +442,16 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 7,
 			"name": "DefaultSetComplete",
 			"help": "Default Set Complete",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq. No",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "status",
 					"help": "Status",
 					"length": 1,
@@ -441,29 +485,29 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 8,
 			"name": "DskGet",
 			"help": "DSK Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq No",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "addMode",
 							"mask": 1,
 							"shift": 0
@@ -489,29 +533,29 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 			"command": 9,
 			"name": "DskReport",
 			"help": "DSK Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seqNo",
 					"help": "Seq No",
 					"length": 1
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 254,
 							"shift": 1,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "addMode",
 							"mask": 1,
 							"shift": 0
@@ -519,7 +563,7 @@ export class NetworkManagementBasicV2 extends CommandClassPacket<NetworkManageme
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "dsk",
 					"help": "DSK",
 					"length": 16

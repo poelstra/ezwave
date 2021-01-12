@@ -37,7 +37,7 @@ export class BatteryV1 extends CommandClassPacket<BatteryV1Commands> {
 			"command": 2,
 			"name": "BatteryGet",
 			"help": "Battery Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -57,10 +57,10 @@ export class BatteryV1 extends CommandClassPacket<BatteryV1Commands> {
 			"command": 3,
 			"name": "BatteryReport",
 			"help": "Battery Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "batteryLevel",
 					"help": "Battery Level",
 					"length": 1,

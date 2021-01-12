@@ -48,17 +48,17 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 			"command": 192,
 			"name": "LowpanFirstFragment",
 			"help": "Lowpan First Fragment",
-			"status": "active",
+			"status": "Active",
 			"cmdMask": 248,
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -67,23 +67,23 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"cmdMask": 7
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramSize2",
 					"help": "Datagram Size 2",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramTag",
 					"help": "Datagram Tag",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -105,17 +105,17 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 			"command": 224,
 			"name": "LowpanSubsequentFragment",
 			"help": "Lowpan Subsequent Fragment",
-			"status": "active",
+			"status": "Active",
 			"cmdMask": 248,
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "datagramSize1",
 							"mask": 7,
 							"shift": 0
@@ -124,29 +124,29 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 					"cmdMask": 7
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramSize2",
 					"help": "Datagram Size 2",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramTag",
 					"help": "Datagram Tag",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "datagramOffset",
 					"help": "Datagram Offset",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "payload",
 					"help": "Payload",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]

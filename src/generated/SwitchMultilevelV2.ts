@@ -52,7 +52,7 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 			"command": 2,
 			"name": "SwitchMultilevelGet",
 			"help": "Switch Multilevel Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -72,10 +72,10 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 			"command": 3,
 			"name": "SwitchMultilevelReport",
 			"help": "Switch Multilevel Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,
@@ -109,10 +109,10 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 			"command": 1,
 			"name": "SwitchMultilevelSet",
 			"help": "Switch Multilevel Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "value",
 					"help": "Value",
 					"length": 1,
@@ -128,7 +128,7 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1,
@@ -162,35 +162,35 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 			"command": 4,
 			"name": "SwitchMultilevelStartLevelChange",
 			"help": "Switch Multilevel Start Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "reserved2",
 							"mask": 128,
 							"shift": 7,
 							"reserved": true
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "upDown",
 							"mask": 64,
 							"shift": 6
 						},
 						{
-							"fieldType": "boolean",
+							"fieldType": "Boolean",
 							"name": "ignoreStartLevel",
 							"mask": 32,
 							"shift": 5
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved1",
 							"mask": 31,
 							"shift": 0,
@@ -199,13 +199,13 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 					]
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "startLevel",
 					"help": "Start Level",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "dimmingDuration",
 					"help": "Dimming Duration",
 					"length": 1
@@ -229,7 +229,7 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 			"command": 5,
 			"name": "SwitchMultilevelStopLevelChange",
 			"help": "Switch Multilevel Stop Level Change",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

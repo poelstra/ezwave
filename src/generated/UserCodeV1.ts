@@ -63,10 +63,10 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 			"command": 2,
 			"name": "UserCodeGet",
 			"help": "User Code Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
@@ -90,16 +90,16 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 			"command": 3,
 			"name": "UserCodeReport",
 			"help": "User Code Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "userIdStatus",
 					"help": "User ID Status",
 					"length": 1,
@@ -123,11 +123,11 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 					}
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "userCode",
 					"help": "USER_CODE",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -149,16 +149,16 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 			"command": 1,
 			"name": "UserCodeSet",
 			"help": "User Code Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIdentifier",
 					"help": "User Identifier",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "userIdStatus",
 					"help": "User ID Status",
 					"length": 1,
@@ -182,11 +182,11 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 					}
 				},
 				{
-					"type": "text",
+					"type": "Text",
 					"name": "userCode",
 					"help": "USER_CODE",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					}
 				}
 			]
@@ -208,7 +208,7 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 			"command": 4,
 			"name": "UsersNumberGet",
 			"help": "Users Number Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -228,10 +228,10 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 			"command": 5,
 			"name": "UsersNumberReport",
 			"help": "Users Number Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedUsers",
 					"help": "Supported Users",
 					"length": 1

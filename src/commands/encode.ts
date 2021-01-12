@@ -7,15 +7,18 @@ import {
 	getParamLength,
 	getParamPresence,
 	isValuePresent,
+	setToBuffer,
 } from "./codec";
 import { Packet } from "./packet";
 import {
 	BitfieldElementType,
 	BitfieldParameter,
+	BitmaskParameter,
 	BlobParameter,
 	BlobType,
 	CommandDefinition,
 	EnumParameter,
+	EnumUnionParameter,
 	IntegerParameter,
 	LengthType,
 	LocalParameter,
@@ -79,6 +82,9 @@ function encodeParam(
 		case ParameterType.Enum:
 			return encodeEnum(param, context);
 
+		case ParameterType.EnumUnion:
+			return encodeEnumUnion(param, context);
+
 		case ParameterType.Bitfield:
 			return encodeBitfield(param, context);
 
@@ -91,10 +97,11 @@ function encodeParam(
 		case ParameterType.ParameterGroup:
 			return encodeGroup(param, context);
 
+		case ParameterType.Bitmask:
+			return encodeBitmask(param, context);
+
 		default:
-			throw new Error(
-				`missing implementation for parameter type ${param.type}`
-			);
+			throw new Error(`unknown parameter type`);
 	}
 }
 
@@ -137,7 +144,14 @@ function encodeInteger(param: IntegerParameter, context: Context): Buffer {
 function encodeEnum(param: EnumParameter, context: Context): Buffer {
 	const rawValue = context.getValue(param);
 	const integerValue = ensureNumericValue(rawValue, param, 0, 255);
+	// TODO could also check whether enum value actually exists (for this CC version)
+	return Buffer.from([integerValue]);
+}
 
+function encodeEnumUnion(param: EnumUnionParameter, context: Context): Buffer {
+	const rawValue = context.getValue(param);
+	const integerValue = ensureNumericValue(rawValue, param, 0, 255);
+	// TODO could also check whether enum value actually exists (for this CC version)
 	return Buffer.from([integerValue]);
 }
 
@@ -365,4 +379,53 @@ function encodeGroup(param: ParameterGroup, context: Context): Buffer {
 	});
 	context.leaveGroup();
 	return Buffer.concat(buffers);
+}
+
+function encodeBitmask(param: BitmaskParameter, context: Context): Buffer {
+	const bits = context.getValue(param);
+	if (!(bits instanceof Set)) {
+		throw new CodecDataError(
+			`invalid value for parameter ${getReferencePath(
+				param
+			)}, expected Set<number>, got ${typeof bits}`
+		);
+	}
+
+	let expectedLength: number | undefined;
+	if (typeof param.length === "number") {
+		expectedLength = param.length;
+	} else {
+		switch (param.length.lengthType) {
+			case LengthType.Automatic:
+				expectedLength = undefined;
+				break;
+			case LengthType.ParameterReference:
+				if (param.length.offset !== undefined) {
+					throw new CodecDefinitionError(
+						"length offset should be zero for bitmasks"
+					);
+				}
+				expectedLength = context.getNumericValue(param.length.from);
+				break;
+			default:
+				throw new CodecDefinitionError(
+					`cannot determine length of parameter ${getReferencePath(
+						param
+					)}`
+				);
+		}
+	}
+
+	const buffer = setToBuffer(bits);
+	const actualLength = buffer.length;
+
+	if (expectedLength !== undefined && actualLength !== expectedLength) {
+		throw new CodecDataError(
+			`expected bitmask ${getReferencePath(
+				param
+			)} to have length ${expectedLength} bytes, got ${actualLength} bytes`
+		);
+	}
+
+	return buffer;
 }

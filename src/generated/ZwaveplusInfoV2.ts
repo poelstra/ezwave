@@ -57,7 +57,7 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 			"command": 1,
 			"name": "ZwaveplusInfoGet",
 			"help": "Z-Wave+ Info Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -77,16 +77,16 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 			"command": 2,
 			"name": "ZwaveplusInfoReport",
 			"help": "Z-Wave+ Info Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zWaveVersion",
 					"help": "Z-Wave+ Version",
 					"length": 1
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "roleType",
 					"help": "Role Type",
 					"length": 1,
@@ -126,7 +126,7 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 					}
 				},
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "nodeType",
 					"help": "Node Type",
 					"length": 1,
@@ -142,13 +142,13 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 					}
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "installerIconType",
 					"help": "Installer Icon Type",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "userIconType",
 					"help": "User Icon Type",
 					"length": 2

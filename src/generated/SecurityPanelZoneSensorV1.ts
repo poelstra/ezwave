@@ -70,16 +70,16 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 			"command": 2,
 			"name": "CommandClassSecurityPanelZoneSensorInstalledReport",
 			"help": "Command Class Security Panel Zone Sensor Installed Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "numberOfSensors",
 					"help": "Number of Sensors",
 					"length": 1
@@ -103,16 +103,16 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 			"command": 3,
 			"name": "SecurityPanelZoneSensorTypeGet",
 			"help": "Security Panel Zone Sensor Type Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sensorNumber",
 					"help": "Sensor Number",
 					"length": 1
@@ -136,22 +136,22 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 			"command": 4,
 			"name": "SecurityPanelZoneSensorTypeReport",
 			"help": "Security Panel Zone Sensor Type Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sensorNumber",
 					"help": "Sensor Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zwaveAlarmType",
 					"help": "ZWave Alarm Type",
 					"length": 1
@@ -175,10 +175,10 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 			"command": 1,
 			"name": "SecurityPanelZoneSensorInstalledGet",
 			"help": "Security Panel Zone Sensor Installed Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone number",
 					"length": 1
@@ -202,16 +202,16 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 			"command": 5,
 			"name": "SecurityPanelZoneSensorStateGet",
 			"help": "Security Panel Zone Sensor State Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sensorNumber",
 					"help": "Sensor Number",
 					"length": 1
@@ -235,34 +235,34 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 			"command": 6,
 			"name": "SecurityPanelZoneSensorStateReport",
 			"help": "Security Panel Zone Sensor State Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zoneNumber",
 					"help": "Zone Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "sensorNumber",
 					"help": "Sensor Number",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zwaveAlarmType",
 					"help": "ZWave Alarm Type",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "zwaveAlarmEvent",
 					"help": "ZWave Alarm Event",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "eventParameters",
 					"help": "Event Parameters",
 					"length": 1

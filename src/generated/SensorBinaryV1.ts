@@ -43,7 +43,7 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 			"command": 2,
 			"name": "SensorBinaryGet",
 			"help": "Sensor Binary Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -63,10 +63,10 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 			"command": 3,
 			"name": "SensorBinaryReport",
 			"help": "Sensor Binary Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "enum",
+					"type": "Enum",
 					"name": "sensorValue",
 					"help": "Sensor Value",
 					"length": 1,

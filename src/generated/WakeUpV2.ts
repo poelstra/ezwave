@@ -55,7 +55,7 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 			"command": 9,
 			"name": "WakeUpIntervalCapabilitiesGet",
 			"help": "Wake Up Interval Capabilities Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -75,28 +75,28 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 			"command": 10,
 			"name": "WakeUpIntervalCapabilitiesReport",
 			"help": "Wake Up Interval Capabilities Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "minimumWakeUpIntervalSeconds",
 					"help": "Minimum Wake Up Interval Seconds",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maximumWakeUpIntervalSeconds",
 					"help": "Maximum Wake Up Interval Seconds",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "defaultWakeUpIntervalSeconds",
 					"help": "Default Wake Up Interval Seconds",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "wakeUpIntervalStepSeconds",
 					"help": "Wake Up Interval Step Seconds",
 					"length": 3
@@ -120,7 +120,7 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 			"command": 5,
 			"name": "WakeUpIntervalGet",
 			"help": "Wake Up Interval Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -140,20 +140,20 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 			"command": 6,
 			"name": "WakeUpIntervalReport",
 			"help": "Wake Up Interval Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seconds",
 					"help": "Seconds",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -174,20 +174,20 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 			"command": 4,
 			"name": "WakeUpIntervalSet",
 			"help": "Wake Up Interval Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "seconds",
 					"help": "Seconds",
 					"length": 3
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "nodeId",
 					"help": "NodeID",
 					"length": 1,
-					"valueType": "NODE_NUMBER"
+					"valueType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);
@@ -208,7 +208,7 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 			"command": 8,
 			"name": "WakeUpNoMoreInformation",
 			"help": "Wake Up No More Information",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -228,7 +228,7 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 			"command": 7,
 			"name": "WakeUpNotification",
 			"help": "Wake Up Notification",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 

@@ -62,10 +62,10 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 			"command": 2,
 			"name": "AssociationGet",
 			"help": "Association Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
@@ -89,7 +89,7 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 			"command": 5,
 			"name": "AssociationGroupingsGet",
 			"help": "Association Groupings Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -109,10 +109,10 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 			"command": 6,
 			"name": "AssociationGroupingsReport",
 			"help": "Association Groupings Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "supportedGroupings",
 					"help": "Supported Groupings",
 					"length": 1
@@ -136,20 +136,20 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 			"command": 4,
 			"name": "AssociationRemove",
 			"help": "Association Remove",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nodeIds",
 					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "NodeIds"
 				}
@@ -172,32 +172,32 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 			"command": 3,
 			"name": "AssociationReport",
 			"help": "Association Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "maxNodesSupported",
 					"help": "Max Nodes Supported",
 					"length": 1
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "reportsToFollow",
 					"help": "Reports to Follow",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nodeIds",
 					"help": "NodeIDs",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "NodeIds"
 				}
@@ -220,20 +220,20 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 			"command": 1,
 			"name": "AssociationSet",
 			"help": "Association Set",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "groupingIdentifier",
 					"help": "Grouping Identifier",
 					"length": 1
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "nodeIds",
 					"help": "Node IDs",
 					"length": {
-						"lengthType": "auto"
+						"lengthType": "Auto"
 					},
 					"blobType": "NodeIds"
 				}

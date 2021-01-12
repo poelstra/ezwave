@@ -61,7 +61,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 			"command": 4,
 			"name": "ManufacturerSpecificGet",
 			"help": "Manufacturer Specific Get",
-			"status": "active",
+			"status": "Active",
 			"params": []
 		} as jsonSpec.CommandDefinition);
 
@@ -81,22 +81,22 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 			"command": 5,
 			"name": "ManufacturerSpecificReport",
 			"help": "Manufacturer Specific Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "manufacturerId",
 					"help": "Manufacturer ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "productTypeId",
 					"help": "Product Type ID",
 					"length": 2
 				},
 				{
-					"type": "integer",
+					"type": "Integer",
 					"name": "productId",
 					"help": "Product ID",
 					"length": 2
@@ -120,23 +120,23 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 			"command": 6,
 			"name": "DeviceSpecificGet",
 			"help": "Device Specific Get",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "deviceIdType",
 							"mask": 7,
 							"shift": 0,
@@ -172,23 +172,23 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 			"command": 7,
 			"name": "DeviceSpecificReport",
 			"help": "Device Specific Report",
-			"status": "active",
+			"status": "Active",
 			"params": [
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties1",
 					"help": "Properties1",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "reserved",
 							"mask": 248,
 							"shift": 3,
 							"reserved": true
 						},
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "deviceIdType",
 							"mask": 7,
 							"shift": 0,
@@ -206,13 +206,13 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					]
 				},
 				{
-					"type": "bitfield",
+					"type": "Bitfield",
 					"name": "properties2",
 					"help": "Properties2",
 					"length": 1,
 					"fields": [
 						{
-							"fieldType": "enum",
+							"fieldType": "Enum",
 							"name": "deviceIdDataFormat",
 							"mask": 224,
 							"shift": 5,
@@ -228,7 +228,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 							}
 						},
 						{
-							"fieldType": "integer",
+							"fieldType": "Integer",
 							"name": "deviceIdDataLengthIndicator",
 							"mask": 31,
 							"shift": 0,
@@ -242,11 +242,11 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 					]
 				},
 				{
-					"type": "blob",
+					"type": "Blob",
 					"name": "deviceIdData",
 					"help": "Device ID Data",
 					"length": {
-						"lengthType": "ref",
+						"lengthType": "Ref",
 						"from": {
 							"ref": "properties2.deviceIdDataLengthIndicator"
 						}
