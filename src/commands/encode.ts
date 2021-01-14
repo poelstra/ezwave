@@ -1,3 +1,4 @@
+import { encodeCommandClasses } from "../server/commandClassInfo";
 import {
 	CodecDataError,
 	CodecDefinitionError,
@@ -232,7 +233,7 @@ function encodeBlob(param: BlobParameter, context: Context): Buffer {
 			}
 
 			value.forEach((v) => ensureNumericValue(v, param, 0, 255));
-			buffer = Buffer.from(value);
+			buffer = encodeCommandClasses(value);
 			break;
 
 		case BlobType.CommandEncapsulation:

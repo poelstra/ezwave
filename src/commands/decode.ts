@@ -400,9 +400,12 @@ function decodeBlob(
 ): number {
 	switch (param.blobType) {
 		case BlobType.NodeIds:
-		case BlobType.CommandClasses:
 			// Convert buffer to array of bytes
 			context.setValue(param, [...slice]);
+			break;
+
+		case BlobType.CommandClasses:
+			context.setValue(param, parseCommandClasses(slice));
 			break;
 
 		case BlobType.CommandEncapsulation:

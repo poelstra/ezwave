@@ -5,7 +5,7 @@ import * as Queue from "promise-queue";
 import { bufferToString, defer, Timer } from "../common/util";
 import {
 	CommandClassInfo,
-	parseCommandClasses,
+	parseCommandClassInfo,
 } from "../server/commandClassInfo";
 import { Protocol } from "./protocol";
 import { SerialAPICommand } from "./serialApiCommand";
@@ -294,7 +294,7 @@ export class SerialApi extends EventEmitter {
 					}
 					// NodeID | bLen | basic | generic | specific | commandclasses[ ]
 					// 10       1a     04      11        01         5e 20 86 72 26 5a 59 85 73 98 7a 56 70 31 32 8e 60 75 71 27 22 ef 2b
-					const commandClasses = parseCommandClasses(
+					const commandClasses = parseCommandClassInfo(
 						commandClassesRaw
 					);
 					return {
