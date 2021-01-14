@@ -49,18 +49,18 @@ export abstract class OldCommandPacket<T extends object | void> extends Packet {
 	}
 }
 
-export abstract class CommandPacket<T extends object | void> extends Packet {
-	public readonly command: number; // TODO make enum
+export abstract class CommandPacket<
+	T extends object | void
+> extends CommandClassPacket<number> {
 	public readonly data: T; // TODO make 'immutable'
 
 	constructor(codec: CommandCodec, data: T | Buffer) {
 		super(
-			codec.CommandClass.commandClass,
+			codec.CommandClass,
 			Buffer.isBuffer(data)
 				? data
 				: encodeCommandAndPayload(codec.definition, data)
 		);
-		this.command = codec.command;
 		this.data = Buffer.isBuffer(data)
 			? decodeCommandAndPayload(codec.definition, data)
 			: data;

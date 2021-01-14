@@ -210,6 +210,13 @@ class CommandClassGenerator {
 			);
 		}
 
+		// Whether the command byte is also used as a part of the payload,
+		// and if so, which bits belong to the command itself.
+		// TODO Move commandMask to the class, as all commands (must) have the
+		// same mask in practice
+		const commandMask: number | undefined = this._class.commands[0]
+			?.cmdMask;
+
 		contents.push(
 			`export class ${className} extends CommandClassPacket<${className}Commands> {`
 		);
@@ -220,6 +227,19 @@ class CommandClassGenerator {
 				}; // 0x${this._class.commandClass
 					.toString(16)
 					.padStart(2, "0")} (${this._class.commandClass})`,
+			])
+		);
+		if (commandMask) {
+			contents.push(
+				...indent([
+					`public static readonly commandMask = 0x${commandMask.toString(
+						16
+					)};`,
+				])
+			);
+		}
+		contents.push(
+			...indent([
 				``,
 				`public static matches(packet: Packet): boolean {`,
 				`\treturn packet.commandClass === this.commandClass;`,

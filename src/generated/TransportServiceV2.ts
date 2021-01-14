@@ -54,6 +54,7 @@ export interface TransportServiceV2CommandSubsequentSegmentData {
 
 export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Commands> {
 	public static readonly commandClass = CommandClasses.TransportService; // 0x55 (85)
+	public static readonly commandMask = 0xf8;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
