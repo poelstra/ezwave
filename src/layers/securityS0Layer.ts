@@ -2,7 +2,8 @@ import { randomBytes } from "crypto";
 import { Packet } from "../commands/packet";
 import { bufferToString } from "../common/util";
 import { SecurityV1 } from "../generated/SecurityV1";
-import { CryptoManager, NonceStore } from "./crypto";
+import { NonceStore } from "../security/nonceStore";
+import { SecurityS0Codec } from "../security/securityS0Codec";
 import {
 	DispatchNext,
 	Layer,
@@ -15,12 +16,12 @@ import { Requester } from "./requester";
 
 export class SecurityS0Layer implements Layer {
 	private _requester = new Requester();
-	private _crypto: CryptoManager;
 	private _nonceStore: NonceStore;
+	private _codec: SecurityS0Codec;
 
-	constructor(crypto: CryptoManager, nonceStore: NonceStore) {
-		this._crypto = crypto;
+	constructor(codec: SecurityS0Codec, nonceStore: NonceStore) {
 		this._nonceStore = nonceStore;
+		this._codec = codec;
 	}
 
 	async dispatch(
@@ -53,11 +54,10 @@ export class SecurityS0Layer implements Layer {
 		}
 
 		// Encapsulated packet, decode it and forward decoded event
-		const decoded = this._crypto.decapsulateS0(
+		const decoded = this._codec.decapsulate(
 			encapPacket,
 			event.endpoint.nodeId,
-			1,
-			(id) => this._nonceStore.getAndRelease(id)?.data
+			1
 		);
 		const decodedEvent: LayerEvent<Packet> = {
 			packetType: event.packetType,
@@ -126,7 +126,7 @@ export class SecurityS0Layer implements Layer {
 			}
 			const destination = command.endpoint.nodeId;
 			const senderNonce = randomBytes(8);
-			const encapsulated = this._crypto.encapsulateS0(
+			const encapsulated = this._codec.encapsulate(
 				command.packet,
 				1,
 				destination,

@@ -5,10 +5,12 @@ import CommandClasses from "../generated/CommandClasses";
 import { LayerCommand, LayerEvent, Sender } from "../layers/layer";
 import { MultiChannelLayer } from "../layers/multiChannel";
 import { Mapper, Requester } from "../layers/requester";
-import { SecurityS0Layer } from "../layers/securityS0";
+import { SecurityS0Layer } from "../layers/securityS0Layer";
 import { Stack } from "../layers/stack";
+import { CryptoManager } from "../security/cryptoManager";
+import { NonceStore } from "../security/nonceStore";
+import { SecurityS0Codec } from "../security/securityS0Codec";
 import { HostEvent, rxStatusToString, SerialApi } from "../serialapi/serialapi";
-import { CryptoManager, NonceStore } from "../layers/crypto";
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {
@@ -48,8 +50,9 @@ export class Controller extends EventEmitter implements ControllerEvents {
 		this._stack = new Stack(sender, (event) =>
 			this._handleStackDispatch(event)
 		);
+		const codec = new SecurityS0Codec(crypto, nonceStore);
 		this._stack
-			.use(new SecurityS0Layer(crypto, nonceStore))
+			.use(new SecurityS0Layer(codec, nonceStore))
 			.use(new MultiChannelLayer());
 
 		host.on("event", (event: HostEvent) =>
