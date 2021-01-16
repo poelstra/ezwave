@@ -2,18 +2,18 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { CodecDataError } from "./codec";
 import { encodeCommandAndPayload } from "./encode";
-import * as types from "./spec";
+import * as spec from "./spec";
 import { convertFromJsonParams } from "./specHelpers";
 
 function createCommand(
 	command: number,
-	params: types.Parameter<types.RefMode.Json>[]
-): types.CommandDefinition {
+	params: spec.Parameter<spec.RefMode.Json>[]
+): spec.CommandDefinition {
 	return {
 		command: command,
 		name: `COMMAND_${command.toString(16)}`,
 		help: "",
-		status: types.ObsolescenceStatus.Active,
+		status: spec.ObsolescenceStatus.Active,
 		params: convertFromJsonParams(params),
 	};
 }
@@ -40,7 +40,7 @@ describe("encode", () => {
 				it("encodes value", async () => {
 					const commandDef = createCommand(0x34, [
 						{
-							type: types.ParameterType.Integer,
+							type: spec.ParameterType.Integer,
 							length,
 							name: "param0",
 							help: "Param 0",
@@ -56,13 +56,13 @@ describe("encode", () => {
 				it("can be repeated", async () => {
 					const commandDef = createCommand(0x34, [
 						{
-							type: types.ParameterType.Integer,
+							type: spec.ParameterType.Integer,
 							length,
 							name: "param0",
 							help: "Param 0",
 						},
 						{
-							type: types.ParameterType.Integer,
+							type: spec.ParameterType.Integer,
 							length,
 							name: "param1",
 							help: "Param 1",
@@ -78,13 +78,13 @@ describe("encode", () => {
 
 				const optionalParamsDef = createCommand(0x34, [
 					{
-						type: types.ParameterType.Bitfield,
+						type: spec.ParameterType.Bitfield,
 						length: 1,
 						name: "hasParams",
 						help: "Has Params",
 						fields: [
 							{
-								fieldType: types.BitfieldElementType.Boolean,
+								fieldType: spec.BitfieldElementType.Boolean,
 								name: "hasParam0",
 								mask: 0x1,
 								shift: 0,
@@ -95,7 +95,7 @@ describe("encode", () => {
 								parent: undefined,
 							},
 							{
-								fieldType: types.BitfieldElementType.Boolean,
+								fieldType: spec.BitfieldElementType.Boolean,
 								name: "hasParam1",
 								mask: 0x2,
 								shift: 1,
@@ -108,7 +108,7 @@ describe("encode", () => {
 						],
 					},
 					{
-						type: types.ParameterType.Integer,
+						type: spec.ParameterType.Integer,
 						length,
 						name: "param0",
 						help: "Param 0",
@@ -117,7 +117,7 @@ describe("encode", () => {
 						},
 					},
 					{
-						type: types.ParameterType.Integer,
+						type: spec.ParameterType.Integer,
 						length,
 						name: "param1",
 						help: "Param 1",
@@ -173,7 +173,7 @@ describe("encode", () => {
 					it(`throws on invalid input: ${input}`, () => {
 						const commandDef = createCommand(0x34, [
 							{
-								type: types.ParameterType.Integer,
+								type: spec.ParameterType.Integer,
 								length,
 								name: "param0",
 								help: "Param 0",
@@ -194,7 +194,7 @@ describe("encode", () => {
 		it("encodes value", async () => {
 			const commandDef = createCommand(0x34, [
 				{
-					type: types.ParameterType.Enum,
+					type: spec.ParameterType.Enum,
 					length: 1,
 					values: {
 						"0": { name: "off", help: "off" },
@@ -214,7 +214,7 @@ describe("encode", () => {
 		it("can be repeated", async () => {
 			const commandDef = createCommand(0x34, [
 				{
-					type: types.ParameterType.Enum,
+					type: spec.ParameterType.Enum,
 					length: 1,
 					values: {
 						"0": { name: "off", help: "off" },
@@ -224,7 +224,7 @@ describe("encode", () => {
 					help: "Param 0",
 				},
 				{
-					type: types.ParameterType.Enum,
+					type: spec.ParameterType.Enum,
 					length: 1,
 					values: {
 						"0": { name: "off", help: "off" },
@@ -244,13 +244,13 @@ describe("encode", () => {
 
 		const optionalParamsDef = createCommand(0x34, [
 			{
-				type: types.ParameterType.Bitfield,
+				type: spec.ParameterType.Bitfield,
 				length: 1,
 				name: "hasParams",
 				help: "Has Params",
 				fields: [
 					{
-						fieldType: types.BitfieldElementType.Boolean,
+						fieldType: spec.BitfieldElementType.Boolean,
 						name: "hasParam0",
 						mask: 0x1,
 						shift: 0,
@@ -261,7 +261,7 @@ describe("encode", () => {
 						parent: undefined,
 					},
 					{
-						fieldType: types.BitfieldElementType.Boolean,
+						fieldType: spec.BitfieldElementType.Boolean,
 						name: "hasParam1",
 						mask: 0x2,
 						shift: 1,
@@ -274,7 +274,7 @@ describe("encode", () => {
 				],
 			},
 			{
-				type: types.ParameterType.Enum,
+				type: spec.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": { name: "off", help: "off" },
@@ -287,7 +287,7 @@ describe("encode", () => {
 				},
 			},
 			{
-				type: types.ParameterType.Enum,
+				type: spec.ParameterType.Enum,
 				length: 1,
 				values: {
 					"0": { name: "off", help: "off" },
@@ -347,7 +347,7 @@ describe("encode", () => {
 			it(`throws on invalid input: ${input}`, () => {
 				const commandDef = createCommand(0x34, [
 					{
-						type: types.ParameterType.Enum,
+						type: spec.ParameterType.Enum,
 						length: 1,
 						values: {
 							"0": { name: "off", help: "off" },
@@ -370,14 +370,14 @@ describe("encode", () => {
 		it("should be encoded as 0 in parameter", () => {
 			const commandDef = createCommand(0x34, [
 				{
-					type: types.ParameterType.Integer,
+					type: spec.ParameterType.Integer,
 					name: "a",
 					help: "A",
 					length: 1,
 					reserved: true,
 				},
 				{
-					type: types.ParameterType.Integer,
+					type: spec.ParameterType.Integer,
 					name: "b",
 					help: "B",
 					length: 1,
@@ -395,13 +395,13 @@ describe("encode", () => {
 		it("should not be encoded as 0 in bitfield", () => {
 			const commandDef = createCommand(0x34, [
 				{
-					type: types.ParameterType.Bitfield,
+					type: spec.ParameterType.Bitfield,
 					name: "a",
 					help: "A",
 					length: 1,
 					fields: [
 						{
-							fieldType: types.BitfieldElementType.Integer,
+							fieldType: spec.BitfieldElementType.Integer,
 							name: "field0",
 							mask: 0x3,
 							shift: 0,
@@ -409,7 +409,7 @@ describe("encode", () => {
 							parent: undefined,
 						},
 						{
-							fieldType: types.BitfieldElementType.Boolean,
+							fieldType: spec.BitfieldElementType.Boolean,
 							name: "field1",
 							mask: 0x4,
 							shift: 2,
@@ -417,7 +417,7 @@ describe("encode", () => {
 							parent: undefined,
 						},
 						{
-							fieldType: types.BitfieldElementType.Integer,
+							fieldType: spec.BitfieldElementType.Integer,
 							name: "field2",
 							mask: 0x18,
 							shift: 3,
@@ -432,6 +432,69 @@ describe("encode", () => {
 				field1: true,
 				field2: 0x3,
 			});
+			expect(encoded).to.deep.equal(expected);
+		});
+	});
+
+	describe("optional fields", () => {
+		const commandDef = createCommand(0x34, [
+			{
+				type: spec.ParameterType.Bitfield,
+				name: "hasParams",
+				help: "",
+				length: 1,
+				fields: [
+					{
+						fieldType: spec.BitfieldElementType.Boolean,
+						name: "hasParam0",
+						mask: 0x1,
+						shift: 0,
+						parent: undefined,
+						isAutogenerated: true,
+						presenceOf: {
+							refs: ["param0"],
+						},
+					},
+				],
+			},
+			{
+				type: spec.ParameterType.Blob,
+				length: { lengthType: spec.LengthType.Automatic },
+				name: "param0",
+				help: "Param 0",
+				optional: {
+					ref: "hasParams.hasParam0",
+				},
+			},
+		]);
+
+		it("should be included when present", () => {
+			const encoded = encodeCommandAndPayload(commandDef, {
+				param0: Buffer.from([0x12]),
+			});
+			const expected = Buffer.from([0x34, 0x01, 0x12]);
+			expect(encoded).to.deep.equal(expected);
+		});
+
+		it("should be excluded when absent", () => {
+			const encoded = encodeCommandAndPayload(commandDef, {});
+			const expected = Buffer.from([0x34, 0x00]);
+			expect(encoded).to.deep.equal(expected);
+		});
+
+		it("should be excluded when undefined", () => {
+			const encoded = encodeCommandAndPayload(commandDef, {
+				param0: undefined,
+			});
+			const expected = Buffer.from([0x34, 0x00]);
+			expect(encoded).to.deep.equal(expected);
+		});
+
+		it("should be excluded when zero-length", () => {
+			const encoded = encodeCommandAndPayload(commandDef, {
+				param0: Buffer.from([]),
+			});
+			const expected = Buffer.from([0x34, 0x00]);
 			expect(encoded).to.deep.equal(expected);
 		});
 	});

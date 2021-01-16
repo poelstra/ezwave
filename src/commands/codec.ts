@@ -39,12 +39,19 @@ export class CodecUnexpectedEndOfPacketError extends CodecDataError {
 	}
 }
 
+/**
+ * Determine whether given value is to be considered 'present'.
+ *
+ * According to Z-Wave specs, zero-length values (such as parameter
+ * group, Buffer, etc) should be considered absent.
+ */
 export function isValuePresent(value: unknown): boolean {
 	if (value === undefined) {
 		return false;
 	}
-	if (Array.isArray(value)) {
-		return value.length > 0;
+	const length = tryGetValueLength(value);
+	if (length === 0) {
+		return false;
 	}
 	return true;
 }
@@ -97,13 +104,25 @@ export function ensureNumericValue(
 	return value;
 }
 
+export function tryGetValueLength(value: unknown): number | undefined {
+	if (
+		Array.isArray(value) ||
+		typeof value === "string" ||
+		Buffer.isBuffer(value)
+	) {
+		return value.length;
+	}
+	if (value instanceof Set) {
+		return getEncodedSetLength(value);
+	}
+	return undefined;
+}
+
 export function getParamLength(
 	integerParamOrField: IntegerParameter | BitfieldElement,
 	context: Context
-): number {
-	const lengthOf = isParameter(integerParamOrField)
-		? integerParamOrField.lengthOf
-		: integerParamOrField.lengthOf;
+): number | undefined {
+	const lengthOf = integerParamOrField.lengthOf;
 	if (!lengthOf) {
 		throw new Error("programming error: missing lengthOf");
 	}
@@ -112,16 +131,8 @@ export function getParamLength(
 	for (const ref of lengthOf) {
 		const values = context.getValues(ref);
 		const value = values.find((v) => v !== undefined);
-		let rawLength: number;
-		if (
-			Array.isArray(value) ||
-			typeof value === "string" ||
-			Buffer.isBuffer(value)
-		) {
-			rawLength = value.length;
-		} else if (value instanceof Set) {
-			rawLength = getEncodedSetLength(value);
-		} else {
+		const rawLength = tryGetValueLength(value);
+		if (rawLength === undefined) {
 			throw new CodecDataError(
 				`cannot determine value of ${getReferencePath(
 					integerParamOrField
@@ -149,12 +160,12 @@ export function getParamPresence(
 	if (!booleanField.presenceOf) {
 		throw new Error("programming error: missing presenceOf");
 	}
-	// Determine length of first present value that we can find,
-	// all encoded values will check their own length later
+	// Determine presence of first value that we can find,
+	// all encoded values will check their own presence later
 	for (const ref of booleanField.presenceOf) {
 		const values = context.getValues(ref);
 		const value = values.find((v) => v !== undefined);
-		if (value) {
+		if (isValuePresent(value)) {
 			return true;
 		}
 	}
