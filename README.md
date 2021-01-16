@@ -1,7 +1,7 @@
 # Modular Typescript / Javascript Z-Wave driver
 
 A Z-Wave driver written in Typescript for Node.JS with a focus on
-robustness and speed.
+ease-of-use, robustness and responsiveness.
 
 Currently still in a very early proof-of-concept phase.
 
@@ -15,13 +15,13 @@ unsatisfied with its performance: very slow (sometimes around ten
 seconds) to respond to switch commands, very long initialization
 time (tens of seconds). No ability to just unplug and re-plug the
 Aeon labs Z-Stick (which is specifically made to be moved around
-to include new devices.
+to include new devices).
 
 Also, experimenting with the network was nearly impossible due to
 the domotica software (Domoticz in this case) taking full control
 of the Z-Wave driver.
 
-Thinking "How hard can it be?" started digging in the (by then
+Thinking "How hard can it be?" I started digging in the (by then
 recently) published Z-Wave standards. Ok, hard, but not impossible :)
 
 It's always fun to learn something new, so I started coding a Z-Wave
@@ -107,15 +107,11 @@ control all Z-Wave devices in my home (lights, dimmers, switches),
 including Security S0, and does so _much_ faster than I was used
 to in my old setup.
 
-However, there's no generic Z-Wave daemon yet, inclusion and
-interview of new devices isn't implemented, certain basic
-functionality (like preventing responses to multi-cast requests)
-is still lacking, and only a handful of commands from a handful
-of command classes is implemented.
-
-The low-level Serial API decoding/encoding is nicely taking shape
-though, being well-covered with unit tests including handling of
-all kinds of corner cases, timeout scenario's, etc.
+The low-level Serial API decoding/encoding is pretty much done,
+and well-covered with unit tests including handling of all kinds
+of corner cases, timeout scenario's, etc.
+Not all serial commands are implemented, only the ones I currently
+need.
 
 I've also created a converter which parses the official Z-Wave
 command class specification (in XML) and converts it into another
@@ -123,16 +119,79 @@ format that's easier to use for generating command class decoders
 and encoders. It fixes all kinds of inconsistencies etc in the
 original XML, and saves it as a convenient JSON file.
 
-A code generator based on this JSON format is in the works, but
-the generated output is only partial right now, and isn't actually
-used yet. The (currently hand-written) command class encoders/
-decoders in `src/classes` should provide an idea of what the
-auto-generated ones will look like some day.
+A code generator then takes this JSON format and generates classes,
+interfaces and enums for _all_ Z-Wave command classes. These in turn
+use the provided packet encoder/decoder functions to convert between
+nice human-readable TypeScript interfaces and raw packets. For example:
+
+```ts
+// Encode a Z-Wave packet
+const commandPacket = new MultiChannelAssociationV2.MultiChannelAssociationRemove(
+	{
+		groupingIdentifier: 0x12,
+		nodeIds: [1, 2, 3],
+		vg: [
+			{
+				multiChannelNodeId: 10,
+				bitAddress: false,
+				endPoint: 3,
+			},
+		],
+	}
+);
+const buffer = command.serialize(); // <Buffer 8e 04 12 01 02 03 00 0a 03>
+
+// Decode a Z-Wave packet
+const packet = new Packet(buffer);
+console.log(packet.is(MultiChannelAssociationV2.MultiChannelAssociationRemove)); // true
+
+const decodedPacket = packet.as(
+	MultiChannelAssociationV2.MultiChannelAssociationRemove
+);
+console.log(decodedPacket.data); // same as the object passed in, above
+```
+
+You can combine the .is() and .as() into one call with .tryAs(), and
+can check whether a packet is of a certain command class, like e.g.:
+
+```ts
+console.log(packet.is(MultiChannelAssociationV2)); // true
+```
+
+The JSON Z-Wave spec is set up to be easy for code generators and
+packet encoders/decoders to work with, and is intended to be useful
+outside of just JavaScript / TypeScript.
+
+Similarly, because the packet encoding/decoding is completely
+'stand-alone', with no dependencies on any other part of my Z-Wave
+drivers, it is / will be usable in other (JavaScript) projects.
+
+All command-classes are supported right now, including 'weird' ones
+(such as Transport, which re-uses a few of the command bytes as
+data, etc.). However, for some of them, the generated output is not
+as user-friendly as it should be, or in some cases actually still
+slightly incorrect. For example, in the original XML spec, certain
+encapsulated packages are split into individual commandclass, command,
+and payload fields, but if that class also supports splitting the
+encapsulated data into multiple packets, that's obviously incorrect
+for any packet except the first. Or certain classes support variable-
+length signed integers, but the XML spec doesn't support them and
+instead classifies them as blobs, so they will be decoded as Buffer.
+
+Provisions are in place in the XML-to-JSON converter to fix these
+kind of cases, but only a few of them are fixed for now (the ones
+thay I need).
 
 There are two proof-of-concept implementations of protocol layers:
 multi-channel and security S0. These are functional in the sense
 that they work in my home, but were created more as a playground to
 get to a better understanding of their architectural challenges.
+
+However, there's no generic Z-Wave daemon yet, inclusion and
+interview of new devices isn't implemented, certain basic
+functionality (like preventing responses to multi-cast requests)
+is still lacking, and only a handful of commands from a handful
+of command classes is implemented.
 
 The code base is a single monolithic package for now, but will be
 split in separate NPM packages (as mentioned above) as soon as
