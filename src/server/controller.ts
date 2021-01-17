@@ -10,32 +10,59 @@ import { Stack } from "../layers/stack";
 import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
-import { HostEvent, rxStatusToString, SerialApi } from "../serialapi/serialapi";
+import {
+	SerialApiEvent,
+	rxStatusToString,
+	SerialApi,
+} from "../serialapi/serialapi";
+import { IZwaveHost } from "./IZwaveHost";
+
+export enum ControllerState {
+	Constructed,
+	Initializing,
+	Initialized,
+}
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {
 	on(event: "event", listener: (event: LayerEvent<Packet>) => void): this;
 }
 
-// TODO Currently named Controller, but that's a (very) bad name.
-// Host is probably a better name, and the class called Host today needs
-// to be renamed to ZwaveApi or something.
-export class Controller extends EventEmitter implements ControllerEvents {
+export class Controller
+	extends EventEmitter
+	implements ControllerEvents, IZwaveHost {
+	public readonly homeId: number;
+	public readonly nodeId: number;
+
+	private _serialApi: SerialApi | undefined;
 	private _stack: Stack;
 	private _requester: Requester;
+	private _state: ControllerState = ControllerState.Constructed;
+	private _serialApiEventHandler = (event: SerialApiEvent) =>
+		this._handleSerialEvent(event).catch((err: unknown) =>
+			console.warn(`error dispatching serial event to stack:`, event, err)
+		);
+	private _serialApiCloseHandler = () => this.assignSerialApi(undefined);
 
 	constructor(
-		host: SerialApi,
+		homeId: number,
+		nodeId: number,
 		crypto: CryptoManager,
 		nonceStore: NonceStore
 	) {
 		super();
+		this.homeId = homeId;
+		this.nodeId = nodeId;
+
 		const sender: Sender = {
-			send(command: LayerCommand): Promise<boolean> {
+			send: (command: LayerCommand): Promise<boolean> => {
+				if (!this._serialApi) {
+					throw new Error("no Z-Wave device connected");
+				}
 				// TODO let zwSendData invoke afterSend if possible, to further
 				// minimize the frame where early older matches could be received
 				command.afterSend && command.afterSend();
-				return host.zwSendData(
+				return this._serialApi.zwSendData(
 					command.endpoint.nodeId,
 					command.packet.serialize()
 				);
@@ -47,23 +74,45 @@ export class Controller extends EventEmitter implements ControllerEvents {
 		};
 		this._requester = new Requester();
 
+		const codec = new SecurityS0Codec(crypto, nonceStore);
+
+		// SDS13783-14 - Encapsulation order overview
+		// 1. Encapsulated Command Class (payload), .e.g Basic Set
+		// 2. Multi Command
+		// 3. Supervision
+		// 4. Multi Channel
+		// 5. Any one of the following combinations:
+		//    a. Security (S0 or S2) followed by transport service
+		//    b. Transport Service
+		//    c. Security (S0 or S2)
+		//    d. CRC16
+		// We need to supply them in the opposite order to our stack.
 		this._stack = new Stack(sender, (event) =>
 			this._handleStackDispatch(event)
 		);
-		const codec = new SecurityS0Codec(crypto, nonceStore);
 		this._stack
 			.use(new SecurityS0Layer(codec, nonceStore))
 			.use(new MultiChannelLayer());
+	}
 
-		host.on("event", (event: HostEvent) =>
-			this._handleHostEvent(event).catch((err: unknown) =>
-				console.warn(
-					`error dispatching host event to stack:`,
-					event,
-					err
-				)
-			)
-		);
+	async assignSerialApi(serialApi: SerialApi | undefined): Promise<void> {
+		if (this._serialApi) {
+			this._serialApi.off("event", this._serialApiEventHandler);
+			this._serialApi.off("close", this._serialApiCloseHandler);
+		}
+
+		this._serialApi = serialApi;
+
+		if (this._serialApi) {
+			this._serialApi.on("event", this._serialApiEventHandler);
+			this._serialApi.on("close", this._serialApiCloseHandler);
+			// TODO serialApi can be reinitialized, e.g. soft reset,
+			// need to handle that too
+			const nodes = this._serialApi.getNodes();
+			for (const node of nodes) {
+				console.log("NODE", node);
+			}
+		}
 	}
 
 	send(command: LayerCommand): Promise<boolean> {
@@ -91,7 +140,7 @@ export class Controller extends EventEmitter implements ControllerEvents {
 		this.emit("event", event);
 	}
 
-	private async _handleHostEvent(event: HostEvent): Promise<void> {
+	private async _handleSerialEvent(event: SerialApiEvent): Promise<void> {
 		const packet = new Packet(event.data);
 		console.log(
 			`EVENT fromNode=${event.sourceNode} cmdClass=${

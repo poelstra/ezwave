@@ -33,8 +33,12 @@ export function never(): Promise<never> {
 	return new Promise(noop);
 }
 
+export function toHex(value: number, minWidth: number = 0): string {
+	return value.toString(16).padStart(minWidth, "0");
+}
+
 export function bufferToString(buffer: Buffer): string {
-	return [...buffer].map((n) => n.toString(16).padStart(2, "0")).join(" ");
+	return [...buffer].map((n) => toHex(n, 2)).join(" ");
 }
 
 /**

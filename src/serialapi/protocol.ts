@@ -269,7 +269,7 @@ export class Protocol extends EventEmitter {
 		// to be closed.
 		await this._sendRaw(NAK_FRAME);
 		await this._sendRaw(
-			createDataFrame(SerialAPICommand.FUNC_ID_SERIAL_API_SOFT_RESET)
+			createDataFrame(SerialAPICommand.SERIAL_API_SOFT_RESET)
 		);
 		await delay(SOFT_RESET_DELAY);
 		this._state = ProtocolState.Idle;

@@ -38,19 +38,26 @@ export function decodeCommandAndPayload<T extends object | void>(
 		);
 	}
 
+	// Determine payload start: use command byte as data byte in case of
+	// commandMask being used.
+	const payload =
+		commandDef.cmdMask !== undefined
+			? commandAndPayload
+			: commandAndPayload.slice(1);
+	return decodeParams(commandDef.params, payload);
+}
+
+export function decodeParams<T extends object | void>(
+	params: Parameter[],
+	payload: Buffer
+): T {
 	const context = new Context(Object.create(null));
 
 	// Determine payload start: use command byte as data byte in case of
 	// commandMask being used.
-	let pos = commandDef.cmdMask !== undefined ? 0 : 1;
-	for (const param of commandDef.params) {
-		pos += decodeParam(
-			commandAndPayload,
-			pos,
-			param,
-			context,
-			commandDef.params
-		);
+	let pos = 0;
+	for (const param of params) {
+		pos += decodeParam(payload, pos, param, context, params);
 	}
 	return context.data as T;
 }

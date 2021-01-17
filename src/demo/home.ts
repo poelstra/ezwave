@@ -27,7 +27,11 @@ export class Home extends EventEmitter {
 		super();
 		this.controller.on("event", (event: LayerEvent<Packet>) => {
 			this._handleControllerEvent(event).catch((err: unknown) =>
-				console.warn("Home host event dispatch failed for", event, err)
+				console.warn(
+					"Home controller event dispatch failed for",
+					event,
+					err
+				)
 			);
 		});
 	}

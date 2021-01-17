@@ -1,14 +1,17 @@
 import main from "async-main";
+import { randomBytes } from "crypto";
+import { once } from "events";
 import * as SerialPort from "serialport";
 import "source-map-support/register";
 import { Duplex } from "stream";
-import { delay } from "../common/util";
+import { delay, toHex } from "../common/util";
 import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { Framer } from "../serialapi/framer";
 import { Protocol } from "../serialapi/protocol";
-import { SerialApi } from "../serialapi/serialapi";
+import { SerialApi, ZwLibraryType } from "../serialapi/serialapi";
 import { Controller } from "../server/controller";
+import { SwitchBoard } from "../server/switchBoard";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Hub } from "./hub";
@@ -52,13 +55,54 @@ function prefixTimestamp(console: Console, method: keyof Console): void {
 	} as any;
 }
 
+interface HostConfig {
+	homeId: number;
+	nodeId: number;
+	type: keyof typeof ZwLibraryType;
+
+	/**
+	 * 16 bytes as array of 16 numbers, or string of 32 hex chars
+	 */
+	networkKey: number[] | string;
+}
+
 interface Config {
 	serial?: string;
+	hosts?: HostConfig[];
 	mhub: {
 		url: string;
 		user: string;
 		pass: string;
 	};
+}
+
+async function getSerialApi(
+	serialPort: string | undefined
+): Promise<SerialApi> {
+	console.log("Connecting to Z-Wave device...");
+	let port: Duplex | undefined;
+	let shownWarning = false;
+	while (!port) {
+		try {
+			port = await open(serialPort);
+		} catch (err) {
+			if (!shownWarning) {
+				console.warn(
+					`Error opening Z-Wave port, retrying: ${err.message}`
+				);
+				shownWarning = true;
+			}
+			await delay(3000);
+		}
+	}
+	port.on("close", () => console.log("serial port closed"));
+	console.log("serial port opened");
+	const framer = new Framer(port);
+	const protocol = new Protocol(framer);
+	await protocol.hardResetted();
+	const serialApi = new SerialApi(protocol);
+	await serialApi.init();
+	return serialApi;
 }
 
 main(async () => {
@@ -68,80 +112,94 @@ main(async () => {
 	prefixTimestamp(console, "error");
 
 	console.log("Reading configuration...");
-
 	const config = require("../../config.json") as Config;
-	const networkKey = require("../../networkkey.json") as string;
 
-	const getFramer = async () => {
-		console.log("Connecting to Z-Wave controller...");
-		// if (!config.serial) {
-		// 	throw new Error(
-		// 		"missing serial port in config, please set `serial` property in `config.json`"
-		// 	);
-		// }
-		let port: Duplex | undefined;
-		let shownWarning = false;
-		while (!port) {
-			try {
-				port = await open(config.serial);
-			} catch (err) {
-				if (!shownWarning) {
-					console.warn(
-						`Error opening Z-Wave port, retrying: ${err.message}`
-					);
-					shownWarning = true;
-				}
-				await delay(3000);
-			}
-		}
-		port.on("close", () => console.log("serial port closed"));
-		console.log("serial port opened");
-		return new Framer(port);
-	};
-	const framer = await getFramer();
-	const protocol = new Protocol(framer);
-	protocol.on("close", () => {
-		console.log("Protocol closed, shutting down...");
-		process.exit(0);
-	});
-	await protocol.hardResetted();
-	const host = new SerialApi(protocol);
+	// if (!config.serial) {
+	// 	throw new Error(
+	// 		"missing serial port in config, please set `serial` property in `config.json`"
+	// 	);
+	// }
 
-	const nonceStore = new NonceStore();
-	const crypto = new CryptoManager(Buffer.from(networkKey, "hex"));
-	const controller = new Controller(host, crypto, nonceStore);
-	const home = new Home(controller);
-
+	// Start connection to MHub
 	const mhub = new Hub(config.mhub.url, config.mhub.user, config.mhub.pass);
-	const homeHub = new HomeHub(home, mhub, controller);
-	void homeHub;
-
 	main(() => mhub.run());
-	await host.init();
 
-	console.log("initialized");
+	// Auto-create host (only static controller, for now) once corresponding serial
+	// device gets connected.
+	const hostFactory = (
+		homeId: number,
+		nodeId: number,
+		type: ZwLibraryType
+	) => {
+		const typeStr = ZwLibraryType[type] as keyof typeof ZwLibraryType;
+		let hostConfig = config.hosts?.find(
+			(entry) =>
+				entry.homeId === homeId &&
+				entry.nodeId === nodeId &&
+				entry.type === typeStr
+		);
+		if (!hostConfig) {
+			hostConfig = {
+				homeId,
+				nodeId,
+				type: typeStr,
+				networkKey: randomBytes(16).toString("hex"),
+			};
+			// TODO Config file should probably be automatically saved, otherwise any secure
+			// inclusions performed by this new controller would become unusable after restart,
+			// if the user didn't see this message.
+			console.warn(
+				`unknown homeId / nodeId / type, got homeId=0x${toHex(
+					homeId,
+					8
+				)} (${homeId}), nodeId=${nodeId}, type=${typeStr}, please add and adapt the following configuration:`,
+				hostConfig
+			);
+		}
+		const networkKey =
+			typeof hostConfig.networkKey === "string"
+				? Buffer.from(hostConfig.networkKey, "hex")
+				: Buffer.from(hostConfig.networkKey);
 
-	//await dumpMultiInstanceInfo(host, HomeDevices.KeukenKoelkast);
-	console.log("aanrecht =", await home.getKeukenAanrecht());
+		const nonceStore = new NonceStore();
+		const crypto = new CryptoManager(networkKey);
 
-	// SDS13783-14 - Encapsulation order overview
-	// 1. Encapsulated Command Class (payload), .e.g Basic Set
-	// 2. Multi Command
-	// 3. Supervision
-	// 4. Multi Channel
-	// 5. Any one of the following combinations:
-	//    a. Security (S0 or S2) followed by transport service
-	//    b. Transport Service
-	//    c. Security (S0 or S2)
-	//    d. CRC16
+		if (type !== ZwLibraryType.StaticController) {
+			throw new Error(
+				`only static controllers supported for now, connected device is ${typeStr}`
+			);
+		}
+		const controller = new Controller(homeId, nodeId, crypto, nonceStore);
+		return controller;
+	};
 
-	// Wait forever
-	console.log("---- DONE");
+	// Instantiate all controllers from configuration file
+	const controllers =
+		config.hosts?.map((hostConfig) =>
+			hostFactory(
+				hostConfig.homeId,
+				hostConfig.nodeId,
+				ZwLibraryType[hostConfig.type]
+			)
+		) ?? [];
 
-	// await protocol.softReset();
+	// My specific home only has one Z-Wave controller, which
+	// is the first entry in the config. So use that.
+	if (controllers.length > 0) {
+		const myController = controllers[0];
+		const home = new Home(myController);
+		const homeHub = new HomeHub(home, mhub, myController);
+		void homeHub;
+	}
 
-	// console.log("---- RESETTED");
+	// Add all pre-configured hosts to switchboard
+	const switchBoard = new SwitchBoard(hostFactory);
+	controllers.forEach((controller) => switchBoard.addHost(controller));
 
-	await new Promise(() => {});
-	console.log("wait returned?!");
+	// Start searching for Serial API devices and connecting them to hosts
+	while (true) {
+		const serialApi = await getSerialApi(config.serial);
+		await switchBoard.addDevice(serialApi);
+		await once(serialApi, "close");
+	}
 });

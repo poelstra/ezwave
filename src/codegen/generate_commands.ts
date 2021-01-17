@@ -1,16 +1,14 @@
 import * as assert from "assert";
 import main from "async-main";
-import { Parser } from "binary-parser";
 import * as Case from "case";
-import { mkdirSync, promises as pfs } from "fs";
+import { promises as pfs } from "fs";
 import * as path from "path";
 import "source-map-support/register";
 import * as jsonSpec from "../commands/jsonSpec";
 import * as spec from "../commands/spec";
 import {
-	convertToJsonCommand,
-	convertToJsonParams,
 	convertFromJsonCommandClass,
+	convertToJsonCommand,
 	getReferencePath,
 } from "../commands/specHelpers";
 
