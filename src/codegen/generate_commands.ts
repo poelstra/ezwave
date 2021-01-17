@@ -2,7 +2,7 @@ import * as assert from "assert";
 import main from "async-main";
 import { Parser } from "binary-parser";
 import * as Case from "case";
-import { promises as pfs } from "fs";
+import { mkdirSync, promises as pfs } from "fs";
 import * as path from "path";
 import "source-map-support/register";
 import * as jsonSpec from "../commands/jsonSpec";
@@ -147,11 +147,11 @@ class CommandClassGenerator {
 			` * Auto-generated, do not edit.`,
 			` */`,
 			``,
-			`import { CommandClassPacket, CommandPacket } from "../commands/command";`,
-			`import * as jsonSpec from "../commands/jsonSpec";`,
-			`import { Packet } from "../commands/packet";`,
-			`import { convertFromJsonCommand } from "../commands/specHelpers";`,
-			`import CommandClasses from "../generated/CommandClasses";`,
+			`import { CommandClassPacket, CommandPacket } from "../command";`,
+			`import * as jsonSpec from "../jsonSpec";`,
+			`import { Packet } from "../packet";`,
+			`import { convertFromJsonCommand } from "../specHelpers";`,
+			`import CommandClasses from "./CommandClasses";`,
 			``
 		);
 
@@ -523,11 +523,11 @@ class CommandClassGenerator {
 
 main(async () => {
 	const rootDir = path.resolve(".");
-	const outDir = path.resolve(rootDir, "src", "generated");
+	const outDir = path.resolve(rootDir, "src", "commands", "classes");
 
 	// Read JSON ZWave specification
 	const jsonText = await pfs.readFile(
-		path.resolve(rootDir, "src", "generated", "zwave.json"),
+		path.resolve(rootDir, "spec", "zwave.json"),
 		"utf8"
 	);
 	const spec = JSON.parse(jsonText) as jsonSpec.ZwaveSpec;
@@ -536,19 +536,7 @@ main(async () => {
 		"Unsupported JSON spec version"
 	);
 
-	const classes = spec.classes.map(convertFromJsonCommandClass);
-
-	// Iterate over JSON structure, generate our own structure
-	for (const cmdClass of classes) {
-		const lines = CommandClassGenerator.generate(cmdClass);
-
-		const className = `${cmdClass.name}V${cmdClass.version}`;
-		const filename = path.resolve(outDir, `${className}.ts`);
-		await pfs.writeFile(
-			filename,
-			lines.filter((l) => l !== undefined).join("\n")
-		);
-	}
+	await pfs.mkdir(outDir, { recursive: true });
 
 	// Build an enum of all available command classes.
 	// Note: COMMAND_CLASS_ALARM was renamed to COMMAND_CLASS_NOTIFICATION,
@@ -578,4 +566,17 @@ main(async () => {
 		path.resolve(outDir, "CommandClasses.ts"),
 		classesContents
 	);
+
+	// Iterate over JSON structure, generate our own structure
+	const classes = spec.classes.map(convertFromJsonCommandClass);
+	for (const cmdClass of classes) {
+		const lines = CommandClassGenerator.generate(cmdClass);
+
+		const className = `${cmdClass.name}V${cmdClass.version}`;
+		const filename = path.resolve(outDir, `${className}.ts`);
+		await pfs.writeFile(
+			filename,
+			lines.filter((l) => l !== undefined).join("\n")
+		);
+	}
 });

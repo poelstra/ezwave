@@ -4,7 +4,7 @@
 	"description": "Z-Wave controller daemon and protocol parser written in Typescript",
 	"main": "dist/server/index.js",
 	"scripts": {
-		"start": "node dist/server/index",
+		"start": "node dist/demo/index",
 		"build": "tsc",
 		"test": "mocha",
 		"regenerate": "node dist/codegen/xml2json && node dist/codegen/generate_commands",

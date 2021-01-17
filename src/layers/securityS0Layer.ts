@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import { Packet } from "../commands/packet";
 import { bufferToString } from "../common/util";
-import { SecurityV1 } from "../generated/SecurityV1";
+import { SecurityV1 } from "../commands/classes/SecurityV1";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
 import {

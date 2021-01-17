@@ -1,4 +1,4 @@
-import { parseCommandClasses } from "../server/commandClassInfo";
+import { parseCommandClasses } from "./commandClassInfo";
 import {
 	bufferToSet,
 	CodecDataError,

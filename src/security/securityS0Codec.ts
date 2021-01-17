@@ -10,7 +10,7 @@ import {
 	SecurityV1,
 	SecurityV1SecurityMessageEncapsulationData,
 	SecurityV1SecurityMessageEncapsulationNonceGetData,
-} from "../generated/SecurityV1";
+} from "../commands/classes/SecurityV1";
 import { CryptoManager } from "./cryptoManager";
 import { INonceLookup } from "./nonceStore";
 

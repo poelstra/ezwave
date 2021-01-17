@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Packet } from "../commands/packet";
-import { SecurityV1 } from "../generated/SecurityV1";
-import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
+import { SecurityV1 } from "../commands/classes/SecurityV1";
+import { SwitchMultilevelV1 } from "../commands/classes/SwitchMultilevelV1";
 import { DestinationType } from "../serialapi/serialapi";
 import {
 	Dispatch,

@@ -1,5 +1,5 @@
 import { Packet } from "../commands/packet";
-import { MultiChannelV3 } from "../generated/MultiChannelV3";
+import { MultiChannelV3 } from "../commands/classes/MultiChannelV3";
 import {
 	DispatchNext,
 	Layer,

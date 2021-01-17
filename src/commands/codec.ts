@@ -5,7 +5,6 @@
 import {
 	BitfieldElement,
 	IntegerParameter,
-	LengthType,
 	Parameter,
 	ParameterGroup,
 	ParamRefLengthInfo,

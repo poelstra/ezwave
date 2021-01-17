@@ -52,7 +52,7 @@ for creating diagnostic tooling (e.g. packet decoding in a web app).
 As mentioned, the system is composed of different building blocks:
 
 -   Serial API
--   Command class encoding/decoding
+-   Auto-generated command class encoding/decoding
 -   Host driver including Z-Wave transport layers
 -   (Future) Network daemon exposing the Host driver to other
     programs using HTTP, MQTT, etc.
@@ -203,13 +203,23 @@ the network daemon starts to take shape.
 -   Run `npm install`
 -   Run `npm test` to run all tests
 
-To start controlling your own home, take a look at `src/server/index.ts`
-for inspiration, copy it to another file and start hacking ;)
+To start controlling your own home, take a look at `src/demo/*`
+for inspiration, copy it to another folder and start hacking ;)
 
 -   Run `npm run build` to build
--   Run `node dist/server/yourfile` to start it
+-   Run `node dist/demo/index` to start it
+
+Detailed debug information from the protocol layers can be obtained
+by enabling the `zwave` debug namespace in the `DEBUG` environment
+variable:
+
+-   `DEBUG=zwave:* node dist/demo/index`
 
 VSCode is the recommended IDE to hack on it.
+
+In the future, the library will be split across separate NPM
+packages, such that this process will become easier. Drop me a
+note (in the issues) if you're already interested in this.
 
 ## Support
 

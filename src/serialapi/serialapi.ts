@@ -6,7 +6,7 @@ import { bufferToString, defer, Timer } from "../common/util";
 import {
 	CommandClassInfo,
 	parseCommandClassInfo,
-} from "../server/commandClassInfo";
+} from "../commands/commandClassInfo";
 import { Protocol } from "./protocol";
 import { SerialAPICommand } from "./serialApiCommand";
 

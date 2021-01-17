@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { Packet } from "../commands/packet";
 import { bufferToString } from "../common/util";
-import CommandClasses from "../generated/CommandClasses";
+import CommandClasses from "../commands/classes/CommandClasses";
 import { LayerCommand, LayerEvent, Sender } from "../layers/layer";
 import { MultiChannelLayer } from "../layers/multiChannel";
 import { Mapper, Requester } from "../layers/requester";

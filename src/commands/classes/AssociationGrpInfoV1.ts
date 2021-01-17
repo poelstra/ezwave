@@ -1,0 +1,620 @@
+/**
+ * Command Class Association Group Info, version 1.
+ *
+ * Auto-generated, do not edit.
+ */
+
+import { CommandClassPacket, CommandPacket } from "../command";
+import * as jsonSpec from "../jsonSpec";
+import { Packet } from "../packet";
+import { convertFromJsonCommand } from "../specHelpers";
+import CommandClasses from "./CommandClasses";
+
+export enum AssociationGrpInfoV1Commands {
+	AssociationGroupNameGet = 0x01,
+	AssociationGroupNameReport = 0x02,
+	AssociationGroupInfoGet = 0x03,
+	AssociationGroupInfoReport = 0x04,
+	AssociationGroupCommandListGet = 0x05,
+	AssociationGroupCommandListReport = 0x06,
+}
+
+export interface AssociationGrpInfoV1AssociationGroupNameGetData {
+	groupingIdentifier: number; // 1 byte unsigned integer
+}
+
+export interface AssociationGrpInfoV1AssociationGroupNameReportData {
+	groupingIdentifier: number; // 1 byte unsigned integer
+	name: string; // variable length
+}
+
+export interface AssociationGrpInfoV1AssociationGroupInfoGetData {
+	refreshCache: boolean; // properties1[7]
+	listMode: boolean; // properties1[6]
+	groupingIdentifier: number; // 1 byte unsigned integer
+}
+
+export interface AssociationGrpInfoV1AssociationGroupInfoReportData {
+	listMode: boolean; // properties1[7]
+	dynamicInfo: boolean; // properties1[6]
+	vg1: Array<{ // variable length
+		groupingIdentifier: number; // 1 byte unsigned integer
+		mode: number; // 1 byte unsigned integer
+		profile1: Profile1Enum; // 1 byte enum value
+		profile2: ProfileGeneralEnum | ProfileControlEnum; // enum chosen by vg1.profile1, 1 byte
+		eventCode: number; // 2 byte unsigned integer
+	}>;
+}
+
+export interface AssociationGrpInfoV1AssociationGroupCommandListGetData {
+	allowCache: boolean; // properties1[7]
+	groupingIdentifier: number; // 1 byte unsigned integer
+}
+
+export interface AssociationGrpInfoV1AssociationGroupCommandListReportData {
+	groupingIdentifier: number; // 1 byte unsigned integer
+	command: Buffer; // variable length
+}
+
+export enum Profile1Enum {
+	ProfileGeneral = 0x0,
+	ProfileControl = 0x20,
+	ProfileSensor = 0x31,
+	ProfileNotification = 0x71,
+}
+
+export enum ProfileGeneralEnum {
+	ProfileGeneralNA = 0x0,
+	ProfileGeneralLifeline = 0x1,
+}
+
+export enum ProfileControlEnum {
+	ProfileControlKEY01 = 0x1,
+	ProfileControlKEY02 = 0x2,
+	ProfileControlKEY03 = 0x3,
+	ProfileControlKEY04 = 0x4,
+	ProfileControlKEY05 = 0x5,
+	ProfileControlKEY06 = 0x6,
+	ProfileControlKEY07 = 0x7,
+	ProfileControlKEY08 = 0x8,
+	ProfileControlKEY09 = 0x9,
+	ProfileControlKEY10 = 0xa,
+	ProfileControlKEY11 = 0xb,
+	ProfileControlKEY12 = 0xc,
+	ProfileControlKEY13 = 0xd,
+	ProfileControlKEY14 = 0xe,
+	ProfileControlKEY15 = 0xf,
+	ProfileControlKEY16 = 0x10,
+	ProfileControlKEY17 = 0x11,
+	ProfileControlKEY18 = 0x12,
+	ProfileControlKEY19 = 0x13,
+	ProfileControlKEY20 = 0x14,
+	ProfileControlKEY21 = 0x15,
+	ProfileControlKEY22 = 0x16,
+	ProfileControlKEY23 = 0x17,
+	ProfileControlKEY24 = 0x18,
+	ProfileControlKEY25 = 0x19,
+	ProfileControlKEY26 = 0x1a,
+	ProfileControlKEY27 = 0x1b,
+	ProfileControlKEY28 = 0x1c,
+	ProfileControlKEY29 = 0x1d,
+	ProfileControlKEY30 = 0x1e,
+	ProfileControlKEY31 = 0x1f,
+	ProfileControlKEY32 = 0x20,
+}
+
+export class AssociationGrpInfoV1 extends CommandClassPacket<AssociationGrpInfoV1Commands> {
+	public static readonly commandClass = CommandClasses.AssociationGrpInfo; // 0x59 (89)
+
+	public static matches(packet: Packet): boolean {
+		return packet.commandClass === this.commandClass;
+	}
+
+	constructor(commandAndPayload: Buffer) {
+		super(AssociationGrpInfoV1, commandAndPayload);
+	}
+
+	public static readonly AssociationGroupNameGet = class AssociationGroupNameGet extends CommandPacket<AssociationGrpInfoV1AssociationGroupNameGetData> {
+		public static readonly CommandClass = AssociationGrpInfoV1;
+		public static readonly command = 0x01;
+		public static readonly definition = convertFromJsonCommand({
+			"command": 1,
+			"name": "AssociationGroupNameGet",
+			"help": "Association Group Name Get",
+			"status": "Active",
+			"params": [
+				{
+					"type": "Integer",
+					"name": "groupingIdentifier",
+					"help": "Grouping Identifier",
+					"length": 1
+				}
+			]
+		} as jsonSpec.CommandDefinition);
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(AssociationGrpInfoV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | AssociationGrpInfoV1AssociationGroupNameGetData) {
+			super(AssociationGroupNameGet, data);
+		}
+	};
+
+	public static readonly AssociationGroupNameReport = class AssociationGroupNameReport extends CommandPacket<AssociationGrpInfoV1AssociationGroupNameReportData> {
+		public static readonly CommandClass = AssociationGrpInfoV1;
+		public static readonly command = 0x02;
+		public static readonly definition = convertFromJsonCommand({
+			"command": 2,
+			"name": "AssociationGroupNameReport",
+			"help": "Association Group Name Report",
+			"status": "Active",
+			"params": [
+				{
+					"type": "Integer",
+					"name": "groupingIdentifier",
+					"help": "Grouping Identifier",
+					"length": 1
+				},
+				{
+					"type": "Integer",
+					"name": "lengthOfName",
+					"help": "Length of Name",
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							"name"
+						]
+					},
+					"isAutogenerated": true
+				},
+				{
+					"type": "Text",
+					"name": "name",
+					"help": "Name",
+					"length": {
+						"lengthType": "Ref",
+						"from": {
+							"ref": "lengthOfName"
+						}
+					}
+				}
+			]
+		} as jsonSpec.CommandDefinition);
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(AssociationGrpInfoV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | AssociationGrpInfoV1AssociationGroupNameReportData) {
+			super(AssociationGroupNameReport, data);
+		}
+	};
+
+	public static readonly AssociationGroupInfoGet = class AssociationGroupInfoGet extends CommandPacket<AssociationGrpInfoV1AssociationGroupInfoGetData> {
+		public static readonly CommandClass = AssociationGrpInfoV1;
+		public static readonly command = 0x03;
+		public static readonly definition = convertFromJsonCommand({
+			"command": 3,
+			"name": "AssociationGroupInfoGet",
+			"help": "Association Group Info Get",
+			"status": "Active",
+			"params": [
+				{
+					"type": "Bitfield",
+					"name": "properties1",
+					"help": "Properties1",
+					"length": 1,
+					"fields": [
+						{
+							"fieldType": "Boolean",
+							"name": "refreshCache",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"fieldType": "Boolean",
+							"name": "listMode",
+							"mask": 64,
+							"shift": 6
+						},
+						{
+							"fieldType": "Integer",
+							"name": "reserved",
+							"mask": 63,
+							"shift": 0,
+							"reserved": true
+						}
+					]
+				},
+				{
+					"type": "Integer",
+					"name": "groupingIdentifier",
+					"help": "Grouping Identifier",
+					"length": 1
+				}
+			]
+		} as jsonSpec.CommandDefinition);
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(AssociationGrpInfoV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | AssociationGrpInfoV1AssociationGroupInfoGetData) {
+			super(AssociationGroupInfoGet, data);
+		}
+	};
+
+	public static readonly AssociationGroupInfoReport = class AssociationGroupInfoReport extends CommandPacket<AssociationGrpInfoV1AssociationGroupInfoReportData> {
+		public static readonly CommandClass = AssociationGrpInfoV1;
+		public static readonly command = 0x04;
+		public static readonly definition = convertFromJsonCommand({
+			"command": 4,
+			"name": "AssociationGroupInfoReport",
+			"help": "Association Group Info Report",
+			"status": "Active",
+			"params": [
+				{
+					"type": "Bitfield",
+					"name": "properties1",
+					"help": "Properties1",
+					"length": 1,
+					"fields": [
+						{
+							"fieldType": "Boolean",
+							"name": "listMode",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"fieldType": "Boolean",
+							"name": "dynamicInfo",
+							"mask": 64,
+							"shift": 6
+						},
+						{
+							"fieldType": "Integer",
+							"name": "groupCount",
+							"mask": 63,
+							"shift": 0,
+							"lengthOf": {
+								"refs": [
+									"vg1"
+								]
+							},
+							"isAutogenerated": true
+						}
+					]
+				},
+				{
+					"type": "Group",
+					"name": "vg1",
+					"help": "vg1",
+					"length": {
+						"lengthType": "Ref",
+						"from": {
+							"ref": "properties1.groupCount"
+						}
+					},
+					"params": [
+						{
+							"type": "Integer",
+							"name": "groupingIdentifier",
+							"help": "Grouping Identifier",
+							"length": 1
+						},
+						{
+							"type": "Integer",
+							"name": "mode",
+							"help": "Mode",
+							"length": 1
+						},
+						{
+							"type": "Enum",
+							"name": "profile1",
+							"help": "Profile1",
+							"length": 1,
+							"values": {
+								"0": {
+									"name": "ProfileGeneral",
+									"help": "Profile General"
+								},
+								"32": {
+									"name": "ProfileControl",
+									"help": "Profile Control"
+								},
+								"49": {
+									"name": "ProfileSensor",
+									"help": "Profile Sensor"
+								},
+								"113": {
+									"name": "ProfileNotification",
+									"help": "Profile Notification"
+								}
+							}
+						},
+						{
+							"type": "EnumUnion",
+							"name": "profile2",
+							"help": "Profile2",
+							"length": 1,
+							"reference": {
+								"ref": "vg1.profile1"
+							},
+							"enums": {
+								"0": {
+									"0": {
+										"name": "ProfileGeneralNA",
+										"help": "Profile General NA"
+									},
+									"1": {
+										"name": "ProfileGeneralLifeline",
+										"help": "Profile General Lifeline"
+									}
+								},
+								"32": {
+									"1": {
+										"name": "ProfileControlKEY01",
+										"help": "Profile Control KEY01"
+									},
+									"2": {
+										"name": "ProfileControlKEY02",
+										"help": "Profile Control KEY02"
+									},
+									"3": {
+										"name": "ProfileControlKEY03",
+										"help": "Profile Control KEY03"
+									},
+									"4": {
+										"name": "ProfileControlKEY04",
+										"help": "Profile Control KEY04"
+									},
+									"5": {
+										"name": "ProfileControlKEY05",
+										"help": "Profile Control KEY05"
+									},
+									"6": {
+										"name": "ProfileControlKEY06",
+										"help": "Profile Control KEY06"
+									},
+									"7": {
+										"name": "ProfileControlKEY07",
+										"help": "Profile Control KEY07"
+									},
+									"8": {
+										"name": "ProfileControlKEY08",
+										"help": "Profile Control KEY08"
+									},
+									"9": {
+										"name": "ProfileControlKEY09",
+										"help": "Profile Control KEY09"
+									},
+									"10": {
+										"name": "ProfileControlKEY10",
+										"help": "Profile Control KEY10"
+									},
+									"11": {
+										"name": "ProfileControlKEY11",
+										"help": "Profile Control KEY11"
+									},
+									"12": {
+										"name": "ProfileControlKEY12",
+										"help": "Profile Control KEY12"
+									},
+									"13": {
+										"name": "ProfileControlKEY13",
+										"help": "Profile Control KEY13"
+									},
+									"14": {
+										"name": "ProfileControlKEY14",
+										"help": "Profile Control KEY14"
+									},
+									"15": {
+										"name": "ProfileControlKEY15",
+										"help": "Profile Control KEY15"
+									},
+									"16": {
+										"name": "ProfileControlKEY16",
+										"help": "Profile Control KEY16"
+									},
+									"17": {
+										"name": "ProfileControlKEY17",
+										"help": "Profile Control KEY17"
+									},
+									"18": {
+										"name": "ProfileControlKEY18",
+										"help": "Profile Control KEY18"
+									},
+									"19": {
+										"name": "ProfileControlKEY19",
+										"help": "Profile Control KEY19"
+									},
+									"20": {
+										"name": "ProfileControlKEY20",
+										"help": "Profile Control KEY20"
+									},
+									"21": {
+										"name": "ProfileControlKEY21",
+										"help": "Profile Control KEY21"
+									},
+									"22": {
+										"name": "ProfileControlKEY22",
+										"help": "Profile Control KEY22"
+									},
+									"23": {
+										"name": "ProfileControlKEY23",
+										"help": "Profile Control KEY23"
+									},
+									"24": {
+										"name": "ProfileControlKEY24",
+										"help": "Profile Control KEY24"
+									},
+									"25": {
+										"name": "ProfileControlKEY25",
+										"help": "Profile Control KEY25"
+									},
+									"26": {
+										"name": "ProfileControlKEY26",
+										"help": "Profile Control KEY26"
+									},
+									"27": {
+										"name": "ProfileControlKEY27",
+										"help": "Profile Control KEY27"
+									},
+									"28": {
+										"name": "ProfileControlKEY28",
+										"help": "Profile Control KEY28"
+									},
+									"29": {
+										"name": "ProfileControlKEY29",
+										"help": "Profile Control KEY29"
+									},
+									"30": {
+										"name": "ProfileControlKEY30",
+										"help": "Profile Control KEY30"
+									},
+									"31": {
+										"name": "ProfileControlKEY31",
+										"help": "Profile Control KEY31"
+									},
+									"32": {
+										"name": "ProfileControlKEY32",
+										"help": "Profile Control KEY32"
+									}
+								}
+							}
+						},
+						{
+							"type": "Integer",
+							"name": "reserved",
+							"help": "Reserved",
+							"length": 1,
+							"reserved": true
+						},
+						{
+							"type": "Integer",
+							"name": "eventCode",
+							"help": "Event Code",
+							"length": 2
+						}
+					]
+				}
+			]
+		} as jsonSpec.CommandDefinition);
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(AssociationGrpInfoV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | AssociationGrpInfoV1AssociationGroupInfoReportData) {
+			super(AssociationGroupInfoReport, data);
+		}
+	};
+
+	public static readonly AssociationGroupCommandListGet = class AssociationGroupCommandListGet extends CommandPacket<AssociationGrpInfoV1AssociationGroupCommandListGetData> {
+		public static readonly CommandClass = AssociationGrpInfoV1;
+		public static readonly command = 0x05;
+		public static readonly definition = convertFromJsonCommand({
+			"command": 5,
+			"name": "AssociationGroupCommandListGet",
+			"help": "Association Group Command List Get",
+			"status": "Active",
+			"params": [
+				{
+					"type": "Bitfield",
+					"name": "properties1",
+					"help": "Properties1",
+					"length": 1,
+					"fields": [
+						{
+							"fieldType": "Boolean",
+							"name": "allowCache",
+							"mask": 128,
+							"shift": 7
+						},
+						{
+							"fieldType": "Integer",
+							"name": "reserved",
+							"mask": 127,
+							"shift": 0,
+							"reserved": true
+						}
+					]
+				},
+				{
+					"type": "Integer",
+					"name": "groupingIdentifier",
+					"help": "Grouping Identifier",
+					"length": 1
+				}
+			]
+		} as jsonSpec.CommandDefinition);
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(AssociationGrpInfoV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | AssociationGrpInfoV1AssociationGroupCommandListGetData) {
+			super(AssociationGroupCommandListGet, data);
+		}
+	};
+
+	public static readonly AssociationGroupCommandListReport = class AssociationGroupCommandListReport extends CommandPacket<AssociationGrpInfoV1AssociationGroupCommandListReportData> {
+		public static readonly CommandClass = AssociationGrpInfoV1;
+		public static readonly command = 0x06;
+		public static readonly definition = convertFromJsonCommand({
+			"command": 6,
+			"name": "AssociationGroupCommandListReport",
+			"help": "Association Group Command List Report",
+			"status": "Active",
+			"params": [
+				{
+					"type": "Integer",
+					"name": "groupingIdentifier",
+					"help": "Grouping Identifier",
+					"length": 1
+				},
+				{
+					"type": "Integer",
+					"name": "listLength",
+					"help": "List Length",
+					"length": 1,
+					"lengthOf": {
+						"refs": [
+							"command"
+						]
+					},
+					"isAutogenerated": true
+				},
+				{
+					"type": "Blob",
+					"name": "command",
+					"help": "Command",
+					"length": {
+						"lengthType": "Ref",
+						"from": {
+							"ref": "listLength"
+						}
+					}
+				}
+			]
+		} as jsonSpec.CommandDefinition);
+
+		static matches(packet: Packet): boolean {
+			return packet.tryAs(AssociationGrpInfoV1)?.command === this.command;
+		}
+
+		constructor(data: Buffer | AssociationGrpInfoV1AssociationGroupCommandListReportData) {
+			super(AssociationGroupCommandListReport, data);
+		}
+	};
+}
+
+export namespace AssociationGrpInfoV1 {
+	export type AssociationGroupNameGet = InstanceType<typeof AssociationGrpInfoV1.AssociationGroupNameGet>;
+	export type AssociationGroupNameReport = InstanceType<typeof AssociationGrpInfoV1.AssociationGroupNameReport>;
+	export type AssociationGroupInfoGet = InstanceType<typeof AssociationGrpInfoV1.AssociationGroupInfoGet>;
+	export type AssociationGroupInfoReport = InstanceType<typeof AssociationGrpInfoV1.AssociationGroupInfoReport>;
+	export type AssociationGroupCommandListGet = InstanceType<typeof AssociationGrpInfoV1.AssociationGroupCommandListGet>;
+	export type AssociationGroupCommandListReport = InstanceType<typeof AssociationGrpInfoV1.AssociationGroupCommandListReport>;
+}

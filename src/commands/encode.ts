@@ -1,4 +1,4 @@
-import { encodeCommandClasses } from "../server/commandClassInfo";
+import { encodeCommandClasses } from "./commandClassInfo";
 import {
 	CodecDataError,
 	CodecDefinitionError,

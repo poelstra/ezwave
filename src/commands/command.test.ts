@@ -7,7 +7,7 @@
 
 import { expect } from "chai";
 import { Packet } from "./packet";
-import { SwitchMultilevelV1 } from "../generated/SwitchMultilevelV1";
+import { SwitchMultilevelV1 } from "./classes/SwitchMultilevelV1";
 
 describe("command", () => {
 	it("can encode complete packet", () => {

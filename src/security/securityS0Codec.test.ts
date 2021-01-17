@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { Packet } from "../commands/packet";
-import { SecurityV1 } from "../generated/SecurityV1";
+import { SecurityV1 } from "../commands/classes/SecurityV1";
 import { CryptoManager } from "./cryptoManager";
 import { bufferToNonce, INonceLookup, Nonce } from "./nonceStore";
 import { SecurityS0Codec } from "./securityS0Codec";
