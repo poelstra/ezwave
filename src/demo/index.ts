@@ -1,6 +1,7 @@
 import main from "async-main";
 import { randomBytes } from "crypto";
 import { once } from "events";
+import * as path from "path";
 import * as SerialPort from "serialport";
 import "source-map-support/register";
 import { Duplex } from "stream";
@@ -111,8 +112,10 @@ main(async () => {
 	prefixTimestamp(console, "warn");
 	prefixTimestamp(console, "error");
 
-	console.log("Reading configuration...");
-	const config = require("../../config.json") as Config;
+	const configPath =
+		process.argv[2] ?? path.resolve(__dirname, "../../config.json");
+	console.log(`Reading configuration from ${configPath}`);
+	const config = require(configPath) as Config;
 
 	// if (!config.serial) {
 	// 	throw new Error(
