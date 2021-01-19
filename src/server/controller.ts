@@ -106,12 +106,6 @@ export class Controller
 		if (this._serialApi) {
 			this._serialApi.on("event", this._serialApiEventHandler);
 			this._serialApi.on("close", this._serialApiCloseHandler);
-			// TODO serialApi can be reinitialized, e.g. soft reset,
-			// need to handle that too
-			const nodes = this._serialApi.getNodes();
-			for (const node of nodes) {
-				console.log("NODE", node);
-			}
 		}
 	}
 

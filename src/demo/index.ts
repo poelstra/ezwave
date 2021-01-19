@@ -1,52 +1,24 @@
 import main from "async-main";
 import { randomBytes } from "crypto";
-import { once } from "events";
 import * as path from "path";
-import * as SerialPort from "serialport";
 import "source-map-support/register";
 import { Duplex } from "stream";
-import { delay, toHex } from "../common/util";
+import { toHex } from "../common/util";
 import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { Framer } from "../serialapi/framer";
 import { Protocol } from "../serialapi/protocol";
 import { SerialApi, ZwLibraryType } from "../serialapi/serialapi";
 import { Controller } from "../server/controller";
+import {
+	DEFAULT_SUPPORTED_ZWAVE_USB_IDS,
+	SerialPortScanner,
+	SerialPortScannerOptions,
+} from "../server/serialPortScanner";
 import { SwitchBoard } from "../server/switchBoard";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Hub } from "./hub";
-
-const SUPPORTED_USB_IDS = [
-	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
-];
-
-async function open(portName?: string): Promise<SerialPort> {
-	if (!portName) {
-		const ports = await SerialPort.list();
-		const zwaveSticks = ports.filter((port) =>
-			SUPPORTED_USB_IDS.some(
-				(id) => id === `${port.vendorId}:${port.productId}`
-			)
-		);
-		if (zwaveSticks.length === 0) {
-			throw new Error("no supported Z-Wave controller found");
-		}
-		portName = zwaveSticks[0].comName; // TODO support multiple sticks?
-	}
-	return new Promise<SerialPort>((resolve, reject) => {
-		const port: SerialPort = new SerialPort(
-			portName!,
-			{
-				baudRate: 115200,
-				parity: "none",
-				dataBits: 8,
-				stopBits: 1,
-			},
-			(err) => (err ? reject(err) : resolve(port))
-		);
-	});
-}
 
 function prefixTimestamp(console: Console, method: keyof Console): void {
 	const origMethod = console[method] as (this: any, ...args: any[]) => void;
@@ -68,7 +40,7 @@ interface HostConfig {
 }
 
 interface Config {
-	serial?: string;
+	serial?: SerialPortScannerOptions;
 	hosts?: HostConfig[];
 	mhub: {
 		url: string;
@@ -77,29 +49,12 @@ interface Config {
 	};
 }
 
-async function getSerialApi(
-	serialPort: string | undefined
-): Promise<SerialApi> {
-	console.log("Connecting to Z-Wave device...");
-	let port: Duplex | undefined;
-	let shownWarning = false;
-	while (!port) {
-		try {
-			port = await open(serialPort);
-		} catch (err) {
-			if (!shownWarning) {
-				console.warn(
-					`Error opening Z-Wave port, retrying: ${err.message}`
-				);
-				shownWarning = true;
-			}
-			await delay(3000);
-		}
-	}
-	port.on("close", () => console.log("serial port closed"));
-	console.log("serial port opened");
+async function serialApiFromPort(port: Duplex): Promise<SerialApi> {
 	const framer = new Framer(port);
 	const protocol = new Protocol(framer);
+	// Hard-reset port once we detect it's stuck
+	protocol.on("stuck", () => port.destroy());
+	// We're working with a USB port, which is hard-resetted
 	await protocol.hardResetted();
 	const serialApi = new SerialApi(protocol);
 	await serialApi.init();
@@ -117,13 +72,7 @@ main(async () => {
 	console.log(`Reading configuration from ${configPath}`);
 	const config = require(configPath) as Config;
 
-	// if (!config.serial) {
-	// 	throw new Error(
-	// 		"missing serial port in config, please set `serial` property in `config.json`"
-	// 	);
-	// }
-
-	// Start connection to MHub
+	// Start connection to MHub pubsub daemon
 	const mhub = new Hub(config.mhub.url, config.mhub.user, config.mhub.pass);
 	main(() => mhub.run());
 
@@ -200,9 +149,19 @@ main(async () => {
 	controllers.forEach((controller) => switchBoard.addHost(controller));
 
 	// Start searching for Serial API devices and connecting them to hosts
-	while (true) {
-		const serialApi = await getSerialApi(config.serial);
-		await switchBoard.addDevice(serialApi);
-		await once(serialApi, "close");
+	const scannerOptions: SerialPortScannerOptions = {
+		expectedPorts: Math.min(controllers.length, 1),
+		...config.serial,
+	};
+	if (
+		(!scannerOptions.matches || scannerOptions.matches.length === 0) &&
+		(!scannerOptions.ports || scannerOptions.ports.length === 0)
+	) {
+		scannerOptions.matches = DEFAULT_SUPPORTED_ZWAVE_USB_IDS;
 	}
+	const scanner = new SerialPortScanner(scannerOptions, async (port) => {
+		const serialApi = await serialApiFromPort(port);
+		await switchBoard.addDevice(serialApi);
+	});
+	await scanner.run();
 });

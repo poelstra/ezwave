@@ -130,3 +130,26 @@ export async function timeout<T>(
 		);
 	});
 }
+
+export class InterruptibleSleep {
+	private _trigger = defer<void>();
+
+	public async sleep(timeoutInMs: number): Promise<void> {
+		let handle: NodeJS.Timer;
+		try {
+			await Promise.race([
+				this._trigger.promise,
+				new Promise(
+					(resolve) => (handle = setTimeout(resolve, timeoutInMs))
+				),
+			]);
+		} finally {
+			clearTimeout(handle!);
+		}
+	}
+
+	public interrupt(): void {
+		this._trigger.resolve();
+		this._trigger = defer();
+	}
+}
