@@ -141,6 +141,7 @@ export enum Status3Enum {
 
 export class FirmwareUpdateMdV5 extends CommandClassPacket<FirmwareUpdateMdV5Commands> {
 	public static readonly commandClass = CommandClasses.FirmwareUpdateMd; // 0x7a (122)
+	public static readonly version = 5;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

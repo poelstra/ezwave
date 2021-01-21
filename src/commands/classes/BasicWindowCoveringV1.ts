@@ -22,6 +22,7 @@ export interface BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData {
 // Obsolete
 export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoveringV1Commands> {
 	public static readonly commandClass = CommandClasses.BasicWindowCovering; // 0x50 (80)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

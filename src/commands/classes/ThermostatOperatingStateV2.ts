@@ -73,6 +73,7 @@ export enum BitMaskEnum {
 
 export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOperatingStateV2Commands> {
 	public static readonly commandClass = CommandClasses.ThermostatOperatingState; // 0x42 (66)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

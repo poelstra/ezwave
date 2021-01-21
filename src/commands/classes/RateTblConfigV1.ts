@@ -38,6 +38,7 @@ export interface RateTblConfigV1RateTblSetData {
 
 export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands> {
 	public static readonly commandClass = CommandClasses.RateTblConfig; // 0x48 (72)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

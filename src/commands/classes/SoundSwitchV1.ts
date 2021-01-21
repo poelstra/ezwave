@@ -57,6 +57,7 @@ export interface SoundSwitchV1SoundSwitchTonePlayReportData {
 
 export class SoundSwitchV1 extends CommandClassPacket<SoundSwitchV1Commands> {
 	public static readonly commandClass = CommandClasses.SoundSwitch; // 0x79 (121)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

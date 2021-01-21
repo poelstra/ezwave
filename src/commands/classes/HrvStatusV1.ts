@@ -55,6 +55,7 @@ export enum BitMaskEnum {
 
 export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 	public static readonly commandClass = CommandClasses.HrvStatus; // 0x37 (55)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

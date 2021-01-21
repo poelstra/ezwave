@@ -75,6 +75,7 @@ export enum OverrideStateEnum {
 // Deprecated
 export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlScheduleV1Commands> {
 	public static readonly commandClass = CommandClasses.ClimateControlSchedule; // 0x46 (70)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

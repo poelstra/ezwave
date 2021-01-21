@@ -168,6 +168,7 @@ export enum BitMaskEnum {
 
 export class SensorMultilevelV9 extends CommandClassPacket<SensorMultilevelV9Commands> {
 	public static readonly commandClass = CommandClasses.SensorMultilevel; // 0x31 (49)
+	public static readonly version = 9;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

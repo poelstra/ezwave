@@ -40,6 +40,7 @@ export interface MeterTblPushV1MeterTblPushConfigurationSetData {
 
 export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 	public static readonly commandClass = CommandClasses.MeterTblPush; // 0x3e (62)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -41,6 +41,7 @@ export interface MeterV3MeterSupportedReportData {
 
 export class MeterV3 extends CommandClassPacket<MeterV3Commands> {
 	public static readonly commandClass = CommandClasses.Meter; // 0x32 (50)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

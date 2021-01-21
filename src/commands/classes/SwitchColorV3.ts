@@ -68,6 +68,7 @@ export enum Duration2Enum {
 
 export class SwitchColorV3 extends CommandClassPacket<SwitchColorV3Commands> {
 	public static readonly commandClass = CommandClasses.SwitchColor; // 0x33 (51)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -34,6 +34,7 @@ export interface SceneControllerConfV1SceneControllerConfSetData {
 
 export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerConfV1Commands> {
 	public static readonly commandClass = CommandClasses.SceneControllerConf; // 0x2d (45)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

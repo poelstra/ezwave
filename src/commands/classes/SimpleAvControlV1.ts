@@ -42,6 +42,7 @@ export interface SimpleAvControlV1SimpleAvControlSupportedReportData {
 
 export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Commands> {
 	public static readonly commandClass = CommandClasses.SimpleAvControl; // 0x94 (148)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

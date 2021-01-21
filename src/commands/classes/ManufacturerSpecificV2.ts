@@ -45,6 +45,7 @@ export enum DeviceIdDataFormatEnum {
 
 export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpecificV2Commands> {
 	public static readonly commandClass = CommandClasses.ManufacturerSpecific; // 0x72 (114)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

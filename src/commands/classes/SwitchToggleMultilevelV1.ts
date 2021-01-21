@@ -31,6 +31,7 @@ export interface SwitchToggleMultilevelV1SwitchToggleMultilevelStartLevelChangeD
 // Deprecated
 export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMultilevelV1Commands> {
 	public static readonly commandClass = CommandClasses.SwitchToggleMultilevel; // 0x29 (41)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

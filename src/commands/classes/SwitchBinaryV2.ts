@@ -50,6 +50,7 @@ export enum Duration2Enum {
 
 export class SwitchBinaryV2 extends CommandClassPacket<SwitchBinaryV2Commands> {
 	public static readonly commandClass = CommandClasses.SwitchBinary; // 0x25 (37)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

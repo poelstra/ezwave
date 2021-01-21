@@ -27,6 +27,7 @@ export enum SensorValueEnum {
 // Deprecated
 export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 	public static readonly commandClass = CommandClasses.SensorBinary; // 0x30 (48)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

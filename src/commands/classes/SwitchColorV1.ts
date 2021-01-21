@@ -53,6 +53,7 @@ export interface SwitchColorV1SwitchColorStopLevelChangeData {
 
 export class SwitchColorV1 extends CommandClassPacket<SwitchColorV1Commands> {
 	public static readonly commandClass = CommandClasses.SwitchColor; // 0x33 (51)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

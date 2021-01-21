@@ -46,6 +46,7 @@ export enum BalanceTypeEnum {
 
 export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 	public static readonly commandClass = CommandClasses.Prepayment; // 0x3f (63)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

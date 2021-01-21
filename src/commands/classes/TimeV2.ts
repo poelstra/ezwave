@@ -63,6 +63,7 @@ export interface TimeV2TimeReportData {
 
 export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 	public static readonly commandClass = CommandClasses.Time; // 0x8a (138)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

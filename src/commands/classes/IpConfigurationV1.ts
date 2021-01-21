@@ -42,6 +42,7 @@ export interface IpConfigurationV1IpConfigurationSetData {
 // Obsolete
 export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Commands> {
 	public static readonly commandClass = CommandClasses.IpConfiguration; // 0x9a (154)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

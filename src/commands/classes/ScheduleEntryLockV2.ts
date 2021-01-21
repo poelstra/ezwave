@@ -121,6 +121,7 @@ export interface ScheduleEntryLockV2ScheduleEntryTypeSupportedReportData {
 // Deprecated
 export class ScheduleEntryLockV2 extends CommandClassPacket<ScheduleEntryLockV2Commands> {
 	public static readonly commandClass = CommandClasses.ScheduleEntryLock; // 0x4e (78)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

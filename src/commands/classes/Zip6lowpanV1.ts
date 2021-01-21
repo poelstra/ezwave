@@ -32,6 +32,7 @@ export interface Zip6lowpanV1LowpanSubsequentFragmentData {
 
 export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 	public static readonly commandClass = CommandClasses.Zip6lowpan; // 0x4f (79)
+	public static readonly version = 1;
 	public static readonly commandMask = 0xf8;
 
 	public static matches(packet: Packet): boolean {

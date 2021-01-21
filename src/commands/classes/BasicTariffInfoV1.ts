@@ -29,6 +29,7 @@ export interface BasicTariffInfoV1BasicTariffInfoReportData {
 
 export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Commands> {
 	public static readonly commandClass = CommandClasses.BasicTariffInfo; // 0x36 (54)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

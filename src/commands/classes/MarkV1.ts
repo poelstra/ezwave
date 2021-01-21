@@ -15,6 +15,7 @@ export enum MarkV1Commands {
 
 export class MarkV1 extends CommandClassPacket<MarkV1Commands> {
 	public static readonly commandClass = CommandClasses.Mark; // 0xef (239)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

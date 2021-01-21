@@ -107,6 +107,7 @@ export enum StatusEnum {
 
 export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManagementProxyV2Commands> {
 	public static readonly commandClass = CommandClasses.NetworkManagementProxy; // 0x52 (82)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -26,6 +26,7 @@ export interface BasicV1BasicSetData {
 
 export class BasicV1 extends CommandClassPacket<BasicV1Commands> {
 	public static readonly commandClass = CommandClasses.Basic; // 0x20 (32)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

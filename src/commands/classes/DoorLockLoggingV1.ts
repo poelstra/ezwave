@@ -42,6 +42,7 @@ export interface DoorLockLoggingV1RecordReportData {
 
 export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Commands> {
 	public static readonly commandClass = CommandClasses.DoorLockLogging; // 0x4c (76)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -23,6 +23,7 @@ export interface ManufacturerSpecificV1ManufacturerSpecificReportData {
 
 export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpecificV1Commands> {
 	public static readonly commandClass = CommandClasses.ManufacturerSpecific; // 0x72 (114)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

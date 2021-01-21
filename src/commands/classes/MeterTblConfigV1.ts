@@ -20,6 +20,7 @@ export interface MeterTblConfigV1MeterTblTablePointAdmNoSetData {
 
 export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Commands> {
 	public static readonly commandClass = CommandClasses.MeterTblConfig; // 0x3c (60)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

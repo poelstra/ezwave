@@ -21,6 +21,7 @@ export interface SceneActivationV1SceneActivationSetData {
 
 export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Commands> {
 	public static readonly commandClass = CommandClasses.SceneActivation; // 0x2b (43)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

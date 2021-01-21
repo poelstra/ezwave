@@ -140,6 +140,7 @@ export enum PropertySupportedBitMaskEnum {
 
 export class IndicatorV2 extends CommandClassPacket<IndicatorV2Commands> {
 	public static readonly commandClass = CommandClasses.Indicator; // 0x87 (135)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

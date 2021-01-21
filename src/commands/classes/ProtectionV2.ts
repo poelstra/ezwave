@@ -59,6 +59,7 @@ export interface ProtectionV2ProtectionTimeoutSetData {
 
 export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 	public static readonly commandClass = CommandClasses.Protection; // 0x75 (117)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

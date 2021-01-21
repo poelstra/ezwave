@@ -123,6 +123,7 @@ export enum KeypadModeEnum {
 
 export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 	public static readonly commandClass = CommandClasses.UserCode; // 0x63 (99)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

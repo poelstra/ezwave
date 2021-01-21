@@ -17,6 +17,7 @@ export enum HailV1Commands {
 // Obsolete
 export class HailV1 extends CommandClassPacket<HailV1Commands> {
 	public static readonly commandClass = CommandClasses.Hail; // 0x82 (130)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

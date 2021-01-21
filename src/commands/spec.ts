@@ -1,6 +1,20 @@
 /**
- * Helpers for reading JSON definition and parsing it
- * into an somewhat easier runtime representation.
+ * Z-Wave command class definitions.
+ *
+ * These definitions are derived from the official Z-Wave XML specification,
+ * and converted into a format more suitable for code generators and automated
+ * packet decoders/encoders.
+ *
+ * All definitions that have a `Mode` generic parameter are shared
+ * between the on-disk JSON version of the spec, and the in-memory
+ * Javascript version of the spec.
+ *
+ * @see `jsonSpec.ts` for the definitions of on-disk JSON-specific
+ * types.
+ *
+ * @see `specHelpers.ts` for utilities to parse the on-disk version
+ * of the spec into the in-memory version, automatically replacing
+ * string-based references with actual object references.
  */
 
 export type CommandClassNumber = number;

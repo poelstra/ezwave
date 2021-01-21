@@ -125,6 +125,7 @@ export enum EventTypeSupportedBitMaskEnum {
 
 export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 	public static readonly commandClass = CommandClasses.EntryControl; // 0x6f (111)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

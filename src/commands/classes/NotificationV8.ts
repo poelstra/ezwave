@@ -118,6 +118,7 @@ export enum BitMaskEnum {
 
 export class NotificationV8 extends CommandClassPacket<NotificationV8Commands> {
 	public static readonly commandClass = CommandClasses.Notification; // 0x71 (113)
+	public static readonly version = 8;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

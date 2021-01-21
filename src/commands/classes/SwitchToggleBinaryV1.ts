@@ -23,6 +23,7 @@ export interface SwitchToggleBinaryV1SwitchToggleBinaryReportData {
 // Deprecated
 export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV1Commands> {
 	public static readonly commandClass = CommandClasses.SwitchToggleBinary; // 0x28 (40)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

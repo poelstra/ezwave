@@ -96,6 +96,7 @@ export enum DoorLockModeEnum {
 
 export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 	public static readonly commandClass = CommandClasses.DoorLock; // 0x62 (98)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -44,6 +44,7 @@ export interface IpAssociationV1IpAssociationRemoveData {
 
 export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands> {
 	public static readonly commandClass = CommandClasses.IpAssociation; // 0x5c (92)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

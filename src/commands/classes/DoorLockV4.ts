@@ -114,6 +114,7 @@ export enum DoorLockModeEnum {
 
 export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 	public static readonly commandClass = CommandClasses.DoorLock; // 0x62 (98)
+	public static readonly version = 4;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -47,6 +47,7 @@ export enum SensorTypeEnum {
 
 export class SensorMultilevelV3 extends CommandClassPacket<SensorMultilevelV3Commands> {
 	public static readonly commandClass = CommandClasses.SensorMultilevel; // 0x31 (49)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

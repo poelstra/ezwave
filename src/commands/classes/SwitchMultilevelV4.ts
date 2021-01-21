@@ -72,6 +72,7 @@ export enum IncDecEnum {
 
 export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Commands> {
 	public static readonly commandClass = CommandClasses.SwitchMultilevel; // 0x26 (38)
+	public static readonly version = 4;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

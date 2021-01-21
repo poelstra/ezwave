@@ -122,6 +122,7 @@ export enum RecurrenceModeEnum {
 
 export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 	public static readonly commandClass = CommandClasses.Schedule; // 0x53 (83)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

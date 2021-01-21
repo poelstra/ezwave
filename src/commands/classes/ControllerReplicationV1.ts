@@ -44,6 +44,7 @@ export interface ControllerReplicationV1CtrlReplicationTransferSceneNameData {
 
 export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplicationV1Commands> {
 	public static readonly commandClass = CommandClasses.ControllerReplication; // 0x21 (33)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -33,6 +33,7 @@ export interface ZipV3CommandZipPacketData {
 
 export class ZipV3 extends CommandClassPacket<ZipV3Commands> {
 	public static readonly commandClass = CommandClasses.Zip; // 0x23 (35)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -6,15 +6,9 @@ import { CommandDefinition } from "./spec";
 
 export interface CommandClassDescriptor extends CommandMatcher {
 	commandClass: CommandClasses;
+	version: number;
 	commandMask?: number;
 }
-
-export type OldCommandCodec<T extends object | void> = {
-	CommandClass: CommandClassDescriptor;
-	command: number;
-	encode(payload: T): Buffer;
-	decode(commandAndPayload: Buffer): T;
-};
 
 export type CommandCodec = {
 	CommandClass: CommandClassDescriptor;
@@ -24,6 +18,7 @@ export type CommandCodec = {
 
 export abstract class CommandClassPacket<C extends number> extends Packet {
 	public readonly command: C;
+	public readonly version: number;
 
 	constructor(
 		CommandClass: CommandClassDescriptor,
@@ -32,20 +27,7 @@ export abstract class CommandClassPacket<C extends number> extends Packet {
 		super(CommandClass.commandClass, commandAndPayload);
 		const mask = CommandClass.commandMask ?? 0xff;
 		this.command = (this.commandAndPayload[0] & mask) as C;
-	}
-}
-
-export abstract class OldCommandPacket<T extends object | void> extends Packet {
-	public readonly command: number; // TODO make enum
-	public readonly data: T; // TODO make 'immutable'
-
-	constructor(codec: OldCommandCodec<T>, data: T | Buffer) {
-		super(
-			codec.CommandClass.commandClass,
-			Buffer.isBuffer(data) ? data : codec.encode(data)
-		);
-		this.command = codec.command;
-		this.data = Buffer.isBuffer(data) ? codec.decode(data) : data;
+		this.version = CommandClass.version;
 	}
 }
 

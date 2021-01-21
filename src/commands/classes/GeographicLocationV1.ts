@@ -36,6 +36,7 @@ export interface GeographicLocationV1GeographicLocationSetData {
 
 export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV1Commands> {
 	public static readonly commandClass = CommandClasses.GeographicLocation; // 0x8c (140)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

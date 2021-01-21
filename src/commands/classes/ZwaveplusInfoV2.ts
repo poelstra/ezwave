@@ -41,6 +41,7 @@ export enum NodeTypeEnum {
 
 export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands> {
 	public static readonly commandClass = CommandClasses.ZwaveplusInfo; // 0x5e (94)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

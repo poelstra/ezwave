@@ -36,6 +36,7 @@ export interface TransportServiceV1CommandSubsequentFragmentData {
 // Obsolete
 export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Commands> {
 	public static readonly commandClass = CommandClasses.TransportService; // 0x55 (85)
+	public static readonly version = 1;
 	public static readonly commandMask = 0xf8;
 
 	public static matches(packet: Packet): boolean {

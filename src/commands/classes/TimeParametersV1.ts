@@ -36,6 +36,7 @@ export interface TimeParametersV1TimeParametersSetData {
 
 export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Commands> {
 	public static readonly commandClass = CommandClasses.TimeParameters; // 0x8b (139)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

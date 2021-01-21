@@ -79,6 +79,7 @@ export interface MultiChannelV2MultiInstanceReportData {
 // Obsolete
 export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 	public static readonly commandClass = CommandClasses.MultiChannel; // 0x60 (96)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

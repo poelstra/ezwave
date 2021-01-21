@@ -78,6 +78,7 @@ export interface MultiChannelV3MultiInstanceReportData {
 
 export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 	public static readonly commandClass = CommandClasses.MultiChannel; // 0x60 (96)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

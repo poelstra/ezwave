@@ -67,6 +67,7 @@ export interface NodeProvisioningV1NodeProvisioningReportData {
 
 export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Commands> {
 	public static readonly commandClass = CommandClasses.NodeProvisioning; // 0x78 (120)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

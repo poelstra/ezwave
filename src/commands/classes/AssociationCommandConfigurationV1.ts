@@ -53,6 +53,7 @@ export interface AssociationCommandConfigurationV1CommandRecordsSupportedReportD
 
 export class AssociationCommandConfigurationV1 extends CommandClassPacket<AssociationCommandConfigurationV1Commands> {
 	public static readonly commandClass = CommandClasses.AssociationCommandConfiguration; // 0x9b (155)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

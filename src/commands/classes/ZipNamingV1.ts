@@ -37,6 +37,7 @@ export interface ZipNamingV1ZipNamingLocationReportData {
 
 export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 	public static readonly commandClass = CommandClasses.ZipNaming; // 0x68 (104)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

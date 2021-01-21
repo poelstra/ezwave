@@ -151,6 +151,7 @@ export interface ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingSetData {
 // Deprecated
 export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3Commands> {
 	public static readonly commandClass = CommandClasses.ScheduleEntryLock; // 0x4e (78)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

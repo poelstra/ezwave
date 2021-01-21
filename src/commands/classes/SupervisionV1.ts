@@ -38,6 +38,7 @@ export enum StatusEnum {
 
 export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 	public static readonly commandClass = CommandClasses.Supervision; // 0x6c (108)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -109,6 +109,7 @@ export interface ScheduleV2ScheduleStateReportData {
 
 export class ScheduleV2 extends CommandClassPacket<ScheduleV2Commands> {
 	public static readonly commandClass = CommandClasses.Schedule; // 0x53 (83)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

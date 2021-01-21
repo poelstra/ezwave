@@ -21,6 +21,7 @@ export interface RemoteAssociationActivateV1RemoteAssociationActivateData {
 // Obsolete
 export class RemoteAssociationActivateV1 extends CommandClassPacket<RemoteAssociationActivateV1Commands> {
 	public static readonly commandClass = CommandClasses.RemoteAssociationActivate; // 0x7c (124)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

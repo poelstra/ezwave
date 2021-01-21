@@ -78,6 +78,7 @@ export enum Type2Enum {
 
 export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPacket<NetworkManagementInstallationMaintenanceV1Commands> {
 	public static readonly commandClass = CommandClasses.NetworkManagementInstallationMaintenance; // 0x67 (103)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -39,6 +39,7 @@ export interface ZipV4CommandZipKeepAliveData {
 
 export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
 	public static readonly commandClass = CommandClasses.Zip; // 0x23 (35)
+	public static readonly version = 4;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

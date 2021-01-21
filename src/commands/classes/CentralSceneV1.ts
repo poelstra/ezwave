@@ -28,6 +28,7 @@ export interface CentralSceneV1CentralSceneNotificationData {
 
 export class CentralSceneV1 extends CommandClassPacket<CentralSceneV1Commands> {
 	public static readonly commandClass = CommandClasses.CentralScene; // 0x5b (91)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

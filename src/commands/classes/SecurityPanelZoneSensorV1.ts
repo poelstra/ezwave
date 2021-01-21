@@ -54,6 +54,7 @@ export interface SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateReportData
 
 export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZoneSensorV1Commands> {
 	public static readonly commandClass = CommandClasses.SecurityPanelZoneSensor; // 0x2f (47)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -225,6 +225,7 @@ class CommandClassGenerator {
 				}; // 0x${this._class.commandClass
 					.toString(16)
 					.padStart(2, "0")} (${this._class.commandClass})`,
+				`public static readonly version = ${this._class.version};`,
 			])
 		);
 		if (commandMask) {

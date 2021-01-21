@@ -72,6 +72,7 @@ export enum Mode2Enum {
 
 export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 	public static readonly commandClass = CommandClasses.Mailbox; // 0x69 (105)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

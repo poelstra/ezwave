@@ -33,6 +33,7 @@ export enum FanOperatingStateEnum {
 
 export class ThermostatFanStateV2 extends CommandClassPacket<ThermostatFanStateV2Commands> {
 	public static readonly commandClass = CommandClasses.ThermostatFanState; // 0x45 (69)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

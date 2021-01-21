@@ -40,6 +40,7 @@ export enum StatusEnum {
 
 export class InclusionControllerV1 extends CommandClassPacket<InclusionControllerV1Commands> {
 	public static readonly commandClass = CommandClasses.InclusionController; // 0x74 (116)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -47,6 +47,7 @@ export enum UserIdStatusEnum {
 
 export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 	public static readonly commandClass = CommandClasses.UserCode; // 0x63 (99)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

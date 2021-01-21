@@ -24,6 +24,7 @@ export interface MultiCmdV1MultiCmdEncapData {
 
 export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 	public static readonly commandClass = CommandClasses.MultiCmd; // 0x8f (143)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

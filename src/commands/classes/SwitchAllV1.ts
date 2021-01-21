@@ -35,6 +35,7 @@ export enum ModeEnum {
 
 export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 	public static readonly commandClass = CommandClasses.SwitchAll; // 0x27 (39)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

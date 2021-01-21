@@ -49,6 +49,7 @@ export interface DmxV1DmxDataData {
 
 export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 	public static readonly commandClass = CommandClasses.Dmx; // 0x65 (101)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

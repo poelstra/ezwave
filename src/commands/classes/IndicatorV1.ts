@@ -26,6 +26,7 @@ export interface IndicatorV1IndicatorSetData {
 
 export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 	public static readonly commandClass = CommandClasses.Indicator; // 0x87 (135)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

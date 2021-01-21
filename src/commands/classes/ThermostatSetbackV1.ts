@@ -35,6 +35,7 @@ export enum SetbackTypeEnum {
 
 export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1Commands> {
 	public static readonly commandClass = CommandClasses.ThermostatSetback; // 0x47 (71)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

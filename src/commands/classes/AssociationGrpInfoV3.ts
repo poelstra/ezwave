@@ -158,6 +158,7 @@ export enum ProfileNotificationEnum {
 
 export class AssociationGrpInfoV3 extends CommandClassPacket<AssociationGrpInfoV3Commands> {
 	public static readonly commandClass = CommandClasses.AssociationGrpInfo; // 0x59 (89)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

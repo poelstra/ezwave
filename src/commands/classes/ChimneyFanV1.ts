@@ -257,6 +257,7 @@ export enum State2Enum {
 
 export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 	public static readonly commandClass = CommandClasses.ChimneyFan; // 0x2a (42)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

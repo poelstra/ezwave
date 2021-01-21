@@ -85,6 +85,7 @@ export enum ModeEnum {
 
 export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 	public static readonly commandClass = CommandClasses.ZipGateway; // 0x5f (95)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

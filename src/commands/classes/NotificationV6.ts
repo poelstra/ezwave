@@ -103,6 +103,7 @@ export enum BitMaskEnum {
 // Deprecated
 export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 	public static readonly commandClass = CommandClasses.Notification; // 0x71 (113)
+	public static readonly version = 6;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

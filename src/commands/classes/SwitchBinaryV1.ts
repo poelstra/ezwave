@@ -26,6 +26,7 @@ export interface SwitchBinaryV1SwitchBinarySetData {
 
 export class SwitchBinaryV1 extends CommandClassPacket<SwitchBinaryV1Commands> {
 	public static readonly commandClass = CommandClasses.SwitchBinary; // 0x25 (37)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

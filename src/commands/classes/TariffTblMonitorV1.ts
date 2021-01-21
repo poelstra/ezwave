@@ -77,6 +77,7 @@ export interface TariffTblMonitorV1TariffTblSupplierReportData {
 
 export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Commands> {
 	public static readonly commandClass = CommandClasses.TariffTblMonitor; // 0x4b (75)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

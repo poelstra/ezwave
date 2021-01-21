@@ -15,6 +15,7 @@ export enum NonInteroperableV1Commands {
 
 export class NonInteroperableV1 extends CommandClassPacket<NonInteroperableV1Commands> {
 	public static readonly commandClass = CommandClasses.NonInteroperable; // 0xf0 (240)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

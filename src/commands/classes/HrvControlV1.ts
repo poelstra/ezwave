@@ -78,6 +78,7 @@ export enum BitMaskEnum {
 
 export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 	public static readonly commandClass = CommandClasses.HrvControl; // 0x39 (57)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -126,6 +126,7 @@ export enum TxOptionsEnum {
 
 export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkManagementInclusionV1Commands> {
 	public static readonly commandClass = CommandClasses.NetworkManagementInclusion; // 0x34 (52)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

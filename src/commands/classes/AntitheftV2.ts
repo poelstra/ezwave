@@ -31,6 +31,7 @@ export interface AntitheftV2AntitheftReportData {
 
 export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 	public static readonly commandClass = CommandClasses.Antitheft; // 0x5d (93)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

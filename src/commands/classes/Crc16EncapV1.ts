@@ -23,6 +23,7 @@ export interface Crc16EncapV1Crc16EncapData {
 
 export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 	public static readonly commandClass = CommandClasses.Crc16Encap; // 0x56 (86)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

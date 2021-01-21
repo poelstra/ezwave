@@ -34,6 +34,7 @@ export interface SensorAlarmV1SensorAlarmSupportedReportData {
 
 export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 	public static readonly commandClass = CommandClasses.SensorAlarm; // 0x9c (156)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

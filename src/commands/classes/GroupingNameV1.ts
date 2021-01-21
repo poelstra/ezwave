@@ -35,6 +35,7 @@ export interface GroupingNameV1GroupingNameSetData {
 // Deprecated
 export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 	public static readonly commandClass = CommandClasses.GroupingName; // 0x7b (123)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

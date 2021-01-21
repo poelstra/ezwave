@@ -90,6 +90,7 @@ export interface MultiChannelV4MultiChannelAggregatedMembersReportData {
 
 export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 	public static readonly commandClass = CommandClasses.MultiChannel; // 0x60 (96)
+	public static readonly version = 4;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -56,6 +56,7 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationSetData {
 // Obsolete
 export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstanceAssociationV1Commands> {
 	public static readonly commandClass = CommandClasses.MultiInstanceAssociation; // 0x8e (142)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

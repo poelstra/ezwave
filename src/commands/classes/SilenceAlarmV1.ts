@@ -22,6 +22,7 @@ export interface SilenceAlarmV1SensorAlarmSetData {
 
 export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
 	public static readonly commandClass = CommandClasses.SilenceAlarm; // 0x9d (157)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

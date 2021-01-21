@@ -98,6 +98,7 @@ export enum Scale2Enum {
 
 export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityControlSetpointV1Commands> {
 	public static readonly commandClass = CommandClasses.HumidityControlSetpoint; // 0x64 (100)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

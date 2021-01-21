@@ -17,6 +17,7 @@ export enum AvTaggingMdV1Commands {
 
 export class AvTaggingMdV1 extends CommandClassPacket<AvTaggingMdV1Commands> {
 	public static readonly commandClass = CommandClasses.AvTaggingMd; // 0x99 (153)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

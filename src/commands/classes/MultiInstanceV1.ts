@@ -35,6 +35,7 @@ export interface MultiInstanceV1MultiInstanceReportData {
 // Obsolete
 export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands> {
 	public static readonly commandClass = CommandClasses.MultiInstance; // 0x60 (96)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -35,6 +35,7 @@ export interface SceneActuatorConfV1SceneActuatorConfSetData {
 
 export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1Commands> {
 	public static readonly commandClass = CommandClasses.SceneActuatorConf; // 0x2c (44)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

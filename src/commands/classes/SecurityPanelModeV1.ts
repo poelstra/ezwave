@@ -32,6 +32,7 @@ export interface SecurityPanelModeV1SecurityPanelModeSupportedReportData {
 
 export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1Commands> {
 	public static readonly commandClass = CommandClasses.SecurityPanelMode; // 0x24 (36)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -32,6 +32,7 @@ export enum StatusEnum {
 
 export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1Commands> {
 	public static readonly commandClass = CommandClasses.ApplicationStatus; // 0x22 (34)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

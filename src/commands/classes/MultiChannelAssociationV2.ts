@@ -61,6 +61,7 @@ export interface MultiChannelAssociationV2MultiChannelAssociationSetData {
 
 export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAssociationV2Commands> {
 	public static readonly commandClass = CommandClasses.MultiChannelAssociation; // 0x8e (142)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

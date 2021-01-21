@@ -106,6 +106,7 @@ export enum FormatEnum {
 
 export class ConfigurationV3 extends CommandClassPacket<ConfigurationV3Commands> {
 	public static readonly commandClass = CommandClasses.Configuration; // 0x70 (112)
+	public static readonly version = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

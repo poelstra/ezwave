@@ -28,6 +28,7 @@ export interface LanguageV1LanguageSetData {
 
 export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 	public static readonly commandClass = CommandClasses.Language; // 0x89 (137)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

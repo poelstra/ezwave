@@ -72,6 +72,7 @@ export enum SubsystemStateEnum {
 
 export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Commands> {
 	public static readonly commandClass = CommandClasses.BarrierOperator; // 0x66 (102)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

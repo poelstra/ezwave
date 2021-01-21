@@ -17,6 +17,7 @@ export enum AvRendererStatusV1Commands {
 
 export class AvRendererStatusV1 extends CommandClassPacket<AvRendererStatusV1Commands> {
 	public static readonly commandClass = CommandClasses.AvRendererStatus; // 0x96 (150)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

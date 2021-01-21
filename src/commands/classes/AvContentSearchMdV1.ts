@@ -17,6 +17,7 @@ export enum AvContentSearchMdV1Commands {
 
 export class AvContentSearchMdV1 extends CommandClassPacket<AvContentSearchMdV1Commands> {
 	public static readonly commandClass = CommandClasses.AvContentSearchMd; // 0x97 (151)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

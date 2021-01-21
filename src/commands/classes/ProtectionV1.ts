@@ -32,6 +32,7 @@ export enum ProtectionStateEnum {
 
 export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 	public static readonly commandClass = CommandClasses.Protection; // 0x75 (117)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -24,6 +24,7 @@ export interface ScreenAttributesV1ScreenAttributesReportData {
 
 export class ScreenAttributesV1 extends CommandClassPacket<ScreenAttributesV1Commands> {
 	public static readonly commandClass = CommandClasses.ScreenAttributes; // 0x93 (147)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

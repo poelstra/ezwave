@@ -60,6 +60,7 @@ export interface ConfigurationV2ConfigurationSetData {
 
 export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands> {
 	public static readonly commandClass = CommandClasses.Configuration; // 0x70 (112)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

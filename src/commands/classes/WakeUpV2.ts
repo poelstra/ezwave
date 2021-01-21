@@ -39,6 +39,7 @@ export interface WakeUpV2WakeUpIntervalSetData {
 
 export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 	public static readonly commandClass = CommandClasses.WakeUp; // 0x84 (132)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

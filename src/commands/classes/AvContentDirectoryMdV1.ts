@@ -23,6 +23,7 @@ export enum AvContentDirectoryMdV1Commands {
 
 export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirectoryMdV1Commands> {
 	public static readonly commandClass = CommandClasses.AvContentDirectoryMd; // 0x95 (149)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -46,6 +46,7 @@ export enum BitMaskEnum {
 
 export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlModeV2Commands> {
 	public static readonly commandClass = CommandClasses.HumidityControlMode; // 0x6d (109)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

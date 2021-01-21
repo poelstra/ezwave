@@ -35,6 +35,7 @@ export interface SensorConfigurationV1SensorTriggerLevelSetData {
 // Obsolete
 export class SensorConfigurationV1 extends CommandClassPacket<SensorConfigurationV1Commands> {
 	public static readonly commandClass = CommandClasses.SensorConfiguration; // 0x9e (158)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -35,6 +35,7 @@ export interface ScreenMdV1ScreenMdReportData {
 
 export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 	public static readonly commandClass = CommandClasses.ScreenMd; // 0x92 (146)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

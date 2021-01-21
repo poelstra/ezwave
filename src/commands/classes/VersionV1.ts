@@ -36,6 +36,7 @@ export interface VersionV1VersionReportData {
 
 export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 	public static readonly commandClass = CommandClasses.Version; // 0x86 (134)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

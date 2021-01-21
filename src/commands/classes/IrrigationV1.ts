@@ -198,6 +198,7 @@ export enum SensorUsageEnum {
 
 export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 	public static readonly commandClass = CommandClasses.Irrigation; // 0x6b (107)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

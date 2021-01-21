@@ -27,6 +27,7 @@ export interface LockV1LockSetData {
 // Deprecated
 export class LockV1 extends CommandClassPacket<LockV1Commands> {
 	public static readonly commandClass = CommandClasses.Lock; // 0x76 (118)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

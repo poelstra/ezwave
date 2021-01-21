@@ -18,6 +18,7 @@ export enum ZensorNetV1Commands {
 
 export class ZensorNetV1 extends CommandClassPacket<ZensorNetV1Commands> {
 	public static readonly commandClass = CommandClasses.ZensorNet; // 0x02 (2)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -68,6 +68,7 @@ export enum RateType2Enum {
 
 export class MeterV4 extends CommandClassPacket<MeterV4Commands> {
 	public static readonly commandClass = CommandClasses.Meter; // 0x32 (50)
+	public static readonly version = 4;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

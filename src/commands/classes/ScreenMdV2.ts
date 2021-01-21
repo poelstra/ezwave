@@ -51,6 +51,7 @@ export interface ScreenMdV2ScreenMdReportLegacyData {
 
 export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 	public static readonly commandClass = CommandClasses.ScreenMd; // 0x92 (146)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

@@ -22,6 +22,7 @@ export interface MeterPulseV1MeterPulseReportData {
 // Deprecated
 export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 	public static readonly commandClass = CommandClasses.MeterPulse; // 0x35 (53)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

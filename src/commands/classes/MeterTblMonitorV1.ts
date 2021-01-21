@@ -146,6 +146,7 @@ export enum PayMeterEnum {
 
 export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Commands> {
 	public static readonly commandClass = CommandClasses.MeterTblMonitor; // 0x3d (61)
+	public static readonly version = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

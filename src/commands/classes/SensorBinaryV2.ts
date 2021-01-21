@@ -56,6 +56,7 @@ export enum BitMaskEnum {
 // Deprecated
 export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 	public static readonly commandClass = CommandClasses.SensorBinary; // 0x30 (48)
+	public static readonly version = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
