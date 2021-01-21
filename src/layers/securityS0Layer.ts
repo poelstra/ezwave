@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
-import { Packet } from "../commands/packet";
-import { bufferToString } from "../common/util";
+import debug from "debug";
 import { SecurityV1 } from "../commands/classes/SecurityV1";
+import { Packet } from "../commands/packet";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
 import {
@@ -12,7 +12,10 @@ import {
 	Sender,
 	SendNext,
 } from "./layer";
+import { layerCommandToString, layerEventToString } from "./print";
 import { Requester } from "./requester";
+
+const log = debug("zwave:layers:securitys0");
 
 export class SecurityS0Layer implements Layer {
 	private _requester = new Requester();
@@ -83,7 +86,7 @@ export class SecurityS0Layer implements Layer {
 			sender = this._makeSecureSender(sender);
 		}
 
-		console.log("SecurityS0 decoded", decodedEvent);
+		log("decoded", layerEventToString(decodedEvent));
 		return next(decodedEvent, sender);
 	}
 
@@ -108,10 +111,7 @@ export class SecurityS0Layer implements Layer {
 		send: Sender
 	): Promise<boolean> {
 		if (command.secure) {
-			console.log(
-				"SecurityS0 sending secure message, fetch nonce for",
-				command
-			);
+			log("fetch nonce");
 			const nonceEvent = await this._requester.sendAndWaitFor(
 				{
 					endpoint: command.endpoint,
@@ -134,11 +134,12 @@ export class SecurityS0Layer implements Layer {
 				nonceEvent.packet.data.nonce,
 				false
 			);
-			console.log("SecurityS0 got nonce, sending secure message");
-			return send.send({
+			const encapCmd: LayerCommand = {
 				...command,
 				packet: encapsulated,
-			});
+			};
+			log("received nonce, encoded", layerCommandToString(encapCmd));
+			return send.send(encapCmd);
 		} else {
 			return send.send(command);
 		}
@@ -150,20 +151,18 @@ export class SecurityS0Layer implements Layer {
 	): Promise<void> {
 		if (this._nonceStore.canGenerateNonce()) {
 			const nonce = this._nonceStore.generate(event.endpoint.nodeId);
-			console.log(
-				`-> received S0 nonce get request, sending SECURITY_NONCE_REPORT nonce=[${bufferToString(
-					nonce.data
-				)}]`
-			);
-			await send.send({
+			const nonceCmd: LayerCommand = {
 				endpoint: { nodeId: event.endpoint.nodeId },
 				packet: new SecurityV1.SecurityNonceReport({
 					nonce: nonce.data,
 				}),
-			});
+			};
+			log(`send nonce report, cmd=${layerCommandToString(nonceCmd)}`);
+			await send.send(nonceCmd);
 		} else {
-			console.log(
-				`-> received S0 nonce get request, but nonce store is full, ignoring request`
+			log(
+				`warn`,
+				`received nonce get request, but nonce store is full, ignoring request`
 			);
 		}
 	}

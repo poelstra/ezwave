@@ -1,9 +1,10 @@
+import debug from "debug";
 import { EventEmitter } from "events";
+import { packetToString } from "../commands/debug";
 import { Packet } from "../commands/packet";
-import { bufferToString } from "../common/util";
-import CommandClasses from "../commands/classes/CommandClasses";
 import { LayerCommand, LayerEvent, Sender } from "../layers/layer";
 import { MultiChannelLayer } from "../layers/multiChannel";
+import { layerCommandToString, layerEventToString } from "../layers/print";
 import { Mapper, Requester } from "../layers/requester";
 import { SecurityS0Layer } from "../layers/securityS0Layer";
 import { Stack } from "../layers/stack";
@@ -11,11 +12,14 @@ import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
 import {
-	SerialApiEvent,
 	rxStatusToString,
 	SerialApi,
+	SerialApiEvent,
 } from "../serialapi/serialapi";
 import { IZwaveHost } from "./IZwaveHost";
+
+const log = debug("zwave:controller");
+const logData = debug("zwave:controller:data");
 
 export enum ControllerState {
 	Constructed,
@@ -40,9 +44,15 @@ export class Controller
 	private _state: ControllerState = ControllerState.Constructed;
 	private _serialApiEventHandler = (event: SerialApiEvent) =>
 		this._handleSerialEvent(event).catch((err: unknown) =>
-			console.warn(`error dispatching serial event to stack:`, event, err)
+			log(
+				`warning:`,
+				`error dispatching serial event to stack:`,
+				event,
+				err
+			)
 		);
 	private _serialApiCloseHandler = () => this.assignSerialApi(undefined);
+	private _transactionId = 0; // Used for debug logging
 
 	constructor(
 		homeId: number,
@@ -110,6 +120,9 @@ export class Controller
 	}
 
 	send(command: LayerCommand): Promise<boolean> {
+		if (log.enabled) {
+			log("send", layerCommandToString(command));
+		}
 		return this._stack.send(command);
 	}
 
@@ -117,6 +130,13 @@ export class Controller
 		command: LayerCommand,
 		mapper: Mapper<T>
 	): Promise<LayerEvent<T>> {
+		const transactionId = this._transactionId++;
+		if (log.enabled) {
+			log(
+				"sendAndWaitFor send",
+				`id=${transactionId} ${layerCommandToString(command)}`
+			);
+		}
 		const reply = await this._requester.sendAndWaitFor(
 			command,
 			(command) => this._stack.send(command),
@@ -126,23 +146,32 @@ export class Controller
 			// TODO inconvenient
 			throw new Error("error waiting for packet, send filtered out");
 		}
+		if (log.enabled) {
+			log(
+				"sendAndWaitFor result",
+				`id=${transactionId} ${layerEventToString(reply)}`
+			);
+		}
 		return reply;
 	}
 
 	private _handleStackDispatch(event: LayerEvent<Packet>): void {
 		this._requester.dispatch(event);
+		if (log.enabled) {
+			log(`emit event ${layerEventToString(event)}`);
+		}
 		this.emit("event", event);
 	}
 
 	private async _handleSerialEvent(event: SerialApiEvent): Promise<void> {
 		const packet = new Packet(event.data);
-		console.log(
-			`EVENT fromNode=${event.sourceNode} cmdClass=${
-				CommandClasses[packet.commandClass]
-			} cmdAndPayload=[${bufferToString(
-				packet.commandAndPayload
-			)}] rxStatus=${rxStatusToString(event.rxStatus)}`
-		);
+		if (logData.enabled) {
+			logData(
+				`receive from=${event.sourceNode} rxStatus=${rxStatusToString(
+					event.rxStatus
+				)} packet=${packetToString(packet)}`
+			);
+		}
 		await this._stack.dispatch({
 			packetType: event.rxStatus.destinationType,
 			endpoint: {

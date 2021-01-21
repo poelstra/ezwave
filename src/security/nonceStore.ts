@@ -6,7 +6,10 @@
  */
 
 import { randomBytes } from "crypto";
+import debug from "debug";
 import { bufferToString } from "../common/util";
+
+const log = debug("zwave:security:noncestore");
 
 export type NonceId = number;
 
@@ -200,8 +203,7 @@ export class NonceStore implements INonceLookup {
 		nodeNonces.add(nonceEntry);
 		this._nonces.set(nonce.id, nonceEntry);
 
-		console.log(
-			"NONCE",
+		log(
 			`generated requestingNode=${
 				nonceEntry.requestingNode
 			} nonceId=0x${nonceEntry.nonce.id.toString(
@@ -252,8 +254,7 @@ export class NonceStore implements INonceLookup {
 		this._nonces.delete(nonceEntry.nonce.id);
 		this._nodeNonces.get(nonceEntry.requestingNode)?.delete(nonceEntry);
 		// TODO make an event out of this
-		console.log(
-			"NONCE",
+		log(
 			`released requestingNode=${
 				nonceEntry.requestingNode
 			} nonceId=0x${nonceEntry.nonce.id.toString(16)} reason=${reason}`

@@ -70,7 +70,7 @@ export interface Protocol {
 	 * to us.
 	 */
 	on(
-		event: "message",
+		event: "callback",
 		listener: (command: number, params: Buffer) => void
 	): this;
 
@@ -444,7 +444,7 @@ export class Protocol extends EventEmitter {
 						await this._sendRaw(ACK_FRAME);
 						if (logData.enabled) {
 							logData(
-								"message",
+								"callback",
 								`cmd=${serialApiCommandToString(
 									frame.command
 								)} params=[${
@@ -454,7 +454,7 @@ export class Protocol extends EventEmitter {
 								}]`
 							);
 						}
-						this._safeEmit("message", frame.command, frame.params);
+						this._safeEmit("callback", frame.command, frame.params);
 						break;
 					case DataType.RES:
 						this._invalidFrames = 0;

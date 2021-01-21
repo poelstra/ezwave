@@ -226,7 +226,7 @@ export class SerialApi extends EventEmitter {
 		super();
 		this._protocol = protocol;
 
-		this._protocol.on("message", (command, params) =>
+		this._protocol.on("callback", (command, params) =>
 			this._handleMessage(command, params)
 		);
 		this._protocol.on("error", (error) => this.emit("error", error));
@@ -483,7 +483,7 @@ export class SerialApi extends EventEmitter {
 
 	public async zwRequestNodeInfo(nodeId: number): Promise<NodeInfo> {
 		return this._requests.add(async () => {
-			console.log("\tBEGIN ZW_REQUEST_NODE_INFO", `node=${nodeId}`);
+			log("zwRequestNodeInfo request", `node=${nodeId}`);
 			const params = Buffer.from([nodeId]);
 
 			const returnValue = await this._protocol.request(
@@ -492,20 +492,26 @@ export class SerialApi extends EventEmitter {
 			);
 			// TODO dedup this logic
 			if (returnValue.length !== 1) {
+				log(
+					"zwRequestNodeInfo",
+					"failed: invalid response from serial chip"
+				);
 				throw new Error("invalid response from serial chip");
 			}
 			if (returnValue[0] === 0) {
-				console.log("\tEND ZW_REQUEST_NODE_INFO", "FAILED");
+				log(
+					"zwRequestNodeInfo",
+					"failed: command accepted by serial chip, but could not be delivered to network"
+				);
 				throw new Error(
 					"command accepted by serial chip, but could not be delivered to network"
 				);
 			}
 
 			// Reply expected, in the form of a ZW_SEND_DATA REQuest from serial chip to us
-			const sendResult = await this._waitForREQ(
+			const nodeInfo = await this._waitForREQ(
 				ZW_SEND_DATA_TIMEOUT,
 				(command: SerialAPICommand, params: Buffer) => {
-					console.log("WAIT", SerialAPICommand[command], params);
 					if (command !== SerialAPICommand.ZW_APPLICATION_UPDATE) {
 						return;
 					}
@@ -547,21 +553,12 @@ export class SerialApi extends EventEmitter {
 				}
 			);
 
-			console.log(
-				"\tEND ZW_REQUEST_NODE_INFO",
-				`sendResult=`,
-				sendResult
-			);
-			return sendResult;
+			log("zwRequestNodeInfo", `result=`, nodeInfo);
+			return nodeInfo;
 		});
 	}
 
 	private _handleMessage(command: SerialAPICommand, params: Buffer): void {
-		console.log(
-			`\tSERIALAPI CALLBACK command=${
-				SerialAPICommand[command]
-			} params=[${bufferToString(params)}]`
-		);
 		if (command === SerialAPICommand.APPLICATION_COMMAND_HANDLER) {
 			const rxStatus = parseRxStatus(params[0]);
 			const sourceNode = params[1];
@@ -574,6 +571,7 @@ export class SerialApi extends EventEmitter {
 				sourceNode,
 				data: payload,
 			};
+			log("emit event", event);
 			process.nextTick(() => this.emit("event", event));
 		}
 	}
@@ -593,7 +591,7 @@ export class SerialApi extends EventEmitter {
 				waiter.reject(err);
 			}
 		};
-		this._protocol.on("message", messageHandler);
+		this._protocol.on("callback", messageHandler);
 		const timer = new Timer(timeout, () =>
 			waiter.reject(new Error("timeout"))
 		);
@@ -603,7 +601,7 @@ export class SerialApi extends EventEmitter {
 			result = await waiter.promise;
 		} finally {
 			timer.stop();
-			this._protocol.removeListener("message", messageHandler);
+			this._protocol.removeListener("callback", messageHandler);
 		}
 		return result;
 	}
@@ -622,8 +620,8 @@ export class SerialApi extends EventEmitter {
 
 		// TODO INS13954 4.3.3.1.6 Exception recovery: If a timeout occurs, it is important to call ZW_SendDataAbortto stop the sending of the frame
 
-		console.log(
-			"\tBEGIN ZW_SEND_DATA",
+		log(
+			"zwSendData",
 			`node=${nodeId}`,
 			`payload=[${bufferToString(data)}]`
 		);
@@ -648,10 +646,14 @@ export class SerialApi extends EventEmitter {
 			params
 		);
 		if (returnValue.length !== 1) {
+			log("zwSendData", "failed: invalid response from serial chip");
 			throw new Error("invalid response from serial chip");
 		}
 		if (returnValue[0] === 0) {
-			console.log("\tEND ZW_SEND_DATA", "FAILED");
+			log(
+				"zwSendData",
+				"failed: command accepted by serial chip, but could not be delivered to network"
+			);
 			throw new Error(
 				"command accepted by serial chip, but could not be delivered to network"
 			);
@@ -674,29 +676,34 @@ export class SerialApi extends EventEmitter {
 				}
 				// Spec: INS13954, 4.3.3.1.7
 				if (params[0] !== funcId) {
-					console.warn(`unexpected callback ID received, ignoring`);
+					log("warn", `unexpected callback ID received, ignoring`);
 					return;
 				}
 				const txStatus: TxStatus = params[1];
 				if (txStatus !== 0) {
 					// txStatus
-					console.warn(
+					log(
+						"warn",
 						`error sending command (received code ${txStatus} (${TxStatus[txStatus]}))`
 					);
 					return false;
 				}
+				let transmitTime: number | undefined;
 				if (params.length >= 4) {
 					// DevKit 6.51+ added time measurement to response
-					const transmitTime = params.readUInt16BE(2) * 10; // in ms
-					console.log(
-						`\tZW_SEND_DATA transmit time ${transmitTime}ms`
-					);
+					transmitTime = params.readUInt16BE(2) * 10; // in ms
 				}
+				log(
+					`zwSendData ok${
+						transmitTime !== undefined
+							? `, transmitTime=${transmitTime}ms`
+							: ""
+					}`
+				);
 				return true;
 			}
 		);
 
-		console.log("\tEND ZW_SEND_DATA", `sendResult=${sendResult}`);
 		return sendResult;
 	}
 

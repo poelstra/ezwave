@@ -67,6 +67,12 @@ main(async () => {
 	prefixTimestamp(console, "warn");
 	prefixTimestamp(console, "error");
 
+	if (!process.env.DEBUG) {
+		console.info(
+			"Tip: use `DEBUG=zwave:*` to enable verbose debug info, or e.g. `DEBUG=zwave:*,-zwave:framer:data` for less detail."
+		);
+	}
+
 	const configPath =
 		process.argv[2] ?? path.resolve(__dirname, "../../config.json");
 	console.log(`Reading configuration from ${configPath}`);

@@ -1,5 +1,6 @@
-import { Packet } from "../commands/packet";
+import debug from "debug";
 import { MultiChannelV3 } from "../commands/classes/MultiChannelV3";
+import { Packet } from "../commands/packet";
 import {
 	DispatchNext,
 	Layer,
@@ -8,7 +9,10 @@ import {
 	Sender,
 	SendNext,
 } from "./layer";
+import { layerCommandToString, layerEventToString } from "./print";
 import { Requester } from "./requester";
+
+const log = debug("zwave:layers:multichannel");
 
 export class MultiChannelLayer implements Layer {
 	private _requester = new Requester();
@@ -46,7 +50,7 @@ export class MultiChannelLayer implements Layer {
 		// TODO Force sends to always go back to the same channel?
 		sender = this._makeMultiChannelSender(sender);
 
-		console.log("MultiChannel decoded", decodedEvent);
+		log("decoded", layerEventToString(decodedEvent));
 		return next(decodedEvent, sender);
 	}
 
@@ -80,11 +84,13 @@ export class MultiChannelLayer implements Layer {
 				bitAddress: false,
 				command: command.packet,
 			});
-			return send.send({
+			const encapsulatedCmd: LayerCommand = {
 				...command,
 				endpoint: { nodeId: command.endpoint.nodeId, channel: 0 },
 				packet: encapsulated,
-			});
+			};
+			log("encoded", layerCommandToString(encapsulatedCmd));
+			return send.send(encapsulatedCmd);
 		} else {
 			return send.send(command);
 		}

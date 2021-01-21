@@ -96,7 +96,7 @@ describe("SerialAPI protocol", () => {
 		framer = new FakeFramer();
 		protocol = new Protocol(framer);
 		protocolMessages = [];
-		protocol.on("message", (command, params) =>
+		protocol.on("callback", (command, params) =>
 			protocolMessages.push({ command, params })
 		);
 		protocolEvents = [];
@@ -580,7 +580,7 @@ describe("SerialAPI protocol", () => {
 	});
 
 	it("emits error and closes when event handler fails", async () => {
-		protocol.on("message", (_command, _params) => {
+		protocol.on("callback", (_command, _params) => {
 			throw new Error("boom");
 		});
 		framer.emitData(DataType.REQ, 1);
