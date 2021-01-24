@@ -45,7 +45,7 @@ export interface NetworkManagementProxyV1NodeListReportData {
 	seqNo: number; // 1 byte unsigned integer
 	status: number; // 1 byte unsigned integer
 	nodeListControllerId: number; // 1 byte unsigned integer
-	nodeListData: Set<number>; // automatic length
+	nodeListData: Set<number /* Node ID */>; // automatic length
 }
 
 export enum StatusEnum {
@@ -329,7 +329,8 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 					"help": "Node List Data",
 					"length": {
 						"lengthType": "Auto"
-					}
+					},
+					"bitmaskType": "NodeNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

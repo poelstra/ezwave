@@ -484,6 +484,19 @@ class CommandClassGenerator {
 						);
 						typeName = enumName;
 					}
+					if (param.bitmaskType) {
+						switch (param.bitmaskType) {
+							case spec.BitmaskType.NodeNumber:
+								typeName = "number /* Node ID */";
+								break;
+							case spec.BitmaskType.EndpointNumber:
+								typeName = "number /* Endpoint ID */";
+								break;
+							case spec.BitmaskType.AVCommand:
+								typeName = "number /* AV Command number */";
+								break;
+						}
+					}
 					const lengthStr = getLengthString(param.length);
 					contents.push(
 						`\t${param.name}${

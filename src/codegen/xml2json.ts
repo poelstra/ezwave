@@ -1310,6 +1310,19 @@ function pluralEncapsulatedBlobNames(cmd: spec.CommandDefinition): void {
 	});
 }
 
+function fixBitmaskType(
+	paramName: string,
+	expectedType: spec.BitmaskType
+): Fixer {
+	return (cmd: spec.CommandDefinition) => {
+		const param = getParam(paramName, cmd.params);
+		if (param.type !== spec.ParameterType.Bitmask) {
+			throw new Error("unexpected parameter type");
+		}
+		param.bitmaskType = expectedType;
+	};
+}
+
 function applyFixes(defs: spec.CommandsByClassByVersion): void {
 	const commandFixers: {
 		[className: string]: {
@@ -1319,6 +1332,16 @@ function applyFixes(defs: spec.CommandsByClassByVersion): void {
 		MultiChannel: {
 			MultiChannelCmdEncap: collapseCommandEncapsulation,
 			MultiInstanceCmdEncap: collapseCommandEncapsulation,
+			MultiChannelAggregatedMembersReport: fixBitmaskType(
+				"aggregatedMembersBitMask",
+				spec.BitmaskType.EndpointNumber
+			),
+		},
+		NetworkManagementProxy: {
+			NodeListReport: fixBitmaskType(
+				"nodeListData",
+				spec.BitmaskType.NodeNumber
+			),
 		},
 		RateTblConfig: {
 			RateTblSet: (cmd) => {
@@ -1329,6 +1352,12 @@ function applyFixes(defs: spec.CommandsByClassByVersion): void {
 		Security: {
 			SecurityMessageEncapsulation: collapseEncryptedPayload,
 			SecurityMessageEncapsulationNonceGet: collapseEncryptedPayload,
+		},
+		SimpleAvControl: {
+			SimpleAvControlSupportedReport: fixBitmaskType(
+				"bitMask",
+				spec.BitmaskType.AVCommand
+			),
 		},
 		UserCode: {
 			ExtendedUserCodeReport: (cmd) => {

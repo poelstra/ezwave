@@ -8,8 +8,6 @@
  */
 
 import { expect } from "chai";
-import { CommandPacket } from "./command";
-import { CommandPacketConstructor, Packet } from "./packet";
 import { AlarmV2, ZwaveAlarmTypeEnum } from "./classes/AlarmV2";
 import {
 	AssociationGrpInfoV3,
@@ -20,12 +18,15 @@ import { BasicV2 } from "./classes/BasicV2";
 import { MeterPulseV1 } from "./classes/MeterPulseV1";
 import { MultiChannelAssociationV2 } from "./classes/MultiChannelAssociationV2";
 import { MultiChannelV4 } from "./classes/MultiChannelV4";
+import { NetworkManagementProxyV1 } from "./classes/NetworkManagementProxyV1";
 import { NodeProvisioningV1 } from "./classes/NodeProvisioningV1";
 import { RateTblConfigV1 } from "./classes/RateTblConfigV1";
 import { SecurityV1 } from "./classes/SecurityV1";
 import { TransportServiceV2 } from "./classes/TransportServiceV2";
 import { VersionV3 } from "./classes/VersionV3";
 import { ZipV4 } from "./classes/ZipV4";
+import { CommandPacket } from "./command";
+import { CommandPacketConstructor, Packet } from "./packet";
 
 interface CommandConstructor<T extends object | void>
 	extends CommandPacketConstructor<CommandPacket<T>> {
@@ -262,7 +263,7 @@ describe("generate_commands", () => {
 			Buffer.from([0x60, 0x0f, 0x12, 0x02, 0x81, 0xc0]),
 			{
 				aggregatedEndPoint: 0x12,
-				aggregatedMembersBitMask: new Set([0, 7, 14, 15]),
+				aggregatedMembersBitMask: new Set([1, 8, 15, 16]),
 			}
 		);
 	});
@@ -288,6 +289,26 @@ describe("generate_commands", () => {
 						eventCode: 0x14,
 					},
 				],
+			}
+		);
+	});
+
+	describe("NetworkManagementProxyV1.NodeListReport", () => {
+		// Bitmask with node IDs (which are shifted by one bit)
+		verifyRoundTrip(
+			"example",
+			NetworkManagementProxyV1.NodeListReport,
+			// prettier-ignore
+			Buffer.from([
+				0x52, 0x02, 0x12, 0x00, 0x00, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80
+			]),
+			{
+				seqNo: 0x12,
+				status: 0x00,
+				nodeListControllerId: 0x00,
+				nodeListData: new Set([1, 7, 232]),
 			}
 		);
 	});

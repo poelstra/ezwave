@@ -85,7 +85,7 @@ export interface MultiChannelV4MultiChannelAggregatedMembersGetData {
 
 export interface MultiChannelV4MultiChannelAggregatedMembersReportData {
 	aggregatedEndPoint: number; // properties1[6..0]
-	aggregatedMembersBitMask: Set<number>; // variable length
+	aggregatedMembersBitMask: Set<number /* Endpoint ID */>; // variable length
 }
 
 export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
@@ -715,7 +715,8 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 						"from": {
 							"ref": "numberOfBitMasks"
 						}
-					}
+					},
+					"bitmaskType": "EndpointNumber"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

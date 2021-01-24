@@ -4,9 +4,11 @@
 
 import {
 	BitfieldElement,
+	BitmaskType,
 	IntegerParameter,
 	Parameter,
 	ParameterGroup,
+	ParameterType,
 	ParamRefLengthInfo,
 } from "./spec";
 import { getReferencePath, isParameter, KeyValues } from "./specHelpers";
@@ -44,11 +46,11 @@ export class CodecUnexpectedEndOfPacketError extends CodecDataError {
  * According to Z-Wave specs, zero-length values (such as parameter
  * group, Buffer, etc) should be considered absent.
  */
-export function isValuePresent(value: unknown): boolean {
+export function isValuePresent(value: unknown, param: Parameter): boolean {
 	if (value === undefined) {
 		return false;
 	}
-	const length = tryGetValueLength(value);
+	const length = tryGetValueLength(value, param);
 	if (length === 0) {
 		return false;
 	}
@@ -103,7 +105,24 @@ export function ensureNumericValue(
 	return value;
 }
 
-export function tryGetValueLength(value: unknown): number | undefined {
+export function getBitOffsetForBitmaskType(
+	type: BitmaskType | undefined
+): number {
+	let bitOffset = 0;
+	switch (type) {
+		case BitmaskType.AVCommand:
+		case BitmaskType.EndpointNumber:
+		case BitmaskType.NodeNumber:
+			bitOffset = 1;
+			break;
+	}
+	return bitOffset;
+}
+
+export function tryGetValueLength(
+	value: unknown,
+	param: Parameter
+): number | undefined {
 	if (
 		Array.isArray(value) ||
 		typeof value === "string" ||
@@ -117,7 +136,11 @@ export function tryGetValueLength(value: unknown): number | undefined {
 		return value.length;
 	}
 	if (value instanceof Set) {
-		return getEncodedSetLength(value);
+		const bitOffset =
+			param.type === ParameterType.Bitmask
+				? getBitOffsetForBitmaskType(param.bitmaskType)
+				: 0;
+		return getEncodedSetLength(value, bitOffset);
 	}
 	return undefined;
 }
@@ -135,7 +158,7 @@ export function getParamLength(
 	for (const ref of lengthOf) {
 		const values = context.getValues(ref);
 		const value = values.find((v) => v !== undefined);
-		const rawLength = tryGetValueLength(value);
+		const rawLength = tryGetValueLength(value, ref);
 		if (rawLength === undefined) {
 			throw new CodecDataError(
 				`cannot determine value of ${getReferencePath(
@@ -169,15 +192,18 @@ export function getParamPresence(
 	for (const ref of booleanField.presenceOf) {
 		const values = context.getValues(ref);
 		const value = values.find((v) => v !== undefined);
-		if (isValuePresent(value)) {
+		if (isValuePresent(value, ref)) {
 			return true;
 		}
 	}
 	return false;
 }
 
-export function bufferToSet<T extends number>(buffer: Buffer): Set<T> {
-	let index = 0 as T;
+export function bufferToSet<T extends number>(
+	buffer: Buffer,
+	offset: number = 0
+): Set<T> {
+	let index = offset as T;
 	const result = new Set<T>();
 	for (let offset = 0; offset < buffer.length; offset++) {
 		const byte = buffer[offset];
@@ -191,9 +217,18 @@ export function bufferToSet<T extends number>(buffer: Buffer): Set<T> {
 	return result;
 }
 
-export function getEncodedSetLength(values: Set<number>): number {
+export function getEncodedSetLength(
+	values: Set<number>,
+	offset: number = 0
+): number {
 	let highest: number = -1;
-	for (const bit of values) {
+	for (const value of values) {
+		if (value < offset) {
+			throw new Error(
+				`invalid value in set: must be >=${offset}, got ${value}`
+			);
+		}
+		const bit = value - offset;
 		if (bit > highest) {
 			highest = bit;
 		}
@@ -201,10 +236,16 @@ export function getEncodedSetLength(values: Set<number>): number {
 	return Math.ceil((highest + 1) / 8);
 }
 
-export function setToBuffer(values: Set<number>): Buffer {
-	const length = getEncodedSetLength(values);
+export function setToBuffer(values: Set<number>, offset: number = 0): Buffer {
+	const length = getEncodedSetLength(values, offset);
 	const buffer = Buffer.alloc(length);
-	for (const bit of values) {
+	for (const value of values) {
+		if (value < offset) {
+			throw new Error(
+				`invalid value in set: must be >=${offset}, got ${value}`
+			);
+		}
+		const bit = value - offset;
 		const byteOffset = bit >> 3;
 		const mask = 1 << (bit & 0x7);
 		buffer[byteOffset] = buffer[byteOffset] | mask;

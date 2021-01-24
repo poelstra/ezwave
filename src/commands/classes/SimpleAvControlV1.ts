@@ -37,7 +37,7 @@ export interface SimpleAvControlV1SimpleAvControlSupportedGetData {
 
 export interface SimpleAvControlV1SimpleAvControlSupportedReportData {
 	reportNo: number; // 1 byte unsigned integer
-	bitMask: Set<number>; // automatic length
+	bitMask: Set<number /* AV Command number */>; // automatic length
 }
 
 export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Commands> {
@@ -217,7 +217,8 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 					"help": "Bit Mask",
 					"length": {
 						"lengthType": "Auto"
-					}
+					},
+					"bitmaskType": "AVCommand"
 				}
 			]
 		} as jsonSpec.CommandDefinition);

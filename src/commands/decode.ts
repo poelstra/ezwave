@@ -1,11 +1,12 @@
-import { parseCommandClasses } from "./commandClassInfo";
 import {
 	bufferToSet,
 	CodecDataError,
 	CodecDefinitionError,
 	CodecUnexpectedEndOfPacketError,
 	Context,
+	getBitOffsetForBitmaskType,
 } from "./codec";
+import { parseCommandClasses } from "./commandClassInfo";
 import { Packet } from "./packet";
 import {
 	BitfieldElementType,
@@ -445,7 +446,8 @@ function decodeBitmask(
 	slice: Buffer,
 	context: Context
 ): number {
-	const value = bufferToSet(slice);
+	const bitOffset = getBitOffsetForBitmaskType(param.bitmaskType);
+	const value = bufferToSet(slice, bitOffset);
 	context.setValue(param, value);
 	return slice.length;
 }

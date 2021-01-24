@@ -22805,7 +22805,8 @@
 								"from": {
 									"ref": "numberOfBitMasks"
 								}
-							}
+							},
+							"bitmaskType": "EndpointNumber"
 						}
 					]
 				}
@@ -23202,7 +23203,8 @@
 							"help": "Node List Data",
 							"length": {
 								"lengthType": "Auto"
-							}
+							},
+							"bitmaskType": "NodeNumber"
 						}
 					]
 				}
@@ -23435,7 +23437,8 @@
 							"help": "Node List Data",
 							"length": {
 								"lengthType": "Auto"
-							}
+							},
+							"bitmaskType": "NodeNumber"
 						}
 					]
 				},
@@ -41952,7 +41955,8 @@
 							"help": "Bit Mask",
 							"length": {
 								"lengthType": "Auto"
-							}
+							},
+							"bitmaskType": "AVCommand"
 						}
 					]
 				}

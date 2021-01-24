@@ -582,6 +582,12 @@ export interface BitmaskParameter<Mode extends RefMode = RefMode.Direct>
 	 * and what their name is.
 	 */
 	values?: EnumValues;
+
+	/**
+	 * If set, indicates whether this bitmask encodes a certain
+	 * specific type of data.
+	 */
+	bitmaskType?: BitmaskType;
 }
 
 export enum ParameterType {
@@ -651,6 +657,24 @@ export enum ValueType {
 	BasicDevice = "BasicDevice",
 	GenericDevice = "GenericDevice",
 	SpecificDevice = "SpecificDevice",
+}
+
+export enum BitmaskType {
+	/**
+	 * Bitmask of node numbers, bit 0 = node 1, etc.
+	 */
+	NodeNumber = "NodeNumber",
+
+	/**
+	 * Bitmask of endpoint numbers, bit 0 = endpoint 1, etc.
+	 */
+	EndpointNumber = "EndpointNumber",
+
+	/**
+	 * Simple AV commands (Simple AV Control Command Class).
+	 * Bit 0 = command #1, etc.
+	 */
+	AVCommand = "AVCommand",
 }
 
 /**
