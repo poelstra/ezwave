@@ -498,4 +498,23 @@ describe("encode", () => {
 			expect(encoded).to.deep.equal(expected);
 		});
 	});
+
+	describe("text", () => {
+		it("should add trailing null bytes for fixed-length strings", () => {
+			const commandDef = createCommand(0x34, [
+				{
+					type: spec.ParameterType.Text,
+					name: "a",
+					help: "A",
+					length: 6,
+				},
+			]);
+			const encoded = encodeCommandAndPayload(commandDef, {
+				a: "hello",
+			});
+			// prettier-ignore
+			const expected = Buffer.from([0x34, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x00]);
+			expect(encoded).to.deep.equal(expected);
+		});
+	});
 });

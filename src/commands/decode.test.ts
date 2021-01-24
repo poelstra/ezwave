@@ -476,4 +476,25 @@ describe("decode", () => {
 			expect(decoded).to.deep.equal(expected);
 		});
 	});
+
+	describe("text", () => {
+		it("should strip trailing null bytes", () => {
+			const commandDef = createCommand(0x34, [
+				{
+					type: spec.ParameterType.Text,
+					name: "a",
+					help: "A",
+					length: 6,
+				},
+			]);
+			const decoded = decodeCommandAndPayload(
+				commandDef,
+				Buffer.from([0x34, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x00])
+			);
+			const expected = {
+				a: "hello",
+			};
+			expect(decoded).to.deep.equal(expected);
+		});
+	});
 });

@@ -430,9 +430,13 @@ function decodeText(
 	slice: Buffer,
 	context: Context
 ): number {
-	// TODO Check fixed-length fields (pad with zeroes?)
 	const value = slice.toString("ascii");
-	context.setValue(param, value);
+	const nullByteIndex = value.indexOf("\u0000");
+	if (nullByteIndex > -1) {
+		context.setValue(param, value.slice(0, nullByteIndex));
+	} else {
+		context.setValue(param, value);
+	}
 	return slice.length;
 }
 

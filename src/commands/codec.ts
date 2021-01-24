@@ -109,6 +109,11 @@ export function tryGetValueLength(value: unknown): number | undefined {
 		typeof value === "string" ||
 		Buffer.isBuffer(value)
 	) {
+		// Note: for strings, the length could be different than the
+		// number of bytes needed for encoding it (e.g. for UTF-8),
+		// but because only ASCII is supported, any non-ASCII chars
+		// should not exist, and the length will thus always be the
+		// same.
 		return value.length;
 	}
 	if (value instanceof Set) {

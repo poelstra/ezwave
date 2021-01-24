@@ -258,7 +258,35 @@ function encodeBlob(param: BlobParameter, context: Context): Buffer {
 			buffer = value;
 	}
 
-	validateLength(buffer, param, context);
+	let expectedLength: number;
+	if (typeof param.length === "number") {
+		expectedLength = param.length;
+	} else {
+		switch (param.length.lengthType) {
+			case LengthType.Automatic:
+				expectedLength = buffer.length;
+				break;
+			case LengthType.ParameterReference:
+				expectedLength =
+					context.getNumericValue(param.length.from) -
+					(param.length.offset ?? 0);
+				break;
+			default:
+				throw new CodecDefinitionError(
+					`cannot determine length of parameter ${getReferencePath(
+						param
+					)}`
+				);
+		}
+	}
+
+	if (buffer.length !== expectedLength) {
+		throw new CodecDataError(
+			`expected parameter ${getReferencePath(
+				param
+			)} to have length ${expectedLength}, got ${buffer.length}`
+		);
+	}
 
 	const length = param.length;
 	if (
@@ -282,30 +310,45 @@ function encodeText(param: TextParameter, context: Context): Buffer {
 		);
 	}
 
-	// TODO Check fixed-length fields (pad with zeroes?)
-	const buffer = Buffer.from(value, "ascii");
+	const rawBuffer = Buffer.from(value, "ascii");
 
-	validateLength(buffer, param, context);
-	return buffer;
-}
-
-function validateLength(
-	value: Buffer | unknown[],
-	param: TextParameter | BlobParameter,
-	context: Context
-): void {
-	let expectedLength: number;
+	let buffer: Buffer;
+	let expectedLength: number | undefined;
 	if (typeof param.length === "number") {
 		expectedLength = param.length;
+		if (rawBuffer.length > expectedLength) {
+			throw new CodecDataError(
+				`expected parameter ${getReferencePath(
+					param
+				)} to have maximum length ${expectedLength}, got ${
+					rawBuffer.length
+				}`
+			);
+		}
+		// Ensure that the written string is padded with null-bytes if
+		// shorter than the expected length
+		buffer = Buffer.alloc(expectedLength);
+		rawBuffer.copy(buffer);
 	} else {
 		switch (param.length.lengthType) {
 			case LengthType.Automatic:
-				expectedLength = value.length;
+				expectedLength = undefined;
+				buffer = rawBuffer;
 				break;
 			case LengthType.ParameterReference:
 				expectedLength =
 					context.getNumericValue(param.length.from) -
 					(param.length.offset ?? 0);
+				if (rawBuffer.length !== expectedLength) {
+					throw new CodecDataError(
+						`expected parameter ${getReferencePath(
+							param
+						)} to have length ${expectedLength}, got ${
+							rawBuffer.length
+						}`
+					);
+				}
+				buffer = rawBuffer;
 				break;
 			default:
 				throw new CodecDefinitionError(
@@ -316,13 +359,7 @@ function validateLength(
 		}
 	}
 
-	if (value.length !== expectedLength) {
-		throw new CodecDataError(
-			`expected parameter ${getReferencePath(
-				param
-			)} to have length ${expectedLength}, got ${value.length}`
-		);
-	}
+	return buffer;
 }
 
 function encodeGroup(param: ParameterGroup, context: Context): Buffer {
