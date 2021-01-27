@@ -29,7 +29,24 @@ export enum ControllerState {
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {
+	/**
+	 * Emitted whenever a Z-Wave command is received from the network,
+	 * already decoded through any transport layers (security, multi-channel,
+	 * etc).
+	 */
 	on(event: "event", listener: (event: LayerEvent<Packet>) => void): this;
+
+	/**
+	 * Emitted whenever a Z-Wave device is successfully attached and initialized,
+	 * such that the controller can actually be used to send commands.
+	 */
+	on(event: "attach", listener: () => void): this;
+
+	/**
+	 * Emitted whenever a previously assigned device Z-Wave device is disconnected,
+	 * e.g. when it is (temporarily) unplugged or reset.
+	 */
+	on(event: "detach", listener: () => void): this;
 }
 
 export class Controller
@@ -110,6 +127,8 @@ export class Controller
 		if (this._serialApi) {
 			this._serialApi.off("command", this._serialApiCommandHandler);
 			this._serialApi.off("close", this._serialApiCloseHandler);
+			// TODO safeEmit
+			this.emit("detach");
 		}
 
 		this._serialApi = serialApi;
@@ -118,6 +137,10 @@ export class Controller
 			this._serialApi.on("command", this._serialApiCommandHandler);
 			this._serialApi.on("close", this._serialApiCloseHandler);
 		}
+		// TODO initial interviews etc.
+
+		// TODO safeEmit
+		this.emit("attach");
 	}
 
 	send(command: LayerCommand): Promise<boolean> {

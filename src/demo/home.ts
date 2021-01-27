@@ -25,6 +25,17 @@ export class Home extends EventEmitter {
 
 	constructor(public controller: Controller) {
 		super();
+		this.controller.on("attach", async () => {
+			try {
+				console.log("Controller attached");
+				await this.getKeukenAanrecht();
+			} catch (err) {
+				console.warn("Home controller initial get failed", err);
+			}
+		});
+		this.controller.on("detach", () => {
+			console.log("Controller detached");
+		});
 		this.controller.on("event", (event: LayerEvent<Packet>) => {
 			this._handleControllerEvent(event).catch((err: unknown) =>
 				console.warn(
