@@ -1,19 +1,25 @@
 import debug from "debug";
 import { EventEmitter } from "events";
-import * as Queue from "promise-queue";
 import {
 	CommandClassInfo,
 	parseCommandClassInfo,
 } from "../commands/commandClassInfo";
 import { decodeParams } from "../commands/decode";
-import { LengthType, ParameterType } from "../commands/spec";
+import { BitmaskType, LengthType, ParameterType } from "../commands/spec";
 import { convertFromJsonParams } from "../commands/specHelpers";
-import { bufferToString, defer, Timer, toHex } from "../common/util";
-import { Protocol } from "./protocol";
+import { Queue } from "../common/queue";
+import {
+	bufferToString,
+	defer,
+	enumToString,
+	noop,
+	timeout,
+	toHex,
+} from "../common/util";
+import { IProtocol } from "./protocol";
 import { SerialAPICommand } from "./serialApiCommand";
 
 const log = debug("zwave:serialapi");
-const logData = log.extend("data");
 
 export interface SerialAPICapabilities {
 	applVersion: number;
@@ -50,6 +56,7 @@ const SERIAL_API_CAPABILITIES_PARAMS = convertFromJsonParams([
 		length: 256 / 8,
 		name: "supportedFunctions",
 		help: "",
+		bitmaskType: BitmaskType.NodeNumber, // Not the right type to use, but applies a bit offset of 1
 	},
 ]);
 
@@ -87,6 +94,7 @@ const SERIAL_API_INIT_DATA_PARAMS = convertFromJsonParams([
 			lengthType: LengthType.ParameterReference,
 			from: { ref: "nodesLength" },
 		},
+		bitmaskType: BitmaskType.NodeNumber,
 	},
 	{
 		type: ParameterType.Integer,
@@ -142,6 +150,12 @@ const ZW_GET_VERSION_PARAMS = convertFromJsonParams([
 	{ type: ParameterType.Integer, length: 1, name: "libraryType", help: "" },
 ]);
 
+export enum TransmitOptions {
+	Ack = 0x01,
+	AutoRoute = 0x04,
+	Explore = 0x20, // reduce powerlevel by 6dB
+}
+
 enum TxStatus {
 	Ok = 0x00,
 	NoAck = 0x01, // Node may be sleeping
@@ -150,8 +164,14 @@ enum TxStatus {
 	NoRoute = 0x04, // TODO
 }
 
-enum ApplicationSlaveUpdateStatus {
-	UPDATE_STATE_NODE_INFO_RECEIVED = 0x84,
+enum UpdateState {
+	NodeInfoReceived = 0x84,
+	NodeInfoReqDone = 0x82,
+	NodeInfoReqFailed = 0x81,
+	RoutingPending = 0x80,
+	NewIDAssigned = 0x40,
+	DeleteDone = 0x20,
+	SucID = 0x10,
 }
 
 export interface NodeInfo {
@@ -179,10 +199,10 @@ export interface RxStatus {
 	foreignHomeId: boolean; // The received frame is received from a foreign HomeID. Only Controllers in Smart Start AddNode mode can receive this status
 }
 
-export interface SerialApiEvent {
+export interface SerialApiCommandEvent {
 	rxStatus: RxStatus;
 	sourceNode: number;
-	data: Buffer;
+	command: Buffer;
 }
 
 export function rxStatusToString(rxStatus: RxStatus): string {
@@ -207,30 +227,108 @@ function parseRxStatus(value: number): RxStatus {
 	};
 }
 
+interface CallbackListener<T> {
+	mapper: (command: SerialAPICommand, params: Buffer) => T | undefined;
+	resolve: (value: T | PromiseLike<T>) => void;
+	reject: (err: Error) => void;
+}
+
+// Set of functions assumed to exist on the Serial API before we
+// even tried to query it for its list of supported functions.
+// Note: SERIAL_API_GET_CAPABILITIES is only supported starting from
+// Serial API version 4, so this is actually not entirely correct,
+// but I don't have older versions, and didn't try to figure out
+// how to detect these older versions correctly.
+const DEFAULT_SUPPORTED_FUNCTIONS = new Set([
+	SerialAPICommand.SERIAL_API_GET_CAPABILITIES,
+	SerialAPICommand.ZW_GET_VERSION,
+	SerialAPICommand.SERIAL_API_GET_INIT_DATA,
+	SerialAPICommand.ZW_MEMORY_GET_ID,
+]);
+
+export class SerialApiSoftResettedError extends Error {
+	constructor() {
+		super("reinitializing SerialApi due to protocol soft-reset");
+	}
+}
+
+export enum SerialApiState {
+	/**
+	 * Waiting for init sequence to complete.
+	 */
+	Constructed,
+
+	/**
+	 * Busy initializing.
+	 */
+	Initializing,
+
+	/**
+	 * Initialized, ready to accept calls and process callbacks
+	 * from Z-Wave chip.
+	 */
+	Ready,
+
+	/**
+	 * API closed, no further calls possible, no further events will
+	 * be emitted.
+	 * Because protocol closed, and/or error occurred.
+	 */
+	Closed,
+}
+
 export interface SerialApi {
-	on(event: "event", listener: (event: SerialApiEvent) => void): this;
-	on(event: "error", listener: (event: Error) => void): this;
+	/**
+	 * Z-Wave message (command) received on network.
+	 */
+	on(
+		event: "command",
+		listener: (command: SerialApiCommandEvent) => void
+	): this;
+	on(event: "error", listener: (error: Error) => void): this;
 	on(event: "close", listener: () => void): this;
 }
 
+/**
+ * Expose Z-Wave Serial API commands.
+ *
+ * These commands can be used to determine capabilities of the connected
+ * Z-Wave device, send messages to the Z-Wave network (commands), etc.
+ */
 export class SerialApi extends EventEmitter {
-	private _protocol: Protocol;
+	private _state = SerialApiState.Constructed;
+	private _protocol: IProtocol;
+	private _supportedFunctions: Set<SerialAPICommand> = DEFAULT_SUPPORTED_FUNCTIONS;
 	private _capabilities?: SerialAPICapabilities;
 	private _initData?: SerialAPIInitData;
 	private _homeAndNodeId?: HomeAndNodeId;
+	private _versionInfo?: ZwVersionInfo;
 	private _callbackId: number = 0;
-	private _requests = new Queue(1, Infinity);
-	private _initialized = false;
+	private _requests = new Queue();
+	private _callbackListener: CallbackListener<any> | undefined;
 
-	constructor(protocol: Protocol) {
+	/**
+	 * Construct Serial API using given Z-Wave Serial Protocol encoder/decoder.
+	 *
+	 * After construction, call `init()` to ensure the API initializes itself
+	 * correctly, and synchronous access to certain state is enabled.
+	 *
+	 * The given protocol must already be initialized.
+	 * When the protocol is reset, after or during initialization of the Serial
+	 * API, it will be closed and a new instance needs to be created.
+	 *
+	 * @param protocol Serial Protocol encoder/decoder, must be already initialized (i.e. soft/hard-resetted).
+	 */
+	constructor(protocol: IProtocol) {
 		super();
 		this._protocol = protocol;
 
 		this._protocol.on("callback", (command, params) =>
-			this._handleMessage(command, params)
+			this._handleCallback(command, params)
 		);
-		this._protocol.on("error", (error) => this.emit("error", error));
-		this._protocol.on("close", () => this.emit("close"));
+		this._protocol.on("reset", () => this._handleProtocolReset());
+		this._protocol.on("error", (error) => this._handleProtocolError(error));
+		this._protocol.on("close", () => this._handleProtocolClose());
 	}
 
 	/**
@@ -240,15 +338,14 @@ export class SerialApi extends EventEmitter {
 	 * will be possible.
 	 */
 	public async init(): Promise<void> {
+		log("initializing");
+		this._state = SerialApiState.Initializing;
 		await this.serialGetCapabilities(true);
 		await this.zwGetVersion();
 		await this.serialGetInitData(true);
 		await this.zwMemoryGetId(true);
-		this._initialized = true;
-	}
-
-	public isInitialized(): boolean {
-		return this._initialized;
+		this._state = SerialApiState.Ready;
+		log("initialized");
 	}
 
 	/**
@@ -257,9 +354,7 @@ export class SerialApi extends EventEmitter {
 	 * The instance needs to be initialized with `init()` first.
 	 */
 	public isController(): boolean {
-		if (!this._initData) {
-			throw new Error("SerialAPI not initialized yet");
-		}
+		this._verifyInitialized(this._initData);
 		return !this._initData.capabilities.has(NodeCapabilityFlags.SlaveAPI);
 	}
 
@@ -271,9 +366,7 @@ export class SerialApi extends EventEmitter {
 	 * The instance needs to be initialized with `init()` first.
 	 */
 	public getNodes(): Set<number> {
-		if (!this._initData) {
-			throw new Error("SerialAPI not initialized yet");
-		}
+		this._verifyInitialized(this._initData);
 		return this._initData.nodes;
 	}
 
@@ -286,10 +379,13 @@ export class SerialApi extends EventEmitter {
 	 * The instance needs to be initialized with `init()` first.
 	 */
 	public getHomeAndNodeId(): HomeAndNodeId {
-		if (!this._homeAndNodeId) {
-			throw new Error("SerialAPI not initialized yet");
-		}
+		this._verifyInitialized(this._homeAndNodeId);
 		return this._homeAndNodeId;
+	}
+
+	public getLibraryType(): ZwLibraryType {
+		this._verifyInitialized(this._versionInfo);
+		return this._versionInfo.libraryType;
 	}
 
 	/**
@@ -308,15 +404,14 @@ export class SerialApi extends EventEmitter {
 		if (this._capabilities && !forceRefresh) {
 			return this._capabilities;
 		}
-		this._capabilities = await this._requests.add(async () => {
-			const response = await this._protocol.request(
-				SerialAPICommand.SERIAL_API_GET_CAPABILITIES
-			);
-			return decodeParams<SerialAPICapabilities>(
-				SERIAL_API_CAPABILITIES_PARAMS,
-				response
-			);
-		});
+		const response = await this._request(
+			SerialAPICommand.SERIAL_API_GET_CAPABILITIES
+		);
+		this._capabilities = decodeParams<SerialAPICapabilities>(
+			SERIAL_API_CAPABILITIES_PARAMS,
+			response
+		);
+		this._supportedFunctions = this._capabilities.supportedFunctions;
 		const caps = this._capabilities;
 		log(
 			`serialGetCapabilities:`,
@@ -353,15 +448,15 @@ export class SerialApi extends EventEmitter {
 		if (this._initData && !forceRefresh) {
 			return this._initData;
 		}
-		this._initData = await this._requests.add(async () => {
-			const response = await this._protocol.request(
-				SerialAPICommand.SERIAL_API_GET_INIT_DATA
-			);
-			return decodeParams<SerialAPIInitData>(
-				SERIAL_API_INIT_DATA_PARAMS,
-				response
-			);
-		});
+
+		const response = await this._request(
+			SerialAPICommand.SERIAL_API_GET_INIT_DATA
+		);
+		this._initData = decodeParams<SerialAPIInitData>(
+			SERIAL_API_INIT_DATA_PARAMS,
+			response
+		);
+
 		const init = this._initData;
 		const roleText = init.capabilities.has(NodeCapabilityFlags.SlaveAPI)
 			? "slave"
@@ -418,6 +513,7 @@ export class SerialApi extends EventEmitter {
 			`chipName=${chipName}`,
 			`nodes=[${[...init.nodes.values()]}]`
 		);
+
 		return this._initData;
 	}
 
@@ -433,15 +529,11 @@ export class SerialApi extends EventEmitter {
 		if (this._homeAndNodeId && !forceRefresh) {
 			return this._homeAndNodeId;
 		}
-		this._homeAndNodeId = await this._requests.add(async () => {
-			const response = await this._protocol.request(
-				SerialAPICommand.ZW_MEMORY_GET_ID
-			);
-			return decodeParams<HomeAndNodeId>(
-				ZW_MEMORY_GET_ID_PARAMS,
-				response
-			);
-		});
+		const response = await this._request(SerialAPICommand.ZW_MEMORY_GET_ID);
+		this._homeAndNodeId = decodeParams<HomeAndNodeId>(
+			ZW_MEMORY_GET_ID_PARAMS,
+			response
+		);
 		const homeAndId = this._homeAndNodeId;
 		log(
 			`zwMemoryGetId: homeId=0x${toHex(
@@ -457,60 +549,135 @@ export class SerialApi extends EventEmitter {
 	 * and what type it is.
 	 */
 	public async zwGetVersion(): Promise<ZwVersionInfo> {
-		const info = await this._requests.add(async () => {
-			const response = await this._protocol.request(
-				SerialAPICommand.ZW_GET_VERSION
-			);
-			return decodeParams<ZwVersionInfo>(ZW_GET_VERSION_PARAMS, response);
-		});
+		const response = await this._request(SerialAPICommand.ZW_GET_VERSION);
+		this._versionInfo = decodeParams<ZwVersionInfo>(
+			ZW_GET_VERSION_PARAMS,
+			response
+		);
+		const info = this._versionInfo;
 		log(
 			`zwGetVersion: libraryVersion="${
 				info.libraryVersion
 			}" libraryType=${ZwLibraryType[info.libraryType]}`
 		);
-		return info;
+		return this._versionInfo;
 	}
 
 	/**
-	 * Send data to specified node or all nodes.
+	 * Send Z-Wave command to specified node and wait for transmission
+	 * to be acknowledged by it.
 	 *
 	 * @param nodeId Node ID to send data to, or 0xff to broadcast to all nodes
-	 * @param data   Data to transmit
+	 * @param payload Z-Wave command to transmit (minimum 1 byte)
+	 * @param timeoutInMs Timeout of network request (not including any already pending requests), in milliseconds
 	 */
-	public async zwSendData(nodeId: number, data: Buffer): Promise<boolean> {
-		return this._requests.add(() => this._internalZwSendData(nodeId, data));
+	public async zwSendData(
+		nodeId: number,
+		payload: Buffer,
+		timeoutInMs: number = ZW_SEND_DATA_TIMEOUT
+	): Promise<void> {
+		const funcId = this._getNextCallbackId();
+		try {
+			// TODO INS13954 4.3.3.1 Prevent sending to virtual nodes inside the controller/bridge itself
+			// TODO INS13954 4.3.3.1.5 Implement checks for minimum/maximum payload size:
+			// Transmit option             non-secure  S0 secure
+			// TRANSMIT_OPTION_EXPLORE     46 bytes    26 bytes
+			// TRANSMIT_OPTION_AUTO_ROUTE  48 bytes    28 bytes
+			// TRANSMIT_OPTION_NO_ROUTE    54 bytes    34 bytes
+			log(
+				"zwSendData",
+				`transaction=${funcId}`,
+				`node=${nodeId}`,
+				`payload=[${bufferToString(payload)}]`
+			);
+			// TODO Allow to specify TxOptions
+			const txOptions =
+				TransmitOptions.Ack |
+				TransmitOptions.AutoRoute |
+				TransmitOptions.Explore;
+			const params = Buffer.from([
+				nodeId,
+				payload.length,
+				...payload,
+				txOptions,
+				funcId,
+			]);
+			await this._requestAndWait(
+				SerialAPICommand.ZW_SEND_DATA,
+				params,
+				timeoutInMs,
+				(command: SerialAPICommand, params: Buffer) => {
+					if (command !== SerialAPICommand.ZW_SEND_DATA) {
+						return;
+					}
+					if (params.length < 2) {
+						return;
+					}
+					// Spec: INS13954, 4.3.3.1.7
+					if (params[0] !== funcId) {
+						log(
+							"warn",
+							`unexpected callback ID received, ignoring`
+						);
+						return;
+					}
+					const txStatus: TxStatus = params[1];
+					if (txStatus !== TxStatus.Ok) {
+						throw new Error(
+							`error sending command to node ${nodeId}: ${
+								TxStatus[txStatus] ?? `0x${toHex(txStatus)}`
+							}`
+						);
+					}
+					let transmitTime: number | undefined;
+					if (params.length >= 4) {
+						// DevKit 6.51+ added time measurement to response
+						transmitTime = params.readUInt16BE(2) * 10; // in ms
+					}
+					log(
+						`zwSendData ok: transaction=${funcId} ${
+							transmitTime !== undefined
+								? ` transmitTime=${transmitTime}ms`
+								: ""
+						}`
+					);
+					return true; // Need to return something to end mapper
+				}
+			);
+		} catch (err) {
+			log(`zwSendData failed: transaction=${funcId} error=`, err);
+			// INS13954 4.3.3.1.6 Exception recovery:
+			// If a timeout occurs, it is important to call ZW_SendDataAbort to stop the sending of the frame.
+			// But let's do it also in any other case of aborting the transmission.
+			try {
+				await this.zwSendDataAbort();
+			} catch {
+				/* ignore follow-up error, ignore original error for clarity */
+			}
+			throw err;
+		}
 	}
 
-	public async zwRequestNodeInfo(nodeId: number): Promise<NodeInfo> {
-		return this._requests.add(async () => {
-			log("zwRequestNodeInfo request", `node=${nodeId}`);
+	/**
+	 * Abort in-progress zwSendData request.
+	 *
+	 * Only to be used by zwSendData() itself.
+	 */
+	public async zwSendDataAbort(): Promise<void> {
+		await this._send(SerialAPICommand.ZW_SEND_DATA_ABORT);
+	}
+
+	public async zwRequestNodeInfo(
+		nodeId: number,
+		timeoutInMs: number = ZW_SEND_DATA_TIMEOUT
+	): Promise<NodeInfo> {
+		try {
+			log(`zwRequestNodeInfo node=${nodeId}`);
 			const params = Buffer.from([nodeId]);
-
-			const returnValue = await this._protocol.request(
+			const nodeInfo = await this._requestAndWait(
 				SerialAPICommand.ZW_REQUEST_NODE_INFO,
-				params
-			);
-			// TODO dedup this logic
-			if (returnValue.length !== 1) {
-				log(
-					"zwRequestNodeInfo",
-					"failed: invalid response from serial chip"
-				);
-				throw new Error("invalid response from serial chip");
-			}
-			if (returnValue[0] === 0) {
-				log(
-					"zwRequestNodeInfo",
-					"failed: command accepted by serial chip, but could not be delivered to network"
-				);
-				throw new Error(
-					"command accepted by serial chip, but could not be delivered to network"
-				);
-			}
-
-			// Reply expected, in the form of a ZW_SEND_DATA REQuest from serial chip to us
-			const nodeInfo = await this._waitForREQ(
-				ZW_SEND_DATA_TIMEOUT,
+				params,
+				timeoutInMs,
 				(command: SerialAPICommand, params: Buffer) => {
 					if (command !== SerialAPICommand.ZW_APPLICATION_UPDATE) {
 						return;
@@ -518,28 +685,32 @@ export class SerialApi extends EventEmitter {
 					if (params.length < 6) {
 						return;
 					}
-					// INS13954-7 4.3.1.7 ApplicationSlaveUpdate
 					const bStatus = params[0];
+					if (bStatus === UpdateState.NodeInfoReqFailed) {
+						throw new Error(
+							`node ${nodeId} did not respond with Node Information Frame`
+						);
+					}
+					// TODO There's also NodeInfoReqDone, but no idea when you'd get one
+					if (bStatus !== UpdateState.NodeInfoReceived) {
+						return;
+					}
+					// INS13954-7 4.3.1.8 ApplicationControllerUpdate
+					// Example response:
+					// NodeID | bLen | basic | generic | specific | commandclasses[]
+					// 10       1a     04      11        01         5e 20 86 72 26 5a 59 85 73 98 7a 56 70 31 32 8e 60 75 71 27 22 ef 2b
 					const bNodeId = params[1];
 					const bLen = params[2];
 					const basicClass = params[3];
 					const genericClass = params[4];
 					const specificClass = params[5];
 					const commandClassesRaw = params.slice(6);
-					if (
-						bStatus !==
-						ApplicationSlaveUpdateStatus.UPDATE_STATE_NODE_INFO_RECEIVED
-					) {
-						return;
-					}
 					if (bNodeId !== nodeId) {
 						return;
 					}
 					if (bLen !== params.length - 3 || bLen < 3) {
 						return;
 					}
-					// NodeID | bLen | basic | generic | specific | commandclasses[ ]
-					// 10       1a     04      11        01         5e 20 86 72 26 5a 59 85 73 98 7a 56 70 31 32 8e 60 75 71 27 22 ef 2b
 					const commandClasses = parseCommandClassInfo(
 						commandClassesRaw
 					);
@@ -553,166 +724,227 @@ export class SerialApi extends EventEmitter {
 				}
 			);
 
-			log("zwRequestNodeInfo", `result=`, nodeInfo);
+			log(`zwRequestNodeInfo ok: node=${nodeId} result=`, nodeInfo);
 			return nodeInfo;
+		} catch (err) {
+			log(`zwRequestNodeInfo failed: node=${nodeId} error=`, err);
+			throw err;
+		}
+	}
+
+	private _verifyCommandSupportedAndReady(command: SerialAPICommand): void {
+		if (this._state === SerialApiState.Closed) {
+			throw new Error(`Serial API closed`);
+		}
+		if (!this._supportedFunctions.has(command)) {
+			if (this._state === SerialApiState.Ready) {
+				throw new Error(
+					`Serial API command ${enumToString(
+						command,
+						SerialAPICommand
+					)} not supported by device`
+				);
+			} else {
+				throw new Error(
+					`Serial API command ${enumToString(
+						command,
+						SerialAPICommand
+					)} possibly not supported by device: Serial API not initialized yet`
+				);
+			}
+		}
+	}
+
+	private async _send(
+		command: SerialAPICommand,
+		params?: Buffer
+	): Promise<void> {
+		this._verifyCommandSupportedAndReady(command);
+		return this._requests.add(() => this._protocol.send(command, params));
+	}
+
+	private async _request(
+		command: SerialAPICommand,
+		params?: Buffer
+	): Promise<Buffer> {
+		this._verifyCommandSupportedAndReady(command);
+		return this._requests.add(() =>
+			this._protocol.request(command, params)
+		);
+	}
+
+	private async _requestAndWait<T>(
+		command: SerialAPICommand,
+		params: Buffer | undefined,
+		timeoutInMs: number,
+		mapper: (command: SerialAPICommand, params: Buffer) => T | undefined
+	): Promise<T> {
+		this._verifyCommandSupportedAndReady(command);
+		return this._requests.add(async () => {
+			const resultDef = defer<T>();
+			if (this._callbackListener) {
+				throw new Error(
+					"programming error: callbackListener still present"
+				);
+			}
+			this._callbackListener = {
+				mapper,
+				resolve: resultDef.resolve,
+				reject: resultDef.reject,
+			};
+			// Prevent unhandled rejection if aborted before protocol.request() returns
+			resultDef.promise.catch(noop);
+			try {
+				const commandResponse = await this._protocol.request(
+					command,
+					params
+				);
+				if (commandResponse.length < 1) {
+					throw new Error(
+						`command ${SerialAPICommand[command]} failed: got zero-length response from Z-Wave Serial device`
+					);
+				}
+				if (commandResponse[0] === 0) {
+					throw new Error(
+						`command ${SerialAPICommand[command]} failed: request could not be queued`
+					);
+				}
+				return await timeout(resultDef.promise, timeoutInMs);
+			} finally {
+				this._callbackListener = undefined;
+			}
 		});
 	}
 
-	private _handleMessage(command: SerialAPICommand, params: Buffer): void {
+	private _handleCallback(command: SerialAPICommand, params: Buffer): void {
+		if (this._callbackListener) {
+			try {
+				const mapper = this._callbackListener.mapper;
+				const result = mapper(command, params);
+				if (result !== undefined) {
+					this._callbackListener.resolve(result);
+					this._callbackListener = undefined;
+				}
+			} catch (err) {
+				this._callbackListener?.reject(err);
+				this._callbackListener = undefined;
+			}
+		}
+
 		if (command === SerialAPICommand.APPLICATION_COMMAND_HANDLER) {
 			const rxStatus = parseRxStatus(params[0]);
 			const sourceNode = params[1];
 			const cmdLength = params[2];
-			const payload = params.slice(3, 3 + cmdLength);
+			const cmdPayload = params.slice(3, 3 + cmdLength);
 			// const rxRSSIVal = params[params.length - 2];
 			// const securityKey = params[params.length - 1];
-			const event: SerialApiEvent = {
+			const event: SerialApiCommandEvent = {
 				rxStatus,
 				sourceNode,
-				data: payload,
+				command: cmdPayload,
 			};
-			log("emit event", event);
-			process.nextTick(() => this.emit("event", event));
-		}
-	}
-
-	private async _waitForREQ<T>(
-		timeout: number,
-		handler: (command: SerialAPICommand, params: Buffer) => T | undefined
-	): Promise<T> {
-		const waiter = defer<T>();
-		const messageHandler = (command: SerialAPICommand, params: Buffer) => {
-			try {
-				const result = handler(command, params);
-				if (result !== undefined) {
-					waiter.resolve(result);
-				}
-			} catch (err) {
-				waiter.reject(err);
-			}
-		};
-		this._protocol.on("callback", messageHandler);
-		const timer = new Timer(timeout, () =>
-			waiter.reject(new Error("timeout"))
-		);
-		timer.start();
-		let result;
-		try {
-			result = await waiter.promise;
-		} finally {
-			timer.stop();
-			this._protocol.removeListener("callback", messageHandler);
-		}
-		return result;
-	}
-
-	private async _internalZwSendData(
-		nodeId: number,
-		data: Buffer
-	): Promise<boolean> {
-		// TODO INS13954 4.3.3.1 Prevent sending to virtual nodes inside the controller/bridge itself
-		// TODO INS13954 4.3.3.1.5 Implement checks for minimum/maximum payload size:
-		// Transmit option             non-secure  S0 secure
-		// TRANSMIT_OPTION_EXPLORE     46 bytes    26 bytes
-		// TRANSMIT_OPTION_AUTO_ROUTE  48 bytes    28 bytes
-		// TRANSMIT_OPTION_NO_ROUTE    54 bytes    34 bytes
-		// Payload must be minimum 1 byte
-
-		// TODO INS13954 4.3.3.1.6 Exception recovery: If a timeout occurs, it is important to call ZW_SendDataAbortto stop the sending of the frame
-
-		log(
-			"zwSendData",
-			`node=${nodeId}`,
-			`payload=[${bufferToString(data)}]`
-		);
-		enum TransmitOptions {
-			Ack = 0x01,
-			AutoRoute = 0x04,
-			Explore = 0x20, // reduce powerlevel by 6dB
+			log("emit command", event);
+			process.nextTick(() => this._safeEmit("command", event));
 		}
 
-		const txOptions = TransmitOptions.Ack | TransmitOptions.AutoRoute;
-		const funcId = this._getNextCallbackId();
-		const params = Buffer.from([
-			nodeId,
-			data.length,
-			...data,
-			txOptions,
-			funcId,
-		]);
-
-		const returnValue = await this._protocol.request(
-			SerialAPICommand.ZW_SEND_DATA,
-			params
-		);
-		if (returnValue.length !== 1) {
-			log("zwSendData", "failed: invalid response from serial chip");
-			throw new Error("invalid response from serial chip");
-		}
-		if (returnValue[0] === 0) {
-			log(
-				"zwSendData",
-				"failed: command accepted by serial chip, but could not be delivered to network"
-			);
-			throw new Error(
-				"command accepted by serial chip, but could not be delivered to network"
-			);
-		}
-
-		// TODO: make sure that events cannot get lost (e.g. if promise resolve takes
-		// a bit too long, and event was received before handler is attached)
-		// Need a different architecture of this part for that, but don't know if the
-		// current approach is what is needed anyway...
-
-		// Reply expected, in the form of a ZW_SEND_DATA REQuest from controller to us
-		const sendResult = await this._waitForREQ(
-			ZW_SEND_DATA_TIMEOUT,
-			(command: SerialAPICommand, params: Buffer) => {
-				if (command !== SerialAPICommand.ZW_SEND_DATA) {
-					return;
-				}
-				if (params.length < 2) {
-					return;
-				}
-				// Spec: INS13954, 4.3.3.1.7
-				if (params[0] !== funcId) {
-					log("warn", `unexpected callback ID received, ignoring`);
-					return;
-				}
-				const txStatus: TxStatus = params[1];
-				if (txStatus !== 0) {
-					// txStatus
-					log(
-						"warn",
-						`error sending command (received code ${txStatus} (${TxStatus[txStatus]}))`
-					);
-					return false;
-				}
-				let transmitTime: number | undefined;
-				if (params.length >= 4) {
-					// DevKit 6.51+ added time measurement to response
-					transmitTime = params.readUInt16BE(2) * 10; // in ms
-				}
-				log(
-					`zwSendData ok${
-						transmitTime !== undefined
-							? `, transmitTime=${transmitTime}ms`
-							: ""
-					}`
-				);
-				return true;
-			}
-		);
-
-		return sendResult;
+		// TODO Handle FUNC_ID_SERIAL_API_STARTED to trigger _handleProtocolReset()?
+		// I have no way to test this, because USB devices also disconnect from the USB
+		// bus during a reset.
 	}
 
 	private _getNextCallbackId(): number {
 		this._callbackId++;
-		if (this._callbackId === 0x100) {
+		if (this._callbackId > 0xff) {
 			// Note: not 0, because that means we don't want feedback
 			this._callbackId = 1;
 		}
 		return this._callbackId;
+	}
+
+	private _verifyInitialized<T>(value: T | undefined): asserts value is T {
+		if (this._state !== SerialApiState.Ready) {
+			throw new Error(
+				`SerialAPI is not initialized (currently in state ${
+					SerialApiState[this._state]
+				})`
+			);
+		}
+		if (!value) {
+			// Programming error
+			throw new Error("internal error");
+		}
+	}
+
+	private _handleProtocolReset(): void {
+		if (
+			this._state === SerialApiState.Closed ||
+			this._state === SerialApiState.Constructed
+		) {
+			return;
+		}
+		this._abortAndClose(new Error("protocol reset"));
+	}
+
+	private _handleProtocolClose(): void {
+		if (this._state === SerialApiState.Closed) {
+			return;
+		}
+		log("close");
+		this._state = SerialApiState.Closed;
+		this._abort(new Error("protocol closed"));
+		this._safeEmit("close");
+	}
+
+	private _handleProtocolError(error: Error): void {
+		if (this._state === SerialApiState.Closed) {
+			return;
+		}
+		this._abortAndClose(
+			new Error(`protocol errored: ${error.name}: ${error.message}`)
+		);
+	}
+
+	private _safeEmit(event: string, ...args: any[]): void {
+		try {
+			this.emit(event, ...args);
+		} catch (err) {
+			if (this._state === SerialApiState.Closed) {
+				// No way to report it anymore, let it explode as uncaught error
+				process.nextTick(() => {
+					throw err;
+				});
+				return;
+			}
+			const error =
+				typeof err === "object" && err instanceof Error
+					? err
+					: new Error("unknown error");
+			const eventHandlerError = new Error(
+				`error in SerialApi event handler for '${event}': ${error.name}: ${error.message}`
+			);
+			this._abortAndClose(eventHandlerError);
+		}
+	}
+
+	private _abort(error: Error): void {
+		this._protocol.cancel(error);
+		if (this._callbackListener) {
+			this._callbackListener.reject(error);
+			this._callbackListener = undefined;
+		}
+		this._requests.abortPending(error);
+	}
+
+	private _abortAndClose(error: Error): void {
+		if (this._state === SerialApiState.Closed) {
+			// Ignore follow-up errors
+			return;
+		}
+		log("error", error);
+		this._state = SerialApiState.Closed;
+		this._abort(error);
+		this._safeEmit("error", error);
+		log("close");
+		this._safeEmit("close");
 	}
 }

@@ -14,7 +14,7 @@ import { SecurityS0Codec } from "../security/securityS0Codec";
 import {
 	rxStatusToString,
 	SerialApi,
-	SerialApiEvent,
+	SerialApiCommandEvent,
 } from "../serialapi/serialapi";
 import { IZwaveHost } from "./IZwaveHost";
 
@@ -42,8 +42,8 @@ export class Controller
 	private _stack: Stack;
 	private _requester: Requester;
 	private _state: ControllerState = ControllerState.Constructed;
-	private _serialApiEventHandler = (event: SerialApiEvent) =>
-		this._handleSerialEvent(event).catch((err: unknown) =>
+	private _serialApiCommandHandler = (event: SerialApiCommandEvent) =>
+		this._handleSerialCommand(event).catch((err: unknown) =>
 			log(
 				`warning:`,
 				`error dispatching serial event to stack:`,
@@ -65,17 +65,18 @@ export class Controller
 		this.nodeId = nodeId;
 
 		const sender: Sender = {
-			send: (command: LayerCommand): Promise<boolean> => {
+			send: async (command: LayerCommand): Promise<boolean> => {
 				if (!this._serialApi) {
 					throw new Error("no Z-Wave device connected");
 				}
 				// TODO let zwSendData invoke afterSend if possible, to further
 				// minimize the frame where early older matches could be received
 				command.afterSend && command.afterSend();
-				return this._serialApi.zwSendData(
+				await this._serialApi.zwSendData(
 					command.endpoint.nodeId,
 					command.packet.serialize()
 				);
+				return true;
 			},
 			packetCapacity(): number {
 				// TODO retrieve from host, based on routing options
@@ -107,14 +108,14 @@ export class Controller
 
 	async assignSerialApi(serialApi: SerialApi | undefined): Promise<void> {
 		if (this._serialApi) {
-			this._serialApi.off("event", this._serialApiEventHandler);
+			this._serialApi.off("command", this._serialApiCommandHandler);
 			this._serialApi.off("close", this._serialApiCloseHandler);
 		}
 
 		this._serialApi = serialApi;
 
 		if (this._serialApi) {
-			this._serialApi.on("event", this._serialApiEventHandler);
+			this._serialApi.on("command", this._serialApiCommandHandler);
 			this._serialApi.on("close", this._serialApiCloseHandler);
 		}
 	}
@@ -163,8 +164,10 @@ export class Controller
 		this.emit("event", event);
 	}
 
-	private async _handleSerialEvent(event: SerialApiEvent): Promise<void> {
-		const packet = new Packet(event.data);
+	private async _handleSerialCommand(
+		event: SerialApiCommandEvent
+	): Promise<void> {
+		const packet = new Packet(event.command);
 		if (logData.enabled) {
 			logData(
 				`receive from=${event.sourceNode} rxStatus=${rxStatusToString(

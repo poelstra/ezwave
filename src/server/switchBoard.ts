@@ -40,11 +40,8 @@ export class SwitchBoard {
 	}
 
 	public async addDevice(serialApi: SerialApi): Promise<void> {
-		if (!serialApi.isInitialized()) {
-			await serialApi.init();
-		}
 		const { homeId, nodeId } = serialApi.getHomeAndNodeId();
-		const type = (await serialApi.zwGetVersion()).libraryType; // TODO make sync
+		const type = serialApi.getLibraryType();
 		const key = homeAndIdToKey(homeId, nodeId);
 
 		let host = this._hosts.get(key);

@@ -41,6 +41,18 @@ export function bufferToString(buffer: Buffer): string {
 	return [...buffer].map((n) => toHex(n, 2)).join(" ");
 }
 
+export interface EnumType {
+	[key: number]: string;
+}
+
+export function enumToString(key: number, enumType: EnumType): string {
+	const name = enumType[key];
+	if (name !== undefined) {
+		return name;
+	}
+	return `0x${toHex(key)}`;
+}
+
 /**
  * Simple timer management.
  *
