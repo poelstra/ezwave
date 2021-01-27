@@ -51,13 +51,19 @@ function createDataFrame(
 }
 
 const ACK_TIMEOUT = 1600; // INS12350 6.2.2 Data frame delivery timeout
-const DEFAULT_RES_TIMEOUT = 65 * 1000; // Maximum timeout for ZW_SendData callback, although very unlikely (see INS13954 section 4.3.3.1)
+const DEFAULT_RES_TIMEOUT = 10 * 1000;
 const MAX_RETRANSMISSIONS = 3;
 
 const HARD_RESET_DELAY = 500; // INS12350 6.1.1 With hard reset
 const SOFT_RESET_DELAY = 1500; // INS12350 6.1.2 Without hard reset
 
-export interface Protocol {
+export interface IProtocol extends EventEmitter {
+	/**
+	 * Emitted whenever an explicit reset request is initiated/indicated
+	 * through `softReset()` or `hardResetted()`.
+	 */
+	on(event: "reset", listener: () => void): this;
+
 	/**
 	 * Emitted whenever the device is initialized after a soft
 	 * or hard reset.
@@ -110,6 +116,66 @@ export interface Protocol {
 	 * non-recoverable error occurred.
 	 */
 	on(event: "close", listener: () => void): this;
+
+	/**
+	 * Indicate that Z-Wave chip was hard-resetted, by triggering
+	 * any external reset mechanism.
+	 *
+	 * Any pending request will be cancelled.
+	 * Will wait for necessary hard-reset time before issueing
+	 * new requests.
+	 *
+	 * Either hardResetted() or softReset is required before data
+	 * can be transmitted after constructing this class.
+	 */
+	hardResetted(): Promise<void>;
+
+	/**
+	 * Perform soft-reset of Z-Wave chip.
+	 *
+	 * Any pending request will be cancelled.
+	 * Note: sending a soft-reset to a USB device will cause its
+	 * serial port to be closed, which will in turn cause this
+	 * protocol instance to be closed.
+	 *
+	 * Either hardResetted() or softReset is required before data
+	 * can be transmitted after constructing this class.
+	 */
+	softReset(): Promise<void>;
+
+	/**
+	 * Send REQ command to Z-Wave chip that does not return a RES result.
+	 *
+	 * Only a single send() or request() can be ongoing at the same time,
+	 * and the protocol must be initialized and not closed yet.
+	 */
+	send(cmd: SerialAPICommand, params?: Buffer): Promise<void>;
+
+	/**
+	 * Send REQ command to Z-Wave chip and wait for corresponding RES result
+	 * to be returned.
+	 *
+	 * Only a single send() or request() can be ongoing at the same time,
+	 * and the protocol must be initialized and not closed yet.
+	 *
+	 * Note: unsollicited messages can still be received while a request
+	 * is ongoing.
+	 */
+	request(
+		cmd: SerialAPICommand,
+		params?: Buffer,
+		timeout?: number
+	): Promise<Buffer>;
+
+	/**
+	 * Cancel any in-progress request (through `send()` or `request()`),
+	 * which will be rejected with the given reason.
+	 *
+	 * Note that any existing request's promise must still be
+	 * awaited (i.e. most likely its rejection) before the next
+	 * request can be made.
+	 */
+	cancel(reason: Error): void;
 }
 
 enum ProtocolState {
@@ -142,6 +208,23 @@ enum ProtocolState {
 }
 
 /**
+ * Events emitted from Protocol.
+ * This is just for TypeScript type-safety, and duplicated from the interface.
+ */
+export interface Protocol {
+	on(event: "reset", listener: () => void): this;
+	on(event: "init", listener: () => void): this;
+	on(
+		event: "callback",
+		listener: (command: number, params: Buffer) => void
+	): this;
+	on(event: "warning", listener: (message: string) => void): this;
+	on(event: "stuck", listener: () => void): this;
+	on(event: "error", listener: (error: Error) => void): this;
+	on(event: "close", listener: () => void): this;
+}
+
+/**
  * Z-Wave Serial API protocol encoder/decoder.
  *
  * Handles frame-level handshaking of requests and responses
@@ -149,7 +232,7 @@ enum ProtocolState {
  * of requests sent to the chip, and detecting unresponsive
  * chip / serial port.
  */
-export class Protocol extends EventEmitter {
+export class Protocol extends EventEmitter implements IProtocol {
 	/**
 	 * Convert frames into serial byte stream and vice-versa.
 	 * Detects checksum errors and low-level frame read time-outs.
@@ -234,8 +317,9 @@ export class Protocol extends EventEmitter {
 		if (this._state === ProtocolState.Closed) {
 			throw new Error("cannot reset protocol: already closed");
 		}
-		this._abort(new Error("request aborted: hard reset"));
 		this._state = ProtocolState.Uninitialized;
+		this._safeEmit("reset");
+		this._abort(new Error("request aborted: hard reset"));
 		// Assume port was hard-resetted, so we only need to
 		// apply the 'boot delay'
 		await delay(HARD_RESET_DELAY);
@@ -261,6 +345,7 @@ export class Protocol extends EventEmitter {
 			throw new Error("cannot reset protocol: already closed");
 		}
 		this._state = ProtocolState.Uninitialized;
+		this._safeEmit("reset");
 		this._abort(new Error("request aborted: soft reset"));
 		this._invalidFrames = 0;
 		// INS12350 6.1.2 Without hard reset
@@ -279,7 +364,8 @@ export class Protocol extends EventEmitter {
 	/**
 	 * Send REQ command to Z-Wave chip that does not return a RES result.
 	 *
-	 * Only a single send() or request() can be ongoing at the same time.
+	 * Only a single send() or request() can be ongoing at the same time,
+	 * and the protocol must be initialized and not closed yet.
 	 */
 	public async send(cmd: SerialAPICommand, params?: Buffer): Promise<void> {
 		if (this._state !== ProtocolState.Idle) {
@@ -398,6 +484,18 @@ export class Protocol extends EventEmitter {
 				this._state = ProtocolState.Idle;
 			}
 		}
+	}
+
+	/**
+	 * Cancel any in-progress request (through `send()` or `request()`),
+	 * which will be rejected with the given reason.
+	 *
+	 * Note that any existing request's promise must still be
+	 * awaited (i.e. most likely its rejection) before the next
+	 * request can be made.
+	 */
+	public cancel(reason: Error): void {
+		this._abort(reason);
 	}
 
 	private _abort(error: Error): void {

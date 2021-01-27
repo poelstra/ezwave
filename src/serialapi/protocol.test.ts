@@ -687,4 +687,75 @@ describe("SerialAPI protocol", () => {
 			await softResetResult;
 		});
 	});
+
+	it("handles cancel() during send() while waiting for ACK", async () => {
+		const sendResult = expect(
+			protocol.send(1)
+		).to.eventually.be.rejectedWith("cancelled");
+		protocol.cancel(new Error("cancelled"));
+		await sendResult;
+
+		const send2Result = expect(protocol.send(1)).to.eventually.equal(
+			undefined
+		);
+		framer.received = [];
+		framer.emitAck();
+		await send2Result;
+	});
+
+	it("handles cancel() during send() while framer's send is pending", async () => {
+		const oldSend = framer.send;
+		framer.send = never;
+		const sendResult = expect(
+			protocol.send(1)
+		).to.eventually.be.rejectedWith("cancelled");
+		protocol.cancel(new Error("cancelled"));
+		await sendResult;
+
+		framer.send = oldSend;
+		const send2Result = expect(protocol.send(1)).to.eventually.equal(
+			undefined
+		);
+		framer.received = [];
+		framer.emitAck();
+		await send2Result;
+	});
+
+	it("handles cancel() during request(), during send", async () => {
+		const requestResult = expect(
+			protocol.request(1)
+		).to.eventually.be.rejectedWith("cancelled");
+		protocol.cancel(new Error("cancelled"));
+		await requestResult;
+
+		const request2Result = expect(
+			protocol.request(1)
+		).to.eventually.deep.equal(Buffer.from([0]));
+		framer.received = [];
+		framer.emitAck();
+		framer.emitData(DataType.RES, 1);
+		await request2Result;
+		framer.received = [];
+		protocolMessages = [];
+	});
+
+	it("handles cancel() during request(), during result", async () => {
+		const requestResult = expect(
+			protocol.request(1)
+		).to.eventually.be.rejectedWith("cancelled");
+		framer.emitAck();
+
+		protocol.cancel(new Error("cancelled"));
+		await requestResult;
+
+		const request2Result = expect(
+			protocol.request(1)
+		).to.eventually.deep.equal(Buffer.from([0]));
+		framer.received = [];
+		framer.emitAck();
+		framer.emitData(DataType.RES, 1);
+		await request2Result;
+		framer.received = [];
+		protocolMessages = [];
+	});
 });
