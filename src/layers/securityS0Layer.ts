@@ -2,6 +2,7 @@ import { randomBytes } from "crypto";
 import debug from "debug";
 import { SecurityV1 } from "../commands/classes/SecurityV1";
 import { Packet } from "../commands/packet";
+import { bufferToString, toHex } from "../common/util";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
 import {
@@ -12,7 +13,11 @@ import {
 	Sender,
 	SendNext,
 } from "./layer";
-import { layerCommandToString, layerEventToString } from "./print";
+import {
+	endPointToString,
+	layerCommandToString,
+	layerEventToString,
+} from "./print";
 import { Requester } from "./requester";
 
 const log = debug("zwave:layers:securitys0");
@@ -111,7 +116,7 @@ export class SecurityS0Layer implements Layer {
 		send: Sender
 	): Promise<boolean> {
 		if (command.secure) {
-			log("fetch nonce");
+			log(`fetch nonce, endpoint=${endPointToString(command.endpoint)}`);
 			const nonceEvent = await this._requester.sendAndWaitFor(
 				{
 					endpoint: command.endpoint,
@@ -138,7 +143,10 @@ export class SecurityS0Layer implements Layer {
 				...command,
 				packet: encapsulated,
 			};
-			log("received nonce, encoded", layerCommandToString(encapCmd));
+			log(
+				`received nonce, encoded command`,
+				layerCommandToString(encapCmd)
+			);
 			return send.send(encapCmd);
 		} else {
 			return send.send(command);
@@ -157,12 +165,18 @@ export class SecurityS0Layer implements Layer {
 					nonce: nonce.data,
 				}),
 			};
-			log(`send nonce report, cmd=${layerCommandToString(nonceCmd)}`);
+			log(
+				`send nonce report to=${endPointToString(
+					nonceCmd.endpoint
+				)} nonceId=${toHex(nonce.id, 2)} nonce=[${bufferToString(
+					nonce.data
+				)}]`
+			);
 			await send.send(nonceCmd);
 		} else {
 			log(
 				`warn`,
-				`received nonce get request, but nonce store is full, ignoring request`
+				`received nonce get request from ${event.endpoint}, but nonce store is full, ignoring request`
 			);
 		}
 	}

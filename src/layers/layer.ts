@@ -19,12 +19,6 @@ export interface LayerCommand {
 	secure?: boolean; // TODO probably move elsewhere
 }
 
-export function endPointToString(endpoint: Endpoint): string {
-	return `${endpoint.nodeId}${
-		endpoint.channel ? `:${endpoint.channel}` : ""
-	}`;
-}
-
 // TODO change return type to handle ack/no ack cases, in addition to not trying to send at all?
 //      Or should no-ack case be returned as an exception? Or should ignore also be signalled as an exception?
 export type Send = (command: LayerCommand) => boolean | Promise<boolean>;

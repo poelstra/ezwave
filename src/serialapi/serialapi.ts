@@ -635,7 +635,7 @@ export class SerialApi extends EventEmitter {
 						transmitTime = params.readUInt16BE(2) * 10; // in ms
 					}
 					log(
-						`zwSendData ok: transaction=${funcId} ${
+						`zwSendData ok: transaction=${funcId}${
 							transmitTime !== undefined
 								? ` transmitTime=${transmitTime}ms`
 								: ""
