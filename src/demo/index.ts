@@ -8,7 +8,8 @@ import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { Framer } from "../serialapi/framer";
 import { Protocol } from "../serialapi/protocol";
-import { SerialApi, ZwLibraryType } from "../serialapi/serialapi";
+import { SerialApi } from "../serialapi/serialapi";
+import { ZwLibraryType } from "../serialapi/types";
 import { Controller } from "../server/controller";
 import {
 	DEFAULT_SUPPORTED_ZWAVE_USB_IDS,

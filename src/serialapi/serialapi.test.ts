@@ -5,14 +5,12 @@ import { EventEmitter } from "events";
 import { describe, it } from "mocha";
 import * as sinon from "sinon";
 import { defer, never } from "../common/util";
+import { NodeCapabilityFlags } from "./commands/serialApi/serialApiGetInitData";
+import { TransmitOptions } from "./commands/transport/zwSendData";
 import { IProtocol } from "./protocol";
-import {
-	NodeCapabilityFlags,
-	SerialApi,
-	TransmitOptions,
-	ZwLibraryType,
-} from "./serialapi";
-import { SerialAPICommand } from "./serialApiCommand";
+import { SerialApi } from "./serialapi";
+import { SerialApiCommandCode } from "./serialApiCommandCode";
+import { ZwLibraryType } from "./types";
 
 chai.use(chaiAsPromised);
 
@@ -25,12 +23,12 @@ class FakeProtocol extends EventEmitter implements IProtocol {
 		throw new Error("unexpected call during test");
 	}
 
-	send(cmd: SerialAPICommand, params?: Buffer): Promise<void> {
+	send(cmd: SerialApiCommandCode, params?: Buffer): Promise<void> {
 		throw new Error("unexpected call during test");
 	}
 
 	request(
-		cmd: SerialAPICommand,
+		cmd: SerialApiCommandCode,
 		params?: Buffer,
 		timeout?: number
 	): Promise<Buffer> {
@@ -90,7 +88,7 @@ describe("SerialAPI", () => {
 		ReturnType<IProtocol["cancel"]>
 	>;
 	let handleSecondRequest: (
-		cmd: SerialAPICommand,
+		cmd: SerialApiCommandCode,
 		params?: Buffer
 	) => Promise<Buffer>;
 
@@ -114,8 +112,9 @@ describe("SerialAPI", () => {
 		serialApi.on("close", () => serialApiEvents.push(["close"]));
 
 		handleSecondRequest = async (cmd, params) => {
+			const funcId = params!.slice(-1)[0];
 			expect([cmd, params]).to.deep.equal([
-				SerialAPICommand.ZW_SEND_DATA,
+				SerialApiCommandCode.ZW_SEND_DATA,
 				Buffer.from([
 					3, // NodeId
 					1, // payload length
@@ -123,15 +122,15 @@ describe("SerialAPI", () => {
 					TransmitOptions.Ack |
 						TransmitOptions.AutoRoute |
 						TransmitOptions.Explore, // txOptions
-					2, // funcId
+					funcId, // funcId
 				]),
 			]);
 			// prettier-ignore
 			protocol.emit(
 				"callback",
-				SerialAPICommand.ZW_SEND_DATA,
+				SerialApiCommandCode.ZW_SEND_DATA,
 				Buffer.from([
-					2, // funcId
+					funcId, // funcId
 					0, // txStatus OK
 					0, 2, // transmit time in 10ms ticks
 				])
@@ -159,7 +158,7 @@ describe("SerialAPI", () => {
 
 			expect(requestStub.callCount).to.equal(1);
 			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialAPICommand.SERIAL_API_GET_CAPABILITIES,
+				SerialApiCommandCode.SERIAL_API_GET_CAPABILITIES,
 				undefined,
 			]);
 			expect(caps).to.deep.equal({
@@ -179,7 +178,7 @@ describe("SerialAPI", () => {
 
 			expect(requestStub.callCount).to.equal(1);
 			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialAPICommand.ZW_GET_VERSION,
+				SerialApiCommandCode.ZW_GET_VERSION,
 				undefined,
 			]);
 			expect(versionInfo).to.deep.equal({
@@ -195,7 +194,7 @@ describe("SerialAPI", () => {
 
 			expect(requestStub.callCount).to.equal(1);
 			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialAPICommand.SERIAL_API_GET_INIT_DATA,
+				SerialApiCommandCode.SERIAL_API_GET_INIT_DATA,
 				undefined,
 			]);
 			const capabilities = new Set([NodeCapabilityFlags.IsSIS]);
@@ -216,7 +215,7 @@ describe("SerialAPI", () => {
 
 			expect(requestStub.callCount).to.equal(1);
 			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialAPICommand.ZW_MEMORY_GET_ID,
+				SerialApiCommandCode.ZW_MEMORY_GET_ID,
 				undefined,
 			]);
 			expect(memoryInfo).to.deep.equal({
@@ -309,7 +308,7 @@ describe("SerialAPI", () => {
 			it("sends commands successfully", async () => {
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
 							2, // NodeId
 							1, // payload length
@@ -317,7 +316,7 @@ describe("SerialAPI", () => {
 							TransmitOptions.Ack |
 								TransmitOptions.AutoRoute |
 								TransmitOptions.Explore, // txOptions
-							1, // funcId
+							5, // funcId
 						]),
 					]);
 
@@ -331,9 +330,9 @@ describe("SerialAPI", () => {
 					// prettier-ignore
 					protocol.emit(
 						"callback",
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
-							1, // funcId
+							5, // funcId
 							0, // txStatus OK
 							0, 2, // transmit time in 10ms ticks
 						])
@@ -352,7 +351,7 @@ describe("SerialAPI", () => {
 			it("handles command not queued", async () => {
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
 							2, // NodeId
 							1, // payload length
@@ -360,7 +359,7 @@ describe("SerialAPI", () => {
 							TransmitOptions.Ack |
 								TransmitOptions.AutoRoute |
 								TransmitOptions.Explore, // txOptions
-							1, // funcId
+							5, // funcId
 						]),
 					]);
 					// no callback
@@ -370,7 +369,7 @@ describe("SerialAPI", () => {
 				});
 				sendStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA_ABORT,
+						SerialApiCommandCode.ZW_SEND_DATA_ABORT,
 						undefined,
 					]);
 				});
@@ -385,7 +384,7 @@ describe("SerialAPI", () => {
 			it("handles command not ACKed", async () => {
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
 							2, // NodeId
 							1, // payload length
@@ -393,15 +392,15 @@ describe("SerialAPI", () => {
 							TransmitOptions.Ack |
 								TransmitOptions.AutoRoute |
 								TransmitOptions.Explore, // txOptions
-							1, // funcId
+							5, // funcId
 						]),
 					]);
 					// prettier-ignore
 					protocol.emit(
 						"callback",
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
-							1, // funcId
+							5, // funcId
 							1, // txStatus NoACK
 							0, 2, // transmit time in 10ms ticks
 						])
@@ -412,7 +411,7 @@ describe("SerialAPI", () => {
 				});
 				sendStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA_ABORT,
+						SerialApiCommandCode.ZW_SEND_DATA_ABORT,
 						undefined,
 					]);
 				});
@@ -427,7 +426,7 @@ describe("SerialAPI", () => {
 			it("handles timeout", async () => {
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
 							2, // NodeId
 							1, // payload length
@@ -435,7 +434,7 @@ describe("SerialAPI", () => {
 							TransmitOptions.Ack |
 								TransmitOptions.AutoRoute |
 								TransmitOptions.Explore, // txOptions
-							1, // funcId
+							5, // funcId
 						]),
 					]);
 					// No callback, so it will timeout
@@ -445,7 +444,7 @@ describe("SerialAPI", () => {
 				});
 				sendStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA_ABORT,
+						SerialApiCommandCode.ZW_SEND_DATA_ABORT,
 						undefined,
 					]);
 				});
@@ -464,7 +463,7 @@ describe("SerialAPI", () => {
 			it("handles timeout when original device responds late", async () => {
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
 							2, // NodeId
 							1, // payload length
@@ -472,7 +471,7 @@ describe("SerialAPI", () => {
 							TransmitOptions.Ack |
 								TransmitOptions.AutoRoute |
 								TransmitOptions.Explore, // txOptions
-							1, // funcId
+							5, // funcId
 						]),
 					]);
 					// No callback, so it will timeout
@@ -482,7 +481,7 @@ describe("SerialAPI", () => {
 				});
 				sendStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA_ABORT,
+						SerialApiCommandCode.ZW_SEND_DATA_ABORT,
 						undefined,
 					]);
 				});
@@ -502,9 +501,9 @@ describe("SerialAPI", () => {
 				// prettier-ignore
 				protocol.emit(
 					"callback",
-					SerialAPICommand.ZW_SEND_DATA,
+					SerialApiCommandCode.ZW_SEND_DATA,
 					Buffer.from([
-						1, // funcId
+						5, // funcId
 						1, // txStatus NoACK
 						0, 2, // transmit time in 10ms ticks
 					])
@@ -517,7 +516,7 @@ describe("SerialAPI", () => {
 				// First request
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
-						SerialAPICommand.ZW_SEND_DATA,
+						SerialApiCommandCode.ZW_SEND_DATA,
 						Buffer.from([
 							2, // NodeId
 							1, // payload length
@@ -525,7 +524,7 @@ describe("SerialAPI", () => {
 							TransmitOptions.Ack |
 								TransmitOptions.AutoRoute |
 								TransmitOptions.Explore, // txOptions
-							1, // funcId
+							5, // funcId
 						]),
 					]);
 					// Don't emit ACK from end-device yet
@@ -555,9 +554,9 @@ describe("SerialAPI", () => {
 				// Ack first request
 				protocol.emit(
 					"callback",
-					SerialAPICommand.ZW_SEND_DATA,
+					SerialApiCommandCode.ZW_SEND_DATA,
 					Buffer.from([
-						1, // funcId
+						5, // funcId
 						0, // txStatus OK
 						0,
 						2, // transmit time in 10ms ticks

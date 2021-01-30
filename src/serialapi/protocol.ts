@@ -26,7 +26,10 @@ import {
 	IFramer,
 	SimpleFrame,
 } from "./framer";
-import { SerialAPICommand, serialApiCommandToString } from "./serialApiCommand";
+import {
+	SerialApiCommandCode,
+	serialApiCommandToString,
+} from "./serialApiCommandCode";
 
 const log = debug("zwave:protocol");
 const logData = log.extend("data");
@@ -39,7 +42,7 @@ const ACK_TIMEOUT_SENTINEL = "ACK_TIMEOUT_SENTINEL";
 type AckTimeoutSentinel = typeof ACK_TIMEOUT_SENTINEL;
 
 function createDataFrame(
-	command: SerialAPICommand,
+	command: SerialApiCommandCode,
 	params?: Buffer
 ): DataFrame {
 	return {
@@ -149,7 +152,7 @@ export interface IProtocol extends EventEmitter {
 	 * Only a single send() or request() can be ongoing at the same time,
 	 * and the protocol must be initialized and not closed yet.
 	 */
-	send(cmd: SerialAPICommand, params?: Buffer): Promise<void>;
+	send(cmd: SerialApiCommandCode, params?: Buffer): Promise<void>;
 
 	/**
 	 * Send REQ command to Z-Wave chip and wait for corresponding RES result
@@ -162,7 +165,7 @@ export interface IProtocol extends EventEmitter {
 	 * is ongoing.
 	 */
 	request(
-		cmd: SerialAPICommand,
+		cmd: SerialApiCommandCode,
 		params?: Buffer,
 		timeout?: number
 	): Promise<Buffer>;
@@ -354,7 +357,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 		// to be closed.
 		await this._sendRaw(NAK_FRAME);
 		await this._sendRaw(
-			createDataFrame(SerialAPICommand.SERIAL_API_SOFT_RESET)
+			createDataFrame(SerialApiCommandCode.SERIAL_API_SOFT_RESET)
 		);
 		await delay(SOFT_RESET_DELAY);
 		this._state = ProtocolState.Idle;
@@ -367,7 +370,10 @@ export class Protocol extends EventEmitter implements IProtocol {
 	 * Only a single send() or request() can be ongoing at the same time,
 	 * and the protocol must be initialized and not closed yet.
 	 */
-	public async send(cmd: SerialAPICommand, params?: Buffer): Promise<void> {
+	public async send(
+		cmd: SerialApiCommandCode,
+		params?: Buffer
+	): Promise<void> {
 		if (this._state !== ProtocolState.Idle) {
 			throw new Error("cannot send command: protocol not idle");
 		}
@@ -412,7 +418,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 	 * is ongoing.
 	 */
 	public async request(
-		cmd: SerialAPICommand,
+		cmd: SerialApiCommandCode,
 		params?: Buffer,
 		timeout?: number
 	): Promise<Buffer> {

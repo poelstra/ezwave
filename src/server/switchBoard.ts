@@ -1,5 +1,6 @@
 import { toHex } from "../common/util";
-import { SerialApi, ZwLibraryType } from "../serialapi/serialapi";
+import { SerialApi } from "../serialapi/serialapi";
+import { ZwLibraryType } from "../serialapi/types";
 import { IZwaveHost } from "./IZwaveHost";
 
 export type HostFactory = (

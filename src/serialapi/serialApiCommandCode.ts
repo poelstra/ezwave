@@ -1,7 +1,7 @@
 /**
  * List of Serial API command / response codes.
  */
-export enum SerialAPICommand {
+export enum SerialApiCommandCode {
 	SERIAL_API_GET_INIT_DATA = 0x02,
 	SERIAL_API_APPL_NODE_INFORMATION = 0x03,
 	APPLICATION_COMMAND_HANDLER = 0x04,
@@ -64,8 +64,8 @@ export function serialApiCommandToString(x: number): string {
 	if (typeof x !== "number") {
 		return `<invalid SerialAPICommand '${x}'>`;
 	}
-	if (x in SerialAPICommand) {
-		return SerialAPICommand[x];
+	if (x in SerialApiCommandCode) {
+		return SerialApiCommandCode[x];
 	}
 	return `0x${x.toString(16)}`;
 }
