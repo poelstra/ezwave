@@ -20,3 +20,9 @@ export abstract class SerialApiResponseVoidCommand<
 export type ResponseTypeOf<T> = T extends SerialApiResponseCommand<any, infer R>
 	? R
 	: never;
+
+export function isResponseCommand(
+	command: unknown
+): command is SerialApiResponseCommand<unknown, unknown> {
+	return command && typeof command === "object" && "parseResponse" in command;
+}

@@ -9,7 +9,10 @@ import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
 import { zwMemoryGetIdBuffer } from "./commands/memory/zwMemoryGetId.test";
 import { serialCapsBuffer } from "./commands/serialApi/serialApiGetCapabilities.test";
 import { serialGetInitDataBuffer } from "./commands/serialApi/serialApiGetInitData.test";
-import { TransmitOptions } from "./commands/transport/zwSendData";
+import {
+	TransmitOptions,
+	ZwSendDataCommand,
+} from "./commands/transport/zwSendData";
 import { IProtocol } from "./protocol";
 import { SerialApi } from "./serialapi";
 import { SerialApiCommandCode } from "./serialApiCommandCode";
@@ -186,7 +189,7 @@ describe("SerialAPI", () => {
 			).to.eventually.be.rejectedWith("not supported");
 		});
 
-		describe("zwSendData()", () => {
+		describe("send() with SerialApiCallbackCommand", () => {
 			it("sends commands successfully", async () => {
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
@@ -226,8 +229,18 @@ describe("SerialAPI", () => {
 				});
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
-				await serialApi.zwSendData(2, Buffer.from([0x12]));
-				await serialApi.zwSendData(3, Buffer.from([0x34]));
+				await serialApi.send(
+					new ZwSendDataCommand({
+						nodeId: 2,
+						payload: Buffer.from([0x12]),
+					})
+				);
+				await serialApi.send(
+					new ZwSendDataCommand({
+						nodeId: 3,
+						payload: Buffer.from([0x34]),
+					})
+				);
 			});
 
 			it("handles command not queued", async () => {
@@ -258,9 +271,19 @@ describe("SerialAPI", () => {
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				await expect(
-					serialApi.zwSendData(2, Buffer.from([0x12]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 2,
+							payload: Buffer.from([0x12]),
+						})
+					)
 				).to.eventually.be.rejectedWith("could not be queued");
-				await serialApi.zwSendData(3, Buffer.from([0x34]));
+				await serialApi.send(
+					new ZwSendDataCommand({
+						nodeId: 3,
+						payload: Buffer.from([0x34]),
+					})
+				);
 			});
 
 			it("handles command not ACKed", async () => {
@@ -300,9 +323,19 @@ describe("SerialAPI", () => {
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				await expect(
-					serialApi.zwSendData(2, Buffer.from([0x12]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 2,
+							payload: Buffer.from([0x12]),
+						})
+					)
 				).to.eventually.rejectedWith("NoAck");
-				await serialApi.zwSendData(3, Buffer.from([0x34]));
+				await serialApi.send(
+					new ZwSendDataCommand({
+						nodeId: 3,
+						payload: Buffer.from([0x34]),
+					})
+				);
 			});
 
 			it("handles timeout", async () => {
@@ -324,22 +357,25 @@ describe("SerialAPI", () => {
 						0x01, // status queued OK
 					]);
 				});
-				sendStub.onCall(0).callsFake(async (cmd, params) => {
-					expect([cmd, params]).to.deep.equal([
-						SerialApiCommandCode.ZW_SEND_DATA_ABORT,
-						undefined,
-					]);
-				});
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				const p = expect(
-					serialApi.zwSendData(2, Buffer.from([0x12]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 2,
+							payload: Buffer.from([0x12]),
+						})
+					)
 				).to.eventually.rejectedWith("timed out");
 				await clock.runAllAsync();
-				expect(sendStub.callCount).to.equal(1); // send data abort
 				await p;
 
-				await serialApi.zwSendData(3, Buffer.from([0x34]));
+				await serialApi.send(
+					new ZwSendDataCommand({
+						nodeId: 3,
+						payload: Buffer.from([0x34]),
+					})
+				);
 			});
 
 			it("handles timeout when original device responds late", async () => {
@@ -361,22 +397,25 @@ describe("SerialAPI", () => {
 						0x01, // status queued OK
 					]);
 				});
-				sendStub.onCall(0).callsFake(async (cmd, params) => {
-					expect([cmd, params]).to.deep.equal([
-						SerialApiCommandCode.ZW_SEND_DATA_ABORT,
-						undefined,
-					]);
-				});
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				const p = expect(
-					serialApi.zwSendData(2, Buffer.from([0x12]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 2,
+							payload: Buffer.from([0x12]),
+						})
+					)
 				).to.eventually.rejectedWith("timed out");
 				await clock.runAllAsync();
-				expect(sendStub.callCount).to.equal(1); // send data abort
 				await p;
 
-				const p2 = serialApi.zwSendData(3, Buffer.from([0x34]));
+				const p2 = serialApi.send(
+					new ZwSendDataCommand({
+						nodeId: 3,
+						payload: Buffer.from([0x34]),
+					})
+				);
 
 				// Act like the original device does respond in the end,
 				// which should not disturb the new request
@@ -420,13 +459,23 @@ describe("SerialAPI", () => {
 				// Start both requests
 				let request1Done = false;
 				const request1 = serialApi
-					.zwSendData(2, Buffer.from([0x12]))
+					.send(
+						new ZwSendDataCommand({
+							nodeId: 2,
+							payload: Buffer.from([0x12]),
+						})
+					)
 					.then(() => {
 						request1Done = true;
 					});
 				let request2Done = false;
 				const request2 = serialApi
-					.zwSendData(3, Buffer.from([0x34]))
+					.send(
+						new ZwSendDataCommand({
+							nodeId: 3,
+							payload: Buffer.from([0x34]),
+						})
+					)
 					.then(() => {
 						request2Done = true;
 					});
@@ -458,7 +507,12 @@ describe("SerialAPI", () => {
 					.callsFake((reason) => cancelDeferred.reject(reason));
 
 				const p1 = expect(
-					serialApi.zwSendData(2, Buffer.from([0x12]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 2,
+							payload: Buffer.from([0x12]),
+						})
+					)
 				).to.eventually.be.rejectedWith("protocol reset");
 				await clock.runAllAsync(); // tick to let send be called
 				expect(requestStub.calledOnce).to.equal(true);
@@ -474,7 +528,12 @@ describe("SerialAPI", () => {
 				);
 				serialApiEvents = [];
 				await expect(
-					serialApi.zwSendData(3, Buffer.from([0x34]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 3,
+							payload: Buffer.from([0x34]),
+						})
+					)
 				).to.eventually.be.rejectedWith("Serial API closed");
 			});
 
@@ -487,7 +546,12 @@ describe("SerialAPI", () => {
 				cancelStub.onCall(0).returns(undefined); // called in current implementation, but doesn't have to be
 
 				const p1 = expect(
-					serialApi.zwSendData(2, Buffer.from([0x12]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 2,
+							payload: Buffer.from([0x12]),
+						})
+					)
 				).to.eventually.be.rejectedWith("protocol reset");
 				await clock.tickAsync(0); // Tick such that protocol send completes successfully
 				protocol.emit("reset");
@@ -501,9 +565,14 @@ describe("SerialAPI", () => {
 				);
 				serialApiEvents = [];
 				await expect(
-					serialApi.zwSendData(3, Buffer.from([0x34]))
+					serialApi.send(
+						new ZwSendDataCommand({
+							nodeId: 3,
+							payload: Buffer.from([0x34]),
+						})
+					)
 				).to.eventually.be.rejectedWith("Serial API closed");
 			});
-		}); // zwSendData()
+		}); // send() with SerialApiCallbackCommand
 	}); // initialized
 });

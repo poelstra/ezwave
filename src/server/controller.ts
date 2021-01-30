@@ -12,6 +12,11 @@ import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
 import {
+	ZwSendDataCommand,
+	ZW_SEND_DATA_TIMEOUT,
+} from "../serialapi/commands/transport/zwSendData";
+import { ZwSendDataAbortCommand } from "../serialapi/commands/transport/zwSendDataAbort";
+import {
 	rxStatusToString,
 	SerialApi,
 	SerialApiCommandEvent,
@@ -89,10 +94,27 @@ export class Controller
 				// TODO let zwSendData invoke afterSend if possible, to further
 				// minimize the frame where early older matches could be received
 				command.afterSend && command.afterSend();
-				await this._serialApi.zwSendData(
-					command.endpoint.nodeId,
-					command.packet.serialize()
-				);
+				// TODO Move the following to a common transport layer
+				try {
+					// TODO Implement resend mechanism: INS13954 Figure 9
+					const serialCmd = new ZwSendDataCommand({
+						nodeId: command.endpoint.nodeId,
+						payload: command.packet.serialize(),
+					});
+					await this._serialApi.send(serialCmd, ZW_SEND_DATA_TIMEOUT);
+				} catch (err) {
+					// INS13954 4.3.3.1.6 Exception recovery:
+					// If a timeout occurs, it is important to call ZW_SendDataAbort to stop the sending of the frame.
+					// But let's do it also in any other case of aborting the transmission.
+					try {
+						await this._serialApi.send(
+							new ZwSendDataAbortCommand()
+						);
+					} catch {
+						/* ignore follow-up error (most likely due to protocol errored/closed), pass original error for clarity */
+					}
+					throw err;
+				}
 				return true;
 			},
 			packetCapacity(): number {

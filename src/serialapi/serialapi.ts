@@ -26,10 +26,12 @@ import { ZwSendDataAbortCommand } from "./commands/transport/zwSendDataAbort";
 import { IProtocol } from "./protocol";
 import {
 	CallbackTypeOf,
+	isCallbackCommand,
 	SerialApiCallbackCommand,
 } from "./serialApiCallbackCommand";
 import { SerialApiCommandCode } from "./serialApiCommandCode";
 import {
+	isResponseCommand,
 	ResponseTypeOf,
 	SerialApiResponseCommand,
 } from "./serialApiResponseCommand";
@@ -99,6 +101,11 @@ const DEFAULT_SUPPORTED_FUNCTIONS = new Set([
 	SerialApiCommandCode.SERIAL_API_GET_INIT_DATA,
 	SerialApiCommandCode.ZW_MEMORY_GET_ID,
 ]);
+
+/**
+ * Timeout in milliseconds used by default for SerialApiCallbackCommand's.
+ */
+const DEFAULT_CALLBACK_TIMEOUT = 10 * 1000;
 
 enum SerialApiState {
 	/**
@@ -226,50 +233,76 @@ export class SerialApi extends EventEmitter {
 	}
 
 	/**
-	 * Send Z-Wave command to specified node and wait for transmission
-	 * to be acknowledged by it.
+	 * Execute command on Z-Wave serial API.
 	 *
-	 * @param nodeId Node ID to send data to, or 0xff to broadcast to all nodes
-	 * @param payload Z-Wave command to transmit (minimum 1 byte)
-	 * @param timeoutInMs Timeout of network request (not including any already pending requests), in milliseconds
+	 * This overload executes a command that issues a REQuest, processes a RESponse,
+	 * and then waits for a callback REQuest to be emitted from the device with the
+	 * final result.
+	 *
+	 * Throws an exception if e.g. the command is not supported by the connected serial
+	 * device, isn't accepted, cannot successfully be sent, invalid response is received,
+	 * or the given timeout occurs.
+	 *
+	 * Note that when the command times out, some commands (e.g. ZwSendData) require custom
+	 * cleanup to cleanly abort the command (e.g. ZwSendDataAbort). Such cleanup is not
+	 * performed by this function.
+	 *
+	 * @param command Callback command to send.
+	 * @param timeoutInMs Timeout in milliseconds.
 	 */
-	public async zwSendData(
-		nodeId: number,
-		payload: Buffer,
-		timeoutInMs: number = ZW_SEND_DATA_TIMEOUT
-	): Promise<ZwSendDataResponse> {
-		const cmd = new ZwSendDataCommand({
-			nodeId,
-			payload,
-		});
-		try {
-			return await this.requestAndWait(cmd, timeoutInMs);
-		} catch (err) {
-			// INS13954 4.3.3.1.6 Exception recovery:
-			// If a timeout occurs, it is important to call ZW_SendDataAbort to stop the sending of the frame.
-			// But let's do it also in any other case of aborting the transmission.
-			try {
-				await this.zwSendDataAbort();
-			} catch {
-				/* ignore follow-up error, ignore original error for clarity */
-			}
-			throw err;
+	public async send<T extends SerialApiCallbackCommand<any, any>>(
+		command: T,
+		timeoutInMs?: number
+	): Promise<CallbackTypeOf<T>>;
+	/**
+	 * Execute command on Z-Wave serial API.
+	 *
+	 * This overload executes a command that issues a REQuest, and expects a RESponse.
+	 *
+	 * Throws an exception if e.g. the command is not supported by the connected serial
+	 * device, isn't accepted, invalid response is received, or timeout occurs.
+	 *
+	 * @param command Callback command to send.
+	 * @param timeoutInMs Optional timeout in milliseconds (defaults to 5s, as specified in INS12350-14, section 6.6.3)
+	 */
+	public async send<T extends SerialApiResponseCommand<any, any>>(
+		command: T,
+		timeoutInMs?: number
+	): Promise<ResponseTypeOf<T>>;
+	/**
+	 * Execute command on Z-Wave serial API.
+	 *
+	 * This overload executes a command that only issues a REQuest, and does not expect
+	 * a RESponse.
+	 *
+	 * Throws an exception if e.g. the command is not supported by the connected serial
+	 * device, or isn't accepted, or a timeout occurs.
+	 *
+	 * @param command Callback command to send.
+	 */
+	public async send<T extends SerialApiSimpleCommand<any>>(
+		command: T
+	): Promise<void>;
+	public async send(
+		command:
+			| SerialApiSimpleCommand<any>
+			| SerialApiResponseCommand<any, any>
+			| SerialApiCallbackCommand<any, any>,
+		timeoutInMs?: number
+	): Promise<any> {
+		this._verifyCommandSupportedAndReady(command.command);
+		if (isCallbackCommand(command)) {
+			return this._requestAndWait(command, timeoutInMs);
+		} else if (isResponseCommand(command)) {
+			return this._request(command);
+		} else {
+			return this._send(command);
 		}
 	}
 
-	/**
-	 * Abort in-progress zwSendData request.
-	 *
-	 * Only to be used by zwSendData() itself.
-	 */
-	public async zwSendDataAbort(): Promise<void> {
-		await this.send(new ZwSendDataAbortCommand());
-	}
-
-	public async send<T extends SerialApiSimpleCommand<any>>(
+	private async _send<T extends SerialApiSimpleCommand<any>>(
 		command: T
 	): Promise<void> {
-		this._verifyCommandSupportedAndReady(command.command);
 		return this._requests.add(() =>
 			this._protocol.send(
 				command.command,
@@ -278,26 +311,26 @@ export class SerialApi extends EventEmitter {
 		);
 	}
 
-	public async request<T extends SerialApiResponseCommand<any, any>>(
-		command: T
+	private async _request<T extends SerialApiResponseCommand<any, any>>(
+		command: T,
+		timeoutInMs?: number
 	): Promise<ResponseTypeOf<T>> {
-		this._verifyCommandSupportedAndReady(command.command);
 		const transactionId = this._getNextCallbackId();
 		const response = await this._requests.add(() =>
 			this._protocol.request(
 				command.command,
-				command.serializeRequest(transactionId)
+				command.serializeRequest(transactionId),
+				timeoutInMs
 			)
 		);
 		const result = command.parseResponse(response);
 		return result;
 	}
 
-	public async requestAndWait<T extends SerialApiCallbackCommand<any, any>>(
+	private async _requestAndWait<T extends SerialApiCallbackCommand<any, any>>(
 		message: T,
-		timeoutInMs: number
+		timeoutInMs?: number
 	): Promise<CallbackTypeOf<T>> {
-		this._verifyCommandSupportedAndReady(message.command);
 		const transactionId = this._getNextCallbackId();
 		try {
 			log(
@@ -326,10 +359,17 @@ export class SerialApi extends EventEmitter {
 				};
 				// Prevent unhandled rejection if aborted before protocol.request() returns
 				resultDef.promise.catch(noop);
+				// Overall request timeout should include sending of the request
+				// TODO obtain default value from command
+				const resultPromise = timeout(
+					resultDef.promise,
+					timeoutInMs ?? DEFAULT_CALLBACK_TIMEOUT
+				);
 				try {
 					const commandResponse = await this._protocol.request(
 						message.command,
-						message.serializeRequest(transactionId)
+						message.serializeRequest(transactionId),
+						timeoutInMs
 					);
 					if (commandResponse.length < 1) {
 						throw new Error(
@@ -345,7 +385,7 @@ export class SerialApi extends EventEmitter {
 							} failed: request could not be queued`
 						);
 					}
-					return await timeout(resultDef.promise, timeoutInMs);
+					return await resultPromise;
 				} finally {
 					this._callbackListener = undefined;
 				}
@@ -405,7 +445,7 @@ export class SerialApi extends EventEmitter {
 			return this._capabilities;
 		}
 		const cmd = new SerialApiGetCapabilitiesCommand();
-		this._capabilities = await this.request(cmd);
+		this._capabilities = await this.send(cmd);
 		this._supportedFunctions = this._capabilities.supportedFunctions;
 		const caps = this._capabilities;
 		log(
@@ -444,7 +484,7 @@ export class SerialApi extends EventEmitter {
 			return this._initData;
 		}
 
-		this._initData = await this.request(new SerialApiGetInitDataCommand());
+		this._initData = await this.send(new SerialApiGetInitDataCommand());
 		const init = this._initData;
 		const roleText = init.capabilities.has(NodeCapabilityFlags.SlaveAPI)
 			? "slave"
@@ -518,7 +558,7 @@ export class SerialApi extends EventEmitter {
 			return this._homeAndNodeId;
 		}
 
-		this._homeAndNodeId = await this.request(new ZwMemoryGetIdCommand());
+		this._homeAndNodeId = await this.send(new ZwMemoryGetIdCommand());
 		const homeAndId = this._homeAndNodeId;
 		log(
 			`zwMemoryGetId: homeId=0x${toHex(
@@ -534,7 +574,7 @@ export class SerialApi extends EventEmitter {
 	 * and what type it is.
 	 */
 	private async _zwGetVersion(): Promise<ZwVersionInfo> {
-		this._versionInfo = await this.request(new ZwGetVersionCommand());
+		this._versionInfo = await this.send(new ZwGetVersionCommand());
 		const info = this._versionInfo;
 		log(
 			`zwGetVersion: libraryVersion="${
