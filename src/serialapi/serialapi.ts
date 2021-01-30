@@ -4,6 +4,11 @@ import * as util from "util";
 import { Queue } from "../common/queue";
 import { defer, enumToString, noop, timeout, toHex } from "../common/util";
 import {
+	ZwGetVersionCommand,
+	ZwVersionInfo,
+} from "./commands/basis/zwGetVersion";
+import { ZwMemoryGetIdCommand } from "./commands/memory/zwMemoryGetId";
+import {
 	SerialAPICapabilities,
 	SerialApiGetCapabilitiesCommand,
 } from "./commands/serialApi/serialApiGetCapabilities";
@@ -18,11 +23,6 @@ import {
 	ZW_SEND_DATA_TIMEOUT,
 } from "./commands/transport/zwSendData";
 import { ZwSendDataAbortCommand } from "./commands/transport/zwSendDataAbort";
-import {
-	ZwGetVersionCommand,
-	ZwVersionInfo,
-} from "./commands/basis/zwGetVersion";
-import { ZwMemoryGetIdCommand } from "./commands/memory/zwMemoryGetId";
 import { IProtocol } from "./protocol";
 import {
 	CallbackTypeOf,
@@ -156,10 +156,8 @@ export class SerialApi extends EventEmitter {
 	private _callbackListener: CallbackListener<any> | undefined;
 
 	/**
-	 * Construct Serial API using given Z-Wave Serial Protocol encoder/decoder.
-	 *
-	 * After construction, call `init()` to ensure the API initializes itself
-	 * correctly, and synchronous access to certain state is enabled.
+	 * Construct and initialize Serial API using given Z-Wave Serial Protocol
+	 * encoder/decoder.
 	 *
 	 * The given protocol must already be initialized.
 	 * When the protocol is reset, after or during initialization of the Serial
@@ -167,7 +165,15 @@ export class SerialApi extends EventEmitter {
 	 *
 	 * @param protocol Serial Protocol encoder/decoder, must be already initialized (i.e. soft/hard-resetted).
 	 */
-	constructor(protocol: IProtocol) {
+	public static async create(protocol: IProtocol): Promise<SerialApi> {
+		const serialApi = new SerialApi(protocol);
+		serialApi.on("error", noop); // Prevent unhandled error due to no attached handlers when init() errors
+		await serialApi._init();
+		serialApi.off("error", noop);
+		return serialApi;
+	}
+
+	private constructor(protocol: IProtocol) {
 		super();
 		this._protocol = protocol;
 
@@ -177,23 +183,6 @@ export class SerialApi extends EventEmitter {
 		this._protocol.on("reset", () => this._handleProtocolReset());
 		this._protocol.on("error", (error) => this._handleProtocolError(error));
 		this._protocol.on("close", () => this._handleProtocolClose());
-	}
-
-	/**
-	 * Initialize SerialApi.
-	 *
-	 * Afterwards, calls like `getNodes()`, `isController()` and `getHomeAndNodeId()`
-	 * will be possible.
-	 */
-	public async init(): Promise<void> {
-		log("initializing");
-		this._state = SerialApiState.Initializing;
-		await this.serialGetCapabilities(true);
-		await this.zwGetVersion();
-		await this.serialGetInitData(true);
-		await this.zwMemoryGetId(true);
-		this._state = SerialApiState.Ready;
-		log("initialized");
 	}
 
 	/**
@@ -234,162 +223,6 @@ export class SerialApi extends EventEmitter {
 	public getLibraryType(): ZwLibraryType {
 		this._verifyInitialized(this._versionInfo);
 		return this._versionInfo.libraryType;
-	}
-
-	/**
-	 * Determine basic information about connected Z-Wave chip such
-	 * as manufacturer/produce information, and which serial API functions are
-	 * supported.
-	 *
-	 * Automatically called during init().
-	 *
-	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
-	 *                     when true, will always request fresh data from chip.
-	 */
-	public async serialGetCapabilities(
-		forceRefresh: boolean = false
-	): Promise<SerialAPICapabilities> {
-		if (this._capabilities && !forceRefresh) {
-			return this._capabilities;
-		}
-		const cmd = new SerialApiGetCapabilitiesCommand();
-		this._capabilities = await this.request(cmd);
-		this._supportedFunctions = this._capabilities.supportedFunctions;
-		const caps = this._capabilities;
-		log(
-			`serialGetCapabilities:`,
-			`applicationVersion=${caps.applVersion}.${
-				caps.applRevision
-			} manufacturerId=0x${toHex(
-				caps.manufacturerId,
-				4
-			)} manufacturerProductType=0x${toHex(
-				caps.manufacturerProductType,
-				4
-			)} manufacturerProductId=0x${toHex(caps.manufacturerProductId, 4)}`
-		);
-		log(
-			`serialGetCapabilities supported functions: [${[
-				...caps.supportedFunctions.values(),
-			].map((func) => SerialApiCommandCode[func] ?? `0x${toHex(func)}`)}]`
-		);
-		return this._capabilities;
-	}
-
-	/**
-	 * Determine role of connected chip (controller/slave etc), serial API version
-	 * and list of nodes stored in RAM (for controllers).
-	 *
-	 * Automatically called during init().
-	 *
-	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
-	 *                     when true, will always request fresh data from chip.
-	 */
-	public async serialGetInitData(
-		forceRefresh: boolean = false
-	): Promise<SerialAPIInitData> {
-		if (this._initData && !forceRefresh) {
-			return this._initData;
-		}
-
-		this._initData = await this.request(new SerialApiGetInitDataCommand());
-		const init = this._initData;
-		const roleText = init.capabilities.has(NodeCapabilityFlags.SlaveAPI)
-			? "slave"
-			: init.capabilities.has(NodeCapabilityFlags.SecondaryController)
-			? "secondaryController"
-			: `primaryController isSIS=${init.capabilities.has(
-					NodeCapabilityFlags.IsSIS
-			  )}`;
-		// Determine readable chip name (INS12350-Serial-API-Host-Appl.-Prg.-Guide - section 7.4)
-		let chipName: string = "unknown";
-		switch (init.chipType) {
-			case 0x01:
-				switch (init.chipVersion) {
-					case 0x02:
-						chipName = "ZW0102";
-						break;
-				}
-				break;
-			case 0x02:
-				switch (init.chipVersion) {
-					case 0x01:
-						chipName = "ZW0201";
-						break;
-				}
-				break;
-			case 0x03:
-				switch (init.chipVersion) {
-					case 0x01:
-						chipName = "ZW0301";
-						break;
-				}
-				break;
-			case 0x04:
-				switch (init.chipVersion) {
-					case 0x01:
-						chipName = "ZM0401/ZM4102/SD3402";
-						break;
-				}
-				break;
-			case 0x05:
-				switch (init.chipVersion) {
-					case 0x00:
-						chipName = "ZW050x";
-						break;
-				}
-				break;
-		}
-		log(
-			`serialGetInitData:`,
-			`apiVersion=${init.apiVersion}`,
-			`role=${roleText}`,
-			`chipType=0x${init.chipType.toString(16)}`,
-			`chipVersion=0x${init.chipVersion.toString(16)}`,
-			`chipName=${chipName}`,
-			`nodes=[${[...init.nodes.values()]}]`
-		);
-
-		return this._initData;
-	}
-
-	/**
-	 * Retrieve Home ID and Node ID from connected serial chip.
-	 *
-	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
-	 *                     when true, will always request fresh data from chip.
-	 */
-	public async zwMemoryGetId(
-		forceRefresh: boolean = false
-	): Promise<HomeAndNodeId> {
-		if (this._homeAndNodeId && !forceRefresh) {
-			return this._homeAndNodeId;
-		}
-
-		this._homeAndNodeId = await this.request(new ZwMemoryGetIdCommand());
-		const homeAndId = this._homeAndNodeId;
-		log(
-			`zwMemoryGetId: homeId=0x${toHex(
-				homeAndId.homeId,
-				8
-			)} nodeId=${homeAndId.nodeId.toString()}`
-		);
-		return this._homeAndNodeId;
-	}
-
-	/**
-	 * Obtain Z-Wave chip's library version in human-readable form,
-	 * and what type it is.
-	 */
-	public async zwGetVersion(): Promise<ZwVersionInfo> {
-		this._versionInfo = await this.request(new ZwGetVersionCommand());
-		const info = this._versionInfo;
-		log(
-			`zwGetVersion: libraryVersion="${
-				info.libraryVersion
-			}" libraryType=${ZwLibraryType[info.libraryType]}`
-		);
-		return this._versionInfo;
 	}
 
 	/**
@@ -538,6 +371,179 @@ export class SerialApi extends EventEmitter {
 		}
 	}
 
+	/**
+	 * Initialize SerialApi.
+	 *
+	 * Afterwards, calls like `getNodes()`, `isController()` and `getHomeAndNodeId()`
+	 * will be possible.
+	 */
+	private async _init(): Promise<void> {
+		log("initializing");
+		this._state = SerialApiState.Initializing;
+		await this._serialGetCapabilities(true);
+		await this._zwGetVersion();
+		await this._serialGetInitData(true);
+		await this._zwMemoryGetId(true);
+		this._state = SerialApiState.Ready;
+		log("initialized");
+	}
+
+	/**
+	 * Determine basic information about connected Z-Wave chip such
+	 * as manufacturer/produce information, and which serial API functions are
+	 * supported.
+	 *
+	 * Automatically called during init().
+	 *
+	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
+	 *                     when true, will always request fresh data from chip.
+	 */
+	private async _serialGetCapabilities(
+		forceRefresh: boolean = false
+	): Promise<SerialAPICapabilities> {
+		if (this._capabilities && !forceRefresh) {
+			return this._capabilities;
+		}
+		const cmd = new SerialApiGetCapabilitiesCommand();
+		this._capabilities = await this.request(cmd);
+		this._supportedFunctions = this._capabilities.supportedFunctions;
+		const caps = this._capabilities;
+		log(
+			`serialGetCapabilities:`,
+			`applicationVersion=${caps.applVersion}.${
+				caps.applRevision
+			} manufacturerId=0x${toHex(
+				caps.manufacturerId,
+				4
+			)} manufacturerProductType=0x${toHex(
+				caps.manufacturerProductType,
+				4
+			)} manufacturerProductId=0x${toHex(caps.manufacturerProductId, 4)}`
+		);
+		log(
+			`serialGetCapabilities supported functions: [${[
+				...caps.supportedFunctions.values(),
+			].map((func) => SerialApiCommandCode[func] ?? `0x${toHex(func)}`)}]`
+		);
+		return this._capabilities;
+	}
+
+	/**
+	 * Determine role of connected chip (controller/slave etc), serial API version
+	 * and list of nodes stored in RAM (for controllers).
+	 *
+	 * Automatically called during init().
+	 *
+	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
+	 *                     when true, will always request fresh data from chip.
+	 */
+	private async _serialGetInitData(
+		forceRefresh: boolean = false
+	): Promise<SerialAPIInitData> {
+		if (this._initData && !forceRefresh) {
+			return this._initData;
+		}
+
+		this._initData = await this.request(new SerialApiGetInitDataCommand());
+		const init = this._initData;
+		const roleText = init.capabilities.has(NodeCapabilityFlags.SlaveAPI)
+			? "slave"
+			: init.capabilities.has(NodeCapabilityFlags.SecondaryController)
+			? "secondaryController"
+			: `primaryController isSIS=${init.capabilities.has(
+					NodeCapabilityFlags.IsSIS
+			  )}`;
+		// Determine readable chip name (INS12350-Serial-API-Host-Appl.-Prg.-Guide - section 7.4)
+		let chipName: string = "unknown";
+		switch (init.chipType) {
+			case 0x01:
+				switch (init.chipVersion) {
+					case 0x02:
+						chipName = "ZW0102";
+						break;
+				}
+				break;
+			case 0x02:
+				switch (init.chipVersion) {
+					case 0x01:
+						chipName = "ZW0201";
+						break;
+				}
+				break;
+			case 0x03:
+				switch (init.chipVersion) {
+					case 0x01:
+						chipName = "ZW0301";
+						break;
+				}
+				break;
+			case 0x04:
+				switch (init.chipVersion) {
+					case 0x01:
+						chipName = "ZM0401/ZM4102/SD3402";
+						break;
+				}
+				break;
+			case 0x05:
+				switch (init.chipVersion) {
+					case 0x00:
+						chipName = "ZW050x";
+						break;
+				}
+				break;
+		}
+		log(
+			`serialGetInitData:`,
+			`apiVersion=${init.apiVersion}`,
+			`role=${roleText}`,
+			`chipType=0x${init.chipType.toString(16)}`,
+			`chipVersion=0x${init.chipVersion.toString(16)}`,
+			`chipName=${chipName}`,
+			`nodes=[${[...init.nodes.values()]}]`
+		);
+
+		return this._initData;
+	}
+
+	/**
+	 * Retrieve Home ID and Node ID from connected serial chip.
+	 *
+	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
+	 *                     when true, will always request fresh data from chip.
+	 */
+	private async _zwMemoryGetId(
+		forceRefresh: boolean = false
+	): Promise<HomeAndNodeId> {
+		if (this._homeAndNodeId && !forceRefresh) {
+			return this._homeAndNodeId;
+		}
+
+		this._homeAndNodeId = await this.request(new ZwMemoryGetIdCommand());
+		const homeAndId = this._homeAndNodeId;
+		log(
+			`zwMemoryGetId: homeId=0x${toHex(
+				homeAndId.homeId,
+				8
+			)} nodeId=${homeAndId.nodeId.toString()}`
+		);
+		return this._homeAndNodeId;
+	}
+
+	/**
+	 * Obtain Z-Wave chip's library version in human-readable form,
+	 * and what type it is.
+	 */
+	private async _zwGetVersion(): Promise<ZwVersionInfo> {
+		this._versionInfo = await this.request(new ZwGetVersionCommand());
+		const info = this._versionInfo;
+		log(
+			`zwGetVersion: libraryVersion="${
+				info.libraryVersion
+			}" libraryType=${ZwLibraryType[info.libraryType]}`
+		);
+		return this._versionInfo;
+	}
+
 	private _verifyCommandSupportedAndReady(
 		command: SerialApiCommandCode
 	): void {
@@ -545,21 +551,12 @@ export class SerialApi extends EventEmitter {
 			throw new Error(`Serial API closed`);
 		}
 		if (!this._supportedFunctions.has(command)) {
-			if (this._state === SerialApiState.Ready) {
-				throw new Error(
-					`Serial API command ${enumToString(
-						command,
-						SerialApiCommandCode
-					)} not supported by device`
-				);
-			} else {
-				throw new Error(
-					`Serial API command ${enumToString(
-						command,
-						SerialApiCommandCode
-					)} possibly not supported by device: Serial API not initialized yet`
-				);
-			}
+			throw new Error(
+				`Serial API command ${enumToString(
+					command,
+					SerialApiCommandCode
+				)} not supported by device`
+			);
 		}
 	}
 
@@ -658,20 +655,20 @@ export class SerialApi extends EventEmitter {
 		try {
 			this.emit(event, ...args);
 		} catch (err) {
-			if (this._state === SerialApiState.Closed) {
-				// No way to report it anymore, let it explode as uncaught error
-				process.nextTick(() => {
-					throw err;
-				});
-				return;
-			}
 			const error =
 				typeof err === "object" && err instanceof Error
 					? err
 					: new Error("unknown error");
 			const eventHandlerError = new Error(
-				`error in SerialApi event handler for '${event}': ${error.name}: ${error.message}`
+				`unhandled error in SerialApi event handler for '${event}': ${error.name}: ${error.message}`
 			);
+			if (this._state === SerialApiState.Closed) {
+				// No way to report it anymore, let it explode as uncaught error
+				process.nextTick(() => {
+					throw error;
+				});
+				return;
+			}
 			this._abortAndClose(eventHandlerError);
 		}
 	}

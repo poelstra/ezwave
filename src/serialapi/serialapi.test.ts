@@ -4,12 +4,16 @@ import * as chaiAsPromised from "chai-as-promised";
 import { EventEmitter } from "events";
 import { describe, it } from "mocha";
 import * as sinon from "sinon";
-import { defer, never } from "../common/util";
-import { NodeCapabilityFlags } from "./commands/serialApi/serialApiGetInitData";
+import { defer } from "../common/util";
+import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
+import { zwMemoryGetIdBuffer } from "./commands/memory/zwMemoryGetId.test";
+import { serialCapsBuffer } from "./commands/serialApi/serialApiGetCapabilities.test";
+import { serialGetInitDataBuffer } from "./commands/serialApi/serialApiGetInitData.test";
 import { TransmitOptions } from "./commands/transport/zwSendData";
 import { IProtocol } from "./protocol";
 import { SerialApi } from "./serialapi";
 import { SerialApiCommandCode } from "./serialApiCommandCode";
+import { SerialApiSimpleVoidCommand } from "./serialApiSimpleCommand";
 import { ZwLibraryType } from "./types";
 
 chai.use(chaiAsPromised);
@@ -40,41 +44,9 @@ class FakeProtocol extends EventEmitter implements IProtocol {
 	}
 }
 
-// prettier-ignore
-const serialCapsBuffer = Buffer.from([
-	0x01, 0x00, 0x00, 0x86, 0x00, 0x01, 0x00, 0x5a, 0xfe, 0x81, 0xff, 0x88, 0x4f, 0x1f,
-	0x00, 0x00, 0xfb, 0x9f, 0x7d, 0xa0, 0x67, 0x00, 0x00, 0x80, 0x00, 0x80, 0x86, 0x00,
-	0x00, 0x00, 0xe8, 0x73, 0x00, 0x00, 0x0e, 0x00, 0x00, 0x60, 0x00, 0x00
-]);
-
-// prettier-ignore
-const serialCapsSupportedFunctions = new Set([
-	2, 3, 4, 5, 6, 7, 8, 9, 16, 17, 18, 19, 20, 21, 22, 23, 24, 28, 32, 33, 34, 35, 36,
-	39, 41, 42, 43, 44, 45, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 80, 81, 83,
-	84, 85, 86, 87, 94, 96, 97, 98, 99, 102, 103, 128, 144, 146, 147, 152, 180, 182,
-	183, 184, 185, 186, 189, 190, 191, 210, 211, 212, 238, 239
-]);
-
-// prettier-ignore
-const zwGetVersionBuffer = Buffer.from([
-	0x5a, 0x2d, 0x57, 0x61, 0x76, 0x65, 0x20, 0x33, 0x2e, 0x39, 0x35, 0x00, 0x01
-]);
-
-// prettier-ignore
-const serialGetInitDataBuffer = Buffer.from([
-	0x05, 0x08, 0x1d, 0x01, 0xf6, 0xe0, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x05, 0x00
-])
-
-// prettier-ignore
-const zwMemoryGetIdBuffer = Buffer.from([0x12, 0x34, 0x56, 0x78, 0x01]);
-
 describe("SerialAPI", () => {
 	let clock: sinon.SinonFakeTimers;
 	let protocol: FakeProtocol;
-	let serialApi: SerialApi;
-	let serialApiEvents: any[][];
 	let requestStub: sinon.SinonStub<
 		Parameters<IProtocol["request"]>,
 		ReturnType<IProtocol["request"]>
@@ -101,15 +73,6 @@ describe("SerialAPI", () => {
 		sendStub.throws(new Error("unexpected call to protocol.send()"));
 		cancelStub = sinon.stub(protocol, "cancel");
 		cancelStub.throws(new Error("unexpected call to protocol.cancel()"));
-		serialApi = new SerialApi(protocol);
-		serialApiEvents = [];
-		serialApi.on("command", (command) =>
-			serialApiEvents.push(["command", command])
-		);
-		serialApi.on("error", (error) =>
-			serialApiEvents.push(["error", error])
-		);
-		serialApi.on("close", () => serialApiEvents.push(["close"]));
 
 		handleSecondRequest = async (cmd, params) => {
 			const funcId = params!.slice(-1)[0];
@@ -144,103 +107,9 @@ describe("SerialAPI", () => {
 	afterEach(async () => {
 		await clock.runAllAsync();
 		clock.restore();
-		expect(
-			serialApiEvents,
-			"Unexpected unprocessed serialApi events"
-		).to.deep.equal([]);
 	});
 
 	describe("uninitialized", () => {
-		it("serialGetCapabilities()", async () => {
-			requestStub.onCall(0).resolves(serialCapsBuffer);
-
-			const caps = await serialApi.serialGetCapabilities();
-
-			expect(requestStub.callCount).to.equal(1);
-			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialApiCommandCode.SERIAL_API_GET_CAPABILITIES,
-				undefined,
-			]);
-			expect(caps).to.deep.equal({
-				applRevision: 0,
-				applVersion: 1,
-				manufacturerId: 134,
-				manufacturerProductId: 90,
-				manufacturerProductType: 1,
-				supportedFunctions: serialCapsSupportedFunctions,
-			});
-		});
-
-		it("zwGetVersion()", async () => {
-			requestStub.onCall(0).resolves(zwGetVersionBuffer);
-
-			const versionInfo = await serialApi.zwGetVersion();
-
-			expect(requestStub.callCount).to.equal(1);
-			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialApiCommandCode.ZW_GET_VERSION,
-				undefined,
-			]);
-			expect(versionInfo).to.deep.equal({
-				libraryType: 1,
-				libraryVersion: "Z-Wave 3.95",
-			});
-		});
-
-		it("serialGetInitData()", async () => {
-			requestStub.onCall(0).resolves(serialGetInitDataBuffer);
-
-			const initData = await serialApi.serialGetInitData();
-
-			expect(requestStub.callCount).to.equal(1);
-			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialApiCommandCode.SERIAL_API_GET_INIT_DATA,
-				undefined,
-			]);
-			const capabilities = new Set([NodeCapabilityFlags.IsSIS]);
-			const nodes = new Set([1, 10, 11, 13, 14, 15, 16, 22, 23, 24, 25]);
-			expect(initData).to.deep.equal({
-				apiVersion: 5,
-				capabilities,
-				chipType: 5,
-				chipVersion: 0,
-				nodes,
-			});
-		});
-
-		it("zwMemoryGetId()", async () => {
-			requestStub.onCall(0).resolves(zwMemoryGetIdBuffer);
-
-			const memoryInfo = await serialApi.zwMemoryGetId();
-
-			expect(requestStub.callCount).to.equal(1);
-			expect(requestStub.firstCall.args).to.deep.equal([
-				SerialApiCommandCode.ZW_MEMORY_GET_ID,
-				undefined,
-			]);
-			expect(memoryInfo).to.deep.equal({
-				homeId: 0x12345678,
-				nodeId: 1,
-			});
-		});
-
-		it("must prevent calling unsupported functions when not initialized", async () => {
-			await expect(
-				serialApi.zwSendData(1, Buffer.from([0x01]))
-			).to.eventually.be.rejectedWith("not initialized");
-		});
-
-		it("must prevent calling synchronous helpers when not initialized", () => {
-			expect(() => serialApi.isController()).to.throw("not initialized");
-			expect(() => serialApi.getNodes()).to.throw("not initialized");
-			expect(() => serialApi.getHomeAndNodeId()).to.throw(
-				"not initialized"
-			);
-			expect(() => serialApi.getLibraryType()).to.throw(
-				"not initialized"
-			);
-		});
-
 		it("handles reset during init", async () => {
 			// Act like partial init is happening
 			requestStub.onCall(0).resolves(serialCapsBuffer);
@@ -250,32 +119,19 @@ describe("SerialAPI", () => {
 			cancelStub
 				.onCall(0)
 				.callsFake((reason) => cancelDeferred.reject(reason));
-			const p1 = expect(serialApi.init()).to.eventually.be.rejectedWith(
-				"protocol reset"
-			);
+			const p1 = expect(
+				SerialApi.create(protocol)
+			).to.eventually.be.rejectedWith("protocol reset");
 			await clock.tickAsync(0);
 			protocol.emit("reset");
 			await p1;
-			expect(serialApiEvents.map(([name]) => name)).to.deep.equal([
-				"error",
-				"close",
-			]);
-			expect(serialApiEvents[0][1].message).to.equal("protocol reset");
-			serialApiEvents = [];
-			await expect(
-				serialApi.zwSendData(3, Buffer.from([0x34]))
-			).to.eventually.be.rejectedWith("Serial API closed");
-		});
-
-		it("ignores reset before starting initialize", async () => {
-			protocol.emit("reset");
-			requestStub.onCall(0).returns(never());
-			serialApi.init();
-			expect(requestStub.calledOnce).to.equal(true);
 		});
 	}); // uninitialized
 
 	describe("initialized", () => {
+		let serialApi: SerialApi;
+		let serialApiEvents: any[][];
+
 		beforeEach(async () => {
 			// Initialize serial API in all further tests
 			requestStub.onCall(0).resolves(serialCapsBuffer);
@@ -283,12 +139,27 @@ describe("SerialAPI", () => {
 			requestStub.onCall(2).resolves(serialGetInitDataBuffer);
 			requestStub.onCall(3).resolves(zwMemoryGetIdBuffer);
 
-			await serialApi.init();
+			serialApi = await SerialApi.create(protocol);
+			serialApiEvents = [];
+			serialApi.on("command", (command) =>
+				serialApiEvents.push(["command", command])
+			);
+			serialApi.on("error", (error) =>
+				serialApiEvents.push(["error", error])
+			);
+			serialApi.on("close", () => serialApiEvents.push(["close"]));
 
 			requestStub.reset();
 			requestStub.throws(
 				new Error("unexpected call to protocol.request()")
 			);
+		});
+
+		afterEach(() => {
+			expect(
+				serialApiEvents,
+				"Unexpected unprocessed serialApi events"
+			).to.deep.equal([]);
 		});
 
 		it("supports synchronous access after init", () => {
@@ -302,6 +173,17 @@ describe("SerialAPI", () => {
 			expect(serialApi.getLibraryType()).to.equal(
 				ZwLibraryType.StaticController
 			);
+		});
+
+		it("prevents calling unsupported functions", async () => {
+			class TestCommand extends SerialApiSimpleVoidCommand {
+				constructor() {
+					super(SerialApiCommandCode.ZW_SEND_SLAVE_DATA);
+				}
+			}
+			await expect(
+				serialApi.send(new TestCommand())
+			).to.eventually.be.rejectedWith("not supported");
 		});
 
 		describe("zwSendData()", () => {

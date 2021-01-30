@@ -53,12 +53,11 @@ interface Config {
 async function serialApiFromPort(port: Duplex): Promise<SerialApi> {
 	const framer = new Framer(port);
 	const protocol = new Protocol(framer);
-	// Hard-reset port once we detect it's stuck
-	protocol.on("stuck", () => port.destroy());
+	// Reset port once we detect it's stuck
+	protocol.on("stuck", () => protocol.softReset());
 	// We're working with a USB port, which is hard-resetted
 	await protocol.hardResetted();
-	const serialApi = new SerialApi(protocol);
-	await serialApi.init();
+	const serialApi = await SerialApi.create(protocol);
 	return serialApi;
 }
 
