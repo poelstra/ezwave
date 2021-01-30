@@ -53,8 +53,8 @@ function createDataFrame(
 	};
 }
 
-const ACK_TIMEOUT = 1600; // INS12350 6.2.2 Data frame delivery timeout
-const DEFAULT_RES_TIMEOUT = 10 * 1000;
+const ACK_TIMEOUT = 1600; // INS12350-14 6.2.2 Data frame delivery timeout
+const RES_TIMEOUT = 5000; // INS12350-14 6.6.3 Host Request/Response Session
 const MAX_RETRANSMISSIONS = 3;
 
 const HARD_RESET_DELAY = 500; // INS12350 6.1.1 With hard reset
@@ -442,7 +442,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 			// will be returned from this._send(), so it will be handled correctly.
 			result.catch(noop);
 			this._reqFrame = request;
-			this._resTimer = new Timer(timeout ?? DEFAULT_RES_TIMEOUT, () =>
+			this._resTimer = new Timer(timeout ?? RES_TIMEOUT, () =>
 				this._handleResTimeout()
 			);
 			this._resTimer.start(); // According to spec, RES timer needs to be started before the send
