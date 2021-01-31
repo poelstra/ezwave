@@ -8,7 +8,7 @@ export enum TransmitOptions {
 	Explore = 0x20, // reduce powerlevel by 6dB
 }
 
-enum TxStatus {
+export enum TxStatus {
 	Ok = 0x00,
 	NoAck = 0x01, // Node may be sleeping
 	Fail = 0x02, // Network busy
@@ -25,6 +25,15 @@ export interface ZwSendDataRequest {
 
 export interface ZwSendDataResponse {
 	transmitTime?: number; // in milliseconds
+}
+
+export class ZwSendDataError extends Error {
+	public readonly txStatus: TxStatus;
+
+	constructor(txStatus: TxStatus, message: string) {
+		super(message);
+		this.txStatus = txStatus;
+	}
 }
 
 export class ZwSendDataCommand extends SerialApiFuncIdCommand<
@@ -62,7 +71,8 @@ export class ZwSendDataCommand extends SerialApiFuncIdCommand<
 		}
 		const txStatus: TxStatus = payload[0];
 		if (txStatus !== TxStatus.Ok) {
-			throw new Error(
+			throw new ZwSendDataError(
+				txStatus,
 				`error sending command to node ${this.request.nodeId}: ${
 					TxStatus[txStatus] ?? `0x${toHex(txStatus)}`
 				}`
