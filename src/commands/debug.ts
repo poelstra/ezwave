@@ -37,9 +37,16 @@ export function packetToString(packet: Packet): string {
 
 	const spec = getSpec();
 	const cmdDef = spec
-		.get(packet.commandClass)!
-		.get(packet.version)!
-		.commandsById.get(packet.command)!;
+		.get(packet.commandClass)
+		?.get(packet.version)
+		?.commandsById.get(packet.command);
+
+	if (!cmdDef) {
+		// Happens e.g. for NoOperation, which has no command
+		return `<Packet cmdClass=0x${toHex(packet.commandClass, 2)} name=${
+			CommandClasses[packet.commandClass]
+		} cmdAndPayload=[${bufferToString(packet.commandAndPayload)}]>`;
+	}
 
 	const payloadStr =
 		packet instanceof CommandPacket
