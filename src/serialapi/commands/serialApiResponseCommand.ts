@@ -13,8 +13,6 @@ export abstract class SerialApiResponseVoidCommand<
 	public serializeRequest(): undefined {
 		return undefined;
 	}
-
-	public abstract parseResponse(response: Buffer): R;
 }
 
 export type ResponseTypeOf<T> = T extends SerialApiResponseCommand<any, infer R>

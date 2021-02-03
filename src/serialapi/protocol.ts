@@ -18,6 +18,10 @@ import {
 	Timer,
 } from "../common/util";
 import {
+	SerialApiCommandCode,
+	serialApiCommandToString,
+} from "./commands/serialApiCommandCode";
+import {
 	DataFrame,
 	DataType,
 	Frame,
@@ -26,10 +30,6 @@ import {
 	IFramer,
 	SimpleFrame,
 } from "./framer";
-import {
-	SerialApiCommandCode,
-	serialApiCommandToString,
-} from "./serialApiCommandCode";
 
 const log = debug("zwave:protocol");
 const logData = log.extend("data");
@@ -151,8 +151,12 @@ export interface IProtocol extends EventEmitter {
 	 *
 	 * Only a single send() or request() can be ongoing at the same time,
 	 * and the protocol must be initialized and not closed yet.
+	 *
+	 * @param command Serial API command code to send
+	 * @param params Parameters for command, if necessary.
+	 * @returns Promise for successful send of command.
 	 */
-	send(cmd: SerialApiCommandCode, params?: Buffer): Promise<void>;
+	send(command: SerialApiCommandCode, params?: Buffer): Promise<void>;
 
 	/**
 	 * Send REQ command to Z-Wave chip and wait for corresponding RES result
@@ -163,9 +167,14 @@ export interface IProtocol extends EventEmitter {
 	 *
 	 * Note: unsollicited messages can still be received while a request
 	 * is ongoing.
+	 *
+	 * @param command Serial API command code to send
+	 * @param params Parameters for command, if necessary.
+	 * @param timeout Optional timeout, uses default of RES_TIMEOUT (5s) if not specified.
+	 * @returns Promise for payload of returned RES message.
 	 */
 	request(
-		cmd: SerialApiCommandCode,
+		command: SerialApiCommandCode,
 		params?: Buffer,
 		timeout?: number
 	): Promise<Buffer>;
@@ -369,9 +378,13 @@ export class Protocol extends EventEmitter implements IProtocol {
 	 *
 	 * Only a single send() or request() can be ongoing at the same time,
 	 * and the protocol must be initialized and not closed yet.
+	 *
+	 * @param command Serial API command code to send
+	 * @param params Parameters for command, if necessary.
+	 * @returns Promise for successful send of command.
 	 */
 	public async send(
-		cmd: SerialApiCommandCode,
+		command: SerialApiCommandCode,
 		params?: Buffer
 	): Promise<void> {
 		if (this._state !== ProtocolState.Idle) {
@@ -380,14 +393,14 @@ export class Protocol extends EventEmitter implements IProtocol {
 		if (logData.enabled) {
 			logData(
 				"send",
-				`cmd=${serialApiCommandToString(cmd)} params=[${
+				`cmd=${serialApiCommandToString(command)} params=[${
 					params ? bufferToString(params) : ""
 				}]`
 			);
 		}
 		this._state = ProtocolState.Sending;
 		try {
-			const request = createDataFrame(cmd, params);
+			const request = createDataFrame(command, params);
 			await this._send(request);
 			logData("send ok");
 		} catch (err) {
@@ -416,11 +429,16 @@ export class Protocol extends EventEmitter implements IProtocol {
 	 *
 	 * Note: unsollicited messages can still be received while a request
 	 * is ongoing.
+	 *
+	 * @param command Serial API command code to send
+	 * @param params Parameters for command, if necessary.
+	 * @param timeout Optional timeout, uses default of RES_TIMEOUT (5s) if not specified.
+	 * @returns Promise for payload of returned RES message.
 	 */
 	public async request(
-		cmd: SerialApiCommandCode,
+		command: SerialApiCommandCode,
 		params?: Buffer,
-		timeout?: number
+		timeout: number = RES_TIMEOUT
 	): Promise<Buffer> {
 		if (this._state !== ProtocolState.Idle) {
 			throw new Error("cannot send request: protocol not idle");
@@ -428,23 +446,21 @@ export class Protocol extends EventEmitter implements IProtocol {
 		if (logData.enabled) {
 			logData(
 				"request",
-				`cmd=${serialApiCommandToString(cmd)} params=[${
+				`cmd=${serialApiCommandToString(command)} params=[${
 					params ? bufferToString(params) : ""
 				}]`
 			);
 		}
 		this._state = ProtocolState.Sending;
 		try {
-			const request = createDataFrame(cmd, params);
+			const request = createDataFrame(command, params);
 			this._resResult = defer<DataFrame>();
 			const result = this._resResult.promise;
 			// Prevent unhandled rejection when send is aborted. The actual error
 			// will be returned from this._send(), so it will be handled correctly.
 			result.catch(noop);
 			this._reqFrame = request;
-			this._resTimer = new Timer(timeout ?? RES_TIMEOUT, () =>
-				this._handleResTimeout()
-			);
+			this._resTimer = new Timer(timeout, () => this._handleResTimeout());
 			this._resTimer.start(); // According to spec, RES timer needs to be started before the send
 			await this._send(request);
 			// @ts-ignore Typescript thinks this._state must be Sending by now, but see explanation below

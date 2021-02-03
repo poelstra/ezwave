@@ -1,3 +1,5 @@
+import { CommandClassInfo } from "../commands/commandClassInfo";
+
 export enum ZwLibraryType {
 	StaticController = 0x01,
 	Controller = 0x02,
@@ -21,4 +23,12 @@ export interface HomeAndNodeId {
 	 * Z-Wave Node ID [1..232] of chip connected to serial API.
 	 */
 	nodeId: number;
+}
+
+export interface NodeInfoResponse {
+	nodeId: number;
+	basicClass: number; // TODO BasicDeviceClassEnum
+	genericClass: number; // TODO GenericDeviceClassEnum
+	specificClass: number; // 'subclass' within GenericDeviceClassEnum
+	commandClasses: CommandClassInfo;
 }

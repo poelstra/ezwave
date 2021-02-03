@@ -1,8 +1,8 @@
 import { decodeParams } from "../../../commands/decode";
 import { ParameterType } from "../../../commands/spec";
 import { convertFromJsonParams } from "../../../commands/specHelpers";
-import { SerialApiCommandCode } from "../../serialApiCommandCode";
-import { SerialApiResponseVoidCommand } from "../../serialApiResponseCommand";
+import { SerialApiCommandCode } from "../serialApiCommandCode";
+import { SerialApiResponseVoidCommand } from "../serialApiResponseCommand";
 import { HomeAndNodeId } from "../../types";
 
 export class ZwMemoryGetIdCommand extends SerialApiResponseVoidCommand<HomeAndNodeId> {

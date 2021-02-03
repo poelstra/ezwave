@@ -11,10 +11,7 @@ import { Stack } from "../layers/stack";
 import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
-import {
-	ZwSendDataCommand,
-	ZW_SEND_DATA_TIMEOUT,
-} from "../serialapi/commands/transport/zwSendData";
+import { ZwSendDataCommand } from "../serialapi/commands/transport/zwSendData";
 import { ZwSendDataAbortCommand } from "../serialapi/commands/transport/zwSendDataAbort";
 import {
 	rxStatusToString,
@@ -101,7 +98,7 @@ export class Controller
 						nodeId: command.endpoint.nodeId,
 						payload: command.packet.serialize(),
 					});
-					await this._serialApi.send(serialCmd, ZW_SEND_DATA_TIMEOUT);
+					await this._serialApi.send(serialCmd);
 				} catch (err) {
 					// INS13954 4.3.3.1.6 Exception recovery:
 					// If a timeout occurs, it is important to call ZW_SendDataAbort to stop the sending of the frame.

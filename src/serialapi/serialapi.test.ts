@@ -15,8 +15,8 @@ import {
 } from "./commands/transport/zwSendData";
 import { IProtocol } from "./protocol";
 import { SerialApi } from "./serialapi";
-import { SerialApiCommandCode } from "./serialApiCommandCode";
-import { SerialApiSimpleVoidCommand } from "./serialApiSimpleCommand";
+import { SerialApiCommandCode } from "./commands/serialApiCommandCode";
+import { SerialApiSimpleVoidCommand } from "./commands/serialApiSimpleCommand";
 import { ZwLibraryType } from "./types";
 
 chai.use(chaiAsPromised);

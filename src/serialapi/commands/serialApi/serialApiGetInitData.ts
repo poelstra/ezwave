@@ -1,8 +1,8 @@
 import { decodeParams } from "../../../commands/decode";
 import { ParameterType, LengthType, BitmaskType } from "../../../commands/spec";
 import { convertFromJsonParams } from "../../../commands/specHelpers";
-import { SerialApiCommandCode } from "../../serialApiCommandCode";
-import { SerialApiResponseVoidCommand } from "../../serialApiResponseCommand";
+import { SerialApiCommandCode } from "../serialApiCommandCode";
+import { SerialApiResponseVoidCommand } from "../serialApiResponseCommand";
 
 export enum NodeCapabilityFlags {
 	SlaveAPI = 0, // Otherwise ControllerAPI

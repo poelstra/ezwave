@@ -1,6 +1,6 @@
 import { toHex } from "../../../common/util";
-import { SerialApiCommandCode } from "../../serialApiCommandCode";
-import { SerialApiFuncIdCommand } from "../../serialApiFuncCommand";
+import { SerialApiCommandCode } from "../serialApiCommandCode";
+import { SerialApiTransmitCallbackCommand } from "../serialApiTransmitCallbackCommand";
 
 export enum TransmitOptions {
 	Ack = 0x01,
@@ -36,12 +36,16 @@ export class ZwSendDataError extends Error {
 	}
 }
 
-export class ZwSendDataCommand extends SerialApiFuncIdCommand<
+export class ZwSendDataCommand extends SerialApiTransmitCallbackCommand<
 	ZwSendDataRequest,
 	ZwSendDataResponse
 > {
-	constructor(request: ZwSendDataRequest) {
-		super(SerialApiCommandCode.ZW_SEND_DATA, request);
+	constructor(request: ZwSendDataRequest, timeout?: number) {
+		super(
+			SerialApiCommandCode.ZW_SEND_DATA,
+			request,
+			timeout ?? ZW_SEND_DATA_TIMEOUT
+		);
 	}
 
 	public serializeRequest(transactionId: number): Buffer {

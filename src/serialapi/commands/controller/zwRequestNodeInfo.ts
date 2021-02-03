@@ -1,17 +1,11 @@
+import { parseCommandClassInfo } from "../../../commands/commandClassInfo";
 import {
-	CommandClassInfo,
-	parseCommandClassInfo,
-} from "../../../commands/commandClassInfo";
-import { SerialApiCallbackCommand } from "../../serialApiCallbackCommand";
-import { SerialApiCommandCode } from "../../serialApiCommandCode";
-
-export interface NodeInfoResponse {
-	nodeId: number;
-	basicClass: number; // TODO BasicDeviceClassEnum
-	genericClass: number; // TODO GenericDeviceClassEnum
-	specificClass: number; // 'subclass' within GenericDeviceClassEnum
-	commandClasses: CommandClassInfo;
-}
+	SerialApiCallbackCommand,
+	verifyTransmitResponse,
+} from "../serialApiCallbackCommand";
+import { SerialApiCommandCode } from "../serialApiCommandCode";
+import { NodeInfoResponse } from "../../types";
+import { ZW_SEND_DATA_TIMEOUT } from "../transport/zwSendData";
 
 enum UpdateState {
 	NodeInfoReceived = 0x84,
@@ -23,21 +17,27 @@ enum UpdateState {
 	SucID = 0x10,
 }
 
-export interface NodeInfoRequest {
+export interface ZwRequestNodeInfoRequest {
 	nodeId: number;
 }
 
 export class ZwRequestNodeInfoCommand extends SerialApiCallbackCommand<
-	NodeInfoRequest,
+	ZwRequestNodeInfoRequest,
 	NodeInfoResponse
 > {
-	constructor(request: NodeInfoRequest) {
-		super(SerialApiCommandCode.ZW_REQUEST_NODE_INFO, request);
+	constructor(request: ZwRequestNodeInfoRequest, timeout?: number) {
+		super(
+			SerialApiCommandCode.ZW_REQUEST_NODE_INFO,
+			request,
+			timeout ?? ZW_SEND_DATA_TIMEOUT
+		);
 	}
 
 	serializeRequest(): Buffer {
 		return Buffer.from([this.request.nodeId]);
 	}
+
+	verifyResponse = verifyTransmitResponse;
 
 	tryParseCallback(
 		command: SerialApiCommandCode,
@@ -46,7 +46,7 @@ export class ZwRequestNodeInfoCommand extends SerialApiCallbackCommand<
 		if (command !== SerialApiCommandCode.ZW_APPLICATION_UPDATE) {
 			return;
 		}
-		if (params.length < 6) {
+		if (params.length < 1) {
 			return;
 		}
 		const bStatus = params[0];
@@ -57,6 +57,9 @@ export class ZwRequestNodeInfoCommand extends SerialApiCallbackCommand<
 		}
 		// TODO There's also NodeInfoReqDone, but no idea when you'd get one
 		if (bStatus !== UpdateState.NodeInfoReceived) {
+			return;
+		}
+		if (params.length < 6) {
 			return;
 		}
 		// INS13954-7 4.3.1.8 ApplicationControllerUpdate

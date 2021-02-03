@@ -18,25 +18,28 @@ import {
 	SerialAPIInitData,
 } from "./commands/serialApi/serialApiGetInitData";
 import {
-	ZwSendDataCommand,
-	ZwSendDataResponse,
-	ZW_SEND_DATA_TIMEOUT,
-} from "./commands/transport/zwSendData";
-import { ZwSendDataAbortCommand } from "./commands/transport/zwSendDataAbort";
-import { IProtocol } from "./protocol";
-import {
 	CallbackTypeOf,
 	isCallbackCommand,
 	SerialApiCallbackCommand,
-} from "./serialApiCallbackCommand";
-import { SerialApiCommandCode } from "./serialApiCommandCode";
+} from "./commands/serialApiCallbackCommand";
+import { SerialApiCommandCode } from "./commands/serialApiCommandCode";
+import {
+	EventTypeOf,
+	isTransactionCommand,
+	SerialApiTransactionCommand,
+	TransactionEventGetter,
+	TransactionResultTypeOf,
+	TransactionSender,
+} from "./commands/serialApiTransactionCommand";
 import {
 	isResponseCommand,
 	ResponseTypeOf,
 	SerialApiResponseCommand,
-} from "./serialApiResponseCommand";
-import { SerialApiSimpleCommand } from "./serialApiSimpleCommand";
+} from "./commands/serialApiResponseCommand";
+import { SerialApiSimpleCommand } from "./commands/serialApiSimpleCommand";
+import { IProtocol } from "./protocol";
 import { HomeAndNodeId, ZwLibraryType } from "./types";
+import { SerialApiTransmitCallbackCommand } from "./commands/serialApiTransmitCallbackCommand";
 
 const log = debug("zwave:serialapi");
 
@@ -235,9 +238,28 @@ export class SerialApi extends EventEmitter {
 	/**
 	 * Execute command on Z-Wave serial API.
 	 *
-	 * This overload executes a command that issues a REQuest, processes a RESponse,
-	 * and then waits for a callback REQuest to be emitted from the device with the
-	 * final result.
+	 * This overload executes a command that issues a REQuest, waits for and processes
+	 * a RESponse (if the command expects one) and then waits for multiple callback
+	 * REQuests to be emitted from the device. A statemachine (defined by the command)
+	 * is called that responds to each of these events, optionally responding with
+	 * additional (internal) commands, etc. and finally returning a single result of the
+	 * overall operation.
+	 *
+	 * Throws an exception if e.g. the command is not supported by the connected serial
+	 * device, isn't accepted, cannot successfully be sent, invalid response is received,
+	 * or the given timeout occurs.
+	 *
+	 * @param command Callback command to send.
+	 */
+	public async send<T extends SerialApiTransactionCommand<any, any, any>>(
+		command: T
+	): Promise<TransactionResultTypeOf<T>>;
+	/**
+	 * Execute command on Z-Wave serial API.
+	 *
+	 * This overload executes a command that issues a REQuest, waits for and processes
+	 * a RESponse (if the command expects one) and then waits for a callback REQuest
+	 * to be emitted from the device with the final result.
 	 *
 	 * Throws an exception if e.g. the command is not supported by the connected serial
 	 * device, isn't accepted, cannot successfully be sent, invalid response is received,
@@ -248,11 +270,9 @@ export class SerialApi extends EventEmitter {
 	 * performed by this function.
 	 *
 	 * @param command Callback command to send.
-	 * @param timeoutInMs Timeout in milliseconds.
 	 */
 	public async send<T extends SerialApiCallbackCommand<any, any>>(
-		command: T,
-		timeoutInMs?: number
+		command: T
 	): Promise<CallbackTypeOf<T>>;
 	/**
 	 * Execute command on Z-Wave serial API.
@@ -263,11 +283,9 @@ export class SerialApi extends EventEmitter {
 	 * device, isn't accepted, invalid response is received, or timeout occurs.
 	 *
 	 * @param command Callback command to send.
-	 * @param timeoutInMs Optional timeout in milliseconds (defaults to 5s, as specified in INS12350-14, section 6.6.3)
 	 */
 	public async send<T extends SerialApiResponseCommand<any, any>>(
-		command: T,
-		timeoutInMs?: number
+		command: T
 	): Promise<ResponseTypeOf<T>>;
 	/**
 	 * Execute command on Z-Wave serial API.
@@ -287,12 +305,14 @@ export class SerialApi extends EventEmitter {
 		command:
 			| SerialApiSimpleCommand<any>
 			| SerialApiResponseCommand<any, any>
-			| SerialApiCallbackCommand<any, any>,
-		timeoutInMs?: number
+			| SerialApiCallbackCommand<any, any>
+			| SerialApiTransactionCommand<any, any, any>
 	): Promise<any> {
 		this._verifyCommandSupportedAndReady(command.command);
-		if (isCallbackCommand(command)) {
-			return this._requestAndWait(command, timeoutInMs);
+		if (isTransactionCommand(command)) {
+			return this._doTransaction(command);
+		} else if (isCallbackCommand(command)) {
+			return this._requestAndWait(command);
 		} else if (isResponseCommand(command)) {
 			return this._request(command);
 		} else {
@@ -328,8 +348,7 @@ export class SerialApi extends EventEmitter {
 	}
 
 	private async _requestAndWait<T extends SerialApiCallbackCommand<any, any>>(
-		message: T,
-		timeoutInMs?: number
+		message: T
 	): Promise<CallbackTypeOf<T>> {
 		const transactionId = this._getNextCallbackId();
 		try {
@@ -357,35 +376,14 @@ export class SerialApi extends EventEmitter {
 					resolve: resultDef.resolve,
 					reject: resultDef.reject,
 				};
-				// Prevent unhandled rejection if aborted before protocol.request() returns
+				// Prevent unhandled rejection if aborted before _sendCallbackOrTransactionRequest() returns
 				resultDef.promise.catch(noop);
-				// Overall request timeout should include sending of the request
-				// TODO obtain default value from command
-				const resultPromise = timeout(
-					resultDef.promise,
-					timeoutInMs ?? DEFAULT_CALLBACK_TIMEOUT
-				);
 				try {
-					const commandResponse = await this._protocol.request(
-						message.command,
-						message.serializeRequest(transactionId),
-						timeoutInMs
+					await this._sendCallbackOrTransactionRequest(
+						message,
+						transactionId
 					);
-					if (commandResponse.length < 1) {
-						throw new Error(
-							`command ${
-								SerialApiCommandCode[message.command]
-							} failed: got zero-length response from Z-Wave Serial device`
-						);
-					}
-					if (commandResponse[0] === 0) {
-						throw new Error(
-							`command ${
-								SerialApiCommandCode[message.command]
-							} failed: request could not be queued`
-						);
-					}
-					return await resultPromise;
+					return await timeout(resultDef.promise, message.timeout);
 				} finally {
 					this._callbackListener = undefined;
 				}
@@ -408,6 +406,149 @@ export class SerialApi extends EventEmitter {
 				)}`
 			);
 			throw err;
+		}
+	}
+
+	private async _doTransaction<
+		T extends SerialApiTransactionCommand<any, any, any>,
+		E extends EventTypeOf<T>,
+		R extends TransactionResultTypeOf<T>
+	>(command: T): Promise<R> {
+		const transactionId = this._getNextCallbackId();
+		try {
+			log(
+				`${
+					SerialApiCommandCode[command.command]
+				} begin: transactionId=${transactionId} args=${util.inspect(
+					command.request
+				)}`
+			);
+
+			const result = await this._requests.add(async () => {
+				const resultDef = defer<never>();
+				if (this._callbackListener) {
+					throw new Error(
+						"programming error: callbackListener still present"
+					);
+				}
+				const events: E[] = [];
+				const getters: Array<(value: E | PromiseLike<E>) => void> = [];
+				const pumpEvents = () => {
+					while (events.length > 0 && getters.length > 0) {
+						const event = events.shift()!;
+						const getter = getters.shift()!;
+						getter(event);
+					}
+				};
+				const mapper = (
+					cmd: SerialApiCommandCode,
+					params: Buffer
+				): void => {
+					const event = command.tryParseCallback(
+						cmd,
+						params,
+						transactionId
+					);
+					if (event) {
+						events.push(event);
+						pumpEvents();
+					}
+				};
+				this._callbackListener = {
+					mapper,
+					resolve: noop,
+					reject: resultDef.reject,
+				};
+				// Prevent unhandled rejection if aborted before _sendCallbackOrTransactionRequest() returns
+				resultDef.promise.catch(noop);
+				let inTransaction = true;
+				try {
+					await this._sendCallbackOrTransactionRequest(
+						command,
+						transactionId
+					);
+
+					const send: TransactionSender = async (
+						command: any
+					): Promise<void> => {
+						if (!inTransaction) {
+							throw new Error("transaction ended");
+						}
+						//return this.sendInternal();
+						console.log("TODO SEND", command);
+					};
+					const getEvent: TransactionEventGetter<E> = async (
+						timeoutInMs
+					) => {
+						if (!inTransaction) {
+							throw new Error("transaction ended");
+						}
+						const d = defer<E>();
+						getters.push(d.resolve);
+						try {
+							pumpEvents();
+							return await timeout(d.promise, timeoutInMs);
+						} finally {
+							// Remove timed-out getter, if necessary, to prevent
+							// event getting lost
+							const index = getters.indexOf(d.resolve);
+							if (index >= 0) {
+								getters.splice(index, 1);
+							}
+						}
+					};
+					return await command.execute(send, getEvent);
+				} finally {
+					inTransaction = false;
+					this._callbackListener = undefined;
+					while (getters.length > 0) {
+						const getter = getters.shift()!;
+						getter(Promise.reject(new Error("transaction ended")));
+					}
+				}
+			});
+
+			log(
+				`${
+					SerialApiCommandCode[command.command]
+				} ok: transactionId=${transactionId} result=${util.inspect(
+					result
+				)}`
+			);
+			return result;
+		} catch (err) {
+			log(
+				`${
+					SerialApiCommandCode[command.command]
+				} failed: transactionId=${transactionId} error=${util.inspect(
+					err
+				)}`
+			);
+			throw err;
+		}
+	}
+
+	private async _sendCallbackOrTransactionRequest(
+		command:
+			| SerialApiCallbackCommand<any, any>
+			| SerialApiTransactionCommand<any, any, any>,
+		transactionId: number
+	): Promise<void> {
+		if (command.verifyResponse) {
+			// Note: No timeout is given to request(), as its timeout
+			// is spec'ed in the standard, and should only really happen
+			// if e.g. the device got stuck, not due to 'normal' issues
+			// such as RF noise.
+			const commandResponse = await this._protocol.request(
+				command.command,
+				command.serializeRequest(transactionId)
+			);
+			command.verifyResponse(commandResponse);
+		} else {
+			await this._protocol.send(
+				command.command,
+				command.serializeRequest(transactionId)
+			);
 		}
 	}
 

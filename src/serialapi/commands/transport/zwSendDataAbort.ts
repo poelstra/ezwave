@@ -1,5 +1,5 @@
-import { SerialApiCommandCode } from "../../serialApiCommandCode";
-import { SerialApiSimpleVoidCommand } from "../../serialApiSimpleCommand";
+import { SerialApiCommandCode } from "../serialApiCommandCode";
+import { SerialApiSimpleVoidCommand } from "../serialApiSimpleCommand";
 
 export class ZwSendDataAbortCommand extends SerialApiSimpleVoidCommand {
 	constructor() {
