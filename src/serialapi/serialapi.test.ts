@@ -4,20 +4,17 @@ import * as chaiAsPromised from "chai-as-promised";
 import { EventEmitter } from "events";
 import { describe, it } from "mocha";
 import * as sinon from "sinon";
-import { defer } from "../common/util";
+import { defer, noop } from "../common/util";
 import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
 import { zwMemoryGetIdBuffer } from "./commands/memory/zwMemoryGetId.test";
+import { RequestRunner } from "./commands/RequestRunner";
 import { serialCapsBuffer } from "./commands/serialApi/serialApiGetCapabilities.test";
 import { serialGetInitDataBuffer } from "./commands/serialApi/serialApiGetInitData.test";
-import {
-	TransmitOptions,
-	ZwSendDataCommand,
-} from "./commands/transport/zwSendData";
+import { SerialApiCommandCode } from "./commands/serialApiCommandCode";
+import { TransmitOptions, ZwSendData } from "./commands/transport/zwSendData";
+import { ZwLibraryType } from "./commands/types";
 import { IProtocol } from "./protocol";
 import { SerialApi } from "./serialapi";
-import { SerialApiCommandCode } from "./commands/serialApiCommandCode";
-import { SerialApiSimpleVoidCommand } from "./commands/serialApiSimpleCommand";
-import { ZwLibraryType } from "./types";
 
 chai.use(chaiAsPromised);
 
@@ -125,6 +122,7 @@ describe("SerialAPI", () => {
 			const p1 = expect(
 				SerialApi.create(protocol)
 			).to.eventually.be.rejectedWith("protocol reset");
+			p1.then(noop, noop);
 			await clock.tickAsync(0);
 			protocol.emit("reset");
 			await p1;
@@ -179,17 +177,22 @@ describe("SerialAPI", () => {
 		});
 
 		it("prevents calling unsupported functions", async () => {
-			class TestCommand extends SerialApiSimpleVoidCommand {
+			function requestBuilder() {
+				return () => ({
+					command: SerialApiCommandCode.ZW_SEND_SLAVE_DATA,
+				});
+			}
+			class TestCommand extends RequestRunner<typeof requestBuilder> {
 				constructor() {
-					super(SerialApiCommandCode.ZW_SEND_SLAVE_DATA);
+					super(requestBuilder, undefined);
 				}
 			}
 			await expect(
-				serialApi.send(new TestCommand())
+				serialApi.execute(new TestCommand())
 			).to.eventually.be.rejectedWith("not supported");
 		});
 
-		describe("send() with SerialApiCallbackCommand", () => {
+		describe("execute() with callback command", () => {
 			it("sends commands successfully", async () => {
 				requestStub.onCall(0).callsFake(async (cmd, params) => {
 					expect([cmd, params]).to.deep.equal([
@@ -229,14 +232,14 @@ describe("SerialAPI", () => {
 				});
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
-				await serialApi.send(
-					new ZwSendDataCommand({
+				await serialApi.execute(
+					new ZwSendData({
 						nodeId: 2,
 						payload: Buffer.from([0x12]),
 					})
 				);
-				await serialApi.send(
-					new ZwSendDataCommand({
+				await serialApi.execute(
+					new ZwSendData({
 						nodeId: 3,
 						payload: Buffer.from([0x34]),
 					})
@@ -271,15 +274,15 @@ describe("SerialAPI", () => {
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				await expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 2,
 							payload: Buffer.from([0x12]),
 						})
 					)
 				).to.eventually.be.rejectedWith("could not be queued");
-				await serialApi.send(
-					new ZwSendDataCommand({
+				await serialApi.execute(
+					new ZwSendData({
 						nodeId: 3,
 						payload: Buffer.from([0x34]),
 					})
@@ -323,15 +326,15 @@ describe("SerialAPI", () => {
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				await expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 2,
 							payload: Buffer.from([0x12]),
 						})
 					)
 				).to.eventually.rejectedWith("NoAck");
-				await serialApi.send(
-					new ZwSendDataCommand({
+				await serialApi.execute(
+					new ZwSendData({
 						nodeId: 3,
 						payload: Buffer.from([0x34]),
 					})
@@ -360,8 +363,8 @@ describe("SerialAPI", () => {
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				const p = expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 2,
 							payload: Buffer.from([0x12]),
 						})
@@ -370,8 +373,8 @@ describe("SerialAPI", () => {
 				await clock.runAllAsync();
 				await p;
 
-				await serialApi.send(
-					new ZwSendDataCommand({
+				await serialApi.execute(
+					new ZwSendData({
 						nodeId: 3,
 						payload: Buffer.from([0x34]),
 					})
@@ -400,8 +403,8 @@ describe("SerialAPI", () => {
 				requestStub.onCall(1).callsFake(handleSecondRequest);
 
 				const p = expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 2,
 							payload: Buffer.from([0x12]),
 						})
@@ -410,8 +413,8 @@ describe("SerialAPI", () => {
 				await clock.runAllAsync();
 				await p;
 
-				const p2 = serialApi.send(
-					new ZwSendDataCommand({
+				const p2 = serialApi.execute(
+					new ZwSendData({
 						nodeId: 3,
 						payload: Buffer.from([0x34]),
 					})
@@ -459,8 +462,8 @@ describe("SerialAPI", () => {
 				// Start both requests
 				let request1Done = false;
 				const request1 = serialApi
-					.send(
-						new ZwSendDataCommand({
+					.execute(
+						new ZwSendData({
 							nodeId: 2,
 							payload: Buffer.from([0x12]),
 						})
@@ -470,8 +473,8 @@ describe("SerialAPI", () => {
 					});
 				let request2Done = false;
 				const request2 = serialApi
-					.send(
-						new ZwSendDataCommand({
+					.execute(
+						new ZwSendData({
 							nodeId: 3,
 							payload: Buffer.from([0x34]),
 						})
@@ -507,8 +510,8 @@ describe("SerialAPI", () => {
 					.callsFake((reason) => cancelDeferred.reject(reason));
 
 				const p1 = expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 2,
 							payload: Buffer.from([0x12]),
 						})
@@ -528,13 +531,13 @@ describe("SerialAPI", () => {
 				);
 				serialApiEvents = [];
 				await expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 3,
 							payload: Buffer.from([0x34]),
 						})
 					)
-				).to.eventually.be.rejectedWith("Serial API closed");
+				).to.eventually.be.rejectedWith("protocol reset");
 			});
 
 			it("handles reset while waiting for reply", async () => {
@@ -546,8 +549,8 @@ describe("SerialAPI", () => {
 				cancelStub.onCall(0).returns(undefined); // called in current implementation, but doesn't have to be
 
 				const p1 = expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 2,
 							payload: Buffer.from([0x12]),
 						})
@@ -565,13 +568,13 @@ describe("SerialAPI", () => {
 				);
 				serialApiEvents = [];
 				await expect(
-					serialApi.send(
-						new ZwSendDataCommand({
+					serialApi.execute(
+						new ZwSendData({
 							nodeId: 3,
 							payload: Buffer.from([0x34]),
 						})
 					)
-				).to.eventually.be.rejectedWith("Serial API closed");
+				).to.eventually.be.rejectedWith("protocol reset");
 			});
 		}); // send() with SerialApiCallbackCommand
 	}); // initialized

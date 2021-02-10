@@ -1,17 +1,22 @@
 import { decodeParams } from "../../../commands/decode";
 import { ParameterType } from "../../../commands/spec";
 import { convertFromJsonParams } from "../../../commands/specHelpers";
+import { ResponseRequestBuilder } from "../requests";
+import { RequestRunner } from "../RequestRunner";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { SerialApiResponseVoidCommand } from "../serialApiResponseCommand";
-import { HomeAndNodeId } from "../../types";
+import { HomeAndNodeId } from "../types";
 
-export class ZwMemoryGetIdCommand extends SerialApiResponseVoidCommand<HomeAndNodeId> {
+export function zwMemoryGetIdBuilder(): ResponseRequestBuilder<HomeAndNodeId> {
+	return () => ({
+		command: SerialApiCommandCode.ZW_MEMORY_GET_ID,
+		parseResponse: (response) =>
+			decodeParams<HomeAndNodeId>(ZW_MEMORY_GET_ID_PARAMS, response),
+	});
+}
+
+export class ZwMemoryGetId extends RequestRunner<typeof zwMemoryGetIdBuilder> {
 	constructor() {
-		super(SerialApiCommandCode.ZW_MEMORY_GET_ID);
-	}
-
-	parseResponse(response: Buffer): HomeAndNodeId {
-		return decodeParams<HomeAndNodeId>(ZW_MEMORY_GET_ID_PARAMS, response);
+		super(zwMemoryGetIdBuilder, undefined);
 	}
 }
 

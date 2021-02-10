@@ -9,7 +9,7 @@ import { NonceStore } from "../security/nonceStore";
 import { Framer } from "../serialapi/framer";
 import { Protocol } from "../serialapi/protocol";
 import { SerialApi } from "../serialapi/serialapi";
-import { ZwLibraryType } from "../serialapi/types";
+import { ZwLibraryType } from "../serialapi/commands/types";
 import { Controller } from "../server/controller";
 import {
 	DEFAULT_SUPPORTED_ZWAVE_USB_IDS,

@@ -1,8 +1,9 @@
 import { decodeParams } from "../../../commands/decode";
-import { ParameterType, LengthType, BitmaskType } from "../../../commands/spec";
+import { BitmaskType, LengthType, ParameterType } from "../../../commands/spec";
 import { convertFromJsonParams } from "../../../commands/specHelpers";
+import { ResponseRequestBuilder } from "../requests";
+import { RequestRunner } from "../RequestRunner";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { SerialApiResponseVoidCommand } from "../serialApiResponseCommand";
 
 export enum NodeCapabilityFlags {
 	SlaveAPI = 0, // Otherwise ControllerAPI
@@ -19,16 +20,22 @@ export interface SerialAPIInitData {
 	chipVersion: number;
 }
 
-export class SerialApiGetInitDataCommand extends SerialApiResponseVoidCommand<SerialAPIInitData> {
-	constructor() {
-		super(SerialApiCommandCode.SERIAL_API_GET_INIT_DATA);
-	}
+export function serialApiGetInitDataBuilder(): ResponseRequestBuilder<SerialAPIInitData> {
+	return () => ({
+		command: SerialApiCommandCode.SERIAL_API_GET_INIT_DATA,
+		parseResponse: (response) =>
+			decodeParams<SerialAPIInitData>(
+				SERIAL_API_INIT_DATA_PARAMS,
+				response
+			),
+	});
+}
 
-	parseResponse(response: Buffer): SerialAPIInitData {
-		return decodeParams<SerialAPIInitData>(
-			SERIAL_API_INIT_DATA_PARAMS,
-			response
-		);
+export class SerialApiGetInitData extends RequestRunner<
+	typeof serialApiGetInitDataBuilder
+> {
+	constructor() {
+		super(serialApiGetInitDataBuilder, undefined);
 	}
 }
 

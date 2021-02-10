@@ -1,8 +1,17 @@
+import { SimpleRequestBuilder } from "../requests";
+import { RequestRunner } from "../RequestRunner";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { SerialApiSimpleVoidCommand } from "../serialApiSimpleCommand";
 
-export class ZwSendDataAbortCommand extends SerialApiSimpleVoidCommand {
+export function zwSendDataAbortBuilder(): SimpleRequestBuilder {
+	return () => ({
+		command: SerialApiCommandCode.ZW_SEND_DATA_ABORT,
+	});
+}
+
+export class ZwSendDataAbort extends RequestRunner<
+	typeof zwSendDataAbortBuilder
+> {
 	constructor() {
-		super(SerialApiCommandCode.ZW_SEND_DATA_ABORT);
+		super(zwSendDataAbortBuilder, undefined);
 	}
 }

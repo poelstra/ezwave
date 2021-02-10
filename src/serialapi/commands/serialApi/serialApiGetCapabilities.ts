@@ -1,8 +1,9 @@
 import { decodeParams } from "../../../commands/decode";
 import { BitmaskType, ParameterType } from "../../../commands/spec";
 import { convertFromJsonParams } from "../../../commands/specHelpers";
+import { ResponseRequestBuilder } from "../requests";
+import { RequestRunner } from "../RequestRunner";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { SerialApiResponseVoidCommand } from "../serialApiResponseCommand";
 
 export interface SerialAPICapabilities {
 	applVersion: number;
@@ -13,16 +14,22 @@ export interface SerialAPICapabilities {
 	supportedFunctions: Set<SerialApiCommandCode>;
 }
 
-export class SerialApiGetCapabilitiesCommand extends SerialApiResponseVoidCommand<SerialAPICapabilities> {
-	constructor() {
-		super(SerialApiCommandCode.SERIAL_API_GET_CAPABILITIES);
-	}
+export function serialApiGetCapabilitiesBuilder(): ResponseRequestBuilder<SerialAPICapabilities> {
+	return () => ({
+		command: SerialApiCommandCode.SERIAL_API_GET_CAPABILITIES,
+		parseResponse: (response) =>
+			decodeParams<SerialAPICapabilities>(
+				SERIAL_API_CAPABILITIES_PARAMS,
+				response
+			),
+	});
+}
 
-	parseResponse(response: Buffer): SerialAPICapabilities {
-		return decodeParams<SerialAPICapabilities>(
-			SERIAL_API_CAPABILITIES_PARAMS,
-			response
-		);
+export class SerialApiGetCapabilities extends RequestRunner<
+	typeof serialApiGetCapabilitiesBuilder
+> {
+	constructor() {
+		super(serialApiGetCapabilitiesBuilder, undefined);
 	}
 }
 

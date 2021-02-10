@@ -1,10 +1,8 @@
-import { enumToString, timeout, toHex } from "../../../common/util";
+import { toHex } from "../../../common/util";
+import { CallbackRequestBuilder } from "../requests";
+import { RequestRunner } from "../RequestRunner";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import {
-	SerialApiTransactionCommand,
-	TransactionEventGetter,
-	TransactionSender,
-} from "../serialApiTransactionCommand";
+import { buildCallbackParser } from "../transport/zwSendData";
 
 export interface ZwReplaceFailedNodeRequest {
 	nodeId: number;
@@ -78,123 +76,131 @@ enum ReplaceFailedNodeCallbackStatus {
 	ReplaceFailed = 5,
 }
 
-export class ZwReplaceFailedNodeCommand extends SerialApiTransactionCommand<
-	ZwReplaceFailedNodeRequest,
-	ReplaceFailedNodeCallbackStatus,
-	true
+export function zwReplaceFailedNodeBuilder(
+	request: ZwReplaceFailedNodeRequest
+): CallbackRequestBuilder<ReplaceFailedNodeCallbackStatus, void> {
+	return (transactionId) => {
+		const command = SerialApiCommandCode.ZW_REPLACE_FAILED_NODE;
+		return {
+			command,
+			// TODO How should power flag be added?
+			params: Buffer.from([request.nodeId, transactionId]),
+			parseResponse: (response: Buffer): void => {
+				if (response.length < 1) {
+					throw new Error(
+						`command ${SerialApiCommandCode[command]} failed: got zero-length response from Z-Wave Serial device`
+					);
+				}
+				const retVal = response[0] as ReplaceFailedNodeResponse;
+				if (retVal !== ReplaceFailedNodeResponse.ReplaceStarted) {
+					const flags: string[] = [];
+					if (
+						(retVal &
+							ReplaceFailedNodeResponse.NotPrimaryController) >
+						0
+					) {
+						flags.push(
+							ReplaceFailedNodeResponse[
+								ReplaceFailedNodeResponse.NotPrimaryController
+							]
+						);
+					}
+					if (
+						(retVal &
+							ReplaceFailedNodeResponse.NoCallbackFunction) >
+						0
+					) {
+						flags.push(
+							ReplaceFailedNodeResponse[
+								ReplaceFailedNodeResponse.NoCallbackFunction
+							]
+						);
+					}
+					if ((retVal & ReplaceFailedNodeResponse.NodeNotFound) > 0) {
+						flags.push(
+							ReplaceFailedNodeResponse[
+								ReplaceFailedNodeResponse.NodeNotFound
+							]
+						);
+					}
+					if (
+						(retVal &
+							ReplaceFailedNodeResponse.ReplaceProcessBusy) >
+						0
+					) {
+						flags.push(
+							ReplaceFailedNodeResponse[
+								ReplaceFailedNodeResponse.ReplaceProcessBusy
+							]
+						);
+					}
+					if (
+						(retVal & ReplaceFailedNodeResponse.ReplaceFailed) >
+						0
+					) {
+						flags.push(
+							ReplaceFailedNodeResponse[
+								ReplaceFailedNodeResponse.ReplaceFailed
+							]
+						);
+					}
+					throw new Error(
+						`command ${
+							SerialApiCommandCode[command]
+						} failed: replace node could not be started, code 0x${toHex(
+							retVal,
+							2
+						)} (${flags.join(",")})`
+					);
+				}
+			},
+			tryParseEvent: buildCallbackParser(
+				SerialApiCommandCode.ZW_REPLACE_FAILED_NODE,
+				transactionId,
+				(payload: Buffer): ReplaceFailedNodeCallbackStatus => {
+					if (payload.length < 1) {
+						throw new Error(
+							`invalid ZwReplaceFailedNode callback: missing status`
+						);
+					}
+					const status = payload[0] as ReplaceFailedNodeCallbackStatus;
+					return status;
+				}
+			),
+			handleEvents: async (events): Promise<void> => {
+				while (true) {
+					const event = await events.get(60 * 1000);
+					switch (event) {
+						case ReplaceFailedNodeCallbackStatus.NodeOk:
+							throw new Error(
+								"original node responded, so not replaced"
+							);
+						case ReplaceFailedNodeCallbackStatus.Replace:
+							// no-op
+							// TODO request.onInclusionStarted?.();
+							break;
+						case ReplaceFailedNodeCallbackStatus.ReplaceDone:
+							return;
+						case ReplaceFailedNodeCallbackStatus.ReplaceFailed:
+							throw new Error("node replace failed");
+						default:
+							throw new Error(
+								`unknown replace status callback 0x${toHex(
+									event,
+									2
+								)} received`
+							);
+					}
+				}
+			},
+		};
+	};
+}
+
+export class ZwReplaceFailedNode extends RequestRunner<
+	typeof zwReplaceFailedNodeBuilder
 > {
 	constructor(request: ZwReplaceFailedNodeRequest) {
-		super(SerialApiCommandCode.ZW_REPLACE_FAILED_NODE, request);
-	}
-
-	serializeRequest(transactionId: number): Buffer {
-		// TODO How should power flag be added?
-		return Buffer.from([this.request.nodeId, transactionId]);
-	}
-
-	verifyResponse(response: Buffer): void {
-		if (response.length < 1) {
-			throw new Error(
-				`command ${
-					SerialApiCommandCode[this.command]
-				} failed: got zero-length response from Z-Wave Serial device`
-			);
-		}
-		const retVal = response[0] as ReplaceFailedNodeResponse;
-		if (retVal !== ReplaceFailedNodeResponse.ReplaceStarted) {
-			const flags: string[] = [];
-			if ((retVal & ReplaceFailedNodeResponse.NotPrimaryController) > 0) {
-				flags.push(
-					ReplaceFailedNodeResponse[
-						ReplaceFailedNodeResponse.NotPrimaryController
-					]
-				);
-			}
-			if ((retVal & ReplaceFailedNodeResponse.NoCallbackFunction) > 0) {
-				flags.push(
-					ReplaceFailedNodeResponse[
-						ReplaceFailedNodeResponse.NoCallbackFunction
-					]
-				);
-			}
-			if ((retVal & ReplaceFailedNodeResponse.NodeNotFound) > 0) {
-				flags.push(
-					ReplaceFailedNodeResponse[
-						ReplaceFailedNodeResponse.NodeNotFound
-					]
-				);
-			}
-			if ((retVal & ReplaceFailedNodeResponse.ReplaceProcessBusy) > 0) {
-				flags.push(
-					ReplaceFailedNodeResponse[
-						ReplaceFailedNodeResponse.ReplaceProcessBusy
-					]
-				);
-			}
-			if ((retVal & ReplaceFailedNodeResponse.ReplaceFailed) > 0) {
-				flags.push(
-					ReplaceFailedNodeResponse[
-						ReplaceFailedNodeResponse.ReplaceFailed
-					]
-				);
-			}
-			throw new Error(
-				`command ${
-					SerialApiCommandCode[this.command]
-				} failed: replace node could not be started, code 0x${toHex(
-					retVal,
-					2
-				)} (${flags.join(",")})`
-			);
-		}
-	}
-
-	parsePayload(payload: Buffer): ReplaceFailedNodeCallbackStatus {
-		if (payload.length < 1) {
-			throw new Error(
-				`invalid ZwReplaceFailedNode callback: missing status`
-			);
-		}
-		const status = payload[0] as ReplaceFailedNodeCallbackStatus;
-		return status;
-	}
-
-	async execute(
-		send: TransactionSender,
-		getEvent: TransactionEventGetter<ReplaceFailedNodeCallbackStatus>
-	): Promise<true> {
-		const poll = async () => {
-			while (true) {
-				const event = await getEvent(60 * 1000);
-				console.log(
-					"REPLACE EVENT",
-					enumToString(event, ReplaceFailedNodeCallbackStatus)
-				);
-				switch (event) {
-					case ReplaceFailedNodeCallbackStatus.NodeOk:
-						throw new Error(
-							"original node responded, so not replaced"
-						);
-					case ReplaceFailedNodeCallbackStatus.Replace:
-						// no-op
-						// TODO call user-supplied callback to let them know
-						// 'inclusion' should now really commence
-						break;
-					case ReplaceFailedNodeCallbackStatus.ReplaceDone:
-						return true;
-					case ReplaceFailedNodeCallbackStatus.ReplaceFailed:
-						throw new Error("node replace failed");
-					default:
-						throw new Error(
-							`unknown replace status callback 0x${toHex(
-								event,
-								2
-							)} received`
-						);
-				}
-			}
-		};
-		await timeout(poll(), 70 * 1000);
-		return true;
+		super(zwReplaceFailedNodeBuilder, request);
 	}
 }

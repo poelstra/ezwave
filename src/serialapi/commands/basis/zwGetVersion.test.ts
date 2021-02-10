@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ZwGetVersionCommand } from "./zwGetVersion";
+import { zwGetVersionBuilder } from "./zwGetVersion";
 
 // prettier-ignore
 export const zwGetVersionBuffer = Buffer.from([
@@ -8,8 +8,8 @@ export const zwGetVersionBuffer = Buffer.from([
 
 describe("serialapi/commands/basis/zwGetVersion", () => {
 	it("ZwGetVersionCommand", async () => {
-		const cmd = new ZwGetVersionCommand();
-		expect(cmd.serializeRequest()).to.equal(undefined);
+		const cmd = zwGetVersionBuilder()(1);
+		expect(cmd.params).to.equal(undefined);
 		expect(cmd.parseResponse(zwGetVersionBuffer)).to.deep.equal({
 			libraryType: 1,
 			libraryVersion: "Z-Wave 3.95",

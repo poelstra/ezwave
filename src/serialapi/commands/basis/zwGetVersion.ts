@@ -1,22 +1,27 @@
 import { decodeParams } from "../../../commands/decode";
 import { ParameterType } from "../../../commands/spec";
 import { convertFromJsonParams } from "../../../commands/specHelpers";
+import { ResponseRequestBuilder } from "../requests";
+import { RequestRunner } from "../RequestRunner";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { SerialApiResponseVoidCommand } from "../serialApiResponseCommand";
-import { ZwLibraryType } from "../../types";
+import { ZwLibraryType } from "../types";
 
 export interface ZwVersionInfo {
 	libraryVersion: string;
 	libraryType: ZwLibraryType;
 }
 
-export class ZwGetVersionCommand extends SerialApiResponseVoidCommand<ZwVersionInfo> {
-	constructor() {
-		super(SerialApiCommandCode.ZW_GET_VERSION);
-	}
+export function zwGetVersionBuilder(): ResponseRequestBuilder<ZwVersionInfo> {
+	return () => ({
+		command: SerialApiCommandCode.ZW_GET_VERSION,
+		parseResponse: (response) =>
+			decodeParams(ZW_GET_VERSION_PARAMS, response),
+	});
+}
 
-	parseResponse(response: Buffer): ZwVersionInfo {
-		return decodeParams<ZwVersionInfo>(ZW_GET_VERSION_PARAMS, response);
+export class ZwGetVersion extends RequestRunner<typeof zwGetVersionBuilder> {
+	constructor() {
+		super(zwGetVersionBuilder, undefined);
 	}
 }
 

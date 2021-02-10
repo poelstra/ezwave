@@ -1,6 +1,10 @@
-import { toHex } from "../../../common/util";
+import { timeout, toHex } from "../../../common/util";
+import { Events } from "../events";
+import { ICommandSession } from "../ICommandSession";
+import { CallbackRequestBuilder } from "../requests";
+import { RequestRunner } from "../RequestRunner";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { SerialApiTransmitCallbackCommand } from "../serialApiTransmitCallbackCommand";
+import { ZwSendDataAbort } from "./zwSendDataAbort";
 
 export enum TransmitOptions {
 	Ack = 0x01,
@@ -21,6 +25,9 @@ export const ZW_SEND_DATA_TIMEOUT = 65 * 1000; // See INS13954-Instruction-Z-Wav
 export interface ZwSendDataRequest {
 	nodeId: number;
 	payload: Buffer;
+	timeout?: number;
+	afterSend?: () => void;
+	// TODO Add txOptions
 }
 
 export interface ZwSendDataResponse {
@@ -36,59 +43,114 @@ export class ZwSendDataError extends Error {
 	}
 }
 
-export class ZwSendDataCommand extends SerialApiTransmitCallbackCommand<
-	ZwSendDataRequest,
-	ZwSendDataResponse
-> {
-	constructor(request: ZwSendDataRequest, timeout?: number) {
-		super(
-			SerialApiCommandCode.ZW_SEND_DATA,
-			request,
-			timeout ?? ZW_SEND_DATA_TIMEOUT
-		);
+export function verifyTransmitResponse(response: Buffer): void {
+	if (response.length < 1) {
+		throw new Error(`got zero-length response from Z-Wave Serial device`);
 	}
+	if (response[0] === 0) {
+		throw new Error(`failed: request could not be queued`);
+	}
+}
 
-	public serializeRequest(transactionId: number): Buffer {
+export function buildCallbackParser<R>(
+	command: SerialApiCommandCode,
+	transactionId: number,
+	parsePayload: (payload: Buffer) => R
+): (command: SerialApiCommandCode, params: Buffer) => R | undefined {
+	return (cmd: SerialApiCommandCode, params: Buffer) => {
+		if (cmd !== command) {
+			return;
+		}
+		if (params.length < 1) {
+			return;
+		}
+		// Spec: INS13954, 4.3.3.1.7
+		if (params[0] !== transactionId) {
+			return;
+		}
+		const payload = params.slice(1);
+		return parsePayload(payload);
+	};
+}
+
+export function zwSendDataBuilder(
+	request: ZwSendDataRequest
+): CallbackRequestBuilder<ZwSendDataResponse, ZwSendDataResponse> {
+	return (transactionId) => {
 		// TODO INS13954 4.3.3.1 Prevent sending to virtual nodes inside the controller/bridge itself
 		// TODO INS13954 4.3.3.1.5 Implement checks for minimum/maximum payload size:
 		// Transmit option             non-secure  S0 secure
 		// TRANSMIT_OPTION_EXPLORE     46 bytes    26 bytes
 		// TRANSMIT_OPTION_AUTO_ROUTE  48 bytes    28 bytes
 		// TRANSMIT_OPTION_NO_ROUTE    54 bytes    34 bytes
-		// TODO Allow to specify TxOptions
 		const txOptions =
 			TransmitOptions.Ack |
 			TransmitOptions.AutoRoute |
 			TransmitOptions.Explore;
-		return Buffer.from([
-			this.request.nodeId,
-			this.request.payload.length,
-			...this.request.payload,
-			txOptions,
-			transactionId,
-		]);
-	}
-
-	parsePayload(payload: Buffer): ZwSendDataResponse {
-		if (payload.length < 1) {
-			throw new Error("invalid ZwSendData response");
-		}
-		const txStatus: TxStatus = payload[0];
-		if (txStatus !== TxStatus.Ok) {
-			throw new ZwSendDataError(
-				txStatus,
-				`error sending command to node ${this.request.nodeId}: ${
-					TxStatus[txStatus] ?? `0x${toHex(txStatus)}`
-				}`
-			);
-		}
-		let transmitTime: number | undefined;
-		if (payload.length >= 3) {
-			// DevKit 6.51+ added time measurement to response
-			transmitTime = payload.readUInt16BE(1) * 10; // in ms
-		}
 		return {
-			transmitTime,
+			command: SerialApiCommandCode.ZW_SEND_DATA,
+			params: Buffer.from([
+				request.nodeId,
+				request.payload.length,
+				...request.payload,
+				txOptions,
+				transactionId,
+			]),
+			parseResponse: verifyTransmitResponse,
+			tryParseEvent: buildCallbackParser(
+				SerialApiCommandCode.ZW_SEND_DATA,
+				transactionId,
+				(payload: Buffer): ZwSendDataResponse => {
+					if (payload.length < 1) {
+						throw new Error("invalid ZwSendData response");
+					}
+					const txStatus: TxStatus = payload[0];
+					if (txStatus !== TxStatus.Ok) {
+						throw new ZwSendDataError(
+							txStatus,
+							`error sending command to node ${request.nodeId}: ${
+								TxStatus[txStatus] ?? `0x${toHex(txStatus)}`
+							}`
+						);
+					}
+					let transmitTime: number | undefined;
+					if (payload.length >= 3) {
+						// DevKit 6.51+ added time measurement to response
+						transmitTime = payload.readUInt16BE(1) * 10; // in ms
+					}
+					return {
+						transmitTime,
+					};
+				}
+			),
+			handleEvents: async (
+				events: Events<ZwSendDataResponse>,
+				commandSession: ICommandSession
+			): Promise<ZwSendDataResponse> => {
+				try {
+					request.afterSend?.();
+					return await timeout(
+						events.get(),
+						request.timeout ?? ZW_SEND_DATA_TIMEOUT
+					);
+				} catch (err) {
+					// INS13954 4.3.3.1.6 Exception recovery:
+					// If a timeout occurs, it is important to call ZW_SendDataAbort to stop the sending of the frame.
+					// We also execute it for other types of failures, e.g. parse errors, or error on afterSend.
+					try {
+						await commandSession.execute(new ZwSendDataAbort());
+					} catch {
+						// ignore follow-up error (likely protocol close)
+					}
+					throw err;
+				}
+			},
 		};
+	};
+}
+
+export class ZwSendData extends RequestRunner<typeof zwSendDataBuilder> {
+	constructor(request: ZwSendDataRequest) {
+		super(zwSendDataBuilder, request);
 	}
 }

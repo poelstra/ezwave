@@ -1,0 +1,215 @@
+import {
+	CommandClassInfo,
+	parseCommandClassInfo,
+} from "../../../commands/commandClassInfo";
+import { SerialApiCallbackCommand } from "../serialApiCallbackCommand";
+import { SerialApiCommandCode } from "../../serialApiCommandCode";
+import { NodeInfoResponse } from "../../types";
+
+export enum AddNodeMode {
+	/**
+	 * Include any kind of node.
+	 */
+	Any = 1,
+	/**
+	 * @deprecated
+	 */
+	Controller = 2,
+	/**
+	 * @deprecated
+	 */
+	Slave = 3,
+	/**
+	 * @deprecated
+	 */
+	Existing = 4,
+	/**
+	 * Stop network inclusion mode.
+	 */
+	Stop = 5,
+	/**
+	 * Indicate failure of application-specific replication to
+	 * newly included controller.
+	 */
+	StopFailed = 6,
+	//SmartStart = 7, // TODO guess
+	HomeId = 8, // Only used for ZwAddNodeDskToNetwork
+}
+
+/**
+ * Status code for ZwAddNodeToNetwork callbacks.
+ */
+export enum AddNodeStatus {
+	/**
+	 * Z-Wave protocol is ready to include new node.
+	 */
+	LearnReady = 1,
+	/**
+	 * Z-Wave protocol detected node.
+	 */
+	NodeFound = 2,
+	/**
+	 * Z-Wave protocol included a slave type node.
+	 */
+	AddingSlave = 3,
+	/**
+	 * Z-Wave protocol included a controller type node.
+	 */
+	AddingController = 4,
+	/**
+	 * Z-Wave protocol completed operations related to the inclusion (add).
+	 * If new node type is controller, the controller application MAY invoke
+	 * application replication (copy).
+	 */
+	ProtocolDone = 5,
+	/**
+	 * All operations completed. Protocol is ready to return
+	 * to idle state.
+	 */
+	Done = 6,
+	/**
+	 * Z-Wave protocol reports that inclusion (add) was not successful.
+	 * New node is not ready for operation.
+	 */
+	Failed = 7,
+	/**
+	 * Z-Wave protocol reports that requested operation cannot be performed
+	 * since it requires that the node is in primary controller state.
+	 */
+	NotPrimary = 0x23,
+}
+
+enum AddNodeFlags {
+	NetworkWide = 0x40,
+	NormalPower = 0x80,
+}
+
+export interface ZwAddNodeToNetworkRequest {
+	mode: AddNodeMode;
+	normalPower?: boolean; // default true, false means low power
+}
+
+export class ZwAddNodeToNetworkCommand extends SerialApiMultiCallbackCommand<
+	ZwAddNodeToNetworkRequest,
+	NodeInfoResponse
+> {
+	constructor(request: ZwAddNodeToNetworkRequest) {
+		super(SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK, request);
+	}
+
+	serializeRequest(transactionId: number): Buffer {
+		let mode = this.request.mode;
+		if (
+			this.request.normalPower === undefined ||
+			this.request.normalPower
+		) {
+			mode |= AddNodeFlags.NormalPower;
+		}
+		mode |= AddNodeFlags.NetworkWide; // "MUST be used" (INS13954-7 4.4.1.1)
+		return Buffer.from([mode, transactionId]);
+	}
+
+	tryParseCallback(
+		command: SerialApiCommandCode,
+		params: Buffer,
+		transactionId: number
+	): NodeInfoResponse | undefined {
+		if (command !== SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK) {
+			return;
+		}
+		if (params.length < 2) {
+			throw new Error(
+				"invalid ZwAddNodeToNetwork callback from device: missing transactionId / status"
+			);
+		}
+		const bTransactionId = params[0];
+		const bStatus = params[1];
+		if (bTransactionId !== transactionId) {
+			// Ignore, perhaps a callback to an old request
+			return;
+		}
+		switch (bStatus) {
+			case AddNodeStatus.LearnReady:
+				break;
+			case AddNodeStatus.NodeFound:
+				break;
+			case AddNodeStatus.AddingSlave:
+				// parse NIF
+				break;
+			case AddNodeStatus.AddingController:
+				// parse NIF
+				break;
+			case AddNodeStatus.ProtocolDone:
+				break;
+			case AddNodeStatus.Done:
+				// parse Node ID
+				break;
+			case AddNodeStatus.Failed:
+				break;
+			case AddNodeStatus.NotPrimary:
+				throw new Error(
+					"cannot include node into network: not a primary controller"
+				);
+		}
+		// INS13954-7 4.3.1.8 ApplicationControllerUpdate
+		// Example response:
+		// NodeID | bLen | basic | generic | specific | commandclasses[]
+		// 10       1a     04      11        01         5e 20 86 72 26 5a 59 85 73 98 7a 56 70 31 32 8e 60 75 71 27 22 ef 2b
+		const bNodeId = params[1];
+		const bLen = params[2];
+		const basicClass = params[3];
+		const genericClass = params[4];
+		const specificClass = params[5];
+		const commandClassesRaw = params.slice(6);
+		if (bNodeId !== this.request.nodeId) {
+			return;
+		}
+		if (bLen !== params.length - 3 || bLen < 3) {
+			return;
+		}
+		const commandClasses = parseCommandClassInfo(commandClassesRaw);
+		return {
+			nodeId: bNodeId,
+			basicClass,
+			genericClass,
+			specificClass,
+			commandClasses,
+		};
+	}
+}
+
+/**
+ * Timeout for waiting for LearnReady status since calling AddNodeToNetwork(Any).
+ * See INS13954-7, section 4.4.1.3.1.
+ * Apparently allowed to be as small as 200ms, maximum 10s. Probably very rare.
+ */
+export const PROTOCOL_READY_TIMEOUT = 10 * 1000;
+
+/**
+ * Recommended timeout for waiting for NodeFound status since calling AddNodeToNetwork(Any).
+ * See INS13954-7, section 4.4.1.3.2.
+ */
+export const NODE_FOUND_TIMEOUT = 60 * 1000;
+
+export function getAddSlaveNodeTimeout(
+	listeningNodesCount: number,
+	flirsNodesCount: number
+): number {
+	return 76000 + listeningNodesCount * 217 + flirsNodesCount * 3517;
+}
+
+/**
+ * @param totalNodes Total number of nodes in network (i.e. non-listening + listening + FLiRS)
+ */
+export function getAddControllerNodeTimeout(
+	listeningNodesCount: number,
+	flirsNodesCount: number,
+	totalNodes: number
+): number {
+	return (
+		76000 +
+		listeningNodesCount * 217 +
+		flirsNodesCount * 3517 +
+		totalNodes * 732
+	);
+}

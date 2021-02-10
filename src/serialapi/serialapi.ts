@@ -1,45 +1,23 @@
 import debug from "debug";
 import { EventEmitter } from "events";
-import * as util from "util";
-import { Queue } from "../common/queue";
-import { defer, enumToString, noop, timeout, toHex } from "../common/util";
-import {
-	ZwGetVersionCommand,
-	ZwVersionInfo,
-} from "./commands/basis/zwGetVersion";
-import { ZwMemoryGetIdCommand } from "./commands/memory/zwMemoryGetId";
+import { noop, toHex } from "../common/util";
+import { ZwGetVersion, ZwVersionInfo } from "./commands/basis/zwGetVersion";
+import { CommandSession } from "./commands/commandSession";
+import { ICommandSessionRunner } from "./commands/ICommandSession";
+import { ZwMemoryGetId } from "./commands/memory/zwMemoryGetId";
+import { ProtocolManager } from "./commands/protocolManager";
 import {
 	SerialAPICapabilities,
-	SerialApiGetCapabilitiesCommand,
+	SerialApiGetCapabilities,
 } from "./commands/serialApi/serialApiGetCapabilities";
 import {
 	NodeCapabilityFlags,
-	SerialApiGetInitDataCommand,
+	SerialApiGetInitData,
 	SerialAPIInitData,
 } from "./commands/serialApi/serialApiGetInitData";
-import {
-	CallbackTypeOf,
-	isCallbackCommand,
-	SerialApiCallbackCommand,
-} from "./commands/serialApiCallbackCommand";
 import { SerialApiCommandCode } from "./commands/serialApiCommandCode";
-import {
-	EventTypeOf,
-	isTransactionCommand,
-	SerialApiTransactionCommand,
-	TransactionEventGetter,
-	TransactionResultTypeOf,
-	TransactionSender,
-} from "./commands/serialApiTransactionCommand";
-import {
-	isResponseCommand,
-	ResponseTypeOf,
-	SerialApiResponseCommand,
-} from "./commands/serialApiResponseCommand";
-import { SerialApiSimpleCommand } from "./commands/serialApiSimpleCommand";
+import { HomeAndNodeId, ZwLibraryType } from "./commands/types";
 import { IProtocol } from "./protocol";
-import { HomeAndNodeId, ZwLibraryType } from "./types";
-import { SerialApiTransmitCallbackCommand } from "./commands/serialApiTransmitCallbackCommand";
 
 const log = debug("zwave:serialapi");
 
@@ -86,12 +64,6 @@ function parseRxStatus(value: number): RxStatus {
 	};
 }
 
-interface CallbackListener<T> {
-	mapper: (command: SerialApiCommandCode, params: Buffer) => T | undefined;
-	resolve: (value: T | PromiseLike<T>) => void;
-	reject: (err: Error) => void;
-}
-
 // Set of functions assumed to exist on the Serial API before we
 // even tried to query it for its list of supported functions.
 // Note: SERIAL_API_GET_CAPABILITIES is only supported starting from
@@ -104,11 +76,6 @@ const DEFAULT_SUPPORTED_FUNCTIONS = new Set([
 	SerialApiCommandCode.SERIAL_API_GET_INIT_DATA,
 	SerialApiCommandCode.ZW_MEMORY_GET_ID,
 ]);
-
-/**
- * Timeout in milliseconds used by default for SerialApiCallbackCommand's.
- */
-const DEFAULT_CALLBACK_TIMEOUT = 10 * 1000;
 
 enum SerialApiState {
 	/**
@@ -156,14 +123,12 @@ export interface SerialApi {
 export class SerialApi extends EventEmitter {
 	private _state = SerialApiState.Constructed;
 	private _protocol: IProtocol;
-	private _supportedFunctions: Set<SerialApiCommandCode> = DEFAULT_SUPPORTED_FUNCTIONS;
+	private _rootSession: CommandSession;
 	private _capabilities?: SerialAPICapabilities;
 	private _initData?: SerialAPIInitData;
 	private _homeAndNodeId?: HomeAndNodeId;
 	private _versionInfo?: ZwVersionInfo;
-	private _callbackId: number = 0;
-	private _requests = new Queue();
-	private _callbackListener: CallbackListener<any> | undefined;
+	private _protocolManager: ProtocolManager;
 
 	/**
 	 * Construct and initialize Serial API using given Z-Wave Serial Protocol
@@ -186,6 +151,11 @@ export class SerialApi extends EventEmitter {
 	private constructor(protocol: IProtocol) {
 		super();
 		this._protocol = protocol;
+		this._protocolManager = new ProtocolManager(protocol);
+		this._protocolManager.setSupportedFunctions(
+			DEFAULT_SUPPORTED_FUNCTIONS
+		);
+		this._rootSession = new CommandSession(this._protocolManager);
 
 		this._protocol.on("callback", (command, params) =>
 			this._handleCallback(command, params)
@@ -236,320 +206,34 @@ export class SerialApi extends EventEmitter {
 	}
 
 	/**
-	 * Execute command on Z-Wave serial API.
+	 * Execute Serial API command(s).
 	 *
-	 * This overload executes a command that issues a REQuest, waits for and processes
-	 * a RESponse (if the command expects one) and then waits for multiple callback
-	 * REQuests to be emitted from the device. A statemachine (defined by the command)
-	 * is called that responds to each of these events, optionally responding with
-	 * additional (internal) commands, etc. and finally returning a single result of the
-	 * overall operation.
+	 * The runner is passed a session, which allows sending commands
+	 * and waiting for their responses as long as the runner is executing.
+	 * When the runner completes, the session is closed to prevent furher
+	 * direct access to the serial API.
 	 *
-	 * Throws an exception if e.g. the command is not supported by the connected serial
-	 * device, isn't accepted, cannot successfully be sent, invalid response is received,
-	 * or the given timeout occurs.
+	 * The runner is only started when the previous runner (if any)
+	 * has completed.
 	 *
-	 * @param command Callback command to send.
+	 * The Z-Wave Serial API is not designed for concurrent access,
+	 * and e.g. shares the same transmit queue between commands
+	 * (see INS13954-7 section 4.1.3).
+	 * This mechanism ensures that only a single command has access to the API
+	 * at any time. Note that a session can explicitly 'fork' itself to
+	 * allow e.g. sub-commands to be executed if necessary.
+	 *
+	 * @see ICommandSessionRunner and @see ICommandSession for details
+	 * and example usage.
+	 *
+	 * @param runner Runner class of which the `run()` method is passed
+	 *     a session that can be used to send/receive Serial API commands
+	 *     and events as long as the runner is executing.
+	 *     The `runner.toString()` method is used for logging which
+	 *     session is being started.
 	 */
-	public async send<T extends SerialApiTransactionCommand<any, any, any>>(
-		command: T
-	): Promise<TransactionResultTypeOf<T>>;
-	/**
-	 * Execute command on Z-Wave serial API.
-	 *
-	 * This overload executes a command that issues a REQuest, waits for and processes
-	 * a RESponse (if the command expects one) and then waits for a callback REQuest
-	 * to be emitted from the device with the final result.
-	 *
-	 * Throws an exception if e.g. the command is not supported by the connected serial
-	 * device, isn't accepted, cannot successfully be sent, invalid response is received,
-	 * or the given timeout occurs.
-	 *
-	 * Note that when the command times out, some commands (e.g. ZwSendData) require custom
-	 * cleanup to cleanly abort the command (e.g. ZwSendDataAbort). Such cleanup is not
-	 * performed by this function.
-	 *
-	 * @param command Callback command to send.
-	 */
-	public async send<T extends SerialApiCallbackCommand<any, any>>(
-		command: T
-	): Promise<CallbackTypeOf<T>>;
-	/**
-	 * Execute command on Z-Wave serial API.
-	 *
-	 * This overload executes a command that issues a REQuest, and expects a RESponse.
-	 *
-	 * Throws an exception if e.g. the command is not supported by the connected serial
-	 * device, isn't accepted, invalid response is received, or timeout occurs.
-	 *
-	 * @param command Callback command to send.
-	 */
-	public async send<T extends SerialApiResponseCommand<any, any>>(
-		command: T
-	): Promise<ResponseTypeOf<T>>;
-	/**
-	 * Execute command on Z-Wave serial API.
-	 *
-	 * This overload executes a command that only issues a REQuest, and does not expect
-	 * a RESponse.
-	 *
-	 * Throws an exception if e.g. the command is not supported by the connected serial
-	 * device, or isn't accepted, or a timeout occurs.
-	 *
-	 * @param command Callback command to send.
-	 */
-	public async send<T extends SerialApiSimpleCommand<any>>(
-		command: T
-	): Promise<void>;
-	public async send(
-		command:
-			| SerialApiSimpleCommand<any>
-			| SerialApiResponseCommand<any, any>
-			| SerialApiCallbackCommand<any, any>
-			| SerialApiTransactionCommand<any, any, any>
-	): Promise<any> {
-		this._verifyCommandSupportedAndReady(command.command);
-		if (isTransactionCommand(command)) {
-			return this._doTransaction(command);
-		} else if (isCallbackCommand(command)) {
-			return this._requestAndWait(command);
-		} else if (isResponseCommand(command)) {
-			return this._request(command);
-		} else {
-			return this._send(command);
-		}
-	}
-
-	private async _send<T extends SerialApiSimpleCommand<any>>(
-		command: T
-	): Promise<void> {
-		return this._requests.add(() =>
-			this._protocol.send(
-				command.command,
-				command.serializeRequest(this._getNextCallbackId())
-			)
-		);
-	}
-
-	private async _request<T extends SerialApiResponseCommand<any, any>>(
-		command: T,
-		timeoutInMs?: number
-	): Promise<ResponseTypeOf<T>> {
-		const transactionId = this._getNextCallbackId();
-		const response = await this._requests.add(() =>
-			this._protocol.request(
-				command.command,
-				command.serializeRequest(transactionId),
-				timeoutInMs
-			)
-		);
-		const result = command.parseResponse(response);
-		return result;
-	}
-
-	private async _requestAndWait<T extends SerialApiCallbackCommand<any, any>>(
-		message: T
-	): Promise<CallbackTypeOf<T>> {
-		const transactionId = this._getNextCallbackId();
-		try {
-			log(
-				`${
-					SerialApiCommandCode[message.command]
-				} begin: transactionId=${transactionId} args=${util.inspect(
-					message.request
-				)}`
-			);
-
-			const result = await this._requests.add(async () => {
-				const resultDef = defer<CallbackTypeOf<T>>();
-				if (this._callbackListener) {
-					throw new Error(
-						"programming error: callbackListener still present"
-					);
-				}
-				const mapper = (
-					command: SerialApiCommandCode,
-					params: Buffer
-				) => message.tryParseCallback(command, params, transactionId);
-				this._callbackListener = {
-					mapper,
-					resolve: resultDef.resolve,
-					reject: resultDef.reject,
-				};
-				// Prevent unhandled rejection if aborted before _sendCallbackOrTransactionRequest() returns
-				resultDef.promise.catch(noop);
-				try {
-					await this._sendCallbackOrTransactionRequest(
-						message,
-						transactionId
-					);
-					return await timeout(resultDef.promise, message.timeout);
-				} finally {
-					this._callbackListener = undefined;
-				}
-			});
-
-			log(
-				`${
-					SerialApiCommandCode[message.command]
-				} ok: transactionId=${transactionId} result=${util.inspect(
-					result
-				)}`
-			);
-			return result;
-		} catch (err) {
-			log(
-				`${
-					SerialApiCommandCode[message.command]
-				} failed: transactionId=${transactionId} error=${util.inspect(
-					err
-				)}`
-			);
-			throw err;
-		}
-	}
-
-	private async _doTransaction<
-		T extends SerialApiTransactionCommand<any, any, any>,
-		E extends EventTypeOf<T>,
-		R extends TransactionResultTypeOf<T>
-	>(command: T): Promise<R> {
-		const transactionId = this._getNextCallbackId();
-		try {
-			log(
-				`${
-					SerialApiCommandCode[command.command]
-				} begin: transactionId=${transactionId} args=${util.inspect(
-					command.request
-				)}`
-			);
-
-			const result = await this._requests.add(async () => {
-				const resultDef = defer<never>();
-				if (this._callbackListener) {
-					throw new Error(
-						"programming error: callbackListener still present"
-					);
-				}
-				const events: E[] = [];
-				const getters: Array<(value: E | PromiseLike<E>) => void> = [];
-				const pumpEvents = () => {
-					while (events.length > 0 && getters.length > 0) {
-						const event = events.shift()!;
-						const getter = getters.shift()!;
-						getter(event);
-					}
-				};
-				const mapper = (
-					cmd: SerialApiCommandCode,
-					params: Buffer
-				): void => {
-					const event = command.tryParseCallback(
-						cmd,
-						params,
-						transactionId
-					);
-					if (event) {
-						events.push(event);
-						pumpEvents();
-					}
-				};
-				this._callbackListener = {
-					mapper,
-					resolve: noop,
-					reject: resultDef.reject,
-				};
-				// Prevent unhandled rejection if aborted before _sendCallbackOrTransactionRequest() returns
-				resultDef.promise.catch(noop);
-				let inTransaction = true;
-				try {
-					await this._sendCallbackOrTransactionRequest(
-						command,
-						transactionId
-					);
-
-					const send: TransactionSender = async (
-						command: any
-					): Promise<void> => {
-						if (!inTransaction) {
-							throw new Error("transaction ended");
-						}
-						//return this.sendInternal();
-						console.log("TODO SEND", command);
-					};
-					const getEvent: TransactionEventGetter<E> = async (
-						timeoutInMs
-					) => {
-						if (!inTransaction) {
-							throw new Error("transaction ended");
-						}
-						const d = defer<E>();
-						getters.push(d.resolve);
-						try {
-							pumpEvents();
-							return await timeout(d.promise, timeoutInMs);
-						} finally {
-							// Remove timed-out getter, if necessary, to prevent
-							// event getting lost
-							const index = getters.indexOf(d.resolve);
-							if (index >= 0) {
-								getters.splice(index, 1);
-							}
-						}
-					};
-					return await command.execute(send, getEvent);
-				} finally {
-					inTransaction = false;
-					this._callbackListener = undefined;
-					while (getters.length > 0) {
-						const getter = getters.shift()!;
-						getter(Promise.reject(new Error("transaction ended")));
-					}
-				}
-			});
-
-			log(
-				`${
-					SerialApiCommandCode[command.command]
-				} ok: transactionId=${transactionId} result=${util.inspect(
-					result
-				)}`
-			);
-			return result;
-		} catch (err) {
-			log(
-				`${
-					SerialApiCommandCode[command.command]
-				} failed: transactionId=${transactionId} error=${util.inspect(
-					err
-				)}`
-			);
-			throw err;
-		}
-	}
-
-	private async _sendCallbackOrTransactionRequest(
-		command:
-			| SerialApiCallbackCommand<any, any>
-			| SerialApiTransactionCommand<any, any, any>,
-		transactionId: number
-	): Promise<void> {
-		if (command.verifyResponse) {
-			// Note: No timeout is given to request(), as its timeout
-			// is spec'ed in the standard, and should only really happen
-			// if e.g. the device got stuck, not due to 'normal' issues
-			// such as RF noise.
-			const commandResponse = await this._protocol.request(
-				command.command,
-				command.serializeRequest(transactionId)
-			);
-			command.verifyResponse(commandResponse);
-		} else {
-			await this._protocol.send(
-				command.command,
-				command.serializeRequest(transactionId)
-			);
-		}
+	public execute<T>(runner: ICommandSessionRunner<T>): Promise<T> {
+		return this._rootSession.execute(runner);
 	}
 
 	/**
@@ -561,12 +245,12 @@ export class SerialApi extends EventEmitter {
 	private async _init(): Promise<void> {
 		log("initializing");
 		this._state = SerialApiState.Initializing;
-		await this._serialGetCapabilities(true);
+		await this._serialGetCapabilities();
 		await this._zwGetVersion();
-		await this._serialGetInitData(true);
-		await this._zwMemoryGetId(true);
+		await this._serialGetInitData();
+		await this._zwMemoryGetId();
 		this._state = SerialApiState.Ready;
-		log("initialized");
+		log("ready");
 	}
 
 	/**
@@ -575,19 +259,12 @@ export class SerialApi extends EventEmitter {
 	 * supported.
 	 *
 	 * Automatically called during init().
-	 *
-	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
-	 *                     when true, will always request fresh data from chip.
 	 */
-	private async _serialGetCapabilities(
-		forceRefresh: boolean = false
-	): Promise<SerialAPICapabilities> {
-		if (this._capabilities && !forceRefresh) {
-			return this._capabilities;
-		}
-		const cmd = new SerialApiGetCapabilitiesCommand();
-		this._capabilities = await this.send(cmd);
-		this._supportedFunctions = this._capabilities.supportedFunctions;
+	private async _serialGetCapabilities(): Promise<SerialAPICapabilities> {
+		this._capabilities = await this.execute(new SerialApiGetCapabilities());
+		this._protocolManager.setSupportedFunctions(
+			this._capabilities.supportedFunctions
+		);
 		const caps = this._capabilities;
 		log(
 			`serialGetCapabilities:`,
@@ -614,18 +291,9 @@ export class SerialApi extends EventEmitter {
 	 * and list of nodes stored in RAM (for controllers).
 	 *
 	 * Automatically called during init().
-	 *
-	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
-	 *                     when true, will always request fresh data from chip.
 	 */
-	private async _serialGetInitData(
-		forceRefresh: boolean = false
-	): Promise<SerialAPIInitData> {
-		if (this._initData && !forceRefresh) {
-			return this._initData;
-		}
-
-		this._initData = await this.send(new SerialApiGetInitDataCommand());
+	private async _serialGetInitData(): Promise<SerialAPIInitData> {
+		this._initData = await this.execute(new SerialApiGetInitData());
 		const init = this._initData;
 		const roleText = init.capabilities.has(NodeCapabilityFlags.SlaveAPI)
 			? "slave"
@@ -692,14 +360,8 @@ export class SerialApi extends EventEmitter {
 	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
 	 *                     when true, will always request fresh data from chip.
 	 */
-	private async _zwMemoryGetId(
-		forceRefresh: boolean = false
-	): Promise<HomeAndNodeId> {
-		if (this._homeAndNodeId && !forceRefresh) {
-			return this._homeAndNodeId;
-		}
-
-		this._homeAndNodeId = await this.send(new ZwMemoryGetIdCommand());
+	private async _zwMemoryGetId(): Promise<HomeAndNodeId> {
+		this._homeAndNodeId = await this.execute(new ZwMemoryGetId());
 		const homeAndId = this._homeAndNodeId;
 		log(
 			`zwMemoryGetId: homeId=0x${toHex(
@@ -715,7 +377,7 @@ export class SerialApi extends EventEmitter {
 	 * and what type it is.
 	 */
 	private async _zwGetVersion(): Promise<ZwVersionInfo> {
-		this._versionInfo = await this.send(new ZwGetVersionCommand());
+		this._versionInfo = await this.execute(new ZwGetVersion());
 		const info = this._versionInfo;
 		log(
 			`zwGetVersion: libraryVersion="${
@@ -725,40 +387,10 @@ export class SerialApi extends EventEmitter {
 		return this._versionInfo;
 	}
 
-	private _verifyCommandSupportedAndReady(
-		command: SerialApiCommandCode
-	): void {
-		if (this._state === SerialApiState.Closed) {
-			throw new Error(`Serial API closed`);
-		}
-		if (!this._supportedFunctions.has(command)) {
-			throw new Error(
-				`Serial API command ${enumToString(
-					command,
-					SerialApiCommandCode
-				)} not supported by device`
-			);
-		}
-	}
-
 	private _handleCallback(
 		command: SerialApiCommandCode,
 		params: Buffer
 	): void {
-		if (this._callbackListener) {
-			try {
-				const mapper = this._callbackListener.mapper;
-				const result = mapper(command, params);
-				if (result !== undefined) {
-					this._callbackListener.resolve(result);
-					this._callbackListener = undefined;
-				}
-			} catch (err) {
-				this._callbackListener?.reject(err);
-				this._callbackListener = undefined;
-			}
-		}
-
 		if (command === SerialApiCommandCode.APPLICATION_COMMAND_HANDLER) {
 			const rxStatus = parseRxStatus(params[0]);
 			const sourceNode = params[1];
@@ -778,15 +410,6 @@ export class SerialApi extends EventEmitter {
 		// TODO Handle FUNC_ID_SERIAL_API_STARTED to trigger _handleProtocolReset()?
 		// I have no way to test this, because USB devices also disconnect from the USB
 		// bus during a reset.
-	}
-
-	private _getNextCallbackId(): number {
-		this._callbackId++;
-		if (this._callbackId > 0xff) {
-			// Note: not 0, because that means we don't want feedback
-			this._callbackId = 1;
-		}
-		return this._callbackId;
 	}
 
 	private _verifyInitialized<T>(value: T | undefined): asserts value is T {
@@ -856,11 +479,7 @@ export class SerialApi extends EventEmitter {
 
 	private _abort(error: Error): void {
 		this._protocol.cancel(error);
-		if (this._callbackListener) {
-			this._callbackListener.reject(error);
-			this._callbackListener = undefined;
-		}
-		this._requests.abortPending(error);
+		this._rootSession.close(error);
 	}
 
 	private _abortAndClose(error: Error): void {

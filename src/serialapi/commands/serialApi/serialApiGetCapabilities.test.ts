@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { SerialApiGetCapabilitiesCommand } from "./serialApiGetCapabilities";
+import { serialApiGetCapabilitiesBuilder } from "./serialApiGetCapabilities";
 
 // prettier-ignore
 export const serialCapsBuffer = Buffer.from([
@@ -18,8 +18,8 @@ const serialCapsSupportedFunctions = new Set([
 
 describe("serialapi/commands/serialApi/serialApiGetCapabilities", () => {
 	it("SerialGetCapabilitiesCommand", async () => {
-		const cmd = new SerialApiGetCapabilitiesCommand();
-		expect(cmd.serializeRequest()).to.equal(undefined);
+		const cmd = serialApiGetCapabilitiesBuilder()(1);
+		expect(cmd.params).to.equal(undefined);
 		expect(cmd.parseResponse(serialCapsBuffer)).to.deep.equal({
 			applRevision: 0,
 			applVersion: 1,

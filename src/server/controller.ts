@@ -2,6 +2,7 @@ import debug from "debug";
 import { EventEmitter } from "events";
 import { packetToString } from "../commands/debug";
 import { Packet } from "../commands/packet";
+import { defer } from "../common/util";
 import { LayerCommand, LayerEvent, Sender } from "../layers/layer";
 import { MultiChannelLayer } from "../layers/multiChannel";
 import { layerCommandToString, layerEventToString } from "../layers/print";
@@ -11,8 +12,8 @@ import { Stack } from "../layers/stack";
 import { CryptoManager } from "../security/cryptoManager";
 import { NonceStore } from "../security/nonceStore";
 import { SecurityS0Codec } from "../security/securityS0Codec";
-import { ZwSendDataCommand } from "../serialapi/commands/transport/zwSendData";
-import { ZwSendDataAbortCommand } from "../serialapi/commands/transport/zwSendDataAbort";
+import { ICommandSessionRunner } from "../serialapi/commands/ICommandSession";
+import { ZwSendData } from "../serialapi/commands/transport/zwSendData";
 import {
 	rxStatusToString,
 	SerialApi,
@@ -22,12 +23,6 @@ import { IZwaveHost } from "./IZwaveHost";
 
 const log = debug("zwave:controller");
 const logData = debug("zwave:controller:data");
-
-export enum ControllerState {
-	Constructed,
-	Initializing,
-	Initialized,
-}
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {
@@ -58,9 +53,9 @@ export class Controller
 	public readonly nodeId: number;
 
 	private _serialApi: SerialApi | undefined;
+	private _attached = defer<void>();
 	private _stack: Stack;
 	private _requester: Requester;
-	private _state: ControllerState = ControllerState.Constructed;
 	private _serialApiCommandHandler = (event: SerialApiCommandEvent) =>
 		this._handleSerialCommand(event).catch((err: unknown) =>
 			log(
@@ -88,30 +83,13 @@ export class Controller
 				if (!this._serialApi) {
 					throw new Error("no Z-Wave device connected");
 				}
-				// TODO let zwSendData invoke afterSend if possible, to further
-				// minimize the frame where early older matches could be received
-				command.afterSend && command.afterSend();
-				// TODO Move the following to a common transport layer
-				try {
-					// TODO Implement resend mechanism: INS13954 Figure 9
-					const serialCmd = new ZwSendDataCommand({
-						nodeId: command.endpoint.nodeId,
-						payload: command.packet.serialize(),
-					});
-					await this._serialApi.send(serialCmd);
-				} catch (err) {
-					// INS13954 4.3.3.1.6 Exception recovery:
-					// If a timeout occurs, it is important to call ZW_SendDataAbort to stop the sending of the frame.
-					// But let's do it also in any other case of aborting the transmission.
-					try {
-						await this._serialApi.send(
-							new ZwSendDataAbortCommand()
-						);
-					} catch {
-						/* ignore follow-up error (most likely due to protocol errored/closed), pass original error for clarity */
-					}
-					throw err;
-				}
+				// TODO Implement resend mechanism: INS13954 Figure 9
+				const serialCmd = new ZwSendData({
+					nodeId: command.endpoint.nodeId,
+					payload: command.packet.serialize(),
+					afterSend: command.afterSend,
+				});
+				await this._serialApi.execute(serialCmd);
 				return true;
 			},
 			packetCapacity(): number {
@@ -148,6 +126,7 @@ export class Controller
 			this._serialApi.off("close", this._serialApiCloseHandler);
 			// TODO safeEmit
 			this.emit("detach");
+			this._attached = defer();
 		}
 
 		this._serialApi = serialApi;
@@ -160,6 +139,7 @@ export class Controller
 
 		// TODO safeEmit
 		this.emit("attach");
+		this._attached.resolve();
 	}
 
 	send(command: LayerCommand): Promise<boolean> {
@@ -196,6 +176,27 @@ export class Controller
 			);
 		}
 		return reply;
+	}
+
+	/**
+	 * Execute low-level command(s) on Serial API.
+	 *
+	 * The command will be executed once the serial API is attached,
+	 * and will be queued after any currently pending commands.
+	 *
+	 * @example
+	 * ```ts
+	 * const nif = await controller.executeSerialCommand(new ZwRequestNodeInfo({ nodeId: 3 }));
+	 * ```
+	 */
+	public async executeSerialCommand<T>(
+		runner: ICommandSessionRunner<T>
+	): Promise<T> {
+		await this._attached.promise;
+		if (!this._serialApi) {
+			throw new Error("no Z-Wave device connected");
+		}
+		return this._serialApi.execute(runner);
 	}
 
 	private _handleStackDispatch(event: LayerEvent<Packet>): void {

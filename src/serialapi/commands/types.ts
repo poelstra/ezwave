@@ -1,4 +1,4 @@
-import { CommandClassInfo } from "../commands/commandClassInfo";
+import { CommandClassInfo } from "../../commands/commandClassInfo";
 
 export enum ZwLibraryType {
 	StaticController = 0x01,

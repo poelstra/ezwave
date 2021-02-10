@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import {
 	NodeCapabilityFlags,
-	SerialApiGetInitDataCommand,
+	serialApiGetInitDataBuilder,
 } from "./serialApiGetInitData";
 
 // prettier-ignore
@@ -13,8 +13,8 @@ export const serialGetInitDataBuffer = Buffer.from([
 
 describe("serialapi/commands/serialApi/serialApiGetInitData", () => {
 	it("SerialApiGetInitDataCommand", async () => {
-		const cmd = new SerialApiGetInitDataCommand();
-		expect(cmd.serializeRequest()).to.equal(undefined);
+		const cmd = serialApiGetInitDataBuilder()(1);
+		expect(cmd.params).to.equal(undefined);
 
 		const capabilities = new Set([NodeCapabilityFlags.IsSIS]);
 		const nodes = new Set([1, 10, 11, 13, 14, 15, 16, 22, 23, 24, 25]);
