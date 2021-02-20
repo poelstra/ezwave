@@ -4,9 +4,9 @@ export class Events<T> {
 	private _events: T[] = [];
 	private _getters: Array<(value: T | PromiseLike<T>) => void> = [];
 	private _closed: Error | undefined;
-	private _onClose: () => void;
+	private _onClose: (() => void) | undefined;
 
-	constructor(onClose: () => void) {
+	constructor(onClose?: () => void) {
 		this._onClose = onClose;
 	}
 
@@ -55,6 +55,6 @@ export class Events<T> {
 		for (const getter of getters) {
 			getter(Promise.reject(reason));
 		}
-		this._onClose();
+		this._onClose?.();
 	}
 }

@@ -50,7 +50,7 @@ enum ReplaceFailedNodeResponse {
 	ReplaceFailed = 1 << 5,
 }
 
-enum ReplaceFailedNodeCallbackStatus {
+export enum ReplaceFailedNodeCallbackStatus {
 	/**
 	 * The node is working properly (removed from the failed nodes list).
 	 * Replace process is stopped.
@@ -155,7 +155,7 @@ export function zwReplaceFailedNodeBuilder(
 				}
 			},
 			tryParseEvent: buildCallbackParser(
-				SerialApiCommandCode.ZW_REPLACE_FAILED_NODE,
+				command,
 				transactionId,
 				(payload: Buffer): ReplaceFailedNodeCallbackStatus => {
 					if (payload.length < 1) {
