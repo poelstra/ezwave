@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { send } from "process";
 import * as sinon from "sinon";
+import { clock } from "sinon";
 import CommandClasses from "../../../commands/classes/CommandClasses";
 import { Events } from "../events";
 import { ICommandSession } from "../ICommandSession";
@@ -11,7 +12,9 @@ import {
 	AddNodeCallbackNif,
 	AddNodeMode,
 	AddNodeStatus,
+	Event,
 	zwAddNodeToNetworkBuilder,
+	ZwAddNodeToNetworkRequest,
 } from "./zwAddNodeToNetwork";
 
 const testNif: NodeInfoResponse = {
@@ -25,31 +28,39 @@ const testNif: NodeInfoResponse = {
 	},
 };
 
+const defaultRequest: ZwAddNodeToNetworkRequest = {
+	flirsNodesCount: 0,
+	listeningNodesCount: 0,
+	totalNodes: 0,
+};
+
 describe("serialapi/commands/basis/zwAddNodeToNetwork", () => {
+	let clock: sinon.SinonFakeTimers;
+	beforeEach(() => (clock = sinon.useFakeTimers()));
+	afterEach(() => clock.restore());
+
 	it("encodes correct request", () => {
-		const cmd = zwAddNodeToNetworkBuilder()(1);
+		const cmd = zwAddNodeToNetworkBuilder(defaultRequest)(1);
 		expect(cmd.params).to.deep.equal(Buffer.from([0xc1, 1]));
 	});
 
 	it("decodes callbacks correctly", () => {
-		const cmd = zwAddNodeToNetworkBuilder()(1);
+		const cmd = zwAddNodeToNetworkBuilder(defaultRequest)(1);
 
-		function check(payload: number[]): AddNodeCallback | undefined {
+		function check(payload: number[]): Event | undefined {
 			return cmd.tryParseEvent(
 				SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
 				Buffer.from(payload)
 			);
 		}
 		expect(check([1, 1])).to.deep.equal({
-			status: AddNodeStatus.LearnReady,
+			type: "LEARN_READY",
 		});
 		expect(check([1, 2])).to.deep.equal({
-			status: AddNodeStatus.NodeFound,
+			type: "NODE_FOUND",
 		});
-		expect(check([1, 3, 4, 3, 10, 20, 30])).to.deep.equal(<
-			AddNodeCallbackNif
-		>{
-			status: AddNodeStatus.AddingSlave,
+		expect(check([1, 3, 4, 3, 10, 20, 30])).to.deep.equal({
+			type: "ADDING_SLAVE",
 			nif: {
 				nodeId: 4,
 				basicClass: 10,
@@ -63,58 +74,141 @@ describe("serialapi/commands/basis/zwAddNodeToNetwork", () => {
 		});
 		expect(
 			check([1, 3, 4, 7, 10, 20, 30, 40, 50, CommandClasses.Mark, 60])
-		).to.deep.equal(<AddNodeCallbackNif>{
-			status: AddNodeStatus.AddingSlave,
+		).to.deep.equal({
+			type: "ADDING_SLAVE",
 			nif: testNif,
 		});
 		expect(() => check([1, 3])).to.throw("missing nodeId / len");
 		expect(
 			check([1, 4, 4, 7, 10, 20, 30, 40, 50, CommandClasses.Mark, 60])
 		).to.deep.equal({
-			status: AddNodeStatus.AddingController,
+			type: "ADDING_CONTROLLER",
 			nif: testNif,
 		});
 		expect(check([1, 5])).to.deep.equal({
-			status: AddNodeStatus.ProtocolDone,
+			type: "PROTOCOL_DONE",
 		});
 		expect(check([1, 6])).to.deep.equal({
-			status: AddNodeStatus.Done,
+			type: "DONE",
 		});
 		expect(check([1, 7])).to.deep.equal({
-			status: AddNodeStatus.Failed,
+			type: "PROTOCOL_FAILED",
 		});
 		expect(check([1, 0x23])).to.deep.equal({
-			status: AddNodeStatus.NotPrimary,
+			type: "NOT_PRIMARY",
 		});
 		expect(check([2, 0])).to.equal(undefined);
 		expect(() => check([1])).to.throw();
 	});
 
 	it("handles normal inclusion flow", async () => {
-		const cmd = zwAddNodeToNetworkBuilder()(1);
+		let doCancel: (() => void) | undefined;
+		const request: ZwAddNodeToNetworkRequest = {
+			...defaultRequest,
+			onCancellable: (cancel) => (doCancel = cancel),
+		};
+		const cmd = zwAddNodeToNetworkBuilder(request)(1);
 
-		const events = new Events<AddNodeCallback>();
-		const sendSpy = sinon.spy();
+		const events = new Events<Event>();
+		const sendStub = sinon.stub().resolves();
 		const fakeSession = ({
-			send: sendSpy,
+			send: sendStub,
 		} as unknown) as ICommandSession;
 
-		events.add({ status: AddNodeStatus.LearnReady });
-		events.add({ status: AddNodeStatus.NodeFound });
-		events.add({ status: AddNodeStatus.AddingSlave, nif: testNif });
-		events.add({ status: AddNodeStatus.ProtocolDone });
-		events.add({ status: AddNodeStatus.Done });
-		await expect(
+		const testResult = expect(
 			cmd.handleEvents(events, fakeSession)
 		).eventually.deep.equals(testNif);
-		expect(sendSpy.calledTwice).to.equal(true);
-		expect(sendSpy.getCall(0).args).to.deep.equal([
+
+		await clock.tickAsync(100);
+		expect(doCancel).to.not.be.undefined;
+
+		events.add({ type: "LEARN_READY" });
+		await clock.tickAsync(100);
+		expect(doCancel).to.not.be.undefined;
+
+		events.add({ type: "NODE_FOUND" });
+		await clock.tickAsync(0);
+		expect(doCancel).to.be.undefined;
+
+		events.add({ type: "ADDING_SLAVE", nif: testNif });
+		events.add({ type: "PROTOCOL_DONE" });
+		events.add({ type: "DONE" });
+
+		await testResult;
+		expect(sendStub.calledTwice).to.equal(true);
+		expect(sendStub.getCall(0).args).to.deep.equal([
 			SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
 			Buffer.from([AddNodeMode.Stop, 1]),
 		]);
-		expect(sendSpy.getCall(1).args).to.deep.equal([
+		expect(sendStub.getCall(1).args).to.deep.equal([
 			SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
 			Buffer.from([AddNodeMode.Stop, 0]),
 		]);
+	});
+
+	it("can be cancelled while waiting", async () => {
+		let doCancel: (() => void) | undefined;
+		const request: ZwAddNodeToNetworkRequest = {
+			...defaultRequest,
+			onCancellable: (cancel) => (doCancel = cancel),
+		};
+		const cmd = zwAddNodeToNetworkBuilder(request)(1);
+
+		const events = new Events<Event>();
+		const sendStub = sinon.stub().resolves();
+		const fakeSession = ({
+			send: sendStub,
+		} as unknown) as ICommandSession;
+
+		const testResult = expect(
+			cmd.handleEvents(events, fakeSession)
+		).eventually.rejectedWith("Cancelled");
+
+		events.add({ type: "LEARN_READY" });
+		await clock.tickAsync(1000);
+
+		expect(doCancel).to.not.be.undefined;
+		doCancel!();
+
+		expect(doCancel).to.be.undefined;
+
+		events.add({ type: "DONE" });
+
+		await testResult;
+		expect(sendStub.calledTwice).to.equal(true);
+		expect(sendStub.getCall(0).args).to.deep.equal([
+			SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
+			Buffer.from([AddNodeMode.Stop, 1]),
+		]);
+		expect(sendStub.getCall(1).args).to.deep.equal([
+			SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
+			Buffer.from([AddNodeMode.Stop, 0]),
+		]);
+	});
+
+	it("handles inclusion timeout", async () => {
+		const cmd = zwAddNodeToNetworkBuilder(defaultRequest)(1);
+
+		const events = new Events<Event>();
+		const sendStub = sinon.stub().resolves();
+		const fakeSession = ({
+			send: sendStub,
+		} as unknown) as ICommandSession;
+
+		const testResult = expect(
+			cmd.handleEvents(events, fakeSession)
+		).eventually.rejectedWith("TimedOut");
+
+		events.add({ type: "LEARN_READY" });
+		await clock.tickAsync(60000);
+
+		expect(sendStub.calledOnce).to.equal(true);
+		expect(sendStub.getCall(0).args).to.deep.equal([
+			SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
+			Buffer.from([AddNodeMode.Stop, 0]),
+		]);
+
+		await testResult;
+		expect(sendStub.calledOnce).to.equal(true);
 	});
 });
