@@ -5,7 +5,7 @@
 	"main": "dist/server/index.js",
 	"scripts": {
 		"start": "node dist/demo/index",
-		"build": "tsc",
+		"build": "xstate-codegen 'src/**/*.machine.ts' --once && tsc",
 		"test": "mocha",
 		"regenerate": "node dist/codegen/xml2json && node dist/codegen/generate_commands",
 		"prepare": "npm run -s build"
@@ -28,7 +28,8 @@
 		"mhub": "^2.1.0",
 		"serialport": "^9.0.4",
 		"source-map-support": "^0.5.9",
-		"xstate": "^4.16.2"
+		"xstate": "^4.16.2",
+		"xstate-codegen": "^0.3.0"
 	},
 	"devDependencies": {
 		"@types/chai": "^4.2.4",

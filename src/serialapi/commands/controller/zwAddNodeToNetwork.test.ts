@@ -1,21 +1,16 @@
 import { expect } from "chai";
-import { send } from "process";
 import * as sinon from "sinon";
-import { clock } from "sinon";
 import CommandClasses from "../../../commands/classes/CommandClasses";
 import { Events } from "../events";
 import { ICommandSession } from "../ICommandSession";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 import { NodeInfoResponse } from "../types";
 import {
-	AddNodeCallback,
-	AddNodeCallbackNif,
 	AddNodeMode,
-	AddNodeStatus,
-	Event,
 	zwAddNodeToNetworkBuilder,
 	ZwAddNodeToNetworkRequest,
 } from "./zwAddNodeToNetwork";
+import { Event } from "./zwAddNodeToNetwork.machine";
 
 const testNif: NodeInfoResponse = {
 	nodeId: 4,

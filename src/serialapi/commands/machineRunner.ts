@@ -1,12 +1,13 @@
+import { InterpreterWithMatches } from "@xstate/compiled";
 import * as debug from "debug";
-import { EventObject, Interpreter, InterpreterStatus } from "xstate";
-import { Events } from "./events";
 import * as util from "util";
+import { EventObject, InterpreterStatus } from "xstate";
+import { Events } from "./events";
 
 const log = debug("zwave:serialapi:machine");
 
-export function runMachineService<TContext, TEvent extends EventObject, R>(
-	service: Interpreter<TContext, any, TEvent>,
+export function runMachineService<TEvent extends EventObject, R>(
+	service: InterpreterWithMatches<any, any, TEvent, any>,
 	events: Events<TEvent>
 ): Promise<R> {
 	return new Promise<R>((resolve, reject) => {
