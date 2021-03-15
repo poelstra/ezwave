@@ -1,3 +1,11 @@
+/**
+ * This demo currently provides a single monolithic process
+ * that makes the Z-Wave stick(s) available with automatic
+ * reconnect handling, and currently implements the specific
+ * control that I need in my home. This should of course be
+ * split off to a separate process in the future.
+ */
+
 import main from "async-main";
 import { randomBytes } from "crypto";
 import * as path from "path";
@@ -43,7 +51,7 @@ interface HostConfig {
 interface Config {
 	serial?: SerialPortScannerOptions;
 	hosts?: HostConfig[];
-	mhub: {
+	mhub?: {
 		url: string;
 		user: string;
 		pass: string;
@@ -79,8 +87,15 @@ main(async () => {
 	const config = require(configPath) as Config;
 
 	// Start connection to MHub pubsub daemon
-	const mhub = new Hub(config.mhub.url, config.mhub.user, config.mhub.pass);
-	main(() => mhub.run());
+	// TODO Right now this is only used for the 'built-in' HomeHub stuff,
+	// see below, but should be adapted later to provide 'raw' access to
+	// send/receive things over Z-Wave, and extended with similar API's
+	// over MQTT, REST, etc.
+	let mhub: Hub | undefined;
+	if (config.mhub) {
+		mhub = new Hub(config.mhub.url, config.mhub.user, config.mhub.pass);
+		main(() => mhub!.run());
+	}
 
 	// Auto-create host (only static controller, for now) once corresponding serial
 	// device gets connected.
@@ -143,7 +158,9 @@ main(async () => {
 
 	// My specific home only has one Z-Wave controller, which
 	// is the first entry in the config. So use that.
-	if (controllers.length > 0) {
+	// TODO: This stuff should move to a separate process that talks
+	// to the server using MHub/MQTT/REST/etc.
+	if (mhub && controllers.length > 0) {
 		const myController = controllers[0];
 		const home = new Home(myController);
 		const homeHub = new HomeHub(home, mhub, myController);

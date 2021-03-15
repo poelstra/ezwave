@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
-import { Packet } from "../commands/packet";
 import { BasicV1 } from "../commands/classes/BasicV1";
 import { SwitchBinaryV1 } from "../commands/classes/SwitchBinaryV1";
 import { SwitchMultilevelV1 } from "../commands/classes/SwitchMultilevelV1";
+import { Packet } from "../commands/packet";
 import { LayerEvent } from "../layers/layer";
 import { Controller } from "../server/controller";
 
@@ -28,7 +28,7 @@ export class Home extends EventEmitter {
 		this.controller.on("attach", async () => {
 			try {
 				console.log("Controller attached");
-				await this.getKeukenAanrecht();
+				await this._handleControllerAttached();
 			} catch (err) {
 				console.warn("Home controller initial get failed", err);
 			}
@@ -77,6 +77,10 @@ export class Home extends EventEmitter {
 		}
 	}
 
+	private async _handleControllerAttached(): Promise<void> {
+		await this.getKeukenAanrecht();
+	}
+
 	async setMisc(on: boolean): Promise<void> {
 		return this._setBasic(HomeDevices.Misc, on);
 	}
@@ -86,14 +90,6 @@ export class Home extends EventEmitter {
 	}
 
 	async setBadkamerThermostaat(value: number): Promise<void> {
-		// await this.host.zwSendData(
-		// 	HomeDevices.BadkamerThermostaat,
-		// 	Buffer.from([
-		// 		CommandClasses.COMMAND_CLASS_THERMOSTAT_MODE,
-		// 		1, // THERMOSTAT_MODE_SET
-		// 		31, // Manufacturer-specific, no manuf. data fields
-		// 	])
-		// );
 		await this._setMultilevel(HomeDevices.BadkamerThermostaat, value);
 	}
 
