@@ -12,7 +12,15 @@ export class DuplexSource<T> extends Duplex {
 	public events: string[] = [];
 
 	constructor() {
-		super({ objectMode: true });
+		super({
+			objectMode: true,
+			// Somewhere between Node 12 and Node 14, Duplex streams started
+			// emitting "close" when ending the stream. The tests are written
+			// to explicitly distinguish between ended and closed streams,
+			// so prevent auto-destroy. It's still fine if actual implementations
+			// use autoDestroy though.
+			autoDestroy: false,
+		});
 		// end event is registered when our sink ends us (i.e. _final())
 		this.on("close", () => this.events.push("close"));
 		this.on("error", () => this.events.push("error"));
