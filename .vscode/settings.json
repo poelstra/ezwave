@@ -1,3 +1,6 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib"
+	"typescript.tsdk": "./build/node-rig/node_modules/typescript/lib",
+	"files.associations": {
+		"*.json": "jsonc"
+	}
 }

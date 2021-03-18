@@ -2,17 +2,11 @@
  * Simple promise-based callback queue with option to cancel remaining requests.
  * (In-progress requests need to be determined in another way.)
  */
-
-interface Entry<T> {
-	callback: () => T | Promise<T>;
-	resolve: (value: T | PromiseLike<T>) => void;
-	reject: (err: Error) => void;
-}
-
 export class Queue {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private _entries: Entry<any>[] = [];
-	private _inProgress = 0;
-	private readonly _concurrency = 1;
+	private _inProgress: number = 0;
+	private readonly _concurrency: number = 1;
 
 	public add<T>(callback: () => T | Promise<T>): Promise<T> {
 		return new Promise((resolve, reject) => {
@@ -21,6 +15,7 @@ export class Queue {
 				resolve,
 				reject,
 			});
+			// eslint-disable-next-line @typescript-eslint/no-floating-promises
 			this._pump();
 		});
 	}
@@ -49,7 +44,14 @@ export class Queue {
 			entry.reject(err);
 		} finally {
 			this._inProgress--;
+			// eslint-disable-next-line @typescript-eslint/no-floating-promises
 			this._pump();
 		}
 	}
+}
+
+interface Entry<T> {
+	callback: () => T | Promise<T>;
+	resolve: (value: T | PromiseLike<T>) => void;
+	reject: (err: Error) => void;
 }

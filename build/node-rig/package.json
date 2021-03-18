@@ -1,0 +1,20 @@
+{
+	"name": "@ezwave/build-node-rig",
+	"version": "1.0.0",
+	"description": "Heft rig package for EZWave server packages",
+	"license": "MIT",
+	"scripts": {
+		"build": "",
+		"build:watch": ""
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/poelstra/ezwave/tree/master/rigs/node-rig"
+	},
+	"dependencies": {
+		"@rushstack/eslint-config": "^2.3.2",
+		"@rushstack/heft": "0.25.2",
+		"eslint": "~7.22.0",
+		"typescript": "4.2.3"
+	}
+}

@@ -14,9 +14,14 @@ export interface Deferred<T> {
 
 // There can only be one simultaneous call to defer() at any
 // one time, so we can create the closure once and re-use it.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let deferResolve: Deferred<any>["resolve"];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let deferReject: Deferred<any>["reject"];
-let deferExecutor = (res: typeof deferResolve, rej: typeof deferReject) => {
+const deferExecutor = (
+	res: typeof deferResolve,
+	rej: typeof deferReject
+): void => {
 	deferResolve = res;
 	deferReject = rej;
 };
@@ -79,7 +84,7 @@ export class Timer {
 	 * @param Timeout Timeout in milliseconds
 	 * @param onTimeout Callback to be called.
 	 */
-	constructor(timeout: number, onTimeout: () => void) {
+	public constructor(timeout: number, onTimeout: () => void) {
 		this._timeout = timeout;
 		this._onTimeout = onTimeout;
 	}
@@ -144,7 +149,7 @@ export async function timeout<T>(
 }
 
 export class InterruptibleSleep {
-	private _trigger = defer<void>();
+	private _trigger: Deferred<void> = defer<void>();
 
 	public async sleep(timeoutInMs: number): Promise<void> {
 		let handle: NodeJS.Timer;
