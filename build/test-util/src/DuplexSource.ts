@@ -11,7 +11,7 @@ export class DuplexSource<T> extends Duplex {
 	 */
 	public events: string[] = [];
 
-	constructor() {
+	public constructor() {
 		super({
 			objectMode: true,
 			// Somewhere between Node 12 and Node 14, Duplex streams started
@@ -47,20 +47,23 @@ export class DuplexSource<T> extends Duplex {
 		this.push(null);
 	}
 
-	_read(size: number): void {
+	public _read(size: number): void {
 		/* no-op */
 	}
 
-	_write(
-		chunk: any,
+	public _write(
+		chunk: unknown,
 		encoding: string,
+		// eslint-disable-next-line @rushstack/no-new-null
 		callback: (error?: Error | null) => void
 	): void {
-		this.received.push(chunk);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		this.received.push(chunk as any);
 		callback();
 	}
 
-	_final(callback: (error?: Error | null) => void): void {
+	// eslint-disable-next-line @rushstack/no-new-null
+	public _final(callback: (error?: Error | null) => void): void {
 		this.events.push("end");
 		callback();
 	}
@@ -79,7 +82,7 @@ export class DuplexSink<T> {
 
 	private _source: Duplex;
 
-	constructor(source: Duplex) {
+	public constructor(source: Duplex) {
 		this._source = source;
 
 		this._source.on("data", (chunk) => this.received.push(chunk));

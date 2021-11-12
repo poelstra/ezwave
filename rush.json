@@ -16,7 +16,7 @@
 	 * path segment in the "$schema" field for all your Rush config files.  This will ensure
 	 * correct error-underlining and tab-completion for editors such as VS Code.
 	 */
-	"rushVersion": "5.41.0",
+	"rushVersion": "5.56.0",
 
 	/**
 	 * The next field selects which package manager should be installed and determines its version.
@@ -26,7 +26,7 @@
 	 * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
 	 * for details about these alternatives.
 	 */
-	"pnpmVersion": "5.15.2",
+	"pnpmVersion": "6.21.1",
 
 	// "npmVersion": "4.5.0",
 	// "yarnVersion": "1.9.4",
@@ -124,7 +124,7 @@
 	 * LTS schedule: https://nodejs.org/en/about/releases/
 	 * LTS versions: https://nodejs.org/en/download/releases/
 	 */
-	"nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0",
+	"nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0 || >=16.0.0 <17.0.0",
 
 	/**
 	 * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
@@ -455,14 +455,16 @@
 		//   "reviewCategory": "tools"
 		// }
 		{
-			"packageName": "@ezwave/build-node-rig",
-			"projectFolder": "build/node-rig",
-			"shouldPublish": false
+			"packageName": "@ezwave/ezwave-heft-rig",
+			"projectFolder": "build/ezwave-heft-rig"
 		},
 		{
-			"packageName": "@ezwave/common",
-			"projectFolder": "ezwave/common",
-			"shouldPublish": true
+			"packageName": "@ezwave/test-util",
+			"projectFolder": "build/test-util"
+		},
+		{
+			"packageName": "@ezwave/shared",
+			"projectFolder": "libraries/shared"
 		}
 	]
 }

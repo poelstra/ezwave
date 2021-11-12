@@ -41,7 +41,7 @@ export class Queue {
 			const result = await callback();
 			entry.resolve(result);
 		} catch (err) {
-			entry.reject(err);
+			entry.reject(err as Error);
 		} finally {
 			this._inProgress--;
 			// eslint-disable-next-line @typescript-eslint/no-floating-promises
