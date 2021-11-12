@@ -1,5 +1,3 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
 import { CodecDataError } from "./codec";
 import { encodeCommandAndPayload } from "./encode";
 import * as spec from "./spec";
@@ -50,7 +48,7 @@ describe("encode", () => {
 					const encoded = encodeCommandAndPayload(commandDef, {
 						param0: value,
 					});
-					expect(encoded).to.deep.equal(expected);
+					expect(encoded).toEqual(expected);
 				});
 
 				it("can be repeated", async () => {
@@ -73,7 +71,7 @@ describe("encode", () => {
 						param0: value,
 						param1: value,
 					});
-					expect(encoded).to.deep.equal(expected);
+					expect(encoded).toEqual(expected);
 				});
 
 				const optionalParamsDef = createCommand(0x34, [
@@ -134,7 +132,7 @@ describe("encode", () => {
 						hasParam1: true,
 						param1: value,
 					});
-					expect(encoded).to.deep.equal(expected);
+					expect(encoded).toEqual(expected);
 				});
 
 				it("throws when optional should be present but isn't", () => {
@@ -144,7 +142,7 @@ describe("encode", () => {
 							hasParam1: true,
 							param1: value,
 						})
-					).to.throw(CodecDataError);
+					).toThrowError(CodecDataError);
 				});
 
 				it("throws when optional should not be present but is", () => {
@@ -154,7 +152,7 @@ describe("encode", () => {
 							hasParam1: false,
 							param1: value,
 						})
-					).to.throw(CodecDataError);
+					).toThrowError(CodecDataError);
 				});
 
 				[
@@ -183,7 +181,7 @@ describe("encode", () => {
 							encodeCommandAndPayload(commandDef, {
 								param0: input,
 							})
-						).to.throw(CodecDataError);
+						).toThrowError(CodecDataError);
 					});
 				});
 			});
@@ -208,7 +206,7 @@ describe("encode", () => {
 			const encoded = encodeCommandAndPayload(commandDef, {
 				param0: 0xff,
 			});
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 
 		it("can be repeated", async () => {
@@ -239,7 +237,7 @@ describe("encode", () => {
 				param0: 0xff,
 				param1: 0xff,
 			});
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 
 		const optionalParamsDef = createCommand(0x34, [
@@ -308,7 +306,7 @@ describe("encode", () => {
 				hasParam1: true,
 				param1: 0xff,
 			});
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 
 		it("throws when optional should be present but isn't", () => {
@@ -318,7 +316,7 @@ describe("encode", () => {
 					hasParam1: true,
 					param1: 0xff,
 				})
-			).to.throw(CodecDataError);
+			).toThrowError(CodecDataError);
 		});
 
 		it("throws when optional should not be present but is", () => {
@@ -328,7 +326,7 @@ describe("encode", () => {
 					hasParam1: false,
 					param1: 0xff,
 				})
-			).to.throw(CodecDataError);
+			).toThrowError(CodecDataError);
 		});
 
 		[
@@ -361,7 +359,7 @@ describe("encode", () => {
 					encodeCommandAndPayload(commandDef, {
 						param0: input,
 					})
-				).to.throw(CodecDataError);
+				).toThrowError(CodecDataError);
 			});
 		});
 	}); /* enum */
@@ -389,7 +387,7 @@ describe("encode", () => {
 				a: 0xaa,
 				b: 0x55,
 			});
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 
 		it("should not be encoded as 0 in bitfield", () => {
@@ -432,7 +430,7 @@ describe("encode", () => {
 				field1: true,
 				field2: 0x3,
 			});
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 	});
 
@@ -473,13 +471,13 @@ describe("encode", () => {
 				param0: Buffer.from([0x12]),
 			});
 			const expected = Buffer.from([0x34, 0x01, 0x12]);
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 
 		it("should be excluded when absent", () => {
 			const encoded = encodeCommandAndPayload(commandDef, {});
 			const expected = Buffer.from([0x34, 0x00]);
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 
 		it("should be excluded when undefined", () => {
@@ -487,7 +485,7 @@ describe("encode", () => {
 				param0: undefined,
 			});
 			const expected = Buffer.from([0x34, 0x00]);
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 
 		it("should be excluded when zero-length", () => {
@@ -495,7 +493,7 @@ describe("encode", () => {
 				param0: Buffer.from([]),
 			});
 			const expected = Buffer.from([0x34, 0x00]);
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 	});
 
@@ -514,7 +512,7 @@ describe("encode", () => {
 			});
 			// prettier-ignore
 			const expected = Buffer.from([0x34, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x00]);
-			expect(encoded).to.deep.equal(expected);
+			expect(encoded).toEqual(expected);
 		});
 	});
 });

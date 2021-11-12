@@ -1,4 +1,4 @@
-import CommandClasses from "./classes/CommandClasses";
+import CommandClasses from "./generated/CommandClasses";
 
 export interface CommandClassInfo {
 	supported: CommandClasses[];

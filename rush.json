@@ -463,6 +463,10 @@
 			"projectFolder": "build/test-util"
 		},
 		{
+			"packageName": "@ezwave/codec",
+			"projectFolder": "libraries/codec"
+		},
+		{
 			"packageName": "@ezwave/shared",
 			"projectFolder": "libraries/shared"
 		}

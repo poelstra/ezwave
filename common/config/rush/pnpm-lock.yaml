@@ -35,8 +35,28 @@ importers:
       eslint: 7.22.0
       typescript: 4.4.4
 
+  ../../libraries/codec:
+    specifiers:
+      '@ezwave/ezwave-heft-rig': workspace:*
+      '@ezwave/shared': workspace:*
+      '@rushstack/heft': 0.42.2
+      '@types/heft-jest': 1.0.2
+      '@types/node': 16.11.7
+      eslint: ~7.22.0
+      typescript: 4.4.4
+    dependencies:
+      '@ezwave/shared': link:../shared
+    devDependencies:
+      '@ezwave/ezwave-heft-rig': link:../../build/ezwave-heft-rig
+      '@rushstack/heft': 0.42.2
+      '@types/heft-jest': 1.0.2
+      '@types/node': 16.11.7
+      eslint: 7.22.0
+      typescript: 4.4.4
+
   ../../libraries/serialapi:
     specifiers:
+      '@ezwave/codec': workspace:*
       '@ezwave/ezwave-heft-rig': workspace:*
       '@ezwave/shared': workspace:*
       '@ezwave/test-util': workspace:*
@@ -50,6 +70,7 @@ importers:
       sinon: ~9.2.4
       typescript: 4.4.4
     dependencies:
+      '@ezwave/codec': link:../codec
       '@ezwave/shared': link:../shared
       debug: 4.3.1
     devDependencies:

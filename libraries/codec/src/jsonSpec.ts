@@ -16,11 +16,11 @@ export const JSON_VERSION = 2;
 export interface ZwaveSpec {
 	xmlVersion: string; // 3-part version number of XML specification
 	jsonVersion: number; // Single major version number of JSON format
-	classes: CommandClassDefinition[];
+	classes: JsonCommandClassDefinition[];
 	// TODO basic, generic and specific device types
 }
 
-export interface CommandClassDefinition {
+export interface JsonCommandClassDefinition {
 	/**
 	 * Numeric id of command class in Z-Wave packets.
 	 */
@@ -50,10 +50,10 @@ export interface CommandClassDefinition {
 	/**
 	 * List of all defined commands in this command class.
 	 */
-	commands: CommandDefinition[];
+	commands: JsonCommandDefinition[];
 }
 
-export interface CommandDefinition {
+export interface JsonCommandDefinition {
 	/**
 	 * Numeric id of command in Z-Wave packets.
 	 */

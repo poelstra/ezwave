@@ -1,4 +1,4 @@
-import CommandClasses from "./classes/CommandClasses";
+import CommandClasses from "./generated/CommandClasses";
 import { decodeCommandAndPayload } from "./decode";
 import { encodeCommandAndPayload } from "./encode";
 import { CommandMatcher, Packet } from "./packet";

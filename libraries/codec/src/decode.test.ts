@@ -1,5 +1,3 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
 import { decodeCommandAndPayload } from "./decode";
 import * as spec from "./spec";
 import { convertFromJsonParams } from "./specHelpers";
@@ -50,7 +48,7 @@ describe("decode", () => {
 						commandDef,
 						commandAndPayload
 					);
-					expect(decoded).to.deep.equal({
+					expect(decoded).toEqual({
 						param0: value,
 					});
 				});
@@ -69,7 +67,7 @@ describe("decode", () => {
 						commandDef,
 						commandAndPayload
 					);
-					expect(decoded).to.deep.equal({
+					expect(decoded).toEqual({
 						param0: 0x0,
 					});
 				});
@@ -93,7 +91,7 @@ describe("decode", () => {
 								commandDef,
 								commandAndPayload
 							)
-						).to.throw("unexpected end of packet");
+						).toThrowError("unexpected end of packet");
 					});
 				}
 
@@ -121,7 +119,7 @@ describe("decode", () => {
 						commandDef,
 						commandAndPayload
 					);
-					expect(decoded).to.deep.equal({
+					expect(decoded).toEqual({
 						param0: value,
 						param1: value,
 					});
@@ -187,7 +185,7 @@ describe("decode", () => {
 						commandDef,
 						commandAndPayload
 					);
-					expect(decoded).to.deep.equal({
+					expect(decoded).toEqual({
 						hasParam0: false,
 						hasParam1: true,
 						param1: value,
@@ -216,7 +214,7 @@ describe("decode", () => {
 				commandDef,
 				commandAndPayload
 			);
-			expect(decoded).to.deep.equal({
+			expect(decoded).toEqual({
 				param0: 0xff,
 			});
 		});
@@ -239,7 +237,7 @@ describe("decode", () => {
 				commandDef,
 				commandAndPayload
 			);
-			expect(decoded).to.deep.equal({
+			expect(decoded).toEqual({
 				param0: 0x0,
 			});
 		});
@@ -272,7 +270,7 @@ describe("decode", () => {
 				commandDef,
 				commandAndPayload
 			);
-			expect(decoded).to.deep.equal({
+			expect(decoded).toEqual({
 				param0: 0xff,
 				param1: 0xff,
 			});
@@ -334,7 +332,7 @@ describe("decode", () => {
 				commandDef,
 				commandAndPayload
 			);
-			expect(decoded).to.deep.equal({
+			expect(decoded).toEqual({
 				hasParam0: false,
 				hasParam1: true,
 				param1: 0xff,
@@ -365,7 +363,7 @@ describe("decode", () => {
 				commandDef,
 				commandAndPayload
 			);
-			expect(decoded).to.deep.equal({
+			expect(decoded).toEqual({
 				b: 0x55,
 			});
 		});
@@ -409,7 +407,7 @@ describe("decode", () => {
 				commandDef,
 				commandAndPayload
 			);
-			expect(decoded).to.deep.equal({
+			expect(decoded).toEqual({
 				field2: 0x3,
 			});
 		});
@@ -455,7 +453,7 @@ describe("decode", () => {
 			const expected = {
 				param0: Buffer.from([0x12]),
 			};
-			expect(decoded).to.deep.equal(expected);
+			expect(decoded).toEqual(expected);
 		});
 
 		it("should be excluded when absent", () => {
@@ -464,7 +462,7 @@ describe("decode", () => {
 				Buffer.from([0x34])
 			);
 			const expected = {};
-			expect(decoded).to.deep.equal(expected);
+			expect(decoded).toEqual(expected);
 		});
 
 		it("should be excluded when zero-length", () => {
@@ -473,7 +471,7 @@ describe("decode", () => {
 				Buffer.from([0x34, 0x00])
 			);
 			const expected = {};
-			expect(decoded).to.deep.equal(expected);
+			expect(decoded).toEqual(expected);
 		});
 	});
 
@@ -494,7 +492,7 @@ describe("decode", () => {
 			const expected = {
 				a: "hello",
 			};
-			expect(decoded).to.deep.equal(expected);
+			expect(decoded).toEqual(expected);
 		});
 	});
 });

@@ -135,6 +135,6 @@ export enum CommandClasses {
 	InclusionController = 0x74, // (116)
 	NodeProvisioning = 0x78, // (120)
 	SoundSwitch = 0x79, // (121)
-};
+}
 
 export default CommandClasses;

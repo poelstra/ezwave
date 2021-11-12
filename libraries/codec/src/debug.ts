@@ -8,8 +8,8 @@ import * as jsonSpec from "./jsonSpec";
 import { CommandsByClassByVersion } from "./spec";
 import { convertFromJsonCommandClasses } from "./specHelpers";
 import { CommandClassPacket, CommandPacket } from "./command";
-import { CommandClasses } from "./classes/CommandClasses";
-import { bufferToString, toHex } from "../common/util";
+import { CommandClasses } from "./generated/CommandClasses";
+import { bufferToString, toHex } from "@ezwave/shared";
 
 /**
  * Render packet to string, decoding the packet's raw contents to

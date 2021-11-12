@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import * as jsonSpec from "./jsonSpec";
 import {
 	BitfieldElement,
@@ -13,7 +13,7 @@ import {
 } from "./spec";
 
 export function convertFromJsonCommandClasses(
-	classes: jsonSpec.CommandClassDefinition[]
+	classes: jsonSpec.JsonCommandClassDefinition[]
 ): CommandsByClassByVersion {
 	// Build commandclass+version map
 	const commandsByClassByVersion: CommandsByClassByVersion = new Map();
@@ -31,7 +31,7 @@ export function convertFromJsonCommandClasses(
 }
 
 export function convertFromJsonCommandClass(
-	cmdClass: jsonSpec.CommandClassDefinition
+	cmdClass: jsonSpec.JsonCommandClassDefinition
 ): CommandClassDefinition {
 	const commands = cmdClass.commands.map(convertFromJsonCommand);
 	return {
@@ -42,7 +42,7 @@ export function convertFromJsonCommandClass(
 }
 
 export function convertFromJsonCommand(
-	cmd: jsonSpec.CommandDefinition
+	cmd: jsonSpec.JsonCommandDefinition
 ): CommandDefinition {
 	const params = convertFromJsonParams(cmd.params);
 	return {
@@ -54,7 +54,7 @@ export function convertFromJsonCommand(
 
 export function convertToJsonCommand(
 	cmd: CommandDefinition
-): jsonSpec.CommandDefinition {
+): jsonSpec.JsonCommandDefinition {
 	const params = convertToJsonParams(cmd.params);
 	return {
 		...cmd,
@@ -108,7 +108,7 @@ export function convertFromJsonParams(
 	// So, just make a copy of everything first, and then
 	// start replacing at will.
 	params = deepCopy(params);
-	const result = params as Parameter[];
+	const result = params as unknown as Parameter[];
 
 	function resolveRef(path: string): Parameter | BitfieldElement {
 		// path can be: myParam, myParam.myField, myGroup.myParam or myGroup.myParam.myField
@@ -192,7 +192,7 @@ export function convertFromJsonParams(
 		}
 	}
 
-	replaceRefs((result as unknown) as KeyValues);
+	replaceRefs(result as unknown as KeyValues);
 	assignParents(result);
 	return result;
 }
@@ -277,7 +277,7 @@ export function convertToJsonParams(
 
 	const result = params as Parameter<RefMode.Json>[];
 	removeParents(result);
-	params.forEach((param) => createRefs((param as unknown) as KeyValues));
+	params.forEach((param) => createRefs(param as unknown as KeyValues));
 	return result;
 }
 

@@ -1,0 +1,33 @@
+{
+	"name": "@ezwave/codec",
+	"version": "1.0.0",
+	"description": "TypeScript Z-Wave: model-driven command class encoding/decoding",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/codec"
+	},
+	"author": "Martin Poelstra <martin@beryllium.net>",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"typings": "lib/index.js",
+	"scripts": {
+		"build": "heft test --clean",
+		"build:watch": "heft test"
+	},
+	"keywords": [
+		"zwave",
+		"z-wave",
+		"typescript"
+	],
+	"dependencies": {
+		"@ezwave/shared": "workspace:*"
+	},
+	"devDependencies": {
+		"@ezwave/ezwave-heft-rig": "workspace:*",
+		"@rushstack/heft": "0.42.2",
+		"eslint": "~7.22.0",
+		"typescript": "4.4.4",
+		"@types/heft-jest": "1.0.2",
+		"@types/node": "16.11.7"
+	}
+}
