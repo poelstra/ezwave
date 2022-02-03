@@ -1,5 +1,5 @@
-import { interpret } from "@xstate/compiled";
 import { parseCommandClassInfo } from "@ezwave/codec";
+import { interpret } from "@xstate/compiled";
 import { runMachineService } from "../machineRunner";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
@@ -9,7 +9,6 @@ import { NodeInfoResponse } from "../types";
 import {
 	AddNodeMachineResult,
 	AddNodeResultStatus,
-	Context,
 	Event,
 	machine,
 } from "./zwAddNodeToNetwork.machine";
@@ -276,6 +275,7 @@ export function zwAddNodeToNetworkBuilder(
 					actions: {
 						indicateCancellable: () => {
 							request.onCancellable?.(() =>
+								// eslint-disable-next-line @typescript-eslint/no-use-before-define
 								service.send({ type: "CANCEL" })
 							);
 						},

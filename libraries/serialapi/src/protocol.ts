@@ -7,8 +7,6 @@
  * chip / serial port.
  */
 
-import debug from "debug";
-import { EventEmitter } from "events";
 import {
 	bufferToString,
 	defer,
@@ -17,6 +15,8 @@ import {
 	noop,
 	Timer,
 } from "@ezwave/shared";
+import debug from "debug";
+import { EventEmitter } from "events";
 import {
 	SerialApiCommandCode,
 	serialApiCommandToString,
@@ -630,7 +630,8 @@ export class Protocol extends EventEmitter implements IProtocol {
 		switch (frameError) {
 			case FrameError.ChecksumFailed:
 			case FrameError.FrameTooSmall:
-				this._sendRaw(NAK_FRAME);
+				// eslint-disable-next-line no-void
+				void this._sendRaw(NAK_FRAME).catch((err) => {}); // Ignore any errors from sending back the NACK
 
 				// INS12350 6.4.2 Persistent CRC errors
 				// SHOULD issue a hard reset, or soft reset if hard reset is not available.

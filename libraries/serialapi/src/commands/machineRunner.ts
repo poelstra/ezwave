@@ -31,6 +31,7 @@ export function runMachineService<TEvent extends EventObject, R>(
 			}
 		};
 		service.start();
+		// eslint-disable-next-line no-void
 		void pumpEvents(); // ignore result, can't fail (TM)
 	});
 }

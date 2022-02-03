@@ -1,10 +1,17 @@
-import { decodeParams } from "@ezwave/codec";
-import { ParameterType } from "@ezwave/codec";
-import { convertFromJsonParams } from "@ezwave/codec";
-import { ResponseRequestBuilder } from "../requests";
+import {
+	convertFromJsonParams,
+	decodeParams,
+	ParameterType,
+} from "@ezwave/codec";
 import { RequestRunner } from "../RequestRunner";
+import { ResponseRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 import { HomeAndNodeId } from "../types";
+
+const ZW_MEMORY_GET_ID_PARAMS = convertFromJsonParams([
+	{ type: ParameterType.Integer, length: 4, name: "homeId", help: "" },
+	{ type: ParameterType.Integer, length: 1, name: "nodeId", help: "" },
+]);
 
 export function zwMemoryGetIdBuilder(): ResponseRequestBuilder<HomeAndNodeId> {
 	return () => ({
@@ -19,8 +26,3 @@ export class ZwMemoryGetId extends RequestRunner<typeof zwMemoryGetIdBuilder> {
 		super(zwMemoryGetIdBuilder, undefined);
 	}
 }
-
-const ZW_MEMORY_GET_ID_PARAMS = convertFromJsonParams([
-	{ type: ParameterType.Integer, length: 4, name: "homeId", help: "" },
-	{ type: ParameterType.Integer, length: 1, name: "nodeId", help: "" },
-]);

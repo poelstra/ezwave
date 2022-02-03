@@ -1,8 +1,12 @@
-import { decodeParams } from "@ezwave/codec";
-import { BitmaskType, LengthType, ParameterType } from "@ezwave/codec";
-import { convertFromJsonParams } from "@ezwave/codec";
-import { ResponseRequestBuilder } from "../requests";
+import {
+	BitmaskType,
+	convertFromJsonParams,
+	decodeParams,
+	LengthType,
+	ParameterType,
+} from "@ezwave/codec";
 import { RequestRunner } from "../RequestRunner";
+import { ResponseRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 
 export enum NodeCapabilityFlags {
@@ -18,25 +22,6 @@ export interface SerialAPIInitData {
 	nodes: Set<number>;
 	chipType: number;
 	chipVersion: number;
-}
-
-export function serialApiGetInitDataBuilder(): ResponseRequestBuilder<SerialAPIInitData> {
-	return () => ({
-		command: SerialApiCommandCode.SERIAL_API_GET_INIT_DATA,
-		parseResponse: (response) =>
-			decodeParams<SerialAPIInitData>(
-				SERIAL_API_INIT_DATA_PARAMS,
-				response
-			),
-	});
-}
-
-export class SerialApiGetInitData extends RequestRunner<
-	typeof serialApiGetInitDataBuilder
-> {
-	constructor() {
-		super(serialApiGetInitDataBuilder, undefined);
-	}
 }
 
 const SERIAL_API_INIT_DATA_PARAMS = convertFromJsonParams([
@@ -73,3 +58,22 @@ const SERIAL_API_INIT_DATA_PARAMS = convertFromJsonParams([
 		help: "",
 	},
 ]);
+
+export function serialApiGetInitDataBuilder(): ResponseRequestBuilder<SerialAPIInitData> {
+	return () => ({
+		command: SerialApiCommandCode.SERIAL_API_GET_INIT_DATA,
+		parseResponse: (response) =>
+			decodeParams<SerialAPIInitData>(
+				SERIAL_API_INIT_DATA_PARAMS,
+				response
+			),
+	});
+}
+
+export class SerialApiGetInitData extends RequestRunner<
+	typeof serialApiGetInitDataBuilder
+> {
+	constructor() {
+		super(serialApiGetInitDataBuilder, undefined);
+	}
+}

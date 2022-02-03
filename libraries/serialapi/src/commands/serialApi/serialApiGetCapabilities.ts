@@ -1,8 +1,11 @@
-import { decodeParams } from "@ezwave/codec";
-import { BitmaskType, ParameterType } from "@ezwave/codec";
-import { convertFromJsonParams } from "@ezwave/codec";
-import { ResponseRequestBuilder } from "../requests";
+import {
+	BitmaskType,
+	convertFromJsonParams,
+	decodeParams,
+	ParameterType,
+} from "@ezwave/codec";
 import { RequestRunner } from "../RequestRunner";
+import { ResponseRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 
 export interface SerialAPICapabilities {
@@ -12,25 +15,6 @@ export interface SerialAPICapabilities {
 	manufacturerProductType: number;
 	manufacturerProductId: number;
 	supportedFunctions: Set<SerialApiCommandCode>;
-}
-
-export function serialApiGetCapabilitiesBuilder(): ResponseRequestBuilder<SerialAPICapabilities> {
-	return () => ({
-		command: SerialApiCommandCode.SERIAL_API_GET_CAPABILITIES,
-		parseResponse: (response) =>
-			decodeParams<SerialAPICapabilities>(
-				SERIAL_API_CAPABILITIES_PARAMS,
-				response
-			),
-	});
-}
-
-export class SerialApiGetCapabilities extends RequestRunner<
-	typeof serialApiGetCapabilitiesBuilder
-> {
-	constructor() {
-		super(serialApiGetCapabilitiesBuilder, undefined);
-	}
 }
 
 const SERIAL_API_CAPABILITIES_PARAMS = convertFromJsonParams([
@@ -62,3 +46,22 @@ const SERIAL_API_CAPABILITIES_PARAMS = convertFromJsonParams([
 		bitmaskType: BitmaskType.NodeNumber, // Not the right type to use, but applies a bit offset of 1
 	},
 ]);
+
+export function serialApiGetCapabilitiesBuilder(): ResponseRequestBuilder<SerialAPICapabilities> {
+	return () => ({
+		command: SerialApiCommandCode.SERIAL_API_GET_CAPABILITIES,
+		parseResponse: (response) =>
+			decodeParams<SerialAPICapabilities>(
+				SERIAL_API_CAPABILITIES_PARAMS,
+				response
+			),
+	});
+}
+
+export class SerialApiGetCapabilities extends RequestRunner<
+	typeof serialApiGetCapabilitiesBuilder
+> {
+	constructor() {
+		super(serialApiGetCapabilitiesBuilder, undefined);
+	}
+}
