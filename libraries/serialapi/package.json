@@ -1,0 +1,41 @@
+{
+	"name": "@ezwave/serialapi",
+	"version": "1.0.0",
+	"description": "TypeScript Z-Wave: SerialAPI library",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/serialapi"
+	},
+	"author": "Martin Poelstra <martin@beryllium.net>",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"typings": "lib/index.js",
+	"scripts": {
+		"build": "xstate-codegen 'src/**/*.machine.ts' --once && heft test --clean",
+		"build:watch": "heft test"
+	},
+	"keywords": [
+		"zwave",
+		"z-wave",
+		"typescript"
+	],
+	"dependencies": {
+		"@ezwave/shared": "workspace:*",
+		"@ezwave/codec": "workspace:*",
+		"debug": "~4.3.1",
+		"xstate": "^4.16.2"
+	},
+	"devDependencies": {
+		"@ezwave/ezwave-heft-rig": "workspace:*",
+		"@ezwave/test-util": "workspace:*",
+		"@rushstack/heft": "0.42.2",
+		"eslint": "~7.22.0",
+		"typescript": "4.4.4",
+		"@types/heft-jest": "1.0.2",
+		"@types/node": "16.11.7",
+		"sinon": "~9.2.4",
+		"@types/sinon": "~9.0.11",
+		"@types/debug": "~4.1.5",
+		"xstate-codegen": "^0.3.0"
+	}
+}

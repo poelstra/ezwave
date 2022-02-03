@@ -467,6 +467,10 @@
 			"projectFolder": "libraries/codec"
 		},
 		{
+			"packageName": "@ezwave/serialapi",
+			"projectFolder": "libraries/serialapi"
+		},
+		{
 			"packageName": "@ezwave/shared",
 			"projectFolder": "libraries/shared"
 		}

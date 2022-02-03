@@ -8,3 +8,4 @@ export * from "./encode";
 export * from "./jsonSpec";
 export * from "./packet";
 export * from "./spec";
+export * from "./specHelpers";
