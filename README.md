@@ -126,8 +126,8 @@ nice human-readable TypeScript interfaces and raw packets. For example:
 
 ```ts
 // Encode a Z-Wave packet
-const commandPacket = new MultiChannelAssociationV2.MultiChannelAssociationRemove(
-	{
+const commandPacket =
+	new MultiChannelAssociationV2.MultiChannelAssociationRemove({
 		groupingIdentifier: 0x12,
 		nodeIds: [1, 2, 3],
 		vg: [
@@ -137,8 +137,7 @@ const commandPacket = new MultiChannelAssociationV2.MultiChannelAssociationRemov
 				endPoint: 3,
 			},
 		],
-	}
-);
+	});
 const buffer = command.serialize(); // <Buffer 8e 04 12 01 02 03 00 0a 03>
 
 // Decode a Z-Wave packet
@@ -199,9 +198,38 @@ the network daemon starts to take shape.
 
 ## Development
 
--   Install NodeJS (tested on version 12)
--   Run `npm install`
--   Run `npm test` to run all tests
+### Initial setup
+
+This repository is a mono-repo set up using [Rush](https://rushjs.io/).
+It uses [pnpm](https://pnpm.io/) as the package manager.
+
+In order to build all packages, you'll need to run the following:
+
+-   Install NodeJS (tested on version 14)
+-   Install `pnpm` package manager: `npm install -g pnpm`
+-   Install `rush` build tool: `pnpm install -g @microsoft/rush`
+-   Install all (NPM) dependencies: `rush update`
+-   Build and test all packages: `rush build`
+
+Whenever you make a change to any of the `package.json` files (e.g.
+when pulling in new changes), be sure to run `rush update` again.
+
+`rush build` will smartly rebuild only packages that changed or its
+dependents, but if you only want to (re-)build a specific package and
+its dependencies, you can also just run e.g. `rush build --to apps/demo`
+(or `.` to build to package in current folder).
+
+### Setting up VSCode
+
+It's highly recommended to use VSCode for development.
+
+-   Ensure you install the [Workspace Recommended Extensions](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions)
+    -   It should ask you whether to install these when you first open the repo, click Yes.
+-   Make sure you use the [workspace's version of TypeScript](https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript)
+
+### (Outdated) Developing your own customization
+
+**TODO This section is outdated, and still referring to the non-mono-repo approach**
 
 To start controlling your own home, take a look at `src/demo/*`
 for inspiration, copy it to another folder and start hacking ;)

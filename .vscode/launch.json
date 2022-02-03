@@ -7,8 +7,12 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch xml2json",
-			"program": "${workspaceFolder}/dist/codegen/xml2json.js"
+			"name": "Debug Jest tests",
+			"program": "${workspaceFolder}/build/ezwave-heft-rig/node_modules/@rushstack/heft/lib/start.js",
+			"cwd": "${fileDirname}",
+			"args": ["--debug", "test", "--clean"],
+			"console": "integratedTerminal",
+			"sourceMaps": true
 		}
 	]
 }
