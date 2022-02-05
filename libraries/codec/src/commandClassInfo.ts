@@ -1,4 +1,4 @@
-import CommandClasses from "./generated/CommandClasses";
+import { CommandClasses } from "@ezwave/spec";
 
 export interface CommandClassInfo {
 	supported: CommandClasses[];

@@ -1,0 +1,38 @@
+{
+	"name": "@ezwave/commands",
+	"version": "1.0.0",
+	"description": "TypeScript Z-Wave: auto-generated Z-Wave command classes",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/commands"
+	},
+	"author": "Martin Poelstra <martin@beryllium.net>",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"typings": "lib/index.js",
+	"scripts": {
+		"build": "ts-node src/generator/generate_commands.ts && heft test --clean",
+		"build:watch": "heft test"
+	},
+	"keywords": [
+		"zwave",
+		"z-wave",
+		"typescript"
+	],
+	"dependencies": {
+		"@ezwave/shared": "workspace:*",
+		"@ezwave/spec": "workspace:*",
+		"@ezwave/codec": "workspace:*"
+	},
+	"devDependencies": {
+		"@ezwave/ezwave-heft-rig": "workspace:*",
+		"@rushstack/heft": "0.42.2",
+		"eslint": "~7.22.0",
+		"typescript": "4.4.4",
+		"@types/heft-jest": "1.0.2",
+		"@types/node": "16.11.7",
+		"async-main": "^1.0.2",
+		"case": "^1.6.3",
+		"ts-node": "~10.4.0"
+	}
+}

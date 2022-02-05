@@ -1,0 +1,34 @@
+{
+	"name": "@ezwave/spec",
+	"version": "1.0.0",
+	"description": "TypeScript Z-Wave: convenient TypeScript and JSON version of original Z-Wave command class spec",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/spec"
+	},
+	"author": "Martin Poelstra <martin@beryllium.net>",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"typings": "lib/index.js",
+	"scripts": {
+		"build": "heft clean && ts-node ./src/generator/xml2json && heft test",
+		"build:watch": "heft test"
+	},
+	"keywords": [
+		"zwave",
+		"z-wave",
+		"typescript"
+	],
+	"devDependencies": {
+		"@ezwave/ezwave-heft-rig": "workspace:*",
+		"@rushstack/heft": "0.42.2",
+		"eslint": "~7.22.0",
+		"typescript": "4.4.4",
+		"@types/heft-jest": "1.0.2",
+		"@types/node": "16.11.7",
+		"async-main": "^1.0.2",
+		"case": "^1.6.3",
+		"fast-xml-parser": "^3.12.7",
+		"ts-node": "~10.4.0"
+	}
+}

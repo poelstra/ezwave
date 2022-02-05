@@ -1,6 +1,5 @@
+import * as spec from "@ezwave/spec";
 import { decodeCommandAndPayload } from "./decode";
-import * as spec from "./spec";
-import { convertFromJsonParams } from "./specHelpers";
 
 function createCommand(
 	command: number,
@@ -11,7 +10,7 @@ function createCommand(
 		name: `COMMAND_${command.toString(16)}`,
 		help: "",
 		status: spec.ObsolescenceStatus.Active,
-		params: convertFromJsonParams(params),
+		params: spec.convertFromJsonParams(params),
 	};
 }
 

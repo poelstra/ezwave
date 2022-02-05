@@ -1,9 +1,9 @@
+import { decodeParams } from "@ezwave/codec";
 import {
 	BitmaskType,
 	convertFromJsonParams,
-	decodeParams,
 	ParameterType,
-} from "@ezwave/codec";
+} from "@ezwave/spec";
 import { RequestRunner } from "../RequestRunner";
 import { ResponseRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";

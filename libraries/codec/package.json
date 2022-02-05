@@ -20,7 +20,8 @@
 		"typescript"
 	],
 	"dependencies": {
-		"@ezwave/shared": "workspace:*"
+		"@ezwave/shared": "workspace:*",
+		"@ezwave/spec": "workspace:*"
 	},
 	"devDependencies": {
 		"@ezwave/ezwave-heft-rig": "workspace:*",

@@ -5,13 +5,15 @@
 import {
 	BitfieldElement,
 	BitmaskType,
+	getReferencePath,
 	IntegerParameter,
+	isParameter,
+	KeyValues,
 	Parameter,
 	ParameterGroup,
 	ParameterType,
 	ParamRefLengthInfo,
-} from "./spec";
-import { getReferencePath, isParameter, KeyValues } from "./specHelpers";
+} from "@ezwave/spec";
 
 /**
  * Error thrown when encoder/decoder encounters an error in the

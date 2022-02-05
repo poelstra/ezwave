@@ -1,4 +1,4 @@
-import { CommandClasses } from "@ezwave/codec";
+import { CommandClasses } from "@ezwave/spec";
 import * as sinon from "sinon";
 import { Events } from "../events";
 import { ICommandSession } from "../ICommandSession";

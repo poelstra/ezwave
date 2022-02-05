@@ -2,14 +2,16 @@
  * Packet debug utilities.
  */
 
-import { inspect } from "util";
-import { Packet } from "./packet";
-import * as jsonSpec from "./jsonSpec";
-import { CommandsByClassByVersion } from "./spec";
-import { convertFromJsonCommandClasses } from "./specHelpers";
-import { CommandClassPacket, CommandPacket } from "./command";
-import { CommandClasses } from "./generated/CommandClasses";
 import { bufferToString, toHex } from "@ezwave/shared";
+import {
+	CommandClasses,
+	CommandsByClassByVersion,
+	convertFromJsonCommandClasses,
+	ZwaveSpec,
+} from "@ezwave/spec";
+import { inspect } from "util";
+import { CommandClassPacket, CommandPacket } from "./command";
+import { Packet } from "./packet";
 
 /**
  * Render packet to string, decoding the packet's raw contents to
@@ -157,7 +159,7 @@ function getSpec(): CommandsByClassByVersion {
 		return loadedSpec;
 	}
 
-	const jsonSpec = require("../../spec/zwave.json") as jsonSpec.ZwaveSpec;
+	const jsonSpec = require("../../spec/zwave.json") as ZwaveSpec;
 	loadedSpec = convertFromJsonCommandClasses(jsonSpec.classes);
 	return loadedSpec;
 }

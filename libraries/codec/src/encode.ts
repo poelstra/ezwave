@@ -1,4 +1,22 @@
 import {
+	BitfieldElementType,
+	BitfieldParameter,
+	BitmaskParameter,
+	BlobParameter,
+	BlobType,
+	CommandDefinition,
+	EnumParameter,
+	EnumUnionParameter,
+	getReferencePath,
+	IntegerParameter,
+	KeyValues,
+	LengthType,
+	LocalParameter,
+	ParameterGroup,
+	ParameterType,
+	TextParameter,
+} from "@ezwave/spec";
+import {
 	CodecDataError,
 	CodecDefinitionError,
 	Context,
@@ -12,23 +30,6 @@ import {
 } from "./codec";
 import { encodeCommandClasses } from "./commandClassInfo";
 import { Packet } from "./packet";
-import {
-	BitfieldElementType,
-	BitfieldParameter,
-	BitmaskParameter,
-	BlobParameter,
-	BlobType,
-	CommandDefinition,
-	EnumParameter,
-	EnumUnionParameter,
-	IntegerParameter,
-	LengthType,
-	LocalParameter,
-	ParameterGroup,
-	ParameterType,
-	TextParameter,
-} from "./spec";
-import { getReferencePath, KeyValues } from "./specHelpers";
 
 export function encodeCommandAndPayload(
 	commandDef: CommandDefinition,

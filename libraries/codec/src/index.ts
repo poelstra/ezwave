@@ -1,11 +1,7 @@
-export { CommandClasses } from "./generated/CommandClasses";
 export * from "./codec";
 export * from "./command";
 export * from "./commandClassInfo";
 export * from "./debug";
 export * from "./decode";
 export * from "./encode";
-export * from "./jsonSpec";
 export * from "./packet";
-export * from "./spec";
-export * from "./specHelpers";
