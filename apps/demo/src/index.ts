@@ -6,25 +6,22 @@
  * split off to a separate process in the future.
  */
 
+// TODO Extract more logic into reusable @ezwave packages
+
+import { Controller, SwitchBoard } from "@ezwave/controller";
+import { CryptoManager, NonceStore } from "@ezwave/security";
+import { Framer, Protocol, SerialApi, ZwLibraryType } from "@ezwave/serialapi";
+import {
+	DEFAULT_SUPPORTED_ZWAVE_USB_IDS,
+	SerialPortScanner,
+	SerialPortScannerOptions,
+} from "@ezwave/serialport";
+import { toHex } from "@ezwave/shared";
 import main from "async-main";
 import { randomBytes } from "crypto";
 import * as path from "path";
 import "source-map-support/register";
 import { Duplex } from "stream";
-import { toHex } from "../common/util";
-import { CryptoManager } from "../security/cryptoManager";
-import { NonceStore } from "../security/nonceStore";
-import { Framer } from "../serialapi/framer";
-import { Protocol } from "../serialapi/protocol";
-import { SerialApi } from "../serialapi/serialapi";
-import { ZwLibraryType } from "../serialapi/commands/types";
-import { Controller } from "../server/controller";
-import {
-	DEFAULT_SUPPORTED_ZWAVE_USB_IDS,
-	SerialPortScanner,
-	SerialPortScannerOptions,
-} from "../server/serialPortScanner";
-import { SwitchBoard } from "../server/switchBoard";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Hub } from "./hub";
@@ -32,7 +29,8 @@ import { Hub } from "./hub";
 function prefixTimestamp(console: Console, method: keyof Console): void {
 	const origMethod = console[method] as (this: any, ...args: any[]) => void;
 	console[method] = function (this: any, ...args: any[]) {
-		args.unshift(`${new Date().toISOString()} [${method}]`);
+		// Don't use e.g. args.unshift, because only the first argument supports printf-formatting
+		args[0] = `${new Date().toISOString()} [${method}] ${args[0]}`;
 		return origMethod.apply(this, args);
 	} as any;
 }
@@ -69,7 +67,8 @@ async function serialApiFromPort(port: Duplex): Promise<SerialApi> {
 	return serialApi;
 }
 
-main(async () => {
+// eslint-disable-next-line no-void
+void main(async () => {
 	prefixTimestamp(console, "log");
 	prefixTimestamp(console, "info");
 	prefixTimestamp(console, "warn");
@@ -82,7 +81,7 @@ main(async () => {
 	}
 
 	const configPath =
-		process.argv[2] ?? path.resolve(__dirname, "../../config.json");
+		process.argv[2] ?? path.resolve(__dirname, "../config.json");
 	console.log(`Reading configuration from ${configPath}`);
 	const config = require(configPath) as Config;
 
@@ -94,7 +93,8 @@ main(async () => {
 	let mhub: Hub | undefined;
 	if (config.mhub) {
 		mhub = new Hub(config.mhub.url, config.mhub.user, config.mhub.pass);
-		main(() => mhub!.run());
+		// eslint-disable-next-line no-void
+		void main(() => mhub!.run());
 	}
 
 	// Auto-create host (only static controller, for now) once corresponding serial
@@ -163,8 +163,7 @@ main(async () => {
 	if (mhub && controllers.length > 0) {
 		const myController = controllers[0];
 		const home = new Home(myController);
-		const homeHub = new HomeHub(home, mhub, myController);
-		void homeHub;
+		await HomeHub.create(home, mhub, myController);
 	}
 
 	// Add all pre-configured hosts to switchboard

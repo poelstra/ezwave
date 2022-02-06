@@ -1,0 +1,48 @@
+{
+	"name": "@ezwave/demo",
+	"version": "1.0.0",
+	"description": "TypeScript Z-Wave: integration demo app",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/poelstra/ezwave/tree/master/app/demo"
+	},
+	"author": "Martin Poelstra <martin@beryllium.net>",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"typings": "lib/index.d.ts",
+	"scripts": {
+		"build": "heft test --clean",
+		"build:watch": "heft test",
+		"start": "heft start"
+	},
+	"keywords": [
+		"zwave",
+		"z-wave",
+		"typescript"
+	],
+	"dependencies": {
+		"@ezwave/shared": "workspace:*",
+		"@ezwave/commands": "workspace:*",
+		"@ezwave/codec": "workspace:*",
+		"@ezwave/layers": "workspace:*",
+		"@ezwave/controller": "workspace:*",
+		"@ezwave/security": "workspace:*",
+		"@ezwave/serialapi": "workspace:*",
+		"@ezwave/serialport": "workspace:*",
+		"async-main": "^1.0.2",
+		"mhub": "^2.1.0",
+		"source-map-support": "^0.5.21",
+		"debug": "~4.3.1",
+		"serialport": "^9.0.4"
+	},
+	"devDependencies": {
+		"@ezwave/ezwave-heft-rig": "workspace:*",
+		"@rushstack/heft": "0.42.2",
+		"eslint": "~7.22.0",
+		"typescript": "4.4.4",
+		"@types/heft-jest": "1.0.2",
+		"@types/node": "16.11.7",
+		"@types/debug": "~4.1.5",
+		"@types/serialport": "~8.0.2"
+	}
+}

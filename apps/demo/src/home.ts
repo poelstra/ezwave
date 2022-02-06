@@ -1,10 +1,8 @@
+import { Packet } from "@ezwave/codec";
+import { BasicV1, SwitchBinaryV1, SwitchMultilevelV1 } from "@ezwave/commands";
+import { Controller } from "@ezwave/controller";
+import { LayerEvent } from "@ezwave/layers";
 import { EventEmitter } from "events";
-import { BasicV1 } from "../commands/classes/BasicV1";
-import { SwitchBinaryV1 } from "../commands/classes/SwitchBinaryV1";
-import { SwitchMultilevelV1 } from "../commands/classes/SwitchMultilevelV1";
-import { Packet } from "../commands/packet";
-import { LayerEvent } from "../layers/layer";
-import { Controller } from "../server/controller";
 
 export enum HomeDevices {
 	Controller = 1, // *LB, Static Controller, Static PC Controller, AEON Labs ZW090 Z-Stick Gen5 EU, Stick, Meterkast, , 9:42:29 PM, Ready

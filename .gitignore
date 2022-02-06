@@ -81,3 +81,7 @@ dist
 # Heft
 */*/.heft/
 */*/.heft/
+
+# EZWave development
+/todo.txt
+/apps/demo/config.json

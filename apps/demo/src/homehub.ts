@@ -1,8 +1,8 @@
+import { Packet } from "@ezwave/codec";
+import { SceneActivationV1 } from "@ezwave/commands";
+import { Controller } from "@ezwave/controller";
+import { LayerEvent } from "@ezwave/layers";
 import { Message } from "mhub";
-import { Packet } from "../commands/packet";
-import { SceneActivationV1 } from "../commands/classes/SceneActivationV1";
-import { LayerEvent } from "../layers/layer";
-import { Controller } from "../server/controller";
 import { Home } from "./home";
 import { Hub } from "./hub";
 
@@ -10,7 +10,17 @@ export class HomeHub {
 	private _hub: Hub;
 	private _home: Home;
 
-	constructor(home: Home, hub: Hub, controller: Controller) {
+	public static async create(
+		home: Home,
+		hub: Hub,
+		controller: Controller
+	): Promise<HomeHub> {
+		const homeHub = new this(home, hub, controller);
+		await homeHub._init();
+		return homeHub;
+	}
+
+	private constructor(home: Home, hub: Hub, controller: Controller) {
 		this._home = home;
 		this._home.on("value", (name: string, value: number) =>
 			this._handleValue(name, value).catch((err) =>
@@ -25,13 +35,20 @@ export class HomeHub {
 		);
 
 		this._hub = hub;
-		this._hub.subscribe("command", "/home/lights/*", (message) =>
+	}
+
+	private async _init(): Promise<void> {
+		// TODO Current logic means that homehub will permanently fail
+		// if subscribing fails during initialization, whereas it should
+		// be fine to just add it to a list of 'wanted subscriptions'.
+		// Requires different way of working in Hub though.
+		await this._hub.subscribe("command", "/home/lights/*", (message) =>
 			this._handleLights(message)
 		);
-		this._hub.subscribe("command", "/home/thermostat/*", (message) =>
+		await this._hub.subscribe("command", "/home/thermostat/*", (message) =>
 			this._handleThermostat(message)
 		);
-		this._hub.subscribe("command", "/home/afzuiging", (message) =>
+		await this._hub.subscribe("command", "/home/afzuiging", (message) =>
 			this._handleAfzuiging(message)
 		);
 	}
@@ -112,7 +129,9 @@ export class HomeHub {
 		await this._hub.publish("command", "/home/scene", name);
 	}
 
-	async _handleSceneActivationSet(event: LayerEvent<Packet>): Promise<void> {
+	private async _handleSceneActivationSet(
+		event: LayerEvent<Packet>
+	): Promise<void> {
 		const decoded = event.packet.as(SceneActivationV1.SceneActivationSet);
 		const scene = decoded.data.sceneId;
 		const duration = decoded.data.dimmingDuration;

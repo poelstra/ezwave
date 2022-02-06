@@ -33,6 +33,7 @@
 		"@types/node": "16.11.7",
 		"async-main": "^1.0.2",
 		"case": "^1.6.3",
-		"ts-node": "~10.4.0"
+		"ts-node": "~10.4.0",
+		"source-map-support": "^0.5.21"
 	}
 }

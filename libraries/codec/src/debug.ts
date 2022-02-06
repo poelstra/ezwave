@@ -159,7 +159,7 @@ function getSpec(): CommandsByClassByVersion {
 		return loadedSpec;
 	}
 
-	const jsonSpec = require("../../spec/zwave.json") as ZwaveSpec;
+	const jsonSpec = require("@ezwave/spec/lib/zwave.json") as ZwaveSpec;
 	loadedSpec = convertFromJsonCommandClasses(jsonSpec.classes);
 	return loadedSpec;
 }

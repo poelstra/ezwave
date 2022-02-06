@@ -1,6 +1,6 @@
-import MHubClient, { Headers, Message } from "mhub";
+import { defer, Deferred, delay } from "@ezwave/shared";
 import { EventEmitter, once } from "events";
-import { defer, Deferred, delay } from "../common/util";
+import MHubClient, { Headers, Message } from "mhub";
 
 export interface HubEvents {
 	on(event: "subscribe", listener: () => void): void;
@@ -52,11 +52,11 @@ export class Hub extends EventEmitter implements HubEvents {
 		});
 	}
 
-	public subscribe(
+	public async subscribe(
 		nodeName: string,
 		pattern: string,
 		callback: SubscribeCallback
-	): void {
+	): Promise<void> {
 		const sub: Subscription = {
 			node: nodeName,
 			pattern: pattern,
@@ -65,7 +65,8 @@ export class Hub extends EventEmitter implements HubEvents {
 		this._callbacks.set(sub.id, callback);
 		this._subscriptions.push(sub);
 		if (this._connected) {
-			this._hub.subscribe(sub.node, sub.pattern, sub.id);
+			// eslint-disable-next-line no-void
+			await this._hub.subscribe(sub.node, sub.pattern, sub.id);
 		}
 	}
 
@@ -102,6 +103,8 @@ export class Hub extends EventEmitter implements HubEvents {
 				console.error("Hub connect error", err);
 			}
 			this._connected = false;
+			// TODO This should probably only be done if was connected before,
+			// otherwise some initial publishes may be pending forever
 			this._connectedDeferred = defer();
 			try {
 				await this._hub.close();

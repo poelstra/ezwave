@@ -475,6 +475,10 @@
 			"projectFolder": "libraries/commands"
 		},
 		{
+			"packageName": "@ezwave/demo",
+			"projectFolder": "apps/demo"
+		},
+		{
 			"packageName": "@ezwave/layers",
 			"projectFolder": "libraries/layers"
 		},
