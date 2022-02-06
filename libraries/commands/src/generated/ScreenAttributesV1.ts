@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ScreenAttributesV1Commands {
 	ScreenAttributesGet = 0x01,
@@ -30,89 +30,84 @@ export class ScreenAttributesV1 extends CommandClassPacket<ScreenAttributesV1Com
 	constructor(commandAndPayload: Buffer) {
 		super(ScreenAttributesV1, commandAndPayload);
 	}
-
-	public static readonly ScreenAttributesGet = class ScreenAttributesGet extends CommandPacket<void> {
-		public static readonly CommandClass = ScreenAttributesV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ScreenAttributesGet",
-			"help": "Screen Attributes Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ScreenAttributesV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ScreenAttributesGet, data);
-		}
-	};
-
-	public static readonly ScreenAttributesReport = class ScreenAttributesReport extends CommandPacket<ScreenAttributesV1ScreenAttributesReportData> {
-		public static readonly CommandClass = ScreenAttributesV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ScreenAttributesReport",
-			"help": "Screen Attributes Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 224,
-							"shift": 5,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "numberOfLines",
-							"mask": 31,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "numberOfCharactersPerLine",
-					"help": "Number of Characters per Line",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "sizeOfLineBuffer",
-					"help": "Size of Line Buffer",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "numericalPresentationOfACharacter",
-					"help": "Numerical Presentation of a Character",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ScreenAttributesV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ScreenAttributesV1ScreenAttributesReportData) {
-			super(ScreenAttributesReport, data);
-		}
-	};
 }
 
-export namespace ScreenAttributesV1 {
-	export type ScreenAttributesGet = InstanceType<typeof ScreenAttributesV1.ScreenAttributesGet>;
-	export type ScreenAttributesReport = InstanceType<typeof ScreenAttributesV1.ScreenAttributesReport>;
-}
+export class ScreenAttributesGet extends CommandPacket<void> {
+	public static readonly CommandClass = ScreenAttributesV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ScreenAttributesGet",
+		"help": "Screen Attributes Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ScreenAttributesV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ScreenAttributesGet, data);
+	}
+};
+
+export class ScreenAttributesReport extends CommandPacket<ScreenAttributesV1ScreenAttributesReportData> {
+	public static readonly CommandClass = ScreenAttributesV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ScreenAttributesReport",
+		"help": "Screen Attributes Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 224,
+						"shift": 5,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "numberOfLines",
+						"mask": 31,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "numberOfCharactersPerLine",
+				"help": "Number of Characters per Line",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "sizeOfLineBuffer",
+				"help": "Size of Line Buffer",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "numericalPresentationOfACharacter",
+				"help": "Numerical Presentation of a Character",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ScreenAttributesV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ScreenAttributesV1ScreenAttributesReportData) {
+		super(ScreenAttributesReport, data);
+	}
+};

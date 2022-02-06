@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ThermostatFanModeV4Commands {
 	ThermostatFanModeGet = 0x02,
@@ -78,375 +78,367 @@ export class ThermostatFanModeV4 extends CommandClassPacket<ThermostatFanModeV4C
 	constructor(commandAndPayload: Buffer) {
 		super(ThermostatFanModeV4, commandAndPayload);
 	}
+}
 
-	public static readonly ThermostatFanModeGet = class ThermostatFanModeGet extends CommandPacket<void> {
-		public static readonly CommandClass = ThermostatFanModeV4;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ThermostatFanModeGet",
-			"help": "Thermostat Fan Mode Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class ThermostatFanModeGet extends CommandPacket<void> {
+	public static readonly CommandClass = ThermostatFanModeV4;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ThermostatFanModeGet",
+		"help": "Thermostat Fan Mode Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(ThermostatFanModeGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(ThermostatFanModeGet, data);
+	}
+};
 
-	public static readonly ThermostatFanModeReport = class ThermostatFanModeReport extends CommandPacket<ThermostatFanModeV4ThermostatFanModeReportData> {
-		public static readonly CommandClass = ThermostatFanModeV4;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "ThermostatFanModeReport",
-			"help": "Thermostat Fan Mode Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "off",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 112,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "fanMode",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "AutoLow",
-									"help": "Auto Low"
-								},
-								"1": {
-									"name": "Low",
-									"help": "Low"
-								},
-								"2": {
-									"name": "AutoHigh",
-									"help": "Auto High"
-								},
-								"3": {
-									"name": "High",
-									"help": "High"
-								},
-								"4": {
-									"name": "AutoMedium",
-									"help": "Auto Medium"
-								},
-								"5": {
-									"name": "Medium",
-									"help": "Medium"
-								},
-								"6": {
-									"name": "Circulation",
-									"help": "Circulation"
-								},
-								"7": {
-									"name": "Humidity",
-									"help": "Humidity"
-								},
-								"8": {
-									"name": "LeftRight",
-									"help": "Left Right"
-								},
-								"9": {
-									"name": "UpDown",
-									"help": "Up Down"
-								},
-								"10": {
-									"name": "Quiet",
-									"help": "Quiet"
-								},
-								"11": {
-									"name": "ReservedB",
-									"help": "ReservedB"
-								},
-								"12": {
-									"name": "ReservedC",
-									"help": "ReservedC"
-								},
-								"13": {
-									"name": "ReservedD",
-									"help": "ReservedD"
-								},
-								"14": {
-									"name": "ReservedE",
-									"help": "ReservedE"
-								},
-								"15": {
-									"name": "ReservedF",
-									"help": "ReservedF"
-								}
-							}
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeReportData) {
-			super(ThermostatFanModeReport, data);
-		}
-	};
-
-	public static readonly ThermostatFanModeSet = class ThermostatFanModeSet extends CommandPacket<ThermostatFanModeV4ThermostatFanModeSetData> {
-		public static readonly CommandClass = ThermostatFanModeV4;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ThermostatFanModeSet",
-			"help": "Thermostat Fan Mode Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "off",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 112,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "fanMode",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "AutoLow",
-									"help": "Auto Low"
-								},
-								"1": {
-									"name": "Low",
-									"help": "Low"
-								},
-								"2": {
-									"name": "AutoHigh",
-									"help": "Auto High"
-								},
-								"3": {
-									"name": "High",
-									"help": "High"
-								},
-								"4": {
-									"name": "AutoMedium",
-									"help": "Auto Medium"
-								},
-								"5": {
-									"name": "Medium",
-									"help": "Medium"
-								},
-								"6": {
-									"name": "Circulation",
-									"help": "Circulation"
-								},
-								"7": {
-									"name": "Humidity",
-									"help": "Humidity"
-								},
-								"8": {
-									"name": "LeftRight",
-									"help": "Left Right"
-								},
-								"9": {
-									"name": "UpDown",
-									"help": "Up Down"
-								},
-								"10": {
-									"name": "Quiet",
-									"help": "Quiet"
-								},
-								"11": {
-									"name": "ReservedB",
-									"help": "ReservedB"
-								},
-								"12": {
-									"name": "ReservedC",
-									"help": "ReservedC"
-								},
-								"13": {
-									"name": "ReservedD",
-									"help": "ReservedD"
-								},
-								"14": {
-									"name": "ReservedE",
-									"help": "ReservedE"
-								},
-								"15": {
-									"name": "ReservedF",
-									"help": "ReservedF"
-								}
-							}
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSetData) {
-			super(ThermostatFanModeSet, data);
-		}
-	};
-
-	public static readonly ThermostatFanModeSupportedGet = class ThermostatFanModeSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = ThermostatFanModeV4;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "ThermostatFanModeSupportedGet",
-			"help": "Thermostat Fan Mode Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ThermostatFanModeSupportedGet, data);
-		}
-	};
-
-	public static readonly ThermostatFanModeSupportedReport = class ThermostatFanModeSupportedReport extends CommandPacket<ThermostatFanModeV4ThermostatFanModeSupportedReportData> {
-		public static readonly CommandClass = ThermostatFanModeV4;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "ThermostatFanModeSupportedReport",
-			"help": "Thermostat Fan Mode Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitmask",
-					"name": "bitMask",
-					"help": "Bit Mask",
-					"length": {
-						"lengthType": "Auto"
+export class ThermostatFanModeReport extends CommandPacket<ThermostatFanModeV4ThermostatFanModeReportData> {
+	public static readonly CommandClass = ThermostatFanModeV4;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "ThermostatFanModeReport",
+		"help": "Thermostat Fan Mode Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "off",
+						"mask": 128,
+						"shift": 7
 					},
-					"values": {
-						"0": {
-							"name": "Auto",
-							"help": "Auto"
-						},
-						"1": {
-							"name": "Low",
-							"help": "Low"
-						},
-						"2": {
-							"name": "AutoHigh",
-							"help": "Auto High"
-						},
-						"3": {
-							"name": "High",
-							"help": "High"
-						},
-						"4": {
-							"name": "AutoMedium",
-							"help": "Auto Medium"
-						},
-						"5": {
-							"name": "Medium",
-							"help": "Medium"
-						},
-						"6": {
-							"name": "Circulation",
-							"help": "Circulation"
-						},
-						"7": {
-							"name": "HumidityCirculation",
-							"help": "Humidity Circulation"
-						},
-						"8": {
-							"name": "LeftRight",
-							"help": "Left Right"
-						},
-						"9": {
-							"name": "UpDown",
-							"help": "Up Down"
-						},
-						"10": {
-							"name": "Quiet",
-							"help": "Quiet"
-						},
-						"11": {
-							"name": "ReservedB",
-							"help": "ReservedB"
-						},
-						"12": {
-							"name": "ReservedC",
-							"help": "ReservedC"
-						},
-						"13": {
-							"name": "ReservedD",
-							"help": "ReservedD"
-						},
-						"14": {
-							"name": "ReservedE",
-							"help": "ReservedE"
-						},
-						"15": {
-							"name": "ReservedF",
-							"help": "ReservedF"
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 112,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Enum",
+						"name": "fanMode",
+						"mask": 15,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "AutoLow",
+								"help": "Auto Low"
+							},
+							"1": {
+								"name": "Low",
+								"help": "Low"
+							},
+							"2": {
+								"name": "AutoHigh",
+								"help": "Auto High"
+							},
+							"3": {
+								"name": "High",
+								"help": "High"
+							},
+							"4": {
+								"name": "AutoMedium",
+								"help": "Auto Medium"
+							},
+							"5": {
+								"name": "Medium",
+								"help": "Medium"
+							},
+							"6": {
+								"name": "Circulation",
+								"help": "Circulation"
+							},
+							"7": {
+								"name": "Humidity",
+								"help": "Humidity"
+							},
+							"8": {
+								"name": "LeftRight",
+								"help": "Left Right"
+							},
+							"9": {
+								"name": "UpDown",
+								"help": "Up Down"
+							},
+							"10": {
+								"name": "Quiet",
+								"help": "Quiet"
+							},
+							"11": {
+								"name": "ReservedB",
+								"help": "ReservedB"
+							},
+							"12": {
+								"name": "ReservedC",
+								"help": "ReservedC"
+							},
+							"13": {
+								"name": "ReservedD",
+								"help": "ReservedD"
+							},
+							"14": {
+								"name": "ReservedE",
+								"help": "ReservedE"
+							},
+							"15": {
+								"name": "ReservedF",
+								"help": "ReservedF"
+							}
 						}
 					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeReportData) {
+		super(ThermostatFanModeReport, data);
+	}
+};
+
+export class ThermostatFanModeSet extends CommandPacket<ThermostatFanModeV4ThermostatFanModeSetData> {
+	public static readonly CommandClass = ThermostatFanModeV4;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ThermostatFanModeSet",
+		"help": "Thermostat Fan Mode Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "off",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 112,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Enum",
+						"name": "fanMode",
+						"mask": 15,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "AutoLow",
+								"help": "Auto Low"
+							},
+							"1": {
+								"name": "Low",
+								"help": "Low"
+							},
+							"2": {
+								"name": "AutoHigh",
+								"help": "Auto High"
+							},
+							"3": {
+								"name": "High",
+								"help": "High"
+							},
+							"4": {
+								"name": "AutoMedium",
+								"help": "Auto Medium"
+							},
+							"5": {
+								"name": "Medium",
+								"help": "Medium"
+							},
+							"6": {
+								"name": "Circulation",
+								"help": "Circulation"
+							},
+							"7": {
+								"name": "Humidity",
+								"help": "Humidity"
+							},
+							"8": {
+								"name": "LeftRight",
+								"help": "Left Right"
+							},
+							"9": {
+								"name": "UpDown",
+								"help": "Up Down"
+							},
+							"10": {
+								"name": "Quiet",
+								"help": "Quiet"
+							},
+							"11": {
+								"name": "ReservedB",
+								"help": "ReservedB"
+							},
+							"12": {
+								"name": "ReservedC",
+								"help": "ReservedC"
+							},
+							"13": {
+								"name": "ReservedD",
+								"help": "ReservedD"
+							},
+							"14": {
+								"name": "ReservedE",
+								"help": "ReservedE"
+							},
+							"15": {
+								"name": "ReservedF",
+								"help": "ReservedF"
+							}
+						}
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSetData) {
+		super(ThermostatFanModeSet, data);
+	}
+};
+
+export class ThermostatFanModeSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = ThermostatFanModeV4;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "ThermostatFanModeSupportedGet",
+		"help": "Thermostat Fan Mode Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ThermostatFanModeSupportedGet, data);
+	}
+};
+
+export class ThermostatFanModeSupportedReport extends CommandPacket<ThermostatFanModeV4ThermostatFanModeSupportedReportData> {
+	public static readonly CommandClass = ThermostatFanModeV4;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "ThermostatFanModeSupportedReport",
+		"help": "Thermostat Fan Mode Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitmask",
+				"name": "bitMask",
+				"help": "Bit Mask",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"values": {
+					"0": {
+						"name": "Auto",
+						"help": "Auto"
+					},
+					"1": {
+						"name": "Low",
+						"help": "Low"
+					},
+					"2": {
+						"name": "AutoHigh",
+						"help": "Auto High"
+					},
+					"3": {
+						"name": "High",
+						"help": "High"
+					},
+					"4": {
+						"name": "AutoMedium",
+						"help": "Auto Medium"
+					},
+					"5": {
+						"name": "Medium",
+						"help": "Medium"
+					},
+					"6": {
+						"name": "Circulation",
+						"help": "Circulation"
+					},
+					"7": {
+						"name": "HumidityCirculation",
+						"help": "Humidity Circulation"
+					},
+					"8": {
+						"name": "LeftRight",
+						"help": "Left Right"
+					},
+					"9": {
+						"name": "UpDown",
+						"help": "Up Down"
+					},
+					"10": {
+						"name": "Quiet",
+						"help": "Quiet"
+					},
+					"11": {
+						"name": "ReservedB",
+						"help": "ReservedB"
+					},
+					"12": {
+						"name": "ReservedC",
+						"help": "ReservedC"
+					},
+					"13": {
+						"name": "ReservedD",
+						"help": "ReservedD"
+					},
+					"14": {
+						"name": "ReservedE",
+						"help": "ReservedE"
+					},
+					"15": {
+						"name": "ReservedF",
+						"help": "ReservedF"
+					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSupportedReportData) {
-			super(ThermostatFanModeSupportedReport, data);
-		}
-	};
-}
-
-export namespace ThermostatFanModeV4 {
-	export type ThermostatFanModeGet = InstanceType<typeof ThermostatFanModeV4.ThermostatFanModeGet>;
-	export type ThermostatFanModeReport = InstanceType<typeof ThermostatFanModeV4.ThermostatFanModeReport>;
-	export type ThermostatFanModeSet = InstanceType<typeof ThermostatFanModeV4.ThermostatFanModeSet>;
-	export type ThermostatFanModeSupportedGet = InstanceType<typeof ThermostatFanModeV4.ThermostatFanModeSupportedGet>;
-	export type ThermostatFanModeSupportedReport = InstanceType<typeof ThermostatFanModeV4.ThermostatFanModeSupportedReport>;
-}
+	constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSupportedReportData) {
+		super(ThermostatFanModeSupportedReport, data);
+	}
+};

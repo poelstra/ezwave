@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ThermostatModeV2Commands {
 	ThermostatModeGet = 0x02,
@@ -72,339 +72,331 @@ export class ThermostatModeV2 extends CommandClassPacket<ThermostatModeV2Command
 	constructor(commandAndPayload: Buffer) {
 		super(ThermostatModeV2, commandAndPayload);
 	}
+}
 
-	public static readonly ThermostatModeGet = class ThermostatModeGet extends CommandPacket<void> {
-		public static readonly CommandClass = ThermostatModeV2;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ThermostatModeGet",
-			"help": "Thermostat Mode Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class ThermostatModeGet extends CommandPacket<void> {
+	public static readonly CommandClass = ThermostatModeV2;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ThermostatModeGet",
+		"help": "Thermostat Mode Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatModeV2)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatModeV2)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(ThermostatModeGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(ThermostatModeGet, data);
+	}
+};
 
-	public static readonly ThermostatModeReport = class ThermostatModeReport extends CommandPacket<ThermostatModeV2ThermostatModeReportData> {
-		public static readonly CommandClass = ThermostatModeV2;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "ThermostatModeReport",
-			"help": "Thermostat Mode Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 224,
-							"shift": 5,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "mode",
-							"mask": 31,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "Off",
-									"help": "Off"
-								},
-								"1": {
-									"name": "Heat",
-									"help": "Heat"
-								},
-								"2": {
-									"name": "Cool",
-									"help": "Cool"
-								},
-								"3": {
-									"name": "Auto",
-									"help": "Auto"
-								},
-								"4": {
-									"name": "AuxiliaryHeat",
-									"help": "Auxiliary Heat"
-								},
-								"5": {
-									"name": "Resume",
-									"help": "Resume"
-								},
-								"6": {
-									"name": "FanOnly",
-									"help": "Fan Only"
-								},
-								"7": {
-									"name": "Furnace",
-									"help": "Furnace"
-								},
-								"8": {
-									"name": "DryAir",
-									"help": "Dry Air"
-								},
-								"9": {
-									"name": "MoistAir",
-									"help": "Moist Air"
-								},
-								"10": {
-									"name": "AutoChangeover",
-									"help": "Auto Changeover"
-								},
-								"11": {
-									"name": "EnergySaveHeat",
-									"help": "Energy Save Heat"
-								},
-								"12": {
-									"name": "EnergySaveCool",
-									"help": "Energy Save Cool"
-								},
-								"13": {
-									"name": "Away",
-									"help": "AWAY"
-								}
-							}
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatModeV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ThermostatModeV2ThermostatModeReportData) {
-			super(ThermostatModeReport, data);
-		}
-	};
-
-	public static readonly ThermostatModeSet = class ThermostatModeSet extends CommandPacket<ThermostatModeV2ThermostatModeSetData> {
-		public static readonly CommandClass = ThermostatModeV2;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ThermostatModeSet",
-			"help": "Thermostat Mode Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 224,
-							"shift": 5,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "mode",
-							"mask": 31,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "Off",
-									"help": "Off"
-								},
-								"1": {
-									"name": "Heat",
-									"help": "Heat"
-								},
-								"2": {
-									"name": "Cool",
-									"help": "Cool"
-								},
-								"3": {
-									"name": "Auto",
-									"help": "Auto"
-								},
-								"4": {
-									"name": "AuxiliaryHeat",
-									"help": "Auxiliary Heat"
-								},
-								"5": {
-									"name": "Resume",
-									"help": "Resume"
-								},
-								"6": {
-									"name": "FanOnly",
-									"help": "Fan Only"
-								},
-								"7": {
-									"name": "Furnace",
-									"help": "Furnace"
-								},
-								"8": {
-									"name": "DryAir",
-									"help": "Dry Air"
-								},
-								"9": {
-									"name": "MoistAir",
-									"help": "Moist Air"
-								},
-								"10": {
-									"name": "AutoChangeover",
-									"help": "Auto Changeover"
-								},
-								"11": {
-									"name": "EnergySaveHeat",
-									"help": "Energy Save Heat"
-								},
-								"12": {
-									"name": "EnergySaveCool",
-									"help": "Energy Save Cool"
-								},
-								"13": {
-									"name": "Away",
-									"help": "AWAY"
-								}
-							}
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatModeV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ThermostatModeV2ThermostatModeSetData) {
-			super(ThermostatModeSet, data);
-		}
-	};
-
-	public static readonly ThermostatModeSupportedGet = class ThermostatModeSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = ThermostatModeV2;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "ThermostatModeSupportedGet",
-			"help": "Thermostat Mode Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatModeV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ThermostatModeSupportedGet, data);
-		}
-	};
-
-	public static readonly ThermostatModeSupportedReport = class ThermostatModeSupportedReport extends CommandPacket<ThermostatModeV2ThermostatModeSupportedReportData> {
-		public static readonly CommandClass = ThermostatModeV2;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "ThermostatModeSupportedReport",
-			"help": "Thermostat Mode Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitmask",
-					"name": "bitMask",
-					"help": "Bit Mask",
-					"length": {
-						"lengthType": "Auto"
+export class ThermostatModeReport extends CommandPacket<ThermostatModeV2ThermostatModeReportData> {
+	public static readonly CommandClass = ThermostatModeV2;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "ThermostatModeReport",
+		"help": "Thermostat Mode Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 224,
+						"shift": 5,
+						"reserved": true
 					},
-					"values": {
-						"0": {
-							"name": "Off",
-							"help": "Off"
-						},
-						"1": {
-							"name": "Heat",
-							"help": "Heat"
-						},
-						"2": {
-							"name": "Cool",
-							"help": "Cool"
-						},
-						"3": {
-							"name": "Auto",
-							"help": "Auto"
-						},
-						"4": {
-							"name": "AuxiliaryEmergencyHeat",
-							"help": "Auxiliary/Emergency Heat"
-						},
-						"5": {
-							"name": "Resume",
-							"help": "Resume"
-						},
-						"6": {
-							"name": "FanOnly",
-							"help": "Fan Only"
-						},
-						"7": {
-							"name": "Furnace",
-							"help": "Furnace"
-						},
-						"8": {
-							"name": "DryAir",
-							"help": "Dry Air"
-						},
-						"9": {
-							"name": "MoistAir",
-							"help": "Moist Air"
-						},
-						"10": {
-							"name": "AutoChangeover",
-							"help": "Auto Changeover"
-						},
-						"11": {
-							"name": "EnergySaveHeat",
-							"help": "Energy Save Heat"
-						},
-						"12": {
-							"name": "EnergySaveCool",
-							"help": "Energy Save Cool"
-						},
-						"13": {
-							"name": "Away",
-							"help": "AWAY"
+					{
+						"fieldType": "Enum",
+						"name": "mode",
+						"mask": 31,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "Off",
+								"help": "Off"
+							},
+							"1": {
+								"name": "Heat",
+								"help": "Heat"
+							},
+							"2": {
+								"name": "Cool",
+								"help": "Cool"
+							},
+							"3": {
+								"name": "Auto",
+								"help": "Auto"
+							},
+							"4": {
+								"name": "AuxiliaryHeat",
+								"help": "Auxiliary Heat"
+							},
+							"5": {
+								"name": "Resume",
+								"help": "Resume"
+							},
+							"6": {
+								"name": "FanOnly",
+								"help": "Fan Only"
+							},
+							"7": {
+								"name": "Furnace",
+								"help": "Furnace"
+							},
+							"8": {
+								"name": "DryAir",
+								"help": "Dry Air"
+							},
+							"9": {
+								"name": "MoistAir",
+								"help": "Moist Air"
+							},
+							"10": {
+								"name": "AutoChangeover",
+								"help": "Auto Changeover"
+							},
+							"11": {
+								"name": "EnergySaveHeat",
+								"help": "Energy Save Heat"
+							},
+							"12": {
+								"name": "EnergySaveCool",
+								"help": "Energy Save Cool"
+							},
+							"13": {
+								"name": "Away",
+								"help": "AWAY"
+							}
 						}
 					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatModeV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ThermostatModeV2ThermostatModeReportData) {
+		super(ThermostatModeReport, data);
+	}
+};
+
+export class ThermostatModeSet extends CommandPacket<ThermostatModeV2ThermostatModeSetData> {
+	public static readonly CommandClass = ThermostatModeV2;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ThermostatModeSet",
+		"help": "Thermostat Mode Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 224,
+						"shift": 5,
+						"reserved": true
+					},
+					{
+						"fieldType": "Enum",
+						"name": "mode",
+						"mask": 31,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "Off",
+								"help": "Off"
+							},
+							"1": {
+								"name": "Heat",
+								"help": "Heat"
+							},
+							"2": {
+								"name": "Cool",
+								"help": "Cool"
+							},
+							"3": {
+								"name": "Auto",
+								"help": "Auto"
+							},
+							"4": {
+								"name": "AuxiliaryHeat",
+								"help": "Auxiliary Heat"
+							},
+							"5": {
+								"name": "Resume",
+								"help": "Resume"
+							},
+							"6": {
+								"name": "FanOnly",
+								"help": "Fan Only"
+							},
+							"7": {
+								"name": "Furnace",
+								"help": "Furnace"
+							},
+							"8": {
+								"name": "DryAir",
+								"help": "Dry Air"
+							},
+							"9": {
+								"name": "MoistAir",
+								"help": "Moist Air"
+							},
+							"10": {
+								"name": "AutoChangeover",
+								"help": "Auto Changeover"
+							},
+							"11": {
+								"name": "EnergySaveHeat",
+								"help": "Energy Save Heat"
+							},
+							"12": {
+								"name": "EnergySaveCool",
+								"help": "Energy Save Cool"
+							},
+							"13": {
+								"name": "Away",
+								"help": "AWAY"
+							}
+						}
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatModeV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ThermostatModeV2ThermostatModeSetData) {
+		super(ThermostatModeSet, data);
+	}
+};
+
+export class ThermostatModeSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = ThermostatModeV2;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "ThermostatModeSupportedGet",
+		"help": "Thermostat Mode Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatModeV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ThermostatModeSupportedGet, data);
+	}
+};
+
+export class ThermostatModeSupportedReport extends CommandPacket<ThermostatModeV2ThermostatModeSupportedReportData> {
+	public static readonly CommandClass = ThermostatModeV2;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "ThermostatModeSupportedReport",
+		"help": "Thermostat Mode Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitmask",
+				"name": "bitMask",
+				"help": "Bit Mask",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"values": {
+					"0": {
+						"name": "Off",
+						"help": "Off"
+					},
+					"1": {
+						"name": "Heat",
+						"help": "Heat"
+					},
+					"2": {
+						"name": "Cool",
+						"help": "Cool"
+					},
+					"3": {
+						"name": "Auto",
+						"help": "Auto"
+					},
+					"4": {
+						"name": "AuxiliaryEmergencyHeat",
+						"help": "Auxiliary/Emergency Heat"
+					},
+					"5": {
+						"name": "Resume",
+						"help": "Resume"
+					},
+					"6": {
+						"name": "FanOnly",
+						"help": "Fan Only"
+					},
+					"7": {
+						"name": "Furnace",
+						"help": "Furnace"
+					},
+					"8": {
+						"name": "DryAir",
+						"help": "Dry Air"
+					},
+					"9": {
+						"name": "MoistAir",
+						"help": "Moist Air"
+					},
+					"10": {
+						"name": "AutoChangeover",
+						"help": "Auto Changeover"
+					},
+					"11": {
+						"name": "EnergySaveHeat",
+						"help": "Energy Save Heat"
+					},
+					"12": {
+						"name": "EnergySaveCool",
+						"help": "Energy Save Cool"
+					},
+					"13": {
+						"name": "Away",
+						"help": "AWAY"
+					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatModeV2)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatModeV2)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ThermostatModeV2ThermostatModeSupportedReportData) {
-			super(ThermostatModeSupportedReport, data);
-		}
-	};
-}
-
-export namespace ThermostatModeV2 {
-	export type ThermostatModeGet = InstanceType<typeof ThermostatModeV2.ThermostatModeGet>;
-	export type ThermostatModeReport = InstanceType<typeof ThermostatModeV2.ThermostatModeReport>;
-	export type ThermostatModeSet = InstanceType<typeof ThermostatModeV2.ThermostatModeSet>;
-	export type ThermostatModeSupportedGet = InstanceType<typeof ThermostatModeV2.ThermostatModeSupportedGet>;
-	export type ThermostatModeSupportedReport = InstanceType<typeof ThermostatModeV2.ThermostatModeSupportedReport>;
-}
+	constructor(data: Buffer | ThermostatModeV2ThermostatModeSupportedReportData) {
+		super(ThermostatModeSupportedReport, data);
+	}
+};

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MtpWindowCoveringV1Commands {
 	MoveToPositionGet = 0x02,
@@ -33,104 +33,98 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 	constructor(commandAndPayload: Buffer) {
 		super(MtpWindowCoveringV1, commandAndPayload);
 	}
-
-	public static readonly MoveToPositionGet = class MoveToPositionGet extends CommandPacket<void> {
-		public static readonly CommandClass = MtpWindowCoveringV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "MoveToPositionGet",
-			"help": "Move To Position Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(MoveToPositionGet, data);
-		}
-	};
-
-	public static readonly MoveToPositionReport = class MoveToPositionReport extends CommandPacket<MtpWindowCoveringV1MoveToPositionReportData> {
-		public static readonly CommandClass = MtpWindowCoveringV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "MoveToPositionReport",
-			"help": "Move To Position Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "value",
-					"help": "Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Close",
-							"help": "close"
-						},
-						"255": {
-							"name": "Open",
-							"help": "open"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionReportData) {
-			super(MoveToPositionReport, data);
-		}
-	};
-
-	public static readonly MoveToPositionSet = class MoveToPositionSet extends CommandPacket<MtpWindowCoveringV1MoveToPositionSetData> {
-		public static readonly CommandClass = MtpWindowCoveringV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "MoveToPositionSet",
-			"help": "Move To Position Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "value",
-					"help": "Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Close",
-							"help": "close"
-						},
-						"255": {
-							"name": "Open",
-							"help": "open"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionSetData) {
-			super(MoveToPositionSet, data);
-		}
-	};
 }
 
-export namespace MtpWindowCoveringV1 {
-	export type MoveToPositionGet = InstanceType<typeof MtpWindowCoveringV1.MoveToPositionGet>;
-	export type MoveToPositionReport = InstanceType<typeof MtpWindowCoveringV1.MoveToPositionReport>;
-	export type MoveToPositionSet = InstanceType<typeof MtpWindowCoveringV1.MoveToPositionSet>;
-}
+export class MoveToPositionGet extends CommandPacket<void> {
+	public static readonly CommandClass = MtpWindowCoveringV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "MoveToPositionGet",
+		"help": "Move To Position Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(MoveToPositionGet, data);
+	}
+};
+
+export class MoveToPositionReport extends CommandPacket<MtpWindowCoveringV1MoveToPositionReportData> {
+	public static readonly CommandClass = MtpWindowCoveringV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "MoveToPositionReport",
+		"help": "Move To Position Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "value",
+				"help": "Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Close",
+						"help": "close"
+					},
+					"255": {
+						"name": "Open",
+						"help": "open"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionReportData) {
+		super(MoveToPositionReport, data);
+	}
+};
+
+export class MoveToPositionSet extends CommandPacket<MtpWindowCoveringV1MoveToPositionSetData> {
+	public static readonly CommandClass = MtpWindowCoveringV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "MoveToPositionSet",
+		"help": "Move To Position Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "value",
+				"help": "Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Close",
+						"help": "close"
+					},
+					"255": {
+						"name": "Open",
+						"help": "open"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionSetData) {
+		super(MoveToPositionSet, data);
+	}
+};

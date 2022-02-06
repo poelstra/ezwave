@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum HailV1Commands {
 	Hail = 0x01,
@@ -23,28 +23,24 @@ export class HailV1 extends CommandClassPacket<HailV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(HailV1, commandAndPayload);
 	}
-
-	public static readonly Hail = class Hail extends CommandPacket<void> {
-		public static readonly CommandClass = HailV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "Hail",
-			"help": "Hail",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(HailV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(Hail, data);
-		}
-	};
 }
 
-export namespace HailV1 {
-	export type Hail = InstanceType<typeof HailV1.Hail>;
-}
+export class Hail extends CommandPacket<void> {
+	public static readonly CommandClass = HailV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "Hail",
+		"help": "Hail",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(HailV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(Hail, data);
+	}
+};

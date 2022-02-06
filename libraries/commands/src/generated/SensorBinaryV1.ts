@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SensorBinaryV1Commands {
 	SensorBinaryGet = 0x02,
@@ -33,66 +33,61 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(SensorBinaryV1, commandAndPayload);
 	}
+}
 
-	public static readonly SensorBinaryGet = class SensorBinaryGet extends CommandPacket<void> {
-		public static readonly CommandClass = SensorBinaryV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "SensorBinaryGet",
-			"help": "Sensor Binary Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class SensorBinaryGet extends CommandPacket<void> {
+	public static readonly CommandClass = SensorBinaryV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "SensorBinaryGet",
+		"help": "Sensor Binary Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SensorBinaryV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SensorBinaryV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(SensorBinaryGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(SensorBinaryGet, data);
+	}
+};
 
-	public static readonly SensorBinaryReport = class SensorBinaryReport extends CommandPacket<SensorBinaryV1SensorBinaryReportData> {
-		public static readonly CommandClass = SensorBinaryV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "SensorBinaryReport",
-			"help": "Sensor Binary Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "sensorValue",
-					"help": "Sensor Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Idle",
-							"help": "idle"
-						},
-						"255": {
-							"name": "DetectedAnEvent",
-							"help": "detected an event"
-						}
+export class SensorBinaryReport extends CommandPacket<SensorBinaryV1SensorBinaryReportData> {
+	public static readonly CommandClass = SensorBinaryV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "SensorBinaryReport",
+		"help": "Sensor Binary Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "sensorValue",
+				"help": "Sensor Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Idle",
+						"help": "idle"
+					},
+					"255": {
+						"name": "DetectedAnEvent",
+						"help": "detected an event"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SensorBinaryV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SensorBinaryV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | SensorBinaryV1SensorBinaryReportData) {
-			super(SensorBinaryReport, data);
-		}
-	};
-}
-
-export namespace SensorBinaryV1 {
-	export type SensorBinaryGet = InstanceType<typeof SensorBinaryV1.SensorBinaryGet>;
-	export type SensorBinaryReport = InstanceType<typeof SensorBinaryV1.SensorBinaryReport>;
-}
+	constructor(data: Buffer | SensorBinaryV1SensorBinaryReportData) {
+		super(SensorBinaryReport, data);
+	}
+};

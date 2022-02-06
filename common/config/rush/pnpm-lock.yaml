@@ -43,7 +43,9 @@ importers:
       '@rushstack/heft': 0.42.2
       '@types/heft-jest': 1.0.2
       '@types/node': 16.11.7
+      async-main: ^1.0.2
       eslint: ~7.22.0
+      ts-node: ~10.4.0
       typescript: 4.4.4
     dependencies:
       '@ezwave/shared': link:../shared
@@ -53,7 +55,9 @@ importers:
       '@rushstack/heft': 0.42.2
       '@types/heft-jest': 1.0.2
       '@types/node': 16.11.7
+      async-main: 1.0.2
       eslint: 7.22.0
+      ts-node: 10.4.0_ee928ac548ac44c173bf0d4654ae2c29
       typescript: 4.4.4
 
   ../../libraries/commands:
@@ -152,7 +156,6 @@ importers:
       case: ^1.6.3
       eslint: ~7.22.0
       fast-xml-parser: ^3.12.7
-      ts-node: ~10.4.0
       typescript: 4.4.4
     devDependencies:
       '@ezwave/ezwave-heft-rig': link:../../build/ezwave-heft-rig
@@ -163,7 +166,6 @@ importers:
       case: 1.6.3
       eslint: 7.22.0
       fast-xml-parser: 3.21.1
-      ts-node: 10.4.0_ee928ac548ac44c173bf0d4654ae2c29
       typescript: 4.4.4
 
 packages:

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum BasicWindowCoveringV1Commands {
 	BasicWindowCoveringStartLevelChange = 0x01,
@@ -28,78 +28,73 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 	constructor(commandAndPayload: Buffer) {
 		super(BasicWindowCoveringV1, commandAndPayload);
 	}
-
-	public static readonly BasicWindowCoveringStartLevelChange = class BasicWindowCoveringStartLevelChange extends CommandPacket<BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData> {
-		public static readonly CommandClass = BasicWindowCoveringV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "BasicWindowCoveringStartLevelChange",
-			"help": "Basic Window Covering Start Level Change",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "reserved2",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "openClose",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved1",
-							"mask": 63,
-							"shift": 0,
-							"reserved": true
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData) {
-			super(BasicWindowCoveringStartLevelChange, data);
-		}
-	};
-
-	public static readonly BasicWindowCoveringStopLevelChange = class BasicWindowCoveringStopLevelChange extends CommandPacket<void> {
-		public static readonly CommandClass = BasicWindowCoveringV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "BasicWindowCoveringStopLevelChange",
-			"help": "Basic Window Covering Stop Level Change",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(BasicWindowCoveringStopLevelChange, data);
-		}
-	};
 }
 
-export namespace BasicWindowCoveringV1 {
-	export type BasicWindowCoveringStartLevelChange = InstanceType<typeof BasicWindowCoveringV1.BasicWindowCoveringStartLevelChange>;
-	export type BasicWindowCoveringStopLevelChange = InstanceType<typeof BasicWindowCoveringV1.BasicWindowCoveringStopLevelChange>;
-}
+export class BasicWindowCoveringStartLevelChange extends CommandPacket<BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData> {
+	public static readonly CommandClass = BasicWindowCoveringV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "BasicWindowCoveringStartLevelChange",
+		"help": "Basic Window Covering Start Level Change",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "reserved2",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "openClose",
+						"mask": 64,
+						"shift": 6
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved1",
+						"mask": 63,
+						"shift": 0,
+						"reserved": true
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData) {
+		super(BasicWindowCoveringStartLevelChange, data);
+	}
+};
+
+export class BasicWindowCoveringStopLevelChange extends CommandPacket<void> {
+	public static readonly CommandClass = BasicWindowCoveringV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "BasicWindowCoveringStopLevelChange",
+		"help": "Basic Window Covering Stop Level Change",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(BasicWindowCoveringStopLevelChange, data);
+	}
+};

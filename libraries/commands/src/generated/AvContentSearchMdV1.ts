@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AvContentSearchMdV1Commands {
 	AvContentSearchMdGet = 0x01,
@@ -23,49 +23,44 @@ export class AvContentSearchMdV1 extends CommandClassPacket<AvContentSearchMdV1C
 	constructor(commandAndPayload: Buffer) {
 		super(AvContentSearchMdV1, commandAndPayload);
 	}
-
-	public static readonly AvContentSearchMdGet = class AvContentSearchMdGet extends CommandPacket<void> {
-		public static readonly CommandClass = AvContentSearchMdV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "AvContentSearchMdGet",
-			"help": "Av Content Search Md Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AvContentSearchMdV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(AvContentSearchMdGet, data);
-		}
-	};
-
-	public static readonly AvContentSearchMdReport = class AvContentSearchMdReport extends CommandPacket<void> {
-		public static readonly CommandClass = AvContentSearchMdV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "AvContentSearchMdReport",
-			"help": "Av Content Search Md Report",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AvContentSearchMdV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(AvContentSearchMdReport, data);
-		}
-	};
 }
 
-export namespace AvContentSearchMdV1 {
-	export type AvContentSearchMdGet = InstanceType<typeof AvContentSearchMdV1.AvContentSearchMdGet>;
-	export type AvContentSearchMdReport = InstanceType<typeof AvContentSearchMdV1.AvContentSearchMdReport>;
-}
+export class AvContentSearchMdGet extends CommandPacket<void> {
+	public static readonly CommandClass = AvContentSearchMdV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "AvContentSearchMdGet",
+		"help": "Av Content Search Md Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AvContentSearchMdV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(AvContentSearchMdGet, data);
+	}
+};
+
+export class AvContentSearchMdReport extends CommandPacket<void> {
+	public static readonly CommandClass = AvContentSearchMdV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "AvContentSearchMdReport",
+		"help": "Av Content Search Md Report",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AvContentSearchMdV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(AvContentSearchMdReport, data);
+	}
+};

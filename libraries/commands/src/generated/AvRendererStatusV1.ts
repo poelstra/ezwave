@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AvRendererStatusV1Commands {
 	AvRendererStatusGet = 0x01,
@@ -23,49 +23,44 @@ export class AvRendererStatusV1 extends CommandClassPacket<AvRendererStatusV1Com
 	constructor(commandAndPayload: Buffer) {
 		super(AvRendererStatusV1, commandAndPayload);
 	}
-
-	public static readonly AvRendererStatusGet = class AvRendererStatusGet extends CommandPacket<void> {
-		public static readonly CommandClass = AvRendererStatusV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "AvRendererStatusGet",
-			"help": "Av Renderer Status Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AvRendererStatusV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(AvRendererStatusGet, data);
-		}
-	};
-
-	public static readonly AvRendererStatusReport = class AvRendererStatusReport extends CommandPacket<void> {
-		public static readonly CommandClass = AvRendererStatusV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "AvRendererStatusReport",
-			"help": "Av Renderer Status Report",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AvRendererStatusV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(AvRendererStatusReport, data);
-		}
-	};
 }
 
-export namespace AvRendererStatusV1 {
-	export type AvRendererStatusGet = InstanceType<typeof AvRendererStatusV1.AvRendererStatusGet>;
-	export type AvRendererStatusReport = InstanceType<typeof AvRendererStatusV1.AvRendererStatusReport>;
-}
+export class AvRendererStatusGet extends CommandPacket<void> {
+	public static readonly CommandClass = AvRendererStatusV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "AvRendererStatusGet",
+		"help": "Av Renderer Status Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AvRendererStatusV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(AvRendererStatusGet, data);
+	}
+};
+
+export class AvRendererStatusReport extends CommandPacket<void> {
+	public static readonly CommandClass = AvRendererStatusV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "AvRendererStatusReport",
+		"help": "Av Renderer Status Report",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AvRendererStatusV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(AvRendererStatusReport, data);
+	}
+};

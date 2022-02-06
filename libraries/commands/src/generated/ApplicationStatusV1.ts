@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ApplicationStatusV1Commands {
 	ApplicationBusy = 0x01,
@@ -38,83 +38,78 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 	constructor(commandAndPayload: Buffer) {
 		super(ApplicationStatusV1, commandAndPayload);
 	}
+}
 
-	public static readonly ApplicationBusy = class ApplicationBusy extends CommandPacket<ApplicationStatusV1ApplicationBusyData> {
-		public static readonly CommandClass = ApplicationStatusV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ApplicationBusy",
-			"help": "Application Busy",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "TryAgainLater",
-							"help": "Try again later"
-						},
-						"1": {
-							"name": "TryAgainInWaitTimeSeconds",
-							"help": "Try again in Wait Time seconds"
-						},
-						"2": {
-							"name": "RequestQueuedExecutedLater",
-							"help": "Request queued, executed later"
-						}
+export class ApplicationBusy extends CommandPacket<ApplicationStatusV1ApplicationBusyData> {
+	public static readonly CommandClass = ApplicationStatusV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ApplicationBusy",
+		"help": "Application Busy",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "TryAgainLater",
+						"help": "Try again later"
+					},
+					"1": {
+						"name": "TryAgainInWaitTimeSeconds",
+						"help": "Try again in Wait Time seconds"
+					},
+					"2": {
+						"name": "RequestQueuedExecutedLater",
+						"help": "Request queued, executed later"
 					}
-				},
-				{
-					"type": "Integer",
-					"name": "waitTime",
-					"help": "Wait Time",
-					"length": 1
 				}
-			]
-		} as JsonCommandDefinition);
+			},
+			{
+				"type": "Integer",
+				"name": "waitTime",
+				"help": "Wait Time",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ApplicationStatusV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ApplicationStatusV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ApplicationStatusV1ApplicationBusyData) {
-			super(ApplicationBusy, data);
-		}
-	};
+	constructor(data: Buffer | ApplicationStatusV1ApplicationBusyData) {
+		super(ApplicationBusy, data);
+	}
+};
 
-	public static readonly ApplicationRejectedRequest = class ApplicationRejectedRequest extends CommandPacket<ApplicationStatusV1ApplicationRejectedRequestData> {
-		public static readonly CommandClass = ApplicationStatusV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ApplicationRejectedRequest",
-			"help": "Application Rejected Request",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
+export class ApplicationRejectedRequest extends CommandPacket<ApplicationStatusV1ApplicationRejectedRequestData> {
+	public static readonly CommandClass = ApplicationStatusV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ApplicationRejectedRequest",
+		"help": "Application Rejected Request",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ApplicationStatusV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ApplicationStatusV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ApplicationStatusV1ApplicationRejectedRequestData) {
-			super(ApplicationRejectedRequest, data);
-		}
-	};
-}
-
-export namespace ApplicationStatusV1 {
-	export type ApplicationBusy = InstanceType<typeof ApplicationStatusV1.ApplicationBusy>;
-	export type ApplicationRejectedRequest = InstanceType<typeof ApplicationStatusV1.ApplicationRejectedRequest>;
-}
+	constructor(data: Buffer | ApplicationStatusV1ApplicationRejectedRequestData) {
+		super(ApplicationRejectedRequest, data);
+	}
+};

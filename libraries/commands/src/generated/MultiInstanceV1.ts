@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MultiInstanceV1Commands {
 	MultiInstanceCmdEncap = 0x06,
@@ -41,122 +41,116 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 	constructor(commandAndPayload: Buffer) {
 		super(MultiInstanceV1, commandAndPayload);
 	}
-
-	public static readonly MultiInstanceCmdEncap = class MultiInstanceCmdEncap extends CommandPacket<MultiInstanceV1MultiInstanceCmdEncapData> {
-		public static readonly CommandClass = MultiInstanceV1;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "MultiInstanceCmdEncap",
-			"help": "Multi Instance Cmd Encap",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "instance",
-					"help": "Instance",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "commandClass",
-					"help": "Command Class",
-					"length": 1,
-					"valueType": "CommandClass"
-				},
-				{
-					"type": "Integer",
-					"name": "command",
-					"help": "Command",
-					"length": 1,
-					"valueType": "Command"
-				},
-				{
-					"type": "Blob",
-					"name": "parameter",
-					"help": "Parameter",
-					"length": {
-						"lengthType": "Auto"
-					},
-					"blobType": "CommandData"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiInstanceV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiInstanceV1MultiInstanceCmdEncapData) {
-			super(MultiInstanceCmdEncap, data);
-		}
-	};
-
-	public static readonly MultiInstanceGet = class MultiInstanceGet extends CommandPacket<MultiInstanceV1MultiInstanceGetData> {
-		public static readonly CommandClass = MultiInstanceV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "MultiInstanceGet",
-			"help": "Multi Instance Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "commandClass",
-					"help": "Command Class",
-					"length": 1,
-					"valueType": "CommandClass"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiInstanceV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiInstanceV1MultiInstanceGetData) {
-			super(MultiInstanceGet, data);
-		}
-	};
-
-	public static readonly MultiInstanceReport = class MultiInstanceReport extends CommandPacket<MultiInstanceV1MultiInstanceReportData> {
-		public static readonly CommandClass = MultiInstanceV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "MultiInstanceReport",
-			"help": "Multi Instance Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "commandClass",
-					"help": "Command Class",
-					"length": 1,
-					"valueType": "CommandClass"
-				},
-				{
-					"type": "Integer",
-					"name": "instances",
-					"help": "Instances",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiInstanceV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiInstanceV1MultiInstanceReportData) {
-			super(MultiInstanceReport, data);
-		}
-	};
 }
 
-export namespace MultiInstanceV1 {
-	export type MultiInstanceCmdEncap = InstanceType<typeof MultiInstanceV1.MultiInstanceCmdEncap>;
-	export type MultiInstanceGet = InstanceType<typeof MultiInstanceV1.MultiInstanceGet>;
-	export type MultiInstanceReport = InstanceType<typeof MultiInstanceV1.MultiInstanceReport>;
-}
+export class MultiInstanceCmdEncap extends CommandPacket<MultiInstanceV1MultiInstanceCmdEncapData> {
+	public static readonly CommandClass = MultiInstanceV1;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "MultiInstanceCmdEncap",
+		"help": "Multi Instance Cmd Encap",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "instance",
+				"help": "Instance",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "commandClass",
+				"help": "Command Class",
+				"length": 1,
+				"valueType": "CommandClass"
+			},
+			{
+				"type": "Integer",
+				"name": "command",
+				"help": "Command",
+				"length": 1,
+				"valueType": "Command"
+			},
+			{
+				"type": "Blob",
+				"name": "parameter",
+				"help": "Parameter",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"blobType": "CommandData"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiInstanceV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiInstanceV1MultiInstanceCmdEncapData) {
+		super(MultiInstanceCmdEncap, data);
+	}
+};
+
+export class MultiInstanceGet extends CommandPacket<MultiInstanceV1MultiInstanceGetData> {
+	public static readonly CommandClass = MultiInstanceV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "MultiInstanceGet",
+		"help": "Multi Instance Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "commandClass",
+				"help": "Command Class",
+				"length": 1,
+				"valueType": "CommandClass"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiInstanceV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiInstanceV1MultiInstanceGetData) {
+		super(MultiInstanceGet, data);
+	}
+};
+
+export class MultiInstanceReport extends CommandPacket<MultiInstanceV1MultiInstanceReportData> {
+	public static readonly CommandClass = MultiInstanceV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "MultiInstanceReport",
+		"help": "Multi Instance Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "commandClass",
+				"help": "Command Class",
+				"length": 1,
+				"valueType": "CommandClass"
+			},
+			{
+				"type": "Integer",
+				"name": "instances",
+				"help": "Instances",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiInstanceV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiInstanceV1MultiInstanceReportData) {
+		super(MultiInstanceReport, data);
+	}
+};

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum RemoteAssociationActivateV1Commands {
 	RemoteAssociationActivate = 0x01,
@@ -27,35 +27,31 @@ export class RemoteAssociationActivateV1 extends CommandClassPacket<RemoteAssoci
 	constructor(commandAndPayload: Buffer) {
 		super(RemoteAssociationActivateV1, commandAndPayload);
 	}
-
-	public static readonly RemoteAssociationActivate = class RemoteAssociationActivate extends CommandPacket<RemoteAssociationActivateV1RemoteAssociationActivateData> {
-		public static readonly CommandClass = RemoteAssociationActivateV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "RemoteAssociationActivate",
-			"help": "Remote Association Activate",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping identifier",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RemoteAssociationActivateV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RemoteAssociationActivateV1RemoteAssociationActivateData) {
-			super(RemoteAssociationActivate, data);
-		}
-	};
 }
 
-export namespace RemoteAssociationActivateV1 {
-	export type RemoteAssociationActivate = InstanceType<typeof RemoteAssociationActivateV1.RemoteAssociationActivate>;
-}
+export class RemoteAssociationActivate extends CommandPacket<RemoteAssociationActivateV1RemoteAssociationActivateData> {
+	public static readonly CommandClass = RemoteAssociationActivateV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "RemoteAssociationActivate",
+		"help": "Remote Association Activate",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping identifier",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RemoteAssociationActivateV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RemoteAssociationActivateV1RemoteAssociationActivateData) {
+		super(RemoteAssociationActivate, data);
+	}
+};

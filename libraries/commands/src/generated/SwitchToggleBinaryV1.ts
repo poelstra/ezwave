@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SwitchToggleBinaryV1Commands {
 	SwitchToggleBinarySet = 0x01,
@@ -29,87 +29,81 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 	constructor(commandAndPayload: Buffer) {
 		super(SwitchToggleBinaryV1, commandAndPayload);
 	}
+}
 
-	public static readonly SwitchToggleBinarySet = class SwitchToggleBinarySet extends CommandPacket<void> {
-		public static readonly CommandClass = SwitchToggleBinaryV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "SwitchToggleBinarySet",
-			"help": "Switch Toggle Binary Set",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class SwitchToggleBinarySet extends CommandPacket<void> {
+	public static readonly CommandClass = SwitchToggleBinaryV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "SwitchToggleBinarySet",
+		"help": "Switch Toggle Binary Set",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(SwitchToggleBinarySet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(SwitchToggleBinarySet, data);
+	}
+};
 
-	public static readonly SwitchToggleBinaryGet = class SwitchToggleBinaryGet extends CommandPacket<void> {
-		public static readonly CommandClass = SwitchToggleBinaryV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "SwitchToggleBinaryGet",
-			"help": "Switch Toggle Binary Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class SwitchToggleBinaryGet extends CommandPacket<void> {
+	public static readonly CommandClass = SwitchToggleBinaryV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "SwitchToggleBinaryGet",
+		"help": "Switch Toggle Binary Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(SwitchToggleBinaryGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(SwitchToggleBinaryGet, data);
+	}
+};
 
-	public static readonly SwitchToggleBinaryReport = class SwitchToggleBinaryReport extends CommandPacket<SwitchToggleBinaryV1SwitchToggleBinaryReportData> {
-		public static readonly CommandClass = SwitchToggleBinaryV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "SwitchToggleBinaryReport",
-			"help": "Switch Toggle Binary Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "value",
-					"help": "Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Off",
-							"help": "off"
-						},
-						"255": {
-							"name": "On",
-							"help": "on"
-						}
+export class SwitchToggleBinaryReport extends CommandPacket<SwitchToggleBinaryV1SwitchToggleBinaryReportData> {
+	public static readonly CommandClass = SwitchToggleBinaryV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "SwitchToggleBinaryReport",
+		"help": "Switch Toggle Binary Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "value",
+				"help": "Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Off",
+						"help": "off"
+					},
+					"255": {
+						"name": "On",
+						"help": "on"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | SwitchToggleBinaryV1SwitchToggleBinaryReportData) {
-			super(SwitchToggleBinaryReport, data);
-		}
-	};
-}
-
-export namespace SwitchToggleBinaryV1 {
-	export type SwitchToggleBinarySet = InstanceType<typeof SwitchToggleBinaryV1.SwitchToggleBinarySet>;
-	export type SwitchToggleBinaryGet = InstanceType<typeof SwitchToggleBinaryV1.SwitchToggleBinaryGet>;
-	export type SwitchToggleBinaryReport = InstanceType<typeof SwitchToggleBinaryV1.SwitchToggleBinaryReport>;
-}
+	constructor(data: Buffer | SwitchToggleBinaryV1SwitchToggleBinaryReportData) {
+		super(SwitchToggleBinaryReport, data);
+	}
+};

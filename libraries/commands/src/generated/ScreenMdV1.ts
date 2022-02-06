@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ScreenMdV1Commands {
 	ScreenMdGet = 0x01,
@@ -41,162 +41,157 @@ export class ScreenMdV1 extends CommandClassPacket<ScreenMdV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(ScreenMdV1, commandAndPayload);
 	}
+}
 
-	public static readonly ScreenMdGet = class ScreenMdGet extends CommandPacket<ScreenMdV1ScreenMdGetData> {
-		public static readonly CommandClass = ScreenMdV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ScreenMdGet",
-			"help": "Screen Md Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "numberOfReports",
-					"help": "Number of Reports",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
+export class ScreenMdGet extends CommandPacket<ScreenMdV1ScreenMdGetData> {
+	public static readonly CommandClass = ScreenMdV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ScreenMdGet",
+		"help": "Screen Md Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "numberOfReports",
+				"help": "Number of Reports",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ScreenMdV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ScreenMdV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ScreenMdV1ScreenMdGetData) {
-			super(ScreenMdGet, data);
-		}
-	};
+	constructor(data: Buffer | ScreenMdV1ScreenMdGetData) {
+		super(ScreenMdGet, data);
+	}
+};
 
-	public static readonly ScreenMdReport = class ScreenMdReport extends CommandPacket<ScreenMdV1ScreenMdReportData> {
-		public static readonly CommandClass = ScreenMdV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ScreenMdReport",
-			"help": "Screen Md Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "moreData",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "reserved",
-							"mask": 64,
-							"shift": 6,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "screenSettings",
-							"mask": 56,
-							"shift": 3
-						},
-						{
-							"fieldType": "Integer",
-							"name": "charPresentation",
-							"mask": 7,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Group",
-					"name": "vg",
-					"help": "vg",
-					"length": {
-						"lengthType": "Auto"
+export class ScreenMdReport extends CommandPacket<ScreenMdV1ScreenMdReportData> {
+	public static readonly CommandClass = ScreenMdV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ScreenMdReport",
+		"help": "Screen Md Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "moreData",
+						"mask": 128,
+						"shift": 7
 					},
-					"params": [
-						{
-							"type": "Bitfield",
-							"name": "properties1",
-							"help": "Properties1",
-							"length": 1,
-							"fields": [
-								{
-									"fieldType": "Integer",
-									"name": "lineSettings",
-									"mask": 224,
-									"shift": 5
-								},
-								{
-									"fieldType": "Boolean",
-									"name": "clear",
-									"mask": 16,
-									"shift": 4
-								},
-								{
-									"fieldType": "Integer",
-									"name": "lineNumber",
-									"mask": 15,
-									"shift": 0
-								}
+					{
+						"fieldType": "Boolean",
+						"name": "reserved",
+						"mask": 64,
+						"shift": 6,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "screenSettings",
+						"mask": 56,
+						"shift": 3
+					},
+					{
+						"fieldType": "Integer",
+						"name": "charPresentation",
+						"mask": 7,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Group",
+				"name": "vg",
+				"help": "vg",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"params": [
+					{
+						"type": "Bitfield",
+						"name": "properties1",
+						"help": "Properties1",
+						"length": 1,
+						"fields": [
+							{
+								"fieldType": "Integer",
+								"name": "lineSettings",
+								"mask": 224,
+								"shift": 5
+							},
+							{
+								"fieldType": "Boolean",
+								"name": "clear",
+								"mask": 16,
+								"shift": 4
+							},
+							{
+								"fieldType": "Integer",
+								"name": "lineNumber",
+								"mask": 15,
+								"shift": 0
+							}
+						]
+					},
+					{
+						"type": "Integer",
+						"name": "characterPosition",
+						"help": "Character Position",
+						"length": 1
+					},
+					{
+						"type": "Integer",
+						"name": "numberOfCharacters",
+						"help": "Number of Characters",
+						"length": 1,
+						"lengthOf": {
+							"refs": [
+								"vg.character"
 							]
 						},
-						{
-							"type": "Integer",
-							"name": "characterPosition",
-							"help": "Character Position",
-							"length": 1
-						},
-						{
-							"type": "Integer",
-							"name": "numberOfCharacters",
-							"help": "Number of Characters",
-							"length": 1,
-							"lengthOf": {
-								"refs": [
-									"vg.character"
-								]
-							},
-							"isAutogenerated": true
-						},
-						{
-							"type": "Blob",
-							"name": "character",
-							"help": "Character",
-							"length": {
-								"lengthType": "Ref",
-								"from": {
-									"ref": "vg.numberOfCharacters"
-								}
+						"isAutogenerated": true
+					},
+					{
+						"type": "Blob",
+						"name": "character",
+						"help": "Character",
+						"length": {
+							"lengthType": "Ref",
+							"from": {
+								"ref": "vg.numberOfCharacters"
 							}
 						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ScreenMdV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ScreenMdV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ScreenMdV1ScreenMdReportData) {
-			super(ScreenMdReport, data);
-		}
-	};
-}
-
-export namespace ScreenMdV1 {
-	export type ScreenMdGet = InstanceType<typeof ScreenMdV1.ScreenMdGet>;
-	export type ScreenMdReport = InstanceType<typeof ScreenMdV1.ScreenMdReport>;
-}
+	constructor(data: Buffer | ScreenMdV1ScreenMdReportData) {
+		super(ScreenMdReport, data);
+	}
+};

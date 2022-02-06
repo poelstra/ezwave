@@ -8,23 +8,21 @@
  */
 
 import { CommandPacket, CommandPacketConstructor, Packet } from "@ezwave/codec";
-import { AlarmV2, ZwaveAlarmTypeEnum } from "./generated/AlarmV2";
 import {
+	AlarmV2,
 	AssociationGrpInfoV3,
-	Profile1Enum,
-	ProfileIrrigationEnum,
-} from "./generated/AssociationGrpInfoV3";
-import { BasicV2 } from "./generated/BasicV2";
-import { MeterPulseV1 } from "./generated/MeterPulseV1";
-import { MultiChannelAssociationV2 } from "./generated/MultiChannelAssociationV2";
-import { MultiChannelV4 } from "./generated/MultiChannelV4";
-import { NetworkManagementProxyV1 } from "./generated/NetworkManagementProxyV1";
-import { NodeProvisioningV1 } from "./generated/NodeProvisioningV1";
-import { RateTblConfigV1 } from "./generated/RateTblConfigV1";
-import { SecurityV1 } from "./generated/SecurityV1";
-import { TransportServiceV2 } from "./generated/TransportServiceV2";
-import { VersionV3 } from "./generated/VersionV3";
-import { ZipV4 } from "./generated/ZipV4";
+	BasicV2,
+	MeterPulseV1,
+	MultiChannelAssociationV2,
+	MultiChannelV4,
+	NetworkManagementProxyV1,
+	NodeProvisioningV1,
+	RateTblConfigV1,
+	SecurityV1,
+	TransportServiceV2,
+	VersionV3,
+	ZipV4,
+} from "./generated/index";
 
 interface CommandConstructor<T extends object | void>
 	extends CommandPacketConstructor<CommandPacket<T>> {
@@ -81,7 +79,7 @@ describe("generate_commands", () => {
 			Buffer.from([0x71, 0x04, 0x01, 0x08]),
 			{
 				alarmType: 0x01,
-				zwaveAlarmType: ZwaveAlarmTypeEnum.PowerManagement,
+				zwaveAlarmType: AlarmV2.ZwaveAlarmTypeEnum.PowerManagement,
 			}
 		);
 	});
@@ -282,8 +280,11 @@ describe("generate_commands", () => {
 					{
 						groupingIdentifier: 0x12,
 						mode: 0x13,
-						profile1: Profile1Enum.ProfileIrrigation,
-						profile2: ProfileIrrigationEnum.IrrigationChannel05,
+						profile1:
+							AssociationGrpInfoV3.Profile1Enum.ProfileIrrigation,
+						profile2:
+							AssociationGrpInfoV3.ProfileIrrigationEnum
+								.IrrigationChannel05,
 						eventCode: 0x14,
 					},
 				],

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum TimeV1Commands {
 	DateGet = 0x03,
@@ -38,150 +38,143 @@ export class TimeV1 extends CommandClassPacket<TimeV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(TimeV1, commandAndPayload);
 	}
-
-	public static readonly DateGet = class DateGet extends CommandPacket<void> {
-		public static readonly CommandClass = TimeV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "DateGet",
-			"help": "Date Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(TimeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(DateGet, data);
-		}
-	};
-
-	public static readonly DateReport = class DateReport extends CommandPacket<TimeV1DateReportData> {
-		public static readonly CommandClass = TimeV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "DateReport",
-			"help": "Date Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "year",
-					"help": "Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "month",
-					"help": "Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "day",
-					"help": "Day",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(TimeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | TimeV1DateReportData) {
-			super(DateReport, data);
-		}
-	};
-
-	public static readonly TimeGet = class TimeGet extends CommandPacket<void> {
-		public static readonly CommandClass = TimeV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "TimeGet",
-			"help": "Time Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(TimeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(TimeGet, data);
-		}
-	};
-
-	public static readonly TimeReport = class TimeReport extends CommandPacket<TimeV1TimeReportData> {
-		public static readonly CommandClass = TimeV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "TimeReport",
-			"help": "Time Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "rtcFailure",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 96,
-							"shift": 5,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "hourLocalTime",
-							"mask": 31,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "minuteLocalTime",
-					"help": "Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "secondLocalTime",
-					"help": "Second Local Time",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(TimeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | TimeV1TimeReportData) {
-			super(TimeReport, data);
-		}
-	};
 }
 
-export namespace TimeV1 {
-	export type DateGet = InstanceType<typeof TimeV1.DateGet>;
-	export type DateReport = InstanceType<typeof TimeV1.DateReport>;
-	export type TimeGet = InstanceType<typeof TimeV1.TimeGet>;
-	export type TimeReport = InstanceType<typeof TimeV1.TimeReport>;
-}
+export class DateGet extends CommandPacket<void> {
+	public static readonly CommandClass = TimeV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "DateGet",
+		"help": "Date Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(TimeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(DateGet, data);
+	}
+};
+
+export class DateReport extends CommandPacket<TimeV1DateReportData> {
+	public static readonly CommandClass = TimeV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "DateReport",
+		"help": "Date Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "year",
+				"help": "Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "month",
+				"help": "Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "day",
+				"help": "Day",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(TimeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | TimeV1DateReportData) {
+		super(DateReport, data);
+	}
+};
+
+export class TimeGet extends CommandPacket<void> {
+	public static readonly CommandClass = TimeV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "TimeGet",
+		"help": "Time Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(TimeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(TimeGet, data);
+	}
+};
+
+export class TimeReport extends CommandPacket<TimeV1TimeReportData> {
+	public static readonly CommandClass = TimeV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "TimeReport",
+		"help": "Time Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "rtcFailure",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 96,
+						"shift": 5,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "hourLocalTime",
+						"mask": 31,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "minuteLocalTime",
+				"help": "Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "secondLocalTime",
+				"help": "Second Local Time",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(TimeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | TimeV1TimeReportData) {
+		super(TimeReport, data);
+	}
+};

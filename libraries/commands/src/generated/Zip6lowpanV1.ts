@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum Zip6lowpanV1Commands {
 	LowpanFirstFragment = 0xc0,
@@ -39,129 +39,124 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(Zip6lowpanV1, commandAndPayload);
 	}
-
-	public static readonly LowpanFirstFragment = class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFragmentData> {
-		public static readonly CommandClass = Zip6lowpanV1;
-		public static readonly command = 0xc0;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 192,
-			"name": "LowpanFirstFragment",
-			"help": "Lowpan First Fragment",
-			"status": "Active",
-			"cmdMask": 248,
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "datagramSize1",
-							"mask": 7,
-							"shift": 0
-						}
-					],
-					"cmdMask": 7
-				},
-				{
-					"type": "Integer",
-					"name": "datagramSize2",
-					"help": "Datagram Size 2",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "datagramTag",
-					"help": "Datagram Tag",
-					"length": 1
-				},
-				{
-					"type": "Blob",
-					"name": "payload",
-					"help": "Payload",
-					"length": {
-						"lengthType": "Auto"
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(Zip6lowpanV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | Zip6lowpanV1LowpanFirstFragmentData) {
-			super(LowpanFirstFragment, data);
-		}
-	};
-
-	public static readonly LowpanSubsequentFragment = class LowpanSubsequentFragment extends CommandPacket<Zip6lowpanV1LowpanSubsequentFragmentData> {
-		public static readonly CommandClass = Zip6lowpanV1;
-		public static readonly command = 0xe0;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 224,
-			"name": "LowpanSubsequentFragment",
-			"help": "Lowpan Subsequent Fragment",
-			"status": "Active",
-			"cmdMask": 248,
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "datagramSize1",
-							"mask": 7,
-							"shift": 0
-						}
-					],
-					"cmdMask": 7
-				},
-				{
-					"type": "Integer",
-					"name": "datagramSize2",
-					"help": "Datagram Size 2",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "datagramTag",
-					"help": "Datagram Tag",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "datagramOffset",
-					"help": "Datagram Offset",
-					"length": 1
-				},
-				{
-					"type": "Blob",
-					"name": "payload",
-					"help": "Payload",
-					"length": {
-						"lengthType": "Auto"
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(Zip6lowpanV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | Zip6lowpanV1LowpanSubsequentFragmentData) {
-			super(LowpanSubsequentFragment, data);
-		}
-	};
 }
 
-export namespace Zip6lowpanV1 {
-	export type LowpanFirstFragment = InstanceType<typeof Zip6lowpanV1.LowpanFirstFragment>;
-	export type LowpanSubsequentFragment = InstanceType<typeof Zip6lowpanV1.LowpanSubsequentFragment>;
-}
+export class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFragmentData> {
+	public static readonly CommandClass = Zip6lowpanV1;
+	public static readonly command = 0xc0; // 192
+	public static readonly definition = convertFromJsonCommand({
+		"command": 192,
+		"name": "LowpanFirstFragment",
+		"help": "Lowpan First Fragment",
+		"status": "Active",
+		"cmdMask": 248,
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "datagramSize1",
+						"mask": 7,
+						"shift": 0
+					}
+				],
+				"cmdMask": 7
+			},
+			{
+				"type": "Integer",
+				"name": "datagramSize2",
+				"help": "Datagram Size 2",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "datagramTag",
+				"help": "Datagram Tag",
+				"length": 1
+			},
+			{
+				"type": "Blob",
+				"name": "payload",
+				"help": "Payload",
+				"length": {
+					"lengthType": "Auto"
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(Zip6lowpanV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | Zip6lowpanV1LowpanFirstFragmentData) {
+		super(LowpanFirstFragment, data);
+	}
+};
+
+export class LowpanSubsequentFragment extends CommandPacket<Zip6lowpanV1LowpanSubsequentFragmentData> {
+	public static readonly CommandClass = Zip6lowpanV1;
+	public static readonly command = 0xe0; // 224
+	public static readonly definition = convertFromJsonCommand({
+		"command": 224,
+		"name": "LowpanSubsequentFragment",
+		"help": "Lowpan Subsequent Fragment",
+		"status": "Active",
+		"cmdMask": 248,
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "datagramSize1",
+						"mask": 7,
+						"shift": 0
+					}
+				],
+				"cmdMask": 7
+			},
+			{
+				"type": "Integer",
+				"name": "datagramSize2",
+				"help": "Datagram Size 2",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "datagramTag",
+				"help": "Datagram Tag",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "datagramOffset",
+				"help": "Datagram Offset",
+				"length": 1
+			},
+			{
+				"type": "Blob",
+				"name": "payload",
+				"help": "Payload",
+				"length": {
+					"lengthType": "Auto"
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(Zip6lowpanV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | Zip6lowpanV1LowpanSubsequentFragmentData) {
+		super(LowpanSubsequentFragment, data);
+	}
+};

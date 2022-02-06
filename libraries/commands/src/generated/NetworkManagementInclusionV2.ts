@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NetworkManagementInclusionV2Commands {
 	FailedNodeRemove = 0x07,
@@ -165,1121 +165,1100 @@ export class NetworkManagementInclusionV2 extends CommandClassPacket<NetworkMana
 	constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementInclusionV2, commandAndPayload);
 	}
-
-	public static readonly FailedNodeRemove = class FailedNodeRemove extends CommandPacket<NetworkManagementInclusionV2FailedNodeRemoveData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x07;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 7,
-			"name": "FailedNodeRemove",
-			"help": "Failed Node Remove",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeRemoveData) {
-			super(FailedNodeRemove, data);
-		}
-	};
-
-	public static readonly FailedNodeRemoveStatus = class FailedNodeRemoveStatus extends CommandPacket<NetworkManagementInclusionV2FailedNodeRemoveStatusData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x08;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 8,
-			"name": "FailedNodeRemoveStatus",
-			"help": "Failed Node Remove Status",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "FailedNodeNotFound",
-							"help": "FAILED_NODE_NOT_FOUND"
-						},
-						"1": {
-							"name": "Done",
-							"help": "DONE"
-						},
-						"2": {
-							"name": "FailedNodeRemoveFail",
-							"help": "FAILED_NODE_REMOVE_FAIL"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeRemoveStatusData) {
-			super(FailedNodeRemoveStatus, data);
-		}
-	};
-
-	public static readonly NodeAdd = class NodeAdd extends CommandPacket<NetworkManagementInclusionV2NodeAddData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "NodeAdd",
-			"help": "Node Add",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "reserved",
-					"help": "Reserved",
-					"length": 1,
-					"reserved": true
-				},
-				{
-					"type": "Integer",
-					"name": "mode",
-					"help": "Mode",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "NodeAddAny",
-							"help": "NODE_ADD_ANY"
-						},
-						"2": {
-							"name": "NodeAddController",
-							"help": "NODE_ADD_CONTROLLER"
-						},
-						"3": {
-							"name": "NodeAddSlave",
-							"help": "NODE_ADD_SLAVE"
-						},
-						"4": {
-							"name": "NodeAddExisting",
-							"help": "NODE_ADD_EXISTING"
-						},
-						"5": {
-							"name": "NodeAddStop",
-							"help": "NODE_ADD_STOP"
-						},
-						"6": {
-							"name": "NodeAddStopFailed",
-							"help": "NODE_ADD_STOP_FAILED"
-						},
-						"7": {
-							"name": "NodeAddAnyS2",
-							"help": "NODE_ADD_ANY_S2"
-						}
-					}
-				},
-				{
-					"type": "Bitmask",
-					"name": "txOptions",
-					"help": "tx Options",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Ack",
-							"help": "Ack"
-						},
-						"1": {
-							"name": "LowPower",
-							"help": "Low Power"
-						},
-						"2": {
-							"name": "AutoRoute",
-							"help": "Auto Route"
-						},
-						"3": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"4": {
-							"name": "NoRoute",
-							"help": "No Route"
-						},
-						"5": {
-							"name": "Explore",
-							"help": "Explore"
-						},
-						"6": {
-							"name": "NoRetransmission",
-							"help": "No Retransmission"
-						},
-						"7": {
-							"name": "HighPower",
-							"help": "High Power"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeAddData) {
-			super(NodeAdd, data);
-		}
-	};
-
-	public static readonly NodeAddStatus = class NodeAddStatus extends CommandPacket<NetworkManagementInclusionV2NodeAddStatusData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "NodeAddStatus",
-			"help": "Node Add Status",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"6": {
-							"name": "NodeAddStatusDone",
-							"help": "NODE_ADD_STATUS_DONE"
-						},
-						"7": {
-							"name": "NodeAddStatusFailed",
-							"help": "NODE_ADD_STATUS_FAILED"
-						},
-						"9": {
-							"name": "NodeAddStatusSecurityFailed",
-							"help": "NODE_ADD_STATUS_SECURITY_FAILED"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "reserved",
-					"help": "Reserved",
-					"length": 1,
-					"reserved": true
-				},
-				{
-					"type": "Integer",
-					"name": "newNodeId",
-					"help": "New Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "nodeInfoLength",
-					"help": "Node Info Length",
-					"length": 1,
-					"lengthOf": {
-						"refs": [
-							"commandClasses"
-						]
-					},
-					"isAutogenerated": true
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "listening",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "zWaveProtocolSpecificPart1",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties2",
-					"help": "Properties2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "opt",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "zWaveProtocolSpecificPart2",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "basicDeviceClass",
-					"help": "Basic Device Class",
-					"length": 1,
-					"valueType": "BasicDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "genericDeviceClass",
-					"help": "Generic Device Class",
-					"length": 1,
-					"valueType": "GenericDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "specificDeviceClass",
-					"help": "Specific Device Class",
-					"length": 1,
-					"valueType": "SpecificDevice"
-				},
-				{
-					"type": "Blob",
-					"name": "commandClasses",
-					"help": "Command Classes",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "nodeInfoLength"
-						},
-						"offset": 6
-					},
-					"blobType": "CommandClasses"
-				},
-				{
-					"type": "Integer",
-					"name": "grantedKeys",
-					"help": "Granted Keys",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "kexFailType",
-					"help": "KEX Fail Type",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeAddStatusData) {
-			super(NodeAddStatus, data);
-		}
-	};
-
-	public static readonly NodeRemove = class NodeRemove extends CommandPacket<NetworkManagementInclusionV2NodeRemoveData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "NodeRemove",
-			"help": "Node Remove",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "reserved",
-					"help": "Reserved",
-					"length": 1,
-					"reserved": true
-				},
-				{
-					"type": "Integer",
-					"name": "mode",
-					"help": "Mode",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "NodeRemoveAny",
-							"help": "NODE_REMOVE_ANY"
-						},
-						"2": {
-							"name": "NodeRemoveController",
-							"help": "NODE_REMOVE_CONTROLLER"
-						},
-						"3": {
-							"name": "NodeRemoveSlave",
-							"help": "NODE_REMOVE_SLAVE"
-						},
-						"5": {
-							"name": "NodeRemoveStop",
-							"help": "NODE_REMOVE_STOP"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeRemoveData) {
-			super(NodeRemove, data);
-		}
-	};
-
-	public static readonly NodeRemoveStatus = class NodeRemoveStatus extends CommandPacket<NetworkManagementInclusionV2NodeRemoveStatusData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "NodeRemoveStatus",
-			"help": "Node Remove Status",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"6": {
-							"name": "NodeRemoveStatusDone",
-							"help": "NODE_REMOVE_STATUS_DONE"
-						},
-						"7": {
-							"name": "NodeRemoveStatusFailed",
-							"help": "NODE_REMOVE_STATUS_FAILED"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "NodeID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeRemoveStatusData) {
-			super(NodeRemoveStatus, data);
-		}
-	};
-
-	public static readonly FailedNodeReplace = class FailedNodeReplace extends CommandPacket<NetworkManagementInclusionV2FailedNodeReplaceData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x09;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 9,
-			"name": "FailedNodeReplace",
-			"help": "Failed Node Replace",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Bitmask",
-					"name": "txOptions",
-					"help": "tx Options",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Ack",
-							"help": "Ack"
-						},
-						"1": {
-							"name": "LowPower",
-							"help": "Low Power"
-						},
-						"2": {
-							"name": "AutoRoute",
-							"help": "Auto Route"
-						},
-						"3": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"4": {
-							"name": "NoRoute",
-							"help": "No Route"
-						},
-						"5": {
-							"name": "Explore",
-							"help": "Explore"
-						},
-						"6": {
-							"name": "NoRetransmission",
-							"help": "No Retransmission"
-						},
-						"7": {
-							"name": "HighPower",
-							"help": "High Power"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "mode",
-					"help": "Mode",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeReplaceData) {
-			super(FailedNodeReplace, data);
-		}
-	};
-
-	public static readonly FailedNodeReplaceStatus = class FailedNodeReplaceStatus extends CommandPacket<NetworkManagementInclusionV2FailedNodeReplaceStatusData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x0a;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 10,
-			"name": "FailedNodeReplaceStatus",
-			"help": "Failed Node Replace Status",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"4": {
-							"name": "Done",
-							"help": "DONE"
-						},
-						"5": {
-							"name": "FailedNodeReplaceFail",
-							"help": "FAILED_NODE_REPLACE_FAIL"
-						},
-						"9": {
-							"name": "FailedNodeReplaceSecurityFailed",
-							"help": "FAILED_NODE_REPLACE_SECURITY_FAILED"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "grantedKeys",
-					"help": "Granted Keys",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "kexFailType",
-					"help": "KEX Fail Type",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeReplaceStatusData) {
-			super(FailedNodeReplaceStatus, data);
-		}
-	};
-
-	public static readonly NodeNeighborUpdateRequest = class NodeNeighborUpdateRequest extends CommandPacket<NetworkManagementInclusionV2NodeNeighborUpdateRequestData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x0b;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 11,
-			"name": "NodeNeighborUpdateRequest",
-			"help": "Node Neighbor Update Request",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeNeighborUpdateRequestData) {
-			super(NodeNeighborUpdateRequest, data);
-		}
-	};
-
-	public static readonly NodeNeighborUpdateStatus = class NodeNeighborUpdateStatus extends CommandPacket<NetworkManagementInclusionV2NodeNeighborUpdateStatusData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x0c;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 12,
-			"name": "NodeNeighborUpdateStatus",
-			"help": "Node Neighbor Update Status",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"34": {
-							"name": "NeighborUpdateStatusDone",
-							"help": "NEIGHBOR_UPDATE_STATUS_DONE"
-						},
-						"35": {
-							"name": "NeighborUpdateStatusFail",
-							"help": "NEIGHBOR_UPDATE_STATUS_FAIL"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeNeighborUpdateStatusData) {
-			super(NodeNeighborUpdateStatus, data);
-		}
-	};
-
-	public static readonly ReturnRouteAssign = class ReturnRouteAssign extends CommandPacket<NetworkManagementInclusionV2ReturnRouteAssignData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x0d;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 13,
-			"name": "ReturnRouteAssign",
-			"help": "Return Route Assign",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "sourceNodeId",
-					"help": "Source Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "destinationNodeId",
-					"help": "Destination Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteAssignData) {
-			super(ReturnRouteAssign, data);
-		}
-	};
-
-	public static readonly ReturnRouteAssignComplete = class ReturnRouteAssignComplete extends CommandPacket<NetworkManagementInclusionV2ReturnRouteAssignCompleteData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x0e;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 14,
-			"name": "ReturnRouteAssignComplete",
-			"help": "Return Route Assign Complete",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "TransmitCompleteOk",
-							"help": "TRANSMIT_COMPLETE_OK"
-						},
-						"1": {
-							"name": "TransmitCompleteNoAck",
-							"help": "TRANSMIT_COMPLETE_NO_ACK"
-						},
-						"2": {
-							"name": "TransmitCompleteFail",
-							"help": "TRANSMIT_COMPLETE_FAIL"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteAssignCompleteData) {
-			super(ReturnRouteAssignComplete, data);
-		}
-	};
-
-	public static readonly ReturnRouteDelete = class ReturnRouteDelete extends CommandPacket<NetworkManagementInclusionV2ReturnRouteDeleteData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x0f;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 15,
-			"name": "ReturnRouteDelete",
-			"help": "Return Route Delete",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteDeleteData) {
-			super(ReturnRouteDelete, data);
-		}
-	};
-
-	public static readonly ReturnRouteDeleteComplete = class ReturnRouteDeleteComplete extends CommandPacket<NetworkManagementInclusionV2ReturnRouteDeleteCompleteData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x10;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 16,
-			"name": "ReturnRouteDeleteComplete",
-			"help": "Return Route Delete Complete",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "TransmitCompleteOk",
-							"help": "TRANSMIT_COMPLETE_OK"
-						},
-						"1": {
-							"name": "TransmitCompleteNoAck",
-							"help": "TRANSMIT_COMPLETE_NO_ACK"
-						},
-						"2": {
-							"name": "TransmitCompleteFail",
-							"help": "TRANSMIT_COMPLETE_FAIL"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteDeleteCompleteData) {
-			super(ReturnRouteDeleteComplete, data);
-		}
-	};
-
-	public static readonly NodeAddKeysReport = class NodeAddKeysReport extends CommandPacket<NetworkManagementInclusionV2NodeAddKeysReportData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x11;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 17,
-			"name": "NodeAddKeysReport",
-			"help": "Node Add Keys Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq No",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 254,
-							"shift": 1,
-							"reserved": true
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "requestCsa",
-							"mask": 1,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "requestedKeys",
-					"help": "Requested Keys",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeAddKeysReportData) {
-			super(NodeAddKeysReport, data);
-		}
-	};
-
-	public static readonly NodeAddKeysSet = class NodeAddKeysSet extends CommandPacket<NetworkManagementInclusionV2NodeAddKeysSetData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x12;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 18,
-			"name": "NodeAddKeysSet",
-			"help": "Node Add Keys Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq No",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 252,
-							"shift": 2,
-							"reserved": true
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "grantCsa",
-							"mask": 2,
-							"shift": 1
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "accept",
-							"mask": 1,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "grantedKeys",
-					"help": "Granted Keys",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeAddKeysSetData) {
-			super(NodeAddKeysSet, data);
-		}
-	};
-
-	public static readonly NodeAddDskReport = class NodeAddDskReport extends CommandPacket<NetworkManagementInclusionV2NodeAddDskReportData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x13;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 19,
-			"name": "NodeAddDskReport",
-			"help": "Node Add DSK Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq No",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 240,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "inputDskLength",
-							"mask": 15,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Blob",
-					"name": "dsk",
-					"help": "DSK",
-					"length": 16
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeAddDskReportData) {
-			super(NodeAddDskReport, data);
-		}
-	};
-
-	public static readonly NodeAddDskSet = class NodeAddDskSet extends CommandPacket<NetworkManagementInclusionV2NodeAddDskSetData> {
-		public static readonly CommandClass = NetworkManagementInclusionV2;
-		public static readonly command = 0x14;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 20,
-			"name": "NodeAddDskSet",
-			"help": "Node Add DSK Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq No",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "accept",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 112,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "inputDskLength",
-							"mask": 15,
-							"shift": 0,
-							"lengthOf": {
-								"refs": [
-									"inputDsk"
-								]
-							},
-							"isAutogenerated": true
-						}
-					]
-				},
-				{
-					"type": "Blob",
-					"name": "inputDsk",
-					"help": "Input DSK",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "properties1.inputDskLength"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInclusionV2NodeAddDskSetData) {
-			super(NodeAddDskSet, data);
-		}
-	};
 }
 
-export namespace NetworkManagementInclusionV2 {
-	export type FailedNodeRemove = InstanceType<typeof NetworkManagementInclusionV2.FailedNodeRemove>;
-	export type FailedNodeRemoveStatus = InstanceType<typeof NetworkManagementInclusionV2.FailedNodeRemoveStatus>;
-	export type NodeAdd = InstanceType<typeof NetworkManagementInclusionV2.NodeAdd>;
-	export type NodeAddStatus = InstanceType<typeof NetworkManagementInclusionV2.NodeAddStatus>;
-	export type NodeRemove = InstanceType<typeof NetworkManagementInclusionV2.NodeRemove>;
-	export type NodeRemoveStatus = InstanceType<typeof NetworkManagementInclusionV2.NodeRemoveStatus>;
-	export type FailedNodeReplace = InstanceType<typeof NetworkManagementInclusionV2.FailedNodeReplace>;
-	export type FailedNodeReplaceStatus = InstanceType<typeof NetworkManagementInclusionV2.FailedNodeReplaceStatus>;
-	export type NodeNeighborUpdateRequest = InstanceType<typeof NetworkManagementInclusionV2.NodeNeighborUpdateRequest>;
-	export type NodeNeighborUpdateStatus = InstanceType<typeof NetworkManagementInclusionV2.NodeNeighborUpdateStatus>;
-	export type ReturnRouteAssign = InstanceType<typeof NetworkManagementInclusionV2.ReturnRouteAssign>;
-	export type ReturnRouteAssignComplete = InstanceType<typeof NetworkManagementInclusionV2.ReturnRouteAssignComplete>;
-	export type ReturnRouteDelete = InstanceType<typeof NetworkManagementInclusionV2.ReturnRouteDelete>;
-	export type ReturnRouteDeleteComplete = InstanceType<typeof NetworkManagementInclusionV2.ReturnRouteDeleteComplete>;
-	export type NodeAddKeysReport = InstanceType<typeof NetworkManagementInclusionV2.NodeAddKeysReport>;
-	export type NodeAddKeysSet = InstanceType<typeof NetworkManagementInclusionV2.NodeAddKeysSet>;
-	export type NodeAddDskReport = InstanceType<typeof NetworkManagementInclusionV2.NodeAddDskReport>;
-	export type NodeAddDskSet = InstanceType<typeof NetworkManagementInclusionV2.NodeAddDskSet>;
-}
+export class FailedNodeRemove extends CommandPacket<NetworkManagementInclusionV2FailedNodeRemoveData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x07; // 7
+	public static readonly definition = convertFromJsonCommand({
+		"command": 7,
+		"name": "FailedNodeRemove",
+		"help": "Failed Node Remove",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeRemoveData) {
+		super(FailedNodeRemove, data);
+	}
+};
+
+export class FailedNodeRemoveStatus extends CommandPacket<NetworkManagementInclusionV2FailedNodeRemoveStatusData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x08; // 8
+	public static readonly definition = convertFromJsonCommand({
+		"command": 8,
+		"name": "FailedNodeRemoveStatus",
+		"help": "Failed Node Remove Status",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "FailedNodeNotFound",
+						"help": "FAILED_NODE_NOT_FOUND"
+					},
+					"1": {
+						"name": "Done",
+						"help": "DONE"
+					},
+					"2": {
+						"name": "FailedNodeRemoveFail",
+						"help": "FAILED_NODE_REMOVE_FAIL"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeRemoveStatusData) {
+		super(FailedNodeRemoveStatus, data);
+	}
+};
+
+export class NodeAdd extends CommandPacket<NetworkManagementInclusionV2NodeAddData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "NodeAdd",
+		"help": "Node Add",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "reserved",
+				"help": "Reserved",
+				"length": 1,
+				"reserved": true
+			},
+			{
+				"type": "Integer",
+				"name": "mode",
+				"help": "Mode",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "NodeAddAny",
+						"help": "NODE_ADD_ANY"
+					},
+					"2": {
+						"name": "NodeAddController",
+						"help": "NODE_ADD_CONTROLLER"
+					},
+					"3": {
+						"name": "NodeAddSlave",
+						"help": "NODE_ADD_SLAVE"
+					},
+					"4": {
+						"name": "NodeAddExisting",
+						"help": "NODE_ADD_EXISTING"
+					},
+					"5": {
+						"name": "NodeAddStop",
+						"help": "NODE_ADD_STOP"
+					},
+					"6": {
+						"name": "NodeAddStopFailed",
+						"help": "NODE_ADD_STOP_FAILED"
+					},
+					"7": {
+						"name": "NodeAddAnyS2",
+						"help": "NODE_ADD_ANY_S2"
+					}
+				}
+			},
+			{
+				"type": "Bitmask",
+				"name": "txOptions",
+				"help": "tx Options",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Ack",
+						"help": "Ack"
+					},
+					"1": {
+						"name": "LowPower",
+						"help": "Low Power"
+					},
+					"2": {
+						"name": "AutoRoute",
+						"help": "Auto Route"
+					},
+					"3": {
+						"name": "Reserved",
+						"help": "Reserved"
+					},
+					"4": {
+						"name": "NoRoute",
+						"help": "No Route"
+					},
+					"5": {
+						"name": "Explore",
+						"help": "Explore"
+					},
+					"6": {
+						"name": "NoRetransmission",
+						"help": "No Retransmission"
+					},
+					"7": {
+						"name": "HighPower",
+						"help": "High Power"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeAddData) {
+		super(NodeAdd, data);
+	}
+};
+
+export class NodeAddStatus extends CommandPacket<NetworkManagementInclusionV2NodeAddStatusData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "NodeAddStatus",
+		"help": "Node Add Status",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"6": {
+						"name": "NodeAddStatusDone",
+						"help": "NODE_ADD_STATUS_DONE"
+					},
+					"7": {
+						"name": "NodeAddStatusFailed",
+						"help": "NODE_ADD_STATUS_FAILED"
+					},
+					"9": {
+						"name": "NodeAddStatusSecurityFailed",
+						"help": "NODE_ADD_STATUS_SECURITY_FAILED"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "reserved",
+				"help": "Reserved",
+				"length": 1,
+				"reserved": true
+			},
+			{
+				"type": "Integer",
+				"name": "newNodeId",
+				"help": "New Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "nodeInfoLength",
+				"help": "Node Info Length",
+				"length": 1,
+				"lengthOf": {
+					"refs": [
+						"commandClasses"
+					]
+				},
+				"isAutogenerated": true
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "listening",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "zWaveProtocolSpecificPart1",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties2",
+				"help": "Properties2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "opt",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "zWaveProtocolSpecificPart2",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "basicDeviceClass",
+				"help": "Basic Device Class",
+				"length": 1,
+				"valueType": "BasicDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "genericDeviceClass",
+				"help": "Generic Device Class",
+				"length": 1,
+				"valueType": "GenericDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "specificDeviceClass",
+				"help": "Specific Device Class",
+				"length": 1,
+				"valueType": "SpecificDevice"
+			},
+			{
+				"type": "Blob",
+				"name": "commandClasses",
+				"help": "Command Classes",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "nodeInfoLength"
+					},
+					"offset": 6
+				},
+				"blobType": "CommandClasses"
+			},
+			{
+				"type": "Integer",
+				"name": "grantedKeys",
+				"help": "Granted Keys",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "kexFailType",
+				"help": "KEX Fail Type",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeAddStatusData) {
+		super(NodeAddStatus, data);
+	}
+};
+
+export class NodeRemove extends CommandPacket<NetworkManagementInclusionV2NodeRemoveData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "NodeRemove",
+		"help": "Node Remove",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "reserved",
+				"help": "Reserved",
+				"length": 1,
+				"reserved": true
+			},
+			{
+				"type": "Integer",
+				"name": "mode",
+				"help": "Mode",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "NodeRemoveAny",
+						"help": "NODE_REMOVE_ANY"
+					},
+					"2": {
+						"name": "NodeRemoveController",
+						"help": "NODE_REMOVE_CONTROLLER"
+					},
+					"3": {
+						"name": "NodeRemoveSlave",
+						"help": "NODE_REMOVE_SLAVE"
+					},
+					"5": {
+						"name": "NodeRemoveStop",
+						"help": "NODE_REMOVE_STOP"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeRemoveData) {
+		super(NodeRemove, data);
+	}
+};
+
+export class NodeRemoveStatus extends CommandPacket<NetworkManagementInclusionV2NodeRemoveStatusData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "NodeRemoveStatus",
+		"help": "Node Remove Status",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"6": {
+						"name": "NodeRemoveStatusDone",
+						"help": "NODE_REMOVE_STATUS_DONE"
+					},
+					"7": {
+						"name": "NodeRemoveStatusFailed",
+						"help": "NODE_REMOVE_STATUS_FAILED"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "NodeID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeRemoveStatusData) {
+		super(NodeRemoveStatus, data);
+	}
+};
+
+export class FailedNodeReplace extends CommandPacket<NetworkManagementInclusionV2FailedNodeReplaceData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x09; // 9
+	public static readonly definition = convertFromJsonCommand({
+		"command": 9,
+		"name": "FailedNodeReplace",
+		"help": "Failed Node Replace",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Bitmask",
+				"name": "txOptions",
+				"help": "tx Options",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Ack",
+						"help": "Ack"
+					},
+					"1": {
+						"name": "LowPower",
+						"help": "Low Power"
+					},
+					"2": {
+						"name": "AutoRoute",
+						"help": "Auto Route"
+					},
+					"3": {
+						"name": "Reserved",
+						"help": "Reserved"
+					},
+					"4": {
+						"name": "NoRoute",
+						"help": "No Route"
+					},
+					"5": {
+						"name": "Explore",
+						"help": "Explore"
+					},
+					"6": {
+						"name": "NoRetransmission",
+						"help": "No Retransmission"
+					},
+					"7": {
+						"name": "HighPower",
+						"help": "High Power"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "mode",
+				"help": "Mode",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeReplaceData) {
+		super(FailedNodeReplace, data);
+	}
+};
+
+export class FailedNodeReplaceStatus extends CommandPacket<NetworkManagementInclusionV2FailedNodeReplaceStatusData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x0a; // 10
+	public static readonly definition = convertFromJsonCommand({
+		"command": 10,
+		"name": "FailedNodeReplaceStatus",
+		"help": "Failed Node Replace Status",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"4": {
+						"name": "Done",
+						"help": "DONE"
+					},
+					"5": {
+						"name": "FailedNodeReplaceFail",
+						"help": "FAILED_NODE_REPLACE_FAIL"
+					},
+					"9": {
+						"name": "FailedNodeReplaceSecurityFailed",
+						"help": "FAILED_NODE_REPLACE_SECURITY_FAILED"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "grantedKeys",
+				"help": "Granted Keys",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "kexFailType",
+				"help": "KEX Fail Type",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2FailedNodeReplaceStatusData) {
+		super(FailedNodeReplaceStatus, data);
+	}
+};
+
+export class NodeNeighborUpdateRequest extends CommandPacket<NetworkManagementInclusionV2NodeNeighborUpdateRequestData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x0b; // 11
+	public static readonly definition = convertFromJsonCommand({
+		"command": 11,
+		"name": "NodeNeighborUpdateRequest",
+		"help": "Node Neighbor Update Request",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeNeighborUpdateRequestData) {
+		super(NodeNeighborUpdateRequest, data);
+	}
+};
+
+export class NodeNeighborUpdateStatus extends CommandPacket<NetworkManagementInclusionV2NodeNeighborUpdateStatusData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x0c; // 12
+	public static readonly definition = convertFromJsonCommand({
+		"command": 12,
+		"name": "NodeNeighborUpdateStatus",
+		"help": "Node Neighbor Update Status",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"34": {
+						"name": "NeighborUpdateStatusDone",
+						"help": "NEIGHBOR_UPDATE_STATUS_DONE"
+					},
+					"35": {
+						"name": "NeighborUpdateStatusFail",
+						"help": "NEIGHBOR_UPDATE_STATUS_FAIL"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeNeighborUpdateStatusData) {
+		super(NodeNeighborUpdateStatus, data);
+	}
+};
+
+export class ReturnRouteAssign extends CommandPacket<NetworkManagementInclusionV2ReturnRouteAssignData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x0d; // 13
+	public static readonly definition = convertFromJsonCommand({
+		"command": 13,
+		"name": "ReturnRouteAssign",
+		"help": "Return Route Assign",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "sourceNodeId",
+				"help": "Source Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "destinationNodeId",
+				"help": "Destination Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteAssignData) {
+		super(ReturnRouteAssign, data);
+	}
+};
+
+export class ReturnRouteAssignComplete extends CommandPacket<NetworkManagementInclusionV2ReturnRouteAssignCompleteData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x0e; // 14
+	public static readonly definition = convertFromJsonCommand({
+		"command": 14,
+		"name": "ReturnRouteAssignComplete",
+		"help": "Return Route Assign Complete",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "TransmitCompleteOk",
+						"help": "TRANSMIT_COMPLETE_OK"
+					},
+					"1": {
+						"name": "TransmitCompleteNoAck",
+						"help": "TRANSMIT_COMPLETE_NO_ACK"
+					},
+					"2": {
+						"name": "TransmitCompleteFail",
+						"help": "TRANSMIT_COMPLETE_FAIL"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteAssignCompleteData) {
+		super(ReturnRouteAssignComplete, data);
+	}
+};
+
+export class ReturnRouteDelete extends CommandPacket<NetworkManagementInclusionV2ReturnRouteDeleteData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x0f; // 15
+	public static readonly definition = convertFromJsonCommand({
+		"command": 15,
+		"name": "ReturnRouteDelete",
+		"help": "Return Route Delete",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteDeleteData) {
+		super(ReturnRouteDelete, data);
+	}
+};
+
+export class ReturnRouteDeleteComplete extends CommandPacket<NetworkManagementInclusionV2ReturnRouteDeleteCompleteData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x10; // 16
+	public static readonly definition = convertFromJsonCommand({
+		"command": 16,
+		"name": "ReturnRouteDeleteComplete",
+		"help": "Return Route Delete Complete",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "TransmitCompleteOk",
+						"help": "TRANSMIT_COMPLETE_OK"
+					},
+					"1": {
+						"name": "TransmitCompleteNoAck",
+						"help": "TRANSMIT_COMPLETE_NO_ACK"
+					},
+					"2": {
+						"name": "TransmitCompleteFail",
+						"help": "TRANSMIT_COMPLETE_FAIL"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2ReturnRouteDeleteCompleteData) {
+		super(ReturnRouteDeleteComplete, data);
+	}
+};
+
+export class NodeAddKeysReport extends CommandPacket<NetworkManagementInclusionV2NodeAddKeysReportData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x11; // 17
+	public static readonly definition = convertFromJsonCommand({
+		"command": 17,
+		"name": "NodeAddKeysReport",
+		"help": "Node Add Keys Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq No",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 254,
+						"shift": 1,
+						"reserved": true
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "requestCsa",
+						"mask": 1,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "requestedKeys",
+				"help": "Requested Keys",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeAddKeysReportData) {
+		super(NodeAddKeysReport, data);
+	}
+};
+
+export class NodeAddKeysSet extends CommandPacket<NetworkManagementInclusionV2NodeAddKeysSetData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x12; // 18
+	public static readonly definition = convertFromJsonCommand({
+		"command": 18,
+		"name": "NodeAddKeysSet",
+		"help": "Node Add Keys Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq No",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 252,
+						"shift": 2,
+						"reserved": true
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "grantCsa",
+						"mask": 2,
+						"shift": 1
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "accept",
+						"mask": 1,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "grantedKeys",
+				"help": "Granted Keys",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeAddKeysSetData) {
+		super(NodeAddKeysSet, data);
+	}
+};
+
+export class NodeAddDskReport extends CommandPacket<NetworkManagementInclusionV2NodeAddDskReportData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x13; // 19
+	public static readonly definition = convertFromJsonCommand({
+		"command": 19,
+		"name": "NodeAddDskReport",
+		"help": "Node Add DSK Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq No",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 240,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "inputDskLength",
+						"mask": 15,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "dsk",
+				"help": "DSK",
+				"length": 16
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeAddDskReportData) {
+		super(NodeAddDskReport, data);
+	}
+};
+
+export class NodeAddDskSet extends CommandPacket<NetworkManagementInclusionV2NodeAddDskSetData> {
+	public static readonly CommandClass = NetworkManagementInclusionV2;
+	public static readonly command = 0x14; // 20
+	public static readonly definition = convertFromJsonCommand({
+		"command": 20,
+		"name": "NodeAddDskSet",
+		"help": "Node Add DSK Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq No",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "accept",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 112,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "inputDskLength",
+						"mask": 15,
+						"shift": 0,
+						"lengthOf": {
+							"refs": [
+								"inputDsk"
+							]
+						},
+						"isAutogenerated": true
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "inputDsk",
+				"help": "Input DSK",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "properties1.inputDskLength"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInclusionV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInclusionV2NodeAddDskSetData) {
+		super(NodeAddDskSet, data);
+	}
+};

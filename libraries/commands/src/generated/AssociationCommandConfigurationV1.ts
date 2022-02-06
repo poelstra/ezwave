@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AssociationCommandConfigurationV1Commands {
 	CommandConfigurationGet = 0x04,
@@ -59,278 +59,270 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 	constructor(commandAndPayload: Buffer) {
 		super(AssociationCommandConfigurationV1, commandAndPayload);
 	}
-
-	public static readonly CommandConfigurationGet = class CommandConfigurationGet extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationGetData> {
-		public static readonly CommandClass = AssociationCommandConfigurationV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "CommandConfigurationGet",
-			"help": "Command Configuration Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping identifier",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationGetData) {
-			super(CommandConfigurationGet, data);
-		}
-	};
-
-	public static readonly CommandConfigurationReport = class CommandConfigurationReport extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationReportData> {
-		public static readonly CommandClass = AssociationCommandConfigurationV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "CommandConfigurationReport",
-			"help": "Command Configuration Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping identifier",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "first",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 112,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reportsToFollow",
-							"mask": 15,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "commandLength",
-					"help": "Command length",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "commandClassIdentifier",
-					"help": "Command Class identifier",
-					"length": 1,
-					"valueType": "CommandClass"
-				},
-				{
-					"type": "Integer",
-					"name": "commandIdentifier",
-					"help": "Command identifier",
-					"length": 1,
-					"valueType": "Command"
-				},
-				{
-					"type": "Blob",
-					"name": "command",
-					"help": "Command ",
-					"length": {
-						"lengthType": "Auto"
-					},
-					"blobType": "CommandData"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationReportData) {
-			super(CommandConfigurationReport, data);
-		}
-	};
-
-	public static readonly CommandConfigurationSet = class CommandConfigurationSet extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationSetData> {
-		public static readonly CommandClass = AssociationCommandConfigurationV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "CommandConfigurationSet",
-			"help": "Command Configuration Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping identifier",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "commandLength",
-					"help": "Command length",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "commandClassIdentifier",
-					"help": "Command Class identifier",
-					"length": 1,
-					"valueType": "CommandClass"
-				},
-				{
-					"type": "Integer",
-					"name": "commandIdentifier",
-					"help": "Command identifier",
-					"length": 1,
-					"valueType": "Command"
-				},
-				{
-					"type": "Blob",
-					"name": "command",
-					"help": "Command ",
-					"length": {
-						"lengthType": "Auto"
-					},
-					"blobType": "CommandData"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationSetData) {
-			super(CommandConfigurationSet, data);
-		}
-	};
-
-	public static readonly CommandRecordsSupportedGet = class CommandRecordsSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = AssociationCommandConfigurationV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "CommandRecordsSupportedGet",
-			"help": "Command Records Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(CommandRecordsSupportedGet, data);
-		}
-	};
-
-	public static readonly CommandRecordsSupportedReport = class CommandRecordsSupportedReport extends CommandPacket<AssociationCommandConfigurationV1CommandRecordsSupportedReportData> {
-		public static readonly CommandClass = AssociationCommandConfigurationV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "CommandRecordsSupportedReport",
-			"help": "Command Records Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "maxCommandLength",
-							"mask": 252,
-							"shift": 2
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "vC",
-							"mask": 2,
-							"shift": 1
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "confCmd",
-							"mask": 1,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "freeCommandRecords",
-					"help": "Free Command records",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "maxCommandRecords",
-					"help": "Max Command records",
-					"length": 2
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | AssociationCommandConfigurationV1CommandRecordsSupportedReportData) {
-			super(CommandRecordsSupportedReport, data);
-		}
-	};
 }
 
-export namespace AssociationCommandConfigurationV1 {
-	export type CommandConfigurationGet = InstanceType<typeof AssociationCommandConfigurationV1.CommandConfigurationGet>;
-	export type CommandConfigurationReport = InstanceType<typeof AssociationCommandConfigurationV1.CommandConfigurationReport>;
-	export type CommandConfigurationSet = InstanceType<typeof AssociationCommandConfigurationV1.CommandConfigurationSet>;
-	export type CommandRecordsSupportedGet = InstanceType<typeof AssociationCommandConfigurationV1.CommandRecordsSupportedGet>;
-	export type CommandRecordsSupportedReport = InstanceType<typeof AssociationCommandConfigurationV1.CommandRecordsSupportedReport>;
-}
+export class CommandConfigurationGet extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationGetData> {
+	public static readonly CommandClass = AssociationCommandConfigurationV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "CommandConfigurationGet",
+		"help": "Command Configuration Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping identifier",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationGetData) {
+		super(CommandConfigurationGet, data);
+	}
+};
+
+export class CommandConfigurationReport extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationReportData> {
+	public static readonly CommandClass = AssociationCommandConfigurationV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "CommandConfigurationReport",
+		"help": "Command Configuration Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping identifier",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "first",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 112,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reportsToFollow",
+						"mask": 15,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "commandLength",
+				"help": "Command length",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "commandClassIdentifier",
+				"help": "Command Class identifier",
+				"length": 1,
+				"valueType": "CommandClass"
+			},
+			{
+				"type": "Integer",
+				"name": "commandIdentifier",
+				"help": "Command identifier",
+				"length": 1,
+				"valueType": "Command"
+			},
+			{
+				"type": "Blob",
+				"name": "command",
+				"help": "Command ",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"blobType": "CommandData"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationReportData) {
+		super(CommandConfigurationReport, data);
+	}
+};
+
+export class CommandConfigurationSet extends CommandPacket<AssociationCommandConfigurationV1CommandConfigurationSetData> {
+	public static readonly CommandClass = AssociationCommandConfigurationV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "CommandConfigurationSet",
+		"help": "Command Configuration Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping identifier",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "commandLength",
+				"help": "Command length",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "commandClassIdentifier",
+				"help": "Command Class identifier",
+				"length": 1,
+				"valueType": "CommandClass"
+			},
+			{
+				"type": "Integer",
+				"name": "commandIdentifier",
+				"help": "Command identifier",
+				"length": 1,
+				"valueType": "Command"
+			},
+			{
+				"type": "Blob",
+				"name": "command",
+				"help": "Command ",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"blobType": "CommandData"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationSetData) {
+		super(CommandConfigurationSet, data);
+	}
+};
+
+export class CommandRecordsSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = AssociationCommandConfigurationV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "CommandRecordsSupportedGet",
+		"help": "Command Records Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(CommandRecordsSupportedGet, data);
+	}
+};
+
+export class CommandRecordsSupportedReport extends CommandPacket<AssociationCommandConfigurationV1CommandRecordsSupportedReportData> {
+	public static readonly CommandClass = AssociationCommandConfigurationV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "CommandRecordsSupportedReport",
+		"help": "Command Records Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "maxCommandLength",
+						"mask": 252,
+						"shift": 2
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "vC",
+						"mask": 2,
+						"shift": 1
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "confCmd",
+						"mask": 1,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "freeCommandRecords",
+				"help": "Free Command records",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "maxCommandRecords",
+				"help": "Max Command records",
+				"length": 2
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | AssociationCommandConfigurationV1CommandRecordsSupportedReportData) {
+		super(CommandRecordsSupportedReport, data);
+	}
+};

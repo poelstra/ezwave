@@ -8,10 +8,10 @@
 	},
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",
-	"main": "lib/index.js",
-	"typings": "lib/index.js",
+	"main": "lib/generated/index.js",
+	"typings": "lib/generated/index.d.ts",
 	"scripts": {
-		"build": "ts-node src/generator/generate_commands.ts && heft test --clean",
+		"build": "rm -rf src/generated/ && heft clean && ts-node src/generator/generate_commands.ts && heft test",
 		"build:watch": "heft test"
 	},
 	"keywords": [

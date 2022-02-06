@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ApplicationCapabilityV1Commands {
 	CommandCommandClassNotSupported = 0x01,
@@ -29,64 +29,60 @@ export class ApplicationCapabilityV1 extends CommandClassPacket<ApplicationCapab
 	constructor(commandAndPayload: Buffer) {
 		super(ApplicationCapabilityV1, commandAndPayload);
 	}
-
-	public static readonly CommandCommandClassNotSupported = class CommandCommandClassNotSupported extends CommandPacket<ApplicationCapabilityV1CommandCommandClassNotSupportedData> {
-		public static readonly CommandClass = ApplicationCapabilityV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "CommandCommandClassNotSupported",
-			"help": "Command Command Class Not Supported",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "dynamic",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 127,
-							"shift": 0,
-							"reserved": true
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "offendingCommandClass",
-					"help": "Offending Command Class",
-					"length": 1,
-					"valueType": "CommandClass"
-				},
-				{
-					"type": "Integer",
-					"name": "offendingCommand",
-					"help": "Offending Command",
-					"length": 1,
-					"valueType": "Command"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ApplicationCapabilityV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ApplicationCapabilityV1CommandCommandClassNotSupportedData) {
-			super(CommandCommandClassNotSupported, data);
-		}
-	};
 }
 
-export namespace ApplicationCapabilityV1 {
-	export type CommandCommandClassNotSupported = InstanceType<typeof ApplicationCapabilityV1.CommandCommandClassNotSupported>;
-}
+export class CommandCommandClassNotSupported extends CommandPacket<ApplicationCapabilityV1CommandCommandClassNotSupportedData> {
+	public static readonly CommandClass = ApplicationCapabilityV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "CommandCommandClassNotSupported",
+		"help": "Command Command Class Not Supported",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "dynamic",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 127,
+						"shift": 0,
+						"reserved": true
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "offendingCommandClass",
+				"help": "Offending Command Class",
+				"length": 1,
+				"valueType": "CommandClass"
+			},
+			{
+				"type": "Integer",
+				"name": "offendingCommand",
+				"help": "Offending Command",
+				"length": 1,
+				"valueType": "Command"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ApplicationCapabilityV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ApplicationCapabilityV1CommandCommandClassNotSupportedData) {
+		super(CommandCommandClassNotSupported, data);
+	}
+};

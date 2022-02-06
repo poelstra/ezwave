@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NetworkManagementInstallationMaintenanceV1Commands {
 	PriorityRouteSet = 0x01,
@@ -84,358 +84,349 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 	constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementInstallationMaintenanceV1, commandAndPayload);
 	}
+}
 
-	public static readonly PriorityRouteSet = class PriorityRouteSet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteSetData> {
-		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "PriorityRouteSet",
-			"help": "Priority Route Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "NodeID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "repeater1",
-					"help": "Repeater 1",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "repeater2",
-					"help": "Repeater 2",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "repeater3",
-					"help": "Repeater 3",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "repeater4",
-					"help": "Repeater 4",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Enum",
-					"name": "speed",
-					"help": "Speed",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "96KbitSec",
-							"help": "9.6 kbit/sec"
-						},
-						"2": {
-							"name": "40KbitSec",
-							"help": "40 kbit/sec"
-						},
-						"3": {
-							"name": "100KbitSec",
-							"help": "100 kbit/sec"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteSetData) {
-			super(PriorityRouteSet, data);
-		}
-	};
-
-	public static readonly PriorityRouteGet = class PriorityRouteGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteGetData> {
-		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "PriorityRouteGet",
-			"help": "Priority Route Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "NodeID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteGetData) {
-			super(PriorityRouteGet, data);
-		}
-	};
-
-	public static readonly PriorityRouteReport = class PriorityRouteReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteReportData> {
-		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "PriorityRouteReport",
-			"help": "Priority Route Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "NodeID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Enum",
-					"name": "type",
-					"help": "Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "None",
-							"help": "None"
-						},
-						"1": {
-							"name": "ZwPriorityRouteZwLwr",
-							"help": "ZW_PRIORITY_ROUTE_ZW_LWR"
-						},
-						"2": {
-							"name": "ZwPriorityRouteZwNlwr",
-							"help": "ZW_PRIORITY_ROUTE_ZW_NLWR"
-						},
-						"16": {
-							"name": "ZwPriorityRouteAppPr",
-							"help": "ZW_PRIORITY_ROUTE_APP_PR"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "repeater1",
-					"help": "Repeater 1",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "repeater2",
-					"help": "Repeater 2",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "repeater3",
-					"help": "Repeater 3",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "repeater4",
-					"help": "Repeater 4",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Enum",
-					"name": "speed",
-					"help": "Speed",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "96KbitSec",
-							"help": "9.6 kbit/sec"
-						},
-						"2": {
-							"name": "40KbitSec",
-							"help": "40 kbit/sec"
-						},
-						"3": {
-							"name": "100KbitSec",
-							"help": "100 kbit/sec"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteReportData) {
-			super(PriorityRouteReport, data);
-		}
-	};
-
-	public static readonly StatisticsGet = class StatisticsGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsGetData> {
-		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "StatisticsGet",
-			"help": "Statistics Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "NodeID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsGetData) {
-			super(StatisticsGet, data);
-		}
-	};
-
-	public static readonly StatisticsReport = class StatisticsReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsReportData> {
-		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "StatisticsReport",
-			"help": "Statistics Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "nodeId",
-					"help": "NodeID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Group",
-					"name": "statistics",
-					"help": "Statistics",
-					"length": {
-						"lengthType": "Auto"
+export class PriorityRouteSet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteSetData> {
+	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "PriorityRouteSet",
+		"help": "Priority Route Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "NodeID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "repeater1",
+				"help": "Repeater 1",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "repeater2",
+				"help": "Repeater 2",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "repeater3",
+				"help": "Repeater 3",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "repeater4",
+				"help": "Repeater 4",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Enum",
+				"name": "speed",
+				"help": "Speed",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "96KbitSec",
+						"help": "9.6 kbit/sec"
 					},
-					"params": [
-						{
-							"type": "Enum",
-							"name": "type",
-							"help": "Type",
-							"length": 1,
-							"values": {
-								"0": {
-									"name": "RouteChangesRC",
-									"help": "Route Changes (RC)"
-								},
-								"1": {
-									"name": "TransmissionCountTC",
-									"help": "Transmission Count (TC)"
-								},
-								"2": {
-									"name": "NeighborsNB",
-									"help": "Neighbors (NB)"
-								},
-								"3": {
-									"name": "PacketErrorCountPEC",
-									"help": "Packet Error Count (PEC)"
-								},
-								"4": {
-									"name": "SumOfTransmissionTimesTS",
-									"help": "Sum of transmission times (TS)"
-								},
-								"5": {
-									"name": "SumOfTransmissionTimesSquraredTS2",
-									"help": "Sum of transmission times squrared (TS2)"
-								}
-							}
-						},
-						{
-							"type": "Integer",
-							"name": "length",
-							"help": "Length",
-							"length": 1,
-							"lengthOf": {
-								"refs": [
-									"statistics.value"
-								]
+					"2": {
+						"name": "40KbitSec",
+						"help": "40 kbit/sec"
+					},
+					"3": {
+						"name": "100KbitSec",
+						"help": "100 kbit/sec"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteSetData) {
+		super(PriorityRouteSet, data);
+	}
+};
+
+export class PriorityRouteGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteGetData> {
+	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "PriorityRouteGet",
+		"help": "Priority Route Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "NodeID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteGetData) {
+		super(PriorityRouteGet, data);
+	}
+};
+
+export class PriorityRouteReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteReportData> {
+	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "PriorityRouteReport",
+		"help": "Priority Route Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "NodeID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Enum",
+				"name": "type",
+				"help": "Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "None",
+						"help": "None"
+					},
+					"1": {
+						"name": "ZwPriorityRouteZwLwr",
+						"help": "ZW_PRIORITY_ROUTE_ZW_LWR"
+					},
+					"2": {
+						"name": "ZwPriorityRouteZwNlwr",
+						"help": "ZW_PRIORITY_ROUTE_ZW_NLWR"
+					},
+					"16": {
+						"name": "ZwPriorityRouteAppPr",
+						"help": "ZW_PRIORITY_ROUTE_APP_PR"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "repeater1",
+				"help": "Repeater 1",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "repeater2",
+				"help": "Repeater 2",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "repeater3",
+				"help": "Repeater 3",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "repeater4",
+				"help": "Repeater 4",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Enum",
+				"name": "speed",
+				"help": "Speed",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "96KbitSec",
+						"help": "9.6 kbit/sec"
+					},
+					"2": {
+						"name": "40KbitSec",
+						"help": "40 kbit/sec"
+					},
+					"3": {
+						"name": "100KbitSec",
+						"help": "100 kbit/sec"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteReportData) {
+		super(PriorityRouteReport, data);
+	}
+};
+
+export class StatisticsGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsGetData> {
+	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "StatisticsGet",
+		"help": "Statistics Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "NodeID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsGetData) {
+		super(StatisticsGet, data);
+	}
+};
+
+export class StatisticsReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsReportData> {
+	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "StatisticsReport",
+		"help": "Statistics Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "nodeId",
+				"help": "NodeID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Group",
+				"name": "statistics",
+				"help": "Statistics",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"params": [
+					{
+						"type": "Enum",
+						"name": "type",
+						"help": "Type",
+						"length": 1,
+						"values": {
+							"0": {
+								"name": "RouteChangesRC",
+								"help": "Route Changes (RC)"
 							},
-							"isAutogenerated": true
-						},
-						{
-							"type": "Blob",
-							"name": "value",
-							"help": "Value",
-							"length": {
-								"lengthType": "Ref",
-								"from": {
-									"ref": "statistics.length"
-								}
+							"1": {
+								"name": "TransmissionCountTC",
+								"help": "Transmission Count (TC)"
+							},
+							"2": {
+								"name": "NeighborsNB",
+								"help": "Neighbors (NB)"
+							},
+							"3": {
+								"name": "PacketErrorCountPEC",
+								"help": "Packet Error Count (PEC)"
+							},
+							"4": {
+								"name": "SumOfTransmissionTimesTS",
+								"help": "Sum of transmission times (TS)"
+							},
+							"5": {
+								"name": "SumOfTransmissionTimesSquraredTS2",
+								"help": "Sum of transmission times squrared (TS2)"
 							}
 						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
+					},
+					{
+						"type": "Integer",
+						"name": "length",
+						"help": "Length",
+						"length": 1,
+						"lengthOf": {
+							"refs": [
+								"statistics.value"
+							]
+						},
+						"isAutogenerated": true
+					},
+					{
+						"type": "Blob",
+						"name": "value",
+						"help": "Value",
+						"length": {
+							"lengthType": "Ref",
+							"from": {
+								"ref": "statistics.length"
+							}
+						}
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsReportData) {
-			super(StatisticsReport, data);
-		}
-	};
+	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsReportData) {
+		super(StatisticsReport, data);
+	}
+};
 
-	public static readonly StatisticsClear = class StatisticsClear extends CommandPacket<void> {
-		public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "StatisticsClear",
-			"help": "Statistics Clear",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class StatisticsClear extends CommandPacket<void> {
+	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "StatisticsClear",
+		"help": "Statistics Clear",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(StatisticsClear, data);
-		}
-	};
-}
-
-export namespace NetworkManagementInstallationMaintenanceV1 {
-	export type PriorityRouteSet = InstanceType<typeof NetworkManagementInstallationMaintenanceV1.PriorityRouteSet>;
-	export type PriorityRouteGet = InstanceType<typeof NetworkManagementInstallationMaintenanceV1.PriorityRouteGet>;
-	export type PriorityRouteReport = InstanceType<typeof NetworkManagementInstallationMaintenanceV1.PriorityRouteReport>;
-	export type StatisticsGet = InstanceType<typeof NetworkManagementInstallationMaintenanceV1.StatisticsGet>;
-	export type StatisticsReport = InstanceType<typeof NetworkManagementInstallationMaintenanceV1.StatisticsReport>;
-	export type StatisticsClear = InstanceType<typeof NetworkManagementInstallationMaintenanceV1.StatisticsClear>;
-}
+	constructor(data: Buffer | void) {
+		super(StatisticsClear, data);
+	}
+};

@@ -9,9 +9,9 @@
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",
 	"main": "lib/index.js",
-	"typings": "lib/index.js",
+	"typings": "lib/index.d.ts",
 	"scripts": {
-		"build": "heft clean && ts-node ./src/generator/xml2json && heft test",
+		"build": "heft test --clean && node ./lib/generator/xml2json",
 		"build:watch": "heft test"
 	},
 	"keywords": [
@@ -28,7 +28,6 @@
 		"@types/node": "16.11.7",
 		"async-main": "^1.0.2",
 		"case": "^1.6.3",
-		"fast-xml-parser": "^3.12.7",
-		"ts-node": "~10.4.0"
+		"fast-xml-parser": "^3.12.7"
 	}
 }

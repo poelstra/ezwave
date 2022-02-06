@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SecurityPanelZoneV1Commands {
 	SecurityPanelZoneNumberSupportedGet = 0x01,
@@ -50,222 +50,213 @@ export class SecurityPanelZoneV1 extends CommandClassPacket<SecurityPanelZoneV1C
 	constructor(commandAndPayload: Buffer) {
 		super(SecurityPanelZoneV1, commandAndPayload);
 	}
-
-	public static readonly SecurityPanelZoneNumberSupportedGet = class SecurityPanelZoneNumberSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = SecurityPanelZoneV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "SecurityPanelZoneNumberSupportedGet",
-			"help": "Security Panel Zone Number Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(SecurityPanelZoneNumberSupportedGet, data);
-		}
-	};
-
-	public static readonly SecurityPanelZoneStateGet = class SecurityPanelZoneStateGet extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneStateGetData> {
-		public static readonly CommandClass = SecurityPanelZoneV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "SecurityPanelZoneStateGet",
-			"help": "Security Panel Zone State Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "zoneNumber",
-					"help": "Zone Number",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneStateGetData) {
-			super(SecurityPanelZoneStateGet, data);
-		}
-	};
-
-	public static readonly SecurityPanelZoneStateReport = class SecurityPanelZoneStateReport extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneStateReportData> {
-		public static readonly CommandClass = SecurityPanelZoneV1;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "SecurityPanelZoneStateReport",
-			"help": "Security Panel Zone State Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "zoneNumber",
-					"help": "Zone number",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "zoneState",
-					"help": "Zone State",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Faulted",
-							"help": "Faulted"
-						},
-						"1": {
-							"name": "NotFaulted",
-							"help": "Not-Faulted"
-						},
-						"2": {
-							"name": "BypassFaulted",
-							"help": "Bypass Faulted"
-						},
-						"3": {
-							"name": "BypassNotFaulted",
-							"help": "Bypass Not-Faulted"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneStateReportData) {
-			super(SecurityPanelZoneStateReport, data);
-		}
-	};
-
-	public static readonly SecurityPanelZoneSupportedReport = class SecurityPanelZoneSupportedReport extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneSupportedReportData> {
-		public static readonly CommandClass = SecurityPanelZoneV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "SecurityPanelZoneSupportedReport",
-			"help": "Security Panel Zone Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "parameters1",
-					"help": "Parameters1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "zm",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "zonesSupported",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneSupportedReportData) {
-			super(SecurityPanelZoneSupportedReport, data);
-		}
-	};
-
-	public static readonly SecurityPanelZoneTypeGet = class SecurityPanelZoneTypeGet extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneTypeGetData> {
-		public static readonly CommandClass = SecurityPanelZoneV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "SecurityPanelZoneTypeGet",
-			"help": "Security Panel Zone Type Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "zoneNumber",
-					"help": "Zone Number",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneTypeGetData) {
-			super(SecurityPanelZoneTypeGet, data);
-		}
-	};
-
-	public static readonly SecurityPanelZoneTypeReport = class SecurityPanelZoneTypeReport extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneTypeReportData> {
-		public static readonly CommandClass = SecurityPanelZoneV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "SecurityPanelZoneTypeReport",
-			"help": "Security Panel Zone Type Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "zoneNumber",
-					"help": "Zone Number",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "zoneType",
-					"help": "Zone Type",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "AlarmZone",
-							"help": "Alarm Zone"
-						},
-						"2": {
-							"name": "NotificationZone",
-							"help": "Notification Zone"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneTypeReportData) {
-			super(SecurityPanelZoneTypeReport, data);
-		}
-	};
 }
 
-export namespace SecurityPanelZoneV1 {
-	export type SecurityPanelZoneNumberSupportedGet = InstanceType<typeof SecurityPanelZoneV1.SecurityPanelZoneNumberSupportedGet>;
-	export type SecurityPanelZoneStateGet = InstanceType<typeof SecurityPanelZoneV1.SecurityPanelZoneStateGet>;
-	export type SecurityPanelZoneStateReport = InstanceType<typeof SecurityPanelZoneV1.SecurityPanelZoneStateReport>;
-	export type SecurityPanelZoneSupportedReport = InstanceType<typeof SecurityPanelZoneV1.SecurityPanelZoneSupportedReport>;
-	export type SecurityPanelZoneTypeGet = InstanceType<typeof SecurityPanelZoneV1.SecurityPanelZoneTypeGet>;
-	export type SecurityPanelZoneTypeReport = InstanceType<typeof SecurityPanelZoneV1.SecurityPanelZoneTypeReport>;
-}
+export class SecurityPanelZoneNumberSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = SecurityPanelZoneV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "SecurityPanelZoneNumberSupportedGet",
+		"help": "Security Panel Zone Number Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(SecurityPanelZoneNumberSupportedGet, data);
+	}
+};
+
+export class SecurityPanelZoneStateGet extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneStateGetData> {
+	public static readonly CommandClass = SecurityPanelZoneV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "SecurityPanelZoneStateGet",
+		"help": "Security Panel Zone State Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "zoneNumber",
+				"help": "Zone Number",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneStateGetData) {
+		super(SecurityPanelZoneStateGet, data);
+	}
+};
+
+export class SecurityPanelZoneStateReport extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneStateReportData> {
+	public static readonly CommandClass = SecurityPanelZoneV1;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "SecurityPanelZoneStateReport",
+		"help": "Security Panel Zone State Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "zoneNumber",
+				"help": "Zone number",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "zoneState",
+				"help": "Zone State",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Faulted",
+						"help": "Faulted"
+					},
+					"1": {
+						"name": "NotFaulted",
+						"help": "Not-Faulted"
+					},
+					"2": {
+						"name": "BypassFaulted",
+						"help": "Bypass Faulted"
+					},
+					"3": {
+						"name": "BypassNotFaulted",
+						"help": "Bypass Not-Faulted"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneStateReportData) {
+		super(SecurityPanelZoneStateReport, data);
+	}
+};
+
+export class SecurityPanelZoneSupportedReport extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneSupportedReportData> {
+	public static readonly CommandClass = SecurityPanelZoneV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "SecurityPanelZoneSupportedReport",
+		"help": "Security Panel Zone Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "parameters1",
+				"help": "Parameters1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "zm",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "zonesSupported",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneSupportedReportData) {
+		super(SecurityPanelZoneSupportedReport, data);
+	}
+};
+
+export class SecurityPanelZoneTypeGet extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneTypeGetData> {
+	public static readonly CommandClass = SecurityPanelZoneV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "SecurityPanelZoneTypeGet",
+		"help": "Security Panel Zone Type Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "zoneNumber",
+				"help": "Zone Number",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneTypeGetData) {
+		super(SecurityPanelZoneTypeGet, data);
+	}
+};
+
+export class SecurityPanelZoneTypeReport extends CommandPacket<SecurityPanelZoneV1SecurityPanelZoneTypeReportData> {
+	public static readonly CommandClass = SecurityPanelZoneV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "SecurityPanelZoneTypeReport",
+		"help": "Security Panel Zone Type Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "zoneNumber",
+				"help": "Zone Number",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "zoneType",
+				"help": "Zone Type",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "AlarmZone",
+						"help": "Alarm Zone"
+					},
+					"2": {
+						"name": "NotificationZone",
+						"help": "Notification Zone"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelZoneV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelZoneV1SecurityPanelZoneTypeReportData) {
+		super(SecurityPanelZoneTypeReport, data);
+	}
+};

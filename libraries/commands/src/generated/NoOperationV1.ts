@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NoOperationV1Commands {
 }
@@ -21,8 +21,5 @@ export class NoOperationV1 extends CommandClassPacket<NoOperationV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(NoOperationV1, commandAndPayload);
 	}
-
 }
 
-export namespace NoOperationV1 {
-}

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AlarmV2Commands {
 	AlarmGet = 0x04,
@@ -84,480 +84,472 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(AlarmV2, commandAndPayload);
 	}
+}
 
-	public static readonly AlarmGet = class AlarmGet extends CommandPacket<AlarmV2AlarmGetData> {
-		public static readonly CommandClass = AlarmV2;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "AlarmGet",
-			"help": "Alarm Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "alarmType",
-					"help": "Alarm Type",
-					"length": 1
-				},
-				{
-					"type": "Enum",
-					"name": "zwaveAlarmType",
-					"help": "ZWave Alarm Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"1": {
-							"name": "Smoke",
-							"help": "Smoke"
-						},
-						"2": {
-							"name": "Co",
-							"help": "CO"
-						},
-						"3": {
-							"name": "Co2",
-							"help": "CO2"
-						},
-						"4": {
-							"name": "Heat",
-							"help": "Heat"
-						},
-						"5": {
-							"name": "Water",
-							"help": "Water"
-						},
-						"6": {
-							"name": "AccessControl",
-							"help": "Access Control"
-						},
-						"7": {
-							"name": "Burglar",
-							"help": "Burglar"
-						},
-						"8": {
-							"name": "PowerManagement",
-							"help": "Power Management"
-						},
-						"9": {
-							"name": "System",
-							"help": "System"
-						},
-						"10": {
-							"name": "Emergency",
-							"help": "Emergency"
-						},
-						"11": {
-							"name": "Clock",
-							"help": "Clock"
-						},
-						"255": {
-							"name": "First",
-							"help": "First"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AlarmV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | AlarmV2AlarmGetData) {
-			super(AlarmGet, data);
-		}
-	};
-
-	public static readonly AlarmReport = class AlarmReport extends CommandPacket<AlarmV2AlarmReportData> {
-		public static readonly CommandClass = AlarmV2;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "AlarmReport",
-			"help": "Alarm Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "alarmType",
-					"help": "Alarm Type",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "alarmLevel",
-					"help": "Alarm Level",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "zensorNetSourceNodeId",
-					"help": "Zensor Net Source Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "zwaveAlarmStatus",
-					"help": "ZWave Alarm Status",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Off",
-							"help": "Off"
-						},
-						"255": {
-							"name": "On",
-							"help": "On"
-						}
-					}
-				},
-				{
-					"type": "Enum",
-					"name": "zwaveAlarmType",
-					"help": "ZWave Alarm Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"1": {
-							"name": "Smoke",
-							"help": "Smoke"
-						},
-						"2": {
-							"name": "Co",
-							"help": "CO"
-						},
-						"3": {
-							"name": "Co2",
-							"help": "CO2"
-						},
-						"4": {
-							"name": "Heat",
-							"help": "Heat"
-						},
-						"5": {
-							"name": "Water",
-							"help": "Water"
-						},
-						"6": {
-							"name": "AccessControl",
-							"help": "Access Control"
-						},
-						"7": {
-							"name": "Burglar",
-							"help": "Burglar"
-						},
-						"8": {
-							"name": "PowerManagement",
-							"help": "Power Management"
-						},
-						"9": {
-							"name": "System",
-							"help": "System"
-						},
-						"10": {
-							"name": "Emergency",
-							"help": "Emergency"
-						},
-						"11": {
-							"name": "Clock",
-							"help": "Clock"
-						},
-						"255": {
-							"name": "First",
-							"help": "First"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "zwaveAlarmEvent",
-					"help": "ZWave Alarm Event",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "numberOfEventParameters",
-					"help": "Number of Event Parameters",
-					"length": 1,
-					"lengthOf": {
-						"refs": [
-							"eventParameter"
-						]
+export class AlarmGet extends CommandPacket<AlarmV2AlarmGetData> {
+	public static readonly CommandClass = AlarmV2;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "AlarmGet",
+		"help": "Alarm Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "alarmType",
+				"help": "Alarm Type",
+				"length": 1
+			},
+			{
+				"type": "Enum",
+				"name": "zwaveAlarmType",
+				"help": "ZWave Alarm Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Reserved",
+						"help": "Reserved"
 					},
-					"isAutogenerated": true
-				},
-				{
-					"type": "Blob",
-					"name": "eventParameter",
-					"help": "Event Parameter",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "numberOfEventParameters"
-						}
+					"1": {
+						"name": "Smoke",
+						"help": "Smoke"
+					},
+					"2": {
+						"name": "Co",
+						"help": "CO"
+					},
+					"3": {
+						"name": "Co2",
+						"help": "CO2"
+					},
+					"4": {
+						"name": "Heat",
+						"help": "Heat"
+					},
+					"5": {
+						"name": "Water",
+						"help": "Water"
+					},
+					"6": {
+						"name": "AccessControl",
+						"help": "Access Control"
+					},
+					"7": {
+						"name": "Burglar",
+						"help": "Burglar"
+					},
+					"8": {
+						"name": "PowerManagement",
+						"help": "Power Management"
+					},
+					"9": {
+						"name": "System",
+						"help": "System"
+					},
+					"10": {
+						"name": "Emergency",
+						"help": "Emergency"
+					},
+					"11": {
+						"name": "Clock",
+						"help": "Clock"
+					},
+					"255": {
+						"name": "First",
+						"help": "First"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AlarmV2)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AlarmV2)?.command === this.command;
+	}
 
-		constructor(data: Buffer | AlarmV2AlarmReportData) {
-			super(AlarmReport, data);
-		}
-	};
+	constructor(data: Buffer | AlarmV2AlarmGetData) {
+		super(AlarmGet, data);
+	}
+};
 
-	public static readonly AlarmSet = class AlarmSet extends CommandPacket<AlarmV2AlarmSetData> {
-		public static readonly CommandClass = AlarmV2;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "AlarmSet",
-			"help": "Alarm Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "zwaveAlarmType",
-					"help": "ZWave Alarm Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"1": {
-							"name": "Smoke",
-							"help": "Smoke"
-						},
-						"2": {
-							"name": "Co",
-							"help": "CO"
-						},
-						"3": {
-							"name": "Co2",
-							"help": "CO2"
-						},
-						"4": {
-							"name": "Heat",
-							"help": "Heat"
-						},
-						"5": {
-							"name": "Water",
-							"help": "Water"
-						},
-						"6": {
-							"name": "AccessControl",
-							"help": "Access Control"
-						},
-						"7": {
-							"name": "Burglar",
-							"help": "Burglar"
-						},
-						"8": {
-							"name": "PowerManagement",
-							"help": "Power Management"
-						},
-						"9": {
-							"name": "System",
-							"help": "System"
-						},
-						"10": {
-							"name": "Emergency",
-							"help": "Emergency"
-						},
-						"11": {
-							"name": "Clock",
-							"help": "Clock"
-						},
-						"255": {
-							"name": "First",
-							"help": "First"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "zwaveAlarmStatus",
-					"help": "ZWave Alarm Status",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Off",
-							"help": "Off"
-						},
-						"255": {
-							"name": "On",
-							"help": "On"
-						}
+export class AlarmReport extends CommandPacket<AlarmV2AlarmReportData> {
+	public static readonly CommandClass = AlarmV2;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "AlarmReport",
+		"help": "Alarm Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "alarmType",
+				"help": "Alarm Type",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "alarmLevel",
+				"help": "Alarm Level",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "zensorNetSourceNodeId",
+				"help": "Zensor Net Source Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "zwaveAlarmStatus",
+				"help": "ZWave Alarm Status",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Off",
+						"help": "Off"
+					},
+					"255": {
+						"name": "On",
+						"help": "On"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AlarmV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | AlarmV2AlarmSetData) {
-			super(AlarmSet, data);
-		}
-	};
-
-	public static readonly AlarmTypeSupportedGet = class AlarmTypeSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = AlarmV2;
-		public static readonly command = 0x07;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 7,
-			"name": "AlarmTypeSupportedGet",
-			"help": "Alarm Type Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AlarmV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(AlarmTypeSupportedGet, data);
-		}
-	};
-
-	public static readonly AlarmTypeSupportedReport = class AlarmTypeSupportedReport extends CommandPacket<AlarmV2AlarmTypeSupportedReportData> {
-		public static readonly CommandClass = AlarmV2;
-		public static readonly command = 0x08;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 8,
-			"name": "AlarmTypeSupportedReport",
-			"help": "Alarm Type Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "v1Alarm",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 96,
-							"shift": 5,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "numberOfBitMasks",
-							"mask": 31,
-							"shift": 0,
-							"lengthOf": {
-								"refs": [
-									"bitMask"
-								]
-							},
-							"isAutogenerated": true
-						}
+			},
+			{
+				"type": "Enum",
+				"name": "zwaveAlarmType",
+				"help": "ZWave Alarm Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Reserved",
+						"help": "Reserved"
+					},
+					"1": {
+						"name": "Smoke",
+						"help": "Smoke"
+					},
+					"2": {
+						"name": "Co",
+						"help": "CO"
+					},
+					"3": {
+						"name": "Co2",
+						"help": "CO2"
+					},
+					"4": {
+						"name": "Heat",
+						"help": "Heat"
+					},
+					"5": {
+						"name": "Water",
+						"help": "Water"
+					},
+					"6": {
+						"name": "AccessControl",
+						"help": "Access Control"
+					},
+					"7": {
+						"name": "Burglar",
+						"help": "Burglar"
+					},
+					"8": {
+						"name": "PowerManagement",
+						"help": "Power Management"
+					},
+					"9": {
+						"name": "System",
+						"help": "System"
+					},
+					"10": {
+						"name": "Emergency",
+						"help": "Emergency"
+					},
+					"11": {
+						"name": "Clock",
+						"help": "Clock"
+					},
+					"255": {
+						"name": "First",
+						"help": "First"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "zwaveAlarmEvent",
+				"help": "ZWave Alarm Event",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "numberOfEventParameters",
+				"help": "Number of Event Parameters",
+				"length": 1,
+				"lengthOf": {
+					"refs": [
+						"eventParameter"
 					]
 				},
-				{
-					"type": "Bitmask",
-					"name": "bitMask",
-					"help": "Bit Mask",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "properties1.numberOfBitMasks"
-						}
-					},
-					"values": {
-						"0": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"1": {
-							"name": "Smoke",
-							"help": "Smoke"
-						},
-						"2": {
-							"name": "Co",
-							"help": "CO"
-						},
-						"3": {
-							"name": "Co2",
-							"help": "CO2"
-						},
-						"4": {
-							"name": "Heat",
-							"help": "Heat"
-						},
-						"5": {
-							"name": "Water",
-							"help": "Water"
-						},
-						"6": {
-							"name": "AccessControl",
-							"help": "Access Control"
-						},
-						"7": {
-							"name": "Burglar",
-							"help": "Burglar"
-						},
-						"8": {
-							"name": "PowerManagement",
-							"help": "Power Management"
-						},
-						"9": {
-							"name": "System",
-							"help": "System"
-						},
-						"10": {
-							"name": "Emergency",
-							"help": "Emergency"
-						},
-						"11": {
-							"name": "Clock",
-							"help": "Clock"
-						},
-						"255": {
-							"name": "First",
-							"help": "First"
-						}
+				"isAutogenerated": true
+			},
+			{
+				"type": "Blob",
+				"name": "eventParameter",
+				"help": "Event Parameter",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "numberOfEventParameters"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(AlarmV2)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AlarmV2)?.command === this.command;
+	}
 
-		constructor(data: Buffer | AlarmV2AlarmTypeSupportedReportData) {
-			super(AlarmTypeSupportedReport, data);
-		}
-	};
-}
+	constructor(data: Buffer | AlarmV2AlarmReportData) {
+		super(AlarmReport, data);
+	}
+};
 
-export namespace AlarmV2 {
-	export type AlarmGet = InstanceType<typeof AlarmV2.AlarmGet>;
-	export type AlarmReport = InstanceType<typeof AlarmV2.AlarmReport>;
-	export type AlarmSet = InstanceType<typeof AlarmV2.AlarmSet>;
-	export type AlarmTypeSupportedGet = InstanceType<typeof AlarmV2.AlarmTypeSupportedGet>;
-	export type AlarmTypeSupportedReport = InstanceType<typeof AlarmV2.AlarmTypeSupportedReport>;
-}
+export class AlarmSet extends CommandPacket<AlarmV2AlarmSetData> {
+	public static readonly CommandClass = AlarmV2;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "AlarmSet",
+		"help": "Alarm Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "zwaveAlarmType",
+				"help": "ZWave Alarm Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Reserved",
+						"help": "Reserved"
+					},
+					"1": {
+						"name": "Smoke",
+						"help": "Smoke"
+					},
+					"2": {
+						"name": "Co",
+						"help": "CO"
+					},
+					"3": {
+						"name": "Co2",
+						"help": "CO2"
+					},
+					"4": {
+						"name": "Heat",
+						"help": "Heat"
+					},
+					"5": {
+						"name": "Water",
+						"help": "Water"
+					},
+					"6": {
+						"name": "AccessControl",
+						"help": "Access Control"
+					},
+					"7": {
+						"name": "Burglar",
+						"help": "Burglar"
+					},
+					"8": {
+						"name": "PowerManagement",
+						"help": "Power Management"
+					},
+					"9": {
+						"name": "System",
+						"help": "System"
+					},
+					"10": {
+						"name": "Emergency",
+						"help": "Emergency"
+					},
+					"11": {
+						"name": "Clock",
+						"help": "Clock"
+					},
+					"255": {
+						"name": "First",
+						"help": "First"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "zwaveAlarmStatus",
+				"help": "ZWave Alarm Status",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Off",
+						"help": "Off"
+					},
+					"255": {
+						"name": "On",
+						"help": "On"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AlarmV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | AlarmV2AlarmSetData) {
+		super(AlarmSet, data);
+	}
+};
+
+export class AlarmTypeSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = AlarmV2;
+	public static readonly command = 0x07; // 7
+	public static readonly definition = convertFromJsonCommand({
+		"command": 7,
+		"name": "AlarmTypeSupportedGet",
+		"help": "Alarm Type Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AlarmV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(AlarmTypeSupportedGet, data);
+	}
+};
+
+export class AlarmTypeSupportedReport extends CommandPacket<AlarmV2AlarmTypeSupportedReportData> {
+	public static readonly CommandClass = AlarmV2;
+	public static readonly command = 0x08; // 8
+	public static readonly definition = convertFromJsonCommand({
+		"command": 8,
+		"name": "AlarmTypeSupportedReport",
+		"help": "Alarm Type Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "v1Alarm",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 96,
+						"shift": 5,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "numberOfBitMasks",
+						"mask": 31,
+						"shift": 0,
+						"lengthOf": {
+							"refs": [
+								"bitMask"
+							]
+						},
+						"isAutogenerated": true
+					}
+				]
+			},
+			{
+				"type": "Bitmask",
+				"name": "bitMask",
+				"help": "Bit Mask",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "properties1.numberOfBitMasks"
+					}
+				},
+				"values": {
+					"0": {
+						"name": "Reserved",
+						"help": "Reserved"
+					},
+					"1": {
+						"name": "Smoke",
+						"help": "Smoke"
+					},
+					"2": {
+						"name": "Co",
+						"help": "CO"
+					},
+					"3": {
+						"name": "Co2",
+						"help": "CO2"
+					},
+					"4": {
+						"name": "Heat",
+						"help": "Heat"
+					},
+					"5": {
+						"name": "Water",
+						"help": "Water"
+					},
+					"6": {
+						"name": "AccessControl",
+						"help": "Access Control"
+					},
+					"7": {
+						"name": "Burglar",
+						"help": "Burglar"
+					},
+					"8": {
+						"name": "PowerManagement",
+						"help": "Power Management"
+					},
+					"9": {
+						"name": "System",
+						"help": "System"
+					},
+					"10": {
+						"name": "Emergency",
+						"help": "Emergency"
+					},
+					"11": {
+						"name": "Clock",
+						"help": "Clock"
+					},
+					"255": {
+						"name": "First",
+						"help": "First"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(AlarmV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | AlarmV2AlarmTypeSupportedReportData) {
+		super(AlarmTypeSupportedReport, data);
+	}
+};

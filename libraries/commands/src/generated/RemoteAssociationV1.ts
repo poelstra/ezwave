@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum RemoteAssociationV1Commands {
 	RemoteAssociationConfigurationGet = 0x02,
@@ -41,141 +41,135 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 	constructor(commandAndPayload: Buffer) {
 		super(RemoteAssociationV1, commandAndPayload);
 	}
-
-	public static readonly RemoteAssociationConfigurationGet = class RemoteAssociationConfigurationGet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationGetData> {
-		public static readonly CommandClass = RemoteAssociationV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "RemoteAssociationConfigurationGet",
-			"help": "Remote Association Configuration Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "localGroupingIdentifier",
-					"help": "Local Grouping identifier",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RemoteAssociationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationGetData) {
-			super(RemoteAssociationConfigurationGet, data);
-		}
-	};
-
-	public static readonly RemoteAssociationConfigurationReport = class RemoteAssociationConfigurationReport extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationReportData> {
-		public static readonly CommandClass = RemoteAssociationV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "RemoteAssociationConfigurationReport",
-			"help": "Remote Association Configuration Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "localGroupingIdentifier",
-					"help": "Local Grouping identifier",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "EraseAllLin",
-							"help": "erase all lin"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "remoteNodeId",
-					"help": "Remote NodeID",
-					"length": 1,
-					"valueType": "NodeNumber",
-					"values": {
-						"0": {
-							"name": "RemoveALink",
-							"help": "remove a link"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "remoteGroupingIdentifier",
-					"help": "Remote Grouping identifier",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RemoteAssociationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationReportData) {
-			super(RemoteAssociationConfigurationReport, data);
-		}
-	};
-
-	public static readonly RemoteAssociationConfigurationSet = class RemoteAssociationConfigurationSet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationSetData> {
-		public static readonly CommandClass = RemoteAssociationV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "RemoteAssociationConfigurationSet",
-			"help": "Remote Association Configuration Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "localGroupingIdentifier",
-					"help": "Local Grouping identifier",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "EraseAllLin",
-							"help": "erase all lin"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "remoteNodeId",
-					"help": "Remote NodeID",
-					"length": 1,
-					"valueType": "NodeNumber",
-					"values": {
-						"0": {
-							"name": "RemoveALink",
-							"help": "remove a link"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "remoteGroupingIdentifier",
-					"help": "Remote Grouping identifier",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RemoteAssociationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationSetData) {
-			super(RemoteAssociationConfigurationSet, data);
-		}
-	};
 }
 
-export namespace RemoteAssociationV1 {
-	export type RemoteAssociationConfigurationGet = InstanceType<typeof RemoteAssociationV1.RemoteAssociationConfigurationGet>;
-	export type RemoteAssociationConfigurationReport = InstanceType<typeof RemoteAssociationV1.RemoteAssociationConfigurationReport>;
-	export type RemoteAssociationConfigurationSet = InstanceType<typeof RemoteAssociationV1.RemoteAssociationConfigurationSet>;
-}
+export class RemoteAssociationConfigurationGet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationGetData> {
+	public static readonly CommandClass = RemoteAssociationV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "RemoteAssociationConfigurationGet",
+		"help": "Remote Association Configuration Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "localGroupingIdentifier",
+				"help": "Local Grouping identifier",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationGetData) {
+		super(RemoteAssociationConfigurationGet, data);
+	}
+};
+
+export class RemoteAssociationConfigurationReport extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationReportData> {
+	public static readonly CommandClass = RemoteAssociationV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "RemoteAssociationConfigurationReport",
+		"help": "Remote Association Configuration Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "localGroupingIdentifier",
+				"help": "Local Grouping identifier",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "EraseAllLin",
+						"help": "erase all lin"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "remoteNodeId",
+				"help": "Remote NodeID",
+				"length": 1,
+				"valueType": "NodeNumber",
+				"values": {
+					"0": {
+						"name": "RemoveALink",
+						"help": "remove a link"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "remoteGroupingIdentifier",
+				"help": "Remote Grouping identifier",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationReportData) {
+		super(RemoteAssociationConfigurationReport, data);
+	}
+};
+
+export class RemoteAssociationConfigurationSet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationSetData> {
+	public static readonly CommandClass = RemoteAssociationV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "RemoteAssociationConfigurationSet",
+		"help": "Remote Association Configuration Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "localGroupingIdentifier",
+				"help": "Local Grouping identifier",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "EraseAllLin",
+						"help": "erase all lin"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "remoteNodeId",
+				"help": "Remote NodeID",
+				"length": 1,
+				"valueType": "NodeNumber",
+				"values": {
+					"0": {
+						"name": "RemoveALink",
+						"help": "remove a link"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "remoteGroupingIdentifier",
+				"help": "Remote Grouping identifier",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationSetData) {
+		super(RemoteAssociationConfigurationSet, data);
+	}
+};

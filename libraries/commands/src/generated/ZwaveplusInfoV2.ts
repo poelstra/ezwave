@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ZwaveplusInfoV2Commands {
 	ZwaveplusInfoGet = 0x01,
@@ -47,124 +47,119 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 	constructor(commandAndPayload: Buffer) {
 		super(ZwaveplusInfoV2, commandAndPayload);
 	}
+}
 
-	public static readonly ZwaveplusInfoGet = class ZwaveplusInfoGet extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveplusInfoV2;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ZwaveplusInfoGet",
-			"help": "Z-Wave+ Info Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class ZwaveplusInfoGet extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveplusInfoV2;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ZwaveplusInfoGet",
+		"help": "Z-Wave+ Info Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveplusInfoV2)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveplusInfoV2)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(ZwaveplusInfoGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(ZwaveplusInfoGet, data);
+	}
+};
 
-	public static readonly ZwaveplusInfoReport = class ZwaveplusInfoReport extends CommandPacket<ZwaveplusInfoV2ZwaveplusInfoReportData> {
-		public static readonly CommandClass = ZwaveplusInfoV2;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ZwaveplusInfoReport",
-			"help": "Z-Wave+ Info Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "zWaveVersion",
-					"help": "Z-Wave+ Version",
-					"length": 1
-				},
-				{
-					"type": "Enum",
-					"name": "roleType",
-					"help": "Role Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "RoleTypeControllerCentralStatic",
-							"help": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC"
-						},
-						"1": {
-							"name": "RoleTypeControllerSubStatic",
-							"help": "ROLE_TYPE_CONTROLLER_SUB_STATIC"
-						},
-						"2": {
-							"name": "RoleTypeControllerPortable",
-							"help": "ROLE_TYPE_CONTROLLER_PORTABLE"
-						},
-						"3": {
-							"name": "RoleTypeControllerPortableReporting",
-							"help": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING"
-						},
-						"4": {
-							"name": "RoleTypeSlavePortable",
-							"help": "ROLE_TYPE_SLAVE_PORTABLE"
-						},
-						"5": {
-							"name": "RoleTypeSlaveAlwaysOn",
-							"help": "ROLE_TYPE_SLAVE_ALWAYS_ON"
-						},
-						"6": {
-							"name": "RoleTypeSlaveSleepingReporting",
-							"help": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING"
-						},
-						"7": {
-							"name": "RoleTypeSlaveSleepingListening",
-							"help": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
-						}
+export class ZwaveplusInfoReport extends CommandPacket<ZwaveplusInfoV2ZwaveplusInfoReportData> {
+	public static readonly CommandClass = ZwaveplusInfoV2;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ZwaveplusInfoReport",
+		"help": "Z-Wave+ Info Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "zWaveVersion",
+				"help": "Z-Wave+ Version",
+				"length": 1
+			},
+			{
+				"type": "Enum",
+				"name": "roleType",
+				"help": "Role Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "RoleTypeControllerCentralStatic",
+						"help": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC"
+					},
+					"1": {
+						"name": "RoleTypeControllerSubStatic",
+						"help": "ROLE_TYPE_CONTROLLER_SUB_STATIC"
+					},
+					"2": {
+						"name": "RoleTypeControllerPortable",
+						"help": "ROLE_TYPE_CONTROLLER_PORTABLE"
+					},
+					"3": {
+						"name": "RoleTypeControllerPortableReporting",
+						"help": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING"
+					},
+					"4": {
+						"name": "RoleTypeSlavePortable",
+						"help": "ROLE_TYPE_SLAVE_PORTABLE"
+					},
+					"5": {
+						"name": "RoleTypeSlaveAlwaysOn",
+						"help": "ROLE_TYPE_SLAVE_ALWAYS_ON"
+					},
+					"6": {
+						"name": "RoleTypeSlaveSleepingReporting",
+						"help": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING"
+					},
+					"7": {
+						"name": "RoleTypeSlaveSleepingListening",
+						"help": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
 					}
-				},
-				{
-					"type": "Enum",
-					"name": "nodeType",
-					"help": "Node Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NodeTypeZwaveplusNode",
-							"help": "NODE_TYPE_ZWAVEPLUS_NODE"
-						},
-						"2": {
-							"name": "NodeTypeZwaveplusForIpGateway",
-							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "installerIconType",
-					"help": "Installer Icon Type",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "userIconType",
-					"help": "User Icon Type",
-					"length": 2
 				}
-			]
-		} as JsonCommandDefinition);
+			},
+			{
+				"type": "Enum",
+				"name": "nodeType",
+				"help": "Node Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NodeTypeZwaveplusNode",
+						"help": "NODE_TYPE_ZWAVEPLUS_NODE"
+					},
+					"2": {
+						"name": "NodeTypeZwaveplusForIpGateway",
+						"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "installerIconType",
+				"help": "Installer Icon Type",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "userIconType",
+				"help": "User Icon Type",
+				"length": 2
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveplusInfoV2)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveplusInfoV2)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ZwaveplusInfoV2ZwaveplusInfoReportData) {
-			super(ZwaveplusInfoReport, data);
-		}
-	};
-}
-
-export namespace ZwaveplusInfoV2 {
-	export type ZwaveplusInfoGet = InstanceType<typeof ZwaveplusInfoV2.ZwaveplusInfoGet>;
-	export type ZwaveplusInfoReport = InstanceType<typeof ZwaveplusInfoV2.ZwaveplusInfoReport>;
-}
+	constructor(data: Buffer | ZwaveplusInfoV2ZwaveplusInfoReportData) {
+		super(ZwaveplusInfoReport, data);
+	}
+};

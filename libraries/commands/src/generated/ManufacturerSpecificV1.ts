@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ManufacturerSpecificV1Commands {
 	ManufacturerSpecificGet = 0x04,
@@ -29,68 +29,63 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 	constructor(commandAndPayload: Buffer) {
 		super(ManufacturerSpecificV1, commandAndPayload);
 	}
-
-	public static readonly ManufacturerSpecificGet = class ManufacturerSpecificGet extends CommandPacket<void> {
-		public static readonly CommandClass = ManufacturerSpecificV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "ManufacturerSpecificGet",
-			"help": "Manufacturer Specific Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ManufacturerSpecificGet, data);
-		}
-	};
-
-	public static readonly ManufacturerSpecificReport = class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecificV1ManufacturerSpecificReportData> {
-		public static readonly CommandClass = ManufacturerSpecificV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "ManufacturerSpecificReport",
-			"help": "Manufacturer Specific Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "manufacturerId",
-					"help": "Manufacturer ID",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "productTypeId",
-					"help": "Product Type ID",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "productId",
-					"help": "Product ID",
-					"length": 2
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ManufacturerSpecificV1ManufacturerSpecificReportData) {
-			super(ManufacturerSpecificReport, data);
-		}
-	};
 }
 
-export namespace ManufacturerSpecificV1 {
-	export type ManufacturerSpecificGet = InstanceType<typeof ManufacturerSpecificV1.ManufacturerSpecificGet>;
-	export type ManufacturerSpecificReport = InstanceType<typeof ManufacturerSpecificV1.ManufacturerSpecificReport>;
-}
+export class ManufacturerSpecificGet extends CommandPacket<void> {
+	public static readonly CommandClass = ManufacturerSpecificV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "ManufacturerSpecificGet",
+		"help": "Manufacturer Specific Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ManufacturerSpecificGet, data);
+	}
+};
+
+export class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecificV1ManufacturerSpecificReportData> {
+	public static readonly CommandClass = ManufacturerSpecificV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "ManufacturerSpecificReport",
+		"help": "Manufacturer Specific Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "manufacturerId",
+				"help": "Manufacturer ID",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "productTypeId",
+				"help": "Product Type ID",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "productId",
+				"help": "Product ID",
+				"length": 2
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ManufacturerSpecificV1ManufacturerSpecificReportData) {
+		super(ManufacturerSpecificReport, data);
+	}
+};

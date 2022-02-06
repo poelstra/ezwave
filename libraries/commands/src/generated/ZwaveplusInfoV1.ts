@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ZwaveplusInfoV1Commands {
 	ZwaveplusInfoGet = 0x01,
@@ -49,124 +49,119 @@ export class ZwaveplusInfoV1 extends CommandClassPacket<ZwaveplusInfoV1Commands>
 	constructor(commandAndPayload: Buffer) {
 		super(ZwaveplusInfoV1, commandAndPayload);
 	}
+}
 
-	public static readonly ZwaveplusInfoGet = class ZwaveplusInfoGet extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveplusInfoV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ZwaveplusInfoGet",
-			"help": "Z-Wave+ Info Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class ZwaveplusInfoGet extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveplusInfoV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ZwaveplusInfoGet",
+		"help": "Z-Wave+ Info Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveplusInfoV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveplusInfoV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(ZwaveplusInfoGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(ZwaveplusInfoGet, data);
+	}
+};
 
-	public static readonly ZwaveplusInfoReport = class ZwaveplusInfoReport extends CommandPacket<ZwaveplusInfoV1ZwaveplusInfoReportData> {
-		public static readonly CommandClass = ZwaveplusInfoV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ZwaveplusInfoReport",
-			"help": "Z-Wave+ Info Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "zWaveVersion",
-					"help": "Z-Wave+ Version",
-					"length": 1
-				},
-				{
-					"type": "Enum",
-					"name": "roleType",
-					"help": "Role Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "RoleTypeControllerCentralStatic",
-							"help": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC"
-						},
-						"1": {
-							"name": "RoleTypeControllerSubStatic",
-							"help": "ROLE_TYPE_CONTROLLER_SUB_STATIC"
-						},
-						"2": {
-							"name": "RoleTypeControllerPortable",
-							"help": "ROLE_TYPE_CONTROLLER_PORTABLE"
-						},
-						"3": {
-							"name": "RoleTypeControllerPortableReporting",
-							"help": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING"
-						},
-						"4": {
-							"name": "RoleTypeSlavePortable",
-							"help": "ROLE_TYPE_SLAVE_PORTABLE"
-						},
-						"5": {
-							"name": "RoleTypeSlaveAlwaysOn",
-							"help": "ROLE_TYPE_SLAVE_ALWAYS_ON"
-						},
-						"6": {
-							"name": "RoleTypeSlaveSleepingReporting",
-							"help": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING"
-						},
-						"7": {
-							"name": "RoleTypeSlaveSleepingListening",
-							"help": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
-						}
-					}
-				},
-				{
-					"type": "Enum",
-					"name": "nodeType",
-					"help": "Node Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NodeTypeZwaveplusNode",
-							"help": "NODE_TYPE_ZWAVEPLUS_NODE"
-						},
-						"1": {
-							"name": "NodeTypeZwaveplusForIpRouter",
-							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_ROUTER"
-						},
-						"2": {
-							"name": "NodeTypeZwaveplusForIpGateway",
-							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY"
-						},
-						"3": {
-							"name": "NodeTypeZwaveplusForIpClientIpNode",
-							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_IP_NODE"
-						},
-						"4": {
-							"name": "NodeTypeZwaveplusForIpClientZwaveNode",
-							"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_ZWAVE_NODE"
-						}
+export class ZwaveplusInfoReport extends CommandPacket<ZwaveplusInfoV1ZwaveplusInfoReportData> {
+	public static readonly CommandClass = ZwaveplusInfoV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ZwaveplusInfoReport",
+		"help": "Z-Wave+ Info Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "zWaveVersion",
+				"help": "Z-Wave+ Version",
+				"length": 1
+			},
+			{
+				"type": "Enum",
+				"name": "roleType",
+				"help": "Role Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "RoleTypeControllerCentralStatic",
+						"help": "ROLE_TYPE_CONTROLLER_CENTRAL_STATIC"
+					},
+					"1": {
+						"name": "RoleTypeControllerSubStatic",
+						"help": "ROLE_TYPE_CONTROLLER_SUB_STATIC"
+					},
+					"2": {
+						"name": "RoleTypeControllerPortable",
+						"help": "ROLE_TYPE_CONTROLLER_PORTABLE"
+					},
+					"3": {
+						"name": "RoleTypeControllerPortableReporting",
+						"help": "ROLE_TYPE_CONTROLLER_PORTABLE_REPORTING"
+					},
+					"4": {
+						"name": "RoleTypeSlavePortable",
+						"help": "ROLE_TYPE_SLAVE_PORTABLE"
+					},
+					"5": {
+						"name": "RoleTypeSlaveAlwaysOn",
+						"help": "ROLE_TYPE_SLAVE_ALWAYS_ON"
+					},
+					"6": {
+						"name": "RoleTypeSlaveSleepingReporting",
+						"help": "ROLE_TYPE_SLAVE_SLEEPING_REPORTING"
+					},
+					"7": {
+						"name": "RoleTypeSlaveSleepingListening",
+						"help": "ROLE_TYPE_SLAVE_SLEEPING_LISTENING"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			},
+			{
+				"type": "Enum",
+				"name": "nodeType",
+				"help": "Node Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NodeTypeZwaveplusNode",
+						"help": "NODE_TYPE_ZWAVEPLUS_NODE"
+					},
+					"1": {
+						"name": "NodeTypeZwaveplusForIpRouter",
+						"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_ROUTER"
+					},
+					"2": {
+						"name": "NodeTypeZwaveplusForIpGateway",
+						"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_GATEWAY"
+					},
+					"3": {
+						"name": "NodeTypeZwaveplusForIpClientIpNode",
+						"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_IP_NODE"
+					},
+					"4": {
+						"name": "NodeTypeZwaveplusForIpClientZwaveNode",
+						"help": "NODE_TYPE_ZWAVEPLUS_FOR_IP_CLIENT_ZWAVE_NODE"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveplusInfoV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveplusInfoV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ZwaveplusInfoV1ZwaveplusInfoReportData) {
-			super(ZwaveplusInfoReport, data);
-		}
-	};
-}
-
-export namespace ZwaveplusInfoV1 {
-	export type ZwaveplusInfoGet = InstanceType<typeof ZwaveplusInfoV1.ZwaveplusInfoGet>;
-	export type ZwaveplusInfoReport = InstanceType<typeof ZwaveplusInfoV1.ZwaveplusInfoReport>;
-}
+	constructor(data: Buffer | ZwaveplusInfoV1ZwaveplusInfoReportData) {
+		super(ZwaveplusInfoReport, data);
+	}
+};

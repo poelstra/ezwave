@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SensorMultilevelV3Commands {
 	SensorMultilevelGet = 0x04,
@@ -53,181 +53,176 @@ export class SensorMultilevelV3 extends CommandClassPacket<SensorMultilevelV3Com
 	constructor(commandAndPayload: Buffer) {
 		super(SensorMultilevelV3, commandAndPayload);
 	}
+}
 
-	public static readonly SensorMultilevelGet = class SensorMultilevelGet extends CommandPacket<void> {
-		public static readonly CommandClass = SensorMultilevelV3;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "SensorMultilevelGet",
-			"help": "Sensor Multilevel Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class SensorMultilevelGet extends CommandPacket<void> {
+	public static readonly CommandClass = SensorMultilevelV3;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "SensorMultilevelGet",
+		"help": "Sensor Multilevel Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SensorMultilevelV3)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SensorMultilevelV3)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(SensorMultilevelGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(SensorMultilevelGet, data);
+	}
+};
 
-	public static readonly SensorMultilevelReport = class SensorMultilevelReport extends CommandPacket<SensorMultilevelV3SensorMultilevelReportData> {
-		public static readonly CommandClass = SensorMultilevelV3;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "SensorMultilevelReport",
-			"help": "Sensor Multilevel Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "sensorType",
-					"help": "Sensor Type",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "TemperatureVersion1",
-							"help": "Temperature (version 1)"
-						},
-						"2": {
-							"name": "GeneralPurposeValueVersion1",
-							"help": "General purpose value (version 1)"
-						},
-						"3": {
-							"name": "LuminanceVersion1",
-							"help": "Luminance (version 1)"
-						},
-						"4": {
-							"name": "PowerVersion2",
-							"help": "Power (version 2)"
-						},
-						"5": {
-							"name": "RelativeHumidityVersion2",
-							"help": "Relative humidity (version 2)"
-						},
-						"6": {
-							"name": "VelocityVersion2",
-							"help": "Velocity (version 2)"
-						},
-						"7": {
-							"name": "DirectionVersion2",
-							"help": "Direction (version 2)"
-						},
-						"8": {
-							"name": "AtmosphericPressureVersion2",
-							"help": "Atmospheric pressure (version 2)"
-						},
-						"9": {
-							"name": "BarometricPressureVersion2",
-							"help": "Barometric pressure (version 2)"
-						},
-						"10": {
-							"name": "SolarRadiationVersion2",
-							"help": "Solar radiation (version 2)"
-						},
-						"11": {
-							"name": "DewPointVersion2",
-							"help": "Dew point (version 2)"
-						},
-						"12": {
-							"name": "RainRateVersion2",
-							"help": "Rain rate (version 2)"
-						},
-						"13": {
-							"name": "TideLevelVersion2",
-							"help": "Tide level (version 2)"
-						},
-						"14": {
-							"name": "WeightVersion3",
-							"help": "Weight (version 3)"
-						},
-						"15": {
-							"name": "VoltageVersion3",
-							"help": "Voltage (version 3)"
-						},
-						"16": {
-							"name": "CurrentVersion3",
-							"help": "Current (version 3)"
-						},
-						"17": {
-							"name": "CO2LevelVersion3",
-							"help": "CO2-level (version 3)"
-						},
-						"18": {
-							"name": "AirFlowVersion3",
-							"help": "Air flow (version 3)"
-						},
-						"19": {
-							"name": "TankCapacityVersion3",
-							"help": "Tank capacity (version 3)"
-						},
-						"20": {
-							"name": "DistanceVersion3",
-							"help": "Distance (version 3)"
-						}
-					}
-				},
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "precision",
-							"mask": 224,
-							"shift": 5
-						},
-						{
-							"fieldType": "Integer",
-							"name": "scale",
-							"mask": 24,
-							"shift": 3
-						},
-						{
-							"fieldType": "Integer",
-							"name": "size",
-							"mask": 7,
-							"shift": 0,
-							"lengthOf": {
-								"refs": [
-									"sensorValue"
-								]
-							},
-							"isAutogenerated": true
-						}
-					]
-				},
-				{
-					"type": "Blob",
-					"name": "sensorValue",
-					"help": "Sensor Value",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "level.size"
-						}
+export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV3SensorMultilevelReportData> {
+	public static readonly CommandClass = SensorMultilevelV3;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "SensorMultilevelReport",
+		"help": "Sensor Multilevel Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "sensorType",
+				"help": "Sensor Type",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "TemperatureVersion1",
+						"help": "Temperature (version 1)"
+					},
+					"2": {
+						"name": "GeneralPurposeValueVersion1",
+						"help": "General purpose value (version 1)"
+					},
+					"3": {
+						"name": "LuminanceVersion1",
+						"help": "Luminance (version 1)"
+					},
+					"4": {
+						"name": "PowerVersion2",
+						"help": "Power (version 2)"
+					},
+					"5": {
+						"name": "RelativeHumidityVersion2",
+						"help": "Relative humidity (version 2)"
+					},
+					"6": {
+						"name": "VelocityVersion2",
+						"help": "Velocity (version 2)"
+					},
+					"7": {
+						"name": "DirectionVersion2",
+						"help": "Direction (version 2)"
+					},
+					"8": {
+						"name": "AtmosphericPressureVersion2",
+						"help": "Atmospheric pressure (version 2)"
+					},
+					"9": {
+						"name": "BarometricPressureVersion2",
+						"help": "Barometric pressure (version 2)"
+					},
+					"10": {
+						"name": "SolarRadiationVersion2",
+						"help": "Solar radiation (version 2)"
+					},
+					"11": {
+						"name": "DewPointVersion2",
+						"help": "Dew point (version 2)"
+					},
+					"12": {
+						"name": "RainRateVersion2",
+						"help": "Rain rate (version 2)"
+					},
+					"13": {
+						"name": "TideLevelVersion2",
+						"help": "Tide level (version 2)"
+					},
+					"14": {
+						"name": "WeightVersion3",
+						"help": "Weight (version 3)"
+					},
+					"15": {
+						"name": "VoltageVersion3",
+						"help": "Voltage (version 3)"
+					},
+					"16": {
+						"name": "CurrentVersion3",
+						"help": "Current (version 3)"
+					},
+					"17": {
+						"name": "CO2LevelVersion3",
+						"help": "CO2-level (version 3)"
+					},
+					"18": {
+						"name": "AirFlowVersion3",
+						"help": "Air flow (version 3)"
+					},
+					"19": {
+						"name": "TankCapacityVersion3",
+						"help": "Tank capacity (version 3)"
+					},
+					"20": {
+						"name": "DistanceVersion3",
+						"help": "Distance (version 3)"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			},
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "precision",
+						"mask": 224,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "scale",
+						"mask": 24,
+						"shift": 3
+					},
+					{
+						"fieldType": "Integer",
+						"name": "size",
+						"mask": 7,
+						"shift": 0,
+						"lengthOf": {
+							"refs": [
+								"sensorValue"
+							]
+						},
+						"isAutogenerated": true
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "sensorValue",
+				"help": "Sensor Value",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "level.size"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SensorMultilevelV3)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SensorMultilevelV3)?.command === this.command;
+	}
 
-		constructor(data: Buffer | SensorMultilevelV3SensorMultilevelReportData) {
-			super(SensorMultilevelReport, data);
-		}
-	};
-}
-
-export namespace SensorMultilevelV3 {
-	export type SensorMultilevelGet = InstanceType<typeof SensorMultilevelV3.SensorMultilevelGet>;
-	export type SensorMultilevelReport = InstanceType<typeof SensorMultilevelV3.SensorMultilevelReport>;
-}
+	constructor(data: Buffer | SensorMultilevelV3SensorMultilevelReportData) {
+		super(SensorMultilevelReport, data);
+	}
+};

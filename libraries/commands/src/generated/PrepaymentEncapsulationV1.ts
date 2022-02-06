@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum PrepaymentEncapsulationV1Commands {
 	CmdEncapsulation = 0x01,
@@ -26,37 +26,33 @@ export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEnca
 	constructor(commandAndPayload: Buffer) {
 		super(PrepaymentEncapsulationV1, commandAndPayload);
 	}
+}
 
-	public static readonly CmdEncapsulation = class CmdEncapsulation extends CommandPacket<PrepaymentEncapsulationV1CmdEncapsulationData> {
-		public static readonly CommandClass = PrepaymentEncapsulationV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "CmdEncapsulation",
-			"help": "Cmd Encapsulation",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Blob",
-					"name": "data",
-					"help": "Data",
-					"length": {
-						"lengthType": "Auto"
-					}
+export class CmdEncapsulation extends CommandPacket<PrepaymentEncapsulationV1CmdEncapsulationData> {
+	public static readonly CommandClass = PrepaymentEncapsulationV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "CmdEncapsulation",
+		"help": "Cmd Encapsulation",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Blob",
+				"name": "data",
+				"help": "Data",
+				"length": {
+					"lengthType": "Auto"
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(PrepaymentEncapsulationV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(PrepaymentEncapsulationV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | PrepaymentEncapsulationV1CmdEncapsulationData) {
-			super(CmdEncapsulation, data);
-		}
-	};
-}
-
-export namespace PrepaymentEncapsulationV1 {
-	export type CmdEncapsulation = InstanceType<typeof PrepaymentEncapsulationV1.CmdEncapsulation>;
-}
+	constructor(data: Buffer | PrepaymentEncapsulationV1CmdEncapsulationData) {
+		super(CmdEncapsulation, data);
+	}
+};

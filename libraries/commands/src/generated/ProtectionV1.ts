@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ProtectionV1Commands {
 	ProtectionGet = 0x02,
@@ -38,112 +38,106 @@ export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(ProtectionV1, commandAndPayload);
 	}
-
-	public static readonly ProtectionGet = class ProtectionGet extends CommandPacket<void> {
-		public static readonly CommandClass = ProtectionV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ProtectionGet",
-			"help": "Protection Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ProtectionV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ProtectionGet, data);
-		}
-	};
-
-	public static readonly ProtectionReport = class ProtectionReport extends CommandPacket<ProtectionV1ProtectionReportData> {
-		public static readonly CommandClass = ProtectionV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "ProtectionReport",
-			"help": "Protection Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "protectionState",
-					"help": "Protection State",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Unprotected",
-							"help": "Unprotected"
-						},
-						"1": {
-							"name": "ProtectionBySequence",
-							"help": "Protection by sequence"
-						},
-						"2": {
-							"name": "NoOperationPossible",
-							"help": "No operation possible"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ProtectionV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ProtectionV1ProtectionReportData) {
-			super(ProtectionReport, data);
-		}
-	};
-
-	public static readonly ProtectionSet = class ProtectionSet extends CommandPacket<ProtectionV1ProtectionSetData> {
-		public static readonly CommandClass = ProtectionV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ProtectionSet",
-			"help": "Protection Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "protectionState",
-					"help": "Protection State",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Unprotected",
-							"help": "Unprotected"
-						},
-						"1": {
-							"name": "ProtectionBySequence",
-							"help": "Protection by sequence"
-						},
-						"2": {
-							"name": "NoOperationPossible",
-							"help": "No operation possible"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ProtectionV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ProtectionV1ProtectionSetData) {
-			super(ProtectionSet, data);
-		}
-	};
 }
 
-export namespace ProtectionV1 {
-	export type ProtectionGet = InstanceType<typeof ProtectionV1.ProtectionGet>;
-	export type ProtectionReport = InstanceType<typeof ProtectionV1.ProtectionReport>;
-	export type ProtectionSet = InstanceType<typeof ProtectionV1.ProtectionSet>;
-}
+export class ProtectionGet extends CommandPacket<void> {
+	public static readonly CommandClass = ProtectionV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ProtectionGet",
+		"help": "Protection Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ProtectionV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ProtectionGet, data);
+	}
+};
+
+export class ProtectionReport extends CommandPacket<ProtectionV1ProtectionReportData> {
+	public static readonly CommandClass = ProtectionV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "ProtectionReport",
+		"help": "Protection Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "protectionState",
+				"help": "Protection State",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Unprotected",
+						"help": "Unprotected"
+					},
+					"1": {
+						"name": "ProtectionBySequence",
+						"help": "Protection by sequence"
+					},
+					"2": {
+						"name": "NoOperationPossible",
+						"help": "No operation possible"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ProtectionV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ProtectionV1ProtectionReportData) {
+		super(ProtectionReport, data);
+	}
+};
+
+export class ProtectionSet extends CommandPacket<ProtectionV1ProtectionSetData> {
+	public static readonly CommandClass = ProtectionV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ProtectionSet",
+		"help": "Protection Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "protectionState",
+				"help": "Protection State",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Unprotected",
+						"help": "Unprotected"
+					},
+					"1": {
+						"name": "ProtectionBySequence",
+						"help": "Protection by sequence"
+					},
+					"2": {
+						"name": "NoOperationPossible",
+						"help": "No operation possible"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ProtectionV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ProtectionV1ProtectionSetData) {
+		super(ProtectionSet, data);
+	}
+};

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ManufacturerProprietaryV1Commands {
 }
@@ -21,8 +21,5 @@ export class ManufacturerProprietaryV1 extends CommandClassPacket<ManufacturerPr
 	constructor(commandAndPayload: Buffer) {
 		super(ManufacturerProprietaryV1, commandAndPayload);
 	}
-
 }
 
-export namespace ManufacturerProprietaryV1 {
-}

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum DcpMonitorV1Commands {
 	DcpEventStatusGet = 0x03,
@@ -73,380 +73,373 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(DcpMonitorV1, commandAndPayload);
 	}
+}
 
-	public static readonly DcpEventStatusGet = class DcpEventStatusGet extends CommandPacket<DcpMonitorV1DcpEventStatusGetData> {
-		public static readonly CommandClass = DcpMonitorV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "DcpEventStatusGet",
-			"help": "Dcp Event Status Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "year",
-					"help": "Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "month",
-					"help": "Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "day",
-					"help": "Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "hourLocalTime",
-					"help": "Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "minuteLocalTime",
-					"help": "Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "secondLocalTime",
-					"help": "Second Local Time",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
+export class DcpEventStatusGet extends CommandPacket<DcpMonitorV1DcpEventStatusGetData> {
+	public static readonly CommandClass = DcpMonitorV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "DcpEventStatusGet",
+		"help": "Dcp Event Status Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "year",
+				"help": "Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "month",
+				"help": "Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "day",
+				"help": "Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "hourLocalTime",
+				"help": "Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "minuteLocalTime",
+				"help": "Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "secondLocalTime",
+				"help": "Second Local Time",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DcpMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DcpMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | DcpMonitorV1DcpEventStatusGetData) {
-			super(DcpEventStatusGet, data);
-		}
-	};
+	constructor(data: Buffer | DcpMonitorV1DcpEventStatusGetData) {
+		super(DcpEventStatusGet, data);
+	}
+};
 
-	public static readonly DcpEventStatusReport = class DcpEventStatusReport extends CommandPacket<DcpMonitorV1DcpEventStatusReportData> {
-		public static readonly CommandClass = DcpMonitorV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "DcpEventStatusReport",
-			"help": "Dcp Event Status Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "year",
-					"help": "Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "month",
-					"help": "Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "day",
-					"help": "Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "hourLocalTime",
-					"help": "Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "minuteLocalTime",
-					"help": "Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "secondLocalTime",
-					"help": "Second Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "eventStatus",
-					"help": "Event status",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"1": {
-							"name": "EventStarted",
-							"help": "Event Started"
-						},
-						"2": {
-							"name": "EventCompleted",
-							"help": "Event Completed"
-						},
-						"3": {
-							"name": "EventRejected",
-							"help": "Event Rejected"
-						},
-						"4": {
-							"name": "EventNotApplicable",
-							"help": "Event not Applicable"
-						}
+export class DcpEventStatusReport extends CommandPacket<DcpMonitorV1DcpEventStatusReportData> {
+	public static readonly CommandClass = DcpMonitorV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "DcpEventStatusReport",
+		"help": "Dcp Event Status Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "year",
+				"help": "Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "month",
+				"help": "Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "day",
+				"help": "Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "hourLocalTime",
+				"help": "Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "minuteLocalTime",
+				"help": "Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "secondLocalTime",
+				"help": "Second Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "eventStatus",
+				"help": "Event status",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Reserved",
+						"help": "Reserved"
+					},
+					"1": {
+						"name": "EventStarted",
+						"help": "Event Started"
+					},
+					"2": {
+						"name": "EventCompleted",
+						"help": "Event Completed"
+					},
+					"3": {
+						"name": "EventRejected",
+						"help": "Event Rejected"
+					},
+					"4": {
+						"name": "EventNotApplicable",
+						"help": "Event not Applicable"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DcpMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DcpMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | DcpMonitorV1DcpEventStatusReportData) {
-			super(DcpEventStatusReport, data);
-		}
-	};
+	constructor(data: Buffer | DcpMonitorV1DcpEventStatusReportData) {
+		super(DcpEventStatusReport, data);
+	}
+};
 
-	public static readonly DcpListGet = class DcpListGet extends CommandPacket<void> {
-		public static readonly CommandClass = DcpMonitorV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "DcpListGet",
-			"help": "Dcp List Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class DcpListGet extends CommandPacket<void> {
+	public static readonly CommandClass = DcpMonitorV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "DcpListGet",
+		"help": "Dcp List Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DcpMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DcpMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(DcpListGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(DcpListGet, data);
+	}
+};
 
-	public static readonly DcpListReport = class DcpListReport extends CommandPacket<DcpMonitorV1DcpListReportData> {
-		public static readonly CommandClass = DcpMonitorV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "DcpListReport",
-			"help": "Dcp List Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "reportsToFollow",
-					"help": "Reports to Follow",
-					"length": 1,
-					"lengthOf": {
-						"refs": [
-							"vg1"
-						]
-					},
-					"isAutogenerated": true
-				},
-				{
-					"type": "Integer",
-					"name": "year",
-					"help": "Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "month",
-					"help": "Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "day",
-					"help": "Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "hourLocalTime",
-					"help": "Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "minuteLocalTime",
-					"help": "Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "secondLocalTime",
-					"help": "Second Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "dcpId",
-					"help": "DCP ID",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 252,
-							"shift": 2,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "numberOfDc",
-							"mask": 3,
-							"shift": 0
-						}
+export class DcpListReport extends CommandPacket<DcpMonitorV1DcpListReportData> {
+	public static readonly CommandClass = DcpMonitorV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "DcpListReport",
+		"help": "Dcp List Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "reportsToFollow",
+				"help": "Reports to Follow",
+				"length": 1,
+				"lengthOf": {
+					"refs": [
+						"vg1"
 					]
 				},
-				{
-					"type": "Group",
-					"name": "vg1",
-					"help": "vg1",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "reportsToFollow"
-						}
+				"isAutogenerated": true
+			},
+			{
+				"type": "Integer",
+				"name": "year",
+				"help": "Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "month",
+				"help": "Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "day",
+				"help": "Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "hourLocalTime",
+				"help": "Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "minuteLocalTime",
+				"help": "Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "secondLocalTime",
+				"help": "Second Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "dcpId",
+				"help": "DCP ID",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 252,
+						"shift": 2,
+						"reserved": true
 					},
-					"params": [
-						{
-							"type": "Integer",
-							"name": "genericDeviceClass",
-							"help": "Generic Device Class",
-							"length": 1,
-							"valueType": "GenericDevice"
-						},
-						{
-							"type": "Integer",
-							"name": "specificDeviceClass",
-							"help": "Specific Device Class",
-							"length": 1,
-							"valueType": "SpecificDevice"
-						}
-					]
+					{
+						"fieldType": "Integer",
+						"name": "numberOfDc",
+						"mask": 3,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Group",
+				"name": "vg1",
+				"help": "vg1",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "reportsToFollow"
+					}
 				},
-				{
-					"type": "Integer",
-					"name": "startYear",
-					"help": "Start Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "startMonth",
-					"help": "Start Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startDay",
-					"help": "Start Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startHourLocalTime",
-					"help": "Start Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startMinuteLocalTime",
-					"help": "Start Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startSecondLocalTime",
-					"help": "Start Second Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "durationHourTime",
-					"help": "Duration Hour Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "durationMinuteTime",
-					"help": "Duration Minute Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "durationSecondTime",
-					"help": "Duration Second Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "eventPriority",
-					"help": "Event Priority",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "loadShedding",
-					"help": "Load shedding",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startAssociationGroup",
-					"help": "Start Association Group",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "stopAssociationGroup",
-					"help": "Stop Association Group",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "randomizationInterval",
-					"help": "Randomization interval",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
+				"params": [
+					{
+						"type": "Integer",
+						"name": "genericDeviceClass",
+						"help": "Generic Device Class",
+						"length": 1,
+						"valueType": "GenericDevice"
+					},
+					{
+						"type": "Integer",
+						"name": "specificDeviceClass",
+						"help": "Specific Device Class",
+						"length": 1,
+						"valueType": "SpecificDevice"
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "startYear",
+				"help": "Start Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "startMonth",
+				"help": "Start Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startDay",
+				"help": "Start Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startHourLocalTime",
+				"help": "Start Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startMinuteLocalTime",
+				"help": "Start Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startSecondLocalTime",
+				"help": "Start Second Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "durationHourTime",
+				"help": "Duration Hour Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "durationMinuteTime",
+				"help": "Duration Minute Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "durationSecondTime",
+				"help": "Duration Second Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "eventPriority",
+				"help": "Event Priority",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "loadShedding",
+				"help": "Load shedding",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startAssociationGroup",
+				"help": "Start Association Group",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "stopAssociationGroup",
+				"help": "Stop Association Group",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "randomizationInterval",
+				"help": "Randomization interval",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DcpMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DcpMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | DcpMonitorV1DcpListReportData) {
-			super(DcpListReport, data);
-		}
-	};
-}
-
-export namespace DcpMonitorV1 {
-	export type DcpEventStatusGet = InstanceType<typeof DcpMonitorV1.DcpEventStatusGet>;
-	export type DcpEventStatusReport = InstanceType<typeof DcpMonitorV1.DcpEventStatusReport>;
-	export type DcpListGet = InstanceType<typeof DcpMonitorV1.DcpListGet>;
-	export type DcpListReport = InstanceType<typeof DcpMonitorV1.DcpListReport>;
-}
+	constructor(data: Buffer | DcpMonitorV1DcpListReportData) {
+		super(DcpListReport, data);
+	}
+};

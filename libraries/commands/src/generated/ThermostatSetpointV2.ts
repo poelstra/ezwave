@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ThermostatSetpointV2Commands {
 	ThermostatSetpointGet = 0x02,
@@ -78,489 +78,481 @@ export class ThermostatSetpointV2 extends CommandClassPacket<ThermostatSetpointV
 	constructor(commandAndPayload: Buffer) {
 		super(ThermostatSetpointV2, commandAndPayload);
 	}
+}
 
-	public static readonly ThermostatSetpointGet = class ThermostatSetpointGet extends CommandPacket<ThermostatSetpointV2ThermostatSetpointGetData> {
-		public static readonly CommandClass = ThermostatSetpointV2;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ThermostatSetpointGet",
-			"help": "Thermostat Setpoint Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 240,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "setpointType",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "NotSupported",
-									"help": "not supported"
-								},
-								"1": {
-									"name": "Heating1",
-									"help": "Heating 1"
-								},
-								"2": {
-									"name": "Cooling1",
-									"help": "Cooling 1"
-								},
-								"3": {
-									"name": "NotSupported1",
-									"help": "not supported1"
-								},
-								"4": {
-									"name": "NotSupported2",
-									"help": "not supported2"
-								},
-								"5": {
-									"name": "NotSupported3",
-									"help": "not supported3"
-								},
-								"6": {
-									"name": "NotSupported4",
-									"help": "not supported4"
-								},
-								"7": {
-									"name": "Furnace",
-									"help": "Furnace"
-								},
-								"8": {
-									"name": "DryAir",
-									"help": "Dry Air"
-								},
-								"9": {
-									"name": "MoistAir",
-									"help": "Moist Air"
-								},
-								"10": {
-									"name": "AutoChangeover",
-									"help": "Auto changeover"
-								},
-								"11": {
-									"name": "EnergySaveHeating",
-									"help": "Energy Save Heating"
-								},
-								"12": {
-									"name": "EnergySaveCooling",
-									"help": "Energy Save Cooling"
-								},
-								"13": {
-									"name": "AwayHeating",
-									"help": "Away Heating"
-								}
-							}
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointGetData) {
-			super(ThermostatSetpointGet, data);
-		}
-	};
-
-	public static readonly ThermostatSetpointReport = class ThermostatSetpointReport extends CommandPacket<ThermostatSetpointV2ThermostatSetpointReportData> {
-		public static readonly CommandClass = ThermostatSetpointV2;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "ThermostatSetpointReport",
-			"help": "Thermostat Setpoint Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 240,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "setpointType",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "NotSupported",
-									"help": "not supported"
-								},
-								"1": {
-									"name": "Heating1",
-									"help": "Heating 1"
-								},
-								"2": {
-									"name": "Cooling1",
-									"help": "Cooling 1"
-								},
-								"3": {
-									"name": "NotSupported1",
-									"help": "not supported1"
-								},
-								"4": {
-									"name": "NotSupported2",
-									"help": "not supported2"
-								},
-								"5": {
-									"name": "NotSupported3",
-									"help": "not supported3"
-								},
-								"6": {
-									"name": "NotSupported4",
-									"help": "not supported4"
-								},
-								"7": {
-									"name": "Furnace",
-									"help": "Furnace"
-								},
-								"8": {
-									"name": "DryAir",
-									"help": "Dry Air"
-								},
-								"9": {
-									"name": "MoistAir",
-									"help": "Moist Air"
-								},
-								"10": {
-									"name": "AutoChangeover",
-									"help": "Auto changeover"
-								},
-								"11": {
-									"name": "EnergySaveHeating",
-									"help": "Energy Save Heating"
-								},
-								"12": {
-									"name": "EnergySaveCooling",
-									"help": "Energy Save Cooling"
-								},
-								"13": {
-									"name": "AwayHeating",
-									"help": "Away Heating"
-								}
-							}
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "level2",
-					"help": "Level2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "precision",
-							"mask": 224,
-							"shift": 5
-						},
-						{
-							"fieldType": "Integer",
-							"name": "scale",
-							"mask": 24,
-							"shift": 3
-						},
-						{
-							"fieldType": "Integer",
-							"name": "size",
-							"mask": 7,
-							"shift": 0,
-							"lengthOf": {
-								"refs": [
-									"value"
-								]
-							},
-							"isAutogenerated": true
-						}
-					]
-				},
-				{
-					"type": "Blob",
-					"name": "value",
-					"help": "Value",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "level2.size"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointReportData) {
-			super(ThermostatSetpointReport, data);
-		}
-	};
-
-	public static readonly ThermostatSetpointSet = class ThermostatSetpointSet extends CommandPacket<ThermostatSetpointV2ThermostatSetpointSetData> {
-		public static readonly CommandClass = ThermostatSetpointV2;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ThermostatSetpointSet",
-			"help": "Thermostat Setpoint Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 240,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "setpointType",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "NotSupported",
-									"help": "not supported"
-								},
-								"1": {
-									"name": "Heating1",
-									"help": "Heating 1"
-								},
-								"2": {
-									"name": "Cooling1",
-									"help": "Cooling 1"
-								},
-								"3": {
-									"name": "NotSupported1",
-									"help": "not supported1"
-								},
-								"4": {
-									"name": "NotSupported2",
-									"help": "not supported2"
-								},
-								"5": {
-									"name": "NotSupported3",
-									"help": "not supported3"
-								},
-								"6": {
-									"name": "NotSupported4",
-									"help": "not supported4"
-								},
-								"7": {
-									"name": "Furnace",
-									"help": "Furnace"
-								},
-								"8": {
-									"name": "DryAir",
-									"help": "Dry Air"
-								},
-								"9": {
-									"name": "MoistAir",
-									"help": "Moist Air"
-								},
-								"10": {
-									"name": "AutoChangeover",
-									"help": "Auto changeover"
-								},
-								"11": {
-									"name": "EnergySaveHeating",
-									"help": "Energy Save Heating"
-								},
-								"12": {
-									"name": "EnergySaveCooling",
-									"help": "Energy Save Cooling"
-								},
-								"13": {
-									"name": "AwayHeating",
-									"help": "Away Heating"
-								}
-							}
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "level2",
-					"help": "Level2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "precision",
-							"mask": 224,
-							"shift": 5
-						},
-						{
-							"fieldType": "Integer",
-							"name": "scale",
-							"mask": 24,
-							"shift": 3
-						},
-						{
-							"fieldType": "Integer",
-							"name": "size",
-							"mask": 7,
-							"shift": 0,
-							"lengthOf": {
-								"refs": [
-									"value"
-								]
-							},
-							"isAutogenerated": true
-						}
-					]
-				},
-				{
-					"type": "Blob",
-					"name": "value",
-					"help": "Value",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "level2.size"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointSetData) {
-			super(ThermostatSetpointSet, data);
-		}
-	};
-
-	public static readonly ThermostatSetpointSupportedGet = class ThermostatSetpointSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = ThermostatSetpointV2;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "ThermostatSetpointSupportedGet",
-			"help": "Thermostat Setpoint Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ThermostatSetpointSupportedGet, data);
-		}
-	};
-
-	public static readonly ThermostatSetpointSupportedReport = class ThermostatSetpointSupportedReport extends CommandPacket<ThermostatSetpointV2ThermostatSetpointSupportedReportData> {
-		public static readonly CommandClass = ThermostatSetpointV2;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "ThermostatSetpointSupportedReport",
-			"help": "Thermostat Setpoint Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitmask",
-					"name": "bitMask",
-					"help": "Bit Mask",
-					"length": {
-						"lengthType": "Auto"
+export class ThermostatSetpointGet extends CommandPacket<ThermostatSetpointV2ThermostatSetpointGetData> {
+	public static readonly CommandClass = ThermostatSetpointV2;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ThermostatSetpointGet",
+		"help": "Thermostat Setpoint Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 240,
+						"shift": 4,
+						"reserved": true
 					},
-					"values": {
-						"0": {
-							"name": "None",
-							"help": "None"
-						},
-						"1": {
-							"name": "Heating",
-							"help": "Heating"
-						},
-						"2": {
-							"name": "Cooling",
-							"help": "Cooling"
-						},
-						"7": {
-							"name": "Furnace",
-							"help": "Furnace"
-						},
-						"8": {
-							"name": "DryAir",
-							"help": "Dry Air"
-						},
-						"9": {
-							"name": "MoistAir",
-							"help": "Moist Air"
-						},
-						"10": {
-							"name": "AutoChangeover",
-							"help": "Auto changeover"
-						},
-						"11": {
-							"name": "EnergySaveHeating",
-							"help": "Energy Save Heating"
-						},
-						"12": {
-							"name": "EnergySaveCooling",
-							"help": "Energy Save Cooling"
-						},
-						"13": {
-							"name": "AwayHeating",
-							"help": "Away Heating"
+					{
+						"fieldType": "Enum",
+						"name": "setpointType",
+						"mask": 15,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "NotSupported",
+								"help": "not supported"
+							},
+							"1": {
+								"name": "Heating1",
+								"help": "Heating 1"
+							},
+							"2": {
+								"name": "Cooling1",
+								"help": "Cooling 1"
+							},
+							"3": {
+								"name": "NotSupported1",
+								"help": "not supported1"
+							},
+							"4": {
+								"name": "NotSupported2",
+								"help": "not supported2"
+							},
+							"5": {
+								"name": "NotSupported3",
+								"help": "not supported3"
+							},
+							"6": {
+								"name": "NotSupported4",
+								"help": "not supported4"
+							},
+							"7": {
+								"name": "Furnace",
+								"help": "Furnace"
+							},
+							"8": {
+								"name": "DryAir",
+								"help": "Dry Air"
+							},
+							"9": {
+								"name": "MoistAir",
+								"help": "Moist Air"
+							},
+							"10": {
+								"name": "AutoChangeover",
+								"help": "Auto changeover"
+							},
+							"11": {
+								"name": "EnergySaveHeating",
+								"help": "Energy Save Heating"
+							},
+							"12": {
+								"name": "EnergySaveCooling",
+								"help": "Energy Save Cooling"
+							},
+							"13": {
+								"name": "AwayHeating",
+								"help": "Away Heating"
+							}
 						}
 					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointGetData) {
+		super(ThermostatSetpointGet, data);
+	}
+};
+
+export class ThermostatSetpointReport extends CommandPacket<ThermostatSetpointV2ThermostatSetpointReportData> {
+	public static readonly CommandClass = ThermostatSetpointV2;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "ThermostatSetpointReport",
+		"help": "Thermostat Setpoint Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 240,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Enum",
+						"name": "setpointType",
+						"mask": 15,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "NotSupported",
+								"help": "not supported"
+							},
+							"1": {
+								"name": "Heating1",
+								"help": "Heating 1"
+							},
+							"2": {
+								"name": "Cooling1",
+								"help": "Cooling 1"
+							},
+							"3": {
+								"name": "NotSupported1",
+								"help": "not supported1"
+							},
+							"4": {
+								"name": "NotSupported2",
+								"help": "not supported2"
+							},
+							"5": {
+								"name": "NotSupported3",
+								"help": "not supported3"
+							},
+							"6": {
+								"name": "NotSupported4",
+								"help": "not supported4"
+							},
+							"7": {
+								"name": "Furnace",
+								"help": "Furnace"
+							},
+							"8": {
+								"name": "DryAir",
+								"help": "Dry Air"
+							},
+							"9": {
+								"name": "MoistAir",
+								"help": "Moist Air"
+							},
+							"10": {
+								"name": "AutoChangeover",
+								"help": "Auto changeover"
+							},
+							"11": {
+								"name": "EnergySaveHeating",
+								"help": "Energy Save Heating"
+							},
+							"12": {
+								"name": "EnergySaveCooling",
+								"help": "Energy Save Cooling"
+							},
+							"13": {
+								"name": "AwayHeating",
+								"help": "Away Heating"
+							}
+						}
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "level2",
+				"help": "Level2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "precision",
+						"mask": 224,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "scale",
+						"mask": 24,
+						"shift": 3
+					},
+					{
+						"fieldType": "Integer",
+						"name": "size",
+						"mask": 7,
+						"shift": 0,
+						"lengthOf": {
+							"refs": [
+								"value"
+							]
+						},
+						"isAutogenerated": true
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "value",
+				"help": "Value",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "level2.size"
+					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointSupportedReportData) {
-			super(ThermostatSetpointSupportedReport, data);
-		}
-	};
-}
+	constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointReportData) {
+		super(ThermostatSetpointReport, data);
+	}
+};
 
-export namespace ThermostatSetpointV2 {
-	export type ThermostatSetpointGet = InstanceType<typeof ThermostatSetpointV2.ThermostatSetpointGet>;
-	export type ThermostatSetpointReport = InstanceType<typeof ThermostatSetpointV2.ThermostatSetpointReport>;
-	export type ThermostatSetpointSet = InstanceType<typeof ThermostatSetpointV2.ThermostatSetpointSet>;
-	export type ThermostatSetpointSupportedGet = InstanceType<typeof ThermostatSetpointV2.ThermostatSetpointSupportedGet>;
-	export type ThermostatSetpointSupportedReport = InstanceType<typeof ThermostatSetpointV2.ThermostatSetpointSupportedReport>;
-}
+export class ThermostatSetpointSet extends CommandPacket<ThermostatSetpointV2ThermostatSetpointSetData> {
+	public static readonly CommandClass = ThermostatSetpointV2;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ThermostatSetpointSet",
+		"help": "Thermostat Setpoint Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 240,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Enum",
+						"name": "setpointType",
+						"mask": 15,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "NotSupported",
+								"help": "not supported"
+							},
+							"1": {
+								"name": "Heating1",
+								"help": "Heating 1"
+							},
+							"2": {
+								"name": "Cooling1",
+								"help": "Cooling 1"
+							},
+							"3": {
+								"name": "NotSupported1",
+								"help": "not supported1"
+							},
+							"4": {
+								"name": "NotSupported2",
+								"help": "not supported2"
+							},
+							"5": {
+								"name": "NotSupported3",
+								"help": "not supported3"
+							},
+							"6": {
+								"name": "NotSupported4",
+								"help": "not supported4"
+							},
+							"7": {
+								"name": "Furnace",
+								"help": "Furnace"
+							},
+							"8": {
+								"name": "DryAir",
+								"help": "Dry Air"
+							},
+							"9": {
+								"name": "MoistAir",
+								"help": "Moist Air"
+							},
+							"10": {
+								"name": "AutoChangeover",
+								"help": "Auto changeover"
+							},
+							"11": {
+								"name": "EnergySaveHeating",
+								"help": "Energy Save Heating"
+							},
+							"12": {
+								"name": "EnergySaveCooling",
+								"help": "Energy Save Cooling"
+							},
+							"13": {
+								"name": "AwayHeating",
+								"help": "Away Heating"
+							}
+						}
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "level2",
+				"help": "Level2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "precision",
+						"mask": 224,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "scale",
+						"mask": 24,
+						"shift": 3
+					},
+					{
+						"fieldType": "Integer",
+						"name": "size",
+						"mask": 7,
+						"shift": 0,
+						"lengthOf": {
+							"refs": [
+								"value"
+							]
+						},
+						"isAutogenerated": true
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "value",
+				"help": "Value",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "level2.size"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointSetData) {
+		super(ThermostatSetpointSet, data);
+	}
+};
+
+export class ThermostatSetpointSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = ThermostatSetpointV2;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "ThermostatSetpointSupportedGet",
+		"help": "Thermostat Setpoint Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ThermostatSetpointSupportedGet, data);
+	}
+};
+
+export class ThermostatSetpointSupportedReport extends CommandPacket<ThermostatSetpointV2ThermostatSetpointSupportedReportData> {
+	public static readonly CommandClass = ThermostatSetpointV2;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "ThermostatSetpointSupportedReport",
+		"help": "Thermostat Setpoint Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitmask",
+				"name": "bitMask",
+				"help": "Bit Mask",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"values": {
+					"0": {
+						"name": "None",
+						"help": "None"
+					},
+					"1": {
+						"name": "Heating",
+						"help": "Heating"
+					},
+					"2": {
+						"name": "Cooling",
+						"help": "Cooling"
+					},
+					"7": {
+						"name": "Furnace",
+						"help": "Furnace"
+					},
+					"8": {
+						"name": "DryAir",
+						"help": "Dry Air"
+					},
+					"9": {
+						"name": "MoistAir",
+						"help": "Moist Air"
+					},
+					"10": {
+						"name": "AutoChangeover",
+						"help": "Auto changeover"
+					},
+					"11": {
+						"name": "EnergySaveHeating",
+						"help": "Energy Save Heating"
+					},
+					"12": {
+						"name": "EnergySaveCooling",
+						"help": "Energy Save Cooling"
+					},
+					"13": {
+						"name": "AwayHeating",
+						"help": "Away Heating"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatSetpointV2)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ThermostatSetpointV2ThermostatSetpointSupportedReportData) {
+		super(ThermostatSetpointSupportedReport, data);
+	}
+};

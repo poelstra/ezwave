@@ -4,4 +4,5 @@ export * from "./commandClassInfo";
 export * from "./debug";
 export * from "./decode";
 export * from "./encode";
+export * from "./generated/CommandClasses";
 export * from "./packet";

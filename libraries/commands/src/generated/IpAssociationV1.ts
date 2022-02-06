@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum IpAssociationV1Commands {
 	IpAssociationSet = 0x01,
@@ -50,173 +50,166 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 	constructor(commandAndPayload: Buffer) {
 		super(IpAssociationV1, commandAndPayload);
 	}
-
-	public static readonly IpAssociationSet = class IpAssociationSet extends CommandPacket<IpAssociationV1IpAssociationSetData> {
-		public static readonly CommandClass = IpAssociationV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "IpAssociationSet",
-			"help": "IP Association Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping Identifier",
-					"length": 1
-				},
-				{
-					"type": "Blob",
-					"name": "ipv6Address",
-					"help": "IPv6 Address",
-					"length": 16
-				},
-				{
-					"type": "Integer",
-					"name": "endPoint",
-					"help": "End Point",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(IpAssociationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | IpAssociationV1IpAssociationSetData) {
-			super(IpAssociationSet, data);
-		}
-	};
-
-	public static readonly IpAssociationGet = class IpAssociationGet extends CommandPacket<IpAssociationV1IpAssociationGetData> {
-		public static readonly CommandClass = IpAssociationV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "IpAssociationGet",
-			"help": "IP Association Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping Identifier",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "index",
-					"help": "Index",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(IpAssociationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | IpAssociationV1IpAssociationGetData) {
-			super(IpAssociationGet, data);
-		}
-	};
-
-	public static readonly IpAssociationReport = class IpAssociationReport extends CommandPacket<IpAssociationV1IpAssociationReportData> {
-		public static readonly CommandClass = IpAssociationV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "IpAssociationReport",
-			"help": "IP Association Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping Identifier",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "index",
-					"help": "Index",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "actualNodes",
-					"help": "Actual Nodes",
-					"length": 1
-				},
-				{
-					"type": "Blob",
-					"name": "ipv6Address",
-					"help": "IPv6 Address",
-					"length": 16
-				},
-				{
-					"type": "Integer",
-					"name": "endPoint",
-					"help": "End Point",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(IpAssociationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | IpAssociationV1IpAssociationReportData) {
-			super(IpAssociationReport, data);
-		}
-	};
-
-	public static readonly IpAssociationRemove = class IpAssociationRemove extends CommandPacket<IpAssociationV1IpAssociationRemoveData> {
-		public static readonly CommandClass = IpAssociationV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "IpAssociationRemove",
-			"help": "IP Association Remove",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "groupingIdentifier",
-					"help": "Grouping Identifier",
-					"length": 1
-				},
-				{
-					"type": "Blob",
-					"name": "ipv6Address",
-					"help": "IPv6 Address",
-					"length": 16
-				},
-				{
-					"type": "Integer",
-					"name": "endPoint",
-					"help": "End Point",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(IpAssociationV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | IpAssociationV1IpAssociationRemoveData) {
-			super(IpAssociationRemove, data);
-		}
-	};
 }
 
-export namespace IpAssociationV1 {
-	export type IpAssociationSet = InstanceType<typeof IpAssociationV1.IpAssociationSet>;
-	export type IpAssociationGet = InstanceType<typeof IpAssociationV1.IpAssociationGet>;
-	export type IpAssociationReport = InstanceType<typeof IpAssociationV1.IpAssociationReport>;
-	export type IpAssociationRemove = InstanceType<typeof IpAssociationV1.IpAssociationRemove>;
-}
+export class IpAssociationSet extends CommandPacket<IpAssociationV1IpAssociationSetData> {
+	public static readonly CommandClass = IpAssociationV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "IpAssociationSet",
+		"help": "IP Association Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping Identifier",
+				"length": 1
+			},
+			{
+				"type": "Blob",
+				"name": "ipv6Address",
+				"help": "IPv6 Address",
+				"length": 16
+			},
+			{
+				"type": "Integer",
+				"name": "endPoint",
+				"help": "End Point",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(IpAssociationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | IpAssociationV1IpAssociationSetData) {
+		super(IpAssociationSet, data);
+	}
+};
+
+export class IpAssociationGet extends CommandPacket<IpAssociationV1IpAssociationGetData> {
+	public static readonly CommandClass = IpAssociationV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "IpAssociationGet",
+		"help": "IP Association Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping Identifier",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "index",
+				"help": "Index",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(IpAssociationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | IpAssociationV1IpAssociationGetData) {
+		super(IpAssociationGet, data);
+	}
+};
+
+export class IpAssociationReport extends CommandPacket<IpAssociationV1IpAssociationReportData> {
+	public static readonly CommandClass = IpAssociationV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "IpAssociationReport",
+		"help": "IP Association Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping Identifier",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "index",
+				"help": "Index",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "actualNodes",
+				"help": "Actual Nodes",
+				"length": 1
+			},
+			{
+				"type": "Blob",
+				"name": "ipv6Address",
+				"help": "IPv6 Address",
+				"length": 16
+			},
+			{
+				"type": "Integer",
+				"name": "endPoint",
+				"help": "End Point",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(IpAssociationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | IpAssociationV1IpAssociationReportData) {
+		super(IpAssociationReport, data);
+	}
+};
+
+export class IpAssociationRemove extends CommandPacket<IpAssociationV1IpAssociationRemoveData> {
+	public static readonly CommandClass = IpAssociationV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "IpAssociationRemove",
+		"help": "IP Association Remove",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "groupingIdentifier",
+				"help": "Grouping Identifier",
+				"length": 1
+			},
+			{
+				"type": "Blob",
+				"name": "ipv6Address",
+				"help": "IPv6 Address",
+				"length": 16
+			},
+			{
+				"type": "Integer",
+				"name": "endPoint",
+				"help": "End Point",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(IpAssociationV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | IpAssociationV1IpAssociationRemoveData) {
+		super(IpAssociationRemove, data);
+	}
+};

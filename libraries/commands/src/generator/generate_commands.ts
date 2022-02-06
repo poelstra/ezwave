@@ -3,6 +3,7 @@ import {
 	convertFromJsonCommandClass,
 	convertToJsonCommand,
 	getReferencePath,
+	ZwaveSpec,
 } from "@ezwave/spec";
 import assert from "assert";
 import main from "async-main";
@@ -132,8 +133,8 @@ class CommandClassGenerator {
 			` * Auto-generated, do not edit.`,
 			` */`,
 			``,
-			`import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";`,
-			`import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";`,
+			`import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";`,
+			`import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";`,
 			``
 		);
 
@@ -149,7 +150,7 @@ class CommandClassGenerator {
 		contents.push(...this._generateEnums());
 
 		contents.push(...this._generateCommandClass(className), ``);
-		contents.push(...this._generateNamespace(className), ``);
+		contents.push(...this._generateCommands(className), ``);
 
 		return contents;
 	}
@@ -231,8 +232,6 @@ class CommandClassGenerator {
 				`constructor(commandAndPayload: Buffer) {`,
 				`\tsuper(${className}, commandAndPayload);`,
 				`}`,
-				``,
-				...this._generateCommands(className),
 			])
 		);
 		contents.push(`}`);
@@ -256,17 +255,17 @@ class CommandClassGenerator {
 				);
 			}
 			contents.push(
-				`public static readonly ${command.name} = class ${commandName} extends CommandPacket<${dataName}> {`
+				`export class ${commandName} extends CommandPacket<${dataName}> {`
 			);
 			contents.push(
 				...indent([
 					`public static readonly CommandClass = ${className};`,
 					`public static readonly command = 0x${command.command
 						.toString(16)
-						.padStart(2, "0")};`,
+						.padStart(2, "0")}; // ${command.command}`,
 					`public static readonly definition = convertFromJsonCommand(${jsonifyCommandDefinition(
 						command
-					).join("\n\t\t")} as JsonCommandDefinition);`,
+					).join("\n\t")} as JsonCommandDefinition);`,
 					``,
 					`static matches(packet: Packet): boolean {`,
 					`	return packet.tryAs(${className})?.command === this.command;`,
@@ -500,30 +499,15 @@ class CommandClassGenerator {
 		}
 		return contents;
 	}
-
-	private _generateNamespace(className: string): Lines {
-		const contents: Lines = [];
-
-		contents.push(`export namespace ${className} {`);
-		contents.push(
-			...this._class.commands.map(
-				(command) =>
-					`\texport type ${command.name} = InstanceType<typeof ${className}.${command.name}>;`
-			)
-		);
-		contents.push(`}`);
-
-		return contents;
-	}
 }
 
 main(async () => {
-	const outDir = path.resolve(__dirname, "..", "generated");
-
-	// TODO Convert reading of the spec to a helper in @ezwave/spec
+	const srcDir = path.resolve(__dirname, "..");
+	const outDir = path.resolve(srcDir, "generated");
 
 	// Read JSON ZWave specification
-	const jsonSpec = require("@ezwave/spec/lib/zwave.json");
+	// TODO Convert reading of the spec to a helper in @ezwave/spec
+	const jsonSpec = require("@ezwave/spec/lib/zwave.json") as ZwaveSpec;
 	assert(
 		jsonSpec.jsonVersion === spec.JSON_VERSION,
 		"Unsupported JSON spec version"
@@ -531,7 +515,7 @@ main(async () => {
 
 	await pfs.mkdir(outDir, { recursive: true });
 
-	// Iterate over JSON structure, generate our own structure
+	// Generate commandclass+version specific modules
 	const classes = jsonSpec.classes.map(convertFromJsonCommandClass);
 	for (const cmdClass of classes) {
 		const lines = CommandClassGenerator.generate(cmdClass);
@@ -543,4 +527,14 @@ main(async () => {
 			lines.filter((l) => l !== undefined).join("\n")
 		);
 	}
+
+	// Generate index
+	const indexExports = classes.map((cmdClass) => {
+		const className = `${cmdClass.name}V${cmdClass.version}`;
+		return `export * as ${className} from "./${className}";`;
+	});
+	await pfs.writeFile(
+		path.resolve(outDir, "index.ts"),
+		indexExports.join("\n")
+	);
 });

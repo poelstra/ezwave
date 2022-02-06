@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MultiChannelV4Commands {
 	MultiChannelCapabilityGet = 0x09,
@@ -96,649 +96,634 @@ export class MultiChannelV4 extends CommandClassPacket<MultiChannelV4Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(MultiChannelV4, commandAndPayload);
 	}
+}
 
-	public static readonly MultiChannelCapabilityGet = class MultiChannelCapabilityGet extends CommandPacket<MultiChannelV4MultiChannelCapabilityGetData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x09;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 9,
-			"name": "MultiChannelCapabilityGet",
-			"help": "Multi Channel Capability Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "endPoint",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiChannelV4MultiChannelCapabilityGetData) {
-			super(MultiChannelCapabilityGet, data);
-		}
-	};
-
-	public static readonly MultiChannelCapabilityReport = class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV4MultiChannelCapabilityReportData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x0a;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 10,
-			"name": "MultiChannelCapabilityReport",
-			"help": "Multi Channel Capability Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "dynamic",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "endPoint",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "genericDeviceClass",
-					"help": "Generic Device Class",
-					"length": 1,
-					"valueType": "GenericDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "specificDeviceClass",
-					"help": "Specific Device Class",
-					"length": 1,
-					"valueType": "SpecificDevice"
-				},
-				{
-					"type": "Blob",
-					"name": "commandClasses",
-					"help": "Command Classes",
-					"length": {
-						"lengthType": "Auto"
+export class MultiChannelCapabilityGet extends CommandPacket<MultiChannelV4MultiChannelCapabilityGetData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x09; // 9
+	public static readonly definition = convertFromJsonCommand({
+		"command": 9,
+		"name": "MultiChannelCapabilityGet",
+		"help": "Multi Channel Capability Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
 					},
-					"blobType": "CommandClasses"
-				}
-			]
-		} as JsonCommandDefinition);
+					{
+						"fieldType": "Integer",
+						"name": "endPoint",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
 
-		constructor(data: Buffer | MultiChannelV4MultiChannelCapabilityReportData) {
-			super(MultiChannelCapabilityReport, data);
-		}
-	};
+	constructor(data: Buffer | MultiChannelV4MultiChannelCapabilityGetData) {
+		super(MultiChannelCapabilityGet, data);
+	}
+};
 
-	public static readonly MultiChannelCmdEncap = class MultiChannelCmdEncap extends CommandPacket<MultiChannelV4MultiChannelCmdEncapData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x0d;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 13,
-			"name": "MultiChannelCmdEncap",
-			"help": "Multi Channel Command Encapsulation",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "sourceEndPoint",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties2",
-					"help": "Properties2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "bitAddress",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "destinationEndPoint",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Blob",
-					"name": "command",
-					"help": "Encapsulated command",
-					"length": {
-						"lengthType": "Auto"
+export class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV4MultiChannelCapabilityReportData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x0a; // 10
+	public static readonly definition = convertFromJsonCommand({
+		"command": 10,
+		"name": "MultiChannelCapabilityReport",
+		"help": "Multi Channel Capability Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "dynamic",
+						"mask": 128,
+						"shift": 7
 					},
-					"blobType": "CommandEncapsulation"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiChannelV4MultiChannelCmdEncapData) {
-			super(MultiChannelCmdEncap, data);
-		}
-	};
-
-	public static readonly MultiChannelEndPointFind = class MultiChannelEndPointFind extends CommandPacket<MultiChannelV4MultiChannelEndPointFindData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x0b;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 11,
-			"name": "MultiChannelEndPointFind",
-			"help": "Multi Channel End Point Find",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "genericDeviceClass",
-					"help": "Generic Device Class",
-					"length": 1,
-					"valueType": "GenericDevice"
+					{
+						"fieldType": "Integer",
+						"name": "endPoint",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "genericDeviceClass",
+				"help": "Generic Device Class",
+				"length": 1,
+				"valueType": "GenericDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "specificDeviceClass",
+				"help": "Specific Device Class",
+				"length": 1,
+				"valueType": "SpecificDevice"
+			},
+			{
+				"type": "Blob",
+				"name": "commandClasses",
+				"help": "Command Classes",
+				"length": {
+					"lengthType": "Auto"
 				},
-				{
-					"type": "Integer",
-					"name": "specificDeviceClass",
-					"help": "Specific Device Class",
-					"length": 1,
-					"valueType": "SpecificDevice"
-				}
-			]
-		} as JsonCommandDefinition);
+				"blobType": "CommandClasses"
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
 
-		constructor(data: Buffer | MultiChannelV4MultiChannelEndPointFindData) {
-			super(MultiChannelEndPointFind, data);
-		}
-	};
+	constructor(data: Buffer | MultiChannelV4MultiChannelCapabilityReportData) {
+		super(MultiChannelCapabilityReport, data);
+	}
+};
 
-	public static readonly MultiChannelEndPointFindReport = class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV4MultiChannelEndPointFindReportData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x0c;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 12,
-			"name": "MultiChannelEndPointFindReport",
-			"help": "Multi Channel End Point Find Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "reportsToFollow",
-					"help": "Reports to Follow",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "genericDeviceClass",
-					"help": "Generic Device Class",
-					"length": 1,
-					"valueType": "GenericDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "specificDeviceClass",
-					"help": "Specific Device Class",
-					"length": 1,
-					"valueType": "SpecificDevice"
-				},
-				{
-					"type": "Group",
-					"name": "vg",
-					"help": "vg",
-					"length": {
-						"lengthType": "Auto"
+export class MultiChannelCmdEncap extends CommandPacket<MultiChannelV4MultiChannelCmdEncapData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x0d; // 13
+	public static readonly definition = convertFromJsonCommand({
+		"command": 13,
+		"name": "MultiChannelCmdEncap",
+		"help": "Multi Channel Command Encapsulation",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
 					},
-					"params": [
-						{
-							"type": "Bitfield",
-							"name": "properties1",
-							"help": "Properties1",
-							"length": 1,
-							"fields": [
-								{
-									"fieldType": "Boolean",
-									"name": "res",
-									"mask": 128,
-									"shift": 7,
-									"reserved": true
-								},
-								{
-									"fieldType": "Integer",
-									"name": "endPoint",
-									"mask": 127,
-									"shift": 0
-								}
-							]
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiChannelV4MultiChannelEndPointFindReportData) {
-			super(MultiChannelEndPointFindReport, data);
-		}
-	};
-
-	public static readonly MultiChannelEndPointGet = class MultiChannelEndPointGet extends CommandPacket<void> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x07;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 7,
-			"name": "MultiChannelEndPointGet",
-			"help": "Multi Channel End Point Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(MultiChannelEndPointGet, data);
-		}
-	};
-
-	public static readonly MultiChannelEndPointReport = class MultiChannelEndPointReport extends CommandPacket<MultiChannelV4MultiChannelEndPointReportData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x08;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 8,
-			"name": "MultiChannelEndPointReport",
-			"help": "Multi Channel End Point Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "dynamic",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "identical",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"fieldType": "Integer",
-							"name": "res1",
-							"mask": 63,
-							"shift": 0,
-							"reserved": true
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties2",
-					"help": "Properties2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res2",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "individualEndPoints",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties3",
-					"help": "Properties3",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res3",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "aggregatedEndPoints",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiChannelV4MultiChannelEndPointReportData) {
-			super(MultiChannelEndPointReport, data);
-		}
-	};
-
-	public static readonly MultiInstanceCmdEncap = class MultiInstanceCmdEncap extends CommandPacket<MultiChannelV4MultiInstanceCmdEncapData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "MultiInstanceCmdEncap",
-			"help": "Multi Instance Cmd Encap",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "instance",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Blob",
-					"name": "command",
-					"help": "Encapsulated command",
-					"length": {
-						"lengthType": "Auto"
+					{
+						"fieldType": "Integer",
+						"name": "sourceEndPoint",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties2",
+				"help": "Properties2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "bitAddress",
+						"mask": 128,
+						"shift": 7
 					},
-					"blobType": "CommandEncapsulation"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiChannelV4MultiInstanceCmdEncapData) {
-			super(MultiInstanceCmdEncap, data);
-		}
-	};
-
-	public static readonly MultiInstanceGet = class MultiInstanceGet extends CommandPacket<MultiChannelV4MultiInstanceGetData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "MultiInstanceGet",
-			"help": "Multi Instance Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "commandClass",
-					"help": "Command Class",
-					"length": 1,
-					"valueType": "CommandClass"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MultiChannelV4MultiInstanceGetData) {
-			super(MultiInstanceGet, data);
-		}
-	};
-
-	public static readonly MultiInstanceReport = class MultiInstanceReport extends CommandPacket<MultiChannelV4MultiInstanceReportData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "MultiInstanceReport",
-			"help": "Multi Instance Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "commandClass",
-					"help": "Command Class",
-					"length": 1,
-					"valueType": "CommandClass"
+					{
+						"fieldType": "Integer",
+						"name": "destinationEndPoint",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "command",
+				"help": "Encapsulated command",
+				"length": {
+					"lengthType": "Auto"
 				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "instances",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
+				"blobType": "CommandEncapsulation"
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
 
-		constructor(data: Buffer | MultiChannelV4MultiInstanceReportData) {
-			super(MultiInstanceReport, data);
-		}
-	};
+	constructor(data: Buffer | MultiChannelV4MultiChannelCmdEncapData) {
+		super(MultiChannelCmdEncap, data);
+	}
+};
 
-	public static readonly MultiChannelAggregatedMembersGet = class MultiChannelAggregatedMembersGet extends CommandPacket<MultiChannelV4MultiChannelAggregatedMembersGetData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x0e;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 14,
-			"name": "MultiChannelAggregatedMembersGet",
-			"help": "Multi Channel Aggregated Members Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "aggregatedEndPoint",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
+export class MultiChannelEndPointFind extends CommandPacket<MultiChannelV4MultiChannelEndPointFindData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x0b; // 11
+	public static readonly definition = convertFromJsonCommand({
+		"command": 11,
+		"name": "MultiChannelEndPointFind",
+		"help": "Multi Channel End Point Find",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "genericDeviceClass",
+				"help": "Generic Device Class",
+				"length": 1,
+				"valueType": "GenericDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "specificDeviceClass",
+				"help": "Specific Device Class",
+				"length": 1,
+				"valueType": "SpecificDevice"
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
 
-		constructor(data: Buffer | MultiChannelV4MultiChannelAggregatedMembersGetData) {
-			super(MultiChannelAggregatedMembersGet, data);
-		}
-	};
+	constructor(data: Buffer | MultiChannelV4MultiChannelEndPointFindData) {
+		super(MultiChannelEndPointFind, data);
+	}
+};
 
-	public static readonly MultiChannelAggregatedMembersReport = class MultiChannelAggregatedMembersReport extends CommandPacket<MultiChannelV4MultiChannelAggregatedMembersReportData> {
-		public static readonly CommandClass = MultiChannelV4;
-		public static readonly command = 0x0f;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 15,
-			"name": "MultiChannelAggregatedMembersReport",
-			"help": "Multi Channel Aggregated Members Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "res",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "aggregatedEndPoint",
-							"mask": 127,
-							"shift": 0
-						}
-					]
+export class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV4MultiChannelEndPointFindReportData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x0c; // 12
+	public static readonly definition = convertFromJsonCommand({
+		"command": 12,
+		"name": "MultiChannelEndPointFindReport",
+		"help": "Multi Channel End Point Find Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "reportsToFollow",
+				"help": "Reports to Follow",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "genericDeviceClass",
+				"help": "Generic Device Class",
+				"length": 1,
+				"valueType": "GenericDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "specificDeviceClass",
+				"help": "Specific Device Class",
+				"length": 1,
+				"valueType": "SpecificDevice"
+			},
+			{
+				"type": "Group",
+				"name": "vg",
+				"help": "vg",
+				"length": {
+					"lengthType": "Auto"
 				},
-				{
-					"type": "Integer",
-					"name": "numberOfBitMasks",
-					"help": "Number of Bit Masks",
-					"length": 1,
-					"lengthOf": {
-						"refs": [
-							"aggregatedMembersBitMask"
+				"params": [
+					{
+						"type": "Bitfield",
+						"name": "properties1",
+						"help": "Properties1",
+						"length": 1,
+						"fields": [
+							{
+								"fieldType": "Boolean",
+								"name": "res",
+								"mask": 128,
+								"shift": 7,
+								"reserved": true
+							},
+							{
+								"fieldType": "Integer",
+								"name": "endPoint",
+								"mask": 127,
+								"shift": 0
+							}
 						]
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiChannelV4MultiChannelEndPointFindReportData) {
+		super(MultiChannelEndPointFindReport, data);
+	}
+};
+
+export class MultiChannelEndPointGet extends CommandPacket<void> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x07; // 7
+	public static readonly definition = convertFromJsonCommand({
+		"command": 7,
+		"name": "MultiChannelEndPointGet",
+		"help": "Multi Channel End Point Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(MultiChannelEndPointGet, data);
+	}
+};
+
+export class MultiChannelEndPointReport extends CommandPacket<MultiChannelV4MultiChannelEndPointReportData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x08; // 8
+	public static readonly definition = convertFromJsonCommand({
+		"command": 8,
+		"name": "MultiChannelEndPointReport",
+		"help": "Multi Channel End Point Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "dynamic",
+						"mask": 128,
+						"shift": 7
 					},
-					"isAutogenerated": true
+					{
+						"fieldType": "Boolean",
+						"name": "identical",
+						"mask": 64,
+						"shift": 6
+					},
+					{
+						"fieldType": "Integer",
+						"name": "res1",
+						"mask": 63,
+						"shift": 0,
+						"reserved": true
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties2",
+				"help": "Properties2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res2",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "individualEndPoints",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties3",
+				"help": "Properties3",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res3",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "aggregatedEndPoints",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiChannelV4MultiChannelEndPointReportData) {
+		super(MultiChannelEndPointReport, data);
+	}
+};
+
+export class MultiInstanceCmdEncap extends CommandPacket<MultiChannelV4MultiInstanceCmdEncapData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "MultiInstanceCmdEncap",
+		"help": "Multi Instance Cmd Encap",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "instance",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "command",
+				"help": "Encapsulated command",
+				"length": {
+					"lengthType": "Auto"
 				},
-				{
-					"type": "Bitmask",
-					"name": "aggregatedMembersBitMask",
-					"help": "Aggregated Members Bit Mask",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "numberOfBitMasks"
-						}
+				"blobType": "CommandEncapsulation"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiChannelV4MultiInstanceCmdEncapData) {
+		super(MultiInstanceCmdEncap, data);
+	}
+};
+
+export class MultiInstanceGet extends CommandPacket<MultiChannelV4MultiInstanceGetData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "MultiInstanceGet",
+		"help": "Multi Instance Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "commandClass",
+				"help": "Command Class",
+				"length": 1,
+				"valueType": "CommandClass"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiChannelV4MultiInstanceGetData) {
+		super(MultiInstanceGet, data);
+	}
+};
+
+export class MultiInstanceReport extends CommandPacket<MultiChannelV4MultiInstanceReportData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "MultiInstanceReport",
+		"help": "Multi Instance Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "commandClass",
+				"help": "Command Class",
+				"length": 1,
+				"valueType": "CommandClass"
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
 					},
-					"bitmaskType": "EndpointNumber"
-				}
-			]
-		} as JsonCommandDefinition);
+					{
+						"fieldType": "Integer",
+						"name": "instances",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MultiChannelV4)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
 
-		constructor(data: Buffer | MultiChannelV4MultiChannelAggregatedMembersReportData) {
-			super(MultiChannelAggregatedMembersReport, data);
-		}
-	};
-}
+	constructor(data: Buffer | MultiChannelV4MultiInstanceReportData) {
+		super(MultiInstanceReport, data);
+	}
+};
 
-export namespace MultiChannelV4 {
-	export type MultiChannelCapabilityGet = InstanceType<typeof MultiChannelV4.MultiChannelCapabilityGet>;
-	export type MultiChannelCapabilityReport = InstanceType<typeof MultiChannelV4.MultiChannelCapabilityReport>;
-	export type MultiChannelCmdEncap = InstanceType<typeof MultiChannelV4.MultiChannelCmdEncap>;
-	export type MultiChannelEndPointFind = InstanceType<typeof MultiChannelV4.MultiChannelEndPointFind>;
-	export type MultiChannelEndPointFindReport = InstanceType<typeof MultiChannelV4.MultiChannelEndPointFindReport>;
-	export type MultiChannelEndPointGet = InstanceType<typeof MultiChannelV4.MultiChannelEndPointGet>;
-	export type MultiChannelEndPointReport = InstanceType<typeof MultiChannelV4.MultiChannelEndPointReport>;
-	export type MultiInstanceCmdEncap = InstanceType<typeof MultiChannelV4.MultiInstanceCmdEncap>;
-	export type MultiInstanceGet = InstanceType<typeof MultiChannelV4.MultiInstanceGet>;
-	export type MultiInstanceReport = InstanceType<typeof MultiChannelV4.MultiInstanceReport>;
-	export type MultiChannelAggregatedMembersGet = InstanceType<typeof MultiChannelV4.MultiChannelAggregatedMembersGet>;
-	export type MultiChannelAggregatedMembersReport = InstanceType<typeof MultiChannelV4.MultiChannelAggregatedMembersReport>;
-}
+export class MultiChannelAggregatedMembersGet extends CommandPacket<MultiChannelV4MultiChannelAggregatedMembersGetData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x0e; // 14
+	public static readonly definition = convertFromJsonCommand({
+		"command": 14,
+		"name": "MultiChannelAggregatedMembersGet",
+		"help": "Multi Channel Aggregated Members Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "aggregatedEndPoint",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiChannelV4MultiChannelAggregatedMembersGetData) {
+		super(MultiChannelAggregatedMembersGet, data);
+	}
+};
+
+export class MultiChannelAggregatedMembersReport extends CommandPacket<MultiChannelV4MultiChannelAggregatedMembersReportData> {
+	public static readonly CommandClass = MultiChannelV4;
+	public static readonly command = 0x0f; // 15
+	public static readonly definition = convertFromJsonCommand({
+		"command": 15,
+		"name": "MultiChannelAggregatedMembersReport",
+		"help": "Multi Channel Aggregated Members Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "res",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "aggregatedEndPoint",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "numberOfBitMasks",
+				"help": "Number of Bit Masks",
+				"length": 1,
+				"lengthOf": {
+					"refs": [
+						"aggregatedMembersBitMask"
+					]
+				},
+				"isAutogenerated": true
+			},
+			{
+				"type": "Bitmask",
+				"name": "aggregatedMembersBitMask",
+				"help": "Aggregated Members Bit Mask",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "numberOfBitMasks"
+					}
+				},
+				"bitmaskType": "EndpointNumber"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MultiChannelV4)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MultiChannelV4MultiChannelAggregatedMembersReportData) {
+		super(MultiChannelAggregatedMembersReport, data);
+	}
+};

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum RateTblMonitorV1Commands {
 	RateTblActiveRateGet = 0x05,
@@ -116,681 +116,668 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 	constructor(commandAndPayload: Buffer) {
 		super(RateTblMonitorV1, commandAndPayload);
 	}
+}
 
-	public static readonly RateTblActiveRateGet = class RateTblActiveRateGet extends CommandPacket<void> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "RateTblActiveRateGet",
-			"help": "Rate Tbl Active Rate  Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class RateTblActiveRateGet extends CommandPacket<void> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "RateTblActiveRateGet",
+		"help": "Rate Tbl Active Rate  Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(RateTblActiveRateGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(RateTblActiveRateGet, data);
+	}
+};
 
-	public static readonly RateTblActiveRateReport = class RateTblActiveRateReport extends CommandPacket<RateTblMonitorV1RateTblActiveRateReportData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "RateTblActiveRateReport",
-			"help": "Rate Tbl Active Rate  Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "rateParameterSetId",
-					"help": "Rate Parameter Set ID",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
+export class RateTblActiveRateReport extends CommandPacket<RateTblMonitorV1RateTblActiveRateReportData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "RateTblActiveRateReport",
+		"help": "Rate Tbl Active Rate  Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "rateParameterSetId",
+				"help": "Rate Parameter Set ID",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | RateTblMonitorV1RateTblActiveRateReportData) {
-			super(RateTblActiveRateReport, data);
-		}
-	};
+	constructor(data: Buffer | RateTblMonitorV1RateTblActiveRateReportData) {
+		super(RateTblActiveRateReport, data);
+	}
+};
 
-	public static readonly RateTblCurrentDataGet = class RateTblCurrentDataGet extends CommandPacket<RateTblMonitorV1RateTblCurrentDataGetData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x07;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 7,
-			"name": "RateTblCurrentDataGet",
-			"help": "Rate Tbl Current Data Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "rateParameterSetId",
-					"help": "Rate Parameter Set ID",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "datasetRequested",
-					"help": "Dataset Requested",
-					"length": 3
-				}
-			]
-		} as JsonCommandDefinition);
+export class RateTblCurrentDataGet extends CommandPacket<RateTblMonitorV1RateTblCurrentDataGetData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x07; // 7
+	public static readonly definition = convertFromJsonCommand({
+		"command": 7,
+		"name": "RateTblCurrentDataGet",
+		"help": "Rate Tbl Current Data Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "rateParameterSetId",
+				"help": "Rate Parameter Set ID",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "datasetRequested",
+				"help": "Dataset Requested",
+				"length": 3
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataGetData) {
-			super(RateTblCurrentDataGet, data);
-		}
-	};
+	constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataGetData) {
+		super(RateTblCurrentDataGet, data);
+	}
+};
 
-	public static readonly RateTblCurrentDataReport = class RateTblCurrentDataReport extends CommandPacket<RateTblMonitorV1RateTblCurrentDataReportData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x08;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 8,
-			"name": "RateTblCurrentDataReport",
-			"help": "Rate Tbl Current Data Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "reportsToFollow",
-					"help": "Reports to Follow",
-					"length": 1,
-					"lengthOf": {
-						"refs": [
-							"vg"
-						]
-					},
-					"isAutogenerated": true
-				},
-				{
-					"type": "Integer",
-					"name": "rateParameterSetId",
-					"help": "Rate Parameter Set ID",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "dataset",
-					"help": "Dataset",
-					"length": 3
-				},
-				{
-					"type": "Integer",
-					"name": "year",
-					"help": "Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "month",
-					"help": "Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "day",
-					"help": "Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "hourLocalTime",
-					"help": "Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "minuteLocalTime",
-					"help": "Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "secondLocalTime",
-					"help": "Second Local Time",
-					"length": 1
-				},
-				{
-					"type": "Group",
-					"name": "vg",
-					"help": "vg",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "reportsToFollow"
-						}
-					},
-					"params": [
-						{
-							"type": "Bitfield",
-							"name": "properties1",
-							"help": "Properties1",
-							"length": 1,
-							"fields": [
-								{
-									"fieldType": "Integer",
-									"name": "currentPrecision",
-									"mask": 224,
-									"shift": 5
-								},
-								{
-									"fieldType": "Integer",
-									"name": "currentScale",
-									"mask": 31,
-									"shift": 0
-								}
-							]
-						},
-						{
-							"type": "Integer",
-							"name": "currentValue",
-							"help": "Current Value",
-							"length": 4
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataReportData) {
-			super(RateTblCurrentDataReport, data);
-		}
-	};
-
-	public static readonly RateTblGet = class RateTblGet extends CommandPacket<RateTblMonitorV1RateTblGetData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "RateTblGet",
-			"help": "Rate Tbl Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "rateParameterSetId",
-					"help": "Rate Parameter Set ID",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RateTblMonitorV1RateTblGetData) {
-			super(RateTblGet, data);
-		}
-	};
-
-	public static readonly RateTblHistoricalDataGet = class RateTblHistoricalDataGet extends CommandPacket<RateTblMonitorV1RateTblHistoricalDataGetData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x09;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 9,
-			"name": "RateTblHistoricalDataGet",
-			"help": "Rate Tbl Historical Data Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "maximumReports",
-					"help": "Maximum Reports",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "rateParameterSetId",
-					"help": "Rate Parameter Set ID",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "datasetRequested",
-					"help": "Dataset Requested",
-					"length": 3
-				},
-				{
-					"type": "Integer",
-					"name": "startYear",
-					"help": "Start Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "startMonth",
-					"help": "Start Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startDay",
-					"help": "Start Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startHourLocalTime",
-					"help": "Start Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startMinuteLocalTime",
-					"help": "Start Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startSecondLocalTime",
-					"help": "Start Second Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "stopYear",
-					"help": "Stop Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "stopMonth",
-					"help": "Stop Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "stopDay",
-					"help": "Stop Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "stopHourLocalTime",
-					"help": "Stop Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "stopMinuteLocalTime",
-					"help": "Stop Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "stopSecondLocalTime",
-					"help": "Stop Second Local Time",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataGetData) {
-			super(RateTblHistoricalDataGet, data);
-		}
-	};
-
-	public static readonly RateTblHistoricalDataReport = class RateTblHistoricalDataReport extends CommandPacket<RateTblMonitorV1RateTblHistoricalDataReportData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x0a;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 10,
-			"name": "RateTblHistoricalDataReport",
-			"help": "Rate Tbl Historical Data Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "reportsToFollow",
-					"help": "Reports to Follow",
-					"length": 1,
-					"lengthOf": {
-						"refs": [
-							"vg"
-						]
-					},
-					"isAutogenerated": true
-				},
-				{
-					"type": "Integer",
-					"name": "rateParameterSetId",
-					"help": "Rate Parameter Set ID",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "dataset",
-					"help": "Dataset",
-					"length": 3
-				},
-				{
-					"type": "Integer",
-					"name": "year",
-					"help": "Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "month",
-					"help": "Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "day",
-					"help": "Day",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "hourLocalTime",
-					"help": "Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "minuteLocalTime",
-					"help": "Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "secondLocalTime",
-					"help": "Second Local Time",
-					"length": 1
-				},
-				{
-					"type": "Group",
-					"name": "vg",
-					"help": "vg",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "reportsToFollow"
-						}
-					},
-					"params": [
-						{
-							"type": "Bitfield",
-							"name": "properties1",
-							"help": "Properties1",
-							"length": 1,
-							"fields": [
-								{
-									"fieldType": "Integer",
-									"name": "historicalPrecision",
-									"mask": 224,
-									"shift": 5
-								},
-								{
-									"fieldType": "Integer",
-									"name": "historicalScale",
-									"mask": 31,
-									"shift": 0
-								}
-							]
-						},
-						{
-							"type": "Integer",
-							"name": "historicalValue",
-							"help": "Historical Value",
-							"length": 4
-						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataReportData) {
-			super(RateTblHistoricalDataReport, data);
-		}
-	};
-
-	public static readonly RateTblReport = class RateTblReport extends CommandPacket<RateTblMonitorV1RateTblReportData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "RateTblReport",
-			"help": "Rate Tbl Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "rateParameterSetId",
-					"help": "Rate Parameter Set ID",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "reserved",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Integer",
-							"name": "rateType",
-							"mask": 96,
-							"shift": 5
-						},
-						{
-							"fieldType": "Integer",
-							"name": "numberOfRateChar",
-							"mask": 31,
-							"shift": 0,
-							"lengthOf": {
-								"refs": [
-									"rateCharacter"
-								]
-							},
-							"isAutogenerated": true
-						}
+export class RateTblCurrentDataReport extends CommandPacket<RateTblMonitorV1RateTblCurrentDataReportData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x08; // 8
+	public static readonly definition = convertFromJsonCommand({
+		"command": 8,
+		"name": "RateTblCurrentDataReport",
+		"help": "Rate Tbl Current Data Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "reportsToFollow",
+				"help": "Reports to Follow",
+				"length": 1,
+				"lengthOf": {
+					"refs": [
+						"vg"
 					]
 				},
-				{
-					"type": "Blob",
-					"name": "rateCharacter",
-					"help": "Rate Character",
-					"length": {
-						"lengthType": "Ref",
-						"from": {
-							"ref": "properties1.numberOfRateChar"
-						}
+				"isAutogenerated": true
+			},
+			{
+				"type": "Integer",
+				"name": "rateParameterSetId",
+				"help": "Rate Parameter Set ID",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "dataset",
+				"help": "Dataset",
+				"length": 3
+			},
+			{
+				"type": "Integer",
+				"name": "year",
+				"help": "Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "month",
+				"help": "Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "day",
+				"help": "Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "hourLocalTime",
+				"help": "Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "minuteLocalTime",
+				"help": "Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "secondLocalTime",
+				"help": "Second Local Time",
+				"length": 1
+			},
+			{
+				"type": "Group",
+				"name": "vg",
+				"help": "vg",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "reportsToFollow"
 					}
 				},
-				{
-					"type": "Integer",
-					"name": "startHourLocalTime",
-					"help": "Start Hour Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "startMinuteLocalTime",
-					"help": "Start Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "durationMinute",
-					"help": "Duration Minute",
-					"length": 2
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties2",
-					"help": "Properties2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "consumptionPrecision",
-							"mask": 224,
-							"shift": 5
-						},
-						{
-							"fieldType": "Integer",
-							"name": "consumptionScale",
-							"mask": 31,
-							"shift": 0
-						}
+				"params": [
+					{
+						"type": "Bitfield",
+						"name": "properties1",
+						"help": "Properties1",
+						"length": 1,
+						"fields": [
+							{
+								"fieldType": "Integer",
+								"name": "currentPrecision",
+								"mask": 224,
+								"shift": 5
+							},
+							{
+								"fieldType": "Integer",
+								"name": "currentScale",
+								"mask": 31,
+								"shift": 0
+							}
+						]
+					},
+					{
+						"type": "Integer",
+						"name": "currentValue",
+						"help": "Current Value",
+						"length": 4
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataReportData) {
+		super(RateTblCurrentDataReport, data);
+	}
+};
+
+export class RateTblGet extends CommandPacket<RateTblMonitorV1RateTblGetData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "RateTblGet",
+		"help": "Rate Tbl Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "rateParameterSetId",
+				"help": "Rate Parameter Set ID",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RateTblMonitorV1RateTblGetData) {
+		super(RateTblGet, data);
+	}
+};
+
+export class RateTblHistoricalDataGet extends CommandPacket<RateTblMonitorV1RateTblHistoricalDataGetData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x09; // 9
+	public static readonly definition = convertFromJsonCommand({
+		"command": 9,
+		"name": "RateTblHistoricalDataGet",
+		"help": "Rate Tbl Historical Data Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "maximumReports",
+				"help": "Maximum Reports",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "rateParameterSetId",
+				"help": "Rate Parameter Set ID",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "datasetRequested",
+				"help": "Dataset Requested",
+				"length": 3
+			},
+			{
+				"type": "Integer",
+				"name": "startYear",
+				"help": "Start Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "startMonth",
+				"help": "Start Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startDay",
+				"help": "Start Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startHourLocalTime",
+				"help": "Start Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startMinuteLocalTime",
+				"help": "Start Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startSecondLocalTime",
+				"help": "Start Second Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "stopYear",
+				"help": "Stop Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "stopMonth",
+				"help": "Stop Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "stopDay",
+				"help": "Stop Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "stopHourLocalTime",
+				"help": "Stop Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "stopMinuteLocalTime",
+				"help": "Stop Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "stopSecondLocalTime",
+				"help": "Stop Second Local Time",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataGetData) {
+		super(RateTblHistoricalDataGet, data);
+	}
+};
+
+export class RateTblHistoricalDataReport extends CommandPacket<RateTblMonitorV1RateTblHistoricalDataReportData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x0a; // 10
+	public static readonly definition = convertFromJsonCommand({
+		"command": 10,
+		"name": "RateTblHistoricalDataReport",
+		"help": "Rate Tbl Historical Data Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "reportsToFollow",
+				"help": "Reports to Follow",
+				"length": 1,
+				"lengthOf": {
+					"refs": [
+						"vg"
 					]
 				},
-				{
-					"type": "Integer",
-					"name": "minConsumptionValue",
-					"help": "Min Consumption Value",
-					"length": 4
+				"isAutogenerated": true
+			},
+			{
+				"type": "Integer",
+				"name": "rateParameterSetId",
+				"help": "Rate Parameter Set ID",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "dataset",
+				"help": "Dataset",
+				"length": 3
+			},
+			{
+				"type": "Integer",
+				"name": "year",
+				"help": "Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "month",
+				"help": "Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "day",
+				"help": "Day",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "hourLocalTime",
+				"help": "Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "minuteLocalTime",
+				"help": "Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "secondLocalTime",
+				"help": "Second Local Time",
+				"length": 1
+			},
+			{
+				"type": "Group",
+				"name": "vg",
+				"help": "vg",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "reportsToFollow"
+					}
 				},
-				{
-					"type": "Integer",
-					"name": "maxConsumptionValue",
-					"help": "Max Consumption Value",
-					"length": 4
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties3",
-					"help": "Properties3",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "maxDemandPrecision",
-							"mask": 224,
-							"shift": 5
+				"params": [
+					{
+						"type": "Bitfield",
+						"name": "properties1",
+						"help": "Properties1",
+						"length": 1,
+						"fields": [
+							{
+								"fieldType": "Integer",
+								"name": "historicalPrecision",
+								"mask": 224,
+								"shift": 5
+							},
+							{
+								"fieldType": "Integer",
+								"name": "historicalScale",
+								"mask": 31,
+								"shift": 0
+							}
+						]
+					},
+					{
+						"type": "Integer",
+						"name": "historicalValue",
+						"help": "Historical Value",
+						"length": 4
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataReportData) {
+		super(RateTblHistoricalDataReport, data);
+	}
+};
+
+export class RateTblReport extends CommandPacket<RateTblMonitorV1RateTblReportData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "RateTblReport",
+		"help": "Rate Tbl Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "rateParameterSetId",
+				"help": "Rate Parameter Set ID",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "reserved",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Integer",
+						"name": "rateType",
+						"mask": 96,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "numberOfRateChar",
+						"mask": 31,
+						"shift": 0,
+						"lengthOf": {
+							"refs": [
+								"rateCharacter"
+							]
 						},
-						{
-							"fieldType": "Integer",
-							"name": "maxDemandScale",
-							"mask": 31,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "maxDemandValue",
-					"help": "Max Demand Value",
-					"length": 4
-				},
-				{
-					"type": "Integer",
-					"name": "dcpRateId",
-					"help": "DCP Rate ID",
-					"length": 1
+						"isAutogenerated": true
+					}
+				]
+			},
+			{
+				"type": "Blob",
+				"name": "rateCharacter",
+				"help": "Rate Character",
+				"length": {
+					"lengthType": "Ref",
+					"from": {
+						"ref": "properties1.numberOfRateChar"
+					}
 				}
-			]
-		} as JsonCommandDefinition);
+			},
+			{
+				"type": "Integer",
+				"name": "startHourLocalTime",
+				"help": "Start Hour Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "startMinuteLocalTime",
+				"help": "Start Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "durationMinute",
+				"help": "Duration Minute",
+				"length": 2
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties2",
+				"help": "Properties2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "consumptionPrecision",
+						"mask": 224,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "consumptionScale",
+						"mask": 31,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "minConsumptionValue",
+				"help": "Min Consumption Value",
+				"length": 4
+			},
+			{
+				"type": "Integer",
+				"name": "maxConsumptionValue",
+				"help": "Max Consumption Value",
+				"length": 4
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties3",
+				"help": "Properties3",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "maxDemandPrecision",
+						"mask": 224,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "maxDemandScale",
+						"mask": 31,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "maxDemandValue",
+				"help": "Max Demand Value",
+				"length": 4
+			},
+			{
+				"type": "Integer",
+				"name": "dcpRateId",
+				"help": "DCP Rate ID",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | RateTblMonitorV1RateTblReportData) {
-			super(RateTblReport, data);
-		}
-	};
+	constructor(data: Buffer | RateTblMonitorV1RateTblReportData) {
+		super(RateTblReport, data);
+	}
+};
 
-	public static readonly RateTblSupportedGet = class RateTblSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "RateTblSupportedGet",
-			"help": "Rate Tbl Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class RateTblSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "RateTblSupportedGet",
+		"help": "Rate Tbl Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(RateTblSupportedGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(RateTblSupportedGet, data);
+	}
+};
 
-	public static readonly RateTblSupportedReport = class RateTblSupportedReport extends CommandPacket<RateTblMonitorV1RateTblSupportedReportData> {
-		public static readonly CommandClass = RateTblMonitorV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "RateTblSupportedReport",
-			"help": "Rate Tbl Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "ratesSupported",
-					"help": "Rates Supported",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "parameterSetSupportedBitMask",
-					"help": "Parameter Set Supported Bit Mask",
-					"length": 2
-				}
-			]
-		} as JsonCommandDefinition);
+export class RateTblSupportedReport extends CommandPacket<RateTblMonitorV1RateTblSupportedReportData> {
+	public static readonly CommandClass = RateTblMonitorV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "RateTblSupportedReport",
+		"help": "Rate Tbl Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "ratesSupported",
+				"help": "Rates Supported",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "parameterSetSupportedBitMask",
+				"help": "Parameter Set Supported Bit Mask",
+				"length": 2
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(RateTblMonitorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | RateTblMonitorV1RateTblSupportedReportData) {
-			super(RateTblSupportedReport, data);
-		}
-	};
-}
-
-export namespace RateTblMonitorV1 {
-	export type RateTblActiveRateGet = InstanceType<typeof RateTblMonitorV1.RateTblActiveRateGet>;
-	export type RateTblActiveRateReport = InstanceType<typeof RateTblMonitorV1.RateTblActiveRateReport>;
-	export type RateTblCurrentDataGet = InstanceType<typeof RateTblMonitorV1.RateTblCurrentDataGet>;
-	export type RateTblCurrentDataReport = InstanceType<typeof RateTblMonitorV1.RateTblCurrentDataReport>;
-	export type RateTblGet = InstanceType<typeof RateTblMonitorV1.RateTblGet>;
-	export type RateTblHistoricalDataGet = InstanceType<typeof RateTblMonitorV1.RateTblHistoricalDataGet>;
-	export type RateTblHistoricalDataReport = InstanceType<typeof RateTblMonitorV1.RateTblHistoricalDataReport>;
-	export type RateTblReport = InstanceType<typeof RateTblMonitorV1.RateTblReport>;
-	export type RateTblSupportedGet = InstanceType<typeof RateTblMonitorV1.RateTblSupportedGet>;
-	export type RateTblSupportedReport = InstanceType<typeof RateTblMonitorV1.RateTblSupportedReport>;
-}
+	constructor(data: Buffer | RateTblMonitorV1RateTblSupportedReportData) {
+		super(RateTblSupportedReport, data);
+	}
+};

@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SwitchMultilevelV1Commands {
 	SwitchMultilevelGet = 0x02,
@@ -40,187 +40,179 @@ export class SwitchMultilevelV1 extends CommandClassPacket<SwitchMultilevelV1Com
 	constructor(commandAndPayload: Buffer) {
 		super(SwitchMultilevelV1, commandAndPayload);
 	}
-
-	public static readonly SwitchMultilevelGet = class SwitchMultilevelGet extends CommandPacket<void> {
-		public static readonly CommandClass = SwitchMultilevelV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "SwitchMultilevelGet",
-			"help": "Switch Multilevel Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(SwitchMultilevelGet, data);
-		}
-	};
-
-	public static readonly SwitchMultilevelReport = class SwitchMultilevelReport extends CommandPacket<SwitchMultilevelV1SwitchMultilevelReportData> {
-		public static readonly CommandClass = SwitchMultilevelV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "SwitchMultilevelReport",
-			"help": "Switch Multilevel Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "value",
-					"help": "Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "OffDisable",
-							"help": "off/disable"
-						},
-						"255": {
-							"name": "OnEnable",
-							"help": "on/enable"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SwitchMultilevelV1SwitchMultilevelReportData) {
-			super(SwitchMultilevelReport, data);
-		}
-	};
-
-	public static readonly SwitchMultilevelSet = class SwitchMultilevelSet extends CommandPacket<SwitchMultilevelV1SwitchMultilevelSetData> {
-		public static readonly CommandClass = SwitchMultilevelV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "SwitchMultilevelSet",
-			"help": "Switch Multilevel Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "value",
-					"help": "Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "OffDisable",
-							"help": "off/disable"
-						},
-						"255": {
-							"name": "OnEnable",
-							"help": "on/enable"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SwitchMultilevelV1SwitchMultilevelSetData) {
-			super(SwitchMultilevelSet, data);
-		}
-	};
-
-	public static readonly SwitchMultilevelStartLevelChange = class SwitchMultilevelStartLevelChange extends CommandPacket<SwitchMultilevelV1SwitchMultilevelStartLevelChangeData> {
-		public static readonly CommandClass = SwitchMultilevelV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "SwitchMultilevelStartLevelChange",
-			"help": "Switch Multilevel Start Level Change",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "reserved2",
-							"mask": 128,
-							"shift": 7,
-							"reserved": true
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "upDown",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "ignoreStartLevel",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"fieldType": "Integer",
-							"name": "reserved1",
-							"mask": 31,
-							"shift": 0,
-							"reserved": true
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "startLevel",
-					"help": "Start Level",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SwitchMultilevelV1SwitchMultilevelStartLevelChangeData) {
-			super(SwitchMultilevelStartLevelChange, data);
-		}
-	};
-
-	public static readonly SwitchMultilevelStopLevelChange = class SwitchMultilevelStopLevelChange extends CommandPacket<void> {
-		public static readonly CommandClass = SwitchMultilevelV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "SwitchMultilevelStopLevelChange",
-			"help": "Switch Multilevel Stop Level Change",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(SwitchMultilevelStopLevelChange, data);
-		}
-	};
 }
 
-export namespace SwitchMultilevelV1 {
-	export type SwitchMultilevelGet = InstanceType<typeof SwitchMultilevelV1.SwitchMultilevelGet>;
-	export type SwitchMultilevelReport = InstanceType<typeof SwitchMultilevelV1.SwitchMultilevelReport>;
-	export type SwitchMultilevelSet = InstanceType<typeof SwitchMultilevelV1.SwitchMultilevelSet>;
-	export type SwitchMultilevelStartLevelChange = InstanceType<typeof SwitchMultilevelV1.SwitchMultilevelStartLevelChange>;
-	export type SwitchMultilevelStopLevelChange = InstanceType<typeof SwitchMultilevelV1.SwitchMultilevelStopLevelChange>;
-}
+export class SwitchMultilevelGet extends CommandPacket<void> {
+	public static readonly CommandClass = SwitchMultilevelV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "SwitchMultilevelGet",
+		"help": "Switch Multilevel Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(SwitchMultilevelGet, data);
+	}
+};
+
+export class SwitchMultilevelReport extends CommandPacket<SwitchMultilevelV1SwitchMultilevelReportData> {
+	public static readonly CommandClass = SwitchMultilevelV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "SwitchMultilevelReport",
+		"help": "Switch Multilevel Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "value",
+				"help": "Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "OffDisable",
+						"help": "off/disable"
+					},
+					"255": {
+						"name": "OnEnable",
+						"help": "on/enable"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SwitchMultilevelV1SwitchMultilevelReportData) {
+		super(SwitchMultilevelReport, data);
+	}
+};
+
+export class SwitchMultilevelSet extends CommandPacket<SwitchMultilevelV1SwitchMultilevelSetData> {
+	public static readonly CommandClass = SwitchMultilevelV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "SwitchMultilevelSet",
+		"help": "Switch Multilevel Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "value",
+				"help": "Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "OffDisable",
+						"help": "off/disable"
+					},
+					"255": {
+						"name": "OnEnable",
+						"help": "on/enable"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SwitchMultilevelV1SwitchMultilevelSetData) {
+		super(SwitchMultilevelSet, data);
+	}
+};
+
+export class SwitchMultilevelStartLevelChange extends CommandPacket<SwitchMultilevelV1SwitchMultilevelStartLevelChangeData> {
+	public static readonly CommandClass = SwitchMultilevelV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "SwitchMultilevelStartLevelChange",
+		"help": "Switch Multilevel Start Level Change",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "reserved2",
+						"mask": 128,
+						"shift": 7,
+						"reserved": true
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "upDown",
+						"mask": 64,
+						"shift": 6
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "ignoreStartLevel",
+						"mask": 32,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "reserved1",
+						"mask": 31,
+						"shift": 0,
+						"reserved": true
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "startLevel",
+				"help": "Start Level",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SwitchMultilevelV1SwitchMultilevelStartLevelChangeData) {
+		super(SwitchMultilevelStartLevelChange, data);
+	}
+};
+
+export class SwitchMultilevelStopLevelChange extends CommandPacket<void> {
+	public static readonly CommandClass = SwitchMultilevelV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "SwitchMultilevelStopLevelChange",
+		"help": "Switch Multilevel Stop Level Change",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SwitchMultilevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(SwitchMultilevelStopLevelChange, data);
+	}
+};

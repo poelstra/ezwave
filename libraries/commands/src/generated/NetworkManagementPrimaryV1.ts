@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NetworkManagementPrimaryV1Commands {
 	ControllerChange = 0x01,
@@ -55,236 +55,231 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 	constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementPrimaryV1, commandAndPayload);
 	}
+}
 
-	public static readonly ControllerChange = class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeData> {
-		public static readonly CommandClass = NetworkManagementPrimaryV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "ControllerChange",
-			"help": "Controller Change",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "reserved",
-					"help": "Reserved",
-					"length": 1,
-					"reserved": true
-				},
-				{
-					"type": "Integer",
-					"name": "mode",
-					"help": "Mode",
-					"length": 1,
-					"values": {
-						"2": {
-							"name": "ControllerChangeStart",
-							"help": "CONTROLLER_CHANGE_START"
-						},
-						"5": {
-							"name": "ControllerChangeStop",
-							"help": "CONTROLLER_CHANGE_STOP"
-						}
-					}
-				},
-				{
-					"type": "Bitmask",
-					"name": "txOptions",
-					"help": "tx Options",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Ack",
-							"help": "Ack"
-						},
-						"1": {
-							"name": "LowPower",
-							"help": "Low Power"
-						},
-						"2": {
-							"name": "AutoRoute",
-							"help": "Auto Route"
-						},
-						"3": {
-							"name": "Reserved",
-							"help": "Reserved"
-						},
-						"4": {
-							"name": "NoRoute",
-							"help": "No Route"
-						},
-						"5": {
-							"name": "Explore",
-							"help": "Explore"
-						},
-						"6": {
-							"name": "NoRetransmission",
-							"help": "No Retransmission"
-						},
-						"7": {
-							"name": "HighPower",
-							"help": "High Power"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeData) {
-			super(ControllerChange, data);
-		}
-	};
-
-	public static readonly ControllerChangeStatus = class ControllerChangeStatus extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeStatusData> {
-		public static readonly CommandClass = NetworkManagementPrimaryV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ControllerChangeStatus",
-			"help": "Controller Change Status",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "seqNo",
-					"help": "Seq. No",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "status",
-					"help": "Status",
-					"length": 1,
-					"values": {
-						"6": {
-							"name": "NodeAddStatusDone",
-							"help": "NODE_ADD_STATUS_DONE"
-						},
-						"7": {
-							"name": "NodeAddStatusFailed",
-							"help": "NODE_ADD_STATUS_FAILED"
-						},
-						"9": {
-							"name": "NodeAddStatusSecurityFailed",
-							"help": "NODE_ADD_STATUS_SECURITY_FAILED"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "reserved",
-					"help": "Reserved",
-					"length": 1,
-					"reserved": true
-				},
-				{
-					"type": "Integer",
-					"name": "newNodeId",
-					"help": "New Node ID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Integer",
-					"name": "nodeInfoLength",
-					"help": "Node Info Length",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "listening",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "zWaveProtocolSpecificPart1",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties2",
-					"help": "Properties2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "opt",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Integer",
-							"name": "zWaveProtocolSpecificPart2",
-							"mask": 127,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "basicDeviceClass",
-					"help": "Basic Device Class",
-					"length": 1,
-					"valueType": "BasicDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "genericDeviceClass",
-					"help": "Generic Device Class",
-					"length": 1,
-					"valueType": "GenericDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "specificDeviceClass",
-					"help": "Specific Device Class",
-					"length": 1,
-					"valueType": "SpecificDevice"
-				},
-				{
-					"type": "Blob",
-					"name": "commandClasses",
-					"help": "Command Classes",
-					"length": {
-						"lengthType": "Auto"
+export class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeData> {
+	public static readonly CommandClass = NetworkManagementPrimaryV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "ControllerChange",
+		"help": "Controller Change",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "reserved",
+				"help": "Reserved",
+				"length": 1,
+				"reserved": true
+			},
+			{
+				"type": "Integer",
+				"name": "mode",
+				"help": "Mode",
+				"length": 1,
+				"values": {
+					"2": {
+						"name": "ControllerChangeStart",
+						"help": "CONTROLLER_CHANGE_START"
 					},
-					"blobType": "CommandClasses"
+					"5": {
+						"name": "ControllerChangeStop",
+						"help": "CONTROLLER_CHANGE_STOP"
+					}
 				}
-			]
-		} as JsonCommandDefinition);
+			},
+			{
+				"type": "Bitmask",
+				"name": "txOptions",
+				"help": "tx Options",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Ack",
+						"help": "Ack"
+					},
+					"1": {
+						"name": "LowPower",
+						"help": "Low Power"
+					},
+					"2": {
+						"name": "AutoRoute",
+						"help": "Auto Route"
+					},
+					"3": {
+						"name": "Reserved",
+						"help": "Reserved"
+					},
+					"4": {
+						"name": "NoRoute",
+						"help": "No Route"
+					},
+					"5": {
+						"name": "Explore",
+						"help": "Explore"
+					},
+					"6": {
+						"name": "NoRetransmission",
+						"help": "No Retransmission"
+					},
+					"7": {
+						"name": "HighPower",
+						"help": "High Power"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeStatusData) {
-			super(ControllerChangeStatus, data);
-		}
-	};
-}
+	constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeData) {
+		super(ControllerChange, data);
+	}
+};
 
-export namespace NetworkManagementPrimaryV1 {
-	export type ControllerChange = InstanceType<typeof NetworkManagementPrimaryV1.ControllerChange>;
-	export type ControllerChangeStatus = InstanceType<typeof NetworkManagementPrimaryV1.ControllerChangeStatus>;
-}
+export class ControllerChangeStatus extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeStatusData> {
+	public static readonly CommandClass = NetworkManagementPrimaryV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ControllerChangeStatus",
+		"help": "Controller Change Status",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "seqNo",
+				"help": "Seq. No",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "status",
+				"help": "Status",
+				"length": 1,
+				"values": {
+					"6": {
+						"name": "NodeAddStatusDone",
+						"help": "NODE_ADD_STATUS_DONE"
+					},
+					"7": {
+						"name": "NodeAddStatusFailed",
+						"help": "NODE_ADD_STATUS_FAILED"
+					},
+					"9": {
+						"name": "NodeAddStatusSecurityFailed",
+						"help": "NODE_ADD_STATUS_SECURITY_FAILED"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "reserved",
+				"help": "Reserved",
+				"length": 1,
+				"reserved": true
+			},
+			{
+				"type": "Integer",
+				"name": "newNodeId",
+				"help": "New Node ID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Integer",
+				"name": "nodeInfoLength",
+				"help": "Node Info Length",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "listening",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "zWaveProtocolSpecificPart1",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties2",
+				"help": "Properties2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "opt",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Integer",
+						"name": "zWaveProtocolSpecificPart2",
+						"mask": 127,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "basicDeviceClass",
+				"help": "Basic Device Class",
+				"length": 1,
+				"valueType": "BasicDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "genericDeviceClass",
+				"help": "Generic Device Class",
+				"length": 1,
+				"valueType": "GenericDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "specificDeviceClass",
+				"help": "Specific Device Class",
+				"length": 1,
+				"valueType": "SpecificDevice"
+			},
+			{
+				"type": "Blob",
+				"name": "commandClasses",
+				"help": "Command Classes",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"blobType": "CommandClasses"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeStatusData) {
+		super(ControllerChangeStatus, data);
+	}
+};

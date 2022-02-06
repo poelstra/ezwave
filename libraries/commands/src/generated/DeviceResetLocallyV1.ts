@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum DeviceResetLocallyV1Commands {
 	DeviceResetLocallyNotification = 0x01,
@@ -22,28 +22,24 @@ export class DeviceResetLocallyV1 extends CommandClassPacket<DeviceResetLocallyV
 	constructor(commandAndPayload: Buffer) {
 		super(DeviceResetLocallyV1, commandAndPayload);
 	}
-
-	public static readonly DeviceResetLocallyNotification = class DeviceResetLocallyNotification extends CommandPacket<void> {
-		public static readonly CommandClass = DeviceResetLocallyV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "DeviceResetLocallyNotification",
-			"help": "Device Reset Locally Notification",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DeviceResetLocallyV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(DeviceResetLocallyNotification, data);
-		}
-	};
 }
 
-export namespace DeviceResetLocallyV1 {
-	export type DeviceResetLocallyNotification = InstanceType<typeof DeviceResetLocallyV1.DeviceResetLocallyNotification>;
-}
+export class DeviceResetLocallyNotification extends CommandPacket<void> {
+	public static readonly CommandClass = DeviceResetLocallyV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "DeviceResetLocallyNotification",
+		"help": "Device Reset Locally Notification",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DeviceResetLocallyV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(DeviceResetLocallyNotification, data);
+	}
+};

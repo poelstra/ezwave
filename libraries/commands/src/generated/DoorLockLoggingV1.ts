@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum DoorLockLoggingV1Commands {
 	DoorLockLoggingRecordsSupportedGet = 0x01,
@@ -48,188 +48,181 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 	constructor(commandAndPayload: Buffer) {
 		super(DoorLockLoggingV1, commandAndPayload);
 	}
+}
 
-	public static readonly DoorLockLoggingRecordsSupportedGet = class DoorLockLoggingRecordsSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = DoorLockLoggingV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "DoorLockLoggingRecordsSupportedGet",
-			"help": "Door Lock Logging Records Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class DoorLockLoggingRecordsSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = DoorLockLoggingV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "DoorLockLoggingRecordsSupportedGet",
+		"help": "Door Lock Logging Records Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(DoorLockLoggingRecordsSupportedGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(DoorLockLoggingRecordsSupportedGet, data);
+	}
+};
 
-	public static readonly DoorLockLoggingRecordsSupportedReport = class DoorLockLoggingRecordsSupportedReport extends CommandPacket<DoorLockLoggingV1DoorLockLoggingRecordsSupportedReportData> {
-		public static readonly CommandClass = DoorLockLoggingV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "DoorLockLoggingRecordsSupportedReport",
-			"help": "Door Lock Logging Records Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "maxRecordsStored",
-					"help": "Max records stored",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
+export class DoorLockLoggingRecordsSupportedReport extends CommandPacket<DoorLockLoggingV1DoorLockLoggingRecordsSupportedReportData> {
+	public static readonly CommandClass = DoorLockLoggingV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "DoorLockLoggingRecordsSupportedReport",
+		"help": "Door Lock Logging Records Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "maxRecordsStored",
+				"help": "Max records stored",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | DoorLockLoggingV1DoorLockLoggingRecordsSupportedReportData) {
-			super(DoorLockLoggingRecordsSupportedReport, data);
-		}
-	};
+	constructor(data: Buffer | DoorLockLoggingV1DoorLockLoggingRecordsSupportedReportData) {
+		super(DoorLockLoggingRecordsSupportedReport, data);
+	}
+};
 
-	public static readonly RecordGet = class RecordGet extends CommandPacket<DoorLockLoggingV1RecordGetData> {
-		public static readonly CommandClass = DoorLockLoggingV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "RecordGet",
-			"help": "Record Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "recordNumber",
-					"help": "Record number",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
+export class RecordGet extends CommandPacket<DoorLockLoggingV1RecordGetData> {
+	public static readonly CommandClass = DoorLockLoggingV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "RecordGet",
+		"help": "Record Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "recordNumber",
+				"help": "Record number",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | DoorLockLoggingV1RecordGetData) {
-			super(RecordGet, data);
-		}
-	};
+	constructor(data: Buffer | DoorLockLoggingV1RecordGetData) {
+		super(RecordGet, data);
+	}
+};
 
-	public static readonly RecordReport = class RecordReport extends CommandPacket<DoorLockLoggingV1RecordReportData> {
-		public static readonly CommandClass = DoorLockLoggingV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "RecordReport",
-			"help": "Record Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "recordNumber",
-					"help": "Record number",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "year",
-					"help": "Year",
-					"length": 2
-				},
-				{
-					"type": "Integer",
-					"name": "month",
-					"help": "Month",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "day",
-					"help": "Day",
-					"length": 1
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "recordStatus",
-							"mask": 224,
-							"shift": 5
-						},
-						{
-							"fieldType": "Integer",
-							"name": "hourLocalTime",
-							"mask": 31,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "minuteLocalTime",
-					"help": "Minute Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "secondLocalTime",
-					"help": "Second Local Time",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "eventType",
-					"help": "Event Type",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "userIdentifier",
-					"help": "User Identifier",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "userCodeLength",
-					"help": "User Code Length",
-					"length": 1
-				},
-				{
-					"type": "Blob",
-					"name": "userCode",
-					"help": "USER_CODE",
-					"length": {
-						"lengthType": "Auto"
+export class RecordReport extends CommandPacket<DoorLockLoggingV1RecordReportData> {
+	public static readonly CommandClass = DoorLockLoggingV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "RecordReport",
+		"help": "Record Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "recordNumber",
+				"help": "Record number",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "year",
+				"help": "Year",
+				"length": 2
+			},
+			{
+				"type": "Integer",
+				"name": "month",
+				"help": "Month",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "day",
+				"help": "Day",
+				"length": 1
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "recordStatus",
+						"mask": 224,
+						"shift": 5
+					},
+					{
+						"fieldType": "Integer",
+						"name": "hourLocalTime",
+						"mask": 31,
+						"shift": 0
 					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "minuteLocalTime",
+				"help": "Minute Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "secondLocalTime",
+				"help": "Second Local Time",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "eventType",
+				"help": "Event Type",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "userIdentifier",
+				"help": "User Identifier",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "userCodeLength",
+				"help": "User Code Length",
+				"length": 1
+			},
+			{
+				"type": "Blob",
+				"name": "userCode",
+				"help": "USER_CODE",
+				"length": {
+					"lengthType": "Auto"
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | DoorLockLoggingV1RecordReportData) {
-			super(RecordReport, data);
-		}
-	};
-}
-
-export namespace DoorLockLoggingV1 {
-	export type DoorLockLoggingRecordsSupportedGet = InstanceType<typeof DoorLockLoggingV1.DoorLockLoggingRecordsSupportedGet>;
-	export type DoorLockLoggingRecordsSupportedReport = InstanceType<typeof DoorLockLoggingV1.DoorLockLoggingRecordsSupportedReport>;
-	export type RecordGet = InstanceType<typeof DoorLockLoggingV1.RecordGet>;
-	export type RecordReport = InstanceType<typeof DoorLockLoggingV1.RecordReport>;
-}
+	constructor(data: Buffer | DoorLockLoggingV1RecordReportData) {
+		super(RecordReport, data);
+	}
+};

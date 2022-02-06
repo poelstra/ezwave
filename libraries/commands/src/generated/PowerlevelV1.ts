@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum PowerlevelV1Commands {
 	PowerlevelGet = 0x02,
@@ -72,345 +72,336 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(PowerlevelV1, commandAndPayload);
 	}
-
-	public static readonly PowerlevelGet = class PowerlevelGet extends CommandPacket<void> {
-		public static readonly CommandClass = PowerlevelV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "PowerlevelGet",
-			"help": "Powerlevel Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(PowerlevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(PowerlevelGet, data);
-		}
-	};
-
-	public static readonly PowerlevelReport = class PowerlevelReport extends CommandPacket<PowerlevelV1PowerlevelReportData> {
-		public static readonly CommandClass = PowerlevelV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "PowerlevelReport",
-			"help": "Powerlevel Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "powerLevel",
-					"help": "Power level",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NormalPower",
-							"help": "NormalPower"
-						},
-						"1": {
-							"name": "Minus1dBm",
-							"help": "minus1dBm"
-						},
-						"2": {
-							"name": "Minus2dBm",
-							"help": "minus2dBm"
-						},
-						"3": {
-							"name": "Minus3dBm",
-							"help": "minus3dBm"
-						},
-						"4": {
-							"name": "Minus4dBm",
-							"help": "minus4dBm"
-						},
-						"5": {
-							"name": "Minus5dBm",
-							"help": "minus5dBm"
-						},
-						"6": {
-							"name": "Minus6dBm",
-							"help": "minus6dBm"
-						},
-						"7": {
-							"name": "Minus7dBm",
-							"help": "minus7dBm"
-						},
-						"8": {
-							"name": "Minus8dBm",
-							"help": "minus8dBm"
-						},
-						"9": {
-							"name": "Minus9dBm",
-							"help": "minus9dBm"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "timeout",
-					"help": "Timeout",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(PowerlevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | PowerlevelV1PowerlevelReportData) {
-			super(PowerlevelReport, data);
-		}
-	};
-
-	public static readonly PowerlevelSet = class PowerlevelSet extends CommandPacket<PowerlevelV1PowerlevelSetData> {
-		public static readonly CommandClass = PowerlevelV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "PowerlevelSet",
-			"help": "Powerlevel Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "powerLevel",
-					"help": "Power level",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NormalPower",
-							"help": "NormalPower"
-						},
-						"1": {
-							"name": "Minus1dBm",
-							"help": "minus1dBm"
-						},
-						"2": {
-							"name": "Minus2dBm",
-							"help": "minus2dBm"
-						},
-						"3": {
-							"name": "Minus3dBm",
-							"help": "minus3dBm"
-						},
-						"4": {
-							"name": "Minus4dBm",
-							"help": "minus4dBm"
-						},
-						"5": {
-							"name": "Minus5dBm",
-							"help": "minus5dBm"
-						},
-						"6": {
-							"name": "Minus6dBm",
-							"help": "minus6dBm"
-						},
-						"7": {
-							"name": "Minus7dBm",
-							"help": "minus7dBm"
-						},
-						"8": {
-							"name": "Minus8dBm",
-							"help": "minus8dBm"
-						},
-						"9": {
-							"name": "Minus9dBm",
-							"help": "minus9dBm"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "timeout",
-					"help": "Timeout",
-					"length": 1
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(PowerlevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | PowerlevelV1PowerlevelSetData) {
-			super(PowerlevelSet, data);
-		}
-	};
-
-	public static readonly PowerlevelTestNodeGet = class PowerlevelTestNodeGet extends CommandPacket<void> {
-		public static readonly CommandClass = PowerlevelV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "PowerlevelTestNodeGet",
-			"help": "Powerlevel Test Node Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(PowerlevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(PowerlevelTestNodeGet, data);
-		}
-	};
-
-	public static readonly PowerlevelTestNodeReport = class PowerlevelTestNodeReport extends CommandPacket<PowerlevelV1PowerlevelTestNodeReportData> {
-		public static readonly CommandClass = PowerlevelV1;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "PowerlevelTestNodeReport",
-			"help": "Powerlevel Test Node Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "testNodeId",
-					"help": "Test NodeID",
-					"length": 1,
-					"valueType": "NodeNumber",
-					"values": {
-						"0": {
-							"name": "ZwTestNotANodeid",
-							"help": "ZW_TEST_NOT_A_NODEID"
-						}
-					}
-				},
-				{
-					"type": "Enum",
-					"name": "statusOfOperation",
-					"help": "Status of operation",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "ZwTestFailed",
-							"help": "ZW_TEST_FAILED"
-						},
-						"1": {
-							"name": "ZwTestSucces",
-							"help": "ZW_TEST_SUCCES"
-						},
-						"2": {
-							"name": "ZwTestInprogress",
-							"help": "ZW_TEST_INPROGRESS"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "testFrameCount",
-					"help": "Test Frame Count",
-					"length": 2
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(PowerlevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeReportData) {
-			super(PowerlevelTestNodeReport, data);
-		}
-	};
-
-	public static readonly PowerlevelTestNodeSet = class PowerlevelTestNodeSet extends CommandPacket<PowerlevelV1PowerlevelTestNodeSetData> {
-		public static readonly CommandClass = PowerlevelV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "PowerlevelTestNodeSet",
-			"help": "Powerlevel Test Node Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "testNodeId",
-					"help": "Test NodeID",
-					"length": 1,
-					"valueType": "NodeNumber"
-				},
-				{
-					"type": "Enum",
-					"name": "powerLevel",
-					"help": "Power level",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NormalPower",
-							"help": "NormalPower"
-						},
-						"1": {
-							"name": "Minus1dBm",
-							"help": "minus1dBm"
-						},
-						"2": {
-							"name": "Minus2dBm",
-							"help": "minus2dBm"
-						},
-						"3": {
-							"name": "Minus3dBm",
-							"help": "minus3dBm"
-						},
-						"4": {
-							"name": "Minus4dBm",
-							"help": "minus4dBm"
-						},
-						"5": {
-							"name": "Minus5dBm",
-							"help": "minus5dBm"
-						},
-						"6": {
-							"name": "Minus6dBm",
-							"help": "minus6dBm"
-						},
-						"7": {
-							"name": "Minus7dBm",
-							"help": "minus7dBm"
-						},
-						"8": {
-							"name": "Minus8dBm",
-							"help": "minus8dBm"
-						},
-						"9": {
-							"name": "Minus9dBm",
-							"help": "minus9dBm"
-						}
-					}
-				},
-				{
-					"type": "Integer",
-					"name": "testFrameCount",
-					"help": "Test frame count",
-					"length": 2
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(PowerlevelV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeSetData) {
-			super(PowerlevelTestNodeSet, data);
-		}
-	};
 }
 
-export namespace PowerlevelV1 {
-	export type PowerlevelGet = InstanceType<typeof PowerlevelV1.PowerlevelGet>;
-	export type PowerlevelReport = InstanceType<typeof PowerlevelV1.PowerlevelReport>;
-	export type PowerlevelSet = InstanceType<typeof PowerlevelV1.PowerlevelSet>;
-	export type PowerlevelTestNodeGet = InstanceType<typeof PowerlevelV1.PowerlevelTestNodeGet>;
-	export type PowerlevelTestNodeReport = InstanceType<typeof PowerlevelV1.PowerlevelTestNodeReport>;
-	export type PowerlevelTestNodeSet = InstanceType<typeof PowerlevelV1.PowerlevelTestNodeSet>;
-}
+export class PowerlevelGet extends CommandPacket<void> {
+	public static readonly CommandClass = PowerlevelV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "PowerlevelGet",
+		"help": "Powerlevel Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(PowerlevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(PowerlevelGet, data);
+	}
+};
+
+export class PowerlevelReport extends CommandPacket<PowerlevelV1PowerlevelReportData> {
+	public static readonly CommandClass = PowerlevelV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "PowerlevelReport",
+		"help": "Powerlevel Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "powerLevel",
+				"help": "Power level",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NormalPower",
+						"help": "NormalPower"
+					},
+					"1": {
+						"name": "Minus1dBm",
+						"help": "minus1dBm"
+					},
+					"2": {
+						"name": "Minus2dBm",
+						"help": "minus2dBm"
+					},
+					"3": {
+						"name": "Minus3dBm",
+						"help": "minus3dBm"
+					},
+					"4": {
+						"name": "Minus4dBm",
+						"help": "minus4dBm"
+					},
+					"5": {
+						"name": "Minus5dBm",
+						"help": "minus5dBm"
+					},
+					"6": {
+						"name": "Minus6dBm",
+						"help": "minus6dBm"
+					},
+					"7": {
+						"name": "Minus7dBm",
+						"help": "minus7dBm"
+					},
+					"8": {
+						"name": "Minus8dBm",
+						"help": "minus8dBm"
+					},
+					"9": {
+						"name": "Minus9dBm",
+						"help": "minus9dBm"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "timeout",
+				"help": "Timeout",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(PowerlevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | PowerlevelV1PowerlevelReportData) {
+		super(PowerlevelReport, data);
+	}
+};
+
+export class PowerlevelSet extends CommandPacket<PowerlevelV1PowerlevelSetData> {
+	public static readonly CommandClass = PowerlevelV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "PowerlevelSet",
+		"help": "Powerlevel Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "powerLevel",
+				"help": "Power level",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NormalPower",
+						"help": "NormalPower"
+					},
+					"1": {
+						"name": "Minus1dBm",
+						"help": "minus1dBm"
+					},
+					"2": {
+						"name": "Minus2dBm",
+						"help": "minus2dBm"
+					},
+					"3": {
+						"name": "Minus3dBm",
+						"help": "minus3dBm"
+					},
+					"4": {
+						"name": "Minus4dBm",
+						"help": "minus4dBm"
+					},
+					"5": {
+						"name": "Minus5dBm",
+						"help": "minus5dBm"
+					},
+					"6": {
+						"name": "Minus6dBm",
+						"help": "minus6dBm"
+					},
+					"7": {
+						"name": "Minus7dBm",
+						"help": "minus7dBm"
+					},
+					"8": {
+						"name": "Minus8dBm",
+						"help": "minus8dBm"
+					},
+					"9": {
+						"name": "Minus9dBm",
+						"help": "minus9dBm"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "timeout",
+				"help": "Timeout",
+				"length": 1
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(PowerlevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | PowerlevelV1PowerlevelSetData) {
+		super(PowerlevelSet, data);
+	}
+};
+
+export class PowerlevelTestNodeGet extends CommandPacket<void> {
+	public static readonly CommandClass = PowerlevelV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "PowerlevelTestNodeGet",
+		"help": "Powerlevel Test Node Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(PowerlevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(PowerlevelTestNodeGet, data);
+	}
+};
+
+export class PowerlevelTestNodeReport extends CommandPacket<PowerlevelV1PowerlevelTestNodeReportData> {
+	public static readonly CommandClass = PowerlevelV1;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "PowerlevelTestNodeReport",
+		"help": "Powerlevel Test Node Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "testNodeId",
+				"help": "Test NodeID",
+				"length": 1,
+				"valueType": "NodeNumber",
+				"values": {
+					"0": {
+						"name": "ZwTestNotANodeid",
+						"help": "ZW_TEST_NOT_A_NODEID"
+					}
+				}
+			},
+			{
+				"type": "Enum",
+				"name": "statusOfOperation",
+				"help": "Status of operation",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "ZwTestFailed",
+						"help": "ZW_TEST_FAILED"
+					},
+					"1": {
+						"name": "ZwTestSucces",
+						"help": "ZW_TEST_SUCCES"
+					},
+					"2": {
+						"name": "ZwTestInprogress",
+						"help": "ZW_TEST_INPROGRESS"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "testFrameCount",
+				"help": "Test Frame Count",
+				"length": 2
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(PowerlevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeReportData) {
+		super(PowerlevelTestNodeReport, data);
+	}
+};
+
+export class PowerlevelTestNodeSet extends CommandPacket<PowerlevelV1PowerlevelTestNodeSetData> {
+	public static readonly CommandClass = PowerlevelV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "PowerlevelTestNodeSet",
+		"help": "Powerlevel Test Node Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "testNodeId",
+				"help": "Test NodeID",
+				"length": 1,
+				"valueType": "NodeNumber"
+			},
+			{
+				"type": "Enum",
+				"name": "powerLevel",
+				"help": "Power level",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NormalPower",
+						"help": "NormalPower"
+					},
+					"1": {
+						"name": "Minus1dBm",
+						"help": "minus1dBm"
+					},
+					"2": {
+						"name": "Minus2dBm",
+						"help": "minus2dBm"
+					},
+					"3": {
+						"name": "Minus3dBm",
+						"help": "minus3dBm"
+					},
+					"4": {
+						"name": "Minus4dBm",
+						"help": "minus4dBm"
+					},
+					"5": {
+						"name": "Minus5dBm",
+						"help": "minus5dBm"
+					},
+					"6": {
+						"name": "Minus6dBm",
+						"help": "minus6dBm"
+					},
+					"7": {
+						"name": "Minus7dBm",
+						"help": "minus7dBm"
+					},
+					"8": {
+						"name": "Minus8dBm",
+						"help": "minus8dBm"
+					},
+					"9": {
+						"name": "Minus9dBm",
+						"help": "minus9dBm"
+					}
+				}
+			},
+			{
+				"type": "Integer",
+				"name": "testFrameCount",
+				"help": "Test frame count",
+				"length": 2
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(PowerlevelV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeSetData) {
+		super(PowerlevelTestNodeSet, data);
+	}
+};

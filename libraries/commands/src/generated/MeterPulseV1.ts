@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MeterPulseV1Commands {
 	MeterPulseGet = 0x04,
@@ -28,56 +28,51 @@ export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(MeterPulseV1, commandAndPayload);
 	}
-
-	public static readonly MeterPulseGet = class MeterPulseGet extends CommandPacket<void> {
-		public static readonly CommandClass = MeterPulseV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "MeterPulseGet",
-			"help": "Meter Pulse Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MeterPulseV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(MeterPulseGet, data);
-		}
-	};
-
-	public static readonly MeterPulseReport = class MeterPulseReport extends CommandPacket<MeterPulseV1MeterPulseReportData> {
-		public static readonly CommandClass = MeterPulseV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "MeterPulseReport",
-			"help": "Meter Pulse Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "pulseCount",
-					"help": "Pulse Count",
-					"length": 4
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(MeterPulseV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | MeterPulseV1MeterPulseReportData) {
-			super(MeterPulseReport, data);
-		}
-	};
 }
 
-export namespace MeterPulseV1 {
-	export type MeterPulseGet = InstanceType<typeof MeterPulseV1.MeterPulseGet>;
-	export type MeterPulseReport = InstanceType<typeof MeterPulseV1.MeterPulseReport>;
-}
+export class MeterPulseGet extends CommandPacket<void> {
+	public static readonly CommandClass = MeterPulseV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "MeterPulseGet",
+		"help": "Meter Pulse Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MeterPulseV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(MeterPulseGet, data);
+	}
+};
+
+export class MeterPulseReport extends CommandPacket<MeterPulseV1MeterPulseReportData> {
+	public static readonly CommandClass = MeterPulseV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "MeterPulseReport",
+		"help": "Meter Pulse Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "pulseCount",
+				"help": "Pulse Count",
+				"length": 4
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(MeterPulseV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | MeterPulseV1MeterPulseReportData) {
+		super(MeterPulseReport, data);
+	}
+};

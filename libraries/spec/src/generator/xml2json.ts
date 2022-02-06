@@ -1591,47 +1591,6 @@ function xml2json(xmlString: string): jsonSpec.ZwaveSpec {
 	return spec;
 }
 
-/**
- * 'Map' over all key/values of a Map, and return an array of all the results.
- */
-function mapMap<K, V, R>(
-	map: Map<K, V>,
-	cb: (value: V, key: K, map: Map<K, V>) => R
-): R[] {
-	const result: R[] = [];
-	map.forEach((v, k, m) => result.push(cb(v, k, m)));
-	return result;
-}
-
-function generateCommandClassesEnum(json: jsonSpec.ZwaveSpec): string {
-	// Build an enum of all available command classes.
-	// Note: COMMAND_CLASS_ALARM was renamed to COMMAND_CLASS_NOTIFICATION,
-	// so this Map has key and value 'reversed' to what you'd expect.
-	const classesMap = new Map<string, number>();
-	for (const cmdClass of json.classes) {
-		classesMap.set(cmdClass.name, cmdClass.commandClass);
-	}
-	const classesContents = [
-		`/**`,
-		` * List of all Z-Wave command classes.`,
-		` */`,
-		``,
-		`export enum CommandClasses {`,
-		`\t${mapMap(
-			classesMap,
-			(v, k) =>
-				`${k} = 0x${v
-					.toString(16)
-					.padStart(2, "0")}, // (${v.toString()})`
-		).join("\n\t")}`,
-		`};`,
-		``,
-		`export default CommandClasses;`,
-	].join("\n");
-
-	return classesContents;
-}
-
 // eslint-disable-next-line no-void
 void main(async () => {
 	const rootDir = path.resolve(__dirname, "..", "..");
@@ -1647,10 +1606,4 @@ void main(async () => {
 	const jsonFilename = path.resolve(rootDir, "lib", "zwave.json");
 	await pfs.mkdir(path.dirname(jsonFilename), { recursive: true });
 	await pfs.writeFile(jsonFilename, JSON.stringify(json, undefined, "\t"));
-
-	const classesContents = generateCommandClassesEnum(json);
-	await pfs.writeFile(
-		path.resolve(rootDir, "src", "generated", "CommandClasses.ts"),
-		classesContents
-	);
 });

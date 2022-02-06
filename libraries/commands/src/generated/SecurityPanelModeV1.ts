@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SecurityPanelModeV1Commands {
 	SecurityPanelModeGet = 0x03,
@@ -38,177 +38,169 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 	constructor(commandAndPayload: Buffer) {
 		super(SecurityPanelModeV1, commandAndPayload);
 	}
-
-	public static readonly SecurityPanelModeGet = class SecurityPanelModeGet extends CommandPacket<void> {
-		public static readonly CommandClass = SecurityPanelModeV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "SecurityPanelModeGet",
-			"help": "Security Panel Mode Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(SecurityPanelModeGet, data);
-		}
-	};
-
-	public static readonly SecurityPanelModeReport = class SecurityPanelModeReport extends CommandPacket<SecurityPanelModeV1SecurityPanelModeReportData> {
-		public static readonly CommandClass = SecurityPanelModeV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "SecurityPanelModeReport",
-			"help": "Security Panel Mode Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "mode",
-					"help": "MODE",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "ArmHome",
-							"help": "Arm Home"
-						},
-						"2": {
-							"name": "ArmAwayNoDelay",
-							"help": "Arm Away, No Delay"
-						},
-						"3": {
-							"name": "ArmAwayDelayed",
-							"help": "Arm Away, Delayed"
-						},
-						"4": {
-							"name": "Disarm",
-							"help": "Disarm"
-						},
-						"5": {
-							"name": "AlarmTrigger",
-							"help": "Alarm Trigger"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeReportData) {
-			super(SecurityPanelModeReport, data);
-		}
-	};
-
-	public static readonly SecurityPanelModeSet = class SecurityPanelModeSet extends CommandPacket<SecurityPanelModeV1SecurityPanelModeSetData> {
-		public static readonly CommandClass = SecurityPanelModeV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "SecurityPanelModeSet",
-			"help": "Security Panel Mode Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "mode",
-					"help": "MODE",
-					"length": 1,
-					"values": {
-						"1": {
-							"name": "ArmHome",
-							"help": "Arm Home"
-						},
-						"2": {
-							"name": "ArmAwayNoDelay",
-							"help": "Arm Away, No Delay"
-						},
-						"3": {
-							"name": "ArmAwayDelayed",
-							"help": "Arm Away, Delayed"
-						},
-						"4": {
-							"name": "Disarm",
-							"help": "Disarm"
-						},
-						"5": {
-							"name": "AlarmTrigger",
-							"help": "Alarm Trigger"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSetData) {
-			super(SecurityPanelModeSet, data);
-		}
-	};
-
-	public static readonly SecurityPanelModeSupportedGet = class SecurityPanelModeSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = SecurityPanelModeV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "SecurityPanelModeSupportedGet",
-			"help": "Security Panel Mode Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(SecurityPanelModeSupportedGet, data);
-		}
-	};
-
-	public static readonly SecurityPanelModeSupportedReport = class SecurityPanelModeSupportedReport extends CommandPacket<SecurityPanelModeV1SecurityPanelModeSupportedReportData> {
-		public static readonly CommandClass = SecurityPanelModeV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "SecurityPanelModeSupportedReport",
-			"help": "Security Panel Mode Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "supportedModeBitMask",
-					"help": "Supported Mode Bit Mask",
-					"length": 2
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSupportedReportData) {
-			super(SecurityPanelModeSupportedReport, data);
-		}
-	};
 }
 
-export namespace SecurityPanelModeV1 {
-	export type SecurityPanelModeGet = InstanceType<typeof SecurityPanelModeV1.SecurityPanelModeGet>;
-	export type SecurityPanelModeReport = InstanceType<typeof SecurityPanelModeV1.SecurityPanelModeReport>;
-	export type SecurityPanelModeSet = InstanceType<typeof SecurityPanelModeV1.SecurityPanelModeSet>;
-	export type SecurityPanelModeSupportedGet = InstanceType<typeof SecurityPanelModeV1.SecurityPanelModeSupportedGet>;
-	export type SecurityPanelModeSupportedReport = InstanceType<typeof SecurityPanelModeV1.SecurityPanelModeSupportedReport>;
-}
+export class SecurityPanelModeGet extends CommandPacket<void> {
+	public static readonly CommandClass = SecurityPanelModeV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "SecurityPanelModeGet",
+		"help": "Security Panel Mode Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(SecurityPanelModeGet, data);
+	}
+};
+
+export class SecurityPanelModeReport extends CommandPacket<SecurityPanelModeV1SecurityPanelModeReportData> {
+	public static readonly CommandClass = SecurityPanelModeV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "SecurityPanelModeReport",
+		"help": "Security Panel Mode Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "mode",
+				"help": "MODE",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "ArmHome",
+						"help": "Arm Home"
+					},
+					"2": {
+						"name": "ArmAwayNoDelay",
+						"help": "Arm Away, No Delay"
+					},
+					"3": {
+						"name": "ArmAwayDelayed",
+						"help": "Arm Away, Delayed"
+					},
+					"4": {
+						"name": "Disarm",
+						"help": "Disarm"
+					},
+					"5": {
+						"name": "AlarmTrigger",
+						"help": "Alarm Trigger"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeReportData) {
+		super(SecurityPanelModeReport, data);
+	}
+};
+
+export class SecurityPanelModeSet extends CommandPacket<SecurityPanelModeV1SecurityPanelModeSetData> {
+	public static readonly CommandClass = SecurityPanelModeV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "SecurityPanelModeSet",
+		"help": "Security Panel Mode Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "mode",
+				"help": "MODE",
+				"length": 1,
+				"values": {
+					"1": {
+						"name": "ArmHome",
+						"help": "Arm Home"
+					},
+					"2": {
+						"name": "ArmAwayNoDelay",
+						"help": "Arm Away, No Delay"
+					},
+					"3": {
+						"name": "ArmAwayDelayed",
+						"help": "Arm Away, Delayed"
+					},
+					"4": {
+						"name": "Disarm",
+						"help": "Disarm"
+					},
+					"5": {
+						"name": "AlarmTrigger",
+						"help": "Alarm Trigger"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSetData) {
+		super(SecurityPanelModeSet, data);
+	}
+};
+
+export class SecurityPanelModeSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = SecurityPanelModeV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "SecurityPanelModeSupportedGet",
+		"help": "Security Panel Mode Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(SecurityPanelModeSupportedGet, data);
+	}
+};
+
+export class SecurityPanelModeSupportedReport extends CommandPacket<SecurityPanelModeV1SecurityPanelModeSupportedReportData> {
+	public static readonly CommandClass = SecurityPanelModeV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "SecurityPanelModeSupportedReport",
+		"help": "Security Panel Mode Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "supportedModeBitMask",
+				"help": "Supported Mode Bit Mask",
+				"length": 2
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSupportedReportData) {
+		super(SecurityPanelModeSupportedReport, data);
+	}
+};

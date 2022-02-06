@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ZwaveV1Commands {
 	AcceptLost = 0x17,
@@ -100,974 +100,935 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(ZwaveV1, commandAndPayload);
 	}
+}
 
-	public static readonly AcceptLost = class AcceptLost extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x17;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 23,
-			"name": "AcceptLost",
-			"help": "Accept Lost",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class AcceptLost extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x17; // 23
+	public static readonly definition = convertFromJsonCommand({
+		"command": 23,
+		"name": "AcceptLost",
+		"help": "Accept Lost",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(AcceptLost, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(AcceptLost, data);
+	}
+};
 
-	public static readonly AssignId = class AssignId extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "AssignId",
-			"help": "Assign Id",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class AssignId extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "AssignId",
+		"help": "Assign Id",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(AssignId, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(AssignId, data);
+	}
+};
 
-	public static readonly AssignReturnRoute = class AssignReturnRoute extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x0c;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 12,
-			"name": "AssignReturnRoute",
-			"help": "Assign Return Route",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class AssignReturnRoute extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x0c; // 12
+	public static readonly definition = convertFromJsonCommand({
+		"command": 12,
+		"name": "AssignReturnRoute",
+		"help": "Assign Return Route",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(AssignReturnRoute, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(AssignReturnRoute, data);
+	}
+};
 
-	public static readonly CmdAssignSucReturnRoute = class CmdAssignSucReturnRoute extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x14;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 20,
-			"name": "CmdAssignSucReturnRoute",
-			"help": "Assign SUC Return Route",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class CmdAssignSucReturnRoute extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x14; // 20
+	public static readonly definition = convertFromJsonCommand({
+		"command": 20,
+		"name": "CmdAssignSucReturnRoute",
+		"help": "Assign SUC Return Route",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(CmdAssignSucReturnRoute, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(CmdAssignSucReturnRoute, data);
+	}
+};
 
-	public static readonly CmdAutomaticControllerUpdateStart = class CmdAutomaticControllerUpdateStart extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x10;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 16,
-			"name": "CmdAutomaticControllerUpdateStart",
-			"help": "Automatic Controller Update Start",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class CmdAutomaticControllerUpdateStart extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x10; // 16
+	public static readonly definition = convertFromJsonCommand({
+		"command": 16,
+		"name": "CmdAutomaticControllerUpdateStart",
+		"help": "Automatic Controller Update Start",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(CmdAutomaticControllerUpdateStart, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(CmdAutomaticControllerUpdateStart, data);
+	}
+};
 
-	public static readonly CmdNodesExist = class CmdNodesExist extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x1f;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 31,
-			"name": "CmdNodesExist",
-			"help": "Cmd Nodes Exist",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class CmdNodesExist extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x1f; // 31
+	public static readonly definition = convertFromJsonCommand({
+		"command": 31,
+		"name": "CmdNodesExist",
+		"help": "Cmd Nodes Exist",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(CmdNodesExist, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(CmdNodesExist, data);
+	}
+};
 
-	public static readonly CmdNodesExistReply = class CmdNodesExistReply extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x20;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 32,
-			"name": "CmdNodesExistReply",
-			"help": "Cmd Nodes Exist Reply",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class CmdNodesExistReply extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x20; // 32
+	public static readonly definition = convertFromJsonCommand({
+		"command": 32,
+		"name": "CmdNodesExistReply",
+		"help": "Cmd Nodes Exist Reply",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(CmdNodesExistReply, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(CmdNodesExistReply, data);
+	}
+};
 
-	public static readonly CmdSetNwiMode = class CmdSetNwiMode extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x22;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 34,
-			"name": "CmdSetNwiMode",
-			"help": "Cmd Set Nwi Mode",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class CmdSetNwiMode extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x22; // 34
+	public static readonly definition = convertFromJsonCommand({
+		"command": 34,
+		"name": "CmdSetNwiMode",
+		"help": "Cmd Set Nwi Mode",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(CmdSetNwiMode, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(CmdSetNwiMode, data);
+	}
+};
 
-	public static readonly CommandComplete = class CommandComplete extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x07;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 7,
-			"name": "CommandComplete",
-			"help": "Command Complete",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class CommandComplete extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x07; // 7
+	public static readonly definition = convertFromJsonCommand({
+		"command": 7,
+		"name": "CommandComplete",
+		"help": "Command Complete",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(CommandComplete, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(CommandComplete, data);
+	}
+};
 
-	public static readonly FindNodesInRange = class FindNodesInRange extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "FindNodesInRange",
-			"help": "Find Nodes In Range",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class FindNodesInRange extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "FindNodesInRange",
+		"help": "Find Nodes In Range",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(FindNodesInRange, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(FindNodesInRange, data);
+	}
+};
 
-	public static readonly GetNodesInRange = class GetNodesInRange extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "GetNodesInRange",
-			"help": "Get Nodes In Range",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class GetNodesInRange extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "GetNodesInRange",
+		"help": "Get Nodes In Range",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(GetNodesInRange, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(GetNodesInRange, data);
+	}
+};
 
-	public static readonly Lost = class Lost extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x16;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 22,
-			"name": "Lost",
-			"help": "Lost",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class Lost extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x16; // 22
+	public static readonly definition = convertFromJsonCommand({
+		"command": 22,
+		"name": "Lost",
+		"help": "Lost",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(Lost, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(Lost, data);
+	}
+};
 
-	public static readonly NewNodeRegistered = class NewNodeRegistered extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x0d;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 13,
-			"name": "NewNodeRegistered",
-			"help": "New Node Registered",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class NewNodeRegistered extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x0d; // 13
+	public static readonly definition = convertFromJsonCommand({
+		"command": 13,
+		"name": "NewNodeRegistered",
+		"help": "New Node Registered",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(NewNodeRegistered, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(NewNodeRegistered, data);
+	}
+};
 
-	public static readonly NewRangeRegistered = class NewRangeRegistered extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x0e;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 14,
-			"name": "NewRangeRegistered",
-			"help": "New Range Registered",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class NewRangeRegistered extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x0e; // 14
+	public static readonly definition = convertFromJsonCommand({
+		"command": 14,
+		"name": "NewRangeRegistered",
+		"help": "New Range Registered",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(NewRangeRegistered, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(NewRangeRegistered, data);
+	}
+};
 
-	public static readonly NodeInfo = class NodeInfo extends CommandPacket<ZwaveV1NodeInfoData> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "NodeInfo",
-			"help": "Node Info",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "properties1",
-					"help": "Properties1",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "listening",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "routing",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"fieldType": "Enum",
-							"name": "maxBaudRate",
-							"mask": 56,
-							"shift": 3,
-							"values": {
-								"0": {
-									"name": "Reserved",
-									"help": "Reserved"
-								},
-								"1": {
-									"name": "96Kbps",
-									"help": "9.6 kbps"
-								},
-								"2": {
-									"name": "40Kbps",
-									"help": "40 kbps"
-								}
-							}
-						},
-						{
-							"fieldType": "Enum",
-							"name": "protocolVersion",
-							"mask": 7,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "Reserved",
-									"help": "Reserved"
-								},
-								"1": {
-									"name": "ZWaveVersion20",
-									"help": "Z-Wave Version 2.0"
-								},
-								"2": {
-									"name": "ZWaveVersionZDK50xZDK42x",
-									"help": "Z-Wave version ZDK 5.0x, ZDK 4.2x"
-								},
-								"3": {
-									"name": "ZWaveVersionZDK45xAndZDK60x",
-									"help": "Z-Wave version ZDK 4.5x and ZDK 6.0x"
-								},
-								"4": {
-									"name": "Reserved",
-									"help": "Reserved"
-								},
-								"5": {
-									"name": "Reserved",
-									"help": "Reserved"
-								},
-								"6": {
-									"name": "Reserved",
-									"help": "Reserved"
-								},
-								"7": {
-									"name": "Reserved",
-									"help": "Reserved"
-								}
-							}
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties2",
-					"help": "Properties2",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Boolean",
-							"name": "optionalFunctionality",
-							"mask": 128,
-							"shift": 7
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "sensor1000ms",
-							"mask": 64,
-							"shift": 6
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "sensor250ms",
-							"mask": 32,
-							"shift": 5
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "beamCapability",
-							"mask": 16,
-							"shift": 4
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "routingSlave",
-							"mask": 8,
-							"shift": 3
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "specificDevice",
-							"mask": 4,
-							"shift": 2
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "controller",
-							"mask": 2,
-							"shift": 1,
-							"presenceOf": {
-								"refs": [
-									"basicDeviceClass"
-								]
+export class NodeInfo extends CommandPacket<ZwaveV1NodeInfoData> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "NodeInfo",
+		"help": "Node Info",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "properties1",
+				"help": "Properties1",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "listening",
+						"mask": 128,
+						"shift": 7
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "routing",
+						"mask": 64,
+						"shift": 6
+					},
+					{
+						"fieldType": "Enum",
+						"name": "maxBaudRate",
+						"mask": 56,
+						"shift": 3,
+						"values": {
+							"0": {
+								"name": "Reserved",
+								"help": "Reserved"
 							},
-							"isAutogenerated": false
-						},
-						{
-							"fieldType": "Boolean",
-							"name": "security",
-							"mask": 1,
-							"shift": 0
-						}
-					]
-				},
-				{
-					"type": "Bitfield",
-					"name": "properties3",
-					"help": "Properties3",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved2",
-							"mask": 248,
-							"shift": 3,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "speedExtension",
-							"mask": 7,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "Reserved",
-									"help": "Reserved"
-								},
-								"1": {
-									"name": "100Kbps",
-									"help": "100 kbps"
-								},
-								"2": {
-									"name": "200Kbps",
-									"help": "200 kbps"
-								}
+							"1": {
+								"name": "96Kbps",
+								"help": "9.6 kbps"
+							},
+							"2": {
+								"name": "40Kbps",
+								"help": "40 kbps"
 							}
 						}
-					]
-				},
-				{
-					"type": "Integer",
-					"name": "basicDeviceClass",
-					"help": "Basic Device Class",
-					"optional": {
-						"ref": "properties2.controller"
 					},
-					"length": 1,
-					"valueType": "BasicDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "genericDeviceClass",
-					"help": "Generic Device Class",
-					"length": 1,
-					"valueType": "GenericDevice"
-				},
-				{
-					"type": "Integer",
-					"name": "specificDeviceClass",
-					"help": "Specific Device Class",
-					"length": 1,
-					"valueType": "SpecificDevice"
-				},
-				{
-					"type": "Blob",
-					"name": "commandClasses",
-					"help": "Command Classes",
-					"length": {
-						"lengthType": "Auto"
+					{
+						"fieldType": "Enum",
+						"name": "protocolVersion",
+						"mask": 7,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "Reserved",
+								"help": "Reserved"
+							},
+							"1": {
+								"name": "ZWaveVersion20",
+								"help": "Z-Wave Version 2.0"
+							},
+							"2": {
+								"name": "ZWaveVersionZDK50xZDK42x",
+								"help": "Z-Wave version ZDK 5.0x, ZDK 4.2x"
+							},
+							"3": {
+								"name": "ZWaveVersionZDK45xAndZDK60x",
+								"help": "Z-Wave version ZDK 4.5x and ZDK 6.0x"
+							},
+							"4": {
+								"name": "Reserved",
+								"help": "Reserved"
+							},
+							"5": {
+								"name": "Reserved",
+								"help": "Reserved"
+							},
+							"6": {
+								"name": "Reserved",
+								"help": "Reserved"
+							},
+							"7": {
+								"name": "Reserved",
+								"help": "Reserved"
+							}
+						}
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties2",
+				"help": "Properties2",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Boolean",
+						"name": "optionalFunctionality",
+						"mask": 128,
+						"shift": 7
 					},
-					"blobType": "CommandClasses"
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | ZwaveV1NodeInfoData) {
-			super(NodeInfo, data);
-		}
-	};
-
-	public static readonly NodeRangeInfo = class NodeRangeInfo extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "NodeRangeInfo",
-			"help": "Node Range Info",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(NodeRangeInfo, data);
-		}
-	};
-
-	public static readonly ZwaveCmdNop = class ZwaveCmdNop extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x00;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 0,
-			"name": "ZwaveCmdNop",
-			"help": "NOP",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ZwaveCmdNop, data);
-		}
-	};
-
-	public static readonly CmdNopPower = class CmdNopPower extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x18;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 24,
-			"name": "CmdNopPower",
-			"help": "NOP Power",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(CmdNopPower, data);
-		}
-	};
-
-	public static readonly RequestNodeInfo = class RequestNodeInfo extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "RequestNodeInfo",
-			"help": "Request Node Info",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(RequestNodeInfo, data);
-		}
-	};
-
-	public static readonly ZwaveCmdReserveNodeIds = class ZwaveCmdReserveNodeIds extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x19;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 25,
-			"name": "ZwaveCmdReserveNodeIds",
-			"help": "Reserve Node ID",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ZwaveCmdReserveNodeIds, data);
-		}
-	};
-
-	public static readonly CmdReservedIds = class CmdReservedIds extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x1a;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 26,
-			"name": "CmdReservedIds",
-			"help": "Reserved ID",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(CmdReservedIds, data);
-		}
-	};
-
-	public static readonly CmdSetSuc = class CmdSetSuc extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x12;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 18,
-			"name": "CmdSetSuc",
-			"help": "Set SUC",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(CmdSetSuc, data);
-		}
-	};
-
-	public static readonly CmdSetSucAck = class CmdSetSucAck extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x13;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 19,
-			"name": "CmdSetSucAck",
-			"help": "Set SUC ACK",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(CmdSetSucAck, data);
-		}
-	};
-
-	public static readonly CmdStaticRouteRequest = class CmdStaticRouteRequest extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x15;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 21,
-			"name": "CmdStaticRouteRequest",
-			"help": "Static Route Request",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(CmdStaticRouteRequest, data);
-		}
-	};
-
-	public static readonly CmdSucNodeId = class CmdSucNodeId extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x11;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 17,
-			"name": "CmdSucNodeId",
-			"help": "SUC Node ID",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(CmdSucNodeId, data);
-		}
-	};
-
-	public static readonly TransferEnd = class TransferEnd extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x0b;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 11,
-			"name": "TransferEnd",
-			"help": "Transfer End",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(TransferEnd, data);
-		}
-	};
-
-	public static readonly TransferNewPrimaryComplete = class TransferNewPrimaryComplete extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x0f;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 15,
-			"name": "TransferNewPrimaryComplete",
-			"help": "Transfer New Primary Complete",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(TransferNewPrimaryComplete, data);
-		}
-	};
-
-	public static readonly TransferNodeInfo = class TransferNodeInfo extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x09;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 9,
-			"name": "TransferNodeInfo",
-			"help": "Transfer Node Info",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(TransferNodeInfo, data);
-		}
-	};
-
-	public static readonly TransferPresentation = class TransferPresentation extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x08;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 8,
-			"name": "TransferPresentation",
-			"help": "Transfer Presentation",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(TransferPresentation, data);
-		}
-	};
-
-	public static readonly TransferRangeInfo = class TransferRangeInfo extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x0a;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 10,
-			"name": "TransferRangeInfo",
-			"help": "Transfer Range Info",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(TransferRangeInfo, data);
-		}
-	};
-
-	public static readonly ExcludeRequest = class ExcludeRequest extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x23;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 35,
-			"name": "ExcludeRequest",
-			"help": "Exclude Request",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(ExcludeRequest, data);
-		}
-	};
-
-	public static readonly AssignReturnRoutePriority = class AssignReturnRoutePriority extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x24;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 36,
-			"name": "AssignReturnRoutePriority",
-			"help": "Assign Return Route Priority",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(AssignReturnRoutePriority, data);
-		}
-	};
-
-	public static readonly AssignSucReturnRoutePriority = class AssignSucReturnRoutePriority extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x25;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 37,
-			"name": "AssignSucReturnRoutePriority",
-			"help": "Assign SUC Return Route Priority",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(AssignSucReturnRoutePriority, data);
-		}
-	};
-
-	public static readonly IncludedNodeInfo = class IncludedNodeInfo extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x26;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 38,
-			"name": "IncludedNodeInfo",
-			"help": "Included Node Info",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(IncludedNodeInfo, data);
-		}
-	};
-
-	public static readonly SmartStartPrime = class SmartStartPrime extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x27;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 39,
-			"name": "SmartStartPrime",
-			"help": "Smart Start Prime",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(SmartStartPrime, data);
-		}
-	};
-
-	public static readonly SmartStartInclude = class SmartStartInclude extends CommandPacket<void> {
-		public static readonly CommandClass = ZwaveV1;
-		public static readonly command = 0x28;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 40,
-			"name": "SmartStartInclude",
-			"help": "Smart Start Include",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ZwaveV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(SmartStartInclude, data);
-		}
-	};
-}
-
-export namespace ZwaveV1 {
-	export type AcceptLost = InstanceType<typeof ZwaveV1.AcceptLost>;
-	export type AssignId = InstanceType<typeof ZwaveV1.AssignId>;
-	export type AssignReturnRoute = InstanceType<typeof ZwaveV1.AssignReturnRoute>;
-	export type CmdAssignSucReturnRoute = InstanceType<typeof ZwaveV1.CmdAssignSucReturnRoute>;
-	export type CmdAutomaticControllerUpdateStart = InstanceType<typeof ZwaveV1.CmdAutomaticControllerUpdateStart>;
-	export type CmdNodesExist = InstanceType<typeof ZwaveV1.CmdNodesExist>;
-	export type CmdNodesExistReply = InstanceType<typeof ZwaveV1.CmdNodesExistReply>;
-	export type CmdSetNwiMode = InstanceType<typeof ZwaveV1.CmdSetNwiMode>;
-	export type CommandComplete = InstanceType<typeof ZwaveV1.CommandComplete>;
-	export type FindNodesInRange = InstanceType<typeof ZwaveV1.FindNodesInRange>;
-	export type GetNodesInRange = InstanceType<typeof ZwaveV1.GetNodesInRange>;
-	export type Lost = InstanceType<typeof ZwaveV1.Lost>;
-	export type NewNodeRegistered = InstanceType<typeof ZwaveV1.NewNodeRegistered>;
-	export type NewRangeRegistered = InstanceType<typeof ZwaveV1.NewRangeRegistered>;
-	export type NodeInfo = InstanceType<typeof ZwaveV1.NodeInfo>;
-	export type NodeRangeInfo = InstanceType<typeof ZwaveV1.NodeRangeInfo>;
-	export type ZwaveCmdNop = InstanceType<typeof ZwaveV1.ZwaveCmdNop>;
-	export type CmdNopPower = InstanceType<typeof ZwaveV1.CmdNopPower>;
-	export type RequestNodeInfo = InstanceType<typeof ZwaveV1.RequestNodeInfo>;
-	export type ZwaveCmdReserveNodeIds = InstanceType<typeof ZwaveV1.ZwaveCmdReserveNodeIds>;
-	export type CmdReservedIds = InstanceType<typeof ZwaveV1.CmdReservedIds>;
-	export type CmdSetSuc = InstanceType<typeof ZwaveV1.CmdSetSuc>;
-	export type CmdSetSucAck = InstanceType<typeof ZwaveV1.CmdSetSucAck>;
-	export type CmdStaticRouteRequest = InstanceType<typeof ZwaveV1.CmdStaticRouteRequest>;
-	export type CmdSucNodeId = InstanceType<typeof ZwaveV1.CmdSucNodeId>;
-	export type TransferEnd = InstanceType<typeof ZwaveV1.TransferEnd>;
-	export type TransferNewPrimaryComplete = InstanceType<typeof ZwaveV1.TransferNewPrimaryComplete>;
-	export type TransferNodeInfo = InstanceType<typeof ZwaveV1.TransferNodeInfo>;
-	export type TransferPresentation = InstanceType<typeof ZwaveV1.TransferPresentation>;
-	export type TransferRangeInfo = InstanceType<typeof ZwaveV1.TransferRangeInfo>;
-	export type ExcludeRequest = InstanceType<typeof ZwaveV1.ExcludeRequest>;
-	export type AssignReturnRoutePriority = InstanceType<typeof ZwaveV1.AssignReturnRoutePriority>;
-	export type AssignSucReturnRoutePriority = InstanceType<typeof ZwaveV1.AssignSucReturnRoutePriority>;
-	export type IncludedNodeInfo = InstanceType<typeof ZwaveV1.IncludedNodeInfo>;
-	export type SmartStartPrime = InstanceType<typeof ZwaveV1.SmartStartPrime>;
-	export type SmartStartInclude = InstanceType<typeof ZwaveV1.SmartStartInclude>;
-}
+					{
+						"fieldType": "Boolean",
+						"name": "sensor1000ms",
+						"mask": 64,
+						"shift": 6
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "sensor250ms",
+						"mask": 32,
+						"shift": 5
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "beamCapability",
+						"mask": 16,
+						"shift": 4
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "routingSlave",
+						"mask": 8,
+						"shift": 3
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "specificDevice",
+						"mask": 4,
+						"shift": 2
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "controller",
+						"mask": 2,
+						"shift": 1,
+						"presenceOf": {
+							"refs": [
+								"basicDeviceClass"
+							]
+						},
+						"isAutogenerated": false
+					},
+					{
+						"fieldType": "Boolean",
+						"name": "security",
+						"mask": 1,
+						"shift": 0
+					}
+				]
+			},
+			{
+				"type": "Bitfield",
+				"name": "properties3",
+				"help": "Properties3",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved2",
+						"mask": 248,
+						"shift": 3,
+						"reserved": true
+					},
+					{
+						"fieldType": "Enum",
+						"name": "speedExtension",
+						"mask": 7,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "Reserved",
+								"help": "Reserved"
+							},
+							"1": {
+								"name": "100Kbps",
+								"help": "100 kbps"
+							},
+							"2": {
+								"name": "200Kbps",
+								"help": "200 kbps"
+							}
+						}
+					}
+				]
+			},
+			{
+				"type": "Integer",
+				"name": "basicDeviceClass",
+				"help": "Basic Device Class",
+				"optional": {
+					"ref": "properties2.controller"
+				},
+				"length": 1,
+				"valueType": "BasicDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "genericDeviceClass",
+				"help": "Generic Device Class",
+				"length": 1,
+				"valueType": "GenericDevice"
+			},
+			{
+				"type": "Integer",
+				"name": "specificDeviceClass",
+				"help": "Specific Device Class",
+				"length": 1,
+				"valueType": "SpecificDevice"
+			},
+			{
+				"type": "Blob",
+				"name": "commandClasses",
+				"help": "Command Classes",
+				"length": {
+					"lengthType": "Auto"
+				},
+				"blobType": "CommandClasses"
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | ZwaveV1NodeInfoData) {
+		super(NodeInfo, data);
+	}
+};
+
+export class NodeRangeInfo extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "NodeRangeInfo",
+		"help": "Node Range Info",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(NodeRangeInfo, data);
+	}
+};
+
+export class ZwaveCmdNop extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x00; // 0
+	public static readonly definition = convertFromJsonCommand({
+		"command": 0,
+		"name": "ZwaveCmdNop",
+		"help": "NOP",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ZwaveCmdNop, data);
+	}
+};
+
+export class CmdNopPower extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x18; // 24
+	public static readonly definition = convertFromJsonCommand({
+		"command": 24,
+		"name": "CmdNopPower",
+		"help": "NOP Power",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(CmdNopPower, data);
+	}
+};
+
+export class RequestNodeInfo extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "RequestNodeInfo",
+		"help": "Request Node Info",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(RequestNodeInfo, data);
+	}
+};
+
+export class ZwaveCmdReserveNodeIds extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x19; // 25
+	public static readonly definition = convertFromJsonCommand({
+		"command": 25,
+		"name": "ZwaveCmdReserveNodeIds",
+		"help": "Reserve Node ID",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ZwaveCmdReserveNodeIds, data);
+	}
+};
+
+export class CmdReservedIds extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x1a; // 26
+	public static readonly definition = convertFromJsonCommand({
+		"command": 26,
+		"name": "CmdReservedIds",
+		"help": "Reserved ID",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(CmdReservedIds, data);
+	}
+};
+
+export class CmdSetSuc extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x12; // 18
+	public static readonly definition = convertFromJsonCommand({
+		"command": 18,
+		"name": "CmdSetSuc",
+		"help": "Set SUC",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(CmdSetSuc, data);
+	}
+};
+
+export class CmdSetSucAck extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x13; // 19
+	public static readonly definition = convertFromJsonCommand({
+		"command": 19,
+		"name": "CmdSetSucAck",
+		"help": "Set SUC ACK",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(CmdSetSucAck, data);
+	}
+};
+
+export class CmdStaticRouteRequest extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x15; // 21
+	public static readonly definition = convertFromJsonCommand({
+		"command": 21,
+		"name": "CmdStaticRouteRequest",
+		"help": "Static Route Request",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(CmdStaticRouteRequest, data);
+	}
+};
+
+export class CmdSucNodeId extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x11; // 17
+	public static readonly definition = convertFromJsonCommand({
+		"command": 17,
+		"name": "CmdSucNodeId",
+		"help": "SUC Node ID",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(CmdSucNodeId, data);
+	}
+};
+
+export class TransferEnd extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x0b; // 11
+	public static readonly definition = convertFromJsonCommand({
+		"command": 11,
+		"name": "TransferEnd",
+		"help": "Transfer End",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(TransferEnd, data);
+	}
+};
+
+export class TransferNewPrimaryComplete extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x0f; // 15
+	public static readonly definition = convertFromJsonCommand({
+		"command": 15,
+		"name": "TransferNewPrimaryComplete",
+		"help": "Transfer New Primary Complete",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(TransferNewPrimaryComplete, data);
+	}
+};
+
+export class TransferNodeInfo extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x09; // 9
+	public static readonly definition = convertFromJsonCommand({
+		"command": 9,
+		"name": "TransferNodeInfo",
+		"help": "Transfer Node Info",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(TransferNodeInfo, data);
+	}
+};
+
+export class TransferPresentation extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x08; // 8
+	public static readonly definition = convertFromJsonCommand({
+		"command": 8,
+		"name": "TransferPresentation",
+		"help": "Transfer Presentation",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(TransferPresentation, data);
+	}
+};
+
+export class TransferRangeInfo extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x0a; // 10
+	public static readonly definition = convertFromJsonCommand({
+		"command": 10,
+		"name": "TransferRangeInfo",
+		"help": "Transfer Range Info",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(TransferRangeInfo, data);
+	}
+};
+
+export class ExcludeRequest extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x23; // 35
+	public static readonly definition = convertFromJsonCommand({
+		"command": 35,
+		"name": "ExcludeRequest",
+		"help": "Exclude Request",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(ExcludeRequest, data);
+	}
+};
+
+export class AssignReturnRoutePriority extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x24; // 36
+	public static readonly definition = convertFromJsonCommand({
+		"command": 36,
+		"name": "AssignReturnRoutePriority",
+		"help": "Assign Return Route Priority",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(AssignReturnRoutePriority, data);
+	}
+};
+
+export class AssignSucReturnRoutePriority extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x25; // 37
+	public static readonly definition = convertFromJsonCommand({
+		"command": 37,
+		"name": "AssignSucReturnRoutePriority",
+		"help": "Assign SUC Return Route Priority",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(AssignSucReturnRoutePriority, data);
+	}
+};
+
+export class IncludedNodeInfo extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x26; // 38
+	public static readonly definition = convertFromJsonCommand({
+		"command": 38,
+		"name": "IncludedNodeInfo",
+		"help": "Included Node Info",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(IncludedNodeInfo, data);
+	}
+};
+
+export class SmartStartPrime extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x27; // 39
+	public static readonly definition = convertFromJsonCommand({
+		"command": 39,
+		"name": "SmartStartPrime",
+		"help": "Smart Start Prime",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(SmartStartPrime, data);
+	}
+};
+
+export class SmartStartInclude extends CommandPacket<void> {
+	public static readonly CommandClass = ZwaveV1;
+	public static readonly command = 0x28; // 40
+	public static readonly definition = convertFromJsonCommand({
+		"command": 40,
+		"name": "SmartStartInclude",
+		"help": "Smart Start Include",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ZwaveV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(SmartStartInclude, data);
+	}
+};

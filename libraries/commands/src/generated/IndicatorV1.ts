@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum IndicatorV1Commands {
 	IndicatorGet = 0x02,
@@ -32,104 +32,98 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 	constructor(commandAndPayload: Buffer) {
 		super(IndicatorV1, commandAndPayload);
 	}
-
-	public static readonly IndicatorGet = class IndicatorGet extends CommandPacket<void> {
-		public static readonly CommandClass = IndicatorV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "IndicatorGet",
-			"help": "Indicator Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(IndicatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(IndicatorGet, data);
-		}
-	};
-
-	public static readonly IndicatorReport = class IndicatorReport extends CommandPacket<IndicatorV1IndicatorReportData> {
-		public static readonly CommandClass = IndicatorV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "IndicatorReport",
-			"help": "Indicator Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "value",
-					"help": "Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "OffDisable",
-							"help": "off/disable"
-						},
-						"255": {
-							"name": "OnEnable",
-							"help": "on/enable"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(IndicatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | IndicatorV1IndicatorReportData) {
-			super(IndicatorReport, data);
-		}
-	};
-
-	public static readonly IndicatorSet = class IndicatorSet extends CommandPacket<IndicatorV1IndicatorSetData> {
-		public static readonly CommandClass = IndicatorV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "IndicatorSet",
-			"help": "Indicator Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "value",
-					"help": "Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "OffDisable",
-							"help": "off/disable"
-						},
-						"255": {
-							"name": "OnEnable",
-							"help": "on/enable"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(IndicatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | IndicatorV1IndicatorSetData) {
-			super(IndicatorSet, data);
-		}
-	};
 }
 
-export namespace IndicatorV1 {
-	export type IndicatorGet = InstanceType<typeof IndicatorV1.IndicatorGet>;
-	export type IndicatorReport = InstanceType<typeof IndicatorV1.IndicatorReport>;
-	export type IndicatorSet = InstanceType<typeof IndicatorV1.IndicatorSet>;
-}
+export class IndicatorGet extends CommandPacket<void> {
+	public static readonly CommandClass = IndicatorV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "IndicatorGet",
+		"help": "Indicator Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(IndicatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(IndicatorGet, data);
+	}
+};
+
+export class IndicatorReport extends CommandPacket<IndicatorV1IndicatorReportData> {
+	public static readonly CommandClass = IndicatorV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "IndicatorReport",
+		"help": "Indicator Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "value",
+				"help": "Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "OffDisable",
+						"help": "off/disable"
+					},
+					"255": {
+						"name": "OnEnable",
+						"help": "on/enable"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(IndicatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | IndicatorV1IndicatorReportData) {
+		super(IndicatorReport, data);
+	}
+};
+
+export class IndicatorSet extends CommandPacket<IndicatorV1IndicatorSetData> {
+	public static readonly CommandClass = IndicatorV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "IndicatorSet",
+		"help": "Indicator Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "value",
+				"help": "Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "OffDisable",
+						"help": "off/disable"
+					},
+					"255": {
+						"name": "OnEnable",
+						"help": "on/enable"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(IndicatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | IndicatorV1IndicatorSetData) {
+		super(IndicatorSet, data);
+	}
+};

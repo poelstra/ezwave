@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SceneActivationV1Commands {
 	SceneActivationSet = 0x01,
@@ -27,51 +27,47 @@ export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Comma
 	constructor(commandAndPayload: Buffer) {
 		super(SceneActivationV1, commandAndPayload);
 	}
+}
 
-	public static readonly SceneActivationSet = class SceneActivationSet extends CommandPacket<SceneActivationV1SceneActivationSetData> {
-		public static readonly CommandClass = SceneActivationV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "SceneActivationSet",
-			"help": "Scene Activation Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "sceneId",
-					"help": "Scene ID",
-					"length": 1
-				},
-				{
-					"type": "Integer",
-					"name": "dimmingDuration",
-					"help": "Dimming Duration",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Instantly",
-							"help": "Instantly"
-						},
-						"255": {
-							"name": "ConfiguredDimmingDuration",
-							"help": "configured dimming duration"
-						}
+export class SceneActivationSet extends CommandPacket<SceneActivationV1SceneActivationSetData> {
+	public static readonly CommandClass = SceneActivationV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "SceneActivationSet",
+		"help": "Scene Activation Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "sceneId",
+				"help": "Scene ID",
+				"length": 1
+			},
+			{
+				"type": "Integer",
+				"name": "dimmingDuration",
+				"help": "Dimming Duration",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Instantly",
+						"help": "Instantly"
+					},
+					"255": {
+						"name": "ConfiguredDimmingDuration",
+						"help": "configured dimming duration"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(SceneActivationV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(SceneActivationV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | SceneActivationV1SceneActivationSetData) {
-			super(SceneActivationSet, data);
-		}
-	};
-}
-
-export namespace SceneActivationV1 {
-	export type SceneActivationSet = InstanceType<typeof SceneActivationV1.SceneActivationSet>;
-}
+	constructor(data: Buffer | SceneActivationV1SceneActivationSetData) {
+		super(SceneActivationSet, data);
+	}
+};

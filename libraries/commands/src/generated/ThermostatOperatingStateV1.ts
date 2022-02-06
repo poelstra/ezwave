@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ThermostatOperatingStateV1Commands {
 	ThermostatOperatingStateGet = 0x02,
@@ -37,101 +37,96 @@ export class ThermostatOperatingStateV1 extends CommandClassPacket<ThermostatOpe
 	constructor(commandAndPayload: Buffer) {
 		super(ThermostatOperatingStateV1, commandAndPayload);
 	}
+}
 
-	public static readonly ThermostatOperatingStateGet = class ThermostatOperatingStateGet extends CommandPacket<void> {
-		public static readonly CommandClass = ThermostatOperatingStateV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "ThermostatOperatingStateGet",
-			"help": "Thermostat Operating State Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
+export class ThermostatOperatingStateGet extends CommandPacket<void> {
+	public static readonly CommandClass = ThermostatOperatingStateV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "ThermostatOperatingStateGet",
+		"help": "Thermostat Operating State Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatOperatingStateV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatOperatingStateV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | void) {
-			super(ThermostatOperatingStateGet, data);
-		}
-	};
+	constructor(data: Buffer | void) {
+		super(ThermostatOperatingStateGet, data);
+	}
+};
 
-	public static readonly ThermostatOperatingStateReport = class ThermostatOperatingStateReport extends CommandPacket<ThermostatOperatingStateV1ThermostatOperatingStateReportData> {
-		public static readonly CommandClass = ThermostatOperatingStateV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "ThermostatOperatingStateReport",
-			"help": "Thermostat Operating State Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitfield",
-					"name": "level",
-					"help": "Level",
-					"length": 1,
-					"fields": [
-						{
-							"fieldType": "Integer",
-							"name": "reserved",
-							"mask": 240,
-							"shift": 4,
-							"reserved": true
-						},
-						{
-							"fieldType": "Enum",
-							"name": "operatingState",
-							"mask": 15,
-							"shift": 0,
-							"values": {
-								"0": {
-									"name": "Idle",
-									"help": "Idle"
-								},
-								"1": {
-									"name": "Heating",
-									"help": "Heating"
-								},
-								"2": {
-									"name": "Cooling",
-									"help": "Cooling"
-								},
-								"3": {
-									"name": "FanOnly",
-									"help": "Fan Only"
-								},
-								"4": {
-									"name": "PendingHeat",
-									"help": "Pending Heat"
-								},
-								"5": {
-									"name": "PendingCool",
-									"help": "Pending Cool"
-								},
-								"6": {
-									"name": "VentEconomizer",
-									"help": "Vent/Economizer"
-								}
+export class ThermostatOperatingStateReport extends CommandPacket<ThermostatOperatingStateV1ThermostatOperatingStateReportData> {
+	public static readonly CommandClass = ThermostatOperatingStateV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "ThermostatOperatingStateReport",
+		"help": "Thermostat Operating State Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitfield",
+				"name": "level",
+				"help": "Level",
+				"length": 1,
+				"fields": [
+					{
+						"fieldType": "Integer",
+						"name": "reserved",
+						"mask": 240,
+						"shift": 4,
+						"reserved": true
+					},
+					{
+						"fieldType": "Enum",
+						"name": "operatingState",
+						"mask": 15,
+						"shift": 0,
+						"values": {
+							"0": {
+								"name": "Idle",
+								"help": "Idle"
+							},
+							"1": {
+								"name": "Heating",
+								"help": "Heating"
+							},
+							"2": {
+								"name": "Cooling",
+								"help": "Cooling"
+							},
+							"3": {
+								"name": "FanOnly",
+								"help": "Fan Only"
+							},
+							"4": {
+								"name": "PendingHeat",
+								"help": "Pending Heat"
+							},
+							"5": {
+								"name": "PendingCool",
+								"help": "Pending Cool"
+							},
+							"6": {
+								"name": "VentEconomizer",
+								"help": "Vent/Economizer"
 							}
 						}
-					]
-				}
-			]
-		} as JsonCommandDefinition);
+					}
+				]
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(ThermostatOperatingStateV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(ThermostatOperatingStateV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | ThermostatOperatingStateV1ThermostatOperatingStateReportData) {
-			super(ThermostatOperatingStateReport, data);
-		}
-	};
-}
-
-export namespace ThermostatOperatingStateV1 {
-	export type ThermostatOperatingStateGet = InstanceType<typeof ThermostatOperatingStateV1.ThermostatOperatingStateGet>;
-	export type ThermostatOperatingStateReport = InstanceType<typeof ThermostatOperatingStateV1.ThermostatOperatingStateReport>;
-}
+	constructor(data: Buffer | ThermostatOperatingStateV1ThermostatOperatingStateReportData) {
+		super(ThermostatOperatingStateReport, data);
+	}
+};

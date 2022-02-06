@@ -4,13 +4,13 @@
 
 import { bufferToString, toHex } from "@ezwave/shared";
 import {
-	CommandClasses,
 	CommandsByClassByVersion,
 	convertFromJsonCommandClasses,
 	ZwaveSpec,
 } from "@ezwave/spec";
 import { inspect } from "util";
 import { CommandClassPacket, CommandPacket } from "./command";
+import { CommandClasses } from "./generated/CommandClasses";
 import { Packet } from "./packet";
 
 /**

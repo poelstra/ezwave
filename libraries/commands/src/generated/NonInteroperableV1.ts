@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NonInteroperableV1Commands {
 }
@@ -21,8 +21,5 @@ export class NonInteroperableV1 extends CommandClassPacket<NonInteroperableV1Com
 	constructor(commandAndPayload: Buffer) {
 		super(NonInteroperableV1, commandAndPayload);
 	}
-
 }
 
-export namespace NonInteroperableV1 {
-}

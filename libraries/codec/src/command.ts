@@ -1,6 +1,7 @@
-import { CommandClasses, CommandDefinition } from "@ezwave/spec";
+import { CommandDefinition } from "@ezwave/spec";
 import { decodeCommandAndPayload } from "./decode";
 import { encodeCommandAndPayload } from "./encode";
+import { CommandClasses } from "./generated/CommandClasses";
 import { CommandMatcher, Packet } from "./packet";
 
 export interface CommandClassDescriptor extends CommandMatcher {

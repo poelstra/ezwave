@@ -4,8 +4,8 @@
  * Auto-generated, do not edit.
  */
 
-import { CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { CommandClasses, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
+import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum BarrierOperatorV1Commands {
 	BarrierOperatorSet = 0x01,
@@ -78,335 +78,324 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 	constructor(commandAndPayload: Buffer) {
 		super(BarrierOperatorV1, commandAndPayload);
 	}
+}
 
-	public static readonly BarrierOperatorSet = class BarrierOperatorSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSetData> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x01;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 1,
-			"name": "BarrierOperatorSet",
-			"help": "Barrier Operator Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "targetValue",
-					"help": "Target Value",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Close",
-							"help": "CLOSE"
-						},
-						"255": {
-							"name": "Open",
-							"help": "OPEN"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSetData) {
-			super(BarrierOperatorSet, data);
-		}
-	};
-
-	public static readonly BarrierOperatorGet = class BarrierOperatorGet extends CommandPacket<void> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x02;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 2,
-			"name": "BarrierOperatorGet",
-			"help": "Barrier Operator Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(BarrierOperatorGet, data);
-		}
-	};
-
-	public static readonly BarrierOperatorReport = class BarrierOperatorReport extends CommandPacket<BarrierOperatorV1BarrierOperatorReportData> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x03;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 3,
-			"name": "BarrierOperatorReport",
-			"help": "Barrier Operator Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Enum",
-					"name": "state",
-					"help": "State",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Closed",
-							"help": "Closed"
-						},
-						"252": {
-							"name": "Closing",
-							"help": "Closing"
-						},
-						"253": {
-							"name": "Stopped",
-							"help": "Stopped"
-						},
-						"254": {
-							"name": "Opening",
-							"help": "Opening"
-						},
-						"255": {
-							"name": "Open",
-							"help": "Open"
-						}
-					}
-				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | BarrierOperatorV1BarrierOperatorReportData) {
-			super(BarrierOperatorReport, data);
-		}
-	};
-
-	public static readonly BarrierOperatorSignalSupportedGet = class BarrierOperatorSignalSupportedGet extends CommandPacket<void> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x04;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 4,
-			"name": "BarrierOperatorSignalSupportedGet",
-			"help": "Barrier Operator Signal Supported Get",
-			"status": "Active",
-			"params": []
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | void) {
-			super(BarrierOperatorSignalSupportedGet, data);
-		}
-	};
-
-	public static readonly BarrierOperatorSignalSupportedReport = class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSupportedReportData> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x05;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 5,
-			"name": "BarrierOperatorSignalSupportedReport",
-			"help": "Barrier Operator Signal Supported Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Bitmask",
-					"name": "bitMask",
-					"help": "Bit Mask",
-					"length": {
-						"lengthType": "Auto"
+export class BarrierOperatorSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSetData> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x01; // 1
+	public static readonly definition = convertFromJsonCommand({
+		"command": 1,
+		"name": "BarrierOperatorSet",
+		"help": "Barrier Operator Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "targetValue",
+				"help": "Target Value",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Close",
+						"help": "CLOSE"
 					},
-					"values": {
-						"0": {
-							"name": "AudibleNotification",
-							"help": "Audible Notification"
-						},
-						"1": {
-							"name": "VisualNotification",
-							"help": "Visual Notification"
-						}
+					"255": {
+						"name": "Open",
+						"help": "OPEN"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSupportedReportData) {
-			super(BarrierOperatorSignalSupportedReport, data);
-		}
-	};
+	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSetData) {
+		super(BarrierOperatorSet, data);
+	}
+};
 
-	public static readonly BarrierOperatorSignalSet = class BarrierOperatorSignalSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSetData> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x06;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 6,
-			"name": "BarrierOperatorSignalSet",
-			"help": "Barrier Operator Signal Set",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "subsystemType",
-					"help": "Subsystem Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NotSupported",
-							"help": "NOT SUPPORTED"
-						},
-						"1": {
-							"name": "AudibleNotification",
-							"help": "Audible Notification"
-						},
-						"2": {
-							"name": "VisualNotification",
-							"help": "Visual Notification"
-						}
+export class BarrierOperatorGet extends CommandPacket<void> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x02; // 2
+	public static readonly definition = convertFromJsonCommand({
+		"command": 2,
+		"name": "BarrierOperatorGet",
+		"help": "Barrier Operator Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(BarrierOperatorGet, data);
+	}
+};
+
+export class BarrierOperatorReport extends CommandPacket<BarrierOperatorV1BarrierOperatorReportData> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x03; // 3
+	public static readonly definition = convertFromJsonCommand({
+		"command": 3,
+		"name": "BarrierOperatorReport",
+		"help": "Barrier Operator Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Enum",
+				"name": "state",
+				"help": "State",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Closed",
+						"help": "Closed"
+					},
+					"252": {
+						"name": "Closing",
+						"help": "Closing"
+					},
+					"253": {
+						"name": "Stopped",
+						"help": "Stopped"
+					},
+					"254": {
+						"name": "Opening",
+						"help": "Opening"
+					},
+					"255": {
+						"name": "Open",
+						"help": "Open"
 					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorReportData) {
+		super(BarrierOperatorReport, data);
+	}
+};
+
+export class BarrierOperatorSignalSupportedGet extends CommandPacket<void> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x04; // 4
+	public static readonly definition = convertFromJsonCommand({
+		"command": 4,
+		"name": "BarrierOperatorSignalSupportedGet",
+		"help": "Barrier Operator Signal Supported Get",
+		"status": "Active",
+		"params": []
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | void) {
+		super(BarrierOperatorSignalSupportedGet, data);
+	}
+};
+
+export class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSupportedReportData> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x05; // 5
+	public static readonly definition = convertFromJsonCommand({
+		"command": 5,
+		"name": "BarrierOperatorSignalSupportedReport",
+		"help": "Barrier Operator Signal Supported Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Bitmask",
+				"name": "bitMask",
+				"help": "Bit Mask",
+				"length": {
+					"lengthType": "Auto"
 				},
-				{
-					"type": "Enum",
-					"name": "subsystemState",
-					"help": "Subsystem State",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Off",
-							"help": "OFF"
-						},
-						"255": {
-							"name": "On",
-							"help": "ON"
-						}
+				"values": {
+					"0": {
+						"name": "AudibleNotification",
+						"help": "Audible Notification"
+					},
+					"1": {
+						"name": "VisualNotification",
+						"help": "Visual Notification"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSetData) {
-			super(BarrierOperatorSignalSet, data);
-		}
-	};
+	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSupportedReportData) {
+		super(BarrierOperatorSignalSupportedReport, data);
+	}
+};
 
-	public static readonly BarrierOperatorSignalGet = class BarrierOperatorSignalGet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalGetData> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x07;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 7,
-			"name": "BarrierOperatorSignalGet",
-			"help": "Barrier Operator Signal Get",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "subsystemType",
-					"help": "Subsystem Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NotSupported",
-							"help": "NOT SUPPORTED"
-						},
-						"1": {
-							"name": "AudibleNotification",
-							"help": "Audible Notification"
-						},
-						"2": {
-							"name": "VisualNotification",
-							"help": "Visual Notification"
-						}
+export class BarrierOperatorSignalSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSetData> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x06; // 6
+	public static readonly definition = convertFromJsonCommand({
+		"command": 6,
+		"name": "BarrierOperatorSignalSet",
+		"help": "Barrier Operator Signal Set",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "subsystemType",
+				"help": "Subsystem Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NotSupported",
+						"help": "NOT SUPPORTED"
+					},
+					"1": {
+						"name": "AudibleNotification",
+						"help": "Audible Notification"
+					},
+					"2": {
+						"name": "VisualNotification",
+						"help": "Visual Notification"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
-
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
-
-		constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalGetData) {
-			super(BarrierOperatorSignalGet, data);
-		}
-	};
-
-	public static readonly BarrierOperatorSignalReport = class BarrierOperatorSignalReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalReportData> {
-		public static readonly CommandClass = BarrierOperatorV1;
-		public static readonly command = 0x08;
-		public static readonly definition = convertFromJsonCommand({
-			"command": 8,
-			"name": "BarrierOperatorSignalReport",
-			"help": "Barrier Operator Signal Report",
-			"status": "Active",
-			"params": [
-				{
-					"type": "Integer",
-					"name": "subsystemType",
-					"help": "Subsystem Type",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "NotSupported",
-							"help": "NOT SUPPORTED"
-						},
-						"1": {
-							"name": "AudibleNotification",
-							"help": "Audible Notification"
-						},
-						"2": {
-							"name": "VisualNotification",
-							"help": "Visual Notification"
-						}
-					}
-				},
-				{
-					"type": "Enum",
-					"name": "subsystemState",
-					"help": "Subsystem State",
-					"length": 1,
-					"values": {
-						"0": {
-							"name": "Off",
-							"help": "OFF"
-						},
-						"255": {
-							"name": "On",
-							"help": "ON"
-						}
+			},
+			{
+				"type": "Enum",
+				"name": "subsystemState",
+				"help": "Subsystem State",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Off",
+						"help": "OFF"
+					},
+					"255": {
+						"name": "On",
+						"help": "ON"
 					}
 				}
-			]
-		} as JsonCommandDefinition);
+			}
+		]
+	} as JsonCommandDefinition);
 
-		static matches(packet: Packet): boolean {
-			return packet.tryAs(BarrierOperatorV1)?.command === this.command;
-		}
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
 
-		constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalReportData) {
-			super(BarrierOperatorSignalReport, data);
-		}
-	};
-}
+	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSetData) {
+		super(BarrierOperatorSignalSet, data);
+	}
+};
 
-export namespace BarrierOperatorV1 {
-	export type BarrierOperatorSet = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSet>;
-	export type BarrierOperatorGet = InstanceType<typeof BarrierOperatorV1.BarrierOperatorGet>;
-	export type BarrierOperatorReport = InstanceType<typeof BarrierOperatorV1.BarrierOperatorReport>;
-	export type BarrierOperatorSignalSupportedGet = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalSupportedGet>;
-	export type BarrierOperatorSignalSupportedReport = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalSupportedReport>;
-	export type BarrierOperatorSignalSet = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalSet>;
-	export type BarrierOperatorSignalGet = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalGet>;
-	export type BarrierOperatorSignalReport = InstanceType<typeof BarrierOperatorV1.BarrierOperatorSignalReport>;
-}
+export class BarrierOperatorSignalGet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalGetData> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x07; // 7
+	public static readonly definition = convertFromJsonCommand({
+		"command": 7,
+		"name": "BarrierOperatorSignalGet",
+		"help": "Barrier Operator Signal Get",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "subsystemType",
+				"help": "Subsystem Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NotSupported",
+						"help": "NOT SUPPORTED"
+					},
+					"1": {
+						"name": "AudibleNotification",
+						"help": "Audible Notification"
+					},
+					"2": {
+						"name": "VisualNotification",
+						"help": "Visual Notification"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalGetData) {
+		super(BarrierOperatorSignalGet, data);
+	}
+};
+
+export class BarrierOperatorSignalReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalReportData> {
+	public static readonly CommandClass = BarrierOperatorV1;
+	public static readonly command = 0x08; // 8
+	public static readonly definition = convertFromJsonCommand({
+		"command": 8,
+		"name": "BarrierOperatorSignalReport",
+		"help": "Barrier Operator Signal Report",
+		"status": "Active",
+		"params": [
+			{
+				"type": "Integer",
+				"name": "subsystemType",
+				"help": "Subsystem Type",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "NotSupported",
+						"help": "NOT SUPPORTED"
+					},
+					"1": {
+						"name": "AudibleNotification",
+						"help": "Audible Notification"
+					},
+					"2": {
+						"name": "VisualNotification",
+						"help": "Visual Notification"
+					}
+				}
+			},
+			{
+				"type": "Enum",
+				"name": "subsystemState",
+				"help": "Subsystem State",
+				"length": 1,
+				"values": {
+					"0": {
+						"name": "Off",
+						"help": "OFF"
+					},
+					"255": {
+						"name": "On",
+						"help": "ON"
+					}
+				}
+			}
+		]
+	} as JsonCommandDefinition);
+
+	static matches(packet: Packet): boolean {
+		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
+	}
+
+	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalReportData) {
+		super(BarrierOperatorSignalReport, data);
+	}
+};
