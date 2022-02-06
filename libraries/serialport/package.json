@@ -1,0 +1,37 @@
+{
+	"name": "@ezwave/serialport",
+	"version": "1.0.0",
+	"description": "TypeScript Z-Wave: Z-Wave (physical) serial port helpers",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/serialport"
+	},
+	"author": "Martin Poelstra <martin@beryllium.net>",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"typings": "lib/index.d.ts",
+	"scripts": {
+		"build": "heft test --clean",
+		"build:watch": "heft test"
+	},
+	"keywords": [
+		"zwave",
+		"z-wave",
+		"typescript"
+	],
+	"dependencies": {
+		"@ezwave/shared": "workspace:*",
+		"debug": "~4.3.1",
+		"serialport": "^9.0.4"
+	},
+	"devDependencies": {
+		"@ezwave/ezwave-heft-rig": "workspace:*",
+		"@rushstack/heft": "0.42.2",
+		"eslint": "~7.22.0",
+		"typescript": "4.4.4",
+		"@types/heft-jest": "1.0.2",
+		"@types/node": "16.11.7",
+		"@types/debug": "~4.1.5",
+		"@types/serialport": "~8.0.2"
+	}
+}

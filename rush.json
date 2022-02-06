@@ -467,6 +467,10 @@
 			"projectFolder": "libraries/codec"
 		},
 		{
+			"packageName": "@ezwave/controller",
+			"projectFolder": "libraries/controller"
+		},
+		{
 			"packageName": "@ezwave/commands",
 			"projectFolder": "libraries/commands"
 		},
@@ -481,6 +485,10 @@
 		{
 			"packageName": "@ezwave/serialapi",
 			"projectFolder": "libraries/serialapi"
+		},
+		{
+			"packageName": "@ezwave/serialport",
+			"projectFolder": "libraries/serialport"
 		},
 		{
 			"packageName": "@ezwave/shared",

@@ -1,4 +1,4 @@
-import { SerialApi } from "../serialapi/serialapi";
+import { SerialApi } from "@ezwave/serialapi";
 
 /**
  * SwitchBoard interface to represent any host that

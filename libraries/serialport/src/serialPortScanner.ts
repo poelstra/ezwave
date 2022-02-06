@@ -5,11 +5,11 @@
  * them off to whoever needs them.
  */
 
+import { InterruptibleSleep } from "@ezwave/shared";
 import debug from "debug";
 import { promises as pfs } from "fs";
-import * as SerialPort from "serialport";
+import SerialPort from "serialport";
 import { Duplex } from "stream";
-import { InterruptibleSleep } from "../common/util";
 
 const log = debug("zwave:serialportscanner");
 
@@ -23,7 +23,10 @@ export interface SerialPortScannerOptions {
 	 * List of strings to match against either USB vendor/product ID (lowercase),
 	 * and/or full path of serial port device.
 	 *
-	 * Uses udev to scan.
+	 * Uses udev to scan, which is fairly expensive (~200ms per scan on my i7 laptop).
+	 * Udev scanning is disabled if matches is undefined or empty.
+	 *
+	 * It's better to use path-based scanning if possible, see below.
 	 *
 	 * @example `["0658:0200"]`.
 	 * @see DEFAULT_SUPPORTED_ZWAVE_USB_IDS
@@ -61,13 +64,14 @@ export interface SerialPortScannerOptions {
 	expectedPorts?: number;
 }
 
-export const DEFAULT_SERIAL_PORT_SCANNER_OPTIONS: Required<SerialPortScannerOptions> = {
-	matches: [],
-	ports: [],
-	scanInterval: 1000,
-	idleScanInterval: 5 * 60 * 1000,
-	expectedPorts: 1,
-};
+export const DEFAULT_SERIAL_PORT_SCANNER_OPTIONS: Required<SerialPortScannerOptions> =
+	{
+		matches: [],
+		ports: [],
+		scanInterval: 1000,
+		idleScanInterval: 5 * 60 * 1000,
+		expectedPorts: 1,
+	};
 
 /**
  * Continuously scan for possibly useable serial ports and try to open them.
@@ -129,7 +133,11 @@ export class SerialPortScanner {
 					} catch (err) {
 						log(`error initializing serial port ${comName}:`, err);
 						this._ports.delete(comName);
-						port.destroy();
+						// Apparently, calling destroy() isn't properly implemented
+						// in node-serialport: it says it closes, but actually doesn't.
+						// So use 'normal' close instead for now.
+						//port.destroy();
+						port.close();
 					}
 				} catch (err) {
 					log(`error opening serial port ${comName}:`, err);
