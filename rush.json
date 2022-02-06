@@ -471,6 +471,14 @@
 			"projectFolder": "libraries/commands"
 		},
 		{
+			"packageName": "@ezwave/layers",
+			"projectFolder": "libraries/layers"
+		},
+		{
+			"packageName": "@ezwave/security",
+			"projectFolder": "libraries/security"
+		},
+		{
 			"packageName": "@ezwave/serialapi",
 			"projectFolder": "libraries/serialapi"
 		},

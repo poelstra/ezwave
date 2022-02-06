@@ -1,4 +1,4 @@
-import { Packet } from "../commands/packet";
+import { Packet } from "@ezwave/codec";
 import {
 	Dispatch,
 	DispatchNext,

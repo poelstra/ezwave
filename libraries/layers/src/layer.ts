@@ -1,5 +1,5 @@
-import { Packet } from "../commands/packet";
-import { DestinationType } from "../serialapi/serialapi";
+import { Packet } from "@ezwave/codec";
+import { DestinationType } from "@ezwave/serialapi";
 
 export interface Endpoint {
 	nodeId: number;

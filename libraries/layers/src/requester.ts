@@ -1,5 +1,5 @@
-import { Packet } from "../commands/packet";
-import { defer } from "../common/util";
+import { Packet } from "@ezwave/codec";
+import { defer } from "@ezwave/shared";
 import { Endpoint, LayerCommand, LayerEvent, Send } from "./layer";
 
 export type Mapper<T extends Packet> = (

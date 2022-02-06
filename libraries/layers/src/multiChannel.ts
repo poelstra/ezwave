@@ -1,6 +1,6 @@
+import { Packet } from "@ezwave/codec";
+import { MultiChannelV3 } from "@ezwave/commands";
 import debug from "debug";
-import { MultiChannelV3 } from "../commands/classes/MultiChannelV3";
-import { Packet } from "../commands/packet";
 import {
 	DispatchNext,
 	Layer,

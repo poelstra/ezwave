@@ -5,9 +5,9 @@
  * See SDS10865-Z-Wave-Application-Security-Layer-S0, sections 5.2.1.1 and 5.3
  */
 
+import { bufferToString } from "@ezwave/shared";
 import { randomBytes } from "crypto";
 import debug from "debug";
-import { bufferToString } from "../common/util";
 
 const log = debug("zwave:security:noncestore");
 

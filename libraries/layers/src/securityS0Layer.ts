@@ -1,10 +1,11 @@
+// TODO Move this layer to @ezwave/security
+
+import { Packet } from "@ezwave/codec";
+import { SecurityV1 } from "@ezwave/commands";
+import { NonceStore, SecurityS0Codec } from "@ezwave/security";
+import { bufferToString, toHex } from "@ezwave/shared";
 import { randomBytes } from "crypto";
 import debug from "debug";
-import { SecurityV1 } from "../commands/classes/SecurityV1";
-import { Packet } from "../commands/packet";
-import { bufferToString, toHex } from "../common/util";
-import { NonceStore } from "../security/nonceStore";
-import { SecurityS0Codec } from "../security/securityS0Codec";
 import {
 	DispatchNext,
 	Layer,

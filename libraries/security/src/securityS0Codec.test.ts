@@ -1,10 +1,9 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
-import { Packet } from "../commands/packet";
-import { SecurityV1 } from "../commands/classes/SecurityV1";
+import { Packet } from "@ezwave/codec";
+import { SecurityV1 } from "@ezwave/commands";
 import { CryptoManager } from "./cryptoManager";
 import { bufferToNonce, INonceLookup, Nonce } from "./nonceStore";
 import { SecurityS0Codec } from "./securityS0Codec";
+
 const networkKey = Buffer.from("101112131415161718191a1b1c1d1e1f", "hex");
 
 class FakeNonceLookup implements INonceLookup {
@@ -66,7 +65,7 @@ describe("SecurityS0Codec", () => {
 			0x3a, // nonce id
 			0xcf, 0xd3, 0x66, 0xfd, 0xf2, 0xee, 0x19, 0x49, // mac
 		]);
-		expect(actual.serialize()).to.deep.equal(expected);
+		expect(actual.serialize()).toEqual(expected);
 	});
 
 	it("decrypts packet correctly", () => {
@@ -93,6 +92,6 @@ describe("SecurityS0Codec", () => {
 			0x00, // data: level 0
 		]);
 
-		expect(actual.serialize()).to.deep.equal(expected);
+		expect(actual.serialize()).toEqual(expected);
 	});
 });

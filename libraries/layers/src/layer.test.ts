@@ -1,8 +1,6 @@
-import { expect } from "chai";
-import { Packet } from "../commands/packet";
-import { SecurityV1 } from "../commands/classes/SecurityV1";
-import { SwitchMultilevelV1 } from "../commands/classes/SwitchMultilevelV1";
-import { DestinationType } from "../serialapi/serialapi";
+import { Packet } from "@ezwave/codec";
+import { SecurityV1, SwitchMultilevelV1 } from "@ezwave/commands";
+import { DestinationType } from "@ezwave/serialapi";
 import {
 	Dispatch,
 	DispatchNext,
@@ -161,7 +159,7 @@ describe("layers", () => {
 			endpoint: { nodeId: 2 },
 			packet: new SwitchMultilevelV1.SwitchMultilevelSet({ value: 20 }),
 		});
-		expect(actualSends).to.deep.equal(expectedSends);
+		expect(actualSends).toEqual(expectedSends);
 	});
 
 	it("sends secure message", async () => {
@@ -198,7 +196,7 @@ describe("layers", () => {
 			packet: new SwitchMultilevelV1.SwitchMultilevelSet({ value: 20 }),
 			secure: true,
 		});
-		expect(actualSends).to.deep.equal(expectedSends);
+		expect(actualSends).toEqual(expectedSends);
 	});
 
 	it("correctly discards too early packets", async () => {
@@ -233,7 +231,7 @@ describe("layers", () => {
 			}
 			command.afterSend && command.afterSend();
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
-				expect(afterSendCalled).to.equal(0);
+				expect(afterSendCalled).toBe(0);
 				await stack.dispatch({
 					packetType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
@@ -250,8 +248,8 @@ describe("layers", () => {
 			secure: true,
 			afterSend: () => afterSendCalled++,
 		});
-		expect(actualSends).to.deep.equal(expectedSends);
-		expect(afterSendCalled).to.equal(1);
+		expect(actualSends).toEqual(expectedSends);
+		expect(afterSendCalled).toBe(1);
 	});
 
 	it("handles events", async () => {
@@ -274,11 +272,10 @@ describe("layers", () => {
 			[
 				new SecurityV1.SecurityMessageEncapsulation({
 					initializationVector: Buffer.alloc(8, 0x11),
-					encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelSet(
-						{
+					encryptedPayload:
+						new SwitchMultilevelV1.SwitchMultilevelSet({
 							value: 99,
-						}
-					).serialize(),
+						}).serialize(),
 					receiversNonceIdentifier: 0xaa,
 					messageAuthenticationCode: Buffer.alloc(8, 0x77),
 				}),
@@ -294,7 +291,8 @@ describe("layers", () => {
 			[
 				new SecurityV1.SecurityMessageEncapsulation({
 					initializationVector: Buffer.alloc(8, 0x11),
-					encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelGet().serialize(),
+					encryptedPayload:
+						new SwitchMultilevelV1.SwitchMultilevelGet().serialize(),
 					receiversNonceIdentifier: 0x12,
 					messageAuthenticationCode: Buffer.alloc(8, 0x77),
 				}),
@@ -307,11 +305,10 @@ describe("layers", () => {
 					new SecurityV1.SecurityNonceGet(),
 					new SecurityV1.SecurityMessageEncapsulation({
 						initializationVector: Buffer.alloc(8, 0x44),
-						encryptedPayload: new SwitchMultilevelV1.SwitchMultilevelReport(
-							{
+						encryptedPayload:
+							new SwitchMultilevelV1.SwitchMultilevelReport({
 								value: 80,
-							}
-						).serialize(),
+							}).serialize(),
 						receiversNonceIdentifier: 0xaa,
 						messageAuthenticationCode: Buffer.alloc(8, 0x66),
 					}),
@@ -349,8 +346,8 @@ describe("layers", () => {
 				endpoint: { nodeId: 12 },
 				packet: ev,
 			});
-			expect(actualDispatches).to.deep.equal(expectedDispatches);
-			expect(actualSends).to.deep.equal(expectedSends);
+			expect(actualDispatches).toEqual(expectedDispatches);
+			expect(actualSends).toEqual(expectedSends);
 			console.log("");
 		}
 	});

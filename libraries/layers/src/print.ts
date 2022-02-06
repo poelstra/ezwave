@@ -1,5 +1,5 @@
-import { packetToString } from "../commands/debug";
-import { DestinationType } from "../serialapi/serialapi";
+import { packetToString } from "@ezwave/codec";
+import { DestinationType } from "@ezwave/serialapi";
 import { Endpoint, LayerCommand, LayerEvent } from "./layer";
 
 export function endPointToString(endpoint: Endpoint): string {

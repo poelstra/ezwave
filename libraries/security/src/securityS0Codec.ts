@@ -5,12 +5,8 @@
  * an encrypted Security S0 packet.
  */
 
-import { Packet } from "../commands/packet";
-import {
-	SecurityV1,
-	SecurityV1SecurityMessageEncapsulationData,
-	SecurityV1SecurityMessageEncapsulationNonceGetData,
-} from "../commands/classes/SecurityV1";
+import { Packet } from "@ezwave/codec";
+import { SecurityV1 } from "@ezwave/commands";
 import { CryptoManager } from "./cryptoManager";
 import { INonceLookup } from "./nonceStore";
 
@@ -60,8 +56,8 @@ export class SecurityS0Codec {
 		const mac = this._crypto.computeMac(authenticationDataRaw);
 
 		const data:
-			| SecurityV1SecurityMessageEncapsulationData
-			| SecurityV1SecurityMessageEncapsulationNonceGetData = {
+			| SecurityV1.SecurityV1SecurityMessageEncapsulationData
+			| SecurityV1.SecurityV1SecurityMessageEncapsulationNonceGetData = {
 			initializationVector: senderNonce,
 			encryptedPayload,
 			receiversNonceIdentifier: nonceIdentifier,
@@ -83,8 +79,8 @@ export class SecurityS0Codec {
 		const senderNonce = packet.data.initializationVector;
 		const encryptedPayload = packet.data.encryptedPayload;
 		const nonceIdentifier = packet.data.receiversNonceIdentifier;
-		const receiverNonce = this._nonceStore.getAndRelease(nonceIdentifier)
-			?.data;
+		const receiverNonce =
+			this._nonceStore.getAndRelease(nonceIdentifier)?.data;
 		if (!receiverNonce) {
 			// If the packet is retransmitted (e.g. because the ack was lost),
 			// we will already have expired the previous nonce.
