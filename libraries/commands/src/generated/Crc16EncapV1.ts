@@ -26,7 +26,7 @@ export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(Crc16EncapV1, commandAndPayload);
 	}
 }
@@ -76,7 +76,7 @@ export class Crc16Encap extends CommandPacket<Crc16EncapV1Crc16EncapData> {
 		return packet.tryAs(Crc16EncapV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Crc16EncapV1Crc16EncapData) {
+	public constructor(data: Buffer | Crc16EncapV1Crc16EncapData) {
 		super(Crc16Encap, data);
 	}
 };

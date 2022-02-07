@@ -31,7 +31,7 @@ import {
 	SimpleFrame,
 } from "./framer";
 
-const log = debug("zwave:protocol");
+const log: debug.Debugger = debug("zwave:protocol");
 const logData = log.extend("data");
 
 const ACK_FRAME: SimpleFrame = { frameType: FrameType.ACK };
@@ -299,7 +299,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 	 *
 	 * @param framer IFramer to convert frames to serial byte stream and vice-versa.
 	 */
-	constructor(framer: IFramer) {
+	public constructor(framer: IFramer) {
 		super();
 
 		this._framer = framer;

@@ -35,7 +35,7 @@ export class ProtectionV1 extends CommandClassPacket<ProtectionV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ProtectionV1, commandAndPayload);
 	}
 }
@@ -55,7 +55,7 @@ export class ProtectionGet extends CommandPacket<void> {
 		return packet.tryAs(ProtectionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ProtectionGet, data);
 	}
 };
@@ -96,7 +96,7 @@ export class ProtectionReport extends CommandPacket<ProtectionV1ProtectionReport
 		return packet.tryAs(ProtectionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV1ProtectionReportData) {
+	public constructor(data: Buffer | ProtectionV1ProtectionReportData) {
 		super(ProtectionReport, data);
 	}
 };
@@ -137,7 +137,7 @@ export class ProtectionSet extends CommandPacket<ProtectionV1ProtectionSetData> 
 		return packet.tryAs(ProtectionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV1ProtectionSetData) {
+	public constructor(data: Buffer | ProtectionV1ProtectionSetData) {
 		super(ProtectionSet, data);
 	}
 };

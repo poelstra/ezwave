@@ -9,7 +9,7 @@ import { bufferToString } from "@ezwave/shared";
 import { randomBytes } from "crypto";
 import debug from "debug";
 
-const log = debug("zwave:security:noncestore");
+const log: debug.Debugger = debug("zwave:security:noncestore");
 
 export type NonceId = number;
 
@@ -106,7 +106,7 @@ export class NonceStore implements INonceLookup {
 	 * Create a new nonce store with the given capacity.
 	 * @param capacity Maximum number of outstanding nonces. Must be in range [1..128].
 	 */
-	constructor(capacity: number = MAX_NONCE_CAPACITY) {
+	public constructor(capacity: number = MAX_NONCE_CAPACITY) {
 		if (!(capacity >= 1 && capacity <= MAX_NONCE_CAPACITY)) {
 			throw new Error(
 				`invalid nonce store capacity, expected [1..${MAX_NONCE_CAPACITY}]`

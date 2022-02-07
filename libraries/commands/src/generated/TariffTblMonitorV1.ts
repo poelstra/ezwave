@@ -80,7 +80,7 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(TariffTblMonitorV1, commandAndPayload);
 	}
 }
@@ -167,7 +167,7 @@ export class TariffTblCostGet extends CommandPacket<TariffTblMonitorV1TariffTblC
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffTblMonitorV1TariffTblCostGetData) {
+	public constructor(data: Buffer | TariffTblMonitorV1TariffTblCostGetData) {
 		super(TariffTblCostGet, data);
 	}
 };
@@ -308,7 +308,7 @@ export class TariffTblCostReport extends CommandPacket<TariffTblMonitorV1TariffT
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffTblMonitorV1TariffTblCostReportData) {
+	public constructor(data: Buffer | TariffTblMonitorV1TariffTblCostReportData) {
 		super(TariffTblCostReport, data);
 	}
 };
@@ -335,7 +335,7 @@ export class TariffTblGet extends CommandPacket<TariffTblMonitorV1TariffTblGetDa
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffTblMonitorV1TariffTblGetData) {
+	public constructor(data: Buffer | TariffTblMonitorV1TariffTblGetData) {
 		super(TariffTblGet, data);
 	}
 };
@@ -389,7 +389,7 @@ export class TariffTblReport extends CommandPacket<TariffTblMonitorV1TariffTblRe
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffTblMonitorV1TariffTblReportData) {
+	public constructor(data: Buffer | TariffTblMonitorV1TariffTblReportData) {
 		super(TariffTblReport, data);
 	}
 };
@@ -409,7 +409,7 @@ export class TariffTblSupplierGet extends CommandPacket<void> {
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TariffTblSupplierGet, data);
 	}
 };
@@ -536,7 +536,7 @@ export class TariffTblSupplierReport extends CommandPacket<TariffTblMonitorV1Tar
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffTblMonitorV1TariffTblSupplierReportData) {
+	public constructor(data: Buffer | TariffTblMonitorV1TariffTblSupplierReportData) {
 		super(TariffTblSupplierReport, data);
 	}
 };

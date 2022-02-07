@@ -57,7 +57,7 @@ export class SecurityPanelZoneSensorV1 extends CommandClassPacket<SecurityPanelZ
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SecurityPanelZoneSensorV1, commandAndPayload);
 	}
 }
@@ -90,7 +90,7 @@ export class CommandClassSecurityPanelZoneSensorInstalledReport extends CommandP
 		return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelZoneSensorV1CommandClassSecurityPanelZoneSensorInstalledReportData) {
+	public constructor(data: Buffer | SecurityPanelZoneSensorV1CommandClassSecurityPanelZoneSensorInstalledReportData) {
 		super(CommandClassSecurityPanelZoneSensorInstalledReport, data);
 	}
 };
@@ -123,7 +123,7 @@ export class SecurityPanelZoneSensorTypeGet extends CommandPacket<SecurityPanelZ
 		return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeGetData) {
+	public constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeGetData) {
 		super(SecurityPanelZoneSensorTypeGet, data);
 	}
 };
@@ -162,7 +162,7 @@ export class SecurityPanelZoneSensorTypeReport extends CommandPacket<SecurityPan
 		return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeReportData) {
+	public constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorTypeReportData) {
 		super(SecurityPanelZoneSensorTypeReport, data);
 	}
 };
@@ -189,7 +189,7 @@ export class SecurityPanelZoneSensorInstalledGet extends CommandPacket<SecurityP
 		return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorInstalledGetData) {
+	public constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorInstalledGetData) {
 		super(SecurityPanelZoneSensorInstalledGet, data);
 	}
 };
@@ -222,7 +222,7 @@ export class SecurityPanelZoneSensorStateGet extends CommandPacket<SecurityPanel
 		return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateGetData) {
+	public constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateGetData) {
 		super(SecurityPanelZoneSensorStateGet, data);
 	}
 };
@@ -273,7 +273,7 @@ export class SecurityPanelZoneSensorStateReport extends CommandPacket<SecurityPa
 		return packet.tryAs(SecurityPanelZoneSensorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateReportData) {
+	public constructor(data: Buffer | SecurityPanelZoneSensorV1SecurityPanelZoneSensorStateReportData) {
 		super(SecurityPanelZoneSensorStateReport, data);
 	}
 };

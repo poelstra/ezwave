@@ -75,7 +75,7 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MailboxV1, commandAndPayload);
 	}
 }
@@ -95,7 +95,7 @@ export class MailboxConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MailboxConfigurationGet, data);
 	}
 };
@@ -163,7 +163,7 @@ export class MailboxConfigurationSet extends CommandPacket<MailboxV1MailboxConfi
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MailboxV1MailboxConfigurationSetData) {
+	public constructor(data: Buffer | MailboxV1MailboxConfigurationSetData) {
 		super(MailboxConfigurationSet, data);
 	}
 };
@@ -253,7 +253,7 @@ export class MailboxConfigurationReport extends CommandPacket<MailboxV1MailboxCo
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MailboxV1MailboxConfigurationReportData) {
+	public constructor(data: Buffer | MailboxV1MailboxConfigurationReportData) {
 		super(MailboxConfigurationReport, data);
 	}
 };
@@ -351,7 +351,7 @@ export class MailboxQueue extends CommandPacket<MailboxV1MailboxQueueData> {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MailboxV1MailboxQueueData) {
+	public constructor(data: Buffer | MailboxV1MailboxQueueData) {
 		super(MailboxQueue, data);
 	}
 };
@@ -378,7 +378,7 @@ export class MailboxWakeupNotification extends CommandPacket<MailboxV1MailboxWak
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MailboxV1MailboxWakeupNotificationData) {
+	public constructor(data: Buffer | MailboxV1MailboxWakeupNotificationData) {
 		super(MailboxWakeupNotification, data);
 	}
 };
@@ -405,7 +405,7 @@ export class MailboxNodeFailing extends CommandPacket<MailboxV1MailboxNodeFailin
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MailboxV1MailboxNodeFailingData) {
+	public constructor(data: Buffer | MailboxV1MailboxNodeFailingData) {
 		super(MailboxNodeFailing, data);
 	}
 };

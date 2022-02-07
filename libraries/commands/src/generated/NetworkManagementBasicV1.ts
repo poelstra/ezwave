@@ -71,7 +71,7 @@ export class NetworkManagementBasicV1 extends CommandClassPacket<NetworkManageme
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementBasicV1, commandAndPayload);
 	}
 }
@@ -125,7 +125,7 @@ export class LearnModeSet extends CommandPacket<NetworkManagementBasicV1LearnMod
 		return packet.tryAs(NetworkManagementBasicV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementBasicV1LearnModeSetData) {
+	public constructor(data: Buffer | NetworkManagementBasicV1LearnModeSetData) {
 		super(LearnModeSet, data);
 	}
 };
@@ -190,7 +190,7 @@ export class LearnModeSetStatus extends CommandPacket<NetworkManagementBasicV1Le
 		return packet.tryAs(NetworkManagementBasicV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementBasicV1LearnModeSetStatusData) {
+	public constructor(data: Buffer | NetworkManagementBasicV1LearnModeSetStatusData) {
 		super(LearnModeSetStatus, data);
 	}
 };
@@ -271,7 +271,7 @@ export class NodeInformationSend extends CommandPacket<NetworkManagementBasicV1N
 		return packet.tryAs(NetworkManagementBasicV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementBasicV1NodeInformationSendData) {
+	public constructor(data: Buffer | NetworkManagementBasicV1NodeInformationSendData) {
 		super(NodeInformationSend, data);
 	}
 };
@@ -298,7 +298,7 @@ export class NetworkUpdateRequest extends CommandPacket<NetworkManagementBasicV1
 		return packet.tryAs(NetworkManagementBasicV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementBasicV1NetworkUpdateRequestData) {
+	public constructor(data: Buffer | NetworkManagementBasicV1NetworkUpdateRequestData) {
 		super(NetworkUpdateRequest, data);
 	}
 };
@@ -353,7 +353,7 @@ export class NetworkUpdateRequestStatus extends CommandPacket<NetworkManagementB
 		return packet.tryAs(NetworkManagementBasicV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementBasicV1NetworkUpdateRequestStatusData) {
+	public constructor(data: Buffer | NetworkManagementBasicV1NetworkUpdateRequestStatusData) {
 		super(NetworkUpdateRequestStatus, data);
 	}
 };
@@ -380,7 +380,7 @@ export class DefaultSet extends CommandPacket<NetworkManagementBasicV1DefaultSet
 		return packet.tryAs(NetworkManagementBasicV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementBasicV1DefaultSetData) {
+	public constructor(data: Buffer | NetworkManagementBasicV1DefaultSetData) {
 		super(DefaultSet, data);
 	}
 };
@@ -423,7 +423,7 @@ export class DefaultSetComplete extends CommandPacket<NetworkManagementBasicV1De
 		return packet.tryAs(NetworkManagementBasicV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementBasicV1DefaultSetCompleteData) {
+	public constructor(data: Buffer | NetworkManagementBasicV1DefaultSetCompleteData) {
 		super(DefaultSetComplete, data);
 	}
 };

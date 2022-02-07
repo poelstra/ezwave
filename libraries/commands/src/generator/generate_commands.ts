@@ -229,7 +229,7 @@ class CommandClassGenerator {
 				`\treturn packet.commandClass === this.commandClass;`,
 				`}`,
 				``,
-				`constructor(commandAndPayload: Buffer) {`,
+				`public constructor(commandAndPayload: Buffer) {`,
 				`\tsuper(${className}, commandAndPayload);`,
 				`}`,
 			])
@@ -271,7 +271,7 @@ class CommandClassGenerator {
 					`	return packet.tryAs(${className})?.command === this.command;`,
 					`}`,
 					``,
-					`constructor(data: Buffer | ${dataName}) {`,
+					`public constructor(data: Buffer | ${dataName}) {`,
 					`	super(${commandName}, data);`,
 					`}`,
 				])

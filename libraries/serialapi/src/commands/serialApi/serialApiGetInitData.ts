@@ -73,7 +73,7 @@ export function serialApiGetInitDataBuilder(): ResponseRequestBuilder<SerialAPII
 export class SerialApiGetInitData extends RequestRunner<
 	typeof serialApiGetInitDataBuilder
 > {
-	constructor() {
+	public constructor() {
 		super(serialApiGetInitDataBuilder, undefined);
 	}
 }

@@ -34,7 +34,7 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ProprietaryV1, commandAndPayload);
 	}
 }
@@ -63,7 +63,7 @@ export class ProprietaryGet extends CommandPacket<ProprietaryV1ProprietaryGetDat
 		return packet.tryAs(ProprietaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProprietaryV1ProprietaryGetData) {
+	public constructor(data: Buffer | ProprietaryV1ProprietaryGetData) {
 		super(ProprietaryGet, data);
 	}
 };
@@ -92,7 +92,7 @@ export class ProprietaryReport extends CommandPacket<ProprietaryV1ProprietaryRep
 		return packet.tryAs(ProprietaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProprietaryV1ProprietaryReportData) {
+	public constructor(data: Buffer | ProprietaryV1ProprietaryReportData) {
 		super(ProprietaryReport, data);
 	}
 };
@@ -121,7 +121,7 @@ export class ProprietarySet extends CommandPacket<ProprietaryV1ProprietarySetDat
 		return packet.tryAs(ProprietaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProprietaryV1ProprietarySetData) {
+	public constructor(data: Buffer | ProprietaryV1ProprietarySetData) {
 		super(ProprietarySet, data);
 	}
 };

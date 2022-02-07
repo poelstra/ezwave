@@ -1,5 +1,5 @@
-import { SimpleRequestBuilder } from "../requests";
 import { RequestRunner } from "../RequestRunner";
+import { SimpleRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 
 export function zwSendDataAbortBuilder(): SimpleRequestBuilder {
@@ -11,7 +11,7 @@ export function zwSendDataAbortBuilder(): SimpleRequestBuilder {
 export class ZwSendDataAbort extends RequestRunner<
 	typeof zwSendDataAbortBuilder
 > {
-	constructor() {
+	public constructor() {
 		super(zwSendDataAbortBuilder, undefined);
 	}
 }

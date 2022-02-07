@@ -18,7 +18,7 @@ export class NonInteroperableV1 extends CommandClassPacket<NonInteroperableV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NonInteroperableV1, commandAndPayload);
 	}
 }

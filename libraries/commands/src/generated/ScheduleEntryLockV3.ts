@@ -154,7 +154,7 @@ export class ScheduleEntryLockV3 extends CommandClassPacket<ScheduleEntryLockV3C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ScheduleEntryLockV3, commandAndPayload);
 	}
 }
@@ -191,7 +191,7 @@ export class ScheduleEntryLockEnableAllSet extends CommandPacket<ScheduleEntryLo
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockEnableAllSetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockEnableAllSetData) {
 		super(ScheduleEntryLockEnableAllSet, data);
 	}
 };
@@ -234,7 +234,7 @@ export class ScheduleEntryLockEnableSet extends CommandPacket<ScheduleEntryLockV
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockEnableSetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockEnableSetData) {
 		super(ScheduleEntryLockEnableSet, data);
 	}
 };
@@ -254,7 +254,7 @@ export class ScheduleEntryLockTimeOffsetGet extends CommandPacket<void> {
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ScheduleEntryLockTimeOffsetGet, data);
 	}
 };
@@ -321,7 +321,7 @@ export class ScheduleEntryLockTimeOffsetReport extends CommandPacket<ScheduleEnt
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockTimeOffsetReportData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockTimeOffsetReportData) {
 		super(ScheduleEntryLockTimeOffsetReport, data);
 	}
 };
@@ -388,7 +388,7 @@ export class ScheduleEntryLockTimeOffsetSet extends CommandPacket<ScheduleEntryL
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockTimeOffsetSetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockTimeOffsetSetData) {
 		super(ScheduleEntryLockTimeOffsetSet, data);
 	}
 };
@@ -421,7 +421,7 @@ export class ScheduleEntryLockWeekDayGet extends CommandPacket<ScheduleEntryLock
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockWeekDayGetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockWeekDayGetData) {
 		super(ScheduleEntryLockWeekDayGet, data);
 	}
 };
@@ -484,7 +484,7 @@ export class ScheduleEntryLockWeekDayReport extends CommandPacket<ScheduleEntryL
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockWeekDayReportData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockWeekDayReportData) {
 		super(ScheduleEntryLockWeekDayReport, data);
 	}
 };
@@ -563,7 +563,7 @@ export class ScheduleEntryLockWeekDaySet extends CommandPacket<ScheduleEntryLock
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockWeekDaySetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockWeekDaySetData) {
 		super(ScheduleEntryLockWeekDaySet, data);
 	}
 };
@@ -596,7 +596,7 @@ export class ScheduleEntryLockYearDayGet extends CommandPacket<ScheduleEntryLock
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockYearDayGetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockYearDayGetData) {
 		super(ScheduleEntryLockYearDayGet, data);
 	}
 };
@@ -689,7 +689,7 @@ export class ScheduleEntryLockYearDayReport extends CommandPacket<ScheduleEntryL
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockYearDayReportData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockYearDayReportData) {
 		super(ScheduleEntryLockYearDayReport, data);
 	}
 };
@@ -798,7 +798,7 @@ export class ScheduleEntryLockYearDaySet extends CommandPacket<ScheduleEntryLock
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockYearDaySetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockYearDaySetData) {
 		super(ScheduleEntryLockYearDaySet, data);
 	}
 };
@@ -818,7 +818,7 @@ export class ScheduleEntryTypeSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ScheduleEntryTypeSupportedGet, data);
 	}
 };
@@ -857,7 +857,7 @@ export class ScheduleEntryTypeSupportedReport extends CommandPacket<ScheduleEntr
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryTypeSupportedReportData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryTypeSupportedReportData) {
 		super(ScheduleEntryTypeSupportedReport, data);
 	}
 };
@@ -890,7 +890,7 @@ export class ScheduleEntryLockDailyRepeatingGet extends CommandPacket<ScheduleEn
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingGetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingGetData) {
 		super(ScheduleEntryLockDailyRepeatingGet, data);
 	}
 };
@@ -953,7 +953,7 @@ export class ScheduleEntryLockDailyRepeatingReport extends CommandPacket<Schedul
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingReportData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingReportData) {
 		super(ScheduleEntryLockDailyRepeatingReport, data);
 	}
 };
@@ -1032,7 +1032,7 @@ export class ScheduleEntryLockDailyRepeatingSet extends CommandPacket<ScheduleEn
 		return packet.tryAs(ScheduleEntryLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingSetData) {
+	public constructor(data: Buffer | ScheduleEntryLockV3ScheduleEntryLockDailyRepeatingSetData) {
 		super(ScheduleEntryLockDailyRepeatingSet, data);
 	}
 };

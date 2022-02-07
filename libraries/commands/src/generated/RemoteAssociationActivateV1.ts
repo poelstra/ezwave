@@ -24,7 +24,7 @@ export class RemoteAssociationActivateV1 extends CommandClassPacket<RemoteAssoci
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(RemoteAssociationActivateV1, commandAndPayload);
 	}
 }
@@ -51,7 +51,7 @@ export class RemoteAssociationActivate extends CommandPacket<RemoteAssociationAc
 		return packet.tryAs(RemoteAssociationActivateV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RemoteAssociationActivateV1RemoteAssociationActivateData) {
+	public constructor(data: Buffer | RemoteAssociationActivateV1RemoteAssociationActivateData) {
 		super(RemoteAssociationActivate, data);
 	}
 };

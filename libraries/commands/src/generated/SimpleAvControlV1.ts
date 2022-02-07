@@ -45,7 +45,7 @@ export class SimpleAvControlV1 extends CommandClassPacket<SimpleAvControlV1Comma
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SimpleAvControlV1, commandAndPayload);
 	}
 }
@@ -65,7 +65,7 @@ export class SimpleAvControlGet extends CommandPacket<void> {
 		return packet.tryAs(SimpleAvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SimpleAvControlGet, data);
 	}
 };
@@ -92,7 +92,7 @@ export class SimpleAvControlReport extends CommandPacket<SimpleAvControlV1Simple
 		return packet.tryAs(SimpleAvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SimpleAvControlV1SimpleAvControlReportData) {
+	public constructor(data: Buffer | SimpleAvControlV1SimpleAvControlReportData) {
 		super(SimpleAvControlReport, data);
 	}
 };
@@ -162,7 +162,7 @@ export class SimpleAvControlSet extends CommandPacket<SimpleAvControlV1SimpleAvC
 		return packet.tryAs(SimpleAvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SimpleAvControlV1SimpleAvControlSetData) {
+	public constructor(data: Buffer | SimpleAvControlV1SimpleAvControlSetData) {
 		super(SimpleAvControlSet, data);
 	}
 };
@@ -189,7 +189,7 @@ export class SimpleAvControlSupportedGet extends CommandPacket<SimpleAvControlV1
 		return packet.tryAs(SimpleAvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SimpleAvControlV1SimpleAvControlSupportedGetData) {
+	public constructor(data: Buffer | SimpleAvControlV1SimpleAvControlSupportedGetData) {
 		super(SimpleAvControlSupportedGet, data);
 	}
 };
@@ -225,7 +225,7 @@ export class SimpleAvControlSupportedReport extends CommandPacket<SimpleAvContro
 		return packet.tryAs(SimpleAvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SimpleAvControlV1SimpleAvControlSupportedReportData) {
+	public constructor(data: Buffer | SimpleAvControlV1SimpleAvControlSupportedReportData) {
 		super(SimpleAvControlSupportedReport, data);
 	}
 };

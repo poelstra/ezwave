@@ -260,7 +260,7 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ChimneyFanV1, commandAndPayload);
 	}
 }
@@ -280,7 +280,7 @@ export class ChimneyFanAlarmLogGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanAlarmLogGet, data);
 	}
 };
@@ -531,7 +531,7 @@ export class ChimneyFanAlarmLogReport extends CommandPacket<ChimneyFanV1ChimneyF
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmLogReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmLogReportData) {
 		super(ChimneyFanAlarmLogReport, data);
 	}
 };
@@ -564,7 +564,7 @@ export class ChimneyFanAlarmLogSet extends CommandPacket<ChimneyFanV1ChimneyFanA
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmLogSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmLogSetData) {
 		super(ChimneyFanAlarmLogSet, data);
 	}
 };
@@ -584,7 +584,7 @@ export class ChimneyFanAlarmStatusGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanAlarmStatusGet, data);
 	}
 };
@@ -655,7 +655,7 @@ export class ChimneyFanAlarmStatusReport extends CommandPacket<ChimneyFanV1Chimn
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmStatusReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmStatusReportData) {
 		super(ChimneyFanAlarmStatusReport, data);
 	}
 };
@@ -714,7 +714,7 @@ export class ChimneyFanAlarmStatusSet extends CommandPacket<ChimneyFanV1ChimneyF
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmStatusSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmStatusSetData) {
 		super(ChimneyFanAlarmStatusSet, data);
 	}
 };
@@ -734,7 +734,7 @@ export class ChimneyFanAlarmTempGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanAlarmTempGet, data);
 	}
 };
@@ -798,7 +798,7 @@ export class ChimneyFanAlarmTempReport extends CommandPacket<ChimneyFanV1Chimney
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmTempReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmTempReportData) {
 		super(ChimneyFanAlarmTempReport, data);
 	}
 };
@@ -862,7 +862,7 @@ export class ChimneyFanAlarmTempSet extends CommandPacket<ChimneyFanV1ChimneyFan
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmTempSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanAlarmTempSetData) {
 		super(ChimneyFanAlarmTempSet, data);
 	}
 };
@@ -882,7 +882,7 @@ export class ChimneyFanBoostTimeGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanBoostTimeGet, data);
 	}
 };
@@ -909,7 +909,7 @@ export class ChimneyFanBoostTimeReport extends CommandPacket<ChimneyFanV1Chimney
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanBoostTimeReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanBoostTimeReportData) {
 		super(ChimneyFanBoostTimeReport, data);
 	}
 };
@@ -936,7 +936,7 @@ export class ChimneyFanBoostTimeSet extends CommandPacket<ChimneyFanV1ChimneyFan
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanBoostTimeSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanBoostTimeSetData) {
 		super(ChimneyFanBoostTimeSet, data);
 	}
 };
@@ -956,7 +956,7 @@ export class ChimneyFanDefaultSet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanDefaultSet, data);
 	}
 };
@@ -976,7 +976,7 @@ export class ChimneyFanMinSpeedGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanMinSpeedGet, data);
 	}
 };
@@ -1003,7 +1003,7 @@ export class ChimneyFanMinSpeedReport extends CommandPacket<ChimneyFanV1ChimneyF
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanMinSpeedReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanMinSpeedReportData) {
 		super(ChimneyFanMinSpeedReport, data);
 	}
 };
@@ -1030,7 +1030,7 @@ export class ChimneyFanMinSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanM
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanMinSpeedSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanMinSpeedSetData) {
 		super(ChimneyFanMinSpeedSet, data);
 	}
 };
@@ -1050,7 +1050,7 @@ export class ChimneyFanModeGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanModeGet, data);
 	}
 };
@@ -1087,7 +1087,7 @@ export class ChimneyFanModeReport extends CommandPacket<ChimneyFanV1ChimneyFanMo
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanModeReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanModeReportData) {
 		super(ChimneyFanModeReport, data);
 	}
 };
@@ -1124,7 +1124,7 @@ export class ChimneyFanModeSet extends CommandPacket<ChimneyFanV1ChimneyFanModeS
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanModeSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanModeSetData) {
 		super(ChimneyFanModeSet, data);
 	}
 };
@@ -1144,7 +1144,7 @@ export class ChimneyFanSetupGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanSetupGet, data);
 	}
 };
@@ -1328,7 +1328,7 @@ export class ChimneyFanSetupReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanSetupReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanSetupReportData) {
 		super(ChimneyFanSetupReport, data);
 	}
 };
@@ -1512,7 +1512,7 @@ export class ChimneyFanSetupSet extends CommandPacket<ChimneyFanV1ChimneyFanSetu
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanSetupSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanSetupSetData) {
 		super(ChimneyFanSetupSet, data);
 	}
 };
@@ -1532,7 +1532,7 @@ export class ChimneyFanSpeedGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanSpeedGet, data);
 	}
 };
@@ -1559,7 +1559,7 @@ export class ChimneyFanSpeedReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanSpeedReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanSpeedReportData) {
 		super(ChimneyFanSpeedReport, data);
 	}
 };
@@ -1596,7 +1596,7 @@ export class ChimneyFanSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanSpee
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanSpeedSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanSpeedSetData) {
 		super(ChimneyFanSpeedSet, data);
 	}
 };
@@ -1616,7 +1616,7 @@ export class ChimneyFanStartTempGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanStartTempGet, data);
 	}
 };
@@ -1680,7 +1680,7 @@ export class ChimneyFanStartTempReport extends CommandPacket<ChimneyFanV1Chimney
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStartTempReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStartTempReportData) {
 		super(ChimneyFanStartTempReport, data);
 	}
 };
@@ -1744,7 +1744,7 @@ export class ChimneyFanStartTempSet extends CommandPacket<ChimneyFanV1ChimneyFan
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStartTempSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStartTempSetData) {
 		super(ChimneyFanStartTempSet, data);
 	}
 };
@@ -1764,7 +1764,7 @@ export class ChimneyFanStateGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanStateGet, data);
 	}
 };
@@ -1837,7 +1837,7 @@ export class ChimneyFanStateReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStateReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStateReportData) {
 		super(ChimneyFanStateReport, data);
 	}
 };
@@ -1870,7 +1870,7 @@ export class ChimneyFanStateSet extends CommandPacket<ChimneyFanV1ChimneyFanStat
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStateSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStateSetData) {
 		super(ChimneyFanStateSet, data);
 	}
 };
@@ -1890,7 +1890,7 @@ export class ChimneyFanStatusGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanStatusGet, data);
 	}
 };
@@ -2062,7 +2062,7 @@ export class ChimneyFanStatusReport extends CommandPacket<ChimneyFanV1ChimneyFan
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStatusReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStatusReportData) {
 		super(ChimneyFanStatusReport, data);
 	}
 };
@@ -2082,7 +2082,7 @@ export class ChimneyFanStopTempGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanStopTempGet, data);
 	}
 };
@@ -2146,7 +2146,7 @@ export class ChimneyFanStopTempReport extends CommandPacket<ChimneyFanV1ChimneyF
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTempReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTempReportData) {
 		super(ChimneyFanStopTempReport, data);
 	}
 };
@@ -2210,7 +2210,7 @@ export class ChimneyFanStopTempSet extends CommandPacket<ChimneyFanV1ChimneyFanS
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTempSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTempSetData) {
 		super(ChimneyFanStopTempSet, data);
 	}
 };
@@ -2230,7 +2230,7 @@ export class ChimneyFanStopTimeGet extends CommandPacket<void> {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ChimneyFanStopTimeGet, data);
 	}
 };
@@ -2257,7 +2257,7 @@ export class ChimneyFanStopTimeReport extends CommandPacket<ChimneyFanV1ChimneyF
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTimeReportData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTimeReportData) {
 		super(ChimneyFanStopTimeReport, data);
 	}
 };
@@ -2284,7 +2284,7 @@ export class ChimneyFanStopTimeSet extends CommandPacket<ChimneyFanV1ChimneyFanS
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTimeSetData) {
+	public constructor(data: Buffer | ChimneyFanV1ChimneyFanStopTimeSetData) {
 		super(ChimneyFanStopTimeSet, data);
 	}
 };

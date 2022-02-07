@@ -11,9 +11,12 @@ export class Packet {
 	public readonly commandClass: number;
 	public readonly commandAndPayload: Buffer;
 
-	constructor(buffer: Buffer);
-	constructor(commandClass: number, commandAndPayload: Buffer);
-	constructor(bufferOrClass: Buffer | number, commandAndPayload?: Buffer) {
+	public constructor(buffer: Buffer);
+	public constructor(commandClass: number, commandAndPayload: Buffer);
+	public constructor(
+		bufferOrClass: Buffer | number,
+		commandAndPayload?: Buffer
+	) {
 		if (Buffer.isBuffer(bufferOrClass)) {
 			const buffer = bufferOrClass;
 			if (buffer.length < 1) {

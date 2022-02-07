@@ -65,7 +65,7 @@ export interface ZwAddNodeToNetworkRequest {
 export class ZwAddNodeToNetwork extends RequestRunner<
 	typeof zwAddNodeToNetworkBuilder
 > {
-	constructor(request: ZwAddNodeToNetworkRequest) {
+	public constructor(request: ZwAddNodeToNetworkRequest) {
 		super(zwAddNodeToNetworkBuilder, request);
 	}
 }
@@ -162,7 +162,7 @@ export class AddNodeError extends Error {
 	public readonly status: AddNodeResultStatus;
 	public readonly nif?: NodeInfoResponse;
 
-	constructor(result: AddNodeMachineResult) {
+	public constructor(result: AddNodeMachineResult) {
 		super(`AddNodeToNetwork failed: ${AddNodeResultStatus[result.status]}`);
 		this.status = result.status;
 		this.nif = result.nif;

@@ -30,7 +30,7 @@ export class MtpWindowCoveringV1 extends CommandClassPacket<MtpWindowCoveringV1C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MtpWindowCoveringV1, commandAndPayload);
 	}
 }
@@ -50,7 +50,7 @@ export class MoveToPositionGet extends CommandPacket<void> {
 		return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MoveToPositionGet, data);
 	}
 };
@@ -87,7 +87,7 @@ export class MoveToPositionReport extends CommandPacket<MtpWindowCoveringV1MoveT
 		return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionReportData) {
+	public constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionReportData) {
 		super(MoveToPositionReport, data);
 	}
 };
@@ -124,7 +124,7 @@ export class MoveToPositionSet extends CommandPacket<MtpWindowCoveringV1MoveToPo
 		return packet.tryAs(MtpWindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionSetData) {
+	public constructor(data: Buffer | MtpWindowCoveringV1MoveToPositionSetData) {
 		super(MoveToPositionSet, data);
 	}
 };

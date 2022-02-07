@@ -97,7 +97,7 @@ export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZwaveV1, commandAndPayload);
 	}
 }
@@ -117,7 +117,7 @@ export class AcceptLost extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AcceptLost, data);
 	}
 };
@@ -137,7 +137,7 @@ export class AssignId extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AssignId, data);
 	}
 };
@@ -157,7 +157,7 @@ export class AssignReturnRoute extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AssignReturnRoute, data);
 	}
 };
@@ -177,7 +177,7 @@ export class CmdAssignSucReturnRoute extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdAssignSucReturnRoute, data);
 	}
 };
@@ -197,7 +197,7 @@ export class CmdAutomaticControllerUpdateStart extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdAutomaticControllerUpdateStart, data);
 	}
 };
@@ -217,7 +217,7 @@ export class CmdNodesExist extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdNodesExist, data);
 	}
 };
@@ -237,7 +237,7 @@ export class CmdNodesExistReply extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdNodesExistReply, data);
 	}
 };
@@ -257,7 +257,7 @@ export class CmdSetNwiMode extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdSetNwiMode, data);
 	}
 };
@@ -277,7 +277,7 @@ export class CommandComplete extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CommandComplete, data);
 	}
 };
@@ -297,7 +297,7 @@ export class FindNodesInRange extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(FindNodesInRange, data);
 	}
 };
@@ -317,7 +317,7 @@ export class GetNodesInRange extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(GetNodesInRange, data);
 	}
 };
@@ -337,7 +337,7 @@ export class Lost extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(Lost, data);
 	}
 };
@@ -357,7 +357,7 @@ export class NewNodeRegistered extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(NewNodeRegistered, data);
 	}
 };
@@ -377,7 +377,7 @@ export class NewRangeRegistered extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(NewRangeRegistered, data);
 	}
 };
@@ -608,7 +608,7 @@ export class NodeInfo extends CommandPacket<ZwaveV1NodeInfoData> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZwaveV1NodeInfoData) {
+	public constructor(data: Buffer | ZwaveV1NodeInfoData) {
 		super(NodeInfo, data);
 	}
 };
@@ -628,7 +628,7 @@ export class NodeRangeInfo extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(NodeRangeInfo, data);
 	}
 };
@@ -648,7 +648,7 @@ export class ZwaveCmdNop extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ZwaveCmdNop, data);
 	}
 };
@@ -668,7 +668,7 @@ export class CmdNopPower extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdNopPower, data);
 	}
 };
@@ -688,7 +688,7 @@ export class RequestNodeInfo extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(RequestNodeInfo, data);
 	}
 };
@@ -708,7 +708,7 @@ export class ZwaveCmdReserveNodeIds extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ZwaveCmdReserveNodeIds, data);
 	}
 };
@@ -728,7 +728,7 @@ export class CmdReservedIds extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdReservedIds, data);
 	}
 };
@@ -748,7 +748,7 @@ export class CmdSetSuc extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdSetSuc, data);
 	}
 };
@@ -768,7 +768,7 @@ export class CmdSetSucAck extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdSetSucAck, data);
 	}
 };
@@ -788,7 +788,7 @@ export class CmdStaticRouteRequest extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdStaticRouteRequest, data);
 	}
 };
@@ -808,7 +808,7 @@ export class CmdSucNodeId extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CmdSucNodeId, data);
 	}
 };
@@ -828,7 +828,7 @@ export class TransferEnd extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TransferEnd, data);
 	}
 };
@@ -848,7 +848,7 @@ export class TransferNewPrimaryComplete extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TransferNewPrimaryComplete, data);
 	}
 };
@@ -868,7 +868,7 @@ export class TransferNodeInfo extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TransferNodeInfo, data);
 	}
 };
@@ -888,7 +888,7 @@ export class TransferPresentation extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TransferPresentation, data);
 	}
 };
@@ -908,7 +908,7 @@ export class TransferRangeInfo extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TransferRangeInfo, data);
 	}
 };
@@ -928,7 +928,7 @@ export class ExcludeRequest extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ExcludeRequest, data);
 	}
 };
@@ -948,7 +948,7 @@ export class AssignReturnRoutePriority extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AssignReturnRoutePriority, data);
 	}
 };
@@ -968,7 +968,7 @@ export class AssignSucReturnRoutePriority extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AssignSucReturnRoutePriority, data);
 	}
 };
@@ -988,7 +988,7 @@ export class IncludedNodeInfo extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IncludedNodeInfo, data);
 	}
 };
@@ -1008,7 +1008,7 @@ export class SmartStartPrime extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SmartStartPrime, data);
 	}
 };
@@ -1028,7 +1028,7 @@ export class SmartStartInclude extends CommandPacket<void> {
 		return packet.tryAs(ZwaveV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SmartStartInclude, data);
 	}
 };

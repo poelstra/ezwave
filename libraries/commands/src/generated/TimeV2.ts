@@ -66,7 +66,7 @@ export class TimeV2 extends CommandClassPacket<TimeV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(TimeV2, commandAndPayload);
 	}
 }
@@ -86,7 +86,7 @@ export class DateGet extends CommandPacket<void> {
 		return packet.tryAs(TimeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DateGet, data);
 	}
 };
@@ -125,7 +125,7 @@ export class DateReport extends CommandPacket<TimeV2DateReportData> {
 		return packet.tryAs(TimeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TimeV2DateReportData) {
+	public constructor(data: Buffer | TimeV2DateReportData) {
 		super(DateReport, data);
 	}
 };
@@ -145,7 +145,7 @@ export class TimeGet extends CommandPacket<void> {
 		return packet.tryAs(TimeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TimeGet, data);
 	}
 };
@@ -165,7 +165,7 @@ export class TimeOffsetGet extends CommandPacket<void> {
 		return packet.tryAs(TimeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TimeOffsetGet, data);
 	}
 };
@@ -268,7 +268,7 @@ export class TimeOffsetReport extends CommandPacket<TimeV2TimeOffsetReportData> 
 		return packet.tryAs(TimeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TimeV2TimeOffsetReportData) {
+	public constructor(data: Buffer | TimeV2TimeOffsetReportData) {
 		super(TimeOffsetReport, data);
 	}
 };
@@ -371,7 +371,7 @@ export class TimeOffsetSet extends CommandPacket<TimeV2TimeOffsetSetData> {
 		return packet.tryAs(TimeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TimeV2TimeOffsetSetData) {
+	public constructor(data: Buffer | TimeV2TimeOffsetSetData) {
 		super(TimeOffsetSet, data);
 	}
 };
@@ -431,7 +431,7 @@ export class TimeReport extends CommandPacket<TimeV2TimeReportData> {
 		return packet.tryAs(TimeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TimeV2TimeReportData) {
+	public constructor(data: Buffer | TimeV2TimeReportData) {
 		super(TimeReport, data);
 	}
 };

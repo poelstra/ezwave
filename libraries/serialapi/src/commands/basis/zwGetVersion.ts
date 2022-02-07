@@ -24,7 +24,7 @@ export function zwGetVersionBuilder(): ResponseRequestBuilder<ZwVersionInfo> {
 }
 
 export class ZwGetVersion extends RequestRunner<typeof zwGetVersionBuilder> {
-	constructor() {
+	public constructor() {
 		super(zwGetVersionBuilder, undefined);
 	}
 }

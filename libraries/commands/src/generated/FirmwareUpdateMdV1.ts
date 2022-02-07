@@ -72,7 +72,7 @@ export class FirmwareUpdateMdV1 extends CommandClassPacket<FirmwareUpdateMdV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(FirmwareUpdateMdV1, commandAndPayload);
 	}
 }
@@ -92,7 +92,7 @@ export class FirmwareMdGet extends CommandPacket<void> {
 		return packet.tryAs(FirmwareUpdateMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(FirmwareMdGet, data);
 	}
 };
@@ -131,7 +131,7 @@ export class FirmwareMdReport extends CommandPacket<FirmwareUpdateMdV1FirmwareMd
 		return packet.tryAs(FirmwareUpdateMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | FirmwareUpdateMdV1FirmwareMdReportData) {
+	public constructor(data: Buffer | FirmwareUpdateMdV1FirmwareMdReportData) {
 		super(FirmwareMdReport, data);
 	}
 };
@@ -184,7 +184,7 @@ export class FirmwareUpdateMdGet extends CommandPacket<FirmwareUpdateMdV1Firmwar
 		return packet.tryAs(FirmwareUpdateMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdGetData) {
+	public constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdGetData) {
 		super(FirmwareUpdateMdGet, data);
 	}
 };
@@ -239,7 +239,7 @@ export class FirmwareUpdateMdReport extends CommandPacket<FirmwareUpdateMdV1Firm
 		return packet.tryAs(FirmwareUpdateMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdReportData) {
+	public constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdReportData) {
 		super(FirmwareUpdateMdReport, data);
 	}
 };
@@ -278,7 +278,7 @@ export class FirmwareUpdateMdRequestGet extends CommandPacket<FirmwareUpdateMdV1
 		return packet.tryAs(FirmwareUpdateMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdRequestGetData) {
+	public constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdRequestGetData) {
 		super(FirmwareUpdateMdRequestGet, data);
 	}
 };
@@ -319,7 +319,7 @@ export class FirmwareUpdateMdRequestReport extends CommandPacket<FirmwareUpdateM
 		return packet.tryAs(FirmwareUpdateMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdRequestReportData) {
+	public constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdRequestReportData) {
 		super(FirmwareUpdateMdRequestReport, data);
 	}
 };
@@ -360,7 +360,7 @@ export class FirmwareUpdateMdStatusReport extends CommandPacket<FirmwareUpdateMd
 		return packet.tryAs(FirmwareUpdateMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdStatusReportData) {
+	public constructor(data: Buffer | FirmwareUpdateMdV1FirmwareUpdateMdStatusReportData) {
 		super(FirmwareUpdateMdStatusReport, data);
 	}
 };

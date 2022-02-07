@@ -26,7 +26,7 @@ export class ApplicationCapabilityV1 extends CommandClassPacket<ApplicationCapab
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ApplicationCapabilityV1, commandAndPayload);
 	}
 }
@@ -82,7 +82,7 @@ export class CommandCommandClassNotSupported extends CommandPacket<ApplicationCa
 		return packet.tryAs(ApplicationCapabilityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ApplicationCapabilityV1CommandCommandClassNotSupportedData) {
+	public constructor(data: Buffer | ApplicationCapabilityV1CommandCommandClassNotSupportedData) {
 		super(CommandCommandClassNotSupported, data);
 	}
 };

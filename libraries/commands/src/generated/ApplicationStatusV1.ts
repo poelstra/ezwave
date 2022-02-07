@@ -35,7 +35,7 @@ export class ApplicationStatusV1 extends CommandClassPacket<ApplicationStatusV1C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ApplicationStatusV1, commandAndPayload);
 	}
 }
@@ -82,7 +82,7 @@ export class ApplicationBusy extends CommandPacket<ApplicationStatusV1Applicatio
 		return packet.tryAs(ApplicationStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ApplicationStatusV1ApplicationBusyData) {
+	public constructor(data: Buffer | ApplicationStatusV1ApplicationBusyData) {
 		super(ApplicationBusy, data);
 	}
 };
@@ -109,7 +109,7 @@ export class ApplicationRejectedRequest extends CommandPacket<ApplicationStatusV
 		return packet.tryAs(ApplicationStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ApplicationStatusV1ApplicationRejectedRequestData) {
+	public constructor(data: Buffer | ApplicationStatusV1ApplicationRejectedRequestData) {
 		super(ApplicationRejectedRequest, data);
 	}
 };

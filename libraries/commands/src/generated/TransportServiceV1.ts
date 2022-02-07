@@ -40,7 +40,7 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(TransportServiceV1, commandAndPayload);
 	}
 }
@@ -118,7 +118,7 @@ export class CommandFirstFragment extends CommandPacket<TransportServiceV1Comman
 		return packet.tryAs(TransportServiceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TransportServiceV1CommandFirstFragmentData) {
+	public constructor(data: Buffer | TransportServiceV1CommandFirstFragmentData) {
 		super(CommandFirstFragment, data);
 	}
 };
@@ -208,7 +208,7 @@ export class CommandSubsequentFragment extends CommandPacket<TransportServiceV1C
 		return packet.tryAs(TransportServiceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TransportServiceV1CommandSubsequentFragmentData) {
+	public constructor(data: Buffer | TransportServiceV1CommandSubsequentFragmentData) {
 		super(CommandSubsequentFragment, data);
 	}
 };

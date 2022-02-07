@@ -30,7 +30,7 @@ export class AlarmV1 extends CommandClassPacket<AlarmV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(AlarmV1, commandAndPayload);
 	}
 }
@@ -57,7 +57,7 @@ export class AlarmGet extends CommandPacket<AlarmV1AlarmGetData> {
 		return packet.tryAs(AlarmV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AlarmV1AlarmGetData) {
+	public constructor(data: Buffer | AlarmV1AlarmGetData) {
 		super(AlarmGet, data);
 	}
 };
@@ -90,7 +90,7 @@ export class AlarmReport extends CommandPacket<AlarmV1AlarmReportData> {
 		return packet.tryAs(AlarmV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AlarmV1AlarmReportData) {
+	public constructor(data: Buffer | AlarmV1AlarmReportData) {
 		super(AlarmReport, data);
 	}
 };

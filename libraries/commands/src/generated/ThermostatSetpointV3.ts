@@ -95,7 +95,7 @@ export class ThermostatSetpointV3 extends CommandClassPacket<ThermostatSetpointV
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatSetpointV3, commandAndPayload);
 	}
 }
@@ -203,7 +203,7 @@ export class ThermostatSetpointGet extends CommandPacket<ThermostatSetpointV3The
 		return packet.tryAs(ThermostatSetpointV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointGetData) {
+	public constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointGetData) {
 		super(ThermostatSetpointGet, data);
 	}
 };
@@ -354,7 +354,7 @@ export class ThermostatSetpointReport extends CommandPacket<ThermostatSetpointV3
 		return packet.tryAs(ThermostatSetpointV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointReportData) {
+	public constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointReportData) {
 		super(ThermostatSetpointReport, data);
 	}
 };
@@ -505,7 +505,7 @@ export class ThermostatSetpointSet extends CommandPacket<ThermostatSetpointV3The
 		return packet.tryAs(ThermostatSetpointV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointSetData) {
+	public constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointSetData) {
 		super(ThermostatSetpointSet, data);
 	}
 };
@@ -525,7 +525,7 @@ export class ThermostatSetpointSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatSetpointV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatSetpointSupportedGet, data);
 	}
 };
@@ -604,7 +604,7 @@ export class ThermostatSetpointSupportedReport extends CommandPacket<ThermostatS
 		return packet.tryAs(ThermostatSetpointV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointSupportedReportData) {
+	public constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointSupportedReportData) {
 		super(ThermostatSetpointSupportedReport, data);
 	}
 };
@@ -712,7 +712,7 @@ export class ThermostatSetpointCapabilitiesGet extends CommandPacket<ThermostatS
 		return packet.tryAs(ThermostatSetpointV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointCapabilitiesGetData) {
+	public constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointCapabilitiesGetData) {
 		super(ThermostatSetpointCapabilitiesGet, data);
 	}
 };
@@ -906,7 +906,7 @@ export class ThermostatSetpointCapabilitiesReport extends CommandPacket<Thermost
 		return packet.tryAs(ThermostatSetpointV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointCapabilitiesReportData) {
+	public constructor(data: Buffer | ThermostatSetpointV3ThermostatSetpointCapabilitiesReportData) {
 		super(ThermostatSetpointCapabilitiesReport, data);
 	}
 };

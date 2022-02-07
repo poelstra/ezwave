@@ -35,7 +35,7 @@ export class SecurityPanelModeV1 extends CommandClassPacket<SecurityPanelModeV1C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SecurityPanelModeV1, commandAndPayload);
 	}
 }
@@ -55,7 +55,7 @@ export class SecurityPanelModeGet extends CommandPacket<void> {
 		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SecurityPanelModeGet, data);
 	}
 };
@@ -104,7 +104,7 @@ export class SecurityPanelModeReport extends CommandPacket<SecurityPanelModeV1Se
 		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeReportData) {
+	public constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeReportData) {
 		super(SecurityPanelModeReport, data);
 	}
 };
@@ -153,7 +153,7 @@ export class SecurityPanelModeSet extends CommandPacket<SecurityPanelModeV1Secur
 		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSetData) {
+	public constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSetData) {
 		super(SecurityPanelModeSet, data);
 	}
 };
@@ -173,7 +173,7 @@ export class SecurityPanelModeSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SecurityPanelModeSupportedGet, data);
 	}
 };
@@ -200,7 +200,7 @@ export class SecurityPanelModeSupportedReport extends CommandPacket<SecurityPane
 		return packet.tryAs(SecurityPanelModeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSupportedReportData) {
+	public constructor(data: Buffer | SecurityPanelModeV1SecurityPanelModeSupportedReportData) {
 		super(SecurityPanelModeSupportedReport, data);
 	}
 };

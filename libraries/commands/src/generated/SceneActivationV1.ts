@@ -24,7 +24,7 @@ export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Comma
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SceneActivationV1, commandAndPayload);
 	}
 }
@@ -67,7 +67,7 @@ export class SceneActivationSet extends CommandPacket<SceneActivationV1SceneActi
 		return packet.tryAs(SceneActivationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SceneActivationV1SceneActivationSetData) {
+	public constructor(data: Buffer | SceneActivationV1SceneActivationSetData) {
 		super(SceneActivationSet, data);
 	}
 };

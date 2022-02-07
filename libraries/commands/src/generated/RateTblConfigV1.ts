@@ -41,7 +41,7 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(RateTblConfigV1, commandAndPayload);
 	}
 }
@@ -100,7 +100,7 @@ export class RateTblRemove extends CommandPacket<RateTblConfigV1RateTblRemoveDat
 		return packet.tryAs(RateTblConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblConfigV1RateTblRemoveData) {
+	public constructor(data: Buffer | RateTblConfigV1RateTblRemoveData) {
 		super(RateTblRemove, data);
 	}
 };
@@ -253,7 +253,7 @@ export class RateTblSet extends CommandPacket<RateTblConfigV1RateTblSetData> {
 		return packet.tryAs(RateTblConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblConfigV1RateTblSetData) {
+	public constructor(data: Buffer | RateTblConfigV1RateTblSetData) {
 		super(RateTblSet, data);
 	}
 };

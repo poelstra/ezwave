@@ -6,7 +6,7 @@ export class Events<T> {
 	private _closed: Error | undefined;
 	private _onClose: (() => void) | undefined;
 
-	constructor(onClose?: () => void) {
+	public constructor(onClose?: () => void) {
 		this._onClose = onClose;
 	}
 

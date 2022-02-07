@@ -54,7 +54,7 @@ export class CentralSceneV2 extends CommandClassPacket<CentralSceneV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(CentralSceneV2, commandAndPayload);
 	}
 }
@@ -74,7 +74,7 @@ export class CentralSceneSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(CentralSceneV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CentralSceneSupportedGet, data);
 	}
 };
@@ -194,7 +194,7 @@ export class CentralSceneSupportedReport extends CommandPacket<CentralSceneV2Cen
 		return packet.tryAs(CentralSceneV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | CentralSceneV2CentralSceneSupportedReportData) {
+	public constructor(data: Buffer | CentralSceneV2CentralSceneSupportedReportData) {
 		super(CentralSceneSupportedReport, data);
 	}
 };
@@ -278,7 +278,7 @@ export class CentralSceneNotification extends CommandPacket<CentralSceneV2Centra
 		return packet.tryAs(CentralSceneV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | CentralSceneV2CentralSceneNotificationData) {
+	public constructor(data: Buffer | CentralSceneV2CentralSceneNotificationData) {
 		super(CentralSceneNotification, data);
 	}
 };

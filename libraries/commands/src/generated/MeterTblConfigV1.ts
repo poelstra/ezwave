@@ -23,7 +23,7 @@ export class MeterTblConfigV1 extends CommandClassPacket<MeterTblConfigV1Command
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MeterTblConfigV1, commandAndPayload);
 	}
 }
@@ -82,7 +82,7 @@ export class MeterTblTablePointAdmNoSet extends CommandPacket<MeterTblConfigV1Me
 		return packet.tryAs(MeterTblConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblConfigV1MeterTblTablePointAdmNoSetData) {
+	public constructor(data: Buffer | MeterTblConfigV1MeterTblTablePointAdmNoSetData) {
 		super(MeterTblTablePointAdmNoSet, data);
 	}
 };

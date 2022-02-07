@@ -37,7 +37,7 @@ export class SensorAlarmV1 extends CommandClassPacket<SensorAlarmV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SensorAlarmV1, commandAndPayload);
 	}
 }
@@ -94,7 +94,7 @@ export class SensorAlarmGet extends CommandPacket<SensorAlarmV1SensorAlarmGetDat
 		return packet.tryAs(SensorAlarmV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorAlarmV1SensorAlarmGetData) {
+	public constructor(data: Buffer | SensorAlarmV1SensorAlarmGetData) {
 		super(SensorAlarmGet, data);
 	}
 };
@@ -180,7 +180,7 @@ export class SensorAlarmReport extends CommandPacket<SensorAlarmV1SensorAlarmRep
 		return packet.tryAs(SensorAlarmV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorAlarmV1SensorAlarmReportData) {
+	public constructor(data: Buffer | SensorAlarmV1SensorAlarmReportData) {
 		super(SensorAlarmReport, data);
 	}
 };
@@ -200,7 +200,7 @@ export class SensorAlarmSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(SensorAlarmV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SensorAlarmSupportedGet, data);
 	}
 };
@@ -244,7 +244,7 @@ export class SensorAlarmSupportedReport extends CommandPacket<SensorAlarmV1Senso
 		return packet.tryAs(SensorAlarmV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorAlarmV1SensorAlarmSupportedReportData) {
+	public constructor(data: Buffer | SensorAlarmV1SensorAlarmSupportedReportData) {
 		super(SensorAlarmSupportedReport, data);
 	}
 };

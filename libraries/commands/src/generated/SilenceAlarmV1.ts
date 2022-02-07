@@ -25,7 +25,7 @@ export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SilenceAlarmV1, commandAndPayload);
 	}
 }
@@ -99,7 +99,7 @@ export class SensorAlarmSet extends CommandPacket<SilenceAlarmV1SensorAlarmSetDa
 		return packet.tryAs(SilenceAlarmV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SilenceAlarmV1SensorAlarmSetData) {
+	public constructor(data: Buffer | SilenceAlarmV1SensorAlarmSetData) {
 		super(SensorAlarmSet, data);
 	}
 };

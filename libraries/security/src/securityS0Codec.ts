@@ -14,7 +14,7 @@ export class SecurityS0Codec {
 	private _crypto: CryptoManager;
 	private _nonceStore: INonceLookup;
 
-	constructor(crypto: CryptoManager, nonceStore: INonceLookup) {
+	public constructor(crypto: CryptoManager, nonceStore: INonceLookup) {
 		this._crypto = crypto;
 		this._nonceStore = nonceStore;
 	}

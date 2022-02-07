@@ -27,11 +27,15 @@ import { HomeHub } from "./homehub";
 import { Hub } from "./hub";
 
 function prefixTimestamp(console: Console, method: keyof Console): void {
-	const origMethod = console[method] as (this: any, ...args: any[]) => void;
-	console[method] = function (this: any, ...args: any[]) {
+	const origMethod = console[method] as (
+		this: unknown,
+		...args: unknown[]
+	) => void;
+	console[method] = function (this: unknown, ...args: unknown[]) {
 		// Don't use e.g. args.unshift, because only the first argument supports printf-formatting
 		args[0] = `${new Date().toISOString()} [${method}] ${args[0]}`;
 		return origMethod.apply(this, args);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} as any;
 }
 
@@ -103,7 +107,7 @@ void main(async () => {
 		homeId: number,
 		nodeId: number,
 		type: ZwLibraryType
-	) => {
+	): Controller => {
 		const typeStr = ZwLibraryType[type] as keyof typeof ZwLibraryType;
 		let hostConfig = config.hosts?.find(
 			(entry) =>

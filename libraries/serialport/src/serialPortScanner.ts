@@ -11,9 +11,9 @@ import { promises as pfs } from "fs";
 import SerialPort from "serialport";
 import { Duplex } from "stream";
 
-const log = debug("zwave:serialportscanner");
+const log: debug.Debugger = debug("zwave:serialportscanner");
 
-export const DEFAULT_SUPPORTED_ZWAVE_USB_IDS = [
+export const DEFAULT_SUPPORTED_ZWAVE_USB_IDS: string[] = [
 	"10c4:ea60", // Aeotec Z-Stick Gen2
 	"0658:0200", // Sigma Designs, Inc. Aeotec Z-Stick Gen5 (ZW090) - UZB
 ];
@@ -80,7 +80,7 @@ export class SerialPortScanner {
 	private _options: Required<SerialPortScannerOptions>;
 	private _matches: Set<string>;
 	private _onOpen: (duplex: Duplex) => void | Promise<void>;
-	private _ports = new Set<string>();
+	private _ports: Set<string> = new Set();
 
 	/**
 	 * Create serial port scanner.
@@ -89,7 +89,7 @@ export class SerialPortScanner {
 	 *     Receives the opened duplex stream. If callback returns an error, the port is actively
 	 *     closed again, but will be retried on the next scan.
 	 */
-	constructor(
+	public constructor(
 		options: SerialPortScannerOptions,
 		onOpen: (duplex: Duplex) => void | Promise<void>
 	) {
@@ -106,7 +106,7 @@ export class SerialPortScanner {
 		this._onOpen = onOpen;
 	}
 
-	async run(): Promise<never> {
+	public async run(): Promise<never> {
 		log(
 			`serial port scanner started, scanning for matches=[${[
 				...this._options.matches.values(),
@@ -114,6 +114,7 @@ export class SerialPortScanner {
 		);
 
 		const sleeper = new InterruptibleSleep();
+		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			const newPorts = await this._scan();
 
@@ -172,7 +173,9 @@ export class SerialPortScanner {
 		for (const port of this._options.ports) {
 			try {
 				existingPorts.push(await pfs.realpath(port));
-			} catch {}
+			} catch {
+				/* ignore */
+			}
 		}
 
 		const foundPortNames = new Set([

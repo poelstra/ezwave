@@ -75,7 +75,7 @@ export class ThermostatFanModeV4 extends CommandClassPacket<ThermostatFanModeV4C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatFanModeV4, commandAndPayload);
 	}
 }
@@ -95,7 +95,7 @@ export class ThermostatFanModeGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatFanModeGet, data);
 	}
 };
@@ -209,7 +209,7 @@ export class ThermostatFanModeReport extends CommandPacket<ThermostatFanModeV4Th
 		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeReportData) {
+	public constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeReportData) {
 		super(ThermostatFanModeReport, data);
 	}
 };
@@ -323,7 +323,7 @@ export class ThermostatFanModeSet extends CommandPacket<ThermostatFanModeV4Therm
 		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSetData) {
+	public constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSetData) {
 		super(ThermostatFanModeSet, data);
 	}
 };
@@ -343,7 +343,7 @@ export class ThermostatFanModeSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatFanModeSupportedGet, data);
 	}
 };
@@ -438,7 +438,7 @@ export class ThermostatFanModeSupportedReport extends CommandPacket<ThermostatFa
 		return packet.tryAs(ThermostatFanModeV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSupportedReportData) {
+	public constructor(data: Buffer | ThermostatFanModeV4ThermostatFanModeSupportedReportData) {
 		super(ThermostatFanModeSupportedReport, data);
 	}
 };

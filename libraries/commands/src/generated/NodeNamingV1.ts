@@ -44,7 +44,7 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NodeNamingV1, commandAndPayload);
 	}
 }
@@ -92,7 +92,7 @@ export class NodeNamingNodeLocationReport extends CommandPacket<NodeNamingV1Node
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeNamingV1NodeNamingNodeLocationReportData) {
+	public constructor(data: Buffer | NodeNamingV1NodeNamingNodeLocationReportData) {
 		super(NodeNamingNodeLocationReport, data);
 	}
 };
@@ -140,7 +140,7 @@ export class NodeNamingNodeLocationSet extends CommandPacket<NodeNamingV1NodeNam
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeNamingV1NodeNamingNodeLocationSetData) {
+	public constructor(data: Buffer | NodeNamingV1NodeNamingNodeLocationSetData) {
 		super(NodeNamingNodeLocationSet, data);
 	}
 };
@@ -160,7 +160,7 @@ export class NodeNamingNodeLocationGet extends CommandPacket<void> {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(NodeNamingNodeLocationGet, data);
 	}
 };
@@ -180,7 +180,7 @@ export class NodeNamingNodeNameGet extends CommandPacket<void> {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(NodeNamingNodeNameGet, data);
 	}
 };
@@ -228,7 +228,7 @@ export class NodeNamingNodeNameReport extends CommandPacket<NodeNamingV1NodeNami
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeNamingV1NodeNamingNodeNameReportData) {
+	public constructor(data: Buffer | NodeNamingV1NodeNamingNodeNameReportData) {
 		super(NodeNamingNodeNameReport, data);
 	}
 };
@@ -276,7 +276,7 @@ export class NodeNamingNodeNameSet extends CommandPacket<NodeNamingV1NodeNamingN
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeNamingV1NodeNamingNodeNameSetData) {
+	public constructor(data: Buffer | NodeNamingV1NodeNamingNodeNameSetData) {
 		super(NodeNamingNodeNameSet, data);
 	}
 };

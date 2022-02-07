@@ -31,7 +31,7 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(LanguageV1, commandAndPayload);
 	}
 }
@@ -51,7 +51,7 @@ export class LanguageGet extends CommandPacket<void> {
 		return packet.tryAs(LanguageV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(LanguageGet, data);
 	}
 };
@@ -84,7 +84,7 @@ export class LanguageReport extends CommandPacket<LanguageV1LanguageReportData> 
 		return packet.tryAs(LanguageV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | LanguageV1LanguageReportData) {
+	public constructor(data: Buffer | LanguageV1LanguageReportData) {
 		super(LanguageReport, data);
 	}
 };
@@ -117,7 +117,7 @@ export class LanguageSet extends CommandPacket<LanguageV1LanguageSetData> {
 		return packet.tryAs(LanguageV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | LanguageV1LanguageSetData) {
+	public constructor(data: Buffer | LanguageV1LanguageSetData) {
 		super(LanguageSet, data);
 	}
 };

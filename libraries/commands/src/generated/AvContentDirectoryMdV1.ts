@@ -26,7 +26,7 @@ export class AvContentDirectoryMdV1 extends CommandClassPacket<AvContentDirector
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(AvContentDirectoryMdV1, commandAndPayload);
 	}
 }
@@ -46,7 +46,7 @@ export class AvContentBrowseMdByLetterGet extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvContentBrowseMdByLetterGet, data);
 	}
 };
@@ -66,7 +66,7 @@ export class AvContentBrowseMdByLetterReport extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvContentBrowseMdByLetterReport, data);
 	}
 };
@@ -86,7 +86,7 @@ export class AvContentBrowseMdChildCountGet extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvContentBrowseMdChildCountGet, data);
 	}
 };
@@ -106,7 +106,7 @@ export class AvContentBrowseMdChildCountReport extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvContentBrowseMdChildCountReport, data);
 	}
 };
@@ -126,7 +126,7 @@ export class AvContentBrowseMdGet extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvContentBrowseMdGet, data);
 	}
 };
@@ -146,7 +146,7 @@ export class AvContentBrowseMdReport extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvContentBrowseMdReport, data);
 	}
 };
@@ -166,7 +166,7 @@ export class AvMatchItemToRendererMdGet extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvMatchItemToRendererMdGet, data);
 	}
 };
@@ -186,7 +186,7 @@ export class AvMatchItemToRendererMdReport extends CommandPacket<void> {
 		return packet.tryAs(AvContentDirectoryMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvMatchItemToRendererMdReport, data);
 	}
 };

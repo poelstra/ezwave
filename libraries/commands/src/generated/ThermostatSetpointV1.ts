@@ -69,7 +69,7 @@ export class ThermostatSetpointV1 extends CommandClassPacket<ThermostatSetpointV
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatSetpointV1, commandAndPayload);
 	}
 }
@@ -157,7 +157,7 @@ export class ThermostatSetpointGet extends CommandPacket<ThermostatSetpointV1The
 		return packet.tryAs(ThermostatSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointGetData) {
+	public constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointGetData) {
 		super(ThermostatSetpointGet, data);
 	}
 };
@@ -288,7 +288,7 @@ export class ThermostatSetpointReport extends CommandPacket<ThermostatSetpointV1
 		return packet.tryAs(ThermostatSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointReportData) {
+	public constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointReportData) {
 		super(ThermostatSetpointReport, data);
 	}
 };
@@ -419,7 +419,7 @@ export class ThermostatSetpointSet extends CommandPacket<ThermostatSetpointV1The
 		return packet.tryAs(ThermostatSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointSetData) {
+	public constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointSetData) {
 		super(ThermostatSetpointSet, data);
 	}
 };
@@ -439,7 +439,7 @@ export class ThermostatSetpointSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatSetpointSupportedGet, data);
 	}
 };
@@ -498,7 +498,7 @@ export class ThermostatSetpointSupportedReport extends CommandPacket<ThermostatS
 		return packet.tryAs(ThermostatSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointSupportedReportData) {
+	public constructor(data: Buffer | ThermostatSetpointV1ThermostatSetpointSupportedReportData) {
 		super(ThermostatSetpointSupportedReport, data);
 	}
 };

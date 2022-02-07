@@ -1,4 +1,4 @@
-import { packetToString } from "@ezwave/codec";
+import { Packet, packetToString } from "@ezwave/codec";
 import { DestinationType } from "@ezwave/serialapi";
 import { Endpoint, LayerCommand, LayerEvent } from "./layer";
 
@@ -8,7 +8,7 @@ export function endPointToString(endpoint: Endpoint): string {
 	}`;
 }
 
-export function layerEventToString(event: LayerEvent<any>): string {
+export function layerEventToString(event: LayerEvent<Packet>): string {
 	return `from=${endPointToString(event.endpoint)} type=${
 		DestinationType[event.packetType]
 	} packet=${packetToString(event.packet)}`;

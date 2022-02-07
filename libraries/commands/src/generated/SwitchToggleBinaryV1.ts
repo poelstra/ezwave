@@ -26,7 +26,7 @@ export class SwitchToggleBinaryV1 extends CommandClassPacket<SwitchToggleBinaryV
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SwitchToggleBinaryV1, commandAndPayload);
 	}
 }
@@ -46,7 +46,7 @@ export class SwitchToggleBinarySet extends CommandPacket<void> {
 		return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchToggleBinarySet, data);
 	}
 };
@@ -66,7 +66,7 @@ export class SwitchToggleBinaryGet extends CommandPacket<void> {
 		return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchToggleBinaryGet, data);
 	}
 };
@@ -103,7 +103,7 @@ export class SwitchToggleBinaryReport extends CommandPacket<SwitchToggleBinaryV1
 		return packet.tryAs(SwitchToggleBinaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchToggleBinaryV1SwitchToggleBinaryReportData) {
+	public constructor(data: Buffer | SwitchToggleBinaryV1SwitchToggleBinaryReportData) {
 		super(SwitchToggleBinaryReport, data);
 	}
 };

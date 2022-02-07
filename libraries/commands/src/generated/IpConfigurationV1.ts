@@ -45,7 +45,7 @@ export class IpConfigurationV1 extends CommandClassPacket<IpConfigurationV1Comma
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(IpConfigurationV1, commandAndPayload);
 	}
 }
@@ -65,7 +65,7 @@ export class IpConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(IpConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IpConfigurationGet, data);
 	}
 };
@@ -85,7 +85,7 @@ export class IpConfigurationRelease extends CommandPacket<void> {
 		return packet.tryAs(IpConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IpConfigurationRelease, data);
 	}
 };
@@ -105,7 +105,7 @@ export class IpConfigurationRenew extends CommandPacket<void> {
 		return packet.tryAs(IpConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IpConfigurationRenew, data);
 	}
 };
@@ -189,7 +189,7 @@ export class IpConfigurationReport extends CommandPacket<IpConfigurationV1IpConf
 		return packet.tryAs(IpConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IpConfigurationV1IpConfigurationReportData) {
+	public constructor(data: Buffer | IpConfigurationV1IpConfigurationReportData) {
 		super(IpConfigurationReport, data);
 	}
 };
@@ -267,7 +267,7 @@ export class IpConfigurationSet extends CommandPacket<IpConfigurationV1IpConfigu
 		return packet.tryAs(IpConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IpConfigurationV1IpConfigurationSetData) {
+	public constructor(data: Buffer | IpConfigurationV1IpConfigurationSetData) {
 		super(IpConfigurationSet, data);
 	}
 };

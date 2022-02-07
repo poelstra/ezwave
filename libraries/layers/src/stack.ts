@@ -16,26 +16,26 @@ export class Stack {
 	private _send: Sender;
 	private _dispatch: Dispatch;
 
-	constructor(send: Sender, dispatch: Dispatch) {
+	public constructor(send: Sender, dispatch: Dispatch) {
 		this._send = send;
 		this._dispatch = dispatch;
 	}
 
-	use(layer: Layer): this {
+	public use(layer: Layer): this {
 		this._dispatcher = undefined;
 		this._sender = undefined;
 		this._layers.push(layer);
 		return this;
 	}
 
-	async dispatch(event: LayerEvent<Packet>): Promise<void> {
+	public async dispatch(event: LayerEvent<Packet>): Promise<void> {
 		if (!this._dispatcher) {
 			this._dispatcher = this._buildDispatcher(this._layers);
 		}
 		return this._dispatcher(event, this._send);
 	}
 
-	async send(command: LayerCommand): Promise<boolean> {
+	public async send(command: LayerCommand): Promise<boolean> {
 		if (!this._sender) {
 			this._sender = this._buildSender(this._layers);
 		}

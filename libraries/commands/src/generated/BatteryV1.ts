@@ -24,7 +24,7 @@ export class BatteryV1 extends CommandClassPacket<BatteryV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(BatteryV1, commandAndPayload);
 	}
 }
@@ -44,7 +44,7 @@ export class BatteryGet extends CommandPacket<void> {
 		return packet.tryAs(BatteryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BatteryGet, data);
 	}
 };
@@ -77,7 +77,7 @@ export class BatteryReport extends CommandPacket<BatteryV1BatteryReportData> {
 		return packet.tryAs(BatteryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BatteryV1BatteryReportData) {
+	public constructor(data: Buffer | BatteryV1BatteryReportData) {
 		super(BatteryReport, data);
 	}
 };

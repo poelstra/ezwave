@@ -88,7 +88,7 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZipGatewayV1, commandAndPayload);
 	}
 }
@@ -125,7 +125,7 @@ export class GatewayModeSet extends CommandPacket<ZipGatewayV1GatewayModeSetData
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1GatewayModeSetData) {
+	public constructor(data: Buffer | ZipGatewayV1GatewayModeSetData) {
 		super(GatewayModeSet, data);
 	}
 };
@@ -145,7 +145,7 @@ export class GatewayModeGet extends CommandPacket<void> {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(GatewayModeGet, data);
 	}
 };
@@ -182,7 +182,7 @@ export class GatewayModeReport extends CommandPacket<ZipGatewayV1GatewayModeRepo
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1GatewayModeReportData) {
+	public constructor(data: Buffer | ZipGatewayV1GatewayModeReportData) {
 		super(GatewayModeReport, data);
 	}
 };
@@ -259,7 +259,7 @@ export class GatewayPeerSet extends CommandPacket<ZipGatewayV1GatewayPeerSetData
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1GatewayPeerSetData) {
+	public constructor(data: Buffer | ZipGatewayV1GatewayPeerSetData) {
 		super(GatewayPeerSet, data);
 	}
 };
@@ -286,7 +286,7 @@ export class GatewayPeerGet extends CommandPacket<ZipGatewayV1GatewayPeerGetData
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1GatewayPeerGetData) {
+	public constructor(data: Buffer | ZipGatewayV1GatewayPeerGetData) {
 		super(GatewayPeerGet, data);
 	}
 };
@@ -369,7 +369,7 @@ export class GatewayPeerReport extends CommandPacket<ZipGatewayV1GatewayPeerRepo
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1GatewayPeerReportData) {
+	public constructor(data: Buffer | ZipGatewayV1GatewayPeerReportData) {
 		super(GatewayPeerReport, data);
 	}
 };
@@ -417,7 +417,7 @@ export class GatewayLockSet extends CommandPacket<ZipGatewayV1GatewayLockSetData
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1GatewayLockSetData) {
+	public constructor(data: Buffer | ZipGatewayV1GatewayLockSetData) {
 		super(GatewayLockSet, data);
 	}
 };
@@ -450,7 +450,7 @@ export class UnsolicitedDestinationSet extends CommandPacket<ZipGatewayV1Unsolic
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1UnsolicitedDestinationSetData) {
+	public constructor(data: Buffer | ZipGatewayV1UnsolicitedDestinationSetData) {
 		super(UnsolicitedDestinationSet, data);
 	}
 };
@@ -470,7 +470,7 @@ export class UnsolicitedDestinationGet extends CommandPacket<void> {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(UnsolicitedDestinationGet, data);
 	}
 };
@@ -503,7 +503,7 @@ export class UnsolicitedDestinationReport extends CommandPacket<ZipGatewayV1Unso
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1UnsolicitedDestinationReportData) {
+	public constructor(data: Buffer | ZipGatewayV1UnsolicitedDestinationReportData) {
 		super(UnsolicitedDestinationReport, data);
 	}
 };
@@ -544,7 +544,7 @@ export class CommandApplicationNodeInfoSet extends CommandPacket<ZipGatewayV1Com
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1CommandApplicationNodeInfoSetData) {
+	public constructor(data: Buffer | ZipGatewayV1CommandApplicationNodeInfoSetData) {
 		super(CommandApplicationNodeInfoSet, data);
 	}
 };
@@ -564,7 +564,7 @@ export class CommandApplicationNodeInfoGet extends CommandPacket<void> {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CommandApplicationNodeInfoGet, data);
 	}
 };
@@ -605,7 +605,7 @@ export class CommandApplicationNodeInfoReport extends CommandPacket<ZipGatewayV1
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipGatewayV1CommandApplicationNodeInfoReportData) {
+	public constructor(data: Buffer | ZipGatewayV1CommandApplicationNodeInfoReportData) {
 		super(CommandApplicationNodeInfoReport, data);
 	}
 };

@@ -1,6 +1,6 @@
+import { Queue } from "@ezwave/shared";
 import debug from "debug";
 import { inspect } from "util";
-import { Queue } from "@ezwave/shared";
 import { Events } from "./events";
 import {
 	ICommandSession,
@@ -10,7 +10,7 @@ import {
 import { IProtocolManager } from "./protocolManager";
 import { SerialApiCommandCode } from "./serialApiCommandCode";
 
-const log = debug("zwave:serialapi:data");
+const log: debug.Debugger = debug("zwave:serialapi:data");
 
 const closedProtocolManager: IProtocolManager = {
 	async transaction() {
@@ -40,7 +40,10 @@ export class CommandSession implements ICommandSession {
 	private _id = 0; // id used for logging in next execute() statement
 	private _idPrefix: string; // in order to visualize nested sessions
 
-	constructor(protocolManager: IProtocolManager, idPrefix: string = "") {
+	public constructor(
+		protocolManager: IProtocolManager,
+		idPrefix: string = ""
+	) {
 		this._protocolManager = protocolManager;
 		this._idPrefix = idPrefix;
 	}

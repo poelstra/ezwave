@@ -12,12 +12,12 @@ import {
 import { layerCommandToString, layerEventToString } from "./print";
 import { Requester } from "./requester";
 
-const log = debug("zwave:layers:multichannel");
+const log: debug.Debugger = debug("zwave:layers:multichannel");
 
 export class MultiChannelLayer implements Layer {
 	private _requester = new Requester();
 
-	async dispatch(
+	public async dispatch(
 		event: LayerEvent<Packet>,
 		next: DispatchNext,
 		sender: Sender
@@ -54,7 +54,7 @@ export class MultiChannelLayer implements Layer {
 		return next(decodedEvent, sender);
 	}
 
-	async send(
+	public async send(
 		command: LayerCommand,
 		next: SendNext,
 		send: Sender

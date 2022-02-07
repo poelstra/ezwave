@@ -25,7 +25,7 @@ export class BasicWindowCoveringV1 extends CommandClassPacket<BasicWindowCoverin
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(BasicWindowCoveringV1, commandAndPayload);
 	}
 }
@@ -74,7 +74,7 @@ export class BasicWindowCoveringStartLevelChange extends CommandPacket<BasicWind
 		return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData) {
+	public constructor(data: Buffer | BasicWindowCoveringV1BasicWindowCoveringStartLevelChangeData) {
 		super(BasicWindowCoveringStartLevelChange, data);
 	}
 };
@@ -94,7 +94,7 @@ export class BasicWindowCoveringStopLevelChange extends CommandPacket<void> {
 		return packet.tryAs(BasicWindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BasicWindowCoveringStopLevelChange, data);
 	}
 };

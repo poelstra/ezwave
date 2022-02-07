@@ -8,9 +8,9 @@
 import { createCipheriv, createDecipheriv } from "crypto";
 
 export class CryptoManager {
-	public static readonly v0 = Buffer.alloc(16, 0x00);
-	public static readonly v1 = Buffer.alloc(16, 0x55);
-	public static readonly v2 = Buffer.alloc(16, 0xaa);
+	public static readonly v0: Buffer = Buffer.alloc(16, 0x00);
+	public static readonly v1: Buffer = Buffer.alloc(16, 0x55);
+	public static readonly v2: Buffer = Buffer.alloc(16, 0xaa);
 
 	/**
 	 * Network key in controller.
@@ -63,7 +63,7 @@ export class CryptoManager {
 	 *
 	 * @param networkKey Controller's Z-Wave Network Key.
 	 */
-	constructor(networkKey: Buffer) {
+	public constructor(networkKey: Buffer) {
 		this._networkKey = networkKey;
 		// Authentication key Ka
 		this._encryptionKeyA = CryptoManager.aesEncodeRaw(

@@ -201,7 +201,7 @@ export function zwReplaceFailedNodeBuilder(
 export class ZwReplaceFailedNode extends RequestRunner<
 	typeof zwReplaceFailedNodeBuilder
 > {
-	constructor(request: ZwReplaceFailedNodeRequest) {
+	public constructor(request: ZwReplaceFailedNodeRequest) {
 		super(zwReplaceFailedNodeBuilder, request);
 	}
 }

@@ -45,7 +45,7 @@ export class ZipNdV1 extends CommandClassPacket<ZipNdV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZipNdV1, commandAndPayload);
 	}
 }
@@ -86,7 +86,7 @@ export class ZipNodeSolicitation extends CommandPacket<ZipNdV1ZipNodeSolicitatio
 		return packet.tryAs(ZipNdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipNdV1ZipNodeSolicitationData) {
+	public constructor(data: Buffer | ZipNdV1ZipNodeSolicitationData) {
 		super(ZipNodeSolicitation, data);
 	}
 };
@@ -142,7 +142,7 @@ export class ZipInvNodeSolicitation extends CommandPacket<ZipNdV1ZipInvNodeSolic
 		return packet.tryAs(ZipNdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipNdV1ZipInvNodeSolicitationData) {
+	public constructor(data: Buffer | ZipNdV1ZipInvNodeSolicitationData) {
 		super(ZipInvNodeSolicitation, data);
 	}
 };
@@ -223,7 +223,7 @@ export class ZipNodeAdvertisement extends CommandPacket<ZipNdV1ZipNodeAdvertisem
 		return packet.tryAs(ZipNdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipNdV1ZipNodeAdvertisementData) {
+	public constructor(data: Buffer | ZipNdV1ZipNodeAdvertisementData) {
 		super(ZipNodeAdvertisement, data);
 	}
 };

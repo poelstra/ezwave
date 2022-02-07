@@ -15,6 +15,8 @@ import {
 	ParamRefLengthInfo,
 } from "@ezwave/spec";
 
+/* eslint-disable no-bitwise */
+
 /**
  * Error thrown when encoder/decoder encounters an error in the
  * command/parameter definition.
@@ -37,7 +39,7 @@ export class CodecDataError extends Error {}
  * more elements should follow.
  */
 export class CodecUnexpectedEndOfPacketError extends CodecDataError {
-	constructor(message?: string) {
+	public constructor(message?: string) {
 		super(message ?? "unexpected end of packet");
 	}
 }
@@ -256,15 +258,17 @@ export function setToBuffer(values: Set<number>, offset: number = 0): Buffer {
 }
 
 export class Context {
-	auto = new Map<Parameter | BitfieldElement, number | boolean>();
-	data: KeyValues;
-	group: GroupInfo | undefined;
+	public group: GroupInfo | undefined;
+	public data: KeyValues;
 
-	constructor(data: KeyValues) {
+	private _auto: Map<Parameter | BitfieldElement, number | boolean> =
+		new Map();
+
+	public constructor(data: KeyValues) {
 		this.data = data;
 	}
 
-	setValue(ref: Parameter | BitfieldElement, value: unknown): void {
+	public setValue(ref: Parameter | BitfieldElement, value: unknown): void {
 		const paramOfRef = isParameter(ref) ? ref : ref.parent;
 		let data: KeyValues;
 		if (paramOfRef.group) {
@@ -305,12 +309,12 @@ export class Context {
 	 * When asking for "group1.field1" when encoding a group, we must
 	 * be encoding group "group1".
 	 */
-	getValue(
+	public getValue(
 		ref: Parameter | BitfieldElement,
 		includeAutomatic: boolean = true
 	): unknown {
 		if (includeAutomatic) {
-			const autoValue = this.auto.get(ref);
+			const autoValue = this._auto.get(ref);
 			if (autoValue !== undefined) {
 				return autoValue;
 			}
@@ -348,7 +352,7 @@ export class Context {
 		return value;
 	}
 
-	getNumericValue(ref: IntegerParameter | BitfieldElement): number {
+	public getNumericValue(ref: IntegerParameter | BitfieldElement): number {
 		let maxValue: number;
 		if (isParameter(ref)) {
 			maxValue =
@@ -375,8 +379,8 @@ export class Context {
 	 * If asked for a group value, while en/decoding that group, the single
 	 * value of the parameter in the currently decoded element is returned.
 	 */
-	getValues(ref: Parameter | BitfieldElement): unknown[] {
-		const autoValue = this.auto.get(ref);
+	public getValues(ref: Parameter | BitfieldElement): unknown[] {
+		const autoValue = this._auto.get(ref);
 		if (autoValue !== undefined) {
 			return [autoValue];
 		}
@@ -404,7 +408,7 @@ export class Context {
 		}
 	}
 
-	enterGroup(
+	public enterGroup(
 		group: ParameterGroup,
 		autoCreate: boolean = false
 	): KeyValues[] {
@@ -431,7 +435,7 @@ export class Context {
 		return elements;
 	}
 
-	selectGroupElement(index: number): void {
+	public selectGroupElement(index: number): void {
 		if (!this.group) {
 			throw new CodecDefinitionError("not in a group");
 		}
@@ -445,7 +449,7 @@ export class Context {
 		}
 	}
 
-	leaveGroup(): void {
+	public leaveGroup(): void {
 		if (!this.group) {
 			throw new CodecDefinitionError(
 				"attempt to leave group while not in group"
@@ -454,7 +458,7 @@ export class Context {
 		this.group = undefined;
 	}
 
-	addGroupElement(element: KeyValues): void {
+	public addGroupElement(element: KeyValues): void {
 		if (!this.group) {
 			throw new CodecDefinitionError(
 				"attempt to add group element while not in group"
@@ -464,11 +468,11 @@ export class Context {
 		this.group.elements.push(this.group.data);
 	}
 
-	setAutoValue(
+	public setAutoValue(
 		param: IntegerParameter | BitfieldElement,
 		value: number | boolean
 	): void {
-		this.auto.set(param, value);
+		this._auto.set(param, value);
 	}
 }
 

@@ -29,7 +29,7 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(IndicatorV1, commandAndPayload);
 	}
 }
@@ -49,7 +49,7 @@ export class IndicatorGet extends CommandPacket<void> {
 		return packet.tryAs(IndicatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IndicatorGet, data);
 	}
 };
@@ -86,7 +86,7 @@ export class IndicatorReport extends CommandPacket<IndicatorV1IndicatorReportDat
 		return packet.tryAs(IndicatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IndicatorV1IndicatorReportData) {
+	public constructor(data: Buffer | IndicatorV1IndicatorReportData) {
 		super(IndicatorReport, data);
 	}
 };
@@ -123,7 +123,7 @@ export class IndicatorSet extends CommandPacket<IndicatorV1IndicatorSetData> {
 		return packet.tryAs(IndicatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IndicatorV1IndicatorSetData) {
+	public constructor(data: Buffer | IndicatorV1IndicatorSetData) {
 		super(IndicatorSet, data);
 	}
 };

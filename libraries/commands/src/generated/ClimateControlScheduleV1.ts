@@ -78,7 +78,7 @@ export class ClimateControlScheduleV1 extends CommandClassPacket<ClimateControlS
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ClimateControlScheduleV1, commandAndPayload);
 	}
 }
@@ -98,7 +98,7 @@ export class ScheduleChangedGet extends CommandPacket<void> {
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ScheduleChangedGet, data);
 	}
 };
@@ -125,7 +125,7 @@ export class ScheduleChangedReport extends CommandPacket<ClimateControlScheduleV
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClimateControlScheduleV1ScheduleChangedReportData) {
+	public constructor(data: Buffer | ClimateControlScheduleV1ScheduleChangedReportData) {
 		super(ScheduleChangedReport, data);
 	}
 };
@@ -167,7 +167,7 @@ export class ScheduleGet extends CommandPacket<ClimateControlScheduleV1ScheduleG
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClimateControlScheduleV1ScheduleGetData) {
+	public constructor(data: Buffer | ClimateControlScheduleV1ScheduleGetData) {
 		super(ScheduleGet, data);
 	}
 };
@@ -187,7 +187,7 @@ export class ScheduleOverrideGet extends CommandPacket<void> {
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ScheduleOverrideGet, data);
 	}
 };
@@ -253,7 +253,7 @@ export class ScheduleOverrideReport extends CommandPacket<ClimateControlSchedule
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClimateControlScheduleV1ScheduleOverrideReportData) {
+	public constructor(data: Buffer | ClimateControlScheduleV1ScheduleOverrideReportData) {
 		super(ScheduleOverrideReport, data);
 	}
 };
@@ -319,7 +319,7 @@ export class ScheduleOverrideSet extends CommandPacket<ClimateControlScheduleV1S
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClimateControlScheduleV1ScheduleOverrideSetData) {
+	public constructor(data: Buffer | ClimateControlScheduleV1ScheduleOverrideSetData) {
 		super(ScheduleOverrideSet, data);
 	}
 };
@@ -415,7 +415,7 @@ export class ScheduleReport extends CommandPacket<ClimateControlScheduleV1Schedu
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClimateControlScheduleV1ScheduleReportData) {
+	public constructor(data: Buffer | ClimateControlScheduleV1ScheduleReportData) {
 		super(ScheduleReport, data);
 	}
 };
@@ -511,7 +511,7 @@ export class ScheduleSet extends CommandPacket<ClimateControlScheduleV1ScheduleS
 		return packet.tryAs(ClimateControlScheduleV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClimateControlScheduleV1ScheduleSetData) {
+	public constructor(data: Buffer | ClimateControlScheduleV1ScheduleSetData) {
 		super(ScheduleSet, data);
 	}
 };

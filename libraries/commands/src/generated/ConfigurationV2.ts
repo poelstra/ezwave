@@ -63,7 +63,7 @@ export class ConfigurationV2 extends CommandClassPacket<ConfigurationV2Commands>
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ConfigurationV2, commandAndPayload);
 	}
 }
@@ -96,7 +96,7 @@ export class ConfigurationBulkGet extends CommandPacket<ConfigurationV2Configura
 		return packet.tryAs(ConfigurationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV2ConfigurationBulkGetData) {
+	public constructor(data: Buffer | ConfigurationV2ConfigurationBulkGetData) {
 		super(ConfigurationBulkGet, data);
 	}
 };
@@ -204,7 +204,7 @@ export class ConfigurationBulkReport extends CommandPacket<ConfigurationV2Config
 		return packet.tryAs(ConfigurationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV2ConfigurationBulkReportData) {
+	public constructor(data: Buffer | ConfigurationV2ConfigurationBulkReportData) {
 		super(ConfigurationBulkReport, data);
 	}
 };
@@ -306,7 +306,7 @@ export class ConfigurationBulkSet extends CommandPacket<ConfigurationV2Configura
 		return packet.tryAs(ConfigurationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV2ConfigurationBulkSetData) {
+	public constructor(data: Buffer | ConfigurationV2ConfigurationBulkSetData) {
 		super(ConfigurationBulkSet, data);
 	}
 };
@@ -333,7 +333,7 @@ export class ConfigurationGet extends CommandPacket<ConfigurationV2Configuration
 		return packet.tryAs(ConfigurationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV2ConfigurationGetData) {
+	public constructor(data: Buffer | ConfigurationV2ConfigurationGetData) {
 		super(ConfigurationGet, data);
 	}
 };
@@ -398,7 +398,7 @@ export class ConfigurationReport extends CommandPacket<ConfigurationV2Configurat
 		return packet.tryAs(ConfigurationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV2ConfigurationReportData) {
+	public constructor(data: Buffer | ConfigurationV2ConfigurationReportData) {
 		super(ConfigurationReport, data);
 	}
 };
@@ -469,7 +469,7 @@ export class ConfigurationSet extends CommandPacket<ConfigurationV2Configuration
 		return packet.tryAs(ConfigurationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV2ConfigurationSetData) {
+	public constructor(data: Buffer | ConfigurationV2ConfigurationSetData) {
 		super(ConfigurationSet, data);
 	}
 };

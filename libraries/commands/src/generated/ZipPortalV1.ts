@@ -44,7 +44,7 @@ export class ZipPortalV1 extends CommandClassPacket<ZipPortalV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZipPortalV1, commandAndPayload);
 	}
 }
@@ -101,7 +101,7 @@ export class GatewayConfigurationSet extends CommandPacket<ZipPortalV1GatewayCon
 		return packet.tryAs(ZipPortalV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipPortalV1GatewayConfigurationSetData) {
+	public constructor(data: Buffer | ZipPortalV1GatewayConfigurationSetData) {
 		super(GatewayConfigurationSet, data);
 	}
 };
@@ -128,7 +128,7 @@ export class GatewayConfigurationStatus extends CommandPacket<ZipPortalV1Gateway
 		return packet.tryAs(ZipPortalV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipPortalV1GatewayConfigurationStatusData) {
+	public constructor(data: Buffer | ZipPortalV1GatewayConfigurationStatusData) {
 		super(GatewayConfigurationStatus, data);
 	}
 };
@@ -148,7 +148,7 @@ export class GatewayConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(ZipPortalV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(GatewayConfigurationGet, data);
 	}
 };
@@ -205,7 +205,7 @@ export class GatewayConfigurationReport extends CommandPacket<ZipPortalV1Gateway
 		return packet.tryAs(ZipPortalV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipPortalV1GatewayConfigurationReportData) {
+	public constructor(data: Buffer | ZipPortalV1GatewayConfigurationReportData) {
 		super(GatewayConfigurationReport, data);
 	}
 };

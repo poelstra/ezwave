@@ -70,7 +70,7 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NodeProvisioningV1, commandAndPayload);
 	}
 }
@@ -188,7 +188,7 @@ export class NodeProvisioningSet extends CommandPacket<NodeProvisioningV1NodePro
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeProvisioningV1NodeProvisioningSetData) {
+	public constructor(data: Buffer | NodeProvisioningV1NodeProvisioningSetData) {
 		super(NodeProvisioningSet, data);
 	}
 };
@@ -253,7 +253,7 @@ export class NodeProvisioningDelete extends CommandPacket<NodeProvisioningV1Node
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeProvisioningV1NodeProvisioningDeleteData) {
+	public constructor(data: Buffer | NodeProvisioningV1NodeProvisioningDeleteData) {
 		super(NodeProvisioningDelete, data);
 	}
 };
@@ -286,7 +286,7 @@ export class NodeProvisioningListIterationGet extends CommandPacket<NodeProvisio
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeProvisioningV1NodeProvisioningListIterationGetData) {
+	public constructor(data: Buffer | NodeProvisioningV1NodeProvisioningListIterationGetData) {
 		super(NodeProvisioningListIterationGet, data);
 	}
 };
@@ -410,7 +410,7 @@ export class NodeProvisioningListIterationReport extends CommandPacket<NodeProvi
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeProvisioningV1NodeProvisioningListIterationReportData) {
+	public constructor(data: Buffer | NodeProvisioningV1NodeProvisioningListIterationReportData) {
 		super(NodeProvisioningListIterationReport, data);
 	}
 };
@@ -475,7 +475,7 @@ export class NodeProvisioningGet extends CommandPacket<NodeProvisioningV1NodePro
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeProvisioningV1NodeProvisioningGetData) {
+	public constructor(data: Buffer | NodeProvisioningV1NodeProvisioningGetData) {
 		super(NodeProvisioningGet, data);
 	}
 };
@@ -593,7 +593,7 @@ export class NodeProvisioningReport extends CommandPacket<NodeProvisioningV1Node
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NodeProvisioningV1NodeProvisioningReportData) {
+	public constructor(data: Buffer | NodeProvisioningV1NodeProvisioningReportData) {
 		super(NodeProvisioningReport, data);
 	}
 };

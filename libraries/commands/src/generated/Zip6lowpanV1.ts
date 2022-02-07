@@ -36,7 +36,7 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(Zip6lowpanV1, commandAndPayload);
 	}
 }
@@ -93,7 +93,7 @@ export class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFr
 		return packet.tryAs(Zip6lowpanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Zip6lowpanV1LowpanFirstFragmentData) {
+	public constructor(data: Buffer | Zip6lowpanV1LowpanFirstFragmentData) {
 		super(LowpanFirstFragment, data);
 	}
 };
@@ -156,7 +156,7 @@ export class LowpanSubsequentFragment extends CommandPacket<Zip6lowpanV1LowpanSu
 		return packet.tryAs(Zip6lowpanV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Zip6lowpanV1LowpanSubsequentFragmentData) {
+	public constructor(data: Buffer | Zip6lowpanV1LowpanSubsequentFragmentData) {
 		super(LowpanSubsequentFragment, data);
 	}
 };

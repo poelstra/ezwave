@@ -62,7 +62,7 @@ export class ProtectionV2 extends CommandClassPacket<ProtectionV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ProtectionV2, commandAndPayload);
 	}
 }
@@ -82,7 +82,7 @@ export class ProtectionEcGet extends CommandPacket<void> {
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ProtectionEcGet, data);
 	}
 };
@@ -110,7 +110,7 @@ export class ProtectionEcReport extends CommandPacket<ProtectionV2ProtectionEcRe
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV2ProtectionEcReportData) {
+	public constructor(data: Buffer | ProtectionV2ProtectionEcReportData) {
 		super(ProtectionEcReport, data);
 	}
 };
@@ -138,7 +138,7 @@ export class ProtectionEcSet extends CommandPacket<ProtectionV2ProtectionEcSetDa
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV2ProtectionEcSetData) {
+	public constructor(data: Buffer | ProtectionV2ProtectionEcSetData) {
 		super(ProtectionEcSet, data);
 	}
 };
@@ -158,7 +158,7 @@ export class ProtectionGet extends CommandPacket<void> {
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ProtectionGet, data);
 	}
 };
@@ -221,7 +221,7 @@ export class ProtectionReport extends CommandPacket<ProtectionV2ProtectionReport
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV2ProtectionReportData) {
+	public constructor(data: Buffer | ProtectionV2ProtectionReportData) {
 		super(ProtectionReport, data);
 	}
 };
@@ -284,7 +284,7 @@ export class ProtectionSet extends CommandPacket<ProtectionV2ProtectionSetData> 
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV2ProtectionSetData) {
+	public constructor(data: Buffer | ProtectionV2ProtectionSetData) {
 		super(ProtectionSet, data);
 	}
 };
@@ -304,7 +304,7 @@ export class ProtectionSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ProtectionSupportedGet, data);
 	}
 };
@@ -364,7 +364,7 @@ export class ProtectionSupportedReport extends CommandPacket<ProtectionV2Protect
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV2ProtectionSupportedReportData) {
+	public constructor(data: Buffer | ProtectionV2ProtectionSupportedReportData) {
 		super(ProtectionSupportedReport, data);
 	}
 };
@@ -384,7 +384,7 @@ export class ProtectionTimeoutGet extends CommandPacket<void> {
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ProtectionTimeoutGet, data);
 	}
 };
@@ -421,7 +421,7 @@ export class ProtectionTimeoutReport extends CommandPacket<ProtectionV2Protectio
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV2ProtectionTimeoutReportData) {
+	public constructor(data: Buffer | ProtectionV2ProtectionTimeoutReportData) {
 		super(ProtectionTimeoutReport, data);
 	}
 };
@@ -458,7 +458,7 @@ export class ProtectionTimeoutSet extends CommandPacket<ProtectionV2ProtectionTi
 		return packet.tryAs(ProtectionV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ProtectionV2ProtectionTimeoutSetData) {
+	public constructor(data: Buffer | ProtectionV2ProtectionTimeoutSetData) {
 		super(ProtectionTimeoutSet, data);
 	}
 };

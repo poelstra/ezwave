@@ -59,7 +59,7 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MultiInstanceAssociationV1, commandAndPayload);
 	}
 }
@@ -86,7 +86,7 @@ export class MultiInstanceAssociationGet extends CommandPacket<MultiInstanceAsso
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationGetData) {
+	public constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationGetData) {
 		super(MultiInstanceAssociationGet, data);
 	}
 };
@@ -106,7 +106,7 @@ export class MultiInstanceAssociationGroupingsGet extends CommandPacket<void> {
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MultiInstanceAssociationGroupingsGet, data);
 	}
 };
@@ -133,7 +133,7 @@ export class MultiInstanceAssociationGroupingsReport extends CommandPacket<Multi
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationGroupingsReportData) {
+	public constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationGroupingsReportData) {
 		super(MultiInstanceAssociationGroupingsReport, data);
 	}
 };
@@ -204,7 +204,7 @@ export class MultiInstanceAssociationRemove extends CommandPacket<MultiInstanceA
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationRemoveData) {
+	public constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationRemoveData) {
 		super(MultiInstanceAssociationRemove, data);
 	}
 };
@@ -287,7 +287,7 @@ export class MultiInstanceAssociationReport extends CommandPacket<MultiInstanceA
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationReportData) {
+	public constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationReportData) {
 		super(MultiInstanceAssociationReport, data);
 	}
 };
@@ -358,7 +358,7 @@ export class MultiInstanceAssociationSet extends CommandPacket<MultiInstanceAsso
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationSetData) {
+	public constructor(data: Buffer | MultiInstanceAssociationV1MultiInstanceAssociationSetData) {
 		super(MultiInstanceAssociationSet, data);
 	}
 };

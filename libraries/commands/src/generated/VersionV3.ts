@@ -66,7 +66,7 @@ export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(VersionV3, commandAndPayload);
 	}
 }
@@ -94,7 +94,7 @@ export class VersionCommandClassGet extends CommandPacket<VersionV3VersionComman
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV3VersionCommandClassGetData) {
+	public constructor(data: Buffer | VersionV3VersionCommandClassGetData) {
 		super(VersionCommandClassGet, data);
 	}
 };
@@ -128,7 +128,7 @@ export class VersionCommandClassReport extends CommandPacket<VersionV3VersionCom
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV3VersionCommandClassReportData) {
+	public constructor(data: Buffer | VersionV3VersionCommandClassReportData) {
 		super(VersionCommandClassReport, data);
 	}
 };
@@ -148,7 +148,7 @@ export class VersionGet extends CommandPacket<void> {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(VersionGet, data);
 	}
 };
@@ -242,7 +242,7 @@ export class VersionReport extends CommandPacket<VersionV3VersionReportData> {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV3VersionReportData) {
+	public constructor(data: Buffer | VersionV3VersionReportData) {
 		super(VersionReport, data);
 	}
 };
@@ -262,7 +262,7 @@ export class VersionCapabilitiesGet extends CommandPacket<void> {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(VersionCapabilitiesGet, data);
 	}
 };
@@ -316,7 +316,7 @@ export class VersionCapabilitiesReport extends CommandPacket<VersionV3VersionCap
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV3VersionCapabilitiesReportData) {
+	public constructor(data: Buffer | VersionV3VersionCapabilitiesReportData) {
 		super(VersionCapabilitiesReport, data);
 	}
 };
@@ -336,7 +336,7 @@ export class VersionZwaveSoftwareGet extends CommandPacket<void> {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(VersionZwaveSoftwareGet, data);
 	}
 };
@@ -411,7 +411,7 @@ export class VersionZwaveSoftwareReport extends CommandPacket<VersionV3VersionZw
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV3VersionZwaveSoftwareReportData) {
+	public constructor(data: Buffer | VersionV3VersionZwaveSoftwareReportData) {
 		super(VersionZwaveSoftwareReport, data);
 	}
 };

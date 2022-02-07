@@ -59,7 +59,7 @@ export class SensorBinaryV2 extends CommandClassPacket<SensorBinaryV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SensorBinaryV2, commandAndPayload);
 	}
 }
@@ -148,7 +148,7 @@ export class SensorBinaryGet extends CommandPacket<SensorBinaryV2SensorBinaryGet
 		return packet.tryAs(SensorBinaryV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorBinaryV2SensorBinaryGetData) {
+	public constructor(data: Buffer | SensorBinaryV2SensorBinaryGetData) {
 		super(SensorBinaryGet, data);
 	}
 };
@@ -253,7 +253,7 @@ export class SensorBinaryReport extends CommandPacket<SensorBinaryV2SensorBinary
 		return packet.tryAs(SensorBinaryV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorBinaryV2SensorBinaryReportData) {
+	public constructor(data: Buffer | SensorBinaryV2SensorBinaryReportData) {
 		super(SensorBinaryReport, data);
 	}
 };
@@ -273,7 +273,7 @@ export class SensorBinarySupportedGetSensor extends CommandPacket<void> {
 		return packet.tryAs(SensorBinaryV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SensorBinarySupportedGetSensor, data);
 	}
 };
@@ -364,7 +364,7 @@ export class SensorBinarySupportedSensorReport extends CommandPacket<SensorBinar
 		return packet.tryAs(SensorBinaryV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorBinaryV2SensorBinarySupportedSensorReportData) {
+	public constructor(data: Buffer | SensorBinaryV2SensorBinarySupportedSensorReportData) {
 		super(SensorBinarySupportedSensorReport, data);
 	}
 };

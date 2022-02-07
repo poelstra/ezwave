@@ -54,7 +54,7 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ScreenMdV2, commandAndPayload);
 	}
 }
@@ -88,7 +88,7 @@ export class ScreenMdGet extends CommandPacket<ScreenMdV2ScreenMdGetData> {
 		return packet.tryAs(ScreenMdV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScreenMdV2ScreenMdGetData) {
+	public constructor(data: Buffer | ScreenMdV2ScreenMdGetData) {
 		super(ScreenMdGet, data);
 	}
 };
@@ -228,7 +228,7 @@ export class ScreenMdReport extends CommandPacket<ScreenMdV2ScreenMdReportData> 
 		return packet.tryAs(ScreenMdV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScreenMdV2ScreenMdReportData) {
+	public constructor(data: Buffer | ScreenMdV2ScreenMdReportData) {
 		super(ScreenMdReport, data);
 	}
 };
@@ -368,7 +368,7 @@ export class ScreenMdReportLegacy extends CommandPacket<ScreenMdV2ScreenMdReport
 		return packet.tryAs(ScreenMdV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScreenMdV2ScreenMdReportLegacyData) {
+	public constructor(data: Buffer | ScreenMdV2ScreenMdReportLegacyData) {
 		super(ScreenMdReportLegacy, data);
 	}
 };

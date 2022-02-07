@@ -33,7 +33,7 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MeterV1, commandAndPayload);
 	}
 }
@@ -53,7 +53,7 @@ export class MeterGet extends CommandPacket<void> {
 		return packet.tryAs(MeterV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MeterGet, data);
 	}
 };
@@ -137,7 +137,7 @@ export class MeterReport extends CommandPacket<MeterV1MeterReportData> {
 		return packet.tryAs(MeterV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterV1MeterReportData) {
+	public constructor(data: Buffer | MeterV1MeterReportData) {
 		super(MeterReport, data);
 	}
 };

@@ -30,7 +30,7 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(LockV1, commandAndPayload);
 	}
 }
@@ -50,7 +50,7 @@ export class LockGet extends CommandPacket<void> {
 		return packet.tryAs(LockV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(LockGet, data);
 	}
 };
@@ -87,7 +87,7 @@ export class LockReport extends CommandPacket<LockV1LockReportData> {
 		return packet.tryAs(LockV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | LockV1LockReportData) {
+	public constructor(data: Buffer | LockV1LockReportData) {
 		super(LockReport, data);
 	}
 };
@@ -124,7 +124,7 @@ export class LockSet extends CommandPacket<LockV1LockSetData> {
 		return packet.tryAs(LockV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | LockV1LockSetData) {
+	public constructor(data: Buffer | LockV1LockSetData) {
 		super(LockSet, data);
 	}
 };

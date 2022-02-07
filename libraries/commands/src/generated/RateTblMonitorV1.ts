@@ -113,7 +113,7 @@ export class RateTblMonitorV1 extends CommandClassPacket<RateTblMonitorV1Command
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(RateTblMonitorV1, commandAndPayload);
 	}
 }
@@ -133,7 +133,7 @@ export class RateTblActiveRateGet extends CommandPacket<void> {
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(RateTblActiveRateGet, data);
 	}
 };
@@ -160,7 +160,7 @@ export class RateTblActiveRateReport extends CommandPacket<RateTblMonitorV1RateT
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblActiveRateReportData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblActiveRateReportData) {
 		super(RateTblActiveRateReport, data);
 	}
 };
@@ -193,7 +193,7 @@ export class RateTblCurrentDataGet extends CommandPacket<RateTblMonitorV1RateTbl
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataGetData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataGetData) {
 		super(RateTblCurrentDataGet, data);
 	}
 };
@@ -313,7 +313,7 @@ export class RateTblCurrentDataReport extends CommandPacket<RateTblMonitorV1Rate
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataReportData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblCurrentDataReportData) {
 		super(RateTblCurrentDataReport, data);
 	}
 };
@@ -340,7 +340,7 @@ export class RateTblGet extends CommandPacket<RateTblMonitorV1RateTblGetData> {
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblGetData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblGetData) {
 		super(RateTblGet, data);
 	}
 };
@@ -451,7 +451,7 @@ export class RateTblHistoricalDataGet extends CommandPacket<RateTblMonitorV1Rate
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataGetData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataGetData) {
 		super(RateTblHistoricalDataGet, data);
 	}
 };
@@ -571,7 +571,7 @@ export class RateTblHistoricalDataReport extends CommandPacket<RateTblMonitorV1R
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataReportData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblHistoricalDataReportData) {
 		super(RateTblHistoricalDataReport, data);
 	}
 };
@@ -724,7 +724,7 @@ export class RateTblReport extends CommandPacket<RateTblMonitorV1RateTblReportDa
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblReportData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblReportData) {
 		super(RateTblReport, data);
 	}
 };
@@ -744,7 +744,7 @@ export class RateTblSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(RateTblSupportedGet, data);
 	}
 };
@@ -777,7 +777,7 @@ export class RateTblSupportedReport extends CommandPacket<RateTblMonitorV1RateTb
 		return packet.tryAs(RateTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RateTblMonitorV1RateTblSupportedReportData) {
+	public constructor(data: Buffer | RateTblMonitorV1RateTblSupportedReportData) {
 		super(RateTblSupportedReport, data);
 	}
 };

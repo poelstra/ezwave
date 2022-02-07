@@ -175,7 +175,7 @@ export class SensorMultilevelV10 extends CommandClassPacket<SensorMultilevelV10C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SensorMultilevelV10, commandAndPayload);
 	}
 }
@@ -472,7 +472,7 @@ export class SensorMultilevelGet extends CommandPacket<SensorMultilevelV10Sensor
 		return packet.tryAs(SensorMultilevelV10)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorMultilevelV10SensorMultilevelGetData) {
+	public constructor(data: Buffer | SensorMultilevelV10SensorMultilevelGetData) {
 		super(SensorMultilevelGet, data);
 	}
 };
@@ -784,7 +784,7 @@ export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV10Sen
 		return packet.tryAs(SensorMultilevelV10)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorMultilevelV10SensorMultilevelReportData) {
+	public constructor(data: Buffer | SensorMultilevelV10SensorMultilevelReportData) {
 		super(SensorMultilevelReport, data);
 	}
 };
@@ -804,7 +804,7 @@ export class SensorMultilevelSupportedGetSensor extends CommandPacket<void> {
 		return packet.tryAs(SensorMultilevelV10)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SensorMultilevelSupportedGetSensor, data);
 	}
 };
@@ -1075,7 +1075,7 @@ export class SensorMultilevelSupportedSensorReport extends CommandPacket<SensorM
 		return packet.tryAs(SensorMultilevelV10)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorMultilevelV10SensorMultilevelSupportedSensorReportData) {
+	public constructor(data: Buffer | SensorMultilevelV10SensorMultilevelSupportedSensorReportData) {
 		super(SensorMultilevelSupportedSensorReport, data);
 	}
 };
@@ -1344,7 +1344,7 @@ export class SensorMultilevelSupportedGetScale extends CommandPacket<SensorMulti
 		return packet.tryAs(SensorMultilevelV10)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorMultilevelV10SensorMultilevelSupportedGetScaleData) {
+	public constructor(data: Buffer | SensorMultilevelV10SensorMultilevelSupportedGetScaleData) {
 		super(SensorMultilevelSupportedGetScale, data);
 	}
 };
@@ -1634,7 +1634,7 @@ export class SensorMultilevelSupportedScaleReport extends CommandPacket<SensorMu
 		return packet.tryAs(SensorMultilevelV10)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorMultilevelV10SensorMultilevelSupportedScaleReportData) {
+	public constructor(data: Buffer | SensorMultilevelV10SensorMultilevelSupportedScaleReportData) {
 		super(SensorMultilevelSupportedScaleReport, data);
 	}
 };

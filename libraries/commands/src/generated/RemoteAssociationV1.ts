@@ -38,7 +38,7 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(RemoteAssociationV1, commandAndPayload);
 	}
 }
@@ -65,7 +65,7 @@ export class RemoteAssociationConfigurationGet extends CommandPacket<RemoteAssoc
 		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationGetData) {
+	public constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationGetData) {
 		super(RemoteAssociationConfigurationGet, data);
 	}
 };
@@ -117,7 +117,7 @@ export class RemoteAssociationConfigurationReport extends CommandPacket<RemoteAs
 		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationReportData) {
+	public constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationReportData) {
 		super(RemoteAssociationConfigurationReport, data);
 	}
 };
@@ -169,7 +169,7 @@ export class RemoteAssociationConfigurationSet extends CommandPacket<RemoteAssoc
 		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationSetData) {
+	public constructor(data: Buffer | RemoteAssociationV1RemoteAssociationConfigurationSetData) {
 		super(RemoteAssociationConfigurationSet, data);
 	}
 };

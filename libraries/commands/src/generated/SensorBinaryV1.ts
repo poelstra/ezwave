@@ -30,7 +30,7 @@ export class SensorBinaryV1 extends CommandClassPacket<SensorBinaryV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SensorBinaryV1, commandAndPayload);
 	}
 }
@@ -50,7 +50,7 @@ export class SensorBinaryGet extends CommandPacket<void> {
 		return packet.tryAs(SensorBinaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SensorBinaryGet, data);
 	}
 };
@@ -87,7 +87,7 @@ export class SensorBinaryReport extends CommandPacket<SensorBinaryV1SensorBinary
 		return packet.tryAs(SensorBinaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorBinaryV1SensorBinaryReportData) {
+	public constructor(data: Buffer | SensorBinaryV1SensorBinaryReportData) {
 		super(SensorBinaryReport, data);
 	}
 };

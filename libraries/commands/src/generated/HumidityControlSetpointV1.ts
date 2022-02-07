@@ -101,7 +101,7 @@ export class HumidityControlSetpointV1 extends CommandClassPacket<HumidityContro
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(HumidityControlSetpointV1, commandAndPayload);
 	}
 }
@@ -206,7 +206,7 @@ export class HumidityControlSetpointSet extends CommandPacket<HumidityControlSet
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointSetData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointSetData) {
 		super(HumidityControlSetpointSet, data);
 	}
 };
@@ -258,7 +258,7 @@ export class HumidityControlSetpointGet extends CommandPacket<HumidityControlSet
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointGetData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointGetData) {
 		super(HumidityControlSetpointGet, data);
 	}
 };
@@ -363,7 +363,7 @@ export class HumidityControlSetpointReport extends CommandPacket<HumidityControl
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointReportData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointReportData) {
 		super(HumidityControlSetpointReport, data);
 	}
 };
@@ -383,7 +383,7 @@ export class HumidityControlSetpointSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HumidityControlSetpointSupportedGet, data);
 	}
 };
@@ -420,7 +420,7 @@ export class HumidityControlSetpointSupportedReport extends CommandPacket<Humidi
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointSupportedReportData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointSupportedReportData) {
 		super(HumidityControlSetpointSupportedReport, data);
 	}
 };
@@ -472,7 +472,7 @@ export class HumidityControlSetpointScaleSupportedGet extends CommandPacket<Humi
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointScaleSupportedGetData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointScaleSupportedGetData) {
 		super(HumidityControlSetpointScaleSupportedGet, data);
 	}
 };
@@ -524,7 +524,7 @@ export class HumidityControlSetpointScaleSupportedReport extends CommandPacket<H
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointScaleSupportedReportData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointScaleSupportedReportData) {
 		super(HumidityControlSetpointScaleSupportedReport, data);
 	}
 };
@@ -576,7 +576,7 @@ export class HumidityControlSetpointCapabilitiesGet extends CommandPacket<Humidi
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointCapabilitiesGetData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointCapabilitiesGetData) {
 		super(HumidityControlSetpointCapabilitiesGet, data);
 	}
 };
@@ -734,7 +734,7 @@ export class HumidityControlSetpointCapabilitiesReport extends CommandPacket<Hum
 		return packet.tryAs(HumidityControlSetpointV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointCapabilitiesReportData) {
+	public constructor(data: Buffer | HumidityControlSetpointV1HumidityControlSetpointCapabilitiesReportData) {
 		super(HumidityControlSetpointCapabilitiesReport, data);
 	}
 };

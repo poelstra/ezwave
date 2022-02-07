@@ -44,7 +44,7 @@ export class ZwaveplusInfoV2 extends CommandClassPacket<ZwaveplusInfoV2Commands>
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZwaveplusInfoV2, commandAndPayload);
 	}
 }
@@ -64,7 +64,7 @@ export class ZwaveplusInfoGet extends CommandPacket<void> {
 		return packet.tryAs(ZwaveplusInfoV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ZwaveplusInfoGet, data);
 	}
 };
@@ -159,7 +159,7 @@ export class ZwaveplusInfoReport extends CommandPacket<ZwaveplusInfoV2ZwaveplusI
 		return packet.tryAs(ZwaveplusInfoV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZwaveplusInfoV2ZwaveplusInfoReportData) {
+	public constructor(data: Buffer | ZwaveplusInfoV2ZwaveplusInfoReportData) {
 		super(ZwaveplusInfoReport, data);
 	}
 };

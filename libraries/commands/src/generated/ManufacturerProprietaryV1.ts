@@ -18,7 +18,7 @@ export class ManufacturerProprietaryV1 extends CommandClassPacket<ManufacturerPr
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ManufacturerProprietaryV1, commandAndPayload);
 	}
 }

@@ -26,7 +26,7 @@ export class ManufacturerSpecificV1 extends CommandClassPacket<ManufacturerSpeci
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ManufacturerSpecificV1, commandAndPayload);
 	}
 }
@@ -46,7 +46,7 @@ export class ManufacturerSpecificGet extends CommandPacket<void> {
 		return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ManufacturerSpecificGet, data);
 	}
 };
@@ -85,7 +85,7 @@ export class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecif
 		return packet.tryAs(ManufacturerSpecificV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ManufacturerSpecificV1ManufacturerSpecificReportData) {
+	public constructor(data: Buffer | ManufacturerSpecificV1ManufacturerSpecificReportData) {
 		super(ManufacturerSpecificReport, data);
 	}
 };

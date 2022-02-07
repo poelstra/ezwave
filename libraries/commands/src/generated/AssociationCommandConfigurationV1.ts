@@ -56,7 +56,7 @@ export class AssociationCommandConfigurationV1 extends CommandClassPacket<Associ
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(AssociationCommandConfigurationV1, commandAndPayload);
 	}
 }
@@ -90,7 +90,7 @@ export class CommandConfigurationGet extends CommandPacket<AssociationCommandCon
 		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationGetData) {
+	public constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationGetData) {
 		super(CommandConfigurationGet, data);
 	}
 };
@@ -180,7 +180,7 @@ export class CommandConfigurationReport extends CommandPacket<AssociationCommand
 		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationReportData) {
+	public constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationReportData) {
 		super(CommandConfigurationReport, data);
 	}
 };
@@ -243,7 +243,7 @@ export class CommandConfigurationSet extends CommandPacket<AssociationCommandCon
 		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationSetData) {
+	public constructor(data: Buffer | AssociationCommandConfigurationV1CommandConfigurationSetData) {
 		super(CommandConfigurationSet, data);
 	}
 };
@@ -263,7 +263,7 @@ export class CommandRecordsSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(CommandRecordsSupportedGet, data);
 	}
 };
@@ -322,7 +322,7 @@ export class CommandRecordsSupportedReport extends CommandPacket<AssociationComm
 		return packet.tryAs(AssociationCommandConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationCommandConfigurationV1CommandRecordsSupportedReportData) {
+	public constructor(data: Buffer | AssociationCommandConfigurationV1CommandRecordsSupportedReportData) {
 		super(CommandRecordsSupportedReport, data);
 	}
 };

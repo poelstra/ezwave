@@ -99,7 +99,7 @@ export class DoorLockV3 extends CommandClassPacket<DoorLockV3Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(DoorLockV3, commandAndPayload);
 	}
 }
@@ -119,7 +119,7 @@ export class DoorLockConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(DoorLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DoorLockConfigurationGet, data);
 	}
 };
@@ -188,7 +188,7 @@ export class DoorLockConfigurationReport extends CommandPacket<DoorLockV3DoorLoc
 		return packet.tryAs(DoorLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV3DoorLockConfigurationReportData) {
+	public constructor(data: Buffer | DoorLockV3DoorLockConfigurationReportData) {
 		super(DoorLockConfigurationReport, data);
 	}
 };
@@ -257,7 +257,7 @@ export class DoorLockConfigurationSet extends CommandPacket<DoorLockV3DoorLockCo
 		return packet.tryAs(DoorLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV3DoorLockConfigurationSetData) {
+	public constructor(data: Buffer | DoorLockV3DoorLockConfigurationSetData) {
 		super(DoorLockConfigurationSet, data);
 	}
 };
@@ -277,7 +277,7 @@ export class DoorLockOperationGet extends CommandPacket<void> {
 		return packet.tryAs(DoorLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DoorLockOperationGet, data);
 	}
 };
@@ -436,7 +436,7 @@ export class DoorLockOperationReport extends CommandPacket<DoorLockV3DoorLockOpe
 		return packet.tryAs(DoorLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV3DoorLockOperationReportData) {
+	public constructor(data: Buffer | DoorLockV3DoorLockOperationReportData) {
 		super(DoorLockOperationReport, data);
 	}
 };
@@ -497,7 +497,7 @@ export class DoorLockOperationSet extends CommandPacket<DoorLockV3DoorLockOperat
 		return packet.tryAs(DoorLockV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV3DoorLockOperationSetData) {
+	public constructor(data: Buffer | DoorLockV3DoorLockOperationSetData) {
 		super(DoorLockOperationSet, data);
 	}
 };

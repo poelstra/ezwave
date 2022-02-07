@@ -55,7 +55,7 @@ export class AssociationV2 extends CommandClassPacket<AssociationV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(AssociationV2, commandAndPayload);
 	}
 }
@@ -82,7 +82,7 @@ export class AssociationGet extends CommandPacket<AssociationV2AssociationGetDat
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationV2AssociationGetData) {
+	public constructor(data: Buffer | AssociationV2AssociationGetData) {
 		super(AssociationGet, data);
 	}
 };
@@ -102,7 +102,7 @@ export class AssociationGroupingsGet extends CommandPacket<void> {
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AssociationGroupingsGet, data);
 	}
 };
@@ -129,7 +129,7 @@ export class AssociationGroupingsReport extends CommandPacket<AssociationV2Assoc
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationV2AssociationGroupingsReportData) {
+	public constructor(data: Buffer | AssociationV2AssociationGroupingsReportData) {
 		super(AssociationGroupingsReport, data);
 	}
 };
@@ -165,7 +165,7 @@ export class AssociationRemove extends CommandPacket<AssociationV2AssociationRem
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationV2AssociationRemoveData) {
+	public constructor(data: Buffer | AssociationV2AssociationRemoveData) {
 		super(AssociationRemove, data);
 	}
 };
@@ -213,7 +213,7 @@ export class AssociationReport extends CommandPacket<AssociationV2AssociationRep
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationV2AssociationReportData) {
+	public constructor(data: Buffer | AssociationV2AssociationReportData) {
 		super(AssociationReport, data);
 	}
 };
@@ -249,7 +249,7 @@ export class AssociationSet extends CommandPacket<AssociationV2AssociationSetDat
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationV2AssociationSetData) {
+	public constructor(data: Buffer | AssociationV2AssociationSetData) {
 		super(AssociationSet, data);
 	}
 };
@@ -269,7 +269,7 @@ export class AssociationSpecificGroupGet extends CommandPacket<void> {
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AssociationSpecificGroupGet, data);
 	}
 };
@@ -296,7 +296,7 @@ export class AssociationSpecificGroupReport extends CommandPacket<AssociationV2A
 		return packet.tryAs(AssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AssociationV2AssociationSpecificGroupReportData) {
+	public constructor(data: Buffer | AssociationV2AssociationSpecificGroupReportData) {
 		super(AssociationSpecificGroupReport, data);
 	}
 };

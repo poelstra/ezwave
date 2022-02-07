@@ -21,19 +21,19 @@ import {
 } from "./print";
 import { Requester } from "./requester";
 
-const log = debug("zwave:layers:securitys0");
+const log: debug.Debugger = debug("zwave:layers:securitys0");
 
 export class SecurityS0Layer implements Layer {
 	private _requester = new Requester();
 	private _nonceStore: NonceStore;
 	private _codec: SecurityS0Codec;
 
-	constructor(codec: SecurityS0Codec, nonceStore: NonceStore) {
+	public constructor(codec: SecurityS0Codec, nonceStore: NonceStore) {
 		this._nonceStore = nonceStore;
 		this._codec = codec;
 	}
 
-	async dispatch(
+	public async dispatch(
 		event: LayerEvent<Packet>,
 		next: DispatchNext,
 		sender: Sender
@@ -96,7 +96,7 @@ export class SecurityS0Layer implements Layer {
 		return next(decodedEvent, sender);
 	}
 
-	async send(
+	public async send(
 		command: LayerCommand,
 		next: SendNext,
 		send: Sender

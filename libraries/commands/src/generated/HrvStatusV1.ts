@@ -58,7 +58,7 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(HrvStatusV1, commandAndPayload);
 	}
 }
@@ -115,7 +115,7 @@ export class HrvStatusGet extends CommandPacket<HrvStatusV1HrvStatusGetData> {
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvStatusV1HrvStatusGetData) {
+	public constructor(data: Buffer | HrvStatusV1HrvStatusGetData) {
 		super(HrvStatusGet, data);
 	}
 };
@@ -206,7 +206,7 @@ export class HrvStatusReport extends CommandPacket<HrvStatusV1HrvStatusReportDat
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvStatusV1HrvStatusReportData) {
+	public constructor(data: Buffer | HrvStatusV1HrvStatusReportData) {
 		super(HrvStatusReport, data);
 	}
 };
@@ -226,7 +226,7 @@ export class HrvStatusSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HrvStatusSupportedGet, data);
 	}
 };
@@ -285,7 +285,7 @@ export class HrvStatusSupportedReport extends CommandPacket<HrvStatusV1HrvStatus
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvStatusV1HrvStatusSupportedReportData) {
+	public constructor(data: Buffer | HrvStatusV1HrvStatusSupportedReportData) {
 		super(HrvStatusSupportedReport, data);
 	}
 };

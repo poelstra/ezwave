@@ -40,7 +40,7 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZipNamingV1, commandAndPayload);
 	}
 }
@@ -69,7 +69,7 @@ export class ZipNamingNameSet extends CommandPacket<ZipNamingV1ZipNamingNameSetD
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipNamingV1ZipNamingNameSetData) {
+	public constructor(data: Buffer | ZipNamingV1ZipNamingNameSetData) {
 		super(ZipNamingNameSet, data);
 	}
 };
@@ -89,7 +89,7 @@ export class ZipNamingNameGet extends CommandPacket<void> {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ZipNamingNameGet, data);
 	}
 };
@@ -118,7 +118,7 @@ export class ZipNamingNameReport extends CommandPacket<ZipNamingV1ZipNamingNameR
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipNamingV1ZipNamingNameReportData) {
+	public constructor(data: Buffer | ZipNamingV1ZipNamingNameReportData) {
 		super(ZipNamingNameReport, data);
 	}
 };
@@ -147,7 +147,7 @@ export class ZipNamingLocationSet extends CommandPacket<ZipNamingV1ZipNamingLoca
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipNamingV1ZipNamingLocationSetData) {
+	public constructor(data: Buffer | ZipNamingV1ZipNamingLocationSetData) {
 		super(ZipNamingLocationSet, data);
 	}
 };
@@ -167,7 +167,7 @@ export class ZipNamingLocationGet extends CommandPacket<void> {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ZipNamingLocationGet, data);
 	}
 };
@@ -196,7 +196,7 @@ export class ZipNamingLocationReport extends CommandPacket<ZipNamingV1ZipNamingL
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipNamingV1ZipNamingLocationReportData) {
+	public constructor(data: Buffer | ZipNamingV1ZipNamingLocationReportData) {
 		super(ZipNamingLocationReport, data);
 	}
 };

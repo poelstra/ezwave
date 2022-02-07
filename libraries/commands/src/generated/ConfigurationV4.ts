@@ -114,7 +114,7 @@ export class ConfigurationV4 extends CommandClassPacket<ConfigurationV4Commands>
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ConfigurationV4, commandAndPayload);
 	}
 }
@@ -147,7 +147,7 @@ export class ConfigurationBulkGet extends CommandPacket<ConfigurationV4Configura
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationBulkGetData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationBulkGetData) {
 		super(ConfigurationBulkGet, data);
 	}
 };
@@ -255,7 +255,7 @@ export class ConfigurationBulkReport extends CommandPacket<ConfigurationV4Config
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationBulkReportData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationBulkReportData) {
 		super(ConfigurationBulkReport, data);
 	}
 };
@@ -357,7 +357,7 @@ export class ConfigurationBulkSet extends CommandPacket<ConfigurationV4Configura
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationBulkSetData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationBulkSetData) {
 		super(ConfigurationBulkSet, data);
 	}
 };
@@ -384,7 +384,7 @@ export class ConfigurationGet extends CommandPacket<ConfigurationV4Configuration
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationGetData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationGetData) {
 		super(ConfigurationGet, data);
 	}
 };
@@ -449,7 +449,7 @@ export class ConfigurationReport extends CommandPacket<ConfigurationV4Configurat
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationReportData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationReportData) {
 		super(ConfigurationReport, data);
 	}
 };
@@ -520,7 +520,7 @@ export class ConfigurationSet extends CommandPacket<ConfigurationV4Configuration
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationSetData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationSetData) {
 		super(ConfigurationSet, data);
 	}
 };
@@ -547,7 +547,7 @@ export class ConfigurationNameGet extends CommandPacket<ConfigurationV4Configura
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationNameGetData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationNameGetData) {
 		super(ConfigurationNameGet, data);
 	}
 };
@@ -588,7 +588,7 @@ export class ConfigurationNameReport extends CommandPacket<ConfigurationV4Config
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationNameReportData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationNameReportData) {
 		super(ConfigurationNameReport, data);
 	}
 };
@@ -615,7 +615,7 @@ export class ConfigurationInfoGet extends CommandPacket<ConfigurationV4Configura
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationInfoGetData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationInfoGetData) {
 		super(ConfigurationInfoGet, data);
 	}
 };
@@ -656,7 +656,7 @@ export class ConfigurationInfoReport extends CommandPacket<ConfigurationV4Config
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationInfoReportData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationInfoReportData) {
 		super(ConfigurationInfoReport, data);
 	}
 };
@@ -683,7 +683,7 @@ export class ConfigurationPropertiesGet extends CommandPacket<ConfigurationV4Con
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationPropertiesGetData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationPropertiesGetData) {
 		super(ConfigurationPropertiesGet, data);
 	}
 };
@@ -834,7 +834,7 @@ export class ConfigurationPropertiesReport extends CommandPacket<ConfigurationV4
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ConfigurationV4ConfigurationPropertiesReportData) {
+	public constructor(data: Buffer | ConfigurationV4ConfigurationPropertiesReportData) {
 		super(ConfigurationPropertiesReport, data);
 	}
 };
@@ -854,7 +854,7 @@ export class ConfigurationDefaultReset extends CommandPacket<void> {
 		return packet.tryAs(ConfigurationV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ConfigurationDefaultReset, data);
 	}
 };

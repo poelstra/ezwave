@@ -29,7 +29,7 @@ export class ThermostatFanStateV1 extends CommandClassPacket<ThermostatFanStateV
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatFanStateV1, commandAndPayload);
 	}
 }
@@ -49,7 +49,7 @@ export class ThermostatFanStateGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatFanStateV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatFanStateGet, data);
 	}
 };
@@ -101,7 +101,7 @@ export class ThermostatFanStateReport extends CommandPacket<ThermostatFanStateV1
 		return packet.tryAs(ThermostatFanStateV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatFanStateV1ThermostatFanStateReportData) {
+	public constructor(data: Buffer | ThermostatFanStateV1ThermostatFanStateReportData) {
 		super(ThermostatFanStateReport, data);
 	}
 };

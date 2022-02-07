@@ -69,7 +69,7 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(PowerlevelV1, commandAndPayload);
 	}
 }
@@ -89,7 +89,7 @@ export class PowerlevelGet extends CommandPacket<void> {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(PowerlevelGet, data);
 	}
 };
@@ -164,7 +164,7 @@ export class PowerlevelReport extends CommandPacket<PowerlevelV1PowerlevelReport
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PowerlevelV1PowerlevelReportData) {
+	public constructor(data: Buffer | PowerlevelV1PowerlevelReportData) {
 		super(PowerlevelReport, data);
 	}
 };
@@ -239,7 +239,7 @@ export class PowerlevelSet extends CommandPacket<PowerlevelV1PowerlevelSetData> 
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PowerlevelV1PowerlevelSetData) {
+	public constructor(data: Buffer | PowerlevelV1PowerlevelSetData) {
 		super(PowerlevelSet, data);
 	}
 };
@@ -259,7 +259,7 @@ export class PowerlevelTestNodeGet extends CommandPacket<void> {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(PowerlevelTestNodeGet, data);
 	}
 };
@@ -319,7 +319,7 @@ export class PowerlevelTestNodeReport extends CommandPacket<PowerlevelV1Powerlev
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeReportData) {
+	public constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeReportData) {
 		super(PowerlevelTestNodeReport, data);
 	}
 };
@@ -401,7 +401,7 @@ export class PowerlevelTestNodeSet extends CommandPacket<PowerlevelV1PowerlevelT
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeSetData) {
+	public constructor(data: Buffer | PowerlevelV1PowerlevelTestNodeSetData) {
 		super(PowerlevelTestNodeSet, data);
 	}
 };

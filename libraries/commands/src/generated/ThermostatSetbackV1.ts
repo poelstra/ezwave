@@ -38,7 +38,7 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatSetbackV1, commandAndPayload);
 	}
 }
@@ -58,7 +58,7 @@ export class ThermostatSetbackGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatSetbackGet, data);
 	}
 };
@@ -154,7 +154,7 @@ export class ThermostatSetbackReport extends CommandPacket<ThermostatSetbackV1Th
 		return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetbackV1ThermostatSetbackReportData) {
+	public constructor(data: Buffer | ThermostatSetbackV1ThermostatSetbackReportData) {
 		super(ThermostatSetbackReport, data);
 	}
 };
@@ -250,7 +250,7 @@ export class ThermostatSetbackSet extends CommandPacket<ThermostatSetbackV1Therm
 		return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatSetbackV1ThermostatSetbackSetData) {
+	public constructor(data: Buffer | ThermostatSetbackV1ThermostatSetbackSetData) {
 		super(ThermostatSetbackSet, data);
 	}
 };

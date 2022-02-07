@@ -21,7 +21,7 @@ export class ZensorNetV1 extends CommandClassPacket<ZensorNetV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZensorNetV1, commandAndPayload);
 	}
 }
@@ -41,7 +41,7 @@ export class BindAccept extends CommandPacket<void> {
 		return packet.tryAs(ZensorNetV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BindAccept, data);
 	}
 };
@@ -61,7 +61,7 @@ export class BindComplete extends CommandPacket<void> {
 		return packet.tryAs(ZensorNetV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BindComplete, data);
 	}
 };
@@ -81,7 +81,7 @@ export class BindRequest extends CommandPacket<void> {
 		return packet.tryAs(ZensorNetV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BindRequest, data);
 	}
 };

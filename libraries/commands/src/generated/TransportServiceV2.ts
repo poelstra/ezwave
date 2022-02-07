@@ -58,7 +58,7 @@ export class TransportServiceV2 extends CommandClassPacket<TransportServiceV2Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(TransportServiceV2, commandAndPayload);
 	}
 }
@@ -178,7 +178,7 @@ export class CommandFirstSegment extends CommandPacket<TransportServiceV2Command
 		return packet.tryAs(TransportServiceV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TransportServiceV2CommandFirstSegmentData) {
+	public constructor(data: Buffer | TransportServiceV2CommandFirstSegmentData) {
 		super(CommandFirstSegment, data);
 	}
 };
@@ -237,7 +237,7 @@ export class CommandSegmentComplete extends CommandPacket<TransportServiceV2Comm
 		return packet.tryAs(TransportServiceV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TransportServiceV2CommandSegmentCompleteData) {
+	public constructor(data: Buffer | TransportServiceV2CommandSegmentCompleteData) {
 		super(CommandSegmentComplete, data);
 	}
 };
@@ -308,7 +308,7 @@ export class CommandSegmentRequest extends CommandPacket<TransportServiceV2Comma
 		return packet.tryAs(TransportServiceV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TransportServiceV2CommandSegmentRequestData) {
+	public constructor(data: Buffer | TransportServiceV2CommandSegmentRequestData) {
 		super(CommandSegmentRequest, data);
 	}
 };
@@ -352,7 +352,7 @@ export class CommandSegmentWait extends CommandPacket<TransportServiceV2CommandS
 		return packet.tryAs(TransportServiceV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TransportServiceV2CommandSegmentWaitData) {
+	public constructor(data: Buffer | TransportServiceV2CommandSegmentWaitData) {
 		super(CommandSegmentWait, data);
 	}
 };
@@ -477,7 +477,7 @@ export class CommandSubsequentSegment extends CommandPacket<TransportServiceV2Co
 		return packet.tryAs(TransportServiceV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TransportServiceV2CommandSubsequentSegmentData) {
+	public constructor(data: Buffer | TransportServiceV2CommandSubsequentSegmentData) {
 		super(CommandSubsequentSegment, data);
 	}
 };

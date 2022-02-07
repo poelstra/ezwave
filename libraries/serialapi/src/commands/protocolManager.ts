@@ -1,5 +1,4 @@
-import { Queue } from "@ezwave/shared";
-import { enumToString } from "@ezwave/shared";
+import { enumToString, Queue } from "@ezwave/shared";
 import { IProtocol } from "../protocol";
 import { Events } from "./events";
 import { TransactionRunner } from "./ICommandSession";
@@ -34,7 +33,7 @@ export class ProtocolManager implements IProtocolManager {
 	private _protocol: IProtocol;
 	private _supportedFunctions = new Set<SerialApiCommandCode>();
 
-	constructor(protocol: IProtocol) {
+	public constructor(protocol: IProtocol) {
 		// TODO it's probably cleaner to not directly pass in the
 		// protocol, and instead pass in an explicit object with
 		// send/request/etc such that SerialApi can check

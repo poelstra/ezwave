@@ -27,7 +27,7 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MultiCmdV1, commandAndPayload);
 	}
 }
@@ -112,7 +112,7 @@ export class MultiCmdEncap extends CommandPacket<MultiCmdV1MultiCmdEncapData> {
 		return packet.tryAs(MultiCmdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiCmdV1MultiCmdEncapData) {
+	public constructor(data: Buffer | MultiCmdV1MultiCmdEncapData) {
 		super(MultiCmdEncap, data);
 	}
 };

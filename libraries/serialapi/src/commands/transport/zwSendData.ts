@@ -37,7 +37,7 @@ export interface ZwSendDataResponse {
 export class ZwSendDataError extends Error {
 	public readonly txStatus: TxStatus;
 
-	constructor(txStatus: TxStatus, message: string) {
+	public constructor(txStatus: TxStatus, message: string) {
 		super(message);
 		this.txStatus = txStatus;
 	}
@@ -150,7 +150,7 @@ export function zwSendDataBuilder(
 }
 
 export class ZwSendData extends RequestRunner<typeof zwSendDataBuilder> {
-	constructor(request: ZwSendDataRequest) {
+	public constructor(request: ZwSendDataRequest) {
 		super(zwSendDataBuilder, request);
 	}
 }

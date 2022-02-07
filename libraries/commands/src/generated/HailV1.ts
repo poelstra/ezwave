@@ -20,7 +20,7 @@ export class HailV1 extends CommandClassPacket<HailV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(HailV1, commandAndPayload);
 	}
 }
@@ -40,7 +40,7 @@ export class Hail extends CommandPacket<void> {
 		return packet.tryAs(HailV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(Hail, data);
 	}
 };

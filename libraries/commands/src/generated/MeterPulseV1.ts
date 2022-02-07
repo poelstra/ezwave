@@ -25,7 +25,7 @@ export class MeterPulseV1 extends CommandClassPacket<MeterPulseV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MeterPulseV1, commandAndPayload);
 	}
 }
@@ -45,7 +45,7 @@ export class MeterPulseGet extends CommandPacket<void> {
 		return packet.tryAs(MeterPulseV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MeterPulseGet, data);
 	}
 };
@@ -72,7 +72,7 @@ export class MeterPulseReport extends CommandPacket<MeterPulseV1MeterPulseReport
 		return packet.tryAs(MeterPulseV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterPulseV1MeterPulseReportData) {
+	public constructor(data: Buffer | MeterPulseV1MeterPulseReportData) {
 		super(MeterPulseReport, data);
 	}
 };

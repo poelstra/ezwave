@@ -19,7 +19,7 @@ export class DeviceResetLocallyV1 extends CommandClassPacket<DeviceResetLocallyV
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(DeviceResetLocallyV1, commandAndPayload);
 	}
 }
@@ -39,7 +39,7 @@ export class DeviceResetLocallyNotification extends CommandPacket<void> {
 		return packet.tryAs(DeviceResetLocallyV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DeviceResetLocallyNotification, data);
 	}
 };

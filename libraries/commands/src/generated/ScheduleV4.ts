@@ -139,7 +139,7 @@ export class ScheduleV4 extends CommandClassPacket<ScheduleV4Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ScheduleV4, commandAndPayload);
 	}
 }
@@ -166,7 +166,7 @@ export class ScheduleSupportedGet extends CommandPacket<ScheduleV4ScheduleSuppor
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleSupportedGetData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleSupportedGetData) {
 		super(ScheduleSupportedGet, data);
 	}
 };
@@ -303,7 +303,7 @@ export class ScheduleSupportedReport extends CommandPacket<ScheduleV4ScheduleSup
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleSupportedReportData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleSupportedReportData) {
 		super(ScheduleSupportedReport, data);
 	}
 };
@@ -531,7 +531,7 @@ export class CommandScheduleSet extends CommandPacket<ScheduleV4CommandScheduleS
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4CommandScheduleSetData) {
+	public constructor(data: Buffer | ScheduleV4CommandScheduleSetData) {
 		super(CommandScheduleSet, data);
 	}
 };
@@ -585,7 +585,7 @@ export class CommandScheduleGet extends CommandPacket<ScheduleV4CommandScheduleG
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4CommandScheduleGetData) {
+	public constructor(data: Buffer | ScheduleV4CommandScheduleGetData) {
 		super(CommandScheduleGet, data);
 	}
 };
@@ -812,7 +812,7 @@ export class CommandScheduleReport extends CommandPacket<ScheduleV4CommandSchedu
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4CommandScheduleReportData) {
+	public constructor(data: Buffer | ScheduleV4CommandScheduleReportData) {
 		super(CommandScheduleReport, data);
 	}
 };
@@ -845,7 +845,7 @@ export class ScheduleRemove extends CommandPacket<ScheduleV4ScheduleRemoveData> 
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleRemoveData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleRemoveData) {
 		super(ScheduleRemove, data);
 	}
 };
@@ -884,7 +884,7 @@ export class ScheduleStateSet extends CommandPacket<ScheduleV4ScheduleStateSetDa
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleStateSetData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleStateSetData) {
 		super(ScheduleStateSet, data);
 	}
 };
@@ -911,7 +911,7 @@ export class ScheduleStateGet extends CommandPacket<ScheduleV4ScheduleStateGetDa
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleStateGetData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleStateGetData) {
 		super(ScheduleStateGet, data);
 	}
 };
@@ -994,7 +994,7 @@ export class ScheduleStateReport extends CommandPacket<ScheduleV4ScheduleStateRe
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleStateReportData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleStateReportData) {
 		super(ScheduleStateReport, data);
 	}
 };
@@ -1021,7 +1021,7 @@ export class ScheduleSupportedCommandsGet extends CommandPacket<ScheduleV4Schedu
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleSupportedCommandsGetData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleSupportedCommandsGetData) {
 		super(ScheduleSupportedCommandsGet, data);
 	}
 };
@@ -1103,7 +1103,7 @@ export class ScheduleSupportedCommandsReport extends CommandPacket<ScheduleV4Sch
 		return packet.tryAs(ScheduleV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV4ScheduleSupportedCommandsReportData) {
+	public constructor(data: Buffer | ScheduleV4ScheduleSupportedCommandsReportData) {
 		super(ScheduleSupportedCommandsReport, data);
 	}
 };

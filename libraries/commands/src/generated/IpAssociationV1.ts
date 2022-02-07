@@ -47,7 +47,7 @@ export class IpAssociationV1 extends CommandClassPacket<IpAssociationV1Commands>
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(IpAssociationV1, commandAndPayload);
 	}
 }
@@ -86,7 +86,7 @@ export class IpAssociationSet extends CommandPacket<IpAssociationV1IpAssociation
 		return packet.tryAs(IpAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IpAssociationV1IpAssociationSetData) {
+	public constructor(data: Buffer | IpAssociationV1IpAssociationSetData) {
 		super(IpAssociationSet, data);
 	}
 };
@@ -119,7 +119,7 @@ export class IpAssociationGet extends CommandPacket<IpAssociationV1IpAssociation
 		return packet.tryAs(IpAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IpAssociationV1IpAssociationGetData) {
+	public constructor(data: Buffer | IpAssociationV1IpAssociationGetData) {
 		super(IpAssociationGet, data);
 	}
 };
@@ -170,7 +170,7 @@ export class IpAssociationReport extends CommandPacket<IpAssociationV1IpAssociat
 		return packet.tryAs(IpAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IpAssociationV1IpAssociationReportData) {
+	public constructor(data: Buffer | IpAssociationV1IpAssociationReportData) {
 		super(IpAssociationReport, data);
 	}
 };
@@ -209,7 +209,7 @@ export class IpAssociationRemove extends CommandPacket<IpAssociationV1IpAssociat
 		return packet.tryAs(IpAssociationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IpAssociationV1IpAssociationRemoveData) {
+	public constructor(data: Buffer | IpAssociationV1IpAssociationRemoveData) {
 		super(IpAssociationRemove, data);
 	}
 };

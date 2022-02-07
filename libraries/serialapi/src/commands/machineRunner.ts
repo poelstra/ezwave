@@ -4,7 +4,7 @@ import * as util from "util";
 import { EventObject, InterpreterStatus } from "xstate";
 import { Events } from "./events";
 
-const log = debug("zwave:serialapi:machine");
+const log: debug.Debugger = debug("zwave:serialapi:machine");
 
 export function runMachineService<TEvent extends EventObject, R>(
 	service: InterpreterWithMatches<any, any, TEvent, any>,

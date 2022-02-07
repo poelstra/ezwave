@@ -1,6 +1,6 @@
 import { parseCommandClassInfo } from "@ezwave/codec";
-import { CallbackRequestBuilder } from "../requests";
 import { RequestRunner } from "../RequestRunner";
+import { CallbackRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 import { verifyTransmitResponse } from "../transport/zwSendData";
 import { NodeInfoResponse } from "../types";
@@ -86,7 +86,7 @@ export function zwRequestNodeInfoBuilder(
 export class ZwRequestNodeInfo extends RequestRunner<
 	typeof zwRequestNodeInfoBuilder
 > {
-	constructor(request: ZwRequestNodeInfoRequest) {
+	public constructor(request: ZwRequestNodeInfoRequest) {
 		super(zwRequestNodeInfoBuilder, request);
 	}
 }

@@ -24,8 +24,8 @@ import debug from "debug";
 import { EventEmitter } from "events";
 import { IZwaveHost } from "./IZwaveHost";
 
-const log = debug("zwave:controller");
-const logData = debug("zwave:controller:data");
+const log: debug.Debugger = debug("zwave:controller");
+const logData: debug.Debugger = debug("zwave:controller:data");
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {
@@ -72,7 +72,7 @@ export class Controller
 	private _serialApiCloseHandler = () => this.assignSerialApi(undefined);
 	private _transactionId = 0; // Used for debug logging
 
-	constructor(
+	public constructor(
 		homeId: number,
 		nodeId: number,
 		crypto: CryptoManager,
@@ -124,7 +124,9 @@ export class Controller
 			.use(new MultiChannelLayer());
 	}
 
-	async assignSerialApi(serialApi: SerialApi | undefined): Promise<void> {
+	public async assignSerialApi(
+		serialApi: SerialApi | undefined
+	): Promise<void> {
 		if (this._serialApi) {
 			this._serialApi.off("command", this._serialApiCommandHandler);
 			this._serialApi.off("close", this._serialApiCloseHandler);
@@ -153,7 +155,7 @@ export class Controller
 		return this._stack.send(command);
 	}
 
-	async sendAndWaitFor<T extends Packet>(
+	public async sendAndWaitFor<T extends Packet>(
 		command: LayerCommand,
 		mapper: Mapper<T>
 	): Promise<LayerEvent<T>> {

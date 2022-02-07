@@ -117,7 +117,7 @@ export class DoorLockV4 extends CommandClassPacket<DoorLockV4Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(DoorLockV4, commandAndPayload);
 	}
 }
@@ -137,7 +137,7 @@ export class DoorLockConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DoorLockConfigurationGet, data);
 	}
 };
@@ -245,7 +245,7 @@ export class DoorLockConfigurationReport extends CommandPacket<DoorLockV4DoorLoc
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV4DoorLockConfigurationReportData) {
+	public constructor(data: Buffer | DoorLockV4DoorLockConfigurationReportData) {
 		super(DoorLockConfigurationReport, data);
 	}
 };
@@ -314,7 +314,7 @@ export class DoorLockConfigurationSet extends CommandPacket<DoorLockV4DoorLockCo
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV4DoorLockConfigurationSetData) {
+	public constructor(data: Buffer | DoorLockV4DoorLockConfigurationSetData) {
 		super(DoorLockConfigurationSet, data);
 	}
 };
@@ -334,7 +334,7 @@ export class DoorLockOperationGet extends CommandPacket<void> {
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DoorLockOperationGet, data);
 	}
 };
@@ -493,7 +493,7 @@ export class DoorLockOperationReport extends CommandPacket<DoorLockV4DoorLockOpe
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV4DoorLockOperationReportData) {
+	public constructor(data: Buffer | DoorLockV4DoorLockOperationReportData) {
 		super(DoorLockOperationReport, data);
 	}
 };
@@ -554,7 +554,7 @@ export class DoorLockOperationSet extends CommandPacket<DoorLockV4DoorLockOperat
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV4DoorLockOperationSetData) {
+	public constructor(data: Buffer | DoorLockV4DoorLockOperationSetData) {
 		super(DoorLockOperationSet, data);
 	}
 };
@@ -574,7 +574,7 @@ export class DoorLockCapabilitiesGet extends CommandPacket<void> {
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DoorLockCapabilitiesGet, data);
 	}
 };
@@ -721,7 +721,7 @@ export class DoorLockCapabilitiesReport extends CommandPacket<DoorLockV4DoorLock
 		return packet.tryAs(DoorLockV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockV4DoorLockCapabilitiesReportData) {
+	public constructor(data: Buffer | DoorLockV4DoorLockCapabilitiesReportData) {
 		super(DoorLockCapabilitiesReport, data);
 	}
 };

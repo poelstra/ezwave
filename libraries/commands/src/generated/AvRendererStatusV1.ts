@@ -20,7 +20,7 @@ export class AvRendererStatusV1 extends CommandClassPacket<AvRendererStatusV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(AvRendererStatusV1, commandAndPayload);
 	}
 }
@@ -40,7 +40,7 @@ export class AvRendererStatusGet extends CommandPacket<void> {
 		return packet.tryAs(AvRendererStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvRendererStatusGet, data);
 	}
 };
@@ -60,7 +60,7 @@ export class AvRendererStatusReport extends CommandPacket<void> {
 		return packet.tryAs(AvRendererStatusV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvRendererStatusReport, data);
 	}
 };

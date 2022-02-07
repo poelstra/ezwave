@@ -81,7 +81,7 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementInstallationMaintenanceV1, commandAndPayload);
 	}
 }
@@ -157,7 +157,7 @@ export class PriorityRouteSet extends CommandPacket<NetworkManagementInstallatio
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteSetData) {
+	public constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteSetData) {
 		super(PriorityRouteSet, data);
 	}
 };
@@ -185,7 +185,7 @@ export class PriorityRouteGet extends CommandPacket<NetworkManagementInstallatio
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteGetData) {
+	public constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteGetData) {
 		super(PriorityRouteGet, data);
 	}
 };
@@ -285,7 +285,7 @@ export class PriorityRouteReport extends CommandPacket<NetworkManagementInstalla
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteReportData) {
+	public constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1PriorityRouteReportData) {
 		super(PriorityRouteReport, data);
 	}
 };
@@ -313,7 +313,7 @@ export class StatisticsGet extends CommandPacket<NetworkManagementInstallationMa
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsGetData) {
+	public constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsGetData) {
 		super(StatisticsGet, data);
 	}
 };
@@ -406,7 +406,7 @@ export class StatisticsReport extends CommandPacket<NetworkManagementInstallatio
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsReportData) {
+	public constructor(data: Buffer | NetworkManagementInstallationMaintenanceV1StatisticsReportData) {
 		super(StatisticsReport, data);
 	}
 };
@@ -426,7 +426,7 @@ export class StatisticsClear extends CommandPacket<void> {
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(StatisticsClear, data);
 	}
 };

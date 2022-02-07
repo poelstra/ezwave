@@ -23,7 +23,7 @@ export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEnca
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(PrepaymentEncapsulationV1, commandAndPayload);
 	}
 }
@@ -52,7 +52,7 @@ export class CmdEncapsulation extends CommandPacket<PrepaymentEncapsulationV1Cmd
 		return packet.tryAs(PrepaymentEncapsulationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PrepaymentEncapsulationV1CmdEncapsulationData) {
+	public constructor(data: Buffer | PrepaymentEncapsulationV1CmdEncapsulationData) {
 		super(CmdEncapsulation, data);
 	}
 };

@@ -201,7 +201,7 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(IrrigationV1, commandAndPayload);
 	}
 }
@@ -221,7 +221,7 @@ export class IrrigationSystemInfoGet extends CommandPacket<void> {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IrrigationSystemInfoGet, data);
 	}
 };
@@ -310,7 +310,7 @@ export class IrrigationSystemInfoReport extends CommandPacket<IrrigationV1Irriga
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationSystemInfoReportData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationSystemInfoReportData) {
 		super(IrrigationSystemInfoReport, data);
 	}
 };
@@ -330,7 +330,7 @@ export class IrrigationSystemStatusGet extends CommandPacket<void> {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IrrigationSystemStatusGet, data);
 	}
 };
@@ -528,7 +528,7 @@ export class IrrigationSystemStatusReport extends CommandPacket<IrrigationV1Irri
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationSystemStatusReportData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationSystemStatusReportData) {
 		super(IrrigationSystemStatusReport, data);
 	}
 };
@@ -661,7 +661,7 @@ export class IrrigationSystemConfigSet extends CommandPacket<IrrigationV1Irrigat
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationSystemConfigSetData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationSystemConfigSetData) {
 		super(IrrigationSystemConfigSet, data);
 	}
 };
@@ -681,7 +681,7 @@ export class IrrigationSystemConfigGet extends CommandPacket<void> {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(IrrigationSystemConfigGet, data);
 	}
 };
@@ -814,7 +814,7 @@ export class IrrigationSystemConfigReport extends CommandPacket<IrrigationV1Irri
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationSystemConfigReportData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationSystemConfigReportData) {
 		super(IrrigationSystemConfigReport, data);
 	}
 };
@@ -862,7 +862,7 @@ export class IrrigationValveInfoGet extends CommandPacket<IrrigationV1Irrigation
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveInfoGetData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveInfoGetData) {
 		super(IrrigationValveInfoGet, data);
 	}
 };
@@ -954,7 +954,7 @@ export class IrrigationValveInfoReport extends CommandPacket<IrrigationV1Irrigat
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveInfoReportData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveInfoReportData) {
 		super(IrrigationValveInfoReport, data);
 	}
 };
@@ -1159,7 +1159,7 @@ export class IrrigationValveConfigSet extends CommandPacket<IrrigationV1Irrigati
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveConfigSetData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveConfigSetData) {
 		super(IrrigationValveConfigSet, data);
 	}
 };
@@ -1207,7 +1207,7 @@ export class IrrigationValveConfigGet extends CommandPacket<IrrigationV1Irrigati
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveConfigGetData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveConfigGetData) {
 		super(IrrigationValveConfigGet, data);
 	}
 };
@@ -1412,7 +1412,7 @@ export class IrrigationValveConfigReport extends CommandPacket<IrrigationV1Irrig
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveConfigReportData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveConfigReportData) {
 		super(IrrigationValveConfigReport, data);
 	}
 };
@@ -1466,7 +1466,7 @@ export class IrrigationValveRun extends CommandPacket<IrrigationV1IrrigationValv
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveRunData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveRunData) {
 		super(IrrigationValveRun, data);
 	}
 };
@@ -1515,7 +1515,7 @@ export class IrrigationValveTableSet extends CommandPacket<IrrigationV1Irrigatio
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveTableSetData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveTableSetData) {
 		super(IrrigationValveTableSet, data);
 	}
 };
@@ -1542,7 +1542,7 @@ export class IrrigationValveTableGet extends CommandPacket<IrrigationV1Irrigatio
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveTableGetData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveTableGetData) {
 		super(IrrigationValveTableGet, data);
 	}
 };
@@ -1591,7 +1591,7 @@ export class IrrigationValveTableReport extends CommandPacket<IrrigationV1Irriga
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveTableReportData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveTableReportData) {
 		super(IrrigationValveTableReport, data);
 	}
 };
@@ -1620,7 +1620,7 @@ export class IrrigationValveTableRun extends CommandPacket<IrrigationV1Irrigatio
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationValveTableRunData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationValveTableRunData) {
 		super(IrrigationValveTableRun, data);
 	}
 };
@@ -1647,7 +1647,7 @@ export class IrrigationSystemShutoff extends CommandPacket<IrrigationV1Irrigatio
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | IrrigationV1IrrigationSystemShutoffData) {
+	public constructor(data: Buffer | IrrigationV1IrrigationSystemShutoffData) {
 		super(IrrigationSystemShutoff, data);
 	}
 };

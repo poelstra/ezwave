@@ -38,7 +38,7 @@ export class MultiInstanceV1 extends CommandClassPacket<MultiInstanceV1Commands>
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MultiInstanceV1, commandAndPayload);
 	}
 }
@@ -88,7 +88,7 @@ export class MultiInstanceCmdEncap extends CommandPacket<MultiInstanceV1MultiIns
 		return packet.tryAs(MultiInstanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceV1MultiInstanceCmdEncapData) {
+	public constructor(data: Buffer | MultiInstanceV1MultiInstanceCmdEncapData) {
 		super(MultiInstanceCmdEncap, data);
 	}
 };
@@ -116,7 +116,7 @@ export class MultiInstanceGet extends CommandPacket<MultiInstanceV1MultiInstance
 		return packet.tryAs(MultiInstanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceV1MultiInstanceGetData) {
+	public constructor(data: Buffer | MultiInstanceV1MultiInstanceGetData) {
 		super(MultiInstanceGet, data);
 	}
 };
@@ -150,7 +150,7 @@ export class MultiInstanceReport extends CommandPacket<MultiInstanceV1MultiInsta
 		return packet.tryAs(MultiInstanceV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiInstanceV1MultiInstanceReportData) {
+	public constructor(data: Buffer | MultiInstanceV1MultiInstanceReportData) {
 		super(MultiInstanceReport, data);
 	}
 };

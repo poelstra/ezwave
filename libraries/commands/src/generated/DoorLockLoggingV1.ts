@@ -45,7 +45,7 @@ export class DoorLockLoggingV1 extends CommandClassPacket<DoorLockLoggingV1Comma
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(DoorLockLoggingV1, commandAndPayload);
 	}
 }
@@ -65,7 +65,7 @@ export class DoorLockLoggingRecordsSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DoorLockLoggingRecordsSupportedGet, data);
 	}
 };
@@ -92,7 +92,7 @@ export class DoorLockLoggingRecordsSupportedReport extends CommandPacket<DoorLoc
 		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockLoggingV1DoorLockLoggingRecordsSupportedReportData) {
+	public constructor(data: Buffer | DoorLockLoggingV1DoorLockLoggingRecordsSupportedReportData) {
 		super(DoorLockLoggingRecordsSupportedReport, data);
 	}
 };
@@ -119,7 +119,7 @@ export class RecordGet extends CommandPacket<DoorLockLoggingV1RecordGetData> {
 		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockLoggingV1RecordGetData) {
+	public constructor(data: Buffer | DoorLockLoggingV1RecordGetData) {
 		super(RecordGet, data);
 	}
 };
@@ -222,7 +222,7 @@ export class RecordReport extends CommandPacket<DoorLockLoggingV1RecordReportDat
 		return packet.tryAs(DoorLockLoggingV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DoorLockLoggingV1RecordReportData) {
+	public constructor(data: Buffer | DoorLockLoggingV1RecordReportData) {
 		super(RecordReport, data);
 	}
 };

@@ -38,7 +38,7 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(GroupingNameV1, commandAndPayload);
 	}
 }
@@ -65,7 +65,7 @@ export class GroupingNameGet extends CommandPacket<GroupingNameV1GroupingNameGet
 		return packet.tryAs(GroupingNameV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | GroupingNameV1GroupingNameGetData) {
+	public constructor(data: Buffer | GroupingNameV1GroupingNameGetData) {
 		super(GroupingNameGet, data);
 	}
 };
@@ -119,7 +119,7 @@ export class GroupingNameReport extends CommandPacket<GroupingNameV1GroupingName
 		return packet.tryAs(GroupingNameV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | GroupingNameV1GroupingNameReportData) {
+	public constructor(data: Buffer | GroupingNameV1GroupingNameReportData) {
 		super(GroupingNameReport, data);
 	}
 };
@@ -173,7 +173,7 @@ export class GroupingNameSet extends CommandPacket<GroupingNameV1GroupingNameSet
 		return packet.tryAs(GroupingNameV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | GroupingNameV1GroupingNameSetData) {
+	public constructor(data: Buffer | GroupingNameV1GroupingNameSetData) {
 		super(GroupingNameSet, data);
 	}
 };

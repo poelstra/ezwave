@@ -50,7 +50,7 @@ export class UserCodeV1 extends CommandClassPacket<UserCodeV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(UserCodeV1, commandAndPayload);
 	}
 }
@@ -77,7 +77,7 @@ export class UserCodeGet extends CommandPacket<UserCodeV1UserCodeGetData> {
 		return packet.tryAs(UserCodeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV1UserCodeGetData) {
+	public constructor(data: Buffer | UserCodeV1UserCodeGetData) {
 		super(UserCodeGet, data);
 	}
 };
@@ -136,7 +136,7 @@ export class UserCodeReport extends CommandPacket<UserCodeV1UserCodeReportData> 
 		return packet.tryAs(UserCodeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV1UserCodeReportData) {
+	public constructor(data: Buffer | UserCodeV1UserCodeReportData) {
 		super(UserCodeReport, data);
 	}
 };
@@ -195,7 +195,7 @@ export class UserCodeSet extends CommandPacket<UserCodeV1UserCodeSetData> {
 		return packet.tryAs(UserCodeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV1UserCodeSetData) {
+	public constructor(data: Buffer | UserCodeV1UserCodeSetData) {
 		super(UserCodeSet, data);
 	}
 };
@@ -215,7 +215,7 @@ export class UsersNumberGet extends CommandPacket<void> {
 		return packet.tryAs(UserCodeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(UsersNumberGet, data);
 	}
 };
@@ -242,7 +242,7 @@ export class UsersNumberReport extends CommandPacket<UserCodeV1UsersNumberReport
 		return packet.tryAs(UserCodeV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV1UsersNumberReportData) {
+	public constructor(data: Buffer | UserCodeV1UsersNumberReportData) {
 		super(UsersNumberReport, data);
 	}
 };

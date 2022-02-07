@@ -26,9 +26,9 @@ export type HostFactory = (
  */
 export class SwitchBoard {
 	private _hostFactory: HostFactory;
-	private _hosts = new Map<string, IZwaveHost>();
+	private _hosts: Map<string, IZwaveHost> = new Map();
 
-	constructor(hostFactory: HostFactory) {
+	public constructor(hostFactory: HostFactory) {
 		this._hostFactory = hostFactory;
 	}
 

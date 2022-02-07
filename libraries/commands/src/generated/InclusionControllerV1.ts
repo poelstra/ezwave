@@ -43,7 +43,7 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(InclusionControllerV1, commandAndPayload);
 	}
 }
@@ -91,7 +91,7 @@ export class Initiate extends CommandPacket<InclusionControllerV1InitiateData> {
 		return packet.tryAs(InclusionControllerV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | InclusionControllerV1InitiateData) {
+	public constructor(data: Buffer | InclusionControllerV1InitiateData) {
 		super(Initiate, data);
 	}
 };
@@ -156,7 +156,7 @@ export class Complete extends CommandPacket<InclusionControllerV1CompleteData> {
 		return packet.tryAs(InclusionControllerV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | InclusionControllerV1CompleteData) {
+	public constructor(data: Buffer | InclusionControllerV1CompleteData) {
 		super(Complete, data);
 	}
 };

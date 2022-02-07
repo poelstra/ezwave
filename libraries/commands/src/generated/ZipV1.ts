@@ -36,7 +36,7 @@ export class ZipV1 extends CommandClassPacket<ZipV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ZipV1, commandAndPayload);
 	}
 }
@@ -222,7 +222,7 @@ export class CommandZipPacket extends CommandPacket<ZipV1CommandZipPacketData> {
 		return packet.tryAs(ZipV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ZipV1CommandZipPacketData) {
+	public constructor(data: Buffer | ZipV1CommandZipPacketData) {
 		super(CommandZipPacket, data);
 	}
 };

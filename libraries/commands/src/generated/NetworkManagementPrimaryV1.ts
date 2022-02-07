@@ -52,7 +52,7 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementPrimaryV1, commandAndPayload);
 	}
 }
@@ -142,7 +142,7 @@ export class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1Co
 		return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeData) {
+	public constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeData) {
 		super(ControllerChange, data);
 	}
 };
@@ -279,7 +279,7 @@ export class ControllerChangeStatus extends CommandPacket<NetworkManagementPrima
 		return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeStatusData) {
+	public constructor(data: Buffer | NetworkManagementPrimaryV1ControllerChangeStatusData) {
 		super(ControllerChangeStatus, data);
 	}
 };

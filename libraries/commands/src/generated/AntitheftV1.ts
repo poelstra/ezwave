@@ -35,7 +35,7 @@ export class AntitheftV1 extends CommandClassPacket<AntitheftV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(AntitheftV1, commandAndPayload);
 	}
 }
@@ -122,7 +122,7 @@ export class AntitheftSet extends CommandPacket<AntitheftV1AntitheftSetData> {
 		return packet.tryAs(AntitheftV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AntitheftV1AntitheftSetData) {
+	public constructor(data: Buffer | AntitheftV1AntitheftSetData) {
 		super(AntitheftSet, data);
 	}
 };
@@ -142,7 +142,7 @@ export class AntitheftGet extends CommandPacket<void> {
 		return packet.tryAs(AntitheftV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AntitheftGet, data);
 	}
 };
@@ -198,7 +198,7 @@ export class AntitheftReport extends CommandPacket<AntitheftV1AntitheftReportDat
 		return packet.tryAs(AntitheftV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | AntitheftV1AntitheftReportData) {
+	public constructor(data: Buffer | AntitheftV1AntitheftReportData) {
 		super(AntitheftReport, data);
 	}
 };

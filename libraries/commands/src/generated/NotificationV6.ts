@@ -106,7 +106,7 @@ export class NotificationV6 extends CommandClassPacket<NotificationV6Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NotificationV6, commandAndPayload);
 	}
 }
@@ -211,7 +211,7 @@ export class NotificationGet extends CommandPacket<NotificationV6NotificationGet
 		return packet.tryAs(NotificationV6)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NotificationV6NotificationGetData) {
+	public constructor(data: Buffer | NotificationV6NotificationGetData) {
 		super(NotificationGet, data);
 	}
 };
@@ -399,7 +399,7 @@ export class NotificationReport extends CommandPacket<NotificationV6Notification
 		return packet.tryAs(NotificationV6)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NotificationV6NotificationReportData) {
+	public constructor(data: Buffer | NotificationV6NotificationReportData) {
 		super(NotificationReport, data);
 	}
 };
@@ -512,7 +512,7 @@ export class NotificationSet extends CommandPacket<NotificationV6NotificationSet
 		return packet.tryAs(NotificationV6)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NotificationV6NotificationSetData) {
+	public constructor(data: Buffer | NotificationV6NotificationSetData) {
 		super(NotificationSet, data);
 	}
 };
@@ -532,7 +532,7 @@ export class NotificationSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(NotificationV6)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(NotificationSupportedGet, data);
 	}
 };
@@ -663,7 +663,7 @@ export class NotificationSupportedReport extends CommandPacket<NotificationV6Not
 		return packet.tryAs(NotificationV6)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NotificationV6NotificationSupportedReportData) {
+	public constructor(data: Buffer | NotificationV6NotificationSupportedReportData) {
 		super(NotificationSupportedReport, data);
 	}
 };
@@ -756,7 +756,7 @@ export class EventSupportedGet extends CommandPacket<NotificationV6EventSupporte
 		return packet.tryAs(NotificationV6)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NotificationV6EventSupportedGetData) {
+	public constructor(data: Buffer | NotificationV6EventSupportedGetData) {
 		super(EventSupportedGet, data);
 	}
 };
@@ -887,7 +887,7 @@ export class EventSupportedReport extends CommandPacket<NotificationV6EventSuppo
 		return packet.tryAs(NotificationV6)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NotificationV6EventSupportedReportData) {
+	public constructor(data: Buffer | NotificationV6EventSupportedReportData) {
 		super(EventSupportedReport, data);
 	}
 };

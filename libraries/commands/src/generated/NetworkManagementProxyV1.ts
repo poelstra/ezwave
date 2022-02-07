@@ -59,7 +59,7 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementProxyV1, commandAndPayload);
 	}
 }
@@ -114,7 +114,7 @@ export class NodeInfoCachedGet extends CommandPacket<NetworkManagementProxyV1Nod
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV1NodeInfoCachedGetData) {
+	public constructor(data: Buffer | NetworkManagementProxyV1NodeInfoCachedGetData) {
 		super(NodeInfoCachedGet, data);
 	}
 };
@@ -252,7 +252,7 @@ export class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV1
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV1NodeInfoCachedReportData) {
+	public constructor(data: Buffer | NetworkManagementProxyV1NodeInfoCachedReportData) {
 		super(NodeInfoCachedReport, data);
 	}
 };
@@ -279,7 +279,7 @@ export class NodeListGet extends CommandPacket<NetworkManagementProxyV1NodeListG
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV1NodeListGetData) {
+	public constructor(data: Buffer | NetworkManagementProxyV1NodeListGetData) {
 		super(NodeListGet, data);
 	}
 };
@@ -337,7 +337,7 @@ export class NodeListReport extends CommandPacket<NetworkManagementProxyV1NodeLi
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV1NodeListReportData) {
+	public constructor(data: Buffer | NetworkManagementProxyV1NodeListReportData) {
 		super(NodeListReport, data);
 	}
 };

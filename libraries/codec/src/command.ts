@@ -20,7 +20,7 @@ export abstract class CommandClassPacket<C extends number> extends Packet {
 	public readonly command: C;
 	public readonly version: number;
 
-	constructor(
+	public constructor(
 		CommandClass: CommandClassDescriptor,
 		commandAndPayload: Buffer
 	) {
@@ -36,7 +36,7 @@ export abstract class CommandPacket<
 > extends CommandClassPacket<number> {
 	public readonly data: T; // TODO make 'immutable'
 
-	constructor(codec: CommandCodec, data: T | Buffer) {
+	public constructor(codec: CommandCodec, data: T | Buffer) {
 		super(
 			codec.CommandClass,
 			Buffer.isBuffer(data)

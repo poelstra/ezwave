@@ -129,7 +129,7 @@ export class NetworkManagementInclusionV1 extends CommandClassPacket<NetworkMana
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementInclusionV1, commandAndPayload);
 	}
 }
@@ -163,7 +163,7 @@ export class FailedNodeRemove extends CommandPacket<NetworkManagementInclusionV1
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeRemoveData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeRemoveData) {
 		super(FailedNodeRemove, data);
 	}
 };
@@ -217,7 +217,7 @@ export class FailedNodeRemoveStatus extends CommandPacket<NetworkManagementInclu
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeRemoveStatusData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeRemoveStatusData) {
 		super(FailedNodeRemoveStatus, data);
 	}
 };
@@ -323,7 +323,7 @@ export class NodeAdd extends CommandPacket<NetworkManagementInclusionV1NodeAddDa
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1NodeAddData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1NodeAddData) {
 		super(NodeAdd, data);
 	}
 };
@@ -470,7 +470,7 @@ export class NodeAddStatus extends CommandPacket<NetworkManagementInclusionV1Nod
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1NodeAddStatusData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1NodeAddStatusData) {
 		super(NodeAddStatus, data);
 	}
 };
@@ -528,7 +528,7 @@ export class NodeRemove extends CommandPacket<NetworkManagementInclusionV1NodeRe
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1NodeRemoveData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1NodeRemoveData) {
 		super(NodeRemove, data);
 	}
 };
@@ -578,7 +578,7 @@ export class NodeRemoveStatus extends CommandPacket<NetworkManagementInclusionV1
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1NodeRemoveStatusData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1NodeRemoveStatusData) {
 		super(NodeRemoveStatus, data);
 	}
 };
@@ -658,7 +658,7 @@ export class FailedNodeReplace extends CommandPacket<NetworkManagementInclusionV
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeReplaceData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeReplaceData) {
 		super(FailedNodeReplace, data);
 	}
 };
@@ -712,7 +712,7 @@ export class FailedNodeReplaceStatus extends CommandPacket<NetworkManagementIncl
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeReplaceStatusData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1FailedNodeReplaceStatusData) {
 		super(FailedNodeReplaceStatus, data);
 	}
 };
@@ -746,7 +746,7 @@ export class NodeNeighborUpdateRequest extends CommandPacket<NetworkManagementIn
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1NodeNeighborUpdateRequestData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1NodeNeighborUpdateRequestData) {
 		super(NodeNeighborUpdateRequest, data);
 	}
 };
@@ -789,7 +789,7 @@ export class NodeNeighborUpdateStatus extends CommandPacket<NetworkManagementInc
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1NodeNeighborUpdateStatusData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1NodeNeighborUpdateStatusData) {
 		super(NodeNeighborUpdateStatus, data);
 	}
 };
@@ -830,7 +830,7 @@ export class ReturnRouteAssign extends CommandPacket<NetworkManagementInclusionV
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteAssignData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteAssignData) {
 		super(ReturnRouteAssign, data);
 	}
 };
@@ -877,7 +877,7 @@ export class ReturnRouteAssignComplete extends CommandPacket<NetworkManagementIn
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteAssignCompleteData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteAssignCompleteData) {
 		super(ReturnRouteAssignComplete, data);
 	}
 };
@@ -911,7 +911,7 @@ export class ReturnRouteDelete extends CommandPacket<NetworkManagementInclusionV
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteDeleteData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteDeleteData) {
 		super(ReturnRouteDelete, data);
 	}
 };
@@ -958,7 +958,7 @@ export class ReturnRouteDeleteComplete extends CommandPacket<NetworkManagementIn
 		return packet.tryAs(NetworkManagementInclusionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteDeleteCompleteData) {
+	public constructor(data: Buffer | NetworkManagementInclusionV1ReturnRouteDeleteCompleteData) {
 		super(ReturnRouteDeleteComplete, data);
 	}
 };

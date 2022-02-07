@@ -34,7 +34,7 @@ export class SwitchToggleMultilevelV1 extends CommandClassPacket<SwitchToggleMul
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SwitchToggleMultilevelV1, commandAndPayload);
 	}
 }
@@ -54,7 +54,7 @@ export class SwitchToggleMultilevelSet extends CommandPacket<void> {
 		return packet.tryAs(SwitchToggleMultilevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchToggleMultilevelSet, data);
 	}
 };
@@ -74,7 +74,7 @@ export class SwitchToggleMultilevelGet extends CommandPacket<void> {
 		return packet.tryAs(SwitchToggleMultilevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchToggleMultilevelGet, data);
 	}
 };
@@ -111,7 +111,7 @@ export class SwitchToggleMultilevelReport extends CommandPacket<SwitchToggleMult
 		return packet.tryAs(SwitchToggleMultilevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchToggleMultilevelV1SwitchToggleMultilevelReportData) {
+	public constructor(data: Buffer | SwitchToggleMultilevelV1SwitchToggleMultilevelReportData) {
 		super(SwitchToggleMultilevelReport, data);
 	}
 };
@@ -172,7 +172,7 @@ export class SwitchToggleMultilevelStartLevelChange extends CommandPacket<Switch
 		return packet.tryAs(SwitchToggleMultilevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchToggleMultilevelV1SwitchToggleMultilevelStartLevelChangeData) {
+	public constructor(data: Buffer | SwitchToggleMultilevelV1SwitchToggleMultilevelStartLevelChangeData) {
 		super(SwitchToggleMultilevelStartLevelChange, data);
 	}
 };
@@ -192,7 +192,7 @@ export class SwitchToggleMultilevelStopLevelChange extends CommandPacket<void> {
 		return packet.tryAs(SwitchToggleMultilevelV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchToggleMultilevelStopLevelChange, data);
 	}
 };

@@ -15,7 +15,7 @@ interface Waiter<T extends Packet> {
 }
 
 export class Requester {
-	private _waits = new Set<Waiter<any>>();
+	private _waits: Set<Waiter<any>> = new Set();
 
 	public dispatch(event: LayerEvent<Packet>): void {
 		const eventChan = event.endpoint.channel ?? 0;

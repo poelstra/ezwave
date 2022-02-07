@@ -39,7 +39,7 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(GeographicLocationV1, commandAndPayload);
 	}
 }
@@ -59,7 +59,7 @@ export class GeographicLocationGet extends CommandPacket<void> {
 		return packet.tryAs(GeographicLocationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(GeographicLocationGet, data);
 	}
 };
@@ -132,7 +132,7 @@ export class GeographicLocationReport extends CommandPacket<GeographicLocationV1
 		return packet.tryAs(GeographicLocationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | GeographicLocationV1GeographicLocationReportData) {
+	public constructor(data: Buffer | GeographicLocationV1GeographicLocationReportData) {
 		super(GeographicLocationReport, data);
 	}
 };
@@ -205,7 +205,7 @@ export class GeographicLocationSet extends CommandPacket<GeographicLocationV1Geo
 		return packet.tryAs(GeographicLocationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | GeographicLocationV1GeographicLocationSetData) {
+	public constructor(data: Buffer | GeographicLocationV1GeographicLocationSetData) {
 		super(GeographicLocationSet, data);
 	}
 };

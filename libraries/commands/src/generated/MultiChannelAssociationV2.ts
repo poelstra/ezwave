@@ -64,7 +64,7 @@ export class MultiChannelAssociationV2 extends CommandClassPacket<MultiChannelAs
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MultiChannelAssociationV2, commandAndPayload);
 	}
 }
@@ -91,7 +91,7 @@ export class MultiChannelAssociationGet extends CommandPacket<MultiChannelAssoci
 		return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationGetData) {
+	public constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationGetData) {
 		super(MultiChannelAssociationGet, data);
 	}
 };
@@ -111,7 +111,7 @@ export class MultiChannelAssociationGroupingsGet extends CommandPacket<void> {
 		return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MultiChannelAssociationGroupingsGet, data);
 	}
 };
@@ -138,7 +138,7 @@ export class MultiChannelAssociationGroupingsReport extends CommandPacket<MultiC
 		return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationGroupingsReportData) {
+	public constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationGroupingsReportData) {
 		super(MultiChannelAssociationGroupingsReport, data);
 	}
 };
@@ -214,7 +214,7 @@ export class MultiChannelAssociationRemove extends CommandPacket<MultiChannelAss
 		return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationRemoveData) {
+	public constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationRemoveData) {
 		super(MultiChannelAssociationRemove, data);
 	}
 };
@@ -302,7 +302,7 @@ export class MultiChannelAssociationReport extends CommandPacket<MultiChannelAss
 		return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationReportData) {
+	public constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationReportData) {
 		super(MultiChannelAssociationReport, data);
 	}
 };
@@ -378,7 +378,7 @@ export class MultiChannelAssociationSet extends CommandPacket<MultiChannelAssoci
 		return packet.tryAs(MultiChannelAssociationV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationSetData) {
+	public constructor(data: Buffer | MultiChannelAssociationV2MultiChannelAssociationSetData) {
 		super(MultiChannelAssociationSet, data);
 	}
 };

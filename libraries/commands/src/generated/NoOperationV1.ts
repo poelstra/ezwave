@@ -18,7 +18,7 @@ export class NoOperationV1 extends CommandClassPacket<NoOperationV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NoOperationV1, commandAndPayload);
 	}
 }

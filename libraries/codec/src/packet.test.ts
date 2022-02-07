@@ -34,11 +34,15 @@ describe("Packet", () => {
 	});
 
 	it("throws on empty packet", () => {
-		expect(() => new Packet(Buffer.from([]))).toThrowError("unexpected end-of-packet");
+		expect(() => new Packet(Buffer.from([]))).toThrowError(
+			"unexpected end-of-packet"
+		);
 	});
 
 	it("throws on truncated multi-byte commandclass", () => {
-		expect(() => new Packet(Buffer.from([0xf1]))).toThrowError("unexpected end-of-packet");
+		expect(() => new Packet(Buffer.from([0xf1]))).toThrowError(
+			"unexpected end-of-packet"
+		);
 	});
 
 	it("throws on casting to incompatible command class without command byte", () => {
@@ -46,10 +50,12 @@ describe("Packet", () => {
 			static matches(_packet: Packet): boolean {
 				return false;
 			}
-			constructor(_commandAndPayload: Buffer) {}
+			public constructor(_commandAndPayload: Buffer) {}
 		}
 		const packet = new Packet(Buffer.from([0x12]));
-		expect(() => packet.as(TestClass)).toThrowError("cannot convert packet");
+		expect(() => packet.as(TestClass)).toThrowError(
+			"cannot convert packet"
+		);
 	});
 
 	it("throws on casting to incompatible command class", () => {
@@ -57,9 +63,11 @@ describe("Packet", () => {
 			static matches(_packet: Packet): boolean {
 				return false;
 			}
-			constructor(_commandAndPayload: Buffer) {}
+			public constructor(_commandAndPayload: Buffer) {}
 		}
 		const packet = new Packet(Buffer.from([0x12, 0x13]));
-		expect(() => packet.as(TestClass)).toThrowError("cannot convert packet");
+		expect(() => packet.as(TestClass)).toThrowError(
+			"cannot convert packet"
+		);
 	});
 });

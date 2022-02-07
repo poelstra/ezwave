@@ -11,7 +11,7 @@ import { EventEmitter } from "events";
 import * as stream from "stream";
 import { promisify } from "util";
 
-const log = debug("zwave:framer");
+const log: debug.Debugger = debug("zwave:framer");
 const logData = log.extend("data");
 
 export enum FrameType {
@@ -193,7 +193,7 @@ export class Framer extends EventEmitter implements IFramer {
 	 *
 	 * @param stream Serial port byte stream.
 	 */
-	constructor(stream: stream.Duplex) {
+	public constructor(stream: stream.Duplex) {
 		super();
 		this._stream = stream;
 		this._timer = new Timer(FRAME_READ_TIMEOUT, () =>

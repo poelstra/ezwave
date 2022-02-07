@@ -81,7 +81,7 @@ export class MultiChannelV3 extends CommandClassPacket<MultiChannelV3Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MultiChannelV3, commandAndPayload);
 	}
 }
@@ -123,7 +123,7 @@ export class MultiChannelCapabilityGet extends CommandPacket<MultiChannelV3Multi
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiChannelCapabilityGetData) {
+	public constructor(data: Buffer | MultiChannelV3MultiChannelCapabilityGetData) {
 		super(MultiChannelCapabilityGet, data);
 	}
 };
@@ -187,7 +187,7 @@ export class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV3Mu
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiChannelCapabilityReportData) {
+	public constructor(data: Buffer | MultiChannelV3MultiChannelCapabilityReportData) {
 		super(MultiChannelCapabilityReport, data);
 	}
 };
@@ -258,7 +258,7 @@ export class MultiChannelCmdEncap extends CommandPacket<MultiChannelV3MultiChann
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiChannelCmdEncapData) {
+	public constructor(data: Buffer | MultiChannelV3MultiChannelCmdEncapData) {
 		super(MultiChannelCmdEncap, data);
 	}
 };
@@ -293,7 +293,7 @@ export class MultiChannelEndPointFind extends CommandPacket<MultiChannelV3MultiC
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiChannelEndPointFindData) {
+	public constructor(data: Buffer | MultiChannelV3MultiChannelEndPointFindData) {
 		super(MultiChannelEndPointFind, data);
 	}
 };
@@ -365,7 +365,7 @@ export class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV3
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiChannelEndPointFindReportData) {
+	public constructor(data: Buffer | MultiChannelV3MultiChannelEndPointFindReportData) {
 		super(MultiChannelEndPointFindReport, data);
 	}
 };
@@ -385,7 +385,7 @@ export class MultiChannelEndPointGet extends CommandPacket<void> {
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MultiChannelEndPointGet, data);
 	}
 };
@@ -454,7 +454,7 @@ export class MultiChannelEndPointReport extends CommandPacket<MultiChannelV3Mult
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiChannelEndPointReportData) {
+	public constructor(data: Buffer | MultiChannelV3MultiChannelEndPointReportData) {
 		super(MultiChannelEndPointReport, data);
 	}
 };
@@ -505,7 +505,7 @@ export class MultiInstanceCmdEncap extends CommandPacket<MultiChannelV3MultiInst
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiInstanceCmdEncapData) {
+	public constructor(data: Buffer | MultiChannelV3MultiInstanceCmdEncapData) {
 		super(MultiInstanceCmdEncap, data);
 	}
 };
@@ -533,7 +533,7 @@ export class MultiInstanceGet extends CommandPacket<MultiChannelV3MultiInstanceG
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiInstanceGetData) {
+	public constructor(data: Buffer | MultiChannelV3MultiInstanceGetData) {
 		super(MultiInstanceGet, data);
 	}
 };
@@ -582,7 +582,7 @@ export class MultiInstanceReport extends CommandPacket<MultiChannelV3MultiInstan
 		return packet.tryAs(MultiChannelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MultiChannelV3MultiInstanceReportData) {
+	public constructor(data: Buffer | MultiChannelV3MultiInstanceReportData) {
 		super(MultiInstanceReport, data);
 	}
 };

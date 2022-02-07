@@ -38,7 +38,7 @@ export class SceneActuatorConfV1 extends CommandClassPacket<SceneActuatorConfV1C
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SceneActuatorConfV1, commandAndPayload);
 	}
 }
@@ -65,7 +65,7 @@ export class SceneActuatorConfGet extends CommandPacket<SceneActuatorConfV1Scene
 		return packet.tryAs(SceneActuatorConfV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SceneActuatorConfV1SceneActuatorConfGetData) {
+	public constructor(data: Buffer | SceneActuatorConfV1SceneActuatorConfGetData) {
 		super(SceneActuatorConfGet, data);
 	}
 };
@@ -110,7 +110,7 @@ export class SceneActuatorConfReport extends CommandPacket<SceneActuatorConfV1Sc
 		return packet.tryAs(SceneActuatorConfV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SceneActuatorConfV1SceneActuatorConfReportData) {
+	public constructor(data: Buffer | SceneActuatorConfV1SceneActuatorConfReportData) {
 		super(SceneActuatorConfReport, data);
 	}
 };
@@ -180,7 +180,7 @@ export class SceneActuatorConfSet extends CommandPacket<SceneActuatorConfV1Scene
 		return packet.tryAs(SceneActuatorConfV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SceneActuatorConfV1SceneActuatorConfSetData) {
+	public constructor(data: Buffer | SceneActuatorConfV1SceneActuatorConfSetData) {
 		super(SceneActuatorConfSet, data);
 	}
 };

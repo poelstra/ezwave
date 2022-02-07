@@ -69,7 +69,7 @@ export class SecurityV1 extends CommandClassPacket<SecurityV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SecurityV1, commandAndPayload);
 	}
 }
@@ -98,7 +98,7 @@ export class NetworkKeySet extends CommandPacket<SecurityV1NetworkKeySetData> {
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1NetworkKeySetData) {
+	public constructor(data: Buffer | SecurityV1NetworkKeySetData) {
 		super(NetworkKeySet, data);
 	}
 };
@@ -118,7 +118,7 @@ export class NetworkKeyVerify extends CommandPacket<void> {
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(NetworkKeyVerify, data);
 	}
 };
@@ -138,7 +138,7 @@ export class SecurityCommandsSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SecurityCommandsSupportedGet, data);
 	}
 };
@@ -186,7 +186,7 @@ export class SecurityCommandsSupportedReport extends CommandPacket<SecurityV1Sec
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1SecurityCommandsSupportedReportData) {
+	public constructor(data: Buffer | SecurityV1SecurityCommandsSupportedReportData) {
 		super(SecurityCommandsSupportedReport, data);
 	}
 };
@@ -233,7 +233,7 @@ export class SecurityMessageEncapsulation extends CommandPacket<SecurityV1Securi
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1SecurityMessageEncapsulationData) {
+	public constructor(data: Buffer | SecurityV1SecurityMessageEncapsulationData) {
 		super(SecurityMessageEncapsulation, data);
 	}
 };
@@ -280,7 +280,7 @@ export class SecurityMessageEncapsulationNonceGet extends CommandPacket<Security
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1SecurityMessageEncapsulationNonceGetData) {
+	public constructor(data: Buffer | SecurityV1SecurityMessageEncapsulationNonceGetData) {
 		super(SecurityMessageEncapsulationNonceGet, data);
 	}
 };
@@ -300,7 +300,7 @@ export class SecurityNonceGet extends CommandPacket<void> {
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SecurityNonceGet, data);
 	}
 };
@@ -329,7 +329,7 @@ export class SecurityNonceReport extends CommandPacket<SecurityV1SecurityNonceRe
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1SecurityNonceReportData) {
+	public constructor(data: Buffer | SecurityV1SecurityNonceReportData) {
 		super(SecurityNonceReport, data);
 	}
 };
@@ -356,7 +356,7 @@ export class SecuritySchemeGet extends CommandPacket<SecurityV1SecuritySchemeGet
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1SecuritySchemeGetData) {
+	public constructor(data: Buffer | SecurityV1SecuritySchemeGetData) {
 		super(SecuritySchemeGet, data);
 	}
 };
@@ -383,7 +383,7 @@ export class SecuritySchemeInherit extends CommandPacket<SecurityV1SecuritySchem
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1SecuritySchemeInheritData) {
+	public constructor(data: Buffer | SecurityV1SecuritySchemeInheritData) {
 		super(SecuritySchemeInherit, data);
 	}
 };
@@ -410,7 +410,7 @@ export class SecuritySchemeReport extends CommandPacket<SecurityV1SecurityScheme
 		return packet.tryAs(SecurityV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SecurityV1SecuritySchemeReportData) {
+	public constructor(data: Buffer | SecurityV1SecuritySchemeReportData) {
 		super(SecuritySchemeReport, data);
 	}
 };

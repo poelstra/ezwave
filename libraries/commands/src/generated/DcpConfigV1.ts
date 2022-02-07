@@ -64,7 +64,7 @@ export class DcpConfigV1 extends CommandClassPacket<DcpConfigV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(DcpConfigV1, commandAndPayload);
 	}
 }
@@ -121,7 +121,7 @@ export class DcpListRemove extends CommandPacket<DcpConfigV1DcpListRemoveData> {
 		return packet.tryAs(DcpConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DcpConfigV1DcpListRemoveData) {
+	public constructor(data: Buffer | DcpConfigV1DcpListRemoveData) {
 		super(DcpListRemove, data);
 	}
 };
@@ -322,7 +322,7 @@ export class DcpListSet extends CommandPacket<DcpConfigV1DcpListSetData> {
 		return packet.tryAs(DcpConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DcpConfigV1DcpListSetData) {
+	public constructor(data: Buffer | DcpConfigV1DcpListSetData) {
 		super(DcpListSet, data);
 	}
 };
@@ -342,7 +342,7 @@ export class DcpListSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(DcpConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DcpListSupportedGet, data);
 	}
 };
@@ -375,7 +375,7 @@ export class DcpListSupportedReport extends CommandPacket<DcpConfigV1DcpListSupp
 		return packet.tryAs(DcpConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DcpConfigV1DcpListSupportedReportData) {
+	public constructor(data: Buffer | DcpConfigV1DcpListSupportedReportData) {
 		super(DcpListSupportedReport, data);
 	}
 };

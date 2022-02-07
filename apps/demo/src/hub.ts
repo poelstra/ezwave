@@ -24,9 +24,9 @@ export class Hub extends EventEmitter implements HubEvents {
 	private _subscriptions: Subscription[] = [];
 	private _connected: boolean = false;
 	private _connectedDeferred: Deferred<void> = defer();
-	private _callbacks = new Map<string, SubscribeCallback>();
+	private _callbacks: Map<string, SubscribeCallback> = new Map();
 
-	constructor(url: string, user: string, pass: string) {
+	public constructor(url: string, user: string, pass: string) {
 		super();
 		this._user = user;
 		this._pass = pass;
@@ -36,7 +36,7 @@ export class Hub extends EventEmitter implements HubEvents {
 			// to prevent NodeJS EventEmitter errors
 		});
 		this._hub.on("message", (message, id) => {
-			const dumpError = (err: unknown) =>
+			const dumpError = (err: unknown): void =>
 				console.warn("Hub dispatch failed", err);
 			const sub = this._callbacks.get(id);
 			if (sub) {
@@ -73,17 +73,19 @@ export class Hub extends EventEmitter implements HubEvents {
 	public publish(
 		nodeName: string,
 		topic: string,
-		data?: any,
+		data?: unknown,
 		headers?: Headers
 	): Promise<void>;
 	public publish(nodeName: string, message: Message): Promise<void>;
-	public async publish(nodeName: string, ...args: any[]): Promise<void> {
+	public async publish(nodeName: string, ...args: unknown[]): Promise<void> {
 		await this._connectedDeferred.promise;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		await (this._hub.publish as any)(nodeName, ...args);
 	}
 
 	public async run(): Promise<never> {
 		let lastSuccess = false;
+		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			try {
 				console.log(`Hub connecting to ${this._hub.url} ...`);

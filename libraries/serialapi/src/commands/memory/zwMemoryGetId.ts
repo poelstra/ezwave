@@ -19,7 +19,7 @@ export function zwMemoryGetIdBuilder(): ResponseRequestBuilder<HomeAndNodeId> {
 }
 
 export class ZwMemoryGetId extends RequestRunner<typeof zwMemoryGetIdBuilder> {
-	constructor() {
+	public constructor() {
 		super(zwMemoryGetIdBuilder, undefined);
 	}
 }

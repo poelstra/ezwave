@@ -27,7 +27,7 @@ export class ScreenAttributesV1 extends CommandClassPacket<ScreenAttributesV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ScreenAttributesV1, commandAndPayload);
 	}
 }
@@ -47,7 +47,7 @@ export class ScreenAttributesGet extends CommandPacket<void> {
 		return packet.tryAs(ScreenAttributesV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ScreenAttributesGet, data);
 	}
 };
@@ -107,7 +107,7 @@ export class ScreenAttributesReport extends CommandPacket<ScreenAttributesV1Scre
 		return packet.tryAs(ScreenAttributesV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScreenAttributesV1ScreenAttributesReportData) {
+	public constructor(data: Buffer | ScreenAttributesV1ScreenAttributesReportData) {
 		super(ScreenAttributesReport, data);
 	}
 };

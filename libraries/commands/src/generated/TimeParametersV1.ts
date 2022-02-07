@@ -39,7 +39,7 @@ export class TimeParametersV1 extends CommandClassPacket<TimeParametersV1Command
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(TimeParametersV1, commandAndPayload);
 	}
 }
@@ -59,7 +59,7 @@ export class TimeParametersGet extends CommandPacket<void> {
 		return packet.tryAs(TimeParametersV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(TimeParametersGet, data);
 	}
 };
@@ -116,7 +116,7 @@ export class TimeParametersReport extends CommandPacket<TimeParametersV1TimePara
 		return packet.tryAs(TimeParametersV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TimeParametersV1TimeParametersReportData) {
+	public constructor(data: Buffer | TimeParametersV1TimeParametersReportData) {
 		super(TimeParametersReport, data);
 	}
 };
@@ -173,7 +173,7 @@ export class TimeParametersSet extends CommandPacket<TimeParametersV1TimeParamet
 		return packet.tryAs(TimeParametersV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TimeParametersV1TimeParametersSetData) {
+	public constructor(data: Buffer | TimeParametersV1TimeParametersSetData) {
 		super(TimeParametersSet, data);
 	}
 };

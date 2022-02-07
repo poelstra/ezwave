@@ -1,6 +1,6 @@
+import { defer, noop } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
-import { defer, noop } from "@ezwave/shared";
 import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
 import { zwMemoryGetIdBuffer } from "./commands/memory/zwMemoryGetId.test";
 import { RequestRunner } from "./commands/RequestRunner";
@@ -175,7 +175,7 @@ describe("SerialAPI", () => {
 				});
 			}
 			class TestCommand extends RequestRunner<typeof requestBuilder> {
-				constructor() {
+				public constructor() {
 					super(requestBuilder, undefined);
 				}
 			}

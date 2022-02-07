@@ -128,7 +128,7 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(EntryControlV1, commandAndPayload);
 	}
 }
@@ -337,7 +337,7 @@ export class EntryControlNotification extends CommandPacket<EntryControlV1EntryC
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | EntryControlV1EntryControlNotificationData) {
+	public constructor(data: Buffer | EntryControlV1EntryControlNotificationData) {
 		super(EntryControlNotification, data);
 	}
 };
@@ -357,7 +357,7 @@ export class EntryControlKeySupportedGet extends CommandPacket<void> {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(EntryControlKeySupportedGet, data);
 	}
 };
@@ -401,7 +401,7 @@ export class EntryControlKeySupportedReport extends CommandPacket<EntryControlV1
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | EntryControlV1EntryControlKeySupportedReportData) {
+	public constructor(data: Buffer | EntryControlV1EntryControlKeySupportedReportData) {
 		super(EntryControlKeySupportedReport, data);
 	}
 };
@@ -421,7 +421,7 @@ export class EntryControlEventSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(EntryControlEventSupportedGet, data);
 	}
 };
@@ -666,7 +666,7 @@ export class EntryControlEventSupportedReport extends CommandPacket<EntryControl
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | EntryControlV1EntryControlEventSupportedReportData) {
+	public constructor(data: Buffer | EntryControlV1EntryControlEventSupportedReportData) {
 		super(EntryControlEventSupportedReport, data);
 	}
 };
@@ -699,7 +699,7 @@ export class EntryControlConfigurationSet extends CommandPacket<EntryControlV1En
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | EntryControlV1EntryControlConfigurationSetData) {
+	public constructor(data: Buffer | EntryControlV1EntryControlConfigurationSetData) {
 		super(EntryControlConfigurationSet, data);
 	}
 };
@@ -719,7 +719,7 @@ export class EntryControlConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(EntryControlConfigurationGet, data);
 	}
 };
@@ -752,7 +752,7 @@ export class EntryControlConfigurationReport extends CommandPacket<EntryControlV
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | EntryControlV1EntryControlConfigurationReportData) {
+	public constructor(data: Buffer | EntryControlV1EntryControlConfigurationReportData) {
 		super(EntryControlConfigurationReport, data);
 	}
 };

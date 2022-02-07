@@ -30,7 +30,7 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(HumidityControlOperatingStateV1, commandAndPayload);
 	}
 }
@@ -50,7 +50,7 @@ export class HumidityControlOperatingStateGet extends CommandPacket<void> {
 		return packet.tryAs(HumidityControlOperatingStateV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HumidityControlOperatingStateGet, data);
 	}
 };
@@ -106,7 +106,7 @@ export class HumidityControlOperatingStateReport extends CommandPacket<HumidityC
 		return packet.tryAs(HumidityControlOperatingStateV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlOperatingStateV1HumidityControlOperatingStateReportData) {
+	public constructor(data: Buffer | HumidityControlOperatingStateV1HumidityControlOperatingStateReportData) {
 		super(HumidityControlOperatingStateReport, data);
 	}
 };

@@ -37,7 +37,7 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SceneControllerConfV1, commandAndPayload);
 	}
 }
@@ -64,7 +64,7 @@ export class SceneControllerConfGet extends CommandPacket<SceneControllerConfV1S
 		return packet.tryAs(SceneControllerConfV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SceneControllerConfV1SceneControllerConfGetData) {
+	public constructor(data: Buffer | SceneControllerConfV1SceneControllerConfGetData) {
 		super(SceneControllerConfGet, data);
 	}
 };
@@ -109,7 +109,7 @@ export class SceneControllerConfReport extends CommandPacket<SceneControllerConf
 		return packet.tryAs(SceneControllerConfV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SceneControllerConfV1SceneControllerConfReportData) {
+	public constructor(data: Buffer | SceneControllerConfV1SceneControllerConfReportData) {
 		super(SceneControllerConfReport, data);
 	}
 };
@@ -158,7 +158,7 @@ export class SceneControllerConfSet extends CommandPacket<SceneControllerConfV1S
 		return packet.tryAs(SceneControllerConfV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SceneControllerConfV1SceneControllerConfSetData) {
+	public constructor(data: Buffer | SceneControllerConfV1SceneControllerConfSetData) {
 		super(SceneControllerConfSet, data);
 	}
 };

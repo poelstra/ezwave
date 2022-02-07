@@ -38,7 +38,7 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(EnergyProductionV1, commandAndPayload);
 	}
 }
@@ -83,7 +83,7 @@ export class EnergyProductionGet extends CommandPacket<EnergyProductionV1EnergyP
 		return packet.tryAs(EnergyProductionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | EnergyProductionV1EnergyProductionGetData) {
+	public constructor(data: Buffer | EnergyProductionV1EnergyProductionGetData) {
 		super(EnergyProductionGet, data);
 	}
 };
@@ -171,7 +171,7 @@ export class EnergyProductionReport extends CommandPacket<EnergyProductionV1Ener
 		return packet.tryAs(EnergyProductionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | EnergyProductionV1EnergyProductionReportData) {
+	public constructor(data: Buffer | EnergyProductionV1EnergyProductionReportData) {
 		super(EnergyProductionReport, data);
 	}
 };

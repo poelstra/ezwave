@@ -38,7 +38,7 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SensorConfigurationV1, commandAndPayload);
 	}
 }
@@ -58,7 +58,7 @@ export class SensorTriggerLevelGet extends CommandPacket<void> {
 		return packet.tryAs(SensorConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SensorTriggerLevelGet, data);
 	}
 };
@@ -182,7 +182,7 @@ export class SensorTriggerLevelReport extends CommandPacket<SensorConfigurationV
 		return packet.tryAs(SensorConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorConfigurationV1SensorTriggerLevelReportData) {
+	public constructor(data: Buffer | SensorConfigurationV1SensorTriggerLevelReportData) {
 		super(SensorTriggerLevelReport, data);
 	}
 };
@@ -333,7 +333,7 @@ export class SensorTriggerLevelSet extends CommandPacket<SensorConfigurationV1Se
 		return packet.tryAs(SensorConfigurationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorConfigurationV1SensorTriggerLevelSetData) {
+	public constructor(data: Buffer | SensorConfigurationV1SensorTriggerLevelSetData) {
 		super(SensorTriggerLevelSet, data);
 	}
 };

@@ -39,7 +39,7 @@ export class VersionV1 extends CommandClassPacket<VersionV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(VersionV1, commandAndPayload);
 	}
 }
@@ -67,7 +67,7 @@ export class VersionCommandClassGet extends CommandPacket<VersionV1VersionComman
 		return packet.tryAs(VersionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV1VersionCommandClassGetData) {
+	public constructor(data: Buffer | VersionV1VersionCommandClassGetData) {
 		super(VersionCommandClassGet, data);
 	}
 };
@@ -101,7 +101,7 @@ export class VersionCommandClassReport extends CommandPacket<VersionV1VersionCom
 		return packet.tryAs(VersionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV1VersionCommandClassReportData) {
+	public constructor(data: Buffer | VersionV1VersionCommandClassReportData) {
 		super(VersionCommandClassReport, data);
 	}
 };
@@ -121,7 +121,7 @@ export class VersionGet extends CommandPacket<void> {
 		return packet.tryAs(VersionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(VersionGet, data);
 	}
 };
@@ -172,7 +172,7 @@ export class VersionReport extends CommandPacket<VersionV1VersionReportData> {
 		return packet.tryAs(VersionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | VersionV1VersionReportData) {
+	public constructor(data: Buffer | VersionV1VersionReportData) {
 		super(VersionReport, data);
 	}
 };

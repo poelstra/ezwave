@@ -9,7 +9,7 @@ const networkKey = Buffer.from("101112131415161718191a1b1c1d1e1f", "hex");
 class FakeNonceLookup implements INonceLookup {
 	private _nonce: Nonce | undefined;
 
-	constructor(data: Buffer) {
+	public constructor(data: Buffer) {
 		this._nonce = bufferToNonce(data);
 	}
 

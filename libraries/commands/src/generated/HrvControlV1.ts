@@ -81,7 +81,7 @@ export class HrvControlV1 extends CommandClassPacket<HrvControlV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(HrvControlV1, commandAndPayload);
 	}
 }
@@ -101,7 +101,7 @@ export class HrvControlBypassGet extends CommandPacket<void> {
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HrvControlBypassGet, data);
 	}
 };
@@ -128,7 +128,7 @@ export class HrvControlBypassReport extends CommandPacket<HrvControlV1HrvControl
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvControlV1HrvControlBypassReportData) {
+	public constructor(data: Buffer | HrvControlV1HrvControlBypassReportData) {
 		super(HrvControlBypassReport, data);
 	}
 };
@@ -155,7 +155,7 @@ export class HrvControlBypassSet extends CommandPacket<HrvControlV1HrvControlByp
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvControlV1HrvControlBypassSetData) {
+	public constructor(data: Buffer | HrvControlV1HrvControlBypassSetData) {
 		super(HrvControlBypassSet, data);
 	}
 };
@@ -175,7 +175,7 @@ export class HrvControlModeGet extends CommandPacket<void> {
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HrvControlModeGet, data);
 	}
 };
@@ -239,7 +239,7 @@ export class HrvControlModeReport extends CommandPacket<HrvControlV1HrvControlMo
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvControlV1HrvControlModeReportData) {
+	public constructor(data: Buffer | HrvControlV1HrvControlModeReportData) {
 		super(HrvControlModeReport, data);
 	}
 };
@@ -303,7 +303,7 @@ export class HrvControlModeSet extends CommandPacket<HrvControlV1HrvControlModeS
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvControlV1HrvControlModeSetData) {
+	public constructor(data: Buffer | HrvControlV1HrvControlModeSetData) {
 		super(HrvControlModeSet, data);
 	}
 };
@@ -323,7 +323,7 @@ export class HrvControlModeSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HrvControlModeSupportedGet, data);
 	}
 };
@@ -413,7 +413,7 @@ export class HrvControlModeSupportedReport extends CommandPacket<HrvControlV1Hrv
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvControlV1HrvControlModeSupportedReportData) {
+	public constructor(data: Buffer | HrvControlV1HrvControlModeSupportedReportData) {
 		super(HrvControlModeSupportedReport, data);
 	}
 };
@@ -433,7 +433,7 @@ export class HrvControlVentilationRateGet extends CommandPacket<void> {
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HrvControlVentilationRateGet, data);
 	}
 };
@@ -460,7 +460,7 @@ export class HrvControlVentilationRateReport extends CommandPacket<HrvControlV1H
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvControlV1HrvControlVentilationRateReportData) {
+	public constructor(data: Buffer | HrvControlV1HrvControlVentilationRateReportData) {
 		super(HrvControlVentilationRateReport, data);
 	}
 };
@@ -487,7 +487,7 @@ export class HrvControlVentilationRateSet extends CommandPacket<HrvControlV1HrvC
 		return packet.tryAs(HrvControlV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HrvControlV1HrvControlVentilationRateSetData) {
+	public constructor(data: Buffer | HrvControlV1HrvControlVentilationRateSetData) {
 		super(HrvControlVentilationRateSet, data);
 	}
 };

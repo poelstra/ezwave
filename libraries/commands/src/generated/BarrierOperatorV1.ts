@@ -75,7 +75,7 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(BarrierOperatorV1, commandAndPayload);
 	}
 }
@@ -112,7 +112,7 @@ export class BarrierOperatorSet extends CommandPacket<BarrierOperatorV1BarrierOp
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSetData) {
+	public constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSetData) {
 		super(BarrierOperatorSet, data);
 	}
 };
@@ -132,7 +132,7 @@ export class BarrierOperatorGet extends CommandPacket<void> {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BarrierOperatorGet, data);
 	}
 };
@@ -181,7 +181,7 @@ export class BarrierOperatorReport extends CommandPacket<BarrierOperatorV1Barrie
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorReportData) {
+	public constructor(data: Buffer | BarrierOperatorV1BarrierOperatorReportData) {
 		super(BarrierOperatorReport, data);
 	}
 };
@@ -201,7 +201,7 @@ export class BarrierOperatorSignalSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BarrierOperatorSignalSupportedGet, data);
 	}
 };
@@ -240,7 +240,7 @@ export class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierO
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSupportedReportData) {
+	public constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSupportedReportData) {
 		super(BarrierOperatorSignalSupportedReport, data);
 	}
 };
@@ -297,7 +297,7 @@ export class BarrierOperatorSignalSet extends CommandPacket<BarrierOperatorV1Bar
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSetData) {
+	public constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalSetData) {
 		super(BarrierOperatorSignalSet, data);
 	}
 };
@@ -338,7 +338,7 @@ export class BarrierOperatorSignalGet extends CommandPacket<BarrierOperatorV1Bar
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalGetData) {
+	public constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalGetData) {
 		super(BarrierOperatorSignalGet, data);
 	}
 };
@@ -395,7 +395,7 @@ export class BarrierOperatorSignalReport extends CommandPacket<BarrierOperatorV1
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalReportData) {
+	public constructor(data: Buffer | BarrierOperatorV1BarrierOperatorSignalReportData) {
 		super(BarrierOperatorSignalReport, data);
 	}
 };

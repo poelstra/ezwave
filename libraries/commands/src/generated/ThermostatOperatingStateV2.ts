@@ -76,7 +76,7 @@ export class ThermostatOperatingStateV2 extends CommandClassPacket<ThermostatOpe
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatOperatingStateV2, commandAndPayload);
 	}
 }
@@ -96,7 +96,7 @@ export class ThermostatOperatingStateGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatOperatingStateV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatOperatingStateGet, data);
 	}
 };
@@ -188,7 +188,7 @@ export class ThermostatOperatingStateReport extends CommandPacket<ThermostatOper
 		return packet.tryAs(ThermostatOperatingStateV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingStateReportData) {
+	public constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingStateReportData) {
 		super(ThermostatOperatingStateReport, data);
 	}
 };
@@ -208,7 +208,7 @@ export class ThermostatOperatingStateLoggingSupportedGet extends CommandPacket<v
 		return packet.tryAs(ThermostatOperatingStateV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatOperatingStateLoggingSupportedGet, data);
 	}
 };
@@ -287,7 +287,7 @@ export class ThermostatOperatingLoggingSupportedReport extends CommandPacket<The
 		return packet.tryAs(ThermostatOperatingStateV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingLoggingSupportedReportData) {
+	public constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingLoggingSupportedReportData) {
 		super(ThermostatOperatingLoggingSupportedReport, data);
 	}
 };
@@ -366,7 +366,7 @@ export class ThermostatOperatingStateLoggingGet extends CommandPacket<Thermostat
 		return packet.tryAs(ThermostatOperatingStateV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingStateLoggingGetData) {
+	public constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingStateLoggingGetData) {
 		super(ThermostatOperatingStateLoggingGet, data);
 	}
 };
@@ -457,7 +457,7 @@ export class ThermostatOperatingStateLoggingReport extends CommandPacket<Thermos
 		return packet.tryAs(ThermostatOperatingStateV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData) {
+	public constructor(data: Buffer | ThermostatOperatingStateV2ThermostatOperatingStateLoggingReportData) {
 		super(ThermostatOperatingStateLoggingReport, data);
 	}
 };

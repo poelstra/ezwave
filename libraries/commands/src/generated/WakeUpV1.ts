@@ -33,7 +33,7 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(WakeUpV1, commandAndPayload);
 	}
 }
@@ -53,7 +53,7 @@ export class WakeUpIntervalGet extends CommandPacket<void> {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WakeUpIntervalGet, data);
 	}
 };
@@ -87,7 +87,7 @@ export class WakeUpIntervalReport extends CommandPacket<WakeUpV1WakeUpIntervalRe
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WakeUpV1WakeUpIntervalReportData) {
+	public constructor(data: Buffer | WakeUpV1WakeUpIntervalReportData) {
 		super(WakeUpIntervalReport, data);
 	}
 };
@@ -121,7 +121,7 @@ export class WakeUpIntervalSet extends CommandPacket<WakeUpV1WakeUpIntervalSetDa
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WakeUpV1WakeUpIntervalSetData) {
+	public constructor(data: Buffer | WakeUpV1WakeUpIntervalSetData) {
 		super(WakeUpIntervalSet, data);
 	}
 };
@@ -141,7 +141,7 @@ export class WakeUpNoMoreInformation extends CommandPacket<void> {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WakeUpNoMoreInformation, data);
 	}
 };
@@ -161,7 +161,7 @@ export class WakeUpNotification extends CommandPacket<void> {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WakeUpNotification, data);
 	}
 };

@@ -126,7 +126,7 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(UserCodeV2, commandAndPayload);
 	}
 }
@@ -153,7 +153,7 @@ export class UserCodeGet extends CommandPacket<UserCodeV2UserCodeGetData> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UserCodeGetData) {
+	public constructor(data: Buffer | UserCodeV2UserCodeGetData) {
 		super(UserCodeGet, data);
 	}
 };
@@ -220,7 +220,7 @@ export class UserCodeReport extends CommandPacket<UserCodeV2UserCodeReportData> 
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UserCodeReportData) {
+	public constructor(data: Buffer | UserCodeV2UserCodeReportData) {
 		super(UserCodeReport, data);
 	}
 };
@@ -287,7 +287,7 @@ export class UserCodeSet extends CommandPacket<UserCodeV2UserCodeSetData> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UserCodeSetData) {
+	public constructor(data: Buffer | UserCodeV2UserCodeSetData) {
 		super(UserCodeSet, data);
 	}
 };
@@ -307,7 +307,7 @@ export class UsersNumberGet extends CommandPacket<void> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(UsersNumberGet, data);
 	}
 };
@@ -340,7 +340,7 @@ export class UsersNumberReport extends CommandPacket<UserCodeV2UsersNumberReport
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UsersNumberReportData) {
+	public constructor(data: Buffer | UserCodeV2UsersNumberReportData) {
 		super(UsersNumberReport, data);
 	}
 };
@@ -462,7 +462,7 @@ export class ExtendedUserCodeSet extends CommandPacket<UserCodeV2ExtendedUserCod
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2ExtendedUserCodeSetData) {
+	public constructor(data: Buffer | UserCodeV2ExtendedUserCodeSetData) {
 		super(ExtendedUserCodeSet, data);
 	}
 };
@@ -510,7 +510,7 @@ export class ExtendedUserCodeGet extends CommandPacket<UserCodeV2ExtendedUserCod
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2ExtendedUserCodeGetData) {
+	public constructor(data: Buffer | UserCodeV2ExtendedUserCodeGetData) {
 		super(ExtendedUserCodeGet, data);
 	}
 };
@@ -638,7 +638,7 @@ export class ExtendedUserCodeReport extends CommandPacket<UserCodeV2ExtendedUser
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2ExtendedUserCodeReportData) {
+	public constructor(data: Buffer | UserCodeV2ExtendedUserCodeReportData) {
 		super(ExtendedUserCodeReport, data);
 	}
 };
@@ -658,7 +658,7 @@ export class UserCodeCapabilitiesGet extends CommandPacket<void> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(UserCodeCapabilitiesGet, data);
 	}
 };
@@ -816,7 +816,7 @@ export class UserCodeCapabilitiesReport extends CommandPacket<UserCodeV2UserCode
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UserCodeCapabilitiesReportData) {
+	public constructor(data: Buffer | UserCodeV2UserCodeCapabilitiesReportData) {
 		super(UserCodeCapabilitiesReport, data);
 	}
 };
@@ -861,7 +861,7 @@ export class UserCodeKeypadModeSet extends CommandPacket<UserCodeV2UserCodeKeypa
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UserCodeKeypadModeSetData) {
+	public constructor(data: Buffer | UserCodeV2UserCodeKeypadModeSetData) {
 		super(UserCodeKeypadModeSet, data);
 	}
 };
@@ -881,7 +881,7 @@ export class UserCodeKeypadModeGet extends CommandPacket<void> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(UserCodeKeypadModeGet, data);
 	}
 };
@@ -926,7 +926,7 @@ export class UserCodeKeypadModeReport extends CommandPacket<UserCodeV2UserCodeKe
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UserCodeKeypadModeReportData) {
+	public constructor(data: Buffer | UserCodeV2UserCodeKeypadModeReportData) {
 		super(UserCodeKeypadModeReport, data);
 	}
 };
@@ -985,7 +985,7 @@ export class MasterCodeSet extends CommandPacket<UserCodeV2MasterCodeSetData> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2MasterCodeSetData) {
+	public constructor(data: Buffer | UserCodeV2MasterCodeSetData) {
 		super(MasterCodeSet, data);
 	}
 };
@@ -1005,7 +1005,7 @@ export class MasterCodeGet extends CommandPacket<void> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MasterCodeGet, data);
 	}
 };
@@ -1064,7 +1064,7 @@ export class MasterCodeReport extends CommandPacket<UserCodeV2MasterCodeReportDa
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2MasterCodeReportData) {
+	public constructor(data: Buffer | UserCodeV2MasterCodeReportData) {
 		super(MasterCodeReport, data);
 	}
 };
@@ -1084,7 +1084,7 @@ export class UserCodeChecksumGet extends CommandPacket<void> {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(UserCodeChecksumGet, data);
 	}
 };
@@ -1111,7 +1111,7 @@ export class UserCodeChecksumReport extends CommandPacket<UserCodeV2UserCodeChec
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | UserCodeV2UserCodeChecksumReportData) {
+	public constructor(data: Buffer | UserCodeV2UserCodeChecksumReportData) {
 		super(UserCodeChecksumReport, data);
 	}
 };

@@ -41,7 +41,7 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SupervisionV1, commandAndPayload);
 	}
 }
@@ -113,7 +113,7 @@ export class SupervisionGet extends CommandPacket<SupervisionV1SupervisionGetDat
 		return packet.tryAs(SupervisionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SupervisionV1SupervisionGetData) {
+	public constructor(data: Buffer | SupervisionV1SupervisionGetData) {
 		super(SupervisionGet, data);
 	}
 };
@@ -195,7 +195,7 @@ export class SupervisionReport extends CommandPacket<SupervisionV1SupervisionRep
 		return packet.tryAs(SupervisionV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SupervisionV1SupervisionReportData) {
+	public constructor(data: Buffer | SupervisionV1SupervisionReportData) {
 		super(SupervisionReport, data);
 	}
 };

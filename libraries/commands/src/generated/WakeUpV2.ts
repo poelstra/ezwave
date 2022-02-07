@@ -42,7 +42,7 @@ export class WakeUpV2 extends CommandClassPacket<WakeUpV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(WakeUpV2, commandAndPayload);
 	}
 }
@@ -62,7 +62,7 @@ export class WakeUpIntervalCapabilitiesGet extends CommandPacket<void> {
 		return packet.tryAs(WakeUpV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WakeUpIntervalCapabilitiesGet, data);
 	}
 };
@@ -107,7 +107,7 @@ export class WakeUpIntervalCapabilitiesReport extends CommandPacket<WakeUpV2Wake
 		return packet.tryAs(WakeUpV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WakeUpV2WakeUpIntervalCapabilitiesReportData) {
+	public constructor(data: Buffer | WakeUpV2WakeUpIntervalCapabilitiesReportData) {
 		super(WakeUpIntervalCapabilitiesReport, data);
 	}
 };
@@ -127,7 +127,7 @@ export class WakeUpIntervalGet extends CommandPacket<void> {
 		return packet.tryAs(WakeUpV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WakeUpIntervalGet, data);
 	}
 };
@@ -161,7 +161,7 @@ export class WakeUpIntervalReport extends CommandPacket<WakeUpV2WakeUpIntervalRe
 		return packet.tryAs(WakeUpV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WakeUpV2WakeUpIntervalReportData) {
+	public constructor(data: Buffer | WakeUpV2WakeUpIntervalReportData) {
 		super(WakeUpIntervalReport, data);
 	}
 };
@@ -195,7 +195,7 @@ export class WakeUpIntervalSet extends CommandPacket<WakeUpV2WakeUpIntervalSetDa
 		return packet.tryAs(WakeUpV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WakeUpV2WakeUpIntervalSetData) {
+	public constructor(data: Buffer | WakeUpV2WakeUpIntervalSetData) {
 		super(WakeUpIntervalSet, data);
 	}
 };
@@ -215,7 +215,7 @@ export class WakeUpNoMoreInformation extends CommandPacket<void> {
 		return packet.tryAs(WakeUpV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WakeUpNoMoreInformation, data);
 	}
 };
@@ -235,7 +235,7 @@ export class WakeUpNotification extends CommandPacket<void> {
 		return packet.tryAs(WakeUpV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WakeUpNotification, data);
 	}
 };

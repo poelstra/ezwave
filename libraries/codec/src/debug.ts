@@ -95,14 +95,14 @@ export function autoDecode(packet: Packet): Packet {
 	// existing parser, we'll just create a proper class on-the-fly.
 	// We're a debug helper anyway.
 	class DecodedCommandClassPacket extends CommandClassPacket<number> {
-		public static readonly commandClass = cmdClassDef.commandClass;
-		public static readonly version = cmdClassDef.version;
+		public static readonly commandClass: number = cmdClassDef.commandClass;
+		public static readonly version: number = cmdClassDef.version;
 
 		public static matches(packet: Packet): boolean {
 			return packet.commandClass === this.commandClass;
 		}
 
-		constructor(commandAndPayload: Buffer) {
+		public constructor(commandAndPayload: Buffer) {
 			super(DecodedCommandClassPacket, commandAndPayload);
 		}
 	}
@@ -137,7 +137,7 @@ export function autoDecode(packet: Packet): Packet {
 			);
 		}
 
-		constructor(data: Buffer | any) {
+		public constructor(data: Buffer | any) {
 			super(DecodedCommandPacket, data);
 		}
 	}

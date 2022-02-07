@@ -125,7 +125,7 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ScheduleV3, commandAndPayload);
 	}
 }
@@ -152,7 +152,7 @@ export class ScheduleSupportedGet extends CommandPacket<ScheduleV3ScheduleSuppor
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3ScheduleSupportedGetData) {
+	public constructor(data: Buffer | ScheduleV3ScheduleSupportedGetData) {
 		super(ScheduleSupportedGet, data);
 	}
 };
@@ -289,7 +289,7 @@ export class ScheduleSupportedReport extends CommandPacket<ScheduleV3ScheduleSup
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3ScheduleSupportedReportData) {
+	public constructor(data: Buffer | ScheduleV3ScheduleSupportedReportData) {
 		super(ScheduleSupportedReport, data);
 	}
 };
@@ -517,7 +517,7 @@ export class CommandScheduleSet extends CommandPacket<ScheduleV3CommandScheduleS
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3CommandScheduleSetData) {
+	public constructor(data: Buffer | ScheduleV3CommandScheduleSetData) {
 		super(CommandScheduleSet, data);
 	}
 };
@@ -571,7 +571,7 @@ export class CommandScheduleGet extends CommandPacket<ScheduleV3CommandScheduleG
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3CommandScheduleGetData) {
+	public constructor(data: Buffer | ScheduleV3CommandScheduleGetData) {
 		super(CommandScheduleGet, data);
 	}
 };
@@ -798,7 +798,7 @@ export class CommandScheduleReport extends CommandPacket<ScheduleV3CommandSchedu
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3CommandScheduleReportData) {
+	public constructor(data: Buffer | ScheduleV3CommandScheduleReportData) {
 		super(CommandScheduleReport, data);
 	}
 };
@@ -831,7 +831,7 @@ export class ScheduleRemove extends CommandPacket<ScheduleV3ScheduleRemoveData> 
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3ScheduleRemoveData) {
+	public constructor(data: Buffer | ScheduleV3ScheduleRemoveData) {
 		super(ScheduleRemove, data);
 	}
 };
@@ -870,7 +870,7 @@ export class ScheduleStateSet extends CommandPacket<ScheduleV3ScheduleStateSetDa
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3ScheduleStateSetData) {
+	public constructor(data: Buffer | ScheduleV3ScheduleStateSetData) {
 		super(ScheduleStateSet, data);
 	}
 };
@@ -897,7 +897,7 @@ export class ScheduleStateGet extends CommandPacket<ScheduleV3ScheduleStateGetDa
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3ScheduleStateGetData) {
+	public constructor(data: Buffer | ScheduleV3ScheduleStateGetData) {
 		super(ScheduleStateGet, data);
 	}
 };
@@ -980,7 +980,7 @@ export class ScheduleStateReport extends CommandPacket<ScheduleV3ScheduleStateRe
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScheduleV3ScheduleStateReportData) {
+	public constructor(data: Buffer | ScheduleV3ScheduleStateReportData) {
 		super(ScheduleStateReport, data);
 	}
 };

@@ -51,7 +51,7 @@ export class SensorMultilevelV4 extends CommandClassPacket<SensorMultilevelV4Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SensorMultilevelV4, commandAndPayload);
 	}
 }
@@ -71,7 +71,7 @@ export class SensorMultilevelGet extends CommandPacket<void> {
 		return packet.tryAs(SensorMultilevelV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SensorMultilevelGet, data);
 	}
 };
@@ -227,7 +227,7 @@ export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV4Sens
 		return packet.tryAs(SensorMultilevelV4)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SensorMultilevelV4SensorMultilevelReportData) {
+	public constructor(data: Buffer | SensorMultilevelV4SensorMultilevelReportData) {
 		super(SensorMultilevelReport, data);
 	}
 };

@@ -19,10 +19,13 @@ export enum HomeDevices {
 }
 
 export class Home extends EventEmitter {
-	private _lastAanrecht = 0;
+	private _lastAanrecht: number = 0;
 
-	constructor(public controller: Controller) {
+	public controller: Controller;
+
+	public constructor(controller: Controller) {
 		super();
+		this.controller = controller;
 		this.controller.on("attach", async () => {
 			try {
 				console.log("Controller attached");
@@ -69,7 +72,7 @@ export class Home extends EventEmitter {
 				// TODO Sometimes, the node sends an unsollicited SWITCH_MULTILEVEL_REPORT,
 				// but sometimes it only does that encapsulated in a MULTI_CHANNEL message.
 				// Figure out when/why.
-				this._lastAanrecht === level;
+				this._lastAanrecht = level;
 				this.emit("value", "aanrecht", level);
 			}
 		}
@@ -79,19 +82,19 @@ export class Home extends EventEmitter {
 		await this.getKeukenAanrecht();
 	}
 
-	async setMisc(on: boolean): Promise<void> {
+	public async setMisc(on: boolean): Promise<void> {
 		return this._setBasic(HomeDevices.Misc, on);
 	}
 
-	async setBadkamerLeds(on: boolean): Promise<void> {
+	public async setBadkamerLeds(on: boolean): Promise<void> {
 		return this._setBasic(HomeDevices.BadkamerLeds, on);
 	}
 
-	async setBadkamerThermostaat(value: number): Promise<void> {
+	public async setBadkamerThermostaat(value: number): Promise<void> {
 		await this._setMultilevel(HomeDevices.BadkamerThermostaat, value);
 	}
 
-	async setZolderAfzuiging(level: 0 | 1): Promise<void> {
+	public async setZolderAfzuiging(level: 0 | 1): Promise<void> {
 		await this.controller.send({
 			endpoint: { nodeId: HomeDevices.ZolderAfzuiging, channel: 1 },
 			packet: new SwitchBinaryV1.SwitchBinarySet({
@@ -100,15 +103,15 @@ export class Home extends EventEmitter {
 		});
 	}
 
-	async setKeukenBar(level: number): Promise<void> {
+	public async setKeukenBar(level: number): Promise<void> {
 		return this._setMultilevel(HomeDevices.KeukenBar, level);
 	}
 
-	async setBijkeukenBuitenlamp(on: boolean): Promise<void> {
+	public async setBijkeukenBuitenlamp(on: boolean): Promise<void> {
 		return this._setBasic(HomeDevices.BijkeukenBuitenlamp, on);
 	}
 
-	async setKeukenAanrecht(level: number): Promise<void> {
+	public async setKeukenAanrecht(level: number): Promise<void> {
 		const switchCmd = new SwitchMultilevelV1.SwitchMultilevelSet({
 			value: level < 100 ? level : 99,
 		});
@@ -120,7 +123,7 @@ export class Home extends EventEmitter {
 		this._lastAanrecht = level;
 	}
 
-	async getKeukenAanrecht(): Promise<number> {
+	public async getKeukenAanrecht(): Promise<number> {
 		// prettier-ignore
 		const reply = await this.controller.sendAndWaitFor(
 			{
@@ -135,15 +138,15 @@ export class Home extends EventEmitter {
 		return level;
 	}
 
-	async setKeukenKoelkast(level: number): Promise<void> {
+	public async setKeukenKoelkast(level: number): Promise<void> {
 		return this._setMultilevel(HomeDevices.KeukenKoelkast, level);
 	}
 
-	async setTafel(level: number): Promise<void> {
+	public async setTafel(level: number): Promise<void> {
 		return this._setMultilevel(HomeDevices.EetkamerLamp, level);
 	}
 
-	async _setMultilevel(node: number, level: number): Promise<void> {
+	public async _setMultilevel(node: number, level: number): Promise<void> {
 		if (level >= 100 && level < 255) {
 			// Z-Wave maximum value is 99...
 			level = 99;
@@ -156,7 +159,7 @@ export class Home extends EventEmitter {
 		});
 	}
 
-	async _setBasic(node: number, on: boolean): Promise<void> {
+	public async _setBasic(node: number, on: boolean): Promise<void> {
 		await this.controller.send({
 			endpoint: { nodeId: node },
 			packet: new BasicV1.BasicSet({ value: on ? 0xff : 0x00 }),

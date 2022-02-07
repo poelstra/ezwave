@@ -124,7 +124,7 @@ export class Security2V1 extends CommandClassPacket<Security2V1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(Security2V1, commandAndPayload);
 	}
 }
@@ -151,7 +151,7 @@ export class Security2NonceGet extends CommandPacket<Security2V1Security2NonceGe
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1Security2NonceGetData) {
+	public constructor(data: Buffer | Security2V1Security2NonceGetData) {
 		super(Security2NonceGet, data);
 	}
 };
@@ -213,7 +213,7 @@ export class Security2NonceReport extends CommandPacket<Security2V1Security2Nonc
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1Security2NonceReportData) {
+	public constructor(data: Buffer | Security2V1Security2NonceReportData) {
 		super(Security2NonceReport, data);
 	}
 };
@@ -348,7 +348,7 @@ export class Security2MessageEncapsulation extends CommandPacket<Security2V1Secu
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1Security2MessageEncapsulationData) {
+	public constructor(data: Buffer | Security2V1Security2MessageEncapsulationData) {
 		super(Security2MessageEncapsulation, data);
 	}
 };
@@ -368,7 +368,7 @@ export class KexGet extends CommandPacket<void> {
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(KexGet, data);
 	}
 };
@@ -452,7 +452,7 @@ export class KexReport extends CommandPacket<Security2V1KexReportData> {
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1KexReportData) {
+	public constructor(data: Buffer | Security2V1KexReportData) {
 		super(KexReport, data);
 	}
 };
@@ -536,7 +536,7 @@ export class KexSet extends CommandPacket<Security2V1KexSetData> {
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1KexSetData) {
+	public constructor(data: Buffer | Security2V1KexSetData) {
 		super(KexSet, data);
 	}
 };
@@ -601,7 +601,7 @@ export class KexFail extends CommandPacket<Security2V1KexFailData> {
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1KexFailData) {
+	public constructor(data: Buffer | Security2V1KexFailData) {
 		super(KexFail, data);
 	}
 };
@@ -651,7 +651,7 @@ export class PublicKeyReport extends CommandPacket<Security2V1PublicKeyReportDat
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1PublicKeyReportData) {
+	public constructor(data: Buffer | Security2V1PublicKeyReportData) {
 		super(PublicKeyReport, data);
 	}
 };
@@ -696,7 +696,7 @@ export class Security2NetworkKeyGet extends CommandPacket<Security2V1Security2Ne
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1Security2NetworkKeyGetData) {
+	public constructor(data: Buffer | Security2V1Security2NetworkKeyGetData) {
 		super(Security2NetworkKeyGet, data);
 	}
 };
@@ -747,7 +747,7 @@ export class Security2NetworkKeyReport extends CommandPacket<Security2V1Security
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1Security2NetworkKeyReportData) {
+	public constructor(data: Buffer | Security2V1Security2NetworkKeyReportData) {
 		super(Security2NetworkKeyReport, data);
 	}
 };
@@ -767,7 +767,7 @@ export class Security2NetworkKeyVerify extends CommandPacket<void> {
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(Security2NetworkKeyVerify, data);
 	}
 };
@@ -815,7 +815,7 @@ export class Security2TransferEnd extends CommandPacket<Security2V1Security2Tran
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1Security2TransferEndData) {
+	public constructor(data: Buffer | Security2V1Security2TransferEndData) {
 		super(Security2TransferEnd, data);
 	}
 };
@@ -835,7 +835,7 @@ export class Security2CommandsSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(Security2CommandsSupportedGet, data);
 	}
 };
@@ -865,7 +865,7 @@ export class Security2CommandsSupportedReport extends CommandPacket<Security2V1S
 		return packet.tryAs(Security2V1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | Security2V1Security2CommandsSupportedReportData) {
+	public constructor(data: Buffer | Security2V1Security2CommandsSupportedReportData) {
 		super(Security2CommandsSupportedReport, data);
 	}
 };

@@ -47,7 +47,7 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ControllerReplicationV1, commandAndPayload);
 	}
 }
@@ -87,7 +87,7 @@ export class CtrlReplicationTransferGroup extends CommandPacket<ControllerReplic
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferGroupData) {
+	public constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferGroupData) {
 		super(CtrlReplicationTransferGroup, data);
 	}
 };
@@ -128,7 +128,7 @@ export class CtrlReplicationTransferGroupName extends CommandPacket<ControllerRe
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferGroupNameData) {
+	public constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferGroupNameData) {
 		super(CtrlReplicationTransferGroupName, data);
 	}
 };
@@ -174,7 +174,7 @@ export class CtrlReplicationTransferScene extends CommandPacket<ControllerReplic
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferSceneData) {
+	public constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferSceneData) {
 		super(CtrlReplicationTransferScene, data);
 	}
 };
@@ -215,7 +215,7 @@ export class CtrlReplicationTransferSceneName extends CommandPacket<ControllerRe
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferSceneNameData) {
+	public constructor(data: Buffer | ControllerReplicationV1CtrlReplicationTransferSceneNameData) {
 		super(CtrlReplicationTransferSceneName, data);
 	}
 };

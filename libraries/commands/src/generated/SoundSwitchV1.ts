@@ -60,7 +60,7 @@ export class SoundSwitchV1 extends CommandClassPacket<SoundSwitchV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SoundSwitchV1, commandAndPayload);
 	}
 }
@@ -80,7 +80,7 @@ export class SoundSwitchTonesNumberGet extends CommandPacket<void> {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SoundSwitchTonesNumberGet, data);
 	}
 };
@@ -107,7 +107,7 @@ export class SoundSwitchTonesNumberReport extends CommandPacket<SoundSwitchV1Sou
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SoundSwitchV1SoundSwitchTonesNumberReportData) {
+	public constructor(data: Buffer | SoundSwitchV1SoundSwitchTonesNumberReportData) {
 		super(SoundSwitchTonesNumberReport, data);
 	}
 };
@@ -134,7 +134,7 @@ export class SoundSwitchToneInfoGet extends CommandPacket<SoundSwitchV1SoundSwit
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SoundSwitchV1SoundSwitchToneInfoGetData) {
+	public constructor(data: Buffer | SoundSwitchV1SoundSwitchToneInfoGetData) {
 		super(SoundSwitchToneInfoGet, data);
 	}
 };
@@ -190,7 +190,7 @@ export class SoundSwitchToneInfoReport extends CommandPacket<SoundSwitchV1SoundS
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SoundSwitchV1SoundSwitchToneInfoReportData) {
+	public constructor(data: Buffer | SoundSwitchV1SoundSwitchToneInfoReportData) {
 		super(SoundSwitchToneInfoReport, data);
 	}
 };
@@ -223,7 +223,7 @@ export class SoundSwitchConfigurationSet extends CommandPacket<SoundSwitchV1Soun
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SoundSwitchV1SoundSwitchConfigurationSetData) {
+	public constructor(data: Buffer | SoundSwitchV1SoundSwitchConfigurationSetData) {
 		super(SoundSwitchConfigurationSet, data);
 	}
 };
@@ -243,7 +243,7 @@ export class SoundSwitchConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SoundSwitchConfigurationGet, data);
 	}
 };
@@ -276,7 +276,7 @@ export class SoundSwitchConfigurationReport extends CommandPacket<SoundSwitchV1S
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SoundSwitchV1SoundSwitchConfigurationReportData) {
+	public constructor(data: Buffer | SoundSwitchV1SoundSwitchConfigurationReportData) {
 		super(SoundSwitchConfigurationReport, data);
 	}
 };
@@ -303,7 +303,7 @@ export class SoundSwitchTonePlaySet extends CommandPacket<SoundSwitchV1SoundSwit
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SoundSwitchV1SoundSwitchTonePlaySetData) {
+	public constructor(data: Buffer | SoundSwitchV1SoundSwitchTonePlaySetData) {
 		super(SoundSwitchTonePlaySet, data);
 	}
 };
@@ -323,7 +323,7 @@ export class SoundSwitchTonePlayGet extends CommandPacket<void> {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SoundSwitchTonePlayGet, data);
 	}
 };
@@ -350,7 +350,7 @@ export class SoundSwitchTonePlayReport extends CommandPacket<SoundSwitchV1SoundS
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SoundSwitchV1SoundSwitchTonePlayReportData) {
+	public constructor(data: Buffer | SoundSwitchV1SoundSwitchTonePlayReportData) {
 		super(SoundSwitchTonePlayReport, data);
 	}
 };

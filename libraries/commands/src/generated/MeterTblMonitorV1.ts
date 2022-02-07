@@ -149,7 +149,7 @@ export class MeterTblMonitorV1 extends CommandClassPacket<MeterTblMonitorV1Comma
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MeterTblMonitorV1, commandAndPayload);
 	}
 }
@@ -264,7 +264,7 @@ export class MeterTblStatusReport extends CommandPacket<MeterTblMonitorV1MeterTb
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusReportData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusReportData) {
 		super(MeterTblStatusReport, data);
 	}
 };
@@ -363,7 +363,7 @@ export class MeterTblStatusDateGet extends CommandPacket<MeterTblMonitorV1MeterT
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusDateGetData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusDateGetData) {
 		super(MeterTblStatusDateGet, data);
 	}
 };
@@ -390,7 +390,7 @@ export class MeterTblStatusDepthGet extends CommandPacket<MeterTblMonitorV1Meter
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusDepthGetData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusDepthGetData) {
 		super(MeterTblStatusDepthGet, data);
 	}
 };
@@ -410,7 +410,7 @@ export class MeterTblStatusSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MeterTblStatusSupportedGet, data);
 	}
 };
@@ -443,7 +443,7 @@ export class MeterTblStatusSupportedReport extends CommandPacket<MeterTblMonitor
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusSupportedReportData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblStatusSupportedReportData) {
 		super(MeterTblStatusSupportedReport, data);
 	}
 };
@@ -470,7 +470,7 @@ export class MeterTblCurrentDataGet extends CommandPacket<MeterTblMonitorV1Meter
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblCurrentDataGetData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblCurrentDataGetData) {
 		super(MeterTblCurrentDataGet, data);
 	}
 };
@@ -605,7 +605,7 @@ export class MeterTblCurrentDataReport extends CommandPacket<MeterTblMonitorV1Me
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblCurrentDataReportData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblCurrentDataReportData) {
 		super(MeterTblCurrentDataReport, data);
 	}
 };
@@ -710,7 +710,7 @@ export class MeterTblHistoricalDataGet extends CommandPacket<MeterTblMonitorV1Me
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblHistoricalDataGetData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblHistoricalDataGetData) {
 		super(MeterTblHistoricalDataGet, data);
 	}
 };
@@ -845,7 +845,7 @@ export class MeterTblHistoricalDataReport extends CommandPacket<MeterTblMonitorV
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblHistoricalDataReportData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblHistoricalDataReportData) {
 		super(MeterTblHistoricalDataReport, data);
 	}
 };
@@ -943,7 +943,7 @@ export class MeterTblReport extends CommandPacket<MeterTblMonitorV1MeterTblRepor
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblReportData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblReportData) {
 		super(MeterTblReport, data);
 	}
 };
@@ -963,7 +963,7 @@ export class MeterTblTableCapabilityGet extends CommandPacket<void> {
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MeterTblTableCapabilityGet, data);
 	}
 };
@@ -983,7 +983,7 @@ export class MeterTblTableIdGet extends CommandPacket<void> {
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MeterTblTableIdGet, data);
 	}
 };
@@ -1042,7 +1042,7 @@ export class MeterTblTableIdReport extends CommandPacket<MeterTblMonitorV1MeterT
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblTableIdReportData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblTableIdReportData) {
 		super(MeterTblTableIdReport, data);
 	}
 };
@@ -1062,7 +1062,7 @@ export class MeterTblTablePointAdmNoGet extends CommandPacket<void> {
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MeterTblTablePointAdmNoGet, data);
 	}
 };
@@ -1121,7 +1121,7 @@ export class MeterTblTablePointAdmNoReport extends CommandPacket<MeterTblMonitor
 		return packet.tryAs(MeterTblMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblMonitorV1MeterTblTablePointAdmNoReportData) {
+	public constructor(data: Buffer | MeterTblMonitorV1MeterTblTablePointAdmNoReportData) {
 		super(MeterTblTablePointAdmNoReport, data);
 	}
 };

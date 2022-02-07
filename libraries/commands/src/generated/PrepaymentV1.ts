@@ -49,7 +49,7 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(PrepaymentV1, commandAndPayload);
 	}
 }
@@ -101,7 +101,7 @@ export class PrepaymentBalanceGet extends CommandPacket<PrepaymentV1PrepaymentBa
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PrepaymentV1PrepaymentBalanceGetData) {
+	public constructor(data: Buffer | PrepaymentV1PrepaymentBalanceGetData) {
 		super(PrepaymentBalanceGet, data);
 	}
 };
@@ -234,7 +234,7 @@ export class PrepaymentBalanceReport extends CommandPacket<PrepaymentV1Prepaymen
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PrepaymentV1PrepaymentBalanceReportData) {
+	public constructor(data: Buffer | PrepaymentV1PrepaymentBalanceReportData) {
 		super(PrepaymentBalanceReport, data);
 	}
 };
@@ -254,7 +254,7 @@ export class PrepaymentSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(PrepaymentSupportedGet, data);
 	}
 };
@@ -296,7 +296,7 @@ export class PrepaymentSupportedReport extends CommandPacket<PrepaymentV1Prepaym
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | PrepaymentV1PrepaymentSupportedReportData) {
+	public constructor(data: Buffer | PrepaymentV1PrepaymentSupportedReportData) {
 		super(PrepaymentSupportedReport, data);
 	}
 };

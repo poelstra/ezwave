@@ -52,7 +52,7 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(DmxV1, commandAndPayload);
 	}
 }
@@ -100,7 +100,7 @@ export class DmxAddressSet extends CommandPacket<DmxV1DmxAddressSetData> {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DmxV1DmxAddressSetData) {
+	public constructor(data: Buffer | DmxV1DmxAddressSetData) {
 		super(DmxAddressSet, data);
 	}
 };
@@ -120,7 +120,7 @@ export class DmxAddressGet extends CommandPacket<void> {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DmxAddressGet, data);
 	}
 };
@@ -168,7 +168,7 @@ export class DmxAddressReport extends CommandPacket<DmxV1DmxAddressReportData> {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DmxV1DmxAddressReportData) {
+	public constructor(data: Buffer | DmxV1DmxAddressReportData) {
 		super(DmxAddressReport, data);
 	}
 };
@@ -195,7 +195,7 @@ export class DmxCapabilityGet extends CommandPacket<DmxV1DmxCapabilityGetData> {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DmxV1DmxCapabilityGetData) {
+	public constructor(data: Buffer | DmxV1DmxCapabilityGetData) {
 		super(DmxCapabilityGet, data);
 	}
 };
@@ -240,7 +240,7 @@ export class DmxCapabilityReport extends CommandPacket<DmxV1DmxCapabilityReportD
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DmxV1DmxCapabilityReportData) {
+	public constructor(data: Buffer | DmxV1DmxCapabilityReportData) {
 		super(DmxCapabilityReport, data);
 	}
 };
@@ -302,7 +302,7 @@ export class DmxData extends CommandPacket<DmxV1DmxDataData> {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DmxV1DmxDataData) {
+	public constructor(data: Buffer | DmxV1DmxDataData) {
 		super(DmxData, data);
 	}
 };

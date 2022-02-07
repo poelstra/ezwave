@@ -39,7 +39,7 @@ export class SwitchMultilevelV2 extends CommandClassPacket<SwitchMultilevelV2Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SwitchMultilevelV2, commandAndPayload);
 	}
 }
@@ -59,7 +59,7 @@ export class SwitchMultilevelGet extends CommandPacket<void> {
 		return packet.tryAs(SwitchMultilevelV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchMultilevelGet, data);
 	}
 };
@@ -96,7 +96,7 @@ export class SwitchMultilevelReport extends CommandPacket<SwitchMultilevelV2Swit
 		return packet.tryAs(SwitchMultilevelV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchMultilevelV2SwitchMultilevelReportData) {
+	public constructor(data: Buffer | SwitchMultilevelV2SwitchMultilevelReportData) {
 		super(SwitchMultilevelReport, data);
 	}
 };
@@ -149,7 +149,7 @@ export class SwitchMultilevelSet extends CommandPacket<SwitchMultilevelV2SwitchM
 		return packet.tryAs(SwitchMultilevelV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchMultilevelV2SwitchMultilevelSetData) {
+	public constructor(data: Buffer | SwitchMultilevelV2SwitchMultilevelSetData) {
 		super(SwitchMultilevelSet, data);
 	}
 };
@@ -216,7 +216,7 @@ export class SwitchMultilevelStartLevelChange extends CommandPacket<SwitchMultil
 		return packet.tryAs(SwitchMultilevelV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchMultilevelV2SwitchMultilevelStartLevelChangeData) {
+	public constructor(data: Buffer | SwitchMultilevelV2SwitchMultilevelStartLevelChangeData) {
 		super(SwitchMultilevelStartLevelChange, data);
 	}
 };
@@ -236,7 +236,7 @@ export class SwitchMultilevelStopLevelChange extends CommandPacket<void> {
 		return packet.tryAs(SwitchMultilevelV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchMultilevelStopLevelChange, data);
 	}
 };

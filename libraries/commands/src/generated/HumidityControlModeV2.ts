@@ -49,7 +49,7 @@ export class HumidityControlModeV2 extends CommandClassPacket<HumidityControlMod
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(HumidityControlModeV2, commandAndPayload);
 	}
 }
@@ -109,7 +109,7 @@ export class HumidityControlModeSet extends CommandPacket<HumidityControlModeV2H
 		return packet.tryAs(HumidityControlModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlModeV2HumidityControlModeSetData) {
+	public constructor(data: Buffer | HumidityControlModeV2HumidityControlModeSetData) {
 		super(HumidityControlModeSet, data);
 	}
 };
@@ -129,7 +129,7 @@ export class HumidityControlModeGet extends CommandPacket<void> {
 		return packet.tryAs(HumidityControlModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HumidityControlModeGet, data);
 	}
 };
@@ -189,7 +189,7 @@ export class HumidityControlModeReport extends CommandPacket<HumidityControlMode
 		return packet.tryAs(HumidityControlModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlModeV2HumidityControlModeReportData) {
+	public constructor(data: Buffer | HumidityControlModeV2HumidityControlModeReportData) {
 		super(HumidityControlModeReport, data);
 	}
 };
@@ -209,7 +209,7 @@ export class HumidityControlModeSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(HumidityControlModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(HumidityControlModeSupportedGet, data);
 	}
 };
@@ -254,7 +254,7 @@ export class HumidityControlModeSupportedReport extends CommandPacket<HumidityCo
 		return packet.tryAs(HumidityControlModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | HumidityControlModeV2HumidityControlModeSupportedReportData) {
+	public constructor(data: Buffer | HumidityControlModeV2HumidityControlModeSupportedReportData) {
 		super(HumidityControlModeSupportedReport, data);
 	}
 };

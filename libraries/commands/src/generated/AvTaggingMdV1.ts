@@ -20,7 +20,7 @@ export class AvTaggingMdV1 extends CommandClassPacket<AvTaggingMdV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(AvTaggingMdV1, commandAndPayload);
 	}
 }
@@ -40,7 +40,7 @@ export class AvTaggingMdGet extends CommandPacket<void> {
 		return packet.tryAs(AvTaggingMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvTaggingMdGet, data);
 	}
 };
@@ -60,7 +60,7 @@ export class AvTaggingMdReport extends CommandPacket<void> {
 		return packet.tryAs(AvTaggingMdV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(AvTaggingMdReport, data);
 	}
 };

@@ -110,7 +110,7 @@ export class NetworkManagementProxyV2 extends CommandClassPacket<NetworkManageme
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(NetworkManagementProxyV2, commandAndPayload);
 	}
 }
@@ -165,7 +165,7 @@ export class NodeInfoCachedGet extends CommandPacket<NetworkManagementProxyV2Nod
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NodeInfoCachedGetData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NodeInfoCachedGetData) {
 		super(NodeInfoCachedGet, data);
 	}
 };
@@ -302,7 +302,7 @@ export class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV2
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NodeInfoCachedReportData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NodeInfoCachedReportData) {
 		super(NodeInfoCachedReport, data);
 	}
 };
@@ -329,7 +329,7 @@ export class NodeListGet extends CommandPacket<NetworkManagementProxyV2NodeListG
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NodeListGetData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NodeListGetData) {
 		super(NodeListGet, data);
 	}
 };
@@ -387,7 +387,7 @@ export class NodeListReport extends CommandPacket<NetworkManagementProxyV2NodeLi
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NodeListReportData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NodeListReportData) {
 		super(NodeListReport, data);
 	}
 };
@@ -421,7 +421,7 @@ export class NmMultiChannelEndPointGet extends CommandPacket<NetworkManagementPr
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelEndPointGetData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelEndPointGetData) {
 		super(NmMultiChannelEndPointGet, data);
 	}
 };
@@ -504,7 +504,7 @@ export class NmMultiChannelEndPointReport extends CommandPacket<NetworkManagemen
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelEndPointReportData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelEndPointReportData) {
 		super(NmMultiChannelEndPointReport, data);
 	}
 };
@@ -559,7 +559,7 @@ export class NmMultiChannelCapabilityGet extends CommandPacket<NetworkManagement
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelCapabilityGetData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelCapabilityGetData) {
 		super(NmMultiChannelCapabilityGet, data);
 	}
 };
@@ -643,7 +643,7 @@ export class NmMultiChannelCapabilityReport extends CommandPacket<NetworkManagem
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelCapabilityReportData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelCapabilityReportData) {
 		super(NmMultiChannelCapabilityReport, data);
 	}
 };
@@ -698,7 +698,7 @@ export class NmMultiChannelAggregatedMembersGet extends CommandPacket<NetworkMan
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelAggregatedMembersGetData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelAggregatedMembersGetData) {
 		super(NmMultiChannelAggregatedMembersGet, data);
 	}
 };
@@ -790,7 +790,7 @@ export class NmMultiChannelAggregatedMembersReport extends CommandPacket<Network
 		return packet.tryAs(NetworkManagementProxyV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelAggregatedMembersReportData) {
+	public constructor(data: Buffer | NetworkManagementProxyV2NmMultiChannelAggregatedMembersReportData) {
 		super(NmMultiChannelAggregatedMembersReport, data);
 	}
 };

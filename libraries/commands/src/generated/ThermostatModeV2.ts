@@ -69,7 +69,7 @@ export class ThermostatModeV2 extends CommandClassPacket<ThermostatModeV2Command
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatModeV2, commandAndPayload);
 	}
 }
@@ -89,7 +89,7 @@ export class ThermostatModeGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatModeGet, data);
 	}
 };
@@ -189,7 +189,7 @@ export class ThermostatModeReport extends CommandPacket<ThermostatModeV2Thermost
 		return packet.tryAs(ThermostatModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatModeV2ThermostatModeReportData) {
+	public constructor(data: Buffer | ThermostatModeV2ThermostatModeReportData) {
 		super(ThermostatModeReport, data);
 	}
 };
@@ -289,7 +289,7 @@ export class ThermostatModeSet extends CommandPacket<ThermostatModeV2ThermostatM
 		return packet.tryAs(ThermostatModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatModeV2ThermostatModeSetData) {
+	public constructor(data: Buffer | ThermostatModeV2ThermostatModeSetData) {
 		super(ThermostatModeSet, data);
 	}
 };
@@ -309,7 +309,7 @@ export class ThermostatModeSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatModeSupportedGet, data);
 	}
 };
@@ -396,7 +396,7 @@ export class ThermostatModeSupportedReport extends CommandPacket<ThermostatModeV
 		return packet.tryAs(ThermostatModeV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatModeV2ThermostatModeSupportedReportData) {
+	public constructor(data: Buffer | ThermostatModeV2ThermostatModeSupportedReportData) {
 		super(ThermostatModeSupportedReport, data);
 	}
 };

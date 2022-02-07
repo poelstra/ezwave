@@ -48,7 +48,7 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ManufacturerSpecificV2, commandAndPayload);
 	}
 }
@@ -68,7 +68,7 @@ export class ManufacturerSpecificGet extends CommandPacket<void> {
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ManufacturerSpecificGet, data);
 	}
 };
@@ -107,7 +107,7 @@ export class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecif
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ManufacturerSpecificV2ManufacturerSpecificReportData) {
+	public constructor(data: Buffer | ManufacturerSpecificV2ManufacturerSpecificReportData) {
 		super(ManufacturerSpecificReport, data);
 	}
 };
@@ -159,7 +159,7 @@ export class DeviceSpecificGet extends CommandPacket<ManufacturerSpecificV2Devic
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ManufacturerSpecificV2DeviceSpecificGetData) {
+	public constructor(data: Buffer | ManufacturerSpecificV2DeviceSpecificGetData) {
 		super(DeviceSpecificGet, data);
 	}
 };
@@ -258,7 +258,7 @@ export class DeviceSpecificReport extends CommandPacket<ManufacturerSpecificV2De
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ManufacturerSpecificV2DeviceSpecificReportData) {
+	public constructor(data: Buffer | ManufacturerSpecificV2DeviceSpecificReportData) {
 		super(DeviceSpecificReport, data);
 	}
 };

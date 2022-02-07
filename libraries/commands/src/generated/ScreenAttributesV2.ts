@@ -39,7 +39,7 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ScreenAttributesV2, commandAndPayload);
 	}
 }
@@ -59,7 +59,7 @@ export class ScreenAttributesGet extends CommandPacket<void> {
 		return packet.tryAs(ScreenAttributesV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ScreenAttributesGet, data);
 	}
 };
@@ -131,7 +131,7 @@ export class ScreenAttributesReport extends CommandPacket<ScreenAttributesV2Scre
 		return packet.tryAs(ScreenAttributesV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScreenAttributesV2ScreenAttributesReportData) {
+	public constructor(data: Buffer | ScreenAttributesV2ScreenAttributesReportData) {
 		super(ScreenAttributesReport, data);
 	}
 };
@@ -203,7 +203,7 @@ export class ScreenAttributesReportLegacy extends CommandPacket<ScreenAttributes
 		return packet.tryAs(ScreenAttributesV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ScreenAttributesV2ScreenAttributesReportLegacyData) {
+	public constructor(data: Buffer | ScreenAttributesV2ScreenAttributesReportLegacyData) {
 		super(ScreenAttributesReportLegacy, data);
 	}
 };

@@ -34,7 +34,7 @@ export class ThermostatOperatingStateV1 extends CommandClassPacket<ThermostatOpe
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ThermostatOperatingStateV1, commandAndPayload);
 	}
 }
@@ -54,7 +54,7 @@ export class ThermostatOperatingStateGet extends CommandPacket<void> {
 		return packet.tryAs(ThermostatOperatingStateV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ThermostatOperatingStateGet, data);
 	}
 };
@@ -126,7 +126,7 @@ export class ThermostatOperatingStateReport extends CommandPacket<ThermostatOper
 		return packet.tryAs(ThermostatOperatingStateV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ThermostatOperatingStateV1ThermostatOperatingStateReportData) {
+	public constructor(data: Buffer | ThermostatOperatingStateV1ThermostatOperatingStateReportData) {
 		super(ThermostatOperatingStateReport, data);
 	}
 };

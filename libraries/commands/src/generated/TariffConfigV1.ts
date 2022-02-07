@@ -45,7 +45,7 @@ export class TariffConfigV1 extends CommandClassPacket<TariffConfigV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(TariffConfigV1, commandAndPayload);
 	}
 }
@@ -104,7 +104,7 @@ export class TariffTblRemove extends CommandPacket<TariffConfigV1TariffTblRemove
 		return packet.tryAs(TariffConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffConfigV1TariffTblRemoveData) {
+	public constructor(data: Buffer | TariffConfigV1TariffTblRemoveData) {
 		super(TariffTblRemove, data);
 	}
 };
@@ -158,7 +158,7 @@ export class TariffTblSet extends CommandPacket<TariffConfigV1TariffTblSetData> 
 		return packet.tryAs(TariffConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffConfigV1TariffTblSetData) {
+	public constructor(data: Buffer | TariffConfigV1TariffTblSetData) {
 		super(TariffTblSet, data);
 	}
 };
@@ -285,7 +285,7 @@ export class TariffTblSupplierSet extends CommandPacket<TariffConfigV1TariffTblS
 		return packet.tryAs(TariffConfigV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | TariffConfigV1TariffTblSupplierSetData) {
+	public constructor(data: Buffer | TariffConfigV1TariffTblSupplierSetData) {
 		super(TariffTblSupplierSet, data);
 	}
 };

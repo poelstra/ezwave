@@ -33,7 +33,7 @@ export class ClockV1 extends CommandClassPacket<ClockV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(ClockV1, commandAndPayload);
 	}
 }
@@ -53,7 +53,7 @@ export class ClockGet extends CommandPacket<void> {
 		return packet.tryAs(ClockV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(ClockGet, data);
 	}
 };
@@ -100,7 +100,7 @@ export class ClockReport extends CommandPacket<ClockV1ClockReportData> {
 		return packet.tryAs(ClockV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClockV1ClockReportData) {
+	public constructor(data: Buffer | ClockV1ClockReportData) {
 		super(ClockReport, data);
 	}
 };
@@ -147,7 +147,7 @@ export class ClockSet extends CommandPacket<ClockV1ClockSetData> {
 		return packet.tryAs(ClockV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | ClockV1ClockSetData) {
+	public constructor(data: Buffer | ClockV1ClockSetData) {
 		super(ClockSet, data);
 	}
 };

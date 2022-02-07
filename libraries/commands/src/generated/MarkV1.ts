@@ -18,7 +18,7 @@ export class MarkV1 extends CommandClassPacket<MarkV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MarkV1, commandAndPayload);
 	}
 }

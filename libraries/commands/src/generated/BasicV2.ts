@@ -31,7 +31,7 @@ export class BasicV2 extends CommandClassPacket<BasicV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(BasicV2, commandAndPayload);
 	}
 }
@@ -51,7 +51,7 @@ export class BasicGet extends CommandPacket<void> {
 		return packet.tryAs(BasicV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BasicGet, data);
 	}
 };
@@ -90,7 +90,7 @@ export class BasicReport extends CommandPacket<BasicV2BasicReportData> {
 		return packet.tryAs(BasicV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BasicV2BasicReportData) {
+	public constructor(data: Buffer | BasicV2BasicReportData) {
 		super(BasicReport, data);
 	}
 };
@@ -117,7 +117,7 @@ export class BasicSet extends CommandPacket<BasicV2BasicSetData> {
 		return packet.tryAs(BasicV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BasicV2BasicSetData) {
+	public constructor(data: Buffer | BasicV2BasicSetData) {
 		super(BasicSet, data);
 	}
 };

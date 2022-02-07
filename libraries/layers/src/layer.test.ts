@@ -15,9 +15,9 @@ import { Requester } from "./requester";
 import { Stack } from "./stack";
 
 class FakeSecurityLayer implements Layer {
-	private _requester = new Requester();
+	private _requester: Requester = new Requester();
 
-	async dispatch(
+	public async dispatch(
 		event: LayerEvent<Packet>,
 		next: DispatchNext,
 		sender: Sender
@@ -54,7 +54,7 @@ class FakeSecurityLayer implements Layer {
 		await next(ev, secureSend);
 	}
 
-	async send(
+	public async send(
 		command: LayerCommand,
 		next: SendNext,
 		send: Sender
@@ -105,7 +105,7 @@ class FakeSecurityLayer implements Layer {
 }
 
 class DoSomethingLayer implements Layer {
-	async dispatch(
+	public async dispatch(
 		event: LayerEvent<Packet>,
 		next: DispatchNext,
 		send: Sender

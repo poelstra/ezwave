@@ -62,7 +62,7 @@ export class SwitchMultilevelV3 extends CommandClassPacket<SwitchMultilevelV3Com
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SwitchMultilevelV3, commandAndPayload);
 	}
 }
@@ -82,7 +82,7 @@ export class SwitchMultilevelGet extends CommandPacket<void> {
 		return packet.tryAs(SwitchMultilevelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchMultilevelGet, data);
 	}
 };
@@ -119,7 +119,7 @@ export class SwitchMultilevelReport extends CommandPacket<SwitchMultilevelV3Swit
 		return packet.tryAs(SwitchMultilevelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelReportData) {
+	public constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelReportData) {
 		super(SwitchMultilevelReport, data);
 	}
 };
@@ -172,7 +172,7 @@ export class SwitchMultilevelSet extends CommandPacket<SwitchMultilevelV3SwitchM
 		return packet.tryAs(SwitchMultilevelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelSetData) {
+	public constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelSetData) {
 		super(SwitchMultilevelSet, data);
 	}
 };
@@ -280,7 +280,7 @@ export class SwitchMultilevelStartLevelChange extends CommandPacket<SwitchMultil
 		return packet.tryAs(SwitchMultilevelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelStartLevelChangeData) {
+	public constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelStartLevelChangeData) {
 		super(SwitchMultilevelStartLevelChange, data);
 	}
 };
@@ -300,7 +300,7 @@ export class SwitchMultilevelStopLevelChange extends CommandPacket<void> {
 		return packet.tryAs(SwitchMultilevelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchMultilevelStopLevelChange, data);
 	}
 };
@@ -320,7 +320,7 @@ export class SwitchMultilevelSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(SwitchMultilevelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchMultilevelSupportedGet, data);
 	}
 };
@@ -383,7 +383,7 @@ export class SwitchMultilevelSupportedReport extends CommandPacket<SwitchMultile
 		return packet.tryAs(SwitchMultilevelV3)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelSupportedReportData) {
+	public constructor(data: Buffer | SwitchMultilevelV3SwitchMultilevelSupportedReportData) {
 		super(SwitchMultilevelSupportedReport, data);
 	}
 };

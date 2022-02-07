@@ -57,7 +57,7 @@ export class SwitchColorV2 extends CommandClassPacket<SwitchColorV2Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SwitchColorV2, commandAndPayload);
 	}
 }
@@ -77,7 +77,7 @@ export class SwitchColorSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(SwitchColorV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchColorSupportedGet, data);
 	}
 };
@@ -104,7 +104,7 @@ export class SwitchColorSupportedReport extends CommandPacket<SwitchColorV2Switc
 		return packet.tryAs(SwitchColorV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchColorV2SwitchColorSupportedReportData) {
+	public constructor(data: Buffer | SwitchColorV2SwitchColorSupportedReportData) {
 		super(SwitchColorSupportedReport, data);
 	}
 };
@@ -131,7 +131,7 @@ export class SwitchColorGet extends CommandPacket<SwitchColorV2SwitchColorGetDat
 		return packet.tryAs(SwitchColorV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchColorV2SwitchColorGetData) {
+	public constructor(data: Buffer | SwitchColorV2SwitchColorGetData) {
 		super(SwitchColorGet, data);
 	}
 };
@@ -164,7 +164,7 @@ export class SwitchColorReport extends CommandPacket<SwitchColorV2SwitchColorRep
 		return packet.tryAs(SwitchColorV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchColorV2SwitchColorReportData) {
+	public constructor(data: Buffer | SwitchColorV2SwitchColorReportData) {
 		super(SwitchColorReport, data);
 	}
 };
@@ -243,7 +243,7 @@ export class SwitchColorSet extends CommandPacket<SwitchColorV2SwitchColorSetDat
 		return packet.tryAs(SwitchColorV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchColorV2SwitchColorSetData) {
+	public constructor(data: Buffer | SwitchColorV2SwitchColorSetData) {
 		super(SwitchColorSet, data);
 	}
 };
@@ -310,7 +310,7 @@ export class SwitchColorStartLevelChange extends CommandPacket<SwitchColorV2Swit
 		return packet.tryAs(SwitchColorV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchColorV2SwitchColorStartLevelChangeData) {
+	public constructor(data: Buffer | SwitchColorV2SwitchColorStartLevelChangeData) {
 		super(SwitchColorStartLevelChange, data);
 	}
 };
@@ -337,7 +337,7 @@ export class SwitchColorStopLevelChange extends CommandPacket<SwitchColorV2Switc
 		return packet.tryAs(SwitchColorV2)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchColorV2SwitchColorStopLevelChangeData) {
+	public constructor(data: Buffer | SwitchColorV2SwitchColorStopLevelChangeData) {
 		super(SwitchColorStopLevelChange, data);
 	}
 };

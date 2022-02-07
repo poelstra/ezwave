@@ -43,7 +43,7 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(MeterTblPushV1, commandAndPayload);
 	}
 }
@@ -63,7 +63,7 @@ export class MeterTblPushConfigurationGet extends CommandPacket<void> {
 		return packet.tryAs(MeterTblPushV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(MeterTblPushConfigurationGet, data);
 	}
 };
@@ -148,7 +148,7 @@ export class MeterTblPushConfigurationReport extends CommandPacket<MeterTblPushV
 		return packet.tryAs(MeterTblPushV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblPushV1MeterTblPushConfigurationReportData) {
+	public constructor(data: Buffer | MeterTblPushV1MeterTblPushConfigurationReportData) {
 		super(MeterTblPushConfigurationReport, data);
 	}
 };
@@ -233,7 +233,7 @@ export class MeterTblPushConfigurationSet extends CommandPacket<MeterTblPushV1Me
 		return packet.tryAs(MeterTblPushV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | MeterTblPushV1MeterTblPushConfigurationSetData) {
+	public constructor(data: Buffer | MeterTblPushV1MeterTblPushConfigurationSetData) {
 		super(MeterTblPushConfigurationSet, data);
 	}
 };

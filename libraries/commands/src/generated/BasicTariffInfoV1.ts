@@ -32,7 +32,7 @@ export class BasicTariffInfoV1 extends CommandClassPacket<BasicTariffInfoV1Comma
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(BasicTariffInfoV1, commandAndPayload);
 	}
 }
@@ -52,7 +52,7 @@ export class BasicTariffInfoGet extends CommandPacket<void> {
 		return packet.tryAs(BasicTariffInfoV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(BasicTariffInfoGet, data);
 	}
 };
@@ -172,7 +172,7 @@ export class BasicTariffInfoReport extends CommandPacket<BasicTariffInfoV1BasicT
 		return packet.tryAs(BasicTariffInfoV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | BasicTariffInfoV1BasicTariffInfoReportData) {
+	public constructor(data: Buffer | BasicTariffInfoV1BasicTariffInfoReportData) {
 		super(BasicTariffInfoReport, data);
 	}
 };

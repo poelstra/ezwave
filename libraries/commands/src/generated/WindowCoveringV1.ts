@@ -84,7 +84,7 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(WindowCoveringV1, commandAndPayload);
 	}
 }
@@ -104,7 +104,7 @@ export class WindowCoveringSupportedGet extends CommandPacket<void> {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(WindowCoveringSupportedGet, data);
 	}
 };
@@ -163,7 +163,7 @@ export class WindowCoveringSupportedReport extends CommandPacket<WindowCoveringV
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WindowCoveringV1WindowCoveringSupportedReportData) {
+	public constructor(data: Buffer | WindowCoveringV1WindowCoveringSupportedReportData) {
 		super(WindowCoveringSupportedReport, data);
 	}
 };
@@ -284,7 +284,7 @@ export class WindowCoveringGet extends CommandPacket<WindowCoveringV1WindowCover
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WindowCoveringV1WindowCoveringGetData) {
+	public constructor(data: Buffer | WindowCoveringV1WindowCoveringGetData) {
 		super(WindowCoveringGet, data);
 	}
 };
@@ -423,7 +423,7 @@ export class WindowCoveringReport extends CommandPacket<WindowCoveringV1WindowCo
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WindowCoveringV1WindowCoveringReportData) {
+	public constructor(data: Buffer | WindowCoveringV1WindowCoveringReportData) {
 		super(WindowCoveringReport, data);
 	}
 };
@@ -596,7 +596,7 @@ export class WindowCoveringSet extends CommandPacket<WindowCoveringV1WindowCover
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WindowCoveringV1WindowCoveringSetData) {
+	public constructor(data: Buffer | WindowCoveringV1WindowCoveringSetData) {
 		super(WindowCoveringSet, data);
 	}
 };
@@ -751,7 +751,7 @@ export class WindowCoveringStartLevelChange extends CommandPacket<WindowCovering
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WindowCoveringV1WindowCoveringStartLevelChangeData) {
+	public constructor(data: Buffer | WindowCoveringV1WindowCoveringStartLevelChangeData) {
 		super(WindowCoveringStartLevelChange, data);
 	}
 };
@@ -872,7 +872,7 @@ export class WindowCoveringStopLevelChange extends CommandPacket<WindowCoveringV
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | WindowCoveringV1WindowCoveringStopLevelChangeData) {
+	public constructor(data: Buffer | WindowCoveringV1WindowCoveringStopLevelChangeData) {
 		super(WindowCoveringStopLevelChange, data);
 	}
 };

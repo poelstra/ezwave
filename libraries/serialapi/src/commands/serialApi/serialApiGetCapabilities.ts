@@ -61,7 +61,7 @@ export function serialApiGetCapabilitiesBuilder(): ResponseRequestBuilder<Serial
 export class SerialApiGetCapabilities extends RequestRunner<
 	typeof serialApiGetCapabilitiesBuilder
 > {
-	constructor() {
+	public constructor() {
 		super(serialApiGetCapabilitiesBuilder, undefined);
 	}
 }

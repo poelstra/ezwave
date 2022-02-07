@@ -38,7 +38,7 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(SwitchAllV1, commandAndPayload);
 	}
 }
@@ -58,7 +58,7 @@ export class SwitchAllGet extends CommandPacket<void> {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchAllGet, data);
 	}
 };
@@ -78,7 +78,7 @@ export class SwitchAllOff extends CommandPacket<void> {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchAllOff, data);
 	}
 };
@@ -98,7 +98,7 @@ export class SwitchAllOn extends CommandPacket<void> {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(SwitchAllOn, data);
 	}
 };
@@ -143,7 +143,7 @@ export class SwitchAllReport extends CommandPacket<SwitchAllV1SwitchAllReportDat
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchAllV1SwitchAllReportData) {
+	public constructor(data: Buffer | SwitchAllV1SwitchAllReportData) {
 		super(SwitchAllReport, data);
 	}
 };
@@ -188,7 +188,7 @@ export class SwitchAllSet extends CommandPacket<SwitchAllV1SwitchAllSetData> {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | SwitchAllV1SwitchAllSetData) {
+	public constructor(data: Buffer | SwitchAllV1SwitchAllSetData) {
 		super(SwitchAllSet, data);
 	}
 };

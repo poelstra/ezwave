@@ -70,7 +70,7 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 		return packet.commandClass === this.commandClass;
 	}
 
-	constructor(commandAndPayload: Buffer) {
+	public constructor(commandAndPayload: Buffer) {
 		super(DcpMonitorV1, commandAndPayload);
 	}
 }
@@ -127,7 +127,7 @@ export class DcpEventStatusGet extends CommandPacket<DcpMonitorV1DcpEventStatusG
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DcpMonitorV1DcpEventStatusGetData) {
+	public constructor(data: Buffer | DcpMonitorV1DcpEventStatusGetData) {
 		super(DcpEventStatusGet, data);
 	}
 };
@@ -212,7 +212,7 @@ export class DcpEventStatusReport extends CommandPacket<DcpMonitorV1DcpEventStat
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DcpMonitorV1DcpEventStatusReportData) {
+	public constructor(data: Buffer | DcpMonitorV1DcpEventStatusReportData) {
 		super(DcpEventStatusReport, data);
 	}
 };
@@ -232,7 +232,7 @@ export class DcpListGet extends CommandPacket<void> {
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | void) {
+	public constructor(data: Buffer | void) {
 		super(DcpListGet, data);
 	}
 };
@@ -439,7 +439,7 @@ export class DcpListReport extends CommandPacket<DcpMonitorV1DcpListReportData> 
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 
-	constructor(data: Buffer | DcpMonitorV1DcpListReportData) {
+	public constructor(data: Buffer | DcpMonitorV1DcpListReportData) {
 		super(DcpListReport, data);
 	}
 };
