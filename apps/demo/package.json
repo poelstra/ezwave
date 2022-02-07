@@ -37,8 +37,8 @@
 	},
 	"devDependencies": {
 		"@ezwave/ezwave-heft-rig": "workspace:*",
-		"@rushstack/heft": "0.42.2",
-		"eslint": "~7.22.0",
+		"@rushstack/heft": "0.44.2",
+		"eslint": "~8.7.0",
 		"typescript": "4.4.4",
 		"@types/heft-jest": "1.0.2",
 		"@types/node": "16.11.7",

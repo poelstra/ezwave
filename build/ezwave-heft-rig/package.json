@@ -12,10 +12,10 @@
 		"build:watch": ""
 	},
 	"dependencies": {
-		"@rushstack/eslint-config": "^2.4.5",
-		"@rushstack/heft": "0.42.2",
-		"@rushstack/heft-jest-plugin": "0.1.46",
-		"eslint": "~7.22.0",
+		"@rushstack/eslint-config": "^2.5.1",
+		"@rushstack/heft": "0.44.2",
+		"@rushstack/heft-jest-plugin": "0.2.2",
+		"eslint": "~8.7.0",
 		"typescript": "4.4.4"
 	}
 }
