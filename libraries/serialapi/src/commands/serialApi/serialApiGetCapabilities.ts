@@ -2,6 +2,7 @@ import { decodeParams } from "@ezwave/codec";
 import {
 	BitmaskType,
 	convertFromJsonParams,
+	Parameter,
 	ParameterType,
 } from "@ezwave/spec";
 import { RequestRunner } from "../RequestRunner";
@@ -17,7 +18,7 @@ export interface SerialAPICapabilities {
 	supportedFunctions: Set<SerialApiCommandCode>;
 }
 
-const SERIAL_API_CAPABILITIES_PARAMS = convertFromJsonParams([
+const SERIAL_API_CAPABILITIES_PARAMS: Parameter[] = convertFromJsonParams([
 	{ type: ParameterType.Integer, length: 1, name: "applVersion", help: "" },
 	{ type: ParameterType.Integer, length: 1, name: "applRevision", help: "" },
 	{

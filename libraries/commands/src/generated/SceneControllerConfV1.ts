@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SceneControllerConfV1Commands {
 	SceneControllerConfGet = 0x02,
@@ -30,8 +30,8 @@ export interface SceneControllerConfV1SceneControllerConfSetData {
 }
 
 export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerConfV1Commands> {
-	public static readonly commandClass = CommandClasses.SceneControllerConf; // 0x2d (45)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SceneControllerConf; // 0x2d (45)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -43,9 +43,9 @@ export class SceneControllerConfV1 extends CommandClassPacket<SceneControllerCon
 }
 
 export class SceneControllerConfGet extends CommandPacket<SceneControllerConfV1SceneControllerConfGetData> {
-	public static readonly CommandClass = SceneControllerConfV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SceneControllerConfV1 = SceneControllerConfV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SceneControllerConfGet",
 		"help": "Scene Controller Conf Get",
@@ -60,7 +60,7 @@ export class SceneControllerConfGet extends CommandPacket<SceneControllerConfV1S
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SceneControllerConfV1)?.command === this.command;
 	}
 
@@ -70,9 +70,9 @@ export class SceneControllerConfGet extends CommandPacket<SceneControllerConfV1S
 };
 
 export class SceneControllerConfReport extends CommandPacket<SceneControllerConfV1SceneControllerConfReportData> {
-	public static readonly CommandClass = SceneControllerConfV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SceneControllerConfV1 = SceneControllerConfV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SceneControllerConfReport",
 		"help": "Scene Controller Conf Report",
@@ -105,7 +105,7 @@ export class SceneControllerConfReport extends CommandPacket<SceneControllerConf
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SceneControllerConfV1)?.command === this.command;
 	}
 
@@ -115,9 +115,9 @@ export class SceneControllerConfReport extends CommandPacket<SceneControllerConf
 };
 
 export class SceneControllerConfSet extends CommandPacket<SceneControllerConfV1SceneControllerConfSetData> {
-	public static readonly CommandClass = SceneControllerConfV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SceneControllerConfV1 = SceneControllerConfV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SceneControllerConfSet",
 		"help": "Scene Controller Conf Set",
@@ -154,7 +154,7 @@ export class SceneControllerConfSet extends CommandPacket<SceneControllerConfV1S
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SceneControllerConfV1)?.command === this.command;
 	}
 

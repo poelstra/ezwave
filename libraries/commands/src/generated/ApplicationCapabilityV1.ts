@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ApplicationCapabilityV1Commands {
 	CommandCommandClassNotSupported = 0x01,
@@ -17,10 +17,10 @@ export interface ApplicationCapabilityV1CommandCommandClassNotSupportedData {
 	offendingCommand: number; // 1 byte unsigned integer
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class ApplicationCapabilityV1 extends CommandClassPacket<ApplicationCapabilityV1Commands> {
-	public static readonly commandClass = CommandClasses.ApplicationCapability; // 0x57 (87)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.ApplicationCapability; // 0x57 (87)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -32,9 +32,9 @@ export class ApplicationCapabilityV1 extends CommandClassPacket<ApplicationCapab
 }
 
 export class CommandCommandClassNotSupported extends CommandPacket<ApplicationCapabilityV1CommandCommandClassNotSupportedData> {
-	public static readonly CommandClass = ApplicationCapabilityV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ApplicationCapabilityV1 = ApplicationCapabilityV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "CommandCommandClassNotSupported",
 		"help": "Command Command Class Not Supported",
@@ -78,7 +78,7 @@ export class CommandCommandClassNotSupported extends CommandPacket<ApplicationCa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ApplicationCapabilityV1)?.command === this.command;
 	}
 

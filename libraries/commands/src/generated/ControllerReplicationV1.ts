@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ControllerReplicationV1Commands {
 	CtrlReplicationTransferGroup = 0x31,
@@ -40,8 +40,8 @@ export interface ControllerReplicationV1CtrlReplicationTransferSceneNameData {
 }
 
 export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplicationV1Commands> {
-	public static readonly commandClass = CommandClasses.ControllerReplication; // 0x21 (33)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.ControllerReplication; // 0x21 (33)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -53,9 +53,9 @@ export class ControllerReplicationV1 extends CommandClassPacket<ControllerReplic
 }
 
 export class CtrlReplicationTransferGroup extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferGroupData> {
-	public static readonly CommandClass = ControllerReplicationV1;
-	public static readonly command = 0x31; // 49
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ControllerReplicationV1 = ControllerReplicationV1;
+	public static readonly command: number = 0x31; // 49
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 49,
 		"name": "CtrlReplicationTransferGroup",
 		"help": "Ctrl Replication Transfer Group",
@@ -83,7 +83,7 @@ export class CtrlReplicationTransferGroup extends CommandPacket<ControllerReplic
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 
@@ -93,9 +93,9 @@ export class CtrlReplicationTransferGroup extends CommandPacket<ControllerReplic
 };
 
 export class CtrlReplicationTransferGroupName extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferGroupNameData> {
-	public static readonly CommandClass = ControllerReplicationV1;
-	public static readonly command = 0x32; // 50
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ControllerReplicationV1 = ControllerReplicationV1;
+	public static readonly command: number = 0x32; // 50
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 50,
 		"name": "CtrlReplicationTransferGroupName",
 		"help": "Ctrl Replication Transfer Group Name",
@@ -124,7 +124,7 @@ export class CtrlReplicationTransferGroupName extends CommandPacket<ControllerRe
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 
@@ -134,9 +134,9 @@ export class CtrlReplicationTransferGroupName extends CommandPacket<ControllerRe
 };
 
 export class CtrlReplicationTransferScene extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferSceneData> {
-	public static readonly CommandClass = ControllerReplicationV1;
-	public static readonly command = 0x33; // 51
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ControllerReplicationV1 = ControllerReplicationV1;
+	public static readonly command: number = 0x33; // 51
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 51,
 		"name": "CtrlReplicationTransferScene",
 		"help": "Ctrl Replication Transfer Scene",
@@ -170,7 +170,7 @@ export class CtrlReplicationTransferScene extends CommandPacket<ControllerReplic
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 
@@ -180,9 +180,9 @@ export class CtrlReplicationTransferScene extends CommandPacket<ControllerReplic
 };
 
 export class CtrlReplicationTransferSceneName extends CommandPacket<ControllerReplicationV1CtrlReplicationTransferSceneNameData> {
-	public static readonly CommandClass = ControllerReplicationV1;
-	public static readonly command = 0x34; // 52
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ControllerReplicationV1 = ControllerReplicationV1;
+	public static readonly command: number = 0x34; // 52
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 52,
 		"name": "CtrlReplicationTransferSceneName",
 		"help": "Ctrl Replication Transfer Scene Name",
@@ -211,7 +211,7 @@ export class CtrlReplicationTransferSceneName extends CommandPacket<ControllerRe
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ControllerReplicationV1)?.command === this.command;
 	}
 

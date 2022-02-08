@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MultiChannelV2Commands {
 	MultiChannelCapabilityGet = 0x09,
@@ -73,10 +73,10 @@ export interface MultiChannelV2MultiInstanceReportData {
 	instances: number; // properties1[6..0]
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
-	public static readonly commandClass = CommandClasses.MultiChannel; // 0x60 (96)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.MultiChannel; // 0x60 (96)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -88,9 +88,9 @@ export class MultiChannelV2 extends CommandClassPacket<MultiChannelV2Commands> {
 }
 
 export class MultiChannelCapabilityGet extends CommandPacket<MultiChannelV2MultiChannelCapabilityGetData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "MultiChannelCapabilityGet",
 		"help": "Multi Channel Capability Get",
@@ -120,7 +120,7 @@ export class MultiChannelCapabilityGet extends CommandPacket<MultiChannelV2Multi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -130,9 +130,9 @@ export class MultiChannelCapabilityGet extends CommandPacket<MultiChannelV2Multi
 };
 
 export class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV2MultiChannelCapabilityReportData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x0a; // 10
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x0a; // 10
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 10,
 		"name": "MultiChannelCapabilityReport",
 		"help": "Multi Channel Capability Report",
@@ -184,7 +184,7 @@ export class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV2Mu
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -194,9 +194,9 @@ export class MultiChannelCapabilityReport extends CommandPacket<MultiChannelV2Mu
 };
 
 export class MultiChannelCmdEncap extends CommandPacket<MultiChannelV2MultiChannelCmdEncapData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x0d; // 13
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x0d; // 13
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 13,
 		"name": "MultiChannelCmdEncap",
 		"help": "Multi Channel Command Encapsulation",
@@ -255,7 +255,7 @@ export class MultiChannelCmdEncap extends CommandPacket<MultiChannelV2MultiChann
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -265,9 +265,9 @@ export class MultiChannelCmdEncap extends CommandPacket<MultiChannelV2MultiChann
 };
 
 export class MultiChannelEndPointFind extends CommandPacket<MultiChannelV2MultiChannelEndPointFindData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x0b; // 11
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x0b; // 11
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 11,
 		"name": "MultiChannelEndPointFind",
 		"help": "Multi Channel End Point Find",
@@ -290,7 +290,7 @@ export class MultiChannelEndPointFind extends CommandPacket<MultiChannelV2MultiC
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -300,9 +300,9 @@ export class MultiChannelEndPointFind extends CommandPacket<MultiChannelV2MultiC
 };
 
 export class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV2MultiChannelEndPointFindReportData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x0c; // 12
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x0c; // 12
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 12,
 		"name": "MultiChannelEndPointFindReport",
 		"help": "Multi Channel End Point Find Report",
@@ -362,7 +362,7 @@ export class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV2
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -372,9 +372,9 @@ export class MultiChannelEndPointFindReport extends CommandPacket<MultiChannelV2
 };
 
 export class MultiChannelEndPointGet extends CommandPacket<void> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "MultiChannelEndPointGet",
 		"help": "Multi Channel End Point Get",
@@ -382,7 +382,7 @@ export class MultiChannelEndPointGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -392,9 +392,9 @@ export class MultiChannelEndPointGet extends CommandPacket<void> {
 };
 
 export class MultiChannelEndPointReport extends CommandPacket<MultiChannelV2MultiChannelEndPointReportData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "MultiChannelEndPointReport",
 		"help": "Multi Channel End Point Report",
@@ -451,7 +451,7 @@ export class MultiChannelEndPointReport extends CommandPacket<MultiChannelV2Mult
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -461,9 +461,9 @@ export class MultiChannelEndPointReport extends CommandPacket<MultiChannelV2Mult
 };
 
 export class MultiInstanceCmdEncap extends CommandPacket<MultiChannelV2MultiInstanceCmdEncapData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "MultiInstanceCmdEncap",
 		"help": "Multi Instance Cmd Encap",
@@ -502,7 +502,7 @@ export class MultiInstanceCmdEncap extends CommandPacket<MultiChannelV2MultiInst
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -512,9 +512,9 @@ export class MultiInstanceCmdEncap extends CommandPacket<MultiChannelV2MultiInst
 };
 
 export class MultiInstanceGet extends CommandPacket<MultiChannelV2MultiInstanceGetData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "MultiInstanceGet",
 		"help": "Multi Instance Get",
@@ -530,7 +530,7 @@ export class MultiInstanceGet extends CommandPacket<MultiChannelV2MultiInstanceG
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 
@@ -540,9 +540,9 @@ export class MultiInstanceGet extends CommandPacket<MultiChannelV2MultiInstanceG
 };
 
 export class MultiInstanceReport extends CommandPacket<MultiChannelV2MultiInstanceReportData> {
-	public static readonly CommandClass = MultiChannelV2;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiChannelV2 = MultiChannelV2;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "MultiInstanceReport",
 		"help": "Multi Instance Report",
@@ -579,7 +579,7 @@ export class MultiInstanceReport extends CommandPacket<MultiChannelV2MultiInstan
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiChannelV2)?.command === this.command;
 	}
 

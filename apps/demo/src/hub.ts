@@ -65,7 +65,6 @@ export class Hub extends EventEmitter implements HubEvents {
 		this._callbacks.set(sub.id, callback);
 		this._subscriptions.push(sub);
 		if (this._connected) {
-			// eslint-disable-next-line no-void
 			await this._hub.subscribe(sub.node, sub.pattern, sub.id);
 		}
 	}

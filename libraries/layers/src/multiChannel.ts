@@ -15,7 +15,7 @@ import { Requester } from "./requester";
 const log: debug.Debugger = debug("zwave:layers:multichannel");
 
 export class MultiChannelLayer implements Layer {
-	private _requester = new Requester();
+	private _requester: Requester = new Requester();
 
 	public async dispatch(
 		event: LayerEvent<Packet>,

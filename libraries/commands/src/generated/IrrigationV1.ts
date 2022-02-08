@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum IrrigationV1Commands {
 	IrrigationSystemInfoGet = 0x01,
@@ -194,8 +194,8 @@ export enum SensorUsageEnum {
 }
 
 export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
-	public static readonly commandClass = CommandClasses.Irrigation; // 0x6b (107)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Irrigation; // 0x6b (107)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -207,9 +207,9 @@ export class IrrigationV1 extends CommandClassPacket<IrrigationV1Commands> {
 }
 
 export class IrrigationSystemInfoGet extends CommandPacket<void> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "IrrigationSystemInfoGet",
 		"help": "Irrigation System Info Get",
@@ -217,7 +217,7 @@ export class IrrigationSystemInfoGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -227,9 +227,9 @@ export class IrrigationSystemInfoGet extends CommandPacket<void> {
 };
 
 export class IrrigationSystemInfoReport extends CommandPacket<IrrigationV1IrrigationSystemInfoReportData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "IrrigationSystemInfoReport",
 		"help": "Irrigation System Info Report",
@@ -306,7 +306,7 @@ export class IrrigationSystemInfoReport extends CommandPacket<IrrigationV1Irriga
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -316,9 +316,9 @@ export class IrrigationSystemInfoReport extends CommandPacket<IrrigationV1Irriga
 };
 
 export class IrrigationSystemStatusGet extends CommandPacket<void> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "IrrigationSystemStatusGet",
 		"help": "Irrigation System Status Get",
@@ -326,7 +326,7 @@ export class IrrigationSystemStatusGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -336,9 +336,9 @@ export class IrrigationSystemStatusGet extends CommandPacket<void> {
 };
 
 export class IrrigationSystemStatusReport extends CommandPacket<IrrigationV1IrrigationSystemStatusReportData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "IrrigationSystemStatusReport",
 		"help": "Irrigation System Status Report",
@@ -524,7 +524,7 @@ export class IrrigationSystemStatusReport extends CommandPacket<IrrigationV1Irri
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -534,9 +534,9 @@ export class IrrigationSystemStatusReport extends CommandPacket<IrrigationV1Irri
 };
 
 export class IrrigationSystemConfigSet extends CommandPacket<IrrigationV1IrrigationSystemConfigSetData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "IrrigationSystemConfigSet",
 		"help": "Irrigation System Config Set",
@@ -657,7 +657,7 @@ export class IrrigationSystemConfigSet extends CommandPacket<IrrigationV1Irrigat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -667,9 +667,9 @@ export class IrrigationSystemConfigSet extends CommandPacket<IrrigationV1Irrigat
 };
 
 export class IrrigationSystemConfigGet extends CommandPacket<void> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "IrrigationSystemConfigGet",
 		"help": "Irrigation System Config Get",
@@ -677,7 +677,7 @@ export class IrrigationSystemConfigGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -687,9 +687,9 @@ export class IrrigationSystemConfigGet extends CommandPacket<void> {
 };
 
 export class IrrigationSystemConfigReport extends CommandPacket<IrrigationV1IrrigationSystemConfigReportData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "IrrigationSystemConfigReport",
 		"help": "Irrigation System Config Report",
@@ -810,7 +810,7 @@ export class IrrigationSystemConfigReport extends CommandPacket<IrrigationV1Irri
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -820,9 +820,9 @@ export class IrrigationSystemConfigReport extends CommandPacket<IrrigationV1Irri
 };
 
 export class IrrigationValveInfoGet extends CommandPacket<IrrigationV1IrrigationValveInfoGetData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "IrrigationValveInfoGet",
 		"help": "Irrigation Valve Info Get",
@@ -858,7 +858,7 @@ export class IrrigationValveInfoGet extends CommandPacket<IrrigationV1Irrigation
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -868,9 +868,9 @@ export class IrrigationValveInfoGet extends CommandPacket<IrrigationV1Irrigation
 };
 
 export class IrrigationValveInfoReport extends CommandPacket<IrrigationV1IrrigationValveInfoReportData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "IrrigationValveInfoReport",
 		"help": "Irrigation Valve Info Report",
@@ -950,7 +950,7 @@ export class IrrigationValveInfoReport extends CommandPacket<IrrigationV1Irrigat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -960,9 +960,9 @@ export class IrrigationValveInfoReport extends CommandPacket<IrrigationV1Irrigat
 };
 
 export class IrrigationValveConfigSet extends CommandPacket<IrrigationV1IrrigationValveConfigSetData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x0a; // 10
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x0a; // 10
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 10,
 		"name": "IrrigationValveConfigSet",
 		"help": "Irrigation Valve Config Set",
@@ -1155,7 +1155,7 @@ export class IrrigationValveConfigSet extends CommandPacket<IrrigationV1Irrigati
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1165,9 +1165,9 @@ export class IrrigationValveConfigSet extends CommandPacket<IrrigationV1Irrigati
 };
 
 export class IrrigationValveConfigGet extends CommandPacket<IrrigationV1IrrigationValveConfigGetData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x0b; // 11
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x0b; // 11
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 11,
 		"name": "IrrigationValveConfigGet",
 		"help": "Irrigation Valve Config Get",
@@ -1203,7 +1203,7 @@ export class IrrigationValveConfigGet extends CommandPacket<IrrigationV1Irrigati
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1213,9 +1213,9 @@ export class IrrigationValveConfigGet extends CommandPacket<IrrigationV1Irrigati
 };
 
 export class IrrigationValveConfigReport extends CommandPacket<IrrigationV1IrrigationValveConfigReportData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x0c; // 12
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x0c; // 12
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 12,
 		"name": "IrrigationValveConfigReport",
 		"help": "Irrigation Valve Config Report",
@@ -1408,7 +1408,7 @@ export class IrrigationValveConfigReport extends CommandPacket<IrrigationV1Irrig
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1418,9 +1418,9 @@ export class IrrigationValveConfigReport extends CommandPacket<IrrigationV1Irrig
 };
 
 export class IrrigationValveRun extends CommandPacket<IrrigationV1IrrigationValveRunData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x0d; // 13
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x0d; // 13
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 13,
 		"name": "IrrigationValveRun",
 		"help": "Irrigation Valve Run",
@@ -1462,7 +1462,7 @@ export class IrrigationValveRun extends CommandPacket<IrrigationV1IrrigationValv
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1472,9 +1472,9 @@ export class IrrigationValveRun extends CommandPacket<IrrigationV1IrrigationValv
 };
 
 export class IrrigationValveTableSet extends CommandPacket<IrrigationV1IrrigationValveTableSetData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x0e; // 14
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x0e; // 14
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 14,
 		"name": "IrrigationValveTableSet",
 		"help": "Irrigation Valve Table Set",
@@ -1511,7 +1511,7 @@ export class IrrigationValveTableSet extends CommandPacket<IrrigationV1Irrigatio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1521,9 +1521,9 @@ export class IrrigationValveTableSet extends CommandPacket<IrrigationV1Irrigatio
 };
 
 export class IrrigationValveTableGet extends CommandPacket<IrrigationV1IrrigationValveTableGetData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x0f; // 15
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x0f; // 15
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 15,
 		"name": "IrrigationValveTableGet",
 		"help": "Irrigation Valve Table Get",
@@ -1538,7 +1538,7 @@ export class IrrigationValveTableGet extends CommandPacket<IrrigationV1Irrigatio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1548,9 +1548,9 @@ export class IrrigationValveTableGet extends CommandPacket<IrrigationV1Irrigatio
 };
 
 export class IrrigationValveTableReport extends CommandPacket<IrrigationV1IrrigationValveTableReportData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x10; // 16
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x10; // 16
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 16,
 		"name": "IrrigationValveTableReport",
 		"help": "Irrigation Valve Table Report",
@@ -1587,7 +1587,7 @@ export class IrrigationValveTableReport extends CommandPacket<IrrigationV1Irriga
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1597,9 +1597,9 @@ export class IrrigationValveTableReport extends CommandPacket<IrrigationV1Irriga
 };
 
 export class IrrigationValveTableRun extends CommandPacket<IrrigationV1IrrigationValveTableRunData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x11; // 17
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x11; // 17
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 17,
 		"name": "IrrigationValveTableRun",
 		"help": "Irrigation Valve Table Run",
@@ -1616,7 +1616,7 @@ export class IrrigationValveTableRun extends CommandPacket<IrrigationV1Irrigatio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 
@@ -1626,9 +1626,9 @@ export class IrrigationValveTableRun extends CommandPacket<IrrigationV1Irrigatio
 };
 
 export class IrrigationSystemShutoff extends CommandPacket<IrrigationV1IrrigationSystemShutoffData> {
-	public static readonly CommandClass = IrrigationV1;
-	public static readonly command = 0x12; // 18
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IrrigationV1 = IrrigationV1;
+	public static readonly command: number = 0x12; // 18
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 18,
 		"name": "IrrigationSystemShutoff",
 		"help": "Irrigation System Shutoff",
@@ -1643,7 +1643,7 @@ export class IrrigationSystemShutoff extends CommandPacket<IrrigationV1Irrigatio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IrrigationV1)?.command === this.command;
 	}
 

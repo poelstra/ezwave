@@ -33,11 +33,12 @@ const closedProtocolManager: IProtocolManager = {
  */
 export class CommandSession implements ICommandSession {
 	private _protocolManager: IProtocolManager;
-	private _sessionQueue = new Queue();
-	private _sessions = new Set<CommandSession>();
-	private _events = new Set<Events<any>>();
+	private _sessionQueue: Queue = new Queue();
+	private _sessions: Set<CommandSession> = new Set();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	private _events: Set<Events<any>> = new Set();
 	private _closed: Error | undefined;
-	private _id = 0; // id used for logging in next execute() statement
+	private _id: number = 0; // id used for logging in next execute() statement
 	private _idPrefix: string; // in order to visualize nested sessions
 
 	public constructor(
@@ -115,7 +116,7 @@ export class CommandSession implements ICommandSession {
 		return events;
 	}
 
-	close(reason: Error) {
+	public close(reason: Error): void {
 		this._closed = reason;
 		this._protocolManager = closedProtocolManager;
 		for (const events of this._events) {

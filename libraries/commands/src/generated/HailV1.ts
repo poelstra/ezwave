@@ -5,16 +5,16 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum HailV1Commands {
 	Hail = 0x01,
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class HailV1 extends CommandClassPacket<HailV1Commands> {
-	public static readonly commandClass = CommandClasses.Hail; // 0x82 (130)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Hail; // 0x82 (130)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -26,9 +26,9 @@ export class HailV1 extends CommandClassPacket<HailV1Commands> {
 }
 
 export class Hail extends CommandPacket<void> {
-	public static readonly CommandClass = HailV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HailV1 = HailV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "Hail",
 		"help": "Hail",
@@ -36,7 +36,7 @@ export class Hail extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HailV1)?.command === this.command;
 	}
 

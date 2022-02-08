@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MeterV1Commands {
 	MeterGet = 0x01,
@@ -26,8 +26,8 @@ export enum MeterTypeEnum {
 }
 
 export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
-	public static readonly commandClass = CommandClasses.Meter; // 0x32 (50)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Meter; // 0x32 (50)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -39,9 +39,9 @@ export class MeterV1 extends CommandClassPacket<MeterV1Commands> {
 }
 
 export class MeterGet extends CommandPacket<void> {
-	public static readonly CommandClass = MeterV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MeterV1 = MeterV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "MeterGet",
 		"help": "Meter Get",
@@ -49,7 +49,7 @@ export class MeterGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MeterV1)?.command === this.command;
 	}
 
@@ -59,9 +59,9 @@ export class MeterGet extends CommandPacket<void> {
 };
 
 export class MeterReport extends CommandPacket<MeterV1MeterReportData> {
-	public static readonly CommandClass = MeterV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MeterV1 = MeterV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "MeterReport",
 		"help": "Meter Report",
@@ -133,7 +133,7 @@ export class MeterReport extends CommandPacket<MeterV1MeterReportData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MeterV1)?.command === this.command;
 	}
 

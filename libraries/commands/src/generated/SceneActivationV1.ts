@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SceneActivationV1Commands {
 	SceneActivationSet = 0x01,
@@ -17,8 +17,8 @@ export interface SceneActivationV1SceneActivationSetData {
 }
 
 export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Commands> {
-	public static readonly commandClass = CommandClasses.SceneActivation; // 0x2b (43)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SceneActivation; // 0x2b (43)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -30,9 +30,9 @@ export class SceneActivationV1 extends CommandClassPacket<SceneActivationV1Comma
 }
 
 export class SceneActivationSet extends CommandPacket<SceneActivationV1SceneActivationSetData> {
-	public static readonly CommandClass = SceneActivationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SceneActivationV1 = SceneActivationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SceneActivationSet",
 		"help": "Scene Activation Set",
@@ -63,7 +63,7 @@ export class SceneActivationSet extends CommandPacket<SceneActivationV1SceneActi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SceneActivationV1)?.command === this.command;
 	}
 

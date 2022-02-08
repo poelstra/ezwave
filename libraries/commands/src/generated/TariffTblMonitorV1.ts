@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum TariffTblMonitorV1Commands {
 	TariffTblCostGet = 0x05,
@@ -73,8 +73,8 @@ export interface TariffTblMonitorV1TariffTblSupplierReportData {
 }
 
 export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Commands> {
-	public static readonly commandClass = CommandClasses.TariffTblMonitor; // 0x4b (75)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.TariffTblMonitor; // 0x4b (75)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -86,9 +86,9 @@ export class TariffTblMonitorV1 extends CommandClassPacket<TariffTblMonitorV1Com
 }
 
 export class TariffTblCostGet extends CommandPacket<TariffTblMonitorV1TariffTblCostGetData> {
-	public static readonly CommandClass = TariffTblMonitorV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TariffTblMonitorV1 = TariffTblMonitorV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "TariffTblCostGet",
 		"help": "Tariff Tbl Cost Get",
@@ -163,7 +163,7 @@ export class TariffTblCostGet extends CommandPacket<TariffTblMonitorV1TariffTblC
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
@@ -173,9 +173,9 @@ export class TariffTblCostGet extends CommandPacket<TariffTblMonitorV1TariffTblC
 };
 
 export class TariffTblCostReport extends CommandPacket<TariffTblMonitorV1TariffTblCostReportData> {
-	public static readonly CommandClass = TariffTblMonitorV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TariffTblMonitorV1 = TariffTblMonitorV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "TariffTblCostReport",
 		"help": "Tariff Tbl Cost Report",
@@ -304,7 +304,7 @@ export class TariffTblCostReport extends CommandPacket<TariffTblMonitorV1TariffT
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
@@ -314,9 +314,9 @@ export class TariffTblCostReport extends CommandPacket<TariffTblMonitorV1TariffT
 };
 
 export class TariffTblGet extends CommandPacket<TariffTblMonitorV1TariffTblGetData> {
-	public static readonly CommandClass = TariffTblMonitorV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TariffTblMonitorV1 = TariffTblMonitorV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "TariffTblGet",
 		"help": "Tariff Tbl Get",
@@ -331,7 +331,7 @@ export class TariffTblGet extends CommandPacket<TariffTblMonitorV1TariffTblGetDa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
@@ -341,9 +341,9 @@ export class TariffTblGet extends CommandPacket<TariffTblMonitorV1TariffTblGetDa
 };
 
 export class TariffTblReport extends CommandPacket<TariffTblMonitorV1TariffTblReportData> {
-	public static readonly CommandClass = TariffTblMonitorV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TariffTblMonitorV1 = TariffTblMonitorV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "TariffTblReport",
 		"help": "Tariff Tbl Report",
@@ -385,7 +385,7 @@ export class TariffTblReport extends CommandPacket<TariffTblMonitorV1TariffTblRe
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
@@ -395,9 +395,9 @@ export class TariffTblReport extends CommandPacket<TariffTblMonitorV1TariffTblRe
 };
 
 export class TariffTblSupplierGet extends CommandPacket<void> {
-	public static readonly CommandClass = TariffTblMonitorV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TariffTblMonitorV1 = TariffTblMonitorV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "TariffTblSupplierGet",
 		"help": "Tariff Tbl Supplier Get",
@@ -405,7 +405,7 @@ export class TariffTblSupplierGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 
@@ -415,9 +415,9 @@ export class TariffTblSupplierGet extends CommandPacket<void> {
 };
 
 export class TariffTblSupplierReport extends CommandPacket<TariffTblMonitorV1TariffTblSupplierReportData> {
-	public static readonly CommandClass = TariffTblMonitorV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TariffTblMonitorV1 = TariffTblMonitorV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "TariffTblSupplierReport",
 		"help": "Tariff Tbl Supplier Report",
@@ -532,7 +532,7 @@ export class TariffTblSupplierReport extends CommandPacket<TariffTblMonitorV1Tar
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TariffTblMonitorV1)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum EntryControlV1Commands {
 	EntryControlNotification = 0x01,
@@ -121,8 +121,8 @@ export enum EventTypeSupportedBitMaskEnum {
 }
 
 export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
-	public static readonly commandClass = CommandClasses.EntryControl; // 0x6f (111)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.EntryControl; // 0x6f (111)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -134,9 +134,9 @@ export class EntryControlV1 extends CommandClassPacket<EntryControlV1Commands> {
 }
 
 export class EntryControlNotification extends CommandPacket<EntryControlV1EntryControlNotificationData> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "EntryControlNotification",
 		"help": "Entry Control Notification",
@@ -333,7 +333,7 @@ export class EntryControlNotification extends CommandPacket<EntryControlV1EntryC
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
@@ -343,9 +343,9 @@ export class EntryControlNotification extends CommandPacket<EntryControlV1EntryC
 };
 
 export class EntryControlKeySupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "EntryControlKeySupportedGet",
 		"help": "Entry Control Key Supported Get",
@@ -353,7 +353,7 @@ export class EntryControlKeySupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
@@ -363,9 +363,9 @@ export class EntryControlKeySupportedGet extends CommandPacket<void> {
 };
 
 export class EntryControlKeySupportedReport extends CommandPacket<EntryControlV1EntryControlKeySupportedReportData> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "EntryControlKeySupportedReport",
 		"help": "Entry Control Key Supported Report",
@@ -397,7 +397,7 @@ export class EntryControlKeySupportedReport extends CommandPacket<EntryControlV1
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
@@ -407,9 +407,9 @@ export class EntryControlKeySupportedReport extends CommandPacket<EntryControlV1
 };
 
 export class EntryControlEventSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "EntryControlEventSupportedGet",
 		"help": "Entry Control Event Supported Get",
@@ -417,7 +417,7 @@ export class EntryControlEventSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
@@ -427,9 +427,9 @@ export class EntryControlEventSupportedGet extends CommandPacket<void> {
 };
 
 export class EntryControlEventSupportedReport extends CommandPacket<EntryControlV1EntryControlEventSupportedReportData> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "EntryControlEventSupportedReport",
 		"help": "Entry Control Event Supported Report",
@@ -662,7 +662,7 @@ export class EntryControlEventSupportedReport extends CommandPacket<EntryControl
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
@@ -672,9 +672,9 @@ export class EntryControlEventSupportedReport extends CommandPacket<EntryControl
 };
 
 export class EntryControlConfigurationSet extends CommandPacket<EntryControlV1EntryControlConfigurationSetData> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "EntryControlConfigurationSet",
 		"help": "Entry Control Configuration Set",
@@ -695,7 +695,7 @@ export class EntryControlConfigurationSet extends CommandPacket<EntryControlV1En
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
@@ -705,9 +705,9 @@ export class EntryControlConfigurationSet extends CommandPacket<EntryControlV1En
 };
 
 export class EntryControlConfigurationGet extends CommandPacket<void> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "EntryControlConfigurationGet",
 		"help": "Entry Control Configuration Get",
@@ -715,7 +715,7 @@ export class EntryControlConfigurationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 
@@ -725,9 +725,9 @@ export class EntryControlConfigurationGet extends CommandPacket<void> {
 };
 
 export class EntryControlConfigurationReport extends CommandPacket<EntryControlV1EntryControlConfigurationReportData> {
-	public static readonly CommandClass = EntryControlV1;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EntryControlV1 = EntryControlV1;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "EntryControlConfigurationReport",
 		"help": "Entry Control Configuration Report",
@@ -748,7 +748,7 @@ export class EntryControlConfigurationReport extends CommandPacket<EntryControlV
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EntryControlV1)?.command === this.command;
 	}
 

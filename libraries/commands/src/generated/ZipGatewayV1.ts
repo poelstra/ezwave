@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ZipGatewayV1Commands {
 	GatewayModeSet = 0x01,
@@ -81,8 +81,8 @@ export enum ModeEnum {
 }
 
 export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
-	public static readonly commandClass = CommandClasses.ZipGateway; // 0x5f (95)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.ZipGateway; // 0x5f (95)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -94,9 +94,9 @@ export class ZipGatewayV1 extends CommandClassPacket<ZipGatewayV1Commands> {
 }
 
 export class GatewayModeSet extends CommandPacket<ZipGatewayV1GatewayModeSetData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "GatewayModeSet",
 		"help": "Gateway Mode Set",
@@ -121,7 +121,7 @@ export class GatewayModeSet extends CommandPacket<ZipGatewayV1GatewayModeSetData
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -131,9 +131,9 @@ export class GatewayModeSet extends CommandPacket<ZipGatewayV1GatewayModeSetData
 };
 
 export class GatewayModeGet extends CommandPacket<void> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "GatewayModeGet",
 		"help": "Gateway Mode Get",
@@ -141,7 +141,7 @@ export class GatewayModeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -151,9 +151,9 @@ export class GatewayModeGet extends CommandPacket<void> {
 };
 
 export class GatewayModeReport extends CommandPacket<ZipGatewayV1GatewayModeReportData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "GatewayModeReport",
 		"help": "Gateway Mode Report",
@@ -178,7 +178,7 @@ export class GatewayModeReport extends CommandPacket<ZipGatewayV1GatewayModeRepo
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -188,9 +188,9 @@ export class GatewayModeReport extends CommandPacket<ZipGatewayV1GatewayModeRepo
 };
 
 export class GatewayPeerSet extends CommandPacket<ZipGatewayV1GatewayPeerSetData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "GatewayPeerSet",
 		"help": "Gateway Peer Set",
@@ -255,7 +255,7 @@ export class GatewayPeerSet extends CommandPacket<ZipGatewayV1GatewayPeerSetData
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -265,9 +265,9 @@ export class GatewayPeerSet extends CommandPacket<ZipGatewayV1GatewayPeerSetData
 };
 
 export class GatewayPeerGet extends CommandPacket<ZipGatewayV1GatewayPeerGetData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "GatewayPeerGet",
 		"help": "Gateway Peer Get",
@@ -282,7 +282,7 @@ export class GatewayPeerGet extends CommandPacket<ZipGatewayV1GatewayPeerGetData
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -292,9 +292,9 @@ export class GatewayPeerGet extends CommandPacket<ZipGatewayV1GatewayPeerGetData
 };
 
 export class GatewayPeerReport extends CommandPacket<ZipGatewayV1GatewayPeerReportData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "GatewayPeerReport",
 		"help": "Gateway Peer Report",
@@ -365,7 +365,7 @@ export class GatewayPeerReport extends CommandPacket<ZipGatewayV1GatewayPeerRepo
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -375,9 +375,9 @@ export class GatewayPeerReport extends CommandPacket<ZipGatewayV1GatewayPeerRepo
 };
 
 export class GatewayLockSet extends CommandPacket<ZipGatewayV1GatewayLockSetData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "GatewayLockSet",
 		"help": "Gateway Lock Set",
@@ -413,7 +413,7 @@ export class GatewayLockSet extends CommandPacket<ZipGatewayV1GatewayLockSetData
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -423,9 +423,9 @@ export class GatewayLockSet extends CommandPacket<ZipGatewayV1GatewayLockSetData
 };
 
 export class UnsolicitedDestinationSet extends CommandPacket<ZipGatewayV1UnsolicitedDestinationSetData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "UnsolicitedDestinationSet",
 		"help": "Unsolicited Destination Set",
@@ -446,7 +446,7 @@ export class UnsolicitedDestinationSet extends CommandPacket<ZipGatewayV1Unsolic
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -456,9 +456,9 @@ export class UnsolicitedDestinationSet extends CommandPacket<ZipGatewayV1Unsolic
 };
 
 export class UnsolicitedDestinationGet extends CommandPacket<void> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "UnsolicitedDestinationGet",
 		"help": "Unsolicited Destination Get",
@@ -466,7 +466,7 @@ export class UnsolicitedDestinationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -476,9 +476,9 @@ export class UnsolicitedDestinationGet extends CommandPacket<void> {
 };
 
 export class UnsolicitedDestinationReport extends CommandPacket<ZipGatewayV1UnsolicitedDestinationReportData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x0a; // 10
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x0a; // 10
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 10,
 		"name": "UnsolicitedDestinationReport",
 		"help": "Unsolicited Destination Report",
@@ -499,7 +499,7 @@ export class UnsolicitedDestinationReport extends CommandPacket<ZipGatewayV1Unso
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -509,9 +509,9 @@ export class UnsolicitedDestinationReport extends CommandPacket<ZipGatewayV1Unso
 };
 
 export class CommandApplicationNodeInfoSet extends CommandPacket<ZipGatewayV1CommandApplicationNodeInfoSetData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x0b; // 11
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x0b; // 11
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 11,
 		"name": "CommandApplicationNodeInfoSet",
 		"help": "Application Node Info Set",
@@ -540,7 +540,7 @@ export class CommandApplicationNodeInfoSet extends CommandPacket<ZipGatewayV1Com
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -550,9 +550,9 @@ export class CommandApplicationNodeInfoSet extends CommandPacket<ZipGatewayV1Com
 };
 
 export class CommandApplicationNodeInfoGet extends CommandPacket<void> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x0c; // 12
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x0c; // 12
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 12,
 		"name": "CommandApplicationNodeInfoGet",
 		"help": "Application Node Info Get",
@@ -560,7 +560,7 @@ export class CommandApplicationNodeInfoGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 
@@ -570,9 +570,9 @@ export class CommandApplicationNodeInfoGet extends CommandPacket<void> {
 };
 
 export class CommandApplicationNodeInfoReport extends CommandPacket<ZipGatewayV1CommandApplicationNodeInfoReportData> {
-	public static readonly CommandClass = ZipGatewayV1;
-	public static readonly command = 0x0d; // 13
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipGatewayV1 = ZipGatewayV1;
+	public static readonly command: number = 0x0d; // 13
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 13,
 		"name": "CommandApplicationNodeInfoReport",
 		"help": "Application Node Info Report",
@@ -601,7 +601,7 @@ export class CommandApplicationNodeInfoReport extends CommandPacket<ZipGatewayV1
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipGatewayV1)?.command === this.command;
 	}
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 import { parseCommandClassInfo } from "@ezwave/codec";
 import { interpret } from "@xstate/compiled";
 import { runMachineService } from "../machineRunner";

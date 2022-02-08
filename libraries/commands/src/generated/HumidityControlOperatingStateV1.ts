@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum HumidityControlOperatingStateV1Commands {
 	HumidityControlOperatingStateGet = 0x01,
@@ -23,8 +23,8 @@ export enum OperatingStateEnum {
 }
 
 export class HumidityControlOperatingStateV1 extends CommandClassPacket<HumidityControlOperatingStateV1Commands> {
-	public static readonly commandClass = CommandClasses.HumidityControlOperatingState; // 0x6e (110)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.HumidityControlOperatingState; // 0x6e (110)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -36,9 +36,9 @@ export class HumidityControlOperatingStateV1 extends CommandClassPacket<Humidity
 }
 
 export class HumidityControlOperatingStateGet extends CommandPacket<void> {
-	public static readonly CommandClass = HumidityControlOperatingStateV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlOperatingStateV1 = HumidityControlOperatingStateV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "HumidityControlOperatingStateGet",
 		"help": "Humidity Control Operating State Get",
@@ -46,7 +46,7 @@ export class HumidityControlOperatingStateGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlOperatingStateV1)?.command === this.command;
 	}
 
@@ -56,9 +56,9 @@ export class HumidityControlOperatingStateGet extends CommandPacket<void> {
 };
 
 export class HumidityControlOperatingStateReport extends CommandPacket<HumidityControlOperatingStateV1HumidityControlOperatingStateReportData> {
-	public static readonly CommandClass = HumidityControlOperatingStateV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlOperatingStateV1 = HumidityControlOperatingStateV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "HumidityControlOperatingStateReport",
 		"help": "Humidity Control Operating State Report",
@@ -102,7 +102,7 @@ export class HumidityControlOperatingStateReport extends CommandPacket<HumidityC
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlOperatingStateV1)?.command === this.command;
 	}
 

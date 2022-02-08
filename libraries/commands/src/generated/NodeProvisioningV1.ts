@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NodeProvisioningV1Commands {
 	NodeProvisioningSet = 0x01,
@@ -63,8 +63,8 @@ export interface NodeProvisioningV1NodeProvisioningReportData {
 }
 
 export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Commands> {
-	public static readonly commandClass = CommandClasses.NodeProvisioning; // 0x78 (120)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.NodeProvisioning; // 0x78 (120)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -76,9 +76,9 @@ export class NodeProvisioningV1 extends CommandClassPacket<NodeProvisioningV1Com
 }
 
 export class NodeProvisioningSet extends CommandPacket<NodeProvisioningV1NodeProvisioningSetData> {
-	public static readonly CommandClass = NodeProvisioningV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeProvisioningV1 = NodeProvisioningV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "NodeProvisioningSet",
 		"help": "Node Provisioning Set",
@@ -184,7 +184,7 @@ export class NodeProvisioningSet extends CommandPacket<NodeProvisioningV1NodePro
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
@@ -194,9 +194,9 @@ export class NodeProvisioningSet extends CommandPacket<NodeProvisioningV1NodePro
 };
 
 export class NodeProvisioningDelete extends CommandPacket<NodeProvisioningV1NodeProvisioningDeleteData> {
-	public static readonly CommandClass = NodeProvisioningV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeProvisioningV1 = NodeProvisioningV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "NodeProvisioningDelete",
 		"help": "Node Provisioning Delete",
@@ -249,7 +249,7 @@ export class NodeProvisioningDelete extends CommandPacket<NodeProvisioningV1Node
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
@@ -259,9 +259,9 @@ export class NodeProvisioningDelete extends CommandPacket<NodeProvisioningV1Node
 };
 
 export class NodeProvisioningListIterationGet extends CommandPacket<NodeProvisioningV1NodeProvisioningListIterationGetData> {
-	public static readonly CommandClass = NodeProvisioningV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeProvisioningV1 = NodeProvisioningV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "NodeProvisioningListIterationGet",
 		"help": "Node Provisioning List Iteration Get",
@@ -282,7 +282,7 @@ export class NodeProvisioningListIterationGet extends CommandPacket<NodeProvisio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
@@ -292,9 +292,9 @@ export class NodeProvisioningListIterationGet extends CommandPacket<NodeProvisio
 };
 
 export class NodeProvisioningListIterationReport extends CommandPacket<NodeProvisioningV1NodeProvisioningListIterationReportData> {
-	public static readonly CommandClass = NodeProvisioningV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeProvisioningV1 = NodeProvisioningV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "NodeProvisioningListIterationReport",
 		"help": "Node Provisioning List Iteration Report",
@@ -406,7 +406,7 @@ export class NodeProvisioningListIterationReport extends CommandPacket<NodeProvi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
@@ -416,9 +416,9 @@ export class NodeProvisioningListIterationReport extends CommandPacket<NodeProvi
 };
 
 export class NodeProvisioningGet extends CommandPacket<NodeProvisioningV1NodeProvisioningGetData> {
-	public static readonly CommandClass = NodeProvisioningV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeProvisioningV1 = NodeProvisioningV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "NodeProvisioningGet",
 		"help": "Node Provisioning Get",
@@ -471,7 +471,7 @@ export class NodeProvisioningGet extends CommandPacket<NodeProvisioningV1NodePro
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 
@@ -481,9 +481,9 @@ export class NodeProvisioningGet extends CommandPacket<NodeProvisioningV1NodePro
 };
 
 export class NodeProvisioningReport extends CommandPacket<NodeProvisioningV1NodeProvisioningReportData> {
-	public static readonly CommandClass = NodeProvisioningV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeProvisioningV1 = NodeProvisioningV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "NodeProvisioningReport",
 		"help": "Node Provisioning Report",
@@ -589,7 +589,7 @@ export class NodeProvisioningReport extends CommandPacket<NodeProvisioningV1Node
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeProvisioningV1)?.command === this.command;
 	}
 

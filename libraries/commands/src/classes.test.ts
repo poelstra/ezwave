@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /**
  * Tests for the Z-Wave commands that are automatically generated,
  * and the corresponding decoder/encoder.

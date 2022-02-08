@@ -27,7 +27,7 @@ const defaultRequest: ZwAddNodeToNetworkRequest = {
 	totalNodes: 0,
 };
 
-const CommandClassesMark = 0xef; // (239)
+const COMMAND_CLASSES_MARK = 0xef; // (239)
 
 describe("serialapi/commands/controller/zwAddNodeToNetwork", () => {
 	let clock: sinon.SinonFakeTimers;
@@ -68,14 +68,14 @@ describe("serialapi/commands/controller/zwAddNodeToNetwork", () => {
 			},
 		});
 		expect(
-			check([1, 3, 4, 7, 10, 20, 30, 40, 50, CommandClassesMark, 60])
+			check([1, 3, 4, 7, 10, 20, 30, 40, 50, COMMAND_CLASSES_MARK, 60])
 		).toEqual({
 			type: "ADDING_SLAVE",
 			nif: testNif,
 		});
 		expect(() => check([1, 3])).toThrowError("missing nodeId / len");
 		expect(
-			check([1, 4, 4, 7, 10, 20, 30, 40, 50, CommandClassesMark, 60])
+			check([1, 4, 4, 7, 10, 20, 30, 40, 50, COMMAND_CLASSES_MARK, 60])
 		).toEqual({
 			type: "ADDING_CONTROLLER",
 			nif: testNif,

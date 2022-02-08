@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum InclusionControllerV1Commands {
 	Initiate = 0x01,
@@ -36,8 +36,8 @@ export enum StatusEnum {
 }
 
 export class InclusionControllerV1 extends CommandClassPacket<InclusionControllerV1Commands> {
-	public static readonly commandClass = CommandClasses.InclusionController; // 0x74 (116)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.InclusionController; // 0x74 (116)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -49,9 +49,9 @@ export class InclusionControllerV1 extends CommandClassPacket<InclusionControlle
 }
 
 export class Initiate extends CommandPacket<InclusionControllerV1InitiateData> {
-	public static readonly CommandClass = InclusionControllerV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof InclusionControllerV1 = InclusionControllerV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "Initiate",
 		"help": "Initiate",
@@ -87,7 +87,7 @@ export class Initiate extends CommandPacket<InclusionControllerV1InitiateData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(InclusionControllerV1)?.command === this.command;
 	}
 
@@ -97,9 +97,9 @@ export class Initiate extends CommandPacket<InclusionControllerV1InitiateData> {
 };
 
 export class Complete extends CommandPacket<InclusionControllerV1CompleteData> {
-	public static readonly CommandClass = InclusionControllerV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof InclusionControllerV1 = InclusionControllerV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "Complete",
 		"help": "Complete",
@@ -152,7 +152,7 @@ export class Complete extends CommandPacket<InclusionControllerV1CompleteData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(InclusionControllerV1)?.command === this.command;
 	}
 

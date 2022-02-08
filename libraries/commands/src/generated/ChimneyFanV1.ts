@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ChimneyFanV1Commands {
 	ChimneyFanAlarmLogGet = 0x20,
@@ -253,8 +253,8 @@ export enum State2Enum {
 }
 
 export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
-	public static readonly commandClass = CommandClasses.ChimneyFan; // 0x2a (42)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.ChimneyFan; // 0x2a (42)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -266,9 +266,9 @@ export class ChimneyFanV1 extends CommandClassPacket<ChimneyFanV1Commands> {
 }
 
 export class ChimneyFanAlarmLogGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x20; // 32
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x20; // 32
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 32,
 		"name": "ChimneyFanAlarmLogGet",
 		"help": "Chimney Fan Alarm Log Get",
@@ -276,7 +276,7 @@ export class ChimneyFanAlarmLogGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -286,9 +286,9 @@ export class ChimneyFanAlarmLogGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanAlarmLogReport extends CommandPacket<ChimneyFanV1ChimneyFanAlarmLogReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x21; // 33
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x21; // 33
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 33,
 		"name": "ChimneyFanAlarmLogReport",
 		"help": "Chimney Fan Alarm Log Report",
@@ -527,7 +527,7 @@ export class ChimneyFanAlarmLogReport extends CommandPacket<ChimneyFanV1ChimneyF
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -537,9 +537,9 @@ export class ChimneyFanAlarmLogReport extends CommandPacket<ChimneyFanV1ChimneyF
 };
 
 export class ChimneyFanAlarmLogSet extends CommandPacket<ChimneyFanV1ChimneyFanAlarmLogSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x1f; // 31
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x1f; // 31
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 31,
 		"name": "ChimneyFanAlarmLogSet",
 		"help": "Chimney Fan Alarm Log Set",
@@ -560,7 +560,7 @@ export class ChimneyFanAlarmLogSet extends CommandPacket<ChimneyFanV1ChimneyFanA
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -570,9 +570,9 @@ export class ChimneyFanAlarmLogSet extends CommandPacket<ChimneyFanV1ChimneyFanA
 };
 
 export class ChimneyFanAlarmStatusGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x23; // 35
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x23; // 35
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 35,
 		"name": "ChimneyFanAlarmStatusGet",
 		"help": "Chimney Fan Alarm Status Get",
@@ -580,7 +580,7 @@ export class ChimneyFanAlarmStatusGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -590,9 +590,9 @@ export class ChimneyFanAlarmStatusGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanAlarmStatusReport extends CommandPacket<ChimneyFanV1ChimneyFanAlarmStatusReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x24; // 36
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x24; // 36
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 36,
 		"name": "ChimneyFanAlarmStatusReport",
 		"help": "Chimney Fan Alarm Status Report",
@@ -651,7 +651,7 @@ export class ChimneyFanAlarmStatusReport extends CommandPacket<ChimneyFanV1Chimn
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -661,9 +661,9 @@ export class ChimneyFanAlarmStatusReport extends CommandPacket<ChimneyFanV1Chimn
 };
 
 export class ChimneyFanAlarmStatusSet extends CommandPacket<ChimneyFanV1ChimneyFanAlarmStatusSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x22; // 34
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x22; // 34
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 34,
 		"name": "ChimneyFanAlarmStatusSet",
 		"help": "Chimney Fan Alarm Status Set",
@@ -710,7 +710,7 @@ export class ChimneyFanAlarmStatusSet extends CommandPacket<ChimneyFanV1ChimneyF
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -720,9 +720,9 @@ export class ChimneyFanAlarmStatusSet extends CommandPacket<ChimneyFanV1ChimneyF
 };
 
 export class ChimneyFanAlarmTempGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x0e; // 14
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x0e; // 14
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 14,
 		"name": "ChimneyFanAlarmTempGet",
 		"help": "Chimney Fan Alarm Temp Get",
@@ -730,7 +730,7 @@ export class ChimneyFanAlarmTempGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -740,9 +740,9 @@ export class ChimneyFanAlarmTempGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanAlarmTempReport extends CommandPacket<ChimneyFanV1ChimneyFanAlarmTempReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x0f; // 15
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x0f; // 15
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 15,
 		"name": "ChimneyFanAlarmTempReport",
 		"help": "Chimney Fan Alarm Temp Report",
@@ -794,7 +794,7 @@ export class ChimneyFanAlarmTempReport extends CommandPacket<ChimneyFanV1Chimney
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -804,9 +804,9 @@ export class ChimneyFanAlarmTempReport extends CommandPacket<ChimneyFanV1Chimney
 };
 
 export class ChimneyFanAlarmTempSet extends CommandPacket<ChimneyFanV1ChimneyFanAlarmTempSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x0d; // 13
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x0d; // 13
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 13,
 		"name": "ChimneyFanAlarmTempSet",
 		"help": "Chimney Fan Alarm Temp Set",
@@ -858,7 +858,7 @@ export class ChimneyFanAlarmTempSet extends CommandPacket<ChimneyFanV1ChimneyFan
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -868,9 +868,9 @@ export class ChimneyFanAlarmTempSet extends CommandPacket<ChimneyFanV1ChimneyFan
 };
 
 export class ChimneyFanBoostTimeGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x11; // 17
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x11; // 17
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 17,
 		"name": "ChimneyFanBoostTimeGet",
 		"help": "Chimney Fan Boost Time Get",
@@ -878,7 +878,7 @@ export class ChimneyFanBoostTimeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -888,9 +888,9 @@ export class ChimneyFanBoostTimeGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanBoostTimeReport extends CommandPacket<ChimneyFanV1ChimneyFanBoostTimeReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x12; // 18
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x12; // 18
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 18,
 		"name": "ChimneyFanBoostTimeReport",
 		"help": "Chimney Fan Boost Time Report",
@@ -905,7 +905,7 @@ export class ChimneyFanBoostTimeReport extends CommandPacket<ChimneyFanV1Chimney
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -915,9 +915,9 @@ export class ChimneyFanBoostTimeReport extends CommandPacket<ChimneyFanV1Chimney
 };
 
 export class ChimneyFanBoostTimeSet extends CommandPacket<ChimneyFanV1ChimneyFanBoostTimeSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x10; // 16
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x10; // 16
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 16,
 		"name": "ChimneyFanBoostTimeSet",
 		"help": "Chimney Fan Boost Time Set",
@@ -932,7 +932,7 @@ export class ChimneyFanBoostTimeSet extends CommandPacket<ChimneyFanV1ChimneyFan
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -942,9 +942,9 @@ export class ChimneyFanBoostTimeSet extends CommandPacket<ChimneyFanV1ChimneyFan
 };
 
 export class ChimneyFanDefaultSet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x28; // 40
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x28; // 40
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 40,
 		"name": "ChimneyFanDefaultSet",
 		"help": "Chimney Fan Default Set",
@@ -952,7 +952,7 @@ export class ChimneyFanDefaultSet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -962,9 +962,9 @@ export class ChimneyFanDefaultSet extends CommandPacket<void> {
 };
 
 export class ChimneyFanMinSpeedGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x26; // 38
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x26; // 38
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 38,
 		"name": "ChimneyFanMinSpeedGet",
 		"help": "Chimney Fan Min Speed Get",
@@ -972,7 +972,7 @@ export class ChimneyFanMinSpeedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -982,9 +982,9 @@ export class ChimneyFanMinSpeedGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanMinSpeedReport extends CommandPacket<ChimneyFanV1ChimneyFanMinSpeedReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x27; // 39
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x27; // 39
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 39,
 		"name": "ChimneyFanMinSpeedReport",
 		"help": "Chimney Fan Min Speed Report",
@@ -999,7 +999,7 @@ export class ChimneyFanMinSpeedReport extends CommandPacket<ChimneyFanV1ChimneyF
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1009,9 +1009,9 @@ export class ChimneyFanMinSpeedReport extends CommandPacket<ChimneyFanV1ChimneyF
 };
 
 export class ChimneyFanMinSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanMinSpeedSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x25; // 37
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x25; // 37
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 37,
 		"name": "ChimneyFanMinSpeedSet",
 		"help": "Chimney Fan Min Speed Set",
@@ -1026,7 +1026,7 @@ export class ChimneyFanMinSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanM
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1036,9 +1036,9 @@ export class ChimneyFanMinSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanM
 };
 
 export class ChimneyFanModeGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x17; // 23
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x17; // 23
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 23,
 		"name": "ChimneyFanModeGet",
 		"help": "Chimney Fan Mode Get",
@@ -1046,7 +1046,7 @@ export class ChimneyFanModeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1056,9 +1056,9 @@ export class ChimneyFanModeGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanModeReport extends CommandPacket<ChimneyFanV1ChimneyFanModeReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x18; // 24
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x18; // 24
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 24,
 		"name": "ChimneyFanModeReport",
 		"help": "Chimney Fan Mode Report",
@@ -1083,7 +1083,7 @@ export class ChimneyFanModeReport extends CommandPacket<ChimneyFanV1ChimneyFanMo
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1093,9 +1093,9 @@ export class ChimneyFanModeReport extends CommandPacket<ChimneyFanV1ChimneyFanMo
 };
 
 export class ChimneyFanModeSet extends CommandPacket<ChimneyFanV1ChimneyFanModeSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x16; // 22
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x16; // 22
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 22,
 		"name": "ChimneyFanModeSet",
 		"help": "Chimney Fan Mode Set",
@@ -1120,7 +1120,7 @@ export class ChimneyFanModeSet extends CommandPacket<ChimneyFanV1ChimneyFanModeS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1130,9 +1130,9 @@ export class ChimneyFanModeSet extends CommandPacket<ChimneyFanV1ChimneyFanModeS
 };
 
 export class ChimneyFanSetupGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x1a; // 26
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x1a; // 26
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 26,
 		"name": "ChimneyFanSetupGet",
 		"help": "Chimney Fan Setup Get",
@@ -1140,7 +1140,7 @@ export class ChimneyFanSetupGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1150,9 +1150,9 @@ export class ChimneyFanSetupGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanSetupReport extends CommandPacket<ChimneyFanV1ChimneyFanSetupReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x1b; // 27
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x1b; // 27
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 27,
 		"name": "ChimneyFanSetupReport",
 		"help": "Chimney Fan Setup Report",
@@ -1324,7 +1324,7 @@ export class ChimneyFanSetupReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1334,9 +1334,9 @@ export class ChimneyFanSetupReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 };
 
 export class ChimneyFanSetupSet extends CommandPacket<ChimneyFanV1ChimneyFanSetupSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x19; // 25
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x19; // 25
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 25,
 		"name": "ChimneyFanSetupSet",
 		"help": "Chimney Fan Setup Set",
@@ -1508,7 +1508,7 @@ export class ChimneyFanSetupSet extends CommandPacket<ChimneyFanV1ChimneyFanSetu
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1518,9 +1518,9 @@ export class ChimneyFanSetupSet extends CommandPacket<ChimneyFanV1ChimneyFanSetu
 };
 
 export class ChimneyFanSpeedGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "ChimneyFanSpeedGet",
 		"help": "Chimney Fan Speed Get",
@@ -1528,7 +1528,7 @@ export class ChimneyFanSpeedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1538,9 +1538,9 @@ export class ChimneyFanSpeedGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanSpeedReport extends CommandPacket<ChimneyFanV1ChimneyFanSpeedReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "ChimneyFanSpeedReport",
 		"help": "Chimney Fan Speed Report",
@@ -1555,7 +1555,7 @@ export class ChimneyFanSpeedReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1565,9 +1565,9 @@ export class ChimneyFanSpeedReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 };
 
 export class ChimneyFanSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanSpeedSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "ChimneyFanSpeedSet",
 		"help": "Chimney Fan Speed Set",
@@ -1592,7 +1592,7 @@ export class ChimneyFanSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanSpee
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1602,9 +1602,9 @@ export class ChimneyFanSpeedSet extends CommandPacket<ChimneyFanV1ChimneyFanSpee
 };
 
 export class ChimneyFanStartTempGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "ChimneyFanStartTempGet",
 		"help": "Chimney Fan Start Temp Get",
@@ -1612,7 +1612,7 @@ export class ChimneyFanStartTempGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1622,9 +1622,9 @@ export class ChimneyFanStartTempGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanStartTempReport extends CommandPacket<ChimneyFanV1ChimneyFanStartTempReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "ChimneyFanStartTempReport",
 		"help": "Chimney Fan Start Temp Report",
@@ -1676,7 +1676,7 @@ export class ChimneyFanStartTempReport extends CommandPacket<ChimneyFanV1Chimney
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1686,9 +1686,9 @@ export class ChimneyFanStartTempReport extends CommandPacket<ChimneyFanV1Chimney
 };
 
 export class ChimneyFanStartTempSet extends CommandPacket<ChimneyFanV1ChimneyFanStartTempSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "ChimneyFanStartTempSet",
 		"help": "Chimney Fan Start Temp Set",
@@ -1740,7 +1740,7 @@ export class ChimneyFanStartTempSet extends CommandPacket<ChimneyFanV1ChimneyFan
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1750,9 +1750,9 @@ export class ChimneyFanStartTempSet extends CommandPacket<ChimneyFanV1ChimneyFan
 };
 
 export class ChimneyFanStateGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ChimneyFanStateGet",
 		"help": "Chimney Fan State Get",
@@ -1760,7 +1760,7 @@ export class ChimneyFanStateGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1770,9 +1770,9 @@ export class ChimneyFanStateGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanStateReport extends CommandPacket<ChimneyFanV1ChimneyFanStateReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "ChimneyFanStateReport",
 		"help": "Chimney Fan State Report",
@@ -1833,7 +1833,7 @@ export class ChimneyFanStateReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1843,9 +1843,9 @@ export class ChimneyFanStateReport extends CommandPacket<ChimneyFanV1ChimneyFanS
 };
 
 export class ChimneyFanStateSet extends CommandPacket<ChimneyFanV1ChimneyFanStateSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ChimneyFanStateSet",
 		"help": "Chimney Fan State Set",
@@ -1866,7 +1866,7 @@ export class ChimneyFanStateSet extends CommandPacket<ChimneyFanV1ChimneyFanStat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1876,9 +1876,9 @@ export class ChimneyFanStateSet extends CommandPacket<ChimneyFanV1ChimneyFanStat
 };
 
 export class ChimneyFanStatusGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x1d; // 29
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x1d; // 29
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 29,
 		"name": "ChimneyFanStatusGet",
 		"help": "Chimney Fan Status Get",
@@ -1886,7 +1886,7 @@ export class ChimneyFanStatusGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -1896,9 +1896,9 @@ export class ChimneyFanStatusGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanStatusReport extends CommandPacket<ChimneyFanV1ChimneyFanStatusReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x1e; // 30
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x1e; // 30
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 30,
 		"name": "ChimneyFanStatusReport",
 		"help": "Chimney Fan Status Report",
@@ -2058,7 +2058,7 @@ export class ChimneyFanStatusReport extends CommandPacket<ChimneyFanV1ChimneyFan
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -2068,9 +2068,9 @@ export class ChimneyFanStatusReport extends CommandPacket<ChimneyFanV1ChimneyFan
 };
 
 export class ChimneyFanStopTempGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x0b; // 11
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x0b; // 11
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 11,
 		"name": "ChimneyFanStopTempGet",
 		"help": "Chimney Fan Stop Temp Get",
@@ -2078,7 +2078,7 @@ export class ChimneyFanStopTempGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -2088,9 +2088,9 @@ export class ChimneyFanStopTempGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanStopTempReport extends CommandPacket<ChimneyFanV1ChimneyFanStopTempReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x0c; // 12
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x0c; // 12
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 12,
 		"name": "ChimneyFanStopTempReport",
 		"help": "Chimney Fan Stop Temp Report",
@@ -2142,7 +2142,7 @@ export class ChimneyFanStopTempReport extends CommandPacket<ChimneyFanV1ChimneyF
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -2152,9 +2152,9 @@ export class ChimneyFanStopTempReport extends CommandPacket<ChimneyFanV1ChimneyF
 };
 
 export class ChimneyFanStopTempSet extends CommandPacket<ChimneyFanV1ChimneyFanStopTempSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x0a; // 10
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x0a; // 10
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 10,
 		"name": "ChimneyFanStopTempSet",
 		"help": "Chimney Fan Stop Temp Set",
@@ -2206,7 +2206,7 @@ export class ChimneyFanStopTempSet extends CommandPacket<ChimneyFanV1ChimneyFanS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -2216,9 +2216,9 @@ export class ChimneyFanStopTempSet extends CommandPacket<ChimneyFanV1ChimneyFanS
 };
 
 export class ChimneyFanStopTimeGet extends CommandPacket<void> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x14; // 20
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x14; // 20
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 20,
 		"name": "ChimneyFanStopTimeGet",
 		"help": "Chimney Fan Stop Time Get",
@@ -2226,7 +2226,7 @@ export class ChimneyFanStopTimeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -2236,9 +2236,9 @@ export class ChimneyFanStopTimeGet extends CommandPacket<void> {
 };
 
 export class ChimneyFanStopTimeReport extends CommandPacket<ChimneyFanV1ChimneyFanStopTimeReportData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x15; // 21
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x15; // 21
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 21,
 		"name": "ChimneyFanStopTimeReport",
 		"help": "Chimney Fan Stop Time Report",
@@ -2253,7 +2253,7 @@ export class ChimneyFanStopTimeReport extends CommandPacket<ChimneyFanV1ChimneyF
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 
@@ -2263,9 +2263,9 @@ export class ChimneyFanStopTimeReport extends CommandPacket<ChimneyFanV1ChimneyF
 };
 
 export class ChimneyFanStopTimeSet extends CommandPacket<ChimneyFanV1ChimneyFanStopTimeSetData> {
-	public static readonly CommandClass = ChimneyFanV1;
-	public static readonly command = 0x13; // 19
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ChimneyFanV1 = ChimneyFanV1;
+	public static readonly command: number = 0x13; // 19
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 19,
 		"name": "ChimneyFanStopTimeSet",
 		"help": "Chimney Fan Stop Time Set",
@@ -2280,7 +2280,7 @@ export class ChimneyFanStopTimeSet extends CommandPacket<ChimneyFanV1ChimneyFanS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ChimneyFanV1)?.command === this.command;
 	}
 

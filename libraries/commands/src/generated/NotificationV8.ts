@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NotificationV8Commands {
 	NotificationGet = 0x04,
@@ -114,8 +114,8 @@ export enum BitMaskEnum {
 }
 
 export class NotificationV8 extends CommandClassPacket<NotificationV8Commands> {
-	public static readonly commandClass = CommandClasses.Notification; // 0x71 (113)
-	public static readonly version = 8;
+	public static readonly commandClass: number = CommandClasses.Notification; // 0x71 (113)
+	public static readonly version: number = 8;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -127,9 +127,9 @@ export class NotificationV8 extends CommandClassPacket<NotificationV8Commands> {
 }
 
 export class NotificationGet extends CommandPacket<NotificationV8NotificationGetData> {
-	public static readonly CommandClass = NotificationV8;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NotificationV8 = NotificationV8;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "NotificationGet",
 		"help": "Notification Get",
@@ -254,7 +254,7 @@ export class NotificationGet extends CommandPacket<NotificationV8NotificationGet
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NotificationV8)?.command === this.command;
 	}
 
@@ -264,9 +264,9 @@ export class NotificationGet extends CommandPacket<NotificationV8NotificationGet
 };
 
 export class NotificationReport extends CommandPacket<NotificationV8NotificationReportData> {
-	public static readonly CommandClass = NotificationV8;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NotificationV8 = NotificationV8;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "NotificationReport",
 		"help": "Notification Report",
@@ -474,7 +474,7 @@ export class NotificationReport extends CommandPacket<NotificationV8Notification
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NotificationV8)?.command === this.command;
 	}
 
@@ -484,9 +484,9 @@ export class NotificationReport extends CommandPacket<NotificationV8Notification
 };
 
 export class NotificationSet extends CommandPacket<NotificationV8NotificationSetData> {
-	public static readonly CommandClass = NotificationV8;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NotificationV8 = NotificationV8;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "NotificationSet",
 		"help": "Notification Set",
@@ -619,7 +619,7 @@ export class NotificationSet extends CommandPacket<NotificationV8NotificationSet
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NotificationV8)?.command === this.command;
 	}
 
@@ -629,9 +629,9 @@ export class NotificationSet extends CommandPacket<NotificationV8NotificationSet
 };
 
 export class NotificationSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = NotificationV8;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NotificationV8 = NotificationV8;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "NotificationSupportedGet",
 		"help": "Notification Supported Get",
@@ -639,7 +639,7 @@ export class NotificationSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NotificationV8)?.command === this.command;
 	}
 
@@ -649,9 +649,9 @@ export class NotificationSupportedGet extends CommandPacket<void> {
 };
 
 export class NotificationSupportedReport extends CommandPacket<NotificationV8NotificationSupportedReportData> {
-	public static readonly CommandClass = NotificationV8;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NotificationV8 = NotificationV8;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "NotificationSupportedReport",
 		"help": "Notification Supported Report",
@@ -802,7 +802,7 @@ export class NotificationSupportedReport extends CommandPacket<NotificationV8Not
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NotificationV8)?.command === this.command;
 	}
 
@@ -812,9 +812,9 @@ export class NotificationSupportedReport extends CommandPacket<NotificationV8Not
 };
 
 export class EventSupportedGet extends CommandPacket<NotificationV8EventSupportedGetData> {
-	public static readonly CommandClass = NotificationV8;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NotificationV8 = NotificationV8;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "EventSupportedGet",
 		"help": "Event Supported Get",
@@ -927,7 +927,7 @@ export class EventSupportedGet extends CommandPacket<NotificationV8EventSupporte
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NotificationV8)?.command === this.command;
 	}
 
@@ -937,9 +937,9 @@ export class EventSupportedGet extends CommandPacket<NotificationV8EventSupporte
 };
 
 export class EventSupportedReport extends CommandPacket<NotificationV8EventSupportedReportData> {
-	public static readonly CommandClass = NotificationV8;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NotificationV8 = NotificationV8;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "EventSupportedReport",
 		"help": "Event Supported Report",
@@ -1090,7 +1090,7 @@ export class EventSupportedReport extends CommandPacket<NotificationV8EventSuppo
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NotificationV8)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SilenceAlarmV1Commands {
 	SensorAlarmSet = 0x01,
@@ -18,8 +18,8 @@ export interface SilenceAlarmV1SensorAlarmSetData {
 }
 
 export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
-	public static readonly commandClass = CommandClasses.SilenceAlarm; // 0x9d (157)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SilenceAlarm; // 0x9d (157)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -31,9 +31,9 @@ export class SilenceAlarmV1 extends CommandClassPacket<SilenceAlarmV1Commands> {
 }
 
 export class SensorAlarmSet extends CommandPacket<SilenceAlarmV1SensorAlarmSetData> {
-	public static readonly CommandClass = SilenceAlarmV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SilenceAlarmV1 = SilenceAlarmV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SensorAlarmSet",
 		"help": "Sensor Alarm Set",
@@ -95,7 +95,7 @@ export class SensorAlarmSet extends CommandPacket<SilenceAlarmV1SensorAlarmSetDa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SilenceAlarmV1)?.command === this.command;
 	}
 

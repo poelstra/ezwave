@@ -4,6 +4,7 @@
 
 import { bufferToString, toHex } from "@ezwave/shared";
 import {
+	CommandDefinition,
 	CommandsByClassByVersion,
 	convertFromJsonCommandClasses,
 	ZwaveSpec,
@@ -125,19 +126,20 @@ export function autoDecode(packet: Packet): Packet {
 
 	// We now know what the command is supposed to be, so let's
 	// again build the command-specific class and decode to that.
-	class DecodedCommandPacket extends CommandPacket<any> {
-		public static readonly CommandClass = DecodedCommandClassPacket;
-		public static readonly command = cmdDef!.command;
-		public static readonly definition = cmdDef!;
+	class DecodedCommandPacket extends CommandPacket<{}> {
+		public static readonly CommandClass: typeof DecodedCommandClassPacket =
+			DecodedCommandClassPacket;
+		public static readonly command: number = cmdDef!.command;
+		public static readonly definition: CommandDefinition = cmdDef!;
 
-		static matches(packet: Packet): boolean {
+		public static matches(packet: Packet): boolean {
 			return (
 				packet.tryAs(DecodedCommandClassPacket)?.command ===
 				this.command
 			);
 		}
 
-		public constructor(data: Buffer | any) {
+		public constructor(data: Buffer | {}) {
 			super(DecodedCommandPacket, data);
 		}
 	}

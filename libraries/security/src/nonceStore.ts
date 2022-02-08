@@ -67,14 +67,14 @@ export function bufferToNonce(data: Buffer): Nonce {
 
 // SDS10865-Z-Wave-Application-Security-Layer-S0 says that capacity
 // is limited to max 128 entries.
-export const MAX_NONCE_CAPACITY = 128;
+export const MAX_NONCE_CAPACITY: number = 128;
 
 // SDS13783-Z-Wave-Transport-Encapsulation-Command-Class-Specification specifies
 // nonce timer timeout has to be in the range 3..20 seconds, with recommended time
 // of 10 seconds (SDS10865-Z-Wave-Application-Security-Layer-S0, section 5).
-export const MIN_NONCE_TIMEOUT = 3000;
-export const DEFAULT_NONCE_TIMEOUT = 10000;
-export const MAX_NONCE_TIMEOUT = 20000;
+export const MIN_NONCE_TIMEOUT: number = 3000;
+export const DEFAULT_NONCE_TIMEOUT: number = 10000;
+export const MAX_NONCE_TIMEOUT: number = 20000;
 
 export interface INonceLookup {
 	/**
@@ -99,8 +99,8 @@ export interface INonceLookup {
  */
 export class NonceStore implements INonceLookup {
 	private _available: number;
-	private _nonces = new Map<NonceId, NonceEntry>();
-	private _nodeNonces = new Map<NodeId, Set<NonceEntry>>();
+	private _nonces: Map<NonceId, NonceEntry> = new Map();
+	private _nodeNonces: Map<NodeId, Set<NonceEntry>> = new Map();
 
 	/**
 	 * Create a new nonce store with the given capacity.

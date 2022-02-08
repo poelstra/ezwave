@@ -12,7 +12,7 @@ import * as stream from "stream";
 import { promisify } from "util";
 
 const log: debug.Debugger = debug("zwave:framer");
-const logData = log.extend("data");
+const logData: debug.Debugger = log.extend("data");
 
 export enum FrameType {
 	ACK = 0x06,
@@ -83,11 +83,11 @@ export class FramerError extends Error {}
 
 export type Frame = SimpleFrame | DataFrame;
 
-const FRAME_READ_TIMEOUT = 1500; // INS12350 6.2.1 Data frame reception timeout
+const FRAME_READ_TIMEOUT: number = 1500; // INS12350 6.2.1 Data frame reception timeout
 
-const ACK_FRAME = Buffer.from([FrameType.ACK]);
-const NAK_FRAME = Buffer.from([FrameType.NAK]);
-const CAN_FRAME = Buffer.from([FrameType.CAN]);
+const ACK_FRAME: Buffer = Buffer.from([FrameType.ACK]);
+const NAK_FRAME: Buffer = Buffer.from([FrameType.NAK]);
+const CAN_FRAME: Buffer = Buffer.from([FrameType.CAN]);
 
 /**
  * Framer interface.
@@ -179,7 +179,7 @@ function frameToString(frame: Frame): string {
  * low-level byte stream and vice-versa.
  */
 export class Framer extends EventEmitter implements IFramer {
-	private _buf = Buffer.alloc(0);
+	private _buf: Buffer = Buffer.alloc(0);
 	private _timer: Timer;
 	private _stream: stream.Duplex;
 	private _inSync: boolean = true;
@@ -248,7 +248,7 @@ export class Framer extends EventEmitter implements IFramer {
 		this._timer.stop();
 	}
 
-	private _clearAndEmitFrameTooSmallIfNecessary() {
+	private _clearAndEmitFrameTooSmallIfNecessary(): void {
 		if (this._buf.length > 0) {
 			// Data can only remain in buffer when we're waiting for
 			// further data to arrive for a data frame.
@@ -492,7 +492,7 @@ export class Framer extends EventEmitter implements IFramer {
 		}
 	}
 
-	private _safeEmit(event: string, ...args: any[]): void {
+	private _safeEmit(event: string, ...args: unknown[]): void {
 		try {
 			this.emit(event, ...args);
 		} catch (err) {

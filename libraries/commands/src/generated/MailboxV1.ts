@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MailboxV1Commands {
 	MailboxConfigurationGet = 0x01,
@@ -68,8 +68,8 @@ export enum Mode2Enum {
 }
 
 export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
-	public static readonly commandClass = CommandClasses.Mailbox; // 0x69 (105)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Mailbox; // 0x69 (105)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -81,9 +81,9 @@ export class MailboxV1 extends CommandClassPacket<MailboxV1Commands> {
 }
 
 export class MailboxConfigurationGet extends CommandPacket<void> {
-	public static readonly CommandClass = MailboxV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MailboxV1 = MailboxV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "MailboxConfigurationGet",
 		"help": "Mailbox Configuration Get",
@@ -91,7 +91,7 @@ export class MailboxConfigurationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
@@ -101,9 +101,9 @@ export class MailboxConfigurationGet extends CommandPacket<void> {
 };
 
 export class MailboxConfigurationSet extends CommandPacket<MailboxV1MailboxConfigurationSetData> {
-	public static readonly CommandClass = MailboxV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MailboxV1 = MailboxV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "MailboxConfigurationSet",
 		"help": "Mailbox Configuration Set",
@@ -159,7 +159,7 @@ export class MailboxConfigurationSet extends CommandPacket<MailboxV1MailboxConfi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
@@ -169,9 +169,9 @@ export class MailboxConfigurationSet extends CommandPacket<MailboxV1MailboxConfi
 };
 
 export class MailboxConfigurationReport extends CommandPacket<MailboxV1MailboxConfigurationReportData> {
-	public static readonly CommandClass = MailboxV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MailboxV1 = MailboxV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "MailboxConfigurationReport",
 		"help": "Mailbox Configuration Report",
@@ -249,7 +249,7 @@ export class MailboxConfigurationReport extends CommandPacket<MailboxV1MailboxCo
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
@@ -259,9 +259,9 @@ export class MailboxConfigurationReport extends CommandPacket<MailboxV1MailboxCo
 };
 
 export class MailboxQueue extends CommandPacket<MailboxV1MailboxQueueData> {
-	public static readonly CommandClass = MailboxV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MailboxV1 = MailboxV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "MailboxQueue",
 		"help": "Mailbox Queue",
@@ -347,7 +347,7 @@ export class MailboxQueue extends CommandPacket<MailboxV1MailboxQueueData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
@@ -357,9 +357,9 @@ export class MailboxQueue extends CommandPacket<MailboxV1MailboxQueueData> {
 };
 
 export class MailboxWakeupNotification extends CommandPacket<MailboxV1MailboxWakeupNotificationData> {
-	public static readonly CommandClass = MailboxV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MailboxV1 = MailboxV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "MailboxWakeupNotification",
 		"help": "Mailbox Wakeup Notification",
@@ -374,7 +374,7 @@ export class MailboxWakeupNotification extends CommandPacket<MailboxV1MailboxWak
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 
@@ -384,9 +384,9 @@ export class MailboxWakeupNotification extends CommandPacket<MailboxV1MailboxWak
 };
 
 export class MailboxNodeFailing extends CommandPacket<MailboxV1MailboxNodeFailingData> {
-	public static readonly CommandClass = MailboxV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MailboxV1 = MailboxV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "MailboxNodeFailing",
 		"help": "Mailbox Failing Node",
@@ -401,7 +401,7 @@ export class MailboxNodeFailing extends CommandPacket<MailboxV1MailboxNodeFailin
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MailboxV1)?.command === this.command;
 	}
 

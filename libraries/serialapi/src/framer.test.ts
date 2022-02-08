@@ -1,5 +1,5 @@
-import * as sinon from "sinon";
 import { DuplexSource } from "@ezwave/test-util";
+import * as sinon from "sinon";
 import { DataType, Frame, FrameError, Framer, FrameType } from "./framer";
 
 describe("SerialAPI Framer", () => {
@@ -361,7 +361,7 @@ describe("SerialAPI Framer", () => {
 	});
 
 	it("survives error thrown in event handler", async () => {
-		let errors: Error[] = [];
+		const errors: Error[] = [];
 		framer.on("frame", (frame) => {
 			throw new Error("boom");
 		});

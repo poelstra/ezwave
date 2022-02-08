@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AntitheftV2Commands {
 	AntitheftSet = 0x01,
@@ -27,8 +27,8 @@ export interface AntitheftV2AntitheftReportData {
 }
 
 export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
-	public static readonly commandClass = CommandClasses.Antitheft; // 0x5d (93)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.Antitheft; // 0x5d (93)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -40,9 +40,9 @@ export class AntitheftV2 extends CommandClassPacket<AntitheftV2Commands> {
 }
 
 export class AntitheftSet extends CommandPacket<AntitheftV2AntitheftSetData> {
-	public static readonly CommandClass = AntitheftV2;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AntitheftV2 = AntitheftV2;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "AntitheftSet",
 		"help": "Anti-theft Set",
@@ -117,7 +117,7 @@ export class AntitheftSet extends CommandPacket<AntitheftV2AntitheftSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AntitheftV2)?.command === this.command;
 	}
 
@@ -127,9 +127,9 @@ export class AntitheftSet extends CommandPacket<AntitheftV2AntitheftSetData> {
 };
 
 export class AntitheftGet extends CommandPacket<void> {
-	public static readonly CommandClass = AntitheftV2;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AntitheftV2 = AntitheftV2;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "AntitheftGet",
 		"help": "Anti-theft Get",
@@ -137,7 +137,7 @@ export class AntitheftGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AntitheftV2)?.command === this.command;
 	}
 
@@ -147,9 +147,9 @@ export class AntitheftGet extends CommandPacket<void> {
 };
 
 export class AntitheftReport extends CommandPacket<AntitheftV2AntitheftReportData> {
-	public static readonly CommandClass = AntitheftV2;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AntitheftV2 = AntitheftV2;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "AntitheftReport",
 		"help": "Anti-theft Report",
@@ -193,7 +193,7 @@ export class AntitheftReport extends CommandPacket<AntitheftV2AntitheftReportDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AntitheftV2)?.command === this.command;
 	}
 

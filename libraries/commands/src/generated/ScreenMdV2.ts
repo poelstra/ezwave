@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ScreenMdV2Commands {
 	ScreenMdGet = 0x01,
@@ -47,8 +47,8 @@ export interface ScreenMdV2ScreenMdReportLegacyData {
 }
 
 export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
-	public static readonly commandClass = CommandClasses.ScreenMd; // 0x92 (146)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.ScreenMd; // 0x92 (146)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -60,9 +60,9 @@ export class ScreenMdV2 extends CommandClassPacket<ScreenMdV2Commands> {
 }
 
 export class ScreenMdGet extends CommandPacket<ScreenMdV2ScreenMdGetData> {
-	public static readonly CommandClass = ScreenMdV2;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScreenMdV2 = ScreenMdV2;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ScreenMdGet",
 		"help": "Screen Md Get",
@@ -84,7 +84,7 @@ export class ScreenMdGet extends CommandPacket<ScreenMdV2ScreenMdGetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScreenMdV2)?.command === this.command;
 	}
 
@@ -94,9 +94,9 @@ export class ScreenMdGet extends CommandPacket<ScreenMdV2ScreenMdGetData> {
 };
 
 export class ScreenMdReport extends CommandPacket<ScreenMdV2ScreenMdReportData> {
-	public static readonly CommandClass = ScreenMdV2;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScreenMdV2 = ScreenMdV2;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ScreenMdReport",
 		"help": "Screen Md Report",
@@ -224,7 +224,7 @@ export class ScreenMdReport extends CommandPacket<ScreenMdV2ScreenMdReportData> 
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScreenMdV2)?.command === this.command;
 	}
 
@@ -234,9 +234,9 @@ export class ScreenMdReport extends CommandPacket<ScreenMdV2ScreenMdReportData> 
 };
 
 export class ScreenMdReportLegacy extends CommandPacket<ScreenMdV2ScreenMdReportLegacyData> {
-	public static readonly CommandClass = ScreenMdV2;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScreenMdV2 = ScreenMdV2;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "ScreenMdReportLegacy",
 		"help": "Screen Md Report",
@@ -364,7 +364,7 @@ export class ScreenMdReportLegacy extends CommandPacket<ScreenMdV2ScreenMdReport
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScreenMdV2)?.command === this.command;
 	}
 

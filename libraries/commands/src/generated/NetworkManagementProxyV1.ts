@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NetworkManagementProxyV1Commands {
 	NodeInfoCachedGet = 0x03,
@@ -52,8 +52,8 @@ export enum StatusEnum {
 }
 
 export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManagementProxyV1Commands> {
-	public static readonly commandClass = CommandClasses.NetworkManagementProxy; // 0x52 (82)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.NetworkManagementProxy; // 0x52 (82)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -65,9 +65,9 @@ export class NetworkManagementProxyV1 extends CommandClassPacket<NetworkManageme
 }
 
 export class NodeInfoCachedGet extends CommandPacket<NetworkManagementProxyV1NodeInfoCachedGetData> {
-	public static readonly CommandClass = NetworkManagementProxyV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementProxyV1 = NetworkManagementProxyV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "NodeInfoCachedGet",
 		"help": "Node Info Cached Get",
@@ -110,7 +110,7 @@ export class NodeInfoCachedGet extends CommandPacket<NetworkManagementProxyV1Nod
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 
@@ -120,9 +120,9 @@ export class NodeInfoCachedGet extends CommandPacket<NetworkManagementProxyV1Nod
 };
 
 export class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV1NodeInfoCachedReportData> {
-	public static readonly CommandClass = NetworkManagementProxyV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementProxyV1 = NetworkManagementProxyV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "NodeInfoCachedReport",
 		"help": "Node Info Cached Report",
@@ -248,7 +248,7 @@ export class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV1
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 
@@ -258,9 +258,9 @@ export class NodeInfoCachedReport extends CommandPacket<NetworkManagementProxyV1
 };
 
 export class NodeListGet extends CommandPacket<NetworkManagementProxyV1NodeListGetData> {
-	public static readonly CommandClass = NetworkManagementProxyV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementProxyV1 = NetworkManagementProxyV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "NodeListGet",
 		"help": "Node List Get",
@@ -275,7 +275,7 @@ export class NodeListGet extends CommandPacket<NetworkManagementProxyV1NodeListG
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 
@@ -285,9 +285,9 @@ export class NodeListGet extends CommandPacket<NetworkManagementProxyV1NodeListG
 };
 
 export class NodeListReport extends CommandPacket<NetworkManagementProxyV1NodeListReportData> {
-	public static readonly CommandClass = NetworkManagementProxyV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementProxyV1 = NetworkManagementProxyV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "NodeListReport",
 		"help": "Node List Report",
@@ -333,7 +333,7 @@ export class NodeListReport extends CommandPacket<NetworkManagementProxyV1NodeLi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementProxyV1)?.command === this.command;
 	}
 

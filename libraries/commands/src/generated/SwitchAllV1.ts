@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SwitchAllV1Commands {
 	SwitchAllGet = 0x02,
@@ -31,8 +31,8 @@ export enum ModeEnum {
 }
 
 export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
-	public static readonly commandClass = CommandClasses.SwitchAll; // 0x27 (39)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SwitchAll; // 0x27 (39)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -44,9 +44,9 @@ export class SwitchAllV1 extends CommandClassPacket<SwitchAllV1Commands> {
 }
 
 export class SwitchAllGet extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchAllV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchAllV1 = SwitchAllV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SwitchAllGet",
 		"help": "Switch All Get",
@@ -54,7 +54,7 @@ export class SwitchAllGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
@@ -64,9 +64,9 @@ export class SwitchAllGet extends CommandPacket<void> {
 };
 
 export class SwitchAllOff extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchAllV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchAllV1 = SwitchAllV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "SwitchAllOff",
 		"help": "Switch All Off",
@@ -74,7 +74,7 @@ export class SwitchAllOff extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
@@ -84,9 +84,9 @@ export class SwitchAllOff extends CommandPacket<void> {
 };
 
 export class SwitchAllOn extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchAllV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchAllV1 = SwitchAllV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "SwitchAllOn",
 		"help": "Switch All On",
@@ -94,7 +94,7 @@ export class SwitchAllOn extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
@@ -104,9 +104,9 @@ export class SwitchAllOn extends CommandPacket<void> {
 };
 
 export class SwitchAllReport extends CommandPacket<SwitchAllV1SwitchAllReportData> {
-	public static readonly CommandClass = SwitchAllV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchAllV1 = SwitchAllV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SwitchAllReport",
 		"help": "Switch All Report",
@@ -139,7 +139,7 @@ export class SwitchAllReport extends CommandPacket<SwitchAllV1SwitchAllReportDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 
@@ -149,9 +149,9 @@ export class SwitchAllReport extends CommandPacket<SwitchAllV1SwitchAllReportDat
 };
 
 export class SwitchAllSet extends CommandPacket<SwitchAllV1SwitchAllSetData> {
-	public static readonly CommandClass = SwitchAllV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchAllV1 = SwitchAllV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SwitchAllSet",
 		"help": "Switch All Set",
@@ -184,7 +184,7 @@ export class SwitchAllSet extends CommandPacket<SwitchAllV1SwitchAllSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchAllV1)?.command === this.command;
 	}
 

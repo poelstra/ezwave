@@ -27,6 +27,8 @@ import {
 import { parseCommandClasses } from "./commandClassInfo";
 import { Packet } from "./packet";
 
+/* eslint-disable no-bitwise */
+
 export function decodeCommandAndPayload<T extends object | void>(
 	commandDef: CommandDefinition,
 	commandAndPayload: Buffer
@@ -322,6 +324,7 @@ function decodeGroup(
 
 	let oldProcessed = -1;
 	let processed = 0;
+	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		if (oldProcessed === processed) {
 			// Prevent against infinite loops in case of programming errors.

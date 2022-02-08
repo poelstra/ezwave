@@ -13,7 +13,7 @@ class FakeNonceLookup implements INonceLookup {
 		this._nonce = bufferToNonce(data);
 	}
 
-	getAndRelease(nonceId: number): Nonce | undefined {
+	public getAndRelease(nonceId: number): Nonce | undefined {
 		if (!this._nonce) {
 			throw new Error("nonce already released");
 		}
@@ -69,8 +69,6 @@ describe("SecurityS0Codec", () => {
 	});
 
 	it("decrypts packet correctly", () => {
-		const crypto = new CryptoManager(networkKey);
-
 		// prettier-ignore
 		const encrypted = new Packet(Buffer.from([
 			0x98, // COMMAND_CLASS_SECURITY = 0x98

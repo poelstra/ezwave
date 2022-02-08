@@ -111,6 +111,7 @@ export class SecurityS0Codec {
 			encryptedPayload
 		);
 		// TODO handle sequenceInfo
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const sequenceInfo = decryptedPayload[0];
 		const message = decryptedPayload.slice(1);
 

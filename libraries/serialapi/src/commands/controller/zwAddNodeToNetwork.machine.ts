@@ -10,10 +10,10 @@ export enum AddNodeResultStatus {
 	Ok,
 }
 
-export type AddNodeMachineResult = {
+export interface AddNodeMachineResult {
 	status: AddNodeResultStatus;
 	nif?: NodeInfoResponse;
-};
+}
 
 export interface Context {
 	listeningNodesCount: number;
@@ -41,23 +41,23 @@ export type Event =
  * See INS13954-7, section 4.4.1.3.1.
  * Apparently allowed to be as small as 200ms, maximum 10s. Probably very rare.
  */
-const PROTOCOL_READY_TIMEOUT = 10 * 1000;
+const PROTOCOL_READY_TIMEOUT: number = 10 * 1000;
 
 /**
  * Recommended timeout for waiting for NodeFound status since calling AddNodeToNetwork(Any).
  * See INS13954-7, section 4.4.1.3.2.
  */
-const NODE_FOUND_TIMEOUT = 60 * 1000;
+const NODE_FOUND_TIMEOUT: number = 60 * 1000;
 
 /**
  * Recommended timeout for waiting until AddingSlave or AddingController status after
  * receiving NodeFound.
  * See INS13954-7, section 4.4.1.2.3
  */
-const SLAVE_OR_CONTROLLER_FOUND_TIMEOUT = 60 * 1000;
+const SLAVE_OR_CONTROLLER_FOUND_TIMEOUT: number = 60 * 1000;
 
 // Unspecified in spec
-const NODE_STOP_TIMEOUT = 60 * 1000;
+const NODE_STOP_TIMEOUT: number = 60 * 1000;
 
 function getAddSlaveNodeTimeout(
 	listeningNodesCount: number,
@@ -82,6 +82,7 @@ function getAddControllerNodeTimeout(
 	);
 }
 
+// eslint-disable-next-line @rushstack/typedef-var
 export const machine = createMachine<Context, Event, "addNodeToNetwork">(
 	{
 		id: "addNodeToNetwork",

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum HrvStatusV1Commands {
 	HrvStatusGet = 0x01,
@@ -51,8 +51,8 @@ export enum BitMaskEnum {
 }
 
 export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
-	public static readonly commandClass = CommandClasses.HrvStatus; // 0x37 (55)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.HrvStatus; // 0x37 (55)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -64,9 +64,9 @@ export class HrvStatusV1 extends CommandClassPacket<HrvStatusV1Commands> {
 }
 
 export class HrvStatusGet extends CommandPacket<HrvStatusV1HrvStatusGetData> {
-	public static readonly CommandClass = HrvStatusV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HrvStatusV1 = HrvStatusV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "HrvStatusGet",
 		"help": "Hrv Status Get",
@@ -111,7 +111,7 @@ export class HrvStatusGet extends CommandPacket<HrvStatusV1HrvStatusGetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 
@@ -121,9 +121,9 @@ export class HrvStatusGet extends CommandPacket<HrvStatusV1HrvStatusGetData> {
 };
 
 export class HrvStatusReport extends CommandPacket<HrvStatusV1HrvStatusReportData> {
-	public static readonly CommandClass = HrvStatusV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HrvStatusV1 = HrvStatusV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "HrvStatusReport",
 		"help": "Hrv Status Report",
@@ -202,7 +202,7 @@ export class HrvStatusReport extends CommandPacket<HrvStatusV1HrvStatusReportDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 
@@ -212,9 +212,9 @@ export class HrvStatusReport extends CommandPacket<HrvStatusV1HrvStatusReportDat
 };
 
 export class HrvStatusSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = HrvStatusV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HrvStatusV1 = HrvStatusV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "HrvStatusSupportedGet",
 		"help": "Hrv Status Supported Get",
@@ -222,7 +222,7 @@ export class HrvStatusSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 
@@ -232,9 +232,9 @@ export class HrvStatusSupportedGet extends CommandPacket<void> {
 };
 
 export class HrvStatusSupportedReport extends CommandPacket<HrvStatusV1HrvStatusSupportedReportData> {
-	public static readonly CommandClass = HrvStatusV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HrvStatusV1 = HrvStatusV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "HrvStatusSupportedReport",
 		"help": "Hrv Status Supported Report",
@@ -281,7 +281,7 @@ export class HrvStatusSupportedReport extends CommandPacket<HrvStatusV1HrvStatus
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HrvStatusV1)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum Zip6lowpanV1Commands {
 	LowpanFirstFragment = 0xc0,
@@ -28,9 +28,9 @@ export interface Zip6lowpanV1LowpanSubsequentFragmentData {
 }
 
 export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
-	public static readonly commandClass = CommandClasses.Zip6lowpan; // 0x4f (79)
-	public static readonly version = 1;
-	public static readonly commandMask = 0xf8;
+	public static readonly commandClass: number = CommandClasses.Zip6lowpan; // 0x4f (79)
+	public static readonly version: number = 1;
+	public static readonly commandMask: number = 0xf8;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -42,9 +42,9 @@ export class Zip6lowpanV1 extends CommandClassPacket<Zip6lowpanV1Commands> {
 }
 
 export class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFragmentData> {
-	public static readonly CommandClass = Zip6lowpanV1;
-	public static readonly command = 0xc0; // 192
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof Zip6lowpanV1 = Zip6lowpanV1;
+	public static readonly command: number = 0xc0; // 192
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 192,
 		"name": "LowpanFirstFragment",
 		"help": "Lowpan First Fragment",
@@ -89,7 +89,7 @@ export class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFr
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(Zip6lowpanV1)?.command === this.command;
 	}
 
@@ -99,9 +99,9 @@ export class LowpanFirstFragment extends CommandPacket<Zip6lowpanV1LowpanFirstFr
 };
 
 export class LowpanSubsequentFragment extends CommandPacket<Zip6lowpanV1LowpanSubsequentFragmentData> {
-	public static readonly CommandClass = Zip6lowpanV1;
-	public static readonly command = 0xe0; // 224
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof Zip6lowpanV1 = Zip6lowpanV1;
+	public static readonly command: number = 0xe0; // 224
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 224,
 		"name": "LowpanSubsequentFragment",
 		"help": "Lowpan Subsequent Fragment",
@@ -152,7 +152,7 @@ export class LowpanSubsequentFragment extends CommandPacket<Zip6lowpanV1LowpanSu
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(Zip6lowpanV1)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NetworkManagementInstallationMaintenanceV1Commands {
 	PriorityRouteSet = 0x01,
@@ -74,8 +74,8 @@ export enum Type2Enum {
 }
 
 export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPacket<NetworkManagementInstallationMaintenanceV1Commands> {
-	public static readonly commandClass = CommandClasses.NetworkManagementInstallationMaintenance; // 0x67 (103)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.NetworkManagementInstallationMaintenance; // 0x67 (103)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -87,9 +87,9 @@ export class NetworkManagementInstallationMaintenanceV1 extends CommandClassPack
 }
 
 export class PriorityRouteSet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteSetData> {
-	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementInstallationMaintenanceV1 = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "PriorityRouteSet",
 		"help": "Priority Route Set",
@@ -153,7 +153,7 @@ export class PriorityRouteSet extends CommandPacket<NetworkManagementInstallatio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
@@ -163,9 +163,9 @@ export class PriorityRouteSet extends CommandPacket<NetworkManagementInstallatio
 };
 
 export class PriorityRouteGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteGetData> {
-	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementInstallationMaintenanceV1 = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "PriorityRouteGet",
 		"help": "Priority Route Get",
@@ -181,7 +181,7 @@ export class PriorityRouteGet extends CommandPacket<NetworkManagementInstallatio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
@@ -191,9 +191,9 @@ export class PriorityRouteGet extends CommandPacket<NetworkManagementInstallatio
 };
 
 export class PriorityRouteReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1PriorityRouteReportData> {
-	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementInstallationMaintenanceV1 = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "PriorityRouteReport",
 		"help": "Priority Route Report",
@@ -281,7 +281,7 @@ export class PriorityRouteReport extends CommandPacket<NetworkManagementInstalla
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
@@ -291,9 +291,9 @@ export class PriorityRouteReport extends CommandPacket<NetworkManagementInstalla
 };
 
 export class StatisticsGet extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsGetData> {
-	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementInstallationMaintenanceV1 = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "StatisticsGet",
 		"help": "Statistics Get",
@@ -309,7 +309,7 @@ export class StatisticsGet extends CommandPacket<NetworkManagementInstallationMa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
@@ -319,9 +319,9 @@ export class StatisticsGet extends CommandPacket<NetworkManagementInstallationMa
 };
 
 export class StatisticsReport extends CommandPacket<NetworkManagementInstallationMaintenanceV1StatisticsReportData> {
-	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementInstallationMaintenanceV1 = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "StatisticsReport",
 		"help": "Statistics Report",
@@ -402,7 +402,7 @@ export class StatisticsReport extends CommandPacket<NetworkManagementInstallatio
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 
@@ -412,9 +412,9 @@ export class StatisticsReport extends CommandPacket<NetworkManagementInstallatio
 };
 
 export class StatisticsClear extends CommandPacket<void> {
-	public static readonly CommandClass = NetworkManagementInstallationMaintenanceV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementInstallationMaintenanceV1 = NetworkManagementInstallationMaintenanceV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "StatisticsClear",
 		"help": "Statistics Clear",
@@ -422,7 +422,7 @@ export class StatisticsClear extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementInstallationMaintenanceV1)?.command === this.command;
 	}
 

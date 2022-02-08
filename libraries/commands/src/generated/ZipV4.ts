@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ZipV4Commands {
 	CommandZipPacket = 0x02,
@@ -35,8 +35,8 @@ export interface ZipV4CommandZipKeepAliveData {
 }
 
 export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
-	public static readonly commandClass = CommandClasses.Zip; // 0x23 (35)
-	public static readonly version = 4;
+	public static readonly commandClass: number = CommandClasses.Zip; // 0x23 (35)
+	public static readonly version: number = 4;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -48,9 +48,9 @@ export class ZipV4 extends CommandClassPacket<ZipV4Commands> {
 }
 
 export class CommandZipPacket extends CommandPacket<ZipV4CommandZipPacketData> {
-	public static readonly CommandClass = ZipV4;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipV4 = ZipV4;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "CommandZipPacket",
 		"help": "Zip Packet",
@@ -250,7 +250,7 @@ export class CommandZipPacket extends CommandPacket<ZipV4CommandZipPacketData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipV4)?.command === this.command;
 	}
 
@@ -260,9 +260,9 @@ export class CommandZipPacket extends CommandPacket<ZipV4CommandZipPacketData> {
 };
 
 export class CommandZipKeepAlive extends CommandPacket<ZipV4CommandZipKeepAliveData> {
-	public static readonly CommandClass = ZipV4;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipV4 = ZipV4;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "CommandZipKeepAlive",
 		"help": "Zip Keep Alive",
@@ -298,7 +298,7 @@ export class CommandZipKeepAlive extends CommandPacket<ZipV4CommandZipKeepAliveD
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipV4)?.command === this.command;
 	}
 

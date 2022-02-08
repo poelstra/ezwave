@@ -47,10 +47,12 @@ export class DuplexSource<T> extends Duplex {
 		this.push(null);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public _read(size: number): void {
 		/* no-op */
 	}
 
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public _write(
 		chunk: unknown,
 		encoding: string,
@@ -62,7 +64,7 @@ export class DuplexSource<T> extends Duplex {
 		callback();
 	}
 
-	// eslint-disable-next-line @rushstack/no-new-null
+	// eslint-disable-next-line @typescript-eslint/naming-convention, @rushstack/no-new-null
 	public _final(callback: (error?: Error | null) => void): void {
 		this.events.push("end");
 		callback();

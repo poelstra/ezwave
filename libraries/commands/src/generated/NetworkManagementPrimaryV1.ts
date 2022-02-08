@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NetworkManagementPrimaryV1Commands {
 	ControllerChange = 0x01,
@@ -45,8 +45,8 @@ export enum TxOptionsEnum {
 }
 
 export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManagementPrimaryV1Commands> {
-	public static readonly commandClass = CommandClasses.NetworkManagementPrimary; // 0x54 (84)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.NetworkManagementPrimary; // 0x54 (84)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -58,9 +58,9 @@ export class NetworkManagementPrimaryV1 extends CommandClassPacket<NetworkManage
 }
 
 export class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeData> {
-	public static readonly CommandClass = NetworkManagementPrimaryV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementPrimaryV1 = NetworkManagementPrimaryV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ControllerChange",
 		"help": "Controller Change",
@@ -138,7 +138,7 @@ export class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1Co
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
 	}
 
@@ -148,9 +148,9 @@ export class ControllerChange extends CommandPacket<NetworkManagementPrimaryV1Co
 };
 
 export class ControllerChangeStatus extends CommandPacket<NetworkManagementPrimaryV1ControllerChangeStatusData> {
-	public static readonly CommandClass = NetworkManagementPrimaryV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NetworkManagementPrimaryV1 = NetworkManagementPrimaryV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ControllerChangeStatus",
 		"help": "Controller Change Status",
@@ -275,7 +275,7 @@ export class ControllerChangeStatus extends CommandPacket<NetworkManagementPrima
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NetworkManagementPrimaryV1)?.command === this.command;
 	}
 

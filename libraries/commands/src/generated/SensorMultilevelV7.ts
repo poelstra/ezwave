@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SensorMultilevelV7Commands {
 	SensorMultilevelGet = 0x04,
@@ -150,8 +150,8 @@ export enum BitMaskEnum {
 }
 
 export class SensorMultilevelV7 extends CommandClassPacket<SensorMultilevelV7Commands> {
-	public static readonly commandClass = CommandClasses.SensorMultilevel; // 0x31 (49)
-	public static readonly version = 7;
+	public static readonly commandClass: number = CommandClasses.SensorMultilevel; // 0x31 (49)
+	public static readonly version: number = 7;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -163,9 +163,9 @@ export class SensorMultilevelV7 extends CommandClassPacket<SensorMultilevelV7Com
 }
 
 export class SensorMultilevelGet extends CommandPacket<SensorMultilevelV7SensorMultilevelGetData> {
-	public static readonly CommandClass = SensorMultilevelV7;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV7 = SensorMultilevelV7;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "SensorMultilevelGet",
 		"help": "Multilevel Sensor Get",
@@ -414,7 +414,7 @@ export class SensorMultilevelGet extends CommandPacket<SensorMultilevelV7SensorM
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV7)?.command === this.command;
 	}
 
@@ -424,9 +424,9 @@ export class SensorMultilevelGet extends CommandPacket<SensorMultilevelV7SensorM
 };
 
 export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV7SensorMultilevelReportData> {
-	public static readonly CommandClass = SensorMultilevelV7;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV7 = SensorMultilevelV7;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "SensorMultilevelReport",
 		"help": "Multilevel Sensor Report",
@@ -690,7 +690,7 @@ export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV7Sens
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV7)?.command === this.command;
 	}
 
@@ -700,9 +700,9 @@ export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV7Sens
 };
 
 export class SensorMultilevelSupportedGetSensor extends CommandPacket<void> {
-	public static readonly CommandClass = SensorMultilevelV7;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV7 = SensorMultilevelV7;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SensorMultilevelSupportedGetSensor",
 		"help": "Multilevel Sensor Get Supported Sensor",
@@ -710,7 +710,7 @@ export class SensorMultilevelSupportedGetSensor extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV7)?.command === this.command;
 	}
 
@@ -720,9 +720,9 @@ export class SensorMultilevelSupportedGetSensor extends CommandPacket<void> {
 };
 
 export class SensorMultilevelSupportedSensorReport extends CommandPacket<SensorMultilevelV7SensorMultilevelSupportedSensorReportData> {
-	public static readonly CommandClass = SensorMultilevelV7;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV7 = SensorMultilevelV7;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SensorMultilevelSupportedSensorReport",
 		"help": "Multilevel Sensor Supported Sensor Report",
@@ -945,7 +945,7 @@ export class SensorMultilevelSupportedSensorReport extends CommandPacket<SensorM
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV7)?.command === this.command;
 	}
 
@@ -955,9 +955,9 @@ export class SensorMultilevelSupportedSensorReport extends CommandPacket<SensorM
 };
 
 export class SensorMultilevelSupportedGetScale extends CommandPacket<SensorMultilevelV7SensorMultilevelSupportedGetScaleData> {
-	public static readonly CommandClass = SensorMultilevelV7;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV7 = SensorMultilevelV7;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SensorMultilevelSupportedGetScale",
 		"help": "Multilevel Sensor Get Supported Scale",
@@ -1178,7 +1178,7 @@ export class SensorMultilevelSupportedGetScale extends CommandPacket<SensorMulti
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV7)?.command === this.command;
 	}
 
@@ -1188,9 +1188,9 @@ export class SensorMultilevelSupportedGetScale extends CommandPacket<SensorMulti
 };
 
 export class SensorMultilevelSupportedScaleReport extends CommandPacket<SensorMultilevelV7SensorMultilevelSupportedScaleReportData> {
-	public static readonly CommandClass = SensorMultilevelV7;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV7 = SensorMultilevelV7;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "SensorMultilevelSupportedScaleReport",
 		"help": "Multilevel Sensor Supported Scale Report",
@@ -1432,7 +1432,7 @@ export class SensorMultilevelSupportedScaleReport extends CommandPacket<SensorMu
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV7)?.command === this.command;
 	}
 

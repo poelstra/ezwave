@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SensorMultilevelV3Commands {
 	SensorMultilevelGet = 0x04,
@@ -43,8 +43,8 @@ export enum SensorTypeEnum {
 }
 
 export class SensorMultilevelV3 extends CommandClassPacket<SensorMultilevelV3Commands> {
-	public static readonly commandClass = CommandClasses.SensorMultilevel; // 0x31 (49)
-	public static readonly version = 3;
+	public static readonly commandClass: number = CommandClasses.SensorMultilevel; // 0x31 (49)
+	public static readonly version: number = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -56,9 +56,9 @@ export class SensorMultilevelV3 extends CommandClassPacket<SensorMultilevelV3Com
 }
 
 export class SensorMultilevelGet extends CommandPacket<void> {
-	public static readonly CommandClass = SensorMultilevelV3;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV3 = SensorMultilevelV3;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "SensorMultilevelGet",
 		"help": "Sensor Multilevel Get",
@@ -66,7 +66,7 @@ export class SensorMultilevelGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV3)?.command === this.command;
 	}
 
@@ -76,9 +76,9 @@ export class SensorMultilevelGet extends CommandPacket<void> {
 };
 
 export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV3SensorMultilevelReportData> {
-	public static readonly CommandClass = SensorMultilevelV3;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorMultilevelV3 = SensorMultilevelV3;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "SensorMultilevelReport",
 		"help": "Sensor Multilevel Report",
@@ -218,7 +218,7 @@ export class SensorMultilevelReport extends CommandPacket<SensorMultilevelV3Sens
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorMultilevelV3)?.command === this.command;
 	}
 

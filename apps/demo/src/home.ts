@@ -19,9 +19,9 @@ export enum HomeDevices {
 }
 
 export class Home extends EventEmitter {
-	private _lastAanrecht: number = 0;
-
 	public controller: Controller;
+
+	private _lastAanrecht: number = 0;
 
 	public constructor(controller: Controller) {
 		super();
@@ -46,40 +46,6 @@ export class Home extends EventEmitter {
 				)
 			);
 		});
-	}
-
-	private async _handleControllerEvent(
-		event: LayerEvent<Packet>
-	): Promise<void> {
-		if (event.packet.is(SwitchMultilevelV1.SwitchMultilevelReport)) {
-			const level = event.packet.as(
-				SwitchMultilevelV1.SwitchMultilevelReport
-			).data.value;
-			console.log(
-				`-> received SWITCH_MULTILEVEL_REPORT, node=${
-					event.endpoint.nodeId
-				}${
-					event.endpoint.channel
-						? `, channel=${event.endpoint.channel}`
-						: ""
-				} level=${level}`
-			);
-			if (
-				event.endpoint.nodeId === HomeDevices.KeukenAanrecht &&
-				(event.endpoint.channel === undefined ||
-					event.endpoint.channel === 1)
-			) {
-				// TODO Sometimes, the node sends an unsollicited SWITCH_MULTILEVEL_REPORT,
-				// but sometimes it only does that encapsulated in a MULTI_CHANNEL message.
-				// Figure out when/why.
-				this._lastAanrecht = level;
-				this.emit("value", "aanrecht", level);
-			}
-		}
-	}
-
-	private async _handleControllerAttached(): Promise<void> {
-		await this.getKeukenAanrecht();
 	}
 
 	public async setMisc(on: boolean): Promise<void> {
@@ -146,7 +112,7 @@ export class Home extends EventEmitter {
 		return this._setMultilevel(HomeDevices.EetkamerLamp, level);
 	}
 
-	public async _setMultilevel(node: number, level: number): Promise<void> {
+	private async _setMultilevel(node: number, level: number): Promise<void> {
 		if (level >= 100 && level < 255) {
 			// Z-Wave maximum value is 99...
 			level = 99;
@@ -159,10 +125,44 @@ export class Home extends EventEmitter {
 		});
 	}
 
-	public async _setBasic(node: number, on: boolean): Promise<void> {
+	private async _setBasic(node: number, on: boolean): Promise<void> {
 		await this.controller.send({
 			endpoint: { nodeId: node },
 			packet: new BasicV1.BasicSet({ value: on ? 0xff : 0x00 }),
 		});
+	}
+
+	private async _handleControllerEvent(
+		event: LayerEvent<Packet>
+	): Promise<void> {
+		if (event.packet.is(SwitchMultilevelV1.SwitchMultilevelReport)) {
+			const level = event.packet.as(
+				SwitchMultilevelV1.SwitchMultilevelReport
+			).data.value;
+			console.log(
+				`-> received SWITCH_MULTILEVEL_REPORT, node=${
+					event.endpoint.nodeId
+				}${
+					event.endpoint.channel
+						? `, channel=${event.endpoint.channel}`
+						: ""
+				} level=${level}`
+			);
+			if (
+				event.endpoint.nodeId === HomeDevices.KeukenAanrecht &&
+				(event.endpoint.channel === undefined ||
+					event.endpoint.channel === 1)
+			) {
+				// TODO Sometimes, the node sends an unsollicited SWITCH_MULTILEVEL_REPORT,
+				// but sometimes it only does that encapsulated in a MULTI_CHANNEL message.
+				// Figure out when/why.
+				this._lastAanrecht = level;
+				this.emit("value", "aanrecht", level);
+			}
+		}
+	}
+
+	private async _handleControllerAttached(): Promise<void> {
+		await this.getKeukenAanrecht();
 	}
 }

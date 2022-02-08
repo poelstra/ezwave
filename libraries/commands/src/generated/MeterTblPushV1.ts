@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MeterTblPushV1Commands {
 	MeterTblPushConfigurationGet = 0x02,
@@ -36,8 +36,8 @@ export interface MeterTblPushV1MeterTblPushConfigurationSetData {
 }
 
 export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
-	public static readonly commandClass = CommandClasses.MeterTblPush; // 0x3e (62)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.MeterTblPush; // 0x3e (62)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -49,9 +49,9 @@ export class MeterTblPushV1 extends CommandClassPacket<MeterTblPushV1Commands> {
 }
 
 export class MeterTblPushConfigurationGet extends CommandPacket<void> {
-	public static readonly CommandClass = MeterTblPushV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MeterTblPushV1 = MeterTblPushV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "MeterTblPushConfigurationGet",
 		"help": "Meter Tbl Push Configuration Get",
@@ -59,7 +59,7 @@ export class MeterTblPushConfigurationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MeterTblPushV1)?.command === this.command;
 	}
 
@@ -69,9 +69,9 @@ export class MeterTblPushConfigurationGet extends CommandPacket<void> {
 };
 
 export class MeterTblPushConfigurationReport extends CommandPacket<MeterTblPushV1MeterTblPushConfigurationReportData> {
-	public static readonly CommandClass = MeterTblPushV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MeterTblPushV1 = MeterTblPushV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "MeterTblPushConfigurationReport",
 		"help": "Meter Tbl Push Configuration Report",
@@ -144,7 +144,7 @@ export class MeterTblPushConfigurationReport extends CommandPacket<MeterTblPushV
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MeterTblPushV1)?.command === this.command;
 	}
 
@@ -154,9 +154,9 @@ export class MeterTblPushConfigurationReport extends CommandPacket<MeterTblPushV
 };
 
 export class MeterTblPushConfigurationSet extends CommandPacket<MeterTblPushV1MeterTblPushConfigurationSetData> {
-	public static readonly CommandClass = MeterTblPushV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MeterTblPushV1 = MeterTblPushV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "MeterTblPushConfigurationSet",
 		"help": "Meter Tbl Push Configuration Set",
@@ -229,7 +229,7 @@ export class MeterTblPushConfigurationSet extends CommandPacket<MeterTblPushV1Me
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MeterTblPushV1)?.command === this.command;
 	}
 

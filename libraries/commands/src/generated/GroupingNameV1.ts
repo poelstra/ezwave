@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum GroupingNameV1Commands {
 	GroupingNameGet = 0x02,
@@ -29,10 +29,10 @@ export interface GroupingNameV1GroupingNameSetData {
 	groupingName: string; // 16 bytes
 }
 
-// Deprecated
+// This (version of the) command class is Deprecated
 export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
-	public static readonly commandClass = CommandClasses.GroupingName; // 0x7b (123)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.GroupingName; // 0x7b (123)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -44,9 +44,9 @@ export class GroupingNameV1 extends CommandClassPacket<GroupingNameV1Commands> {
 }
 
 export class GroupingNameGet extends CommandPacket<GroupingNameV1GroupingNameGetData> {
-	public static readonly CommandClass = GroupingNameV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof GroupingNameV1 = GroupingNameV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "GroupingNameGet",
 		"help": "Grouping Name Get",
@@ -61,7 +61,7 @@ export class GroupingNameGet extends CommandPacket<GroupingNameV1GroupingNameGet
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(GroupingNameV1)?.command === this.command;
 	}
 
@@ -71,9 +71,9 @@ export class GroupingNameGet extends CommandPacket<GroupingNameV1GroupingNameGet
 };
 
 export class GroupingNameReport extends CommandPacket<GroupingNameV1GroupingNameReportData> {
-	public static readonly CommandClass = GroupingNameV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof GroupingNameV1 = GroupingNameV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "GroupingNameReport",
 		"help": "Grouping Name Report",
@@ -115,7 +115,7 @@ export class GroupingNameReport extends CommandPacket<GroupingNameV1GroupingName
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(GroupingNameV1)?.command === this.command;
 	}
 
@@ -125,9 +125,9 @@ export class GroupingNameReport extends CommandPacket<GroupingNameV1GroupingName
 };
 
 export class GroupingNameSet extends CommandPacket<GroupingNameV1GroupingNameSetData> {
-	public static readonly CommandClass = GroupingNameV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof GroupingNameV1 = GroupingNameV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "GroupingNameSet",
 		"help": "Grouping Name Set",
@@ -169,7 +169,7 @@ export class GroupingNameSet extends CommandPacket<GroupingNameV1GroupingNameSet
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(GroupingNameV1)?.command === this.command;
 	}
 

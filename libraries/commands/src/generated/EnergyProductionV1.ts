@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum EnergyProductionV1Commands {
 	EnergyProductionGet = 0x02,
@@ -31,8 +31,8 @@ export enum ParameterNumberEnum {
 }
 
 export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Commands> {
-	public static readonly commandClass = CommandClasses.EnergyProduction; // 0x90 (144)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.EnergyProduction; // 0x90 (144)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -44,9 +44,9 @@ export class EnergyProductionV1 extends CommandClassPacket<EnergyProductionV1Com
 }
 
 export class EnergyProductionGet extends CommandPacket<EnergyProductionV1EnergyProductionGetData> {
-	public static readonly CommandClass = EnergyProductionV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EnergyProductionV1 = EnergyProductionV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "EnergyProductionGet",
 		"help": "Energy Production Get",
@@ -79,7 +79,7 @@ export class EnergyProductionGet extends CommandPacket<EnergyProductionV1EnergyP
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EnergyProductionV1)?.command === this.command;
 	}
 
@@ -89,9 +89,9 @@ export class EnergyProductionGet extends CommandPacket<EnergyProductionV1EnergyP
 };
 
 export class EnergyProductionReport extends CommandPacket<EnergyProductionV1EnergyProductionReportData> {
-	public static readonly CommandClass = EnergyProductionV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof EnergyProductionV1 = EnergyProductionV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "EnergyProductionReport",
 		"help": "Energy Production Report",
@@ -167,7 +167,7 @@ export class EnergyProductionReport extends CommandPacket<EnergyProductionV1Ener
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(EnergyProductionV1)?.command === this.command;
 	}
 

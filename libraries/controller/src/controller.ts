@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Packet, packetToString } from "@ezwave/codec";
 import {
 	LayerCommand,
@@ -19,7 +20,7 @@ import {
 	SerialApiCommandEvent,
 	ZwSendData,
 } from "@ezwave/serialapi";
-import { defer } from "@ezwave/shared";
+import { defer, Deferred } from "@ezwave/shared";
 import debug from "debug";
 import { EventEmitter } from "events";
 import { IZwaveHost } from "./IZwaveHost";
@@ -57,10 +58,13 @@ export class Controller
 	public readonly nodeId: number;
 
 	private _serialApi: SerialApi | undefined;
-	private _attached = defer<void>();
+	private _attached: Deferred<void> = defer();
 	private _stack: Stack;
 	private _requester: Requester;
-	private _serialApiCommandHandler = (event: SerialApiCommandEvent) =>
+	private _transactionId: number = 0; // Used for debug logging
+	private _serialApiCommandHandler = (
+		event: SerialApiCommandEvent
+	): Promise<void> =>
 		this._handleSerialCommand(event).catch((err: unknown) =>
 			log(
 				`warning:`,
@@ -69,8 +73,8 @@ export class Controller
 				err
 			)
 		);
-	private _serialApiCloseHandler = () => this.assignSerialApi(undefined);
-	private _transactionId = 0; // Used for debug logging
+	private _serialApiCloseHandler = (): Promise<void> =>
+		this.assignSerialApi(undefined);
 
 	public constructor(
 		homeId: number,
@@ -148,7 +152,7 @@ export class Controller
 		this._attached.resolve();
 	}
 
-	send(command: LayerCommand): Promise<boolean> {
+	public send(command: LayerCommand): Promise<boolean> {
 		if (log.enabled) {
 			log("send", layerCommandToString(command));
 		}

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AlarmV2Commands {
 	AlarmGet = 0x04,
@@ -72,10 +72,10 @@ export enum BitMaskEnum {
 	First = 0xff,
 }
 
-// Deprecated
+// This (version of the) command class is Deprecated
 export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
-	public static readonly commandClass = CommandClasses.Alarm; // 0x71 (113)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.Alarm; // 0x71 (113)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -87,9 +87,9 @@ export class AlarmV2 extends CommandClassPacket<AlarmV2Commands> {
 }
 
 export class AlarmGet extends CommandPacket<AlarmV2AlarmGetData> {
-	public static readonly CommandClass = AlarmV2;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AlarmV2 = AlarmV2;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "AlarmGet",
 		"help": "Alarm Get",
@@ -164,7 +164,7 @@ export class AlarmGet extends CommandPacket<AlarmV2AlarmGetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AlarmV2)?.command === this.command;
 	}
 
@@ -174,9 +174,9 @@ export class AlarmGet extends CommandPacket<AlarmV2AlarmGetData> {
 };
 
 export class AlarmReport extends CommandPacket<AlarmV2AlarmReportData> {
-	public static readonly CommandClass = AlarmV2;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AlarmV2 = AlarmV2;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "AlarmReport",
 		"help": "Alarm Report",
@@ -309,7 +309,7 @@ export class AlarmReport extends CommandPacket<AlarmV2AlarmReportData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AlarmV2)?.command === this.command;
 	}
 
@@ -319,9 +319,9 @@ export class AlarmReport extends CommandPacket<AlarmV2AlarmReportData> {
 };
 
 export class AlarmSet extends CommandPacket<AlarmV2AlarmSetData> {
-	public static readonly CommandClass = AlarmV2;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AlarmV2 = AlarmV2;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "AlarmSet",
 		"help": "Alarm Set",
@@ -406,7 +406,7 @@ export class AlarmSet extends CommandPacket<AlarmV2AlarmSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AlarmV2)?.command === this.command;
 	}
 
@@ -416,9 +416,9 @@ export class AlarmSet extends CommandPacket<AlarmV2AlarmSetData> {
 };
 
 export class AlarmTypeSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = AlarmV2;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AlarmV2 = AlarmV2;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "AlarmTypeSupportedGet",
 		"help": "Alarm Type Supported Get",
@@ -426,7 +426,7 @@ export class AlarmTypeSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AlarmV2)?.command === this.command;
 	}
 
@@ -436,9 +436,9 @@ export class AlarmTypeSupportedGet extends CommandPacket<void> {
 };
 
 export class AlarmTypeSupportedReport extends CommandPacket<AlarmV2AlarmTypeSupportedReportData> {
-	public static readonly CommandClass = AlarmV2;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AlarmV2 = AlarmV2;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "AlarmTypeSupportedReport",
 		"help": "Alarm Type Supported Report",
@@ -545,7 +545,7 @@ export class AlarmTypeSupportedReport extends CommandPacket<AlarmV2AlarmTypeSupp
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AlarmV2)?.command === this.command;
 	}
 

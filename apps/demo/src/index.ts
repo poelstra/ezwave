@@ -71,7 +71,6 @@ async function serialApiFromPort(port: Duplex): Promise<SerialApi> {
 	return serialApi;
 }
 
-// eslint-disable-next-line no-void
 void main(async () => {
 	prefixTimestamp(console, "log");
 	prefixTimestamp(console, "info");
@@ -97,7 +96,6 @@ void main(async () => {
 	let mhub: Hub | undefined;
 	if (config.mhub) {
 		mhub = new Hub(config.mhub.url, config.mhub.user, config.mhub.pass);
-		// eslint-disable-next-line no-void
 		void main(() => mhub!.run());
 	}
 

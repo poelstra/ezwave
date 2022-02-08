@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum RateTblConfigV1Commands {
 	RateTblRemove = 0x02,
@@ -34,8 +34,8 @@ export interface RateTblConfigV1RateTblSetData {
 }
 
 export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands> {
-	public static readonly commandClass = CommandClasses.RateTblConfig; // 0x48 (72)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.RateTblConfig; // 0x48 (72)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -47,9 +47,9 @@ export class RateTblConfigV1 extends CommandClassPacket<RateTblConfigV1Commands>
 }
 
 export class RateTblRemove extends CommandPacket<RateTblConfigV1RateTblRemoveData> {
-	public static readonly CommandClass = RateTblConfigV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof RateTblConfigV1 = RateTblConfigV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "RateTblRemove",
 		"help": "Rate Tbl Remove",
@@ -96,7 +96,7 @@ export class RateTblRemove extends CommandPacket<RateTblConfigV1RateTblRemoveDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(RateTblConfigV1)?.command === this.command;
 	}
 
@@ -106,9 +106,9 @@ export class RateTblRemove extends CommandPacket<RateTblConfigV1RateTblRemoveDat
 };
 
 export class RateTblSet extends CommandPacket<RateTblConfigV1RateTblSetData> {
-	public static readonly CommandClass = RateTblConfigV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof RateTblConfigV1 = RateTblConfigV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "RateTblSet",
 		"help": "Rate Tbl Set",
@@ -249,7 +249,7 @@ export class RateTblSet extends CommandPacket<RateTblConfigV1RateTblSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(RateTblConfigV1)?.command === this.command;
 	}
 

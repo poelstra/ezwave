@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SupervisionV1Commands {
 	SupervisionGet = 0x01,
@@ -34,8 +34,8 @@ export enum StatusEnum {
 }
 
 export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
-	public static readonly commandClass = CommandClasses.Supervision; // 0x6c (108)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Supervision; // 0x6c (108)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -47,9 +47,9 @@ export class SupervisionV1 extends CommandClassPacket<SupervisionV1Commands> {
 }
 
 export class SupervisionGet extends CommandPacket<SupervisionV1SupervisionGetData> {
-	public static readonly CommandClass = SupervisionV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SupervisionV1 = SupervisionV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SupervisionGet",
 		"help": "Supervision Get",
@@ -109,7 +109,7 @@ export class SupervisionGet extends CommandPacket<SupervisionV1SupervisionGetDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SupervisionV1)?.command === this.command;
 	}
 
@@ -119,9 +119,9 @@ export class SupervisionGet extends CommandPacket<SupervisionV1SupervisionGetDat
 };
 
 export class SupervisionReport extends CommandPacket<SupervisionV1SupervisionReportData> {
-	public static readonly CommandClass = SupervisionV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SupervisionV1 = SupervisionV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SupervisionReport",
 		"help": "Supervision Report",
@@ -191,7 +191,7 @@ export class SupervisionReport extends CommandPacket<SupervisionV1SupervisionRep
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SupervisionV1)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ProprietaryV1Commands {
 	ProprietaryGet = 0x02,
@@ -25,10 +25,10 @@ export interface ProprietaryV1ProprietarySetData {
 	data: Buffer; // automatic length
 }
 
-// Deprecated
+// This (version of the) command class is Deprecated
 export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
-	public static readonly commandClass = CommandClasses.Proprietary; // 0x88 (136)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Proprietary; // 0x88 (136)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -40,9 +40,9 @@ export class ProprietaryV1 extends CommandClassPacket<ProprietaryV1Commands> {
 }
 
 export class ProprietaryGet extends CommandPacket<ProprietaryV1ProprietaryGetData> {
-	public static readonly CommandClass = ProprietaryV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ProprietaryV1 = ProprietaryV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ProprietaryGet",
 		"help": "Proprietary Get",
@@ -59,7 +59,7 @@ export class ProprietaryGet extends CommandPacket<ProprietaryV1ProprietaryGetDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ProprietaryV1)?.command === this.command;
 	}
 
@@ -69,9 +69,9 @@ export class ProprietaryGet extends CommandPacket<ProprietaryV1ProprietaryGetDat
 };
 
 export class ProprietaryReport extends CommandPacket<ProprietaryV1ProprietaryReportData> {
-	public static readonly CommandClass = ProprietaryV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ProprietaryV1 = ProprietaryV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "ProprietaryReport",
 		"help": "Proprietary Report",
@@ -88,7 +88,7 @@ export class ProprietaryReport extends CommandPacket<ProprietaryV1ProprietaryRep
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ProprietaryV1)?.command === this.command;
 	}
 
@@ -98,9 +98,9 @@ export class ProprietaryReport extends CommandPacket<ProprietaryV1ProprietaryRep
 };
 
 export class ProprietarySet extends CommandPacket<ProprietaryV1ProprietarySetData> {
-	public static readonly CommandClass = ProprietaryV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ProprietaryV1 = ProprietaryV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ProprietarySet",
 		"help": "Proprietary Set",
@@ -117,7 +117,7 @@ export class ProprietarySet extends CommandPacket<ProprietaryV1ProprietarySetDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ProprietaryV1)?.command === this.command;
 	}
 

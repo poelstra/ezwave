@@ -3,6 +3,7 @@ import {
 	BitmaskType,
 	convertFromJsonParams,
 	LengthType,
+	Parameter,
 	ParameterType,
 } from "@ezwave/spec";
 import { RequestRunner } from "../RequestRunner";
@@ -24,7 +25,7 @@ export interface SerialAPIInitData {
 	chipVersion: number;
 }
 
-const SERIAL_API_INIT_DATA_PARAMS = convertFromJsonParams([
+const SERIAL_API_INIT_DATA_PARAMS: Parameter[] = convertFromJsonParams([
 	{ type: ParameterType.Integer, length: 1, name: "apiVersion", help: "" },
 	{ type: ParameterType.Bitmask, length: 1, name: "capabilities", help: "" },
 	{

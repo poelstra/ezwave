@@ -234,12 +234,12 @@ export function convertToJsonParams(
 			if (Array.isArray(value)) {
 				if (
 					key === "params" &&
-					x["type"] === ParameterType.ParameterGroup
+					x.type === ParameterType.ParameterGroup
 				) {
 					value.forEach(createRefs);
 				} else if (
 					key === "fields" &&
-					x["type"] === ParameterType.Bitfield
+					x.type === ParameterType.Bitfield
 				) {
 					value.forEach(createRefs);
 				} else if (value.some((v) => names.has(v))) {
@@ -249,8 +249,10 @@ export function convertToJsonParams(
 				} else {
 					value.forEach(createRefs);
 				}
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			} else if (names.has(value as any)) {
 				x[key] = {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					ref: names.get(value as any),
 				};
 			} else {
@@ -290,10 +292,10 @@ function deepCopy<T>(x: T): T {
 			return x;
 		case "object":
 			if (x === null) {
-				return null as any;
+				return null as unknown as T;
 			}
 			if (Array.isArray(x)) {
-				return x.map((element) => deepCopy(element)) as any;
+				return x.map((element) => deepCopy(element)) as unknown as T;
 			}
 			const result = {} as T;
 			for (const key of Object.keys(x) as (keyof T)[]) {
@@ -317,10 +319,10 @@ function deepCopyWithRefs<T>(x: T): T {
 				return x;
 			case "object":
 				if (x === null) {
-					return null as any;
+					return null as unknown as X;
 				}
 				if (Array.isArray(x)) {
-					return x.map((element) => doCopy(element)) as any;
+					return x.map((element) => doCopy(element)) as unknown as X;
 				}
 				if (refs.has(x)) {
 					return refs.get(x) as X;

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MultiInstanceAssociationV1Commands {
 	MultiInstanceAssociationGet = 0x02,
@@ -50,10 +50,10 @@ export interface MultiInstanceAssociationV1MultiInstanceAssociationSetData {
 	}>;
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstanceAssociationV1Commands> {
-	public static readonly commandClass = CommandClasses.MultiInstanceAssociation; // 0x8e (142)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.MultiInstanceAssociation; // 0x8e (142)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -65,9 +65,9 @@ export class MultiInstanceAssociationV1 extends CommandClassPacket<MultiInstance
 }
 
 export class MultiInstanceAssociationGet extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationGetData> {
-	public static readonly CommandClass = MultiInstanceAssociationV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiInstanceAssociationV1 = MultiInstanceAssociationV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "MultiInstanceAssociationGet",
 		"help": "Multi Instance Association Get",
@@ -82,7 +82,7 @@ export class MultiInstanceAssociationGet extends CommandPacket<MultiInstanceAsso
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
@@ -92,9 +92,9 @@ export class MultiInstanceAssociationGet extends CommandPacket<MultiInstanceAsso
 };
 
 export class MultiInstanceAssociationGroupingsGet extends CommandPacket<void> {
-	public static readonly CommandClass = MultiInstanceAssociationV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiInstanceAssociationV1 = MultiInstanceAssociationV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "MultiInstanceAssociationGroupingsGet",
 		"help": "Multi Instance Association Groupings Get",
@@ -102,7 +102,7 @@ export class MultiInstanceAssociationGroupingsGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
@@ -112,9 +112,9 @@ export class MultiInstanceAssociationGroupingsGet extends CommandPacket<void> {
 };
 
 export class MultiInstanceAssociationGroupingsReport extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationGroupingsReportData> {
-	public static readonly CommandClass = MultiInstanceAssociationV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiInstanceAssociationV1 = MultiInstanceAssociationV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "MultiInstanceAssociationGroupingsReport",
 		"help": "Multi Instance Association Groupings Report",
@@ -129,7 +129,7 @@ export class MultiInstanceAssociationGroupingsReport extends CommandPacket<Multi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
@@ -139,9 +139,9 @@ export class MultiInstanceAssociationGroupingsReport extends CommandPacket<Multi
 };
 
 export class MultiInstanceAssociationRemove extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationRemoveData> {
-	public static readonly CommandClass = MultiInstanceAssociationV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiInstanceAssociationV1 = MultiInstanceAssociationV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "MultiInstanceAssociationRemove",
 		"help": "Multi Instance Association Remove",
@@ -200,7 +200,7 @@ export class MultiInstanceAssociationRemove extends CommandPacket<MultiInstanceA
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
@@ -210,9 +210,9 @@ export class MultiInstanceAssociationRemove extends CommandPacket<MultiInstanceA
 };
 
 export class MultiInstanceAssociationReport extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationReportData> {
-	public static readonly CommandClass = MultiInstanceAssociationV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiInstanceAssociationV1 = MultiInstanceAssociationV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "MultiInstanceAssociationReport",
 		"help": "Multi Instance Association Report",
@@ -283,7 +283,7 @@ export class MultiInstanceAssociationReport extends CommandPacket<MultiInstanceA
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 
@@ -293,9 +293,9 @@ export class MultiInstanceAssociationReport extends CommandPacket<MultiInstanceA
 };
 
 export class MultiInstanceAssociationSet extends CommandPacket<MultiInstanceAssociationV1MultiInstanceAssociationSetData> {
-	public static readonly CommandClass = MultiInstanceAssociationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiInstanceAssociationV1 = MultiInstanceAssociationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "MultiInstanceAssociationSet",
 		"help": "Multi Instance Association Set",
@@ -354,7 +354,7 @@ export class MultiInstanceAssociationSet extends CommandPacket<MultiInstanceAsso
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiInstanceAssociationV1)?.command === this.command;
 	}
 

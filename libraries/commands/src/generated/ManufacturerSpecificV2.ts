@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ManufacturerSpecificV2Commands {
 	ManufacturerSpecificGet = 0x04,
@@ -41,8 +41,8 @@ export enum DeviceIdDataFormatEnum {
 }
 
 export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpecificV2Commands> {
-	public static readonly commandClass = CommandClasses.ManufacturerSpecific; // 0x72 (114)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.ManufacturerSpecific; // 0x72 (114)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -54,9 +54,9 @@ export class ManufacturerSpecificV2 extends CommandClassPacket<ManufacturerSpeci
 }
 
 export class ManufacturerSpecificGet extends CommandPacket<void> {
-	public static readonly CommandClass = ManufacturerSpecificV2;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ManufacturerSpecificV2 = ManufacturerSpecificV2;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "ManufacturerSpecificGet",
 		"help": "Manufacturer Specific Get",
@@ -64,7 +64,7 @@ export class ManufacturerSpecificGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 
@@ -74,9 +74,9 @@ export class ManufacturerSpecificGet extends CommandPacket<void> {
 };
 
 export class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecificV2ManufacturerSpecificReportData> {
-	public static readonly CommandClass = ManufacturerSpecificV2;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ManufacturerSpecificV2 = ManufacturerSpecificV2;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "ManufacturerSpecificReport",
 		"help": "Manufacturer Specific Report",
@@ -103,7 +103,7 @@ export class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecif
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 
@@ -113,9 +113,9 @@ export class ManufacturerSpecificReport extends CommandPacket<ManufacturerSpecif
 };
 
 export class DeviceSpecificGet extends CommandPacket<ManufacturerSpecificV2DeviceSpecificGetData> {
-	public static readonly CommandClass = ManufacturerSpecificV2;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ManufacturerSpecificV2 = ManufacturerSpecificV2;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "DeviceSpecificGet",
 		"help": "Device Specific Get",
@@ -155,7 +155,7 @@ export class DeviceSpecificGet extends CommandPacket<ManufacturerSpecificV2Devic
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 
@@ -165,9 +165,9 @@ export class DeviceSpecificGet extends CommandPacket<ManufacturerSpecificV2Devic
 };
 
 export class DeviceSpecificReport extends CommandPacket<ManufacturerSpecificV2DeviceSpecificReportData> {
-	public static readonly CommandClass = ManufacturerSpecificV2;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ManufacturerSpecificV2 = ManufacturerSpecificV2;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "DeviceSpecificReport",
 		"help": "Device Specific Report",
@@ -254,7 +254,7 @@ export class DeviceSpecificReport extends CommandPacket<ManufacturerSpecificV2De
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ManufacturerSpecificV2)?.command === this.command;
 	}
 

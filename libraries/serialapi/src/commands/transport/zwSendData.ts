@@ -20,7 +20,7 @@ export enum TxStatus {
 	NoRoute = 0x04, // TODO
 }
 
-export const ZW_SEND_DATA_TIMEOUT = 65 * 1000; // See INS13954-Instruction-Z-Wave-500-Series-Appl-Programmers-Guide-v6_81_0x.pdf, fig 9
+export const ZW_SEND_DATA_TIMEOUT: number = 65 * 1000; // See INS13954-Instruction-Z-Wave-500-Series-Appl-Programmers-Guide-v6_81_0x.pdf, fig 9
 
 export interface ZwSendDataRequest {
 	nodeId: number;
@@ -84,6 +84,7 @@ export function zwSendDataBuilder(
 		// TRANSMIT_OPTION_AUTO_ROUTE  48 bytes    28 bytes
 		// TRANSMIT_OPTION_NO_ROUTE    54 bytes    34 bytes
 		const txOptions =
+			// eslint-disable-next-line no-bitwise
 			TransmitOptions.Ack |
 			TransmitOptions.AutoRoute |
 			TransmitOptions.Explore;

@@ -31,6 +31,8 @@ import {
 import { encodeCommandClasses } from "./commandClassInfo";
 import { Packet } from "./packet";
 
+/* eslint-disable no-bitwise */
+
 export function encodeCommandAndPayload(
 	commandDef: CommandDefinition,
 	payload: object | void
@@ -54,7 +56,7 @@ export function encodeCommandAndPayload(
 	}
 }
 
-const EMPTY_BUFFER = Buffer.alloc(0);
+const EMPTY_BUFFER: Buffer = Buffer.alloc(0);
 
 function encodeParam(
 	param: LocalParameter | ParameterGroup,

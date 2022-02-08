@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum BarrierOperatorV1Commands {
 	BarrierOperatorSet = 0x01,
@@ -68,8 +68,8 @@ export enum SubsystemStateEnum {
 }
 
 export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Commands> {
-	public static readonly commandClass = CommandClasses.BarrierOperator; // 0x66 (102)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.BarrierOperator; // 0x66 (102)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -81,9 +81,9 @@ export class BarrierOperatorV1 extends CommandClassPacket<BarrierOperatorV1Comma
 }
 
 export class BarrierOperatorSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSetData> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "BarrierOperatorSet",
 		"help": "Barrier Operator Set",
@@ -108,7 +108,7 @@ export class BarrierOperatorSet extends CommandPacket<BarrierOperatorV1BarrierOp
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
@@ -118,9 +118,9 @@ export class BarrierOperatorSet extends CommandPacket<BarrierOperatorV1BarrierOp
 };
 
 export class BarrierOperatorGet extends CommandPacket<void> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "BarrierOperatorGet",
 		"help": "Barrier Operator Get",
@@ -128,7 +128,7 @@ export class BarrierOperatorGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
@@ -138,9 +138,9 @@ export class BarrierOperatorGet extends CommandPacket<void> {
 };
 
 export class BarrierOperatorReport extends CommandPacket<BarrierOperatorV1BarrierOperatorReportData> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "BarrierOperatorReport",
 		"help": "Barrier Operator Report",
@@ -177,7 +177,7 @@ export class BarrierOperatorReport extends CommandPacket<BarrierOperatorV1Barrie
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
@@ -187,9 +187,9 @@ export class BarrierOperatorReport extends CommandPacket<BarrierOperatorV1Barrie
 };
 
 export class BarrierOperatorSignalSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "BarrierOperatorSignalSupportedGet",
 		"help": "Barrier Operator Signal Supported Get",
@@ -197,7 +197,7 @@ export class BarrierOperatorSignalSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
@@ -207,9 +207,9 @@ export class BarrierOperatorSignalSupportedGet extends CommandPacket<void> {
 };
 
 export class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSupportedReportData> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "BarrierOperatorSignalSupportedReport",
 		"help": "Barrier Operator Signal Supported Report",
@@ -236,7 +236,7 @@ export class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierO
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
@@ -246,9 +246,9 @@ export class BarrierOperatorSignalSupportedReport extends CommandPacket<BarrierO
 };
 
 export class BarrierOperatorSignalSet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalSetData> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "BarrierOperatorSignalSet",
 		"help": "Barrier Operator Signal Set",
@@ -293,7 +293,7 @@ export class BarrierOperatorSignalSet extends CommandPacket<BarrierOperatorV1Bar
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
@@ -303,9 +303,9 @@ export class BarrierOperatorSignalSet extends CommandPacket<BarrierOperatorV1Bar
 };
 
 export class BarrierOperatorSignalGet extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalGetData> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "BarrierOperatorSignalGet",
 		"help": "Barrier Operator Signal Get",
@@ -334,7 +334,7 @@ export class BarrierOperatorSignalGet extends CommandPacket<BarrierOperatorV1Bar
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 
@@ -344,9 +344,9 @@ export class BarrierOperatorSignalGet extends CommandPacket<BarrierOperatorV1Bar
 };
 
 export class BarrierOperatorSignalReport extends CommandPacket<BarrierOperatorV1BarrierOperatorSignalReportData> {
-	public static readonly CommandClass = BarrierOperatorV1;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BarrierOperatorV1 = BarrierOperatorV1;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "BarrierOperatorSignalReport",
 		"help": "Barrier Operator Signal Report",
@@ -391,7 +391,7 @@ export class BarrierOperatorSignalReport extends CommandPacket<BarrierOperatorV1
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BarrierOperatorV1)?.command === this.command;
 	}
 

@@ -47,7 +47,7 @@ describe("Packet", () => {
 
 	it("throws on casting to incompatible command class without command byte", () => {
 		class TestClass {
-			static matches(_packet: Packet): boolean {
+			public static matches(_packet: Packet): boolean {
 				return false;
 			}
 			public constructor(_commandAndPayload: Buffer) {}
@@ -60,7 +60,7 @@ describe("Packet", () => {
 
 	it("throws on casting to incompatible command class", () => {
 		class TestClass {
-			static matches(_packet: Packet): boolean {
+			public static matches(_packet: Packet): boolean {
 				return false;
 			}
 			public constructor(_commandAndPayload: Buffer) {}

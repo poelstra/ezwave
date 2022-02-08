@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum PrepaymentV1Commands {
 	PrepaymentBalanceGet = 0x01,
@@ -42,8 +42,8 @@ export enum BalanceTypeEnum {
 }
 
 export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
-	public static readonly commandClass = CommandClasses.Prepayment; // 0x3f (63)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Prepayment; // 0x3f (63)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -55,9 +55,9 @@ export class PrepaymentV1 extends CommandClassPacket<PrepaymentV1Commands> {
 }
 
 export class PrepaymentBalanceGet extends CommandPacket<PrepaymentV1PrepaymentBalanceGetData> {
-	public static readonly CommandClass = PrepaymentV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PrepaymentV1 = PrepaymentV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "PrepaymentBalanceGet",
 		"help": "Prepayment Balance Get",
@@ -97,7 +97,7 @@ export class PrepaymentBalanceGet extends CommandPacket<PrepaymentV1PrepaymentBa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 
@@ -107,9 +107,9 @@ export class PrepaymentBalanceGet extends CommandPacket<PrepaymentV1PrepaymentBa
 };
 
 export class PrepaymentBalanceReport extends CommandPacket<PrepaymentV1PrepaymentBalanceReportData> {
-	public static readonly CommandClass = PrepaymentV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PrepaymentV1 = PrepaymentV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "PrepaymentBalanceReport",
 		"help": "Prepayment Balance Report",
@@ -230,7 +230,7 @@ export class PrepaymentBalanceReport extends CommandPacket<PrepaymentV1Prepaymen
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 
@@ -240,9 +240,9 @@ export class PrepaymentBalanceReport extends CommandPacket<PrepaymentV1Prepaymen
 };
 
 export class PrepaymentSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = PrepaymentV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PrepaymentV1 = PrepaymentV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "PrepaymentSupportedGet",
 		"help": "Prepayment Supported Get",
@@ -250,7 +250,7 @@ export class PrepaymentSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 
@@ -260,9 +260,9 @@ export class PrepaymentSupportedGet extends CommandPacket<void> {
 };
 
 export class PrepaymentSupportedReport extends CommandPacket<PrepaymentV1PrepaymentSupportedReportData> {
-	public static readonly CommandClass = PrepaymentV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PrepaymentV1 = PrepaymentV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "PrepaymentSupportedReport",
 		"help": "Prepayment Supported Report",
@@ -292,7 +292,7 @@ export class PrepaymentSupportedReport extends CommandPacket<PrepaymentV1Prepaym
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PrepaymentV1)?.command === this.command;
 	}
 

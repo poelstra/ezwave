@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum CentralSceneV3Commands {
 	CentralSceneSupportedGet = 0x01,
@@ -60,8 +60,8 @@ export enum KeyAttributesEnum {
 }
 
 export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
-	public static readonly commandClass = CommandClasses.CentralScene; // 0x5b (91)
-	public static readonly version = 3;
+	public static readonly commandClass: number = CommandClasses.CentralScene; // 0x5b (91)
+	public static readonly version: number = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -73,9 +73,9 @@ export class CentralSceneV3 extends CommandClassPacket<CentralSceneV3Commands> {
 }
 
 export class CentralSceneSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = CentralSceneV3;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof CentralSceneV3 = CentralSceneV3;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "CentralSceneSupportedGet",
 		"help": "Central Scene Supported Get",
@@ -83,7 +83,7 @@ export class CentralSceneSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(CentralSceneV3)?.command === this.command;
 	}
 
@@ -93,9 +93,9 @@ export class CentralSceneSupportedGet extends CommandPacket<void> {
 };
 
 export class CentralSceneSupportedReport extends CommandPacket<CentralSceneV3CentralSceneSupportedReportData> {
-	public static readonly CommandClass = CentralSceneV3;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof CentralSceneV3 = CentralSceneV3;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "CentralSceneSupportedReport",
 		"help": "Central Scene Supported Report",
@@ -209,7 +209,7 @@ export class CentralSceneSupportedReport extends CommandPacket<CentralSceneV3Cen
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(CentralSceneV3)?.command === this.command;
 	}
 
@@ -219,9 +219,9 @@ export class CentralSceneSupportedReport extends CommandPacket<CentralSceneV3Cen
 };
 
 export class CentralSceneNotification extends CommandPacket<CentralSceneV3CentralSceneNotificationData> {
-	public static readonly CommandClass = CentralSceneV3;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof CentralSceneV3 = CentralSceneV3;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "CentralSceneNotification",
 		"help": "Central Scene Notification",
@@ -299,7 +299,7 @@ export class CentralSceneNotification extends CommandPacket<CentralSceneV3Centra
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(CentralSceneV3)?.command === this.command;
 	}
 
@@ -309,9 +309,9 @@ export class CentralSceneNotification extends CommandPacket<CentralSceneV3Centra
 };
 
 export class CentralSceneConfigurationSet extends CommandPacket<CentralSceneV3CentralSceneConfigurationSetData> {
-	public static readonly CommandClass = CentralSceneV3;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof CentralSceneV3 = CentralSceneV3;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "CentralSceneConfigurationSet",
 		"help": "Central Scene Configuration Set",
@@ -341,7 +341,7 @@ export class CentralSceneConfigurationSet extends CommandPacket<CentralSceneV3Ce
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(CentralSceneV3)?.command === this.command;
 	}
 
@@ -351,9 +351,9 @@ export class CentralSceneConfigurationSet extends CommandPacket<CentralSceneV3Ce
 };
 
 export class CentralSceneConfigurationGet extends CommandPacket<void> {
-	public static readonly CommandClass = CentralSceneV3;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof CentralSceneV3 = CentralSceneV3;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "CentralSceneConfigurationGet",
 		"help": "Central Scene Configuration Get",
@@ -361,7 +361,7 @@ export class CentralSceneConfigurationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(CentralSceneV3)?.command === this.command;
 	}
 
@@ -371,9 +371,9 @@ export class CentralSceneConfigurationGet extends CommandPacket<void> {
 };
 
 export class CentralSceneConfigurationReport extends CommandPacket<CentralSceneV3CentralSceneConfigurationReportData> {
-	public static readonly CommandClass = CentralSceneV3;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof CentralSceneV3 = CentralSceneV3;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "CentralSceneConfigurationReport",
 		"help": "Central Scene Configuration Report",
@@ -403,7 +403,7 @@ export class CentralSceneConfigurationReport extends CommandPacket<CentralSceneV
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(CentralSceneV3)?.command === this.command;
 	}
 

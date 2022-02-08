@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SoundSwitchV1Commands {
 	SoundSwitchTonesNumberGet = 0x01,
@@ -53,8 +53,8 @@ export interface SoundSwitchV1SoundSwitchTonePlayReportData {
 }
 
 export class SoundSwitchV1 extends CommandClassPacket<SoundSwitchV1Commands> {
-	public static readonly commandClass = CommandClasses.SoundSwitch; // 0x79 (121)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SoundSwitch; // 0x79 (121)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -66,9 +66,9 @@ export class SoundSwitchV1 extends CommandClassPacket<SoundSwitchV1Commands> {
 }
 
 export class SoundSwitchTonesNumberGet extends CommandPacket<void> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SoundSwitchTonesNumberGet",
 		"help": "Sound Switch Tones Number Get",
@@ -76,7 +76,7 @@ export class SoundSwitchTonesNumberGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -86,9 +86,9 @@ export class SoundSwitchTonesNumberGet extends CommandPacket<void> {
 };
 
 export class SoundSwitchTonesNumberReport extends CommandPacket<SoundSwitchV1SoundSwitchTonesNumberReportData> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SoundSwitchTonesNumberReport",
 		"help": "Sound Switch Tones Number Report",
@@ -103,7 +103,7 @@ export class SoundSwitchTonesNumberReport extends CommandPacket<SoundSwitchV1Sou
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -113,9 +113,9 @@ export class SoundSwitchTonesNumberReport extends CommandPacket<SoundSwitchV1Sou
 };
 
 export class SoundSwitchToneInfoGet extends CommandPacket<SoundSwitchV1SoundSwitchToneInfoGetData> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SoundSwitchToneInfoGet",
 		"help": "Sound Switch Tone Info Get",
@@ -130,7 +130,7 @@ export class SoundSwitchToneInfoGet extends CommandPacket<SoundSwitchV1SoundSwit
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -140,9 +140,9 @@ export class SoundSwitchToneInfoGet extends CommandPacket<SoundSwitchV1SoundSwit
 };
 
 export class SoundSwitchToneInfoReport extends CommandPacket<SoundSwitchV1SoundSwitchToneInfoReportData> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "SoundSwitchToneInfoReport",
 		"help": "Sound Switch Tone Info Report",
@@ -186,7 +186,7 @@ export class SoundSwitchToneInfoReport extends CommandPacket<SoundSwitchV1SoundS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -196,9 +196,9 @@ export class SoundSwitchToneInfoReport extends CommandPacket<SoundSwitchV1SoundS
 };
 
 export class SoundSwitchConfigurationSet extends CommandPacket<SoundSwitchV1SoundSwitchConfigurationSetData> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "SoundSwitchConfigurationSet",
 		"help": "Sound Switch Configuration Set",
@@ -219,7 +219,7 @@ export class SoundSwitchConfigurationSet extends CommandPacket<SoundSwitchV1Soun
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -229,9 +229,9 @@ export class SoundSwitchConfigurationSet extends CommandPacket<SoundSwitchV1Soun
 };
 
 export class SoundSwitchConfigurationGet extends CommandPacket<void> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "SoundSwitchConfigurationGet",
 		"help": "Sound Switch Configuration Get",
@@ -239,7 +239,7 @@ export class SoundSwitchConfigurationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -249,9 +249,9 @@ export class SoundSwitchConfigurationGet extends CommandPacket<void> {
 };
 
 export class SoundSwitchConfigurationReport extends CommandPacket<SoundSwitchV1SoundSwitchConfigurationReportData> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "SoundSwitchConfigurationReport",
 		"help": "Sound Switch Configuration Report",
@@ -272,7 +272,7 @@ export class SoundSwitchConfigurationReport extends CommandPacket<SoundSwitchV1S
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -282,9 +282,9 @@ export class SoundSwitchConfigurationReport extends CommandPacket<SoundSwitchV1S
 };
 
 export class SoundSwitchTonePlaySet extends CommandPacket<SoundSwitchV1SoundSwitchTonePlaySetData> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "SoundSwitchTonePlaySet",
 		"help": "Sound Switch Tone Play Set",
@@ -299,7 +299,7 @@ export class SoundSwitchTonePlaySet extends CommandPacket<SoundSwitchV1SoundSwit
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -309,9 +309,9 @@ export class SoundSwitchTonePlaySet extends CommandPacket<SoundSwitchV1SoundSwit
 };
 
 export class SoundSwitchTonePlayGet extends CommandPacket<void> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "SoundSwitchTonePlayGet",
 		"help": "Sound Switch Tone Play Get",
@@ -319,7 +319,7 @@ export class SoundSwitchTonePlayGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 
@@ -329,9 +329,9 @@ export class SoundSwitchTonePlayGet extends CommandPacket<void> {
 };
 
 export class SoundSwitchTonePlayReport extends CommandPacket<SoundSwitchV1SoundSwitchTonePlayReportData> {
-	public static readonly CommandClass = SoundSwitchV1;
-	public static readonly command = 0x0a; // 10
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SoundSwitchV1 = SoundSwitchV1;
+	public static readonly command: number = 0x0a; // 10
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 10,
 		"name": "SoundSwitchTonePlayReport",
 		"help": "Sound Switch Tone Play Report",
@@ -346,7 +346,7 @@ export class SoundSwitchTonePlayReport extends CommandPacket<SoundSwitchV1SoundS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SoundSwitchV1)?.command === this.command;
 	}
 

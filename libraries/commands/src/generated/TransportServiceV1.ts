@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum TransportServiceV1Commands {
 	CommandFirstFragment = 0xc0,
@@ -30,11 +30,11 @@ export interface TransportServiceV1CommandSubsequentFragmentData {
 	checksum: number; // 2 byte unsigned integer
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Commands> {
-	public static readonly commandClass = CommandClasses.TransportService; // 0x55 (85)
-	public static readonly version = 1;
-	public static readonly commandMask = 0xf8;
+	public static readonly commandClass: number = CommandClasses.TransportService; // 0x55 (85)
+	public static readonly version: number = 1;
+	public static readonly commandMask: number = 0xf8;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -46,9 +46,9 @@ export class TransportServiceV1 extends CommandClassPacket<TransportServiceV1Com
 }
 
 export class CommandFirstFragment extends CommandPacket<TransportServiceV1CommandFirstFragmentData> {
-	public static readonly CommandClass = TransportServiceV1;
-	public static readonly command = 0xc0; // 192
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TransportServiceV1 = TransportServiceV1;
+	public static readonly command: number = 0xc0; // 192
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 192,
 		"name": "CommandFirstFragment",
 		"help": "First Fragment",
@@ -114,7 +114,7 @@ export class CommandFirstFragment extends CommandPacket<TransportServiceV1Comman
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TransportServiceV1)?.command === this.command;
 	}
 
@@ -124,9 +124,9 @@ export class CommandFirstFragment extends CommandPacket<TransportServiceV1Comman
 };
 
 export class CommandSubsequentFragment extends CommandPacket<TransportServiceV1CommandSubsequentFragmentData> {
-	public static readonly CommandClass = TransportServiceV1;
-	public static readonly command = 0xe0; // 224
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof TransportServiceV1 = TransportServiceV1;
+	public static readonly command: number = 0xe0; // 224
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 224,
 		"name": "CommandSubsequentFragment",
 		"help": "Subsequent Fragment",
@@ -204,7 +204,7 @@ export class CommandSubsequentFragment extends CommandPacket<TransportServiceV1C
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(TransportServiceV1)?.command === this.command;
 	}
 

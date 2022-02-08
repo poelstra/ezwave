@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum LanguageV1Commands {
 	LanguageGet = 0x02,
@@ -24,8 +24,8 @@ export interface LanguageV1LanguageSetData {
 }
 
 export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
-	public static readonly commandClass = CommandClasses.Language; // 0x89 (137)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Language; // 0x89 (137)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -37,9 +37,9 @@ export class LanguageV1 extends CommandClassPacket<LanguageV1Commands> {
 }
 
 export class LanguageGet extends CommandPacket<void> {
-	public static readonly CommandClass = LanguageV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof LanguageV1 = LanguageV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "LanguageGet",
 		"help": "Language Get",
@@ -47,7 +47,7 @@ export class LanguageGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(LanguageV1)?.command === this.command;
 	}
 
@@ -57,9 +57,9 @@ export class LanguageGet extends CommandPacket<void> {
 };
 
 export class LanguageReport extends CommandPacket<LanguageV1LanguageReportData> {
-	public static readonly CommandClass = LanguageV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof LanguageV1 = LanguageV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "LanguageReport",
 		"help": "Language Report",
@@ -80,7 +80,7 @@ export class LanguageReport extends CommandPacket<LanguageV1LanguageReportData> 
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(LanguageV1)?.command === this.command;
 	}
 
@@ -90,9 +90,9 @@ export class LanguageReport extends CommandPacket<LanguageV1LanguageReportData> 
 };
 
 export class LanguageSet extends CommandPacket<LanguageV1LanguageSetData> {
-	public static readonly CommandClass = LanguageV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof LanguageV1 = LanguageV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "LanguageSet",
 		"help": "Language Set",
@@ -113,7 +113,7 @@ export class LanguageSet extends CommandPacket<LanguageV1LanguageSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(LanguageV1)?.command === this.command;
 	}
 

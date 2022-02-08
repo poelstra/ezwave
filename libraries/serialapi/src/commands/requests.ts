@@ -88,13 +88,13 @@ export type CallbackRequestBuilder<C, R> = (
 ) => CallbackRequest<C, R>;
 
 export function isSimpleRequest(
-	request: AnyRequest<any, any>
+	request: AnyRequest<unknown, unknown>
 ): request is SimpleRequest {
 	return !("parseResponse" in request) && !("tryParseCallback" in request);
 }
 
 export function isResponseRequest<R>(
-	request: AnyRequest<any, R>
+	request: AnyRequest<unknown, R>
 ): request is ResponseRequest<R> {
 	return "parseResponse" in request && !("tryParseEvent" in request);
 }
@@ -113,26 +113,24 @@ export type ResponseRequestBuilderFactory<T, R> = (data: T) => (transactionId: n
 export type CallbackRequestBuilderFactory<T, C, R> = (data: T) => (transactionId: number) => CallbackRequest<C, R>;
 
 export type AnyRequestBuilderFactory =
-	| SimpleRequestBuilderFactory<any>
-	| ResponseRequestBuilderFactory<any, any>
-	| CallbackRequestBuilderFactory<any, any, any>;
+	| SimpleRequestBuilderFactory<unknown>
+	| ResponseRequestBuilderFactory<unknown, unknown>
+	| CallbackRequestBuilderFactory<unknown, unknown, unknown>;
 
-export type BuilderFactoryDataTypeOf<
-	F
-> = F extends CallbackRequestBuilderFactory<infer T, any, any>
-	? T
-	: F extends ResponseRequestBuilderFactory<infer T, any>
-	? T
-	: F extends SimpleRequestBuilderFactory<infer T>
-	? T
-	: never;
+export type BuilderFactoryDataTypeOf<F> =
+	F extends CallbackRequestBuilderFactory<infer T, unknown, unknown>
+		? T
+		: F extends ResponseRequestBuilderFactory<infer T, unknown>
+		? T
+		: F extends SimpleRequestBuilderFactory<infer T>
+		? T
+		: never;
 
-export type BuilderFactoryResultTypeOf<
-	F
-> = F extends CallbackRequestBuilderFactory<any, any, infer T>
-	? T
-	: F extends ResponseRequestBuilderFactory<any, infer T>
-	? T
-	: F extends SimpleRequestBuilderFactory<any>
-	? void
-	: never;
+export type BuilderFactoryResultTypeOf<F> =
+	F extends CallbackRequestBuilderFactory<unknown, unknown, infer T>
+		? T
+		: F extends ResponseRequestBuilderFactory<unknown, infer T>
+		? T
+		: F extends SimpleRequestBuilderFactory<unknown>
+		? void
+		: never;

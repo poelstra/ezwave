@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum GeographicLocationV1Commands {
 	GeographicLocationGet = 0x02,
@@ -32,8 +32,8 @@ export interface GeographicLocationV1GeographicLocationSetData {
 }
 
 export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV1Commands> {
-	public static readonly commandClass = CommandClasses.GeographicLocation; // 0x8c (140)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.GeographicLocation; // 0x8c (140)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -45,9 +45,9 @@ export class GeographicLocationV1 extends CommandClassPacket<GeographicLocationV
 }
 
 export class GeographicLocationGet extends CommandPacket<void> {
-	public static readonly CommandClass = GeographicLocationV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof GeographicLocationV1 = GeographicLocationV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "GeographicLocationGet",
 		"help": "Geographic Location Get",
@@ -55,7 +55,7 @@ export class GeographicLocationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(GeographicLocationV1)?.command === this.command;
 	}
 
@@ -65,9 +65,9 @@ export class GeographicLocationGet extends CommandPacket<void> {
 };
 
 export class GeographicLocationReport extends CommandPacket<GeographicLocationV1GeographicLocationReportData> {
-	public static readonly CommandClass = GeographicLocationV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof GeographicLocationV1 = GeographicLocationV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "GeographicLocationReport",
 		"help": "Geographic Location Report",
@@ -128,7 +128,7 @@ export class GeographicLocationReport extends CommandPacket<GeographicLocationV1
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(GeographicLocationV1)?.command === this.command;
 	}
 
@@ -138,9 +138,9 @@ export class GeographicLocationReport extends CommandPacket<GeographicLocationV1
 };
 
 export class GeographicLocationSet extends CommandPacket<GeographicLocationV1GeographicLocationSetData> {
-	public static readonly CommandClass = GeographicLocationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof GeographicLocationV1 = GeographicLocationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "GeographicLocationSet",
 		"help": "Geographic Location Set",
@@ -201,7 +201,7 @@ export class GeographicLocationSet extends CommandPacket<GeographicLocationV1Geo
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(GeographicLocationV1)?.command === this.command;
 	}
 

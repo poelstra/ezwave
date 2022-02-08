@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum MultiCmdV1Commands {
 	MultiCmdEncap = 0x01,
@@ -20,8 +20,8 @@ export interface MultiCmdV1MultiCmdEncapData {
 }
 
 export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
-	public static readonly commandClass = CommandClasses.MultiCmd; // 0x8f (143)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.MultiCmd; // 0x8f (143)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -33,9 +33,9 @@ export class MultiCmdV1 extends CommandClassPacket<MultiCmdV1Commands> {
 }
 
 export class MultiCmdEncap extends CommandPacket<MultiCmdV1MultiCmdEncapData> {
-	public static readonly CommandClass = MultiCmdV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof MultiCmdV1 = MultiCmdV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "MultiCmdEncap",
 		"help": "Multi Cmd Encap",
@@ -108,7 +108,7 @@ export class MultiCmdEncap extends CommandPacket<MultiCmdV1MultiCmdEncapData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(MultiCmdV1)?.command === this.command;
 	}
 

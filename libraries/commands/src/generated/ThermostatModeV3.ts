@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ThermostatModeV3Commands {
 	ThermostatModeGet = 0x02,
@@ -85,8 +85,8 @@ export enum BitMaskEnum {
 }
 
 export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Commands> {
-	public static readonly commandClass = CommandClasses.ThermostatMode; // 0x40 (64)
-	public static readonly version = 3;
+	public static readonly commandClass: number = CommandClasses.ThermostatMode; // 0x40 (64)
+	public static readonly version: number = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -98,9 +98,9 @@ export class ThermostatModeV3 extends CommandClassPacket<ThermostatModeV3Command
 }
 
 export class ThermostatModeGet extends CommandPacket<void> {
-	public static readonly CommandClass = ThermostatModeV3;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatModeV3 = ThermostatModeV3;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ThermostatModeGet",
 		"help": "Thermostat Mode Get",
@@ -108,7 +108,7 @@ export class ThermostatModeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatModeV3)?.command === this.command;
 	}
 
@@ -118,9 +118,9 @@ export class ThermostatModeGet extends CommandPacket<void> {
 };
 
 export class ThermostatModeReport extends CommandPacket<ThermostatModeV3ThermostatModeReportData> {
-	public static readonly CommandClass = ThermostatModeV3;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatModeV3 = ThermostatModeV3;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "ThermostatModeReport",
 		"help": "Thermostat Mode Report",
@@ -296,7 +296,7 @@ export class ThermostatModeReport extends CommandPacket<ThermostatModeV3Thermost
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatModeV3)?.command === this.command;
 	}
 
@@ -306,9 +306,9 @@ export class ThermostatModeReport extends CommandPacket<ThermostatModeV3Thermost
 };
 
 export class ThermostatModeSet extends CommandPacket<ThermostatModeV3ThermostatModeSetData> {
-	public static readonly CommandClass = ThermostatModeV3;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatModeV3 = ThermostatModeV3;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ThermostatModeSet",
 		"help": "Thermostat Mode Set",
@@ -484,7 +484,7 @@ export class ThermostatModeSet extends CommandPacket<ThermostatModeV3ThermostatM
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatModeV3)?.command === this.command;
 	}
 
@@ -494,9 +494,9 @@ export class ThermostatModeSet extends CommandPacket<ThermostatModeV3ThermostatM
 };
 
 export class ThermostatModeSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = ThermostatModeV3;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatModeV3 = ThermostatModeV3;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "ThermostatModeSupportedGet",
 		"help": "Thermostat Mode Supported Get",
@@ -504,7 +504,7 @@ export class ThermostatModeSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatModeV3)?.command === this.command;
 	}
 
@@ -514,9 +514,9 @@ export class ThermostatModeSupportedGet extends CommandPacket<void> {
 };
 
 export class ThermostatModeSupportedReport extends CommandPacket<ThermostatModeV3ThermostatModeSupportedReportData> {
-	public static readonly CommandClass = ThermostatModeV3;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatModeV3 = ThermostatModeV3;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "ThermostatModeSupportedReport",
 		"help": "Thermostat Mode Supported Report",
@@ -603,7 +603,7 @@ export class ThermostatModeSupportedReport extends CommandPacket<ThermostatModeV
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatModeV3)?.command === this.command;
 	}
 

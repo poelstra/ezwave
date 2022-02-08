@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum VersionV3Commands {
 	VersionCommandClassGet = 0x13,
@@ -59,8 +59,8 @@ export interface VersionV3VersionZwaveSoftwareReportData {
 }
 
 export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
-	public static readonly commandClass = CommandClasses.Version; // 0x86 (134)
-	public static readonly version = 3;
+	public static readonly commandClass: number = CommandClasses.Version; // 0x86 (134)
+	public static readonly version: number = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -72,9 +72,9 @@ export class VersionV3 extends CommandClassPacket<VersionV3Commands> {
 }
 
 export class VersionCommandClassGet extends CommandPacket<VersionV3VersionCommandClassGetData> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x13; // 19
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x13; // 19
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 19,
 		"name": "VersionCommandClassGet",
 		"help": "Version Command Class Get",
@@ -90,7 +90,7 @@ export class VersionCommandClassGet extends CommandPacket<VersionV3VersionComman
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
@@ -100,9 +100,9 @@ export class VersionCommandClassGet extends CommandPacket<VersionV3VersionComman
 };
 
 export class VersionCommandClassReport extends CommandPacket<VersionV3VersionCommandClassReportData> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x14; // 20
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x14; // 20
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 20,
 		"name": "VersionCommandClassReport",
 		"help": "Version Command Class Report",
@@ -124,7 +124,7 @@ export class VersionCommandClassReport extends CommandPacket<VersionV3VersionCom
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
@@ -134,9 +134,9 @@ export class VersionCommandClassReport extends CommandPacket<VersionV3VersionCom
 };
 
 export class VersionGet extends CommandPacket<void> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x11; // 17
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x11; // 17
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 17,
 		"name": "VersionGet",
 		"help": "Version Get",
@@ -144,7 +144,7 @@ export class VersionGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
@@ -154,9 +154,9 @@ export class VersionGet extends CommandPacket<void> {
 };
 
 export class VersionReport extends CommandPacket<VersionV3VersionReportData> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x12; // 18
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x12; // 18
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 18,
 		"name": "VersionReport",
 		"help": "Version Report",
@@ -238,7 +238,7 @@ export class VersionReport extends CommandPacket<VersionV3VersionReportData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
@@ -248,9 +248,9 @@ export class VersionReport extends CommandPacket<VersionV3VersionReportData> {
 };
 
 export class VersionCapabilitiesGet extends CommandPacket<void> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x15; // 21
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x15; // 21
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 21,
 		"name": "VersionCapabilitiesGet",
 		"help": "Version Capabilities Get",
@@ -258,7 +258,7 @@ export class VersionCapabilitiesGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
@@ -268,9 +268,9 @@ export class VersionCapabilitiesGet extends CommandPacket<void> {
 };
 
 export class VersionCapabilitiesReport extends CommandPacket<VersionV3VersionCapabilitiesReportData> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x16; // 22
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x16; // 22
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 22,
 		"name": "VersionCapabilitiesReport",
 		"help": "Version Capabilities Report",
@@ -312,7 +312,7 @@ export class VersionCapabilitiesReport extends CommandPacket<VersionV3VersionCap
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
@@ -322,9 +322,9 @@ export class VersionCapabilitiesReport extends CommandPacket<VersionV3VersionCap
 };
 
 export class VersionZwaveSoftwareGet extends CommandPacket<void> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x17; // 23
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x17; // 23
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 23,
 		"name": "VersionZwaveSoftwareGet",
 		"help": "Version Z-Wave Software Get",
@@ -332,7 +332,7 @@ export class VersionZwaveSoftwareGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 
@@ -342,9 +342,9 @@ export class VersionZwaveSoftwareGet extends CommandPacket<void> {
 };
 
 export class VersionZwaveSoftwareReport extends CommandPacket<VersionV3VersionZwaveSoftwareReportData> {
-	public static readonly CommandClass = VersionV3;
-	public static readonly command = 0x18; // 24
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof VersionV3 = VersionV3;
+	public static readonly command: number = 0x18; // 24
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 24,
 		"name": "VersionZwaveSoftwareReport",
 		"help": "Version Z-Wave Software Report",
@@ -407,7 +407,7 @@ export class VersionZwaveSoftwareReport extends CommandPacket<VersionV3VersionZw
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(VersionV3)?.command === this.command;
 	}
 

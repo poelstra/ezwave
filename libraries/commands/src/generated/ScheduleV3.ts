@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ScheduleV3Commands {
 	ScheduleSupportedGet = 0x01,
@@ -118,8 +118,8 @@ export enum RecurrenceModeEnum {
 }
 
 export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
-	public static readonly commandClass = CommandClasses.Schedule; // 0x53 (83)
-	public static readonly version = 3;
+	public static readonly commandClass: number = CommandClasses.Schedule; // 0x53 (83)
+	public static readonly version: number = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -131,9 +131,9 @@ export class ScheduleV3 extends CommandClassPacket<ScheduleV3Commands> {
 }
 
 export class ScheduleSupportedGet extends CommandPacket<ScheduleV3ScheduleSupportedGetData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ScheduleSupportedGet",
 		"help": "Schedule Support Get",
@@ -148,7 +148,7 @@ export class ScheduleSupportedGet extends CommandPacket<ScheduleV3ScheduleSuppor
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -158,9 +158,9 @@ export class ScheduleSupportedGet extends CommandPacket<ScheduleV3ScheduleSuppor
 };
 
 export class ScheduleSupportedReport extends CommandPacket<ScheduleV3ScheduleSupportedReportData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ScheduleSupportedReport",
 		"help": "Schedule Support Report",
@@ -285,7 +285,7 @@ export class ScheduleSupportedReport extends CommandPacket<ScheduleV3ScheduleSup
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -295,9 +295,9 @@ export class ScheduleSupportedReport extends CommandPacket<ScheduleV3ScheduleSup
 };
 
 export class CommandScheduleSet extends CommandPacket<ScheduleV3CommandScheduleSetData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "CommandScheduleSet",
 		"help": "Schedule Set",
@@ -513,7 +513,7 @@ export class CommandScheduleSet extends CommandPacket<ScheduleV3CommandScheduleS
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -523,9 +523,9 @@ export class CommandScheduleSet extends CommandPacket<ScheduleV3CommandScheduleS
 };
 
 export class CommandScheduleGet extends CommandPacket<ScheduleV3CommandScheduleGetData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "CommandScheduleGet",
 		"help": "Schedule Get",
@@ -567,7 +567,7 @@ export class CommandScheduleGet extends CommandPacket<ScheduleV3CommandScheduleG
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -577,9 +577,9 @@ export class CommandScheduleGet extends CommandPacket<ScheduleV3CommandScheduleG
 };
 
 export class CommandScheduleReport extends CommandPacket<ScheduleV3CommandScheduleReportData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "CommandScheduleReport",
 		"help": "Schedule Report",
@@ -794,7 +794,7 @@ export class CommandScheduleReport extends CommandPacket<ScheduleV3CommandSchedu
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -804,9 +804,9 @@ export class CommandScheduleReport extends CommandPacket<ScheduleV3CommandSchedu
 };
 
 export class ScheduleRemove extends CommandPacket<ScheduleV3ScheduleRemoveData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "ScheduleRemove",
 		"help": "Schedule Remove",
@@ -827,7 +827,7 @@ export class ScheduleRemove extends CommandPacket<ScheduleV3ScheduleRemoveData> 
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -837,9 +837,9 @@ export class ScheduleRemove extends CommandPacket<ScheduleV3ScheduleRemoveData> 
 };
 
 export class ScheduleStateSet extends CommandPacket<ScheduleV3ScheduleStateSetData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "ScheduleStateSet",
 		"help": "Schedule State Set",
@@ -866,7 +866,7 @@ export class ScheduleStateSet extends CommandPacket<ScheduleV3ScheduleStateSetDa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -876,9 +876,9 @@ export class ScheduleStateSet extends CommandPacket<ScheduleV3ScheduleStateSetDa
 };
 
 export class ScheduleStateGet extends CommandPacket<ScheduleV3ScheduleStateGetData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "ScheduleStateGet",
 		"help": "Schedule State Get",
@@ -893,7 +893,7 @@ export class ScheduleStateGet extends CommandPacket<ScheduleV3ScheduleStateGetDa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 
@@ -903,9 +903,9 @@ export class ScheduleStateGet extends CommandPacket<ScheduleV3ScheduleStateGetDa
 };
 
 export class ScheduleStateReport extends CommandPacket<ScheduleV3ScheduleStateReportData> {
-	public static readonly CommandClass = ScheduleV3;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScheduleV3 = ScheduleV3;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "ScheduleStateReport",
 		"help": "Schedule State Report",
@@ -976,7 +976,7 @@ export class ScheduleStateReport extends CommandPacket<ScheduleV3ScheduleStateRe
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScheduleV3)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ZipNamingV1Commands {
 	ZipNamingNameSet = 0x01,
@@ -33,8 +33,8 @@ export interface ZipNamingV1ZipNamingLocationReportData {
 }
 
 export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
-	public static readonly commandClass = CommandClasses.ZipNaming; // 0x68 (104)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.ZipNaming; // 0x68 (104)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -46,9 +46,9 @@ export class ZipNamingV1 extends CommandClassPacket<ZipNamingV1Commands> {
 }
 
 export class ZipNamingNameSet extends CommandPacket<ZipNamingV1ZipNamingNameSetData> {
-	public static readonly CommandClass = ZipNamingV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipNamingV1 = ZipNamingV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ZipNamingNameSet",
 		"help": "Z/IP Name Set",
@@ -65,7 +65,7 @@ export class ZipNamingNameSet extends CommandPacket<ZipNamingV1ZipNamingNameSetD
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
@@ -75,9 +75,9 @@ export class ZipNamingNameSet extends CommandPacket<ZipNamingV1ZipNamingNameSetD
 };
 
 export class ZipNamingNameGet extends CommandPacket<void> {
-	public static readonly CommandClass = ZipNamingV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipNamingV1 = ZipNamingV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ZipNamingNameGet",
 		"help": "Z/IP Name Get",
@@ -85,7 +85,7 @@ export class ZipNamingNameGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
@@ -95,9 +95,9 @@ export class ZipNamingNameGet extends CommandPacket<void> {
 };
 
 export class ZipNamingNameReport extends CommandPacket<ZipNamingV1ZipNamingNameReportData> {
-	public static readonly CommandClass = ZipNamingV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipNamingV1 = ZipNamingV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "ZipNamingNameReport",
 		"help": "Z/IP Name Report",
@@ -114,7 +114,7 @@ export class ZipNamingNameReport extends CommandPacket<ZipNamingV1ZipNamingNameR
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
@@ -124,9 +124,9 @@ export class ZipNamingNameReport extends CommandPacket<ZipNamingV1ZipNamingNameR
 };
 
 export class ZipNamingLocationSet extends CommandPacket<ZipNamingV1ZipNamingLocationSetData> {
-	public static readonly CommandClass = ZipNamingV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipNamingV1 = ZipNamingV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "ZipNamingLocationSet",
 		"help": "Z/IP Location Set",
@@ -143,7 +143,7 @@ export class ZipNamingLocationSet extends CommandPacket<ZipNamingV1ZipNamingLoca
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
@@ -153,9 +153,9 @@ export class ZipNamingLocationSet extends CommandPacket<ZipNamingV1ZipNamingLoca
 };
 
 export class ZipNamingLocationGet extends CommandPacket<void> {
-	public static readonly CommandClass = ZipNamingV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipNamingV1 = ZipNamingV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "ZipNamingLocationGet",
 		"help": "Z/IP Location Get",
@@ -163,7 +163,7 @@ export class ZipNamingLocationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 
@@ -173,9 +173,9 @@ export class ZipNamingLocationGet extends CommandPacket<void> {
 };
 
 export class ZipNamingLocationReport extends CommandPacket<ZipNamingV1ZipNamingLocationReportData> {
-	public static readonly CommandClass = ZipNamingV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipNamingV1 = ZipNamingV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "ZipNamingLocationReport",
 		"help": "Z/IP Location Report",
@@ -192,7 +192,7 @@ export class ZipNamingLocationReport extends CommandPacket<ZipNamingV1ZipNamingL
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipNamingV1)?.command === this.command;
 	}
 

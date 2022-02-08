@@ -10,11 +10,11 @@ export interface CommandClassDescriptor extends CommandMatcher {
 	commandMask?: number;
 }
 
-export type CommandCodec = {
+export interface CommandCodec {
 	CommandClass: CommandClassDescriptor;
 	command: number;
 	definition: CommandDefinition;
-};
+}
 
 export abstract class CommandClassPacket<C extends number> extends Packet {
 	public readonly command: C;
@@ -26,6 +26,7 @@ export abstract class CommandClassPacket<C extends number> extends Packet {
 	) {
 		super(CommandClass.commandClass, commandAndPayload);
 		const mask = CommandClass.commandMask ?? 0xff;
+		// eslint-disable-next-line no-bitwise
 		this.command = (this.commandAndPayload[0] & mask) as C;
 		this.version = CommandClass.version;
 	}

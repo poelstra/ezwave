@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum WakeUpV1Commands {
 	WakeUpIntervalGet = 0x05,
@@ -26,8 +26,8 @@ export interface WakeUpV1WakeUpIntervalSetData {
 }
 
 export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
-	public static readonly commandClass = CommandClasses.WakeUp; // 0x84 (132)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.WakeUp; // 0x84 (132)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -39,9 +39,9 @@ export class WakeUpV1 extends CommandClassPacket<WakeUpV1Commands> {
 }
 
 export class WakeUpIntervalGet extends CommandPacket<void> {
-	public static readonly CommandClass = WakeUpV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WakeUpV1 = WakeUpV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "WakeUpIntervalGet",
 		"help": "Wake Up Interval Get",
@@ -49,7 +49,7 @@ export class WakeUpIntervalGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
@@ -59,9 +59,9 @@ export class WakeUpIntervalGet extends CommandPacket<void> {
 };
 
 export class WakeUpIntervalReport extends CommandPacket<WakeUpV1WakeUpIntervalReportData> {
-	public static readonly CommandClass = WakeUpV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WakeUpV1 = WakeUpV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "WakeUpIntervalReport",
 		"help": "Wake Up Interval Report",
@@ -83,7 +83,7 @@ export class WakeUpIntervalReport extends CommandPacket<WakeUpV1WakeUpIntervalRe
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
@@ -93,9 +93,9 @@ export class WakeUpIntervalReport extends CommandPacket<WakeUpV1WakeUpIntervalRe
 };
 
 export class WakeUpIntervalSet extends CommandPacket<WakeUpV1WakeUpIntervalSetData> {
-	public static readonly CommandClass = WakeUpV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WakeUpV1 = WakeUpV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "WakeUpIntervalSet",
 		"help": "Wake Up Interval Set",
@@ -117,7 +117,7 @@ export class WakeUpIntervalSet extends CommandPacket<WakeUpV1WakeUpIntervalSetDa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
@@ -127,9 +127,9 @@ export class WakeUpIntervalSet extends CommandPacket<WakeUpV1WakeUpIntervalSetDa
 };
 
 export class WakeUpNoMoreInformation extends CommandPacket<void> {
-	public static readonly CommandClass = WakeUpV1;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WakeUpV1 = WakeUpV1;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "WakeUpNoMoreInformation",
 		"help": "Wake Up No More Information",
@@ -137,7 +137,7 @@ export class WakeUpNoMoreInformation extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 
@@ -147,9 +147,9 @@ export class WakeUpNoMoreInformation extends CommandPacket<void> {
 };
 
 export class WakeUpNotification extends CommandPacket<void> {
-	public static readonly CommandClass = WakeUpV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WakeUpV1 = WakeUpV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "WakeUpNotification",
 		"help": "Wake Up Notification",
@@ -157,7 +157,7 @@ export class WakeUpNotification extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WakeUpV1)?.command === this.command;
 	}
 

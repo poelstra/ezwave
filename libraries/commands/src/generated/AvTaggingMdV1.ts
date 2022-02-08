@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AvTaggingMdV1Commands {
 	AvTaggingMdGet = 0x01,
@@ -13,8 +13,8 @@ export enum AvTaggingMdV1Commands {
 }
 
 export class AvTaggingMdV1 extends CommandClassPacket<AvTaggingMdV1Commands> {
-	public static readonly commandClass = CommandClasses.AvTaggingMd; // 0x99 (153)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.AvTaggingMd; // 0x99 (153)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -26,9 +26,9 @@ export class AvTaggingMdV1 extends CommandClassPacket<AvTaggingMdV1Commands> {
 }
 
 export class AvTaggingMdGet extends CommandPacket<void> {
-	public static readonly CommandClass = AvTaggingMdV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AvTaggingMdV1 = AvTaggingMdV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "AvTaggingMdGet",
 		"help": "Av Tagging Md Get",
@@ -36,7 +36,7 @@ export class AvTaggingMdGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AvTaggingMdV1)?.command === this.command;
 	}
 
@@ -46,9 +46,9 @@ export class AvTaggingMdGet extends CommandPacket<void> {
 };
 
 export class AvTaggingMdReport extends CommandPacket<void> {
-	public static readonly CommandClass = AvTaggingMdV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AvTaggingMdV1 = AvTaggingMdV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "AvTaggingMdReport",
 		"help": "Av Tagging Md Report",
@@ -56,7 +56,7 @@ export class AvTaggingMdReport extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AvTaggingMdV1)?.command === this.command;
 	}
 

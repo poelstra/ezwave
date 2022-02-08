@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 import { toHex } from "@ezwave/shared";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
@@ -169,6 +170,7 @@ export function zwReplaceFailedNodeBuilder(
 				}
 			),
 			handleEvents: async (events): Promise<void> => {
+				// eslint-disable-next-line no-constant-condition
 				while (true) {
 					const event = await events.get(60 * 1000);
 					switch (event) {

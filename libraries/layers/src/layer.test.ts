@@ -152,6 +152,7 @@ describe("layers", () => {
 		send = (command) => {
 			actualSends.push(command.packet);
 			console.log("--> send", command);
+			// eslint-disable-next-line no-unused-expressions
 			command.afterSend && command.afterSend();
 			return true;
 		};
@@ -178,6 +179,7 @@ describe("layers", () => {
 		send = async (command) => {
 			actualSends.push(command.packet);
 			console.log("--> send", command);
+			// eslint-disable-next-line no-unused-expressions
 			command.afterSend && command.afterSend();
 			// Mimick response from remote device
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
@@ -229,6 +231,7 @@ describe("layers", () => {
 					}),
 				});
 			}
+			// eslint-disable-next-line no-unused-expressions
 			command.afterSend && command.afterSend();
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				expect(afterSendCalled).toBe(0);
@@ -319,6 +322,7 @@ describe("layers", () => {
 		send = async (command) => {
 			console.log("--> send", command);
 			actualSends.push(command.packet);
+			// eslint-disable-next-line no-unused-expressions
 			command.afterSend && command.afterSend();
 			// Mimick response from remote device
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {

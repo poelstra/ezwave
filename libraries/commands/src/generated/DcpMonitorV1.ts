@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum DcpMonitorV1Commands {
 	DcpEventStatusGet = 0x03,
@@ -63,8 +63,8 @@ export interface DcpMonitorV1DcpListReportData {
 }
 
 export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
-	public static readonly commandClass = CommandClasses.DcpMonitor; // 0x3b (59)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.DcpMonitor; // 0x3b (59)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -76,9 +76,9 @@ export class DcpMonitorV1 extends CommandClassPacket<DcpMonitorV1Commands> {
 }
 
 export class DcpEventStatusGet extends CommandPacket<DcpMonitorV1DcpEventStatusGetData> {
-	public static readonly CommandClass = DcpMonitorV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DcpMonitorV1 = DcpMonitorV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "DcpEventStatusGet",
 		"help": "Dcp Event Status Get",
@@ -123,7 +123,7 @@ export class DcpEventStatusGet extends CommandPacket<DcpMonitorV1DcpEventStatusG
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 
@@ -133,9 +133,9 @@ export class DcpEventStatusGet extends CommandPacket<DcpMonitorV1DcpEventStatusG
 };
 
 export class DcpEventStatusReport extends CommandPacket<DcpMonitorV1DcpEventStatusReportData> {
-	public static readonly CommandClass = DcpMonitorV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DcpMonitorV1 = DcpMonitorV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "DcpEventStatusReport",
 		"help": "Dcp Event Status Report",
@@ -208,7 +208,7 @@ export class DcpEventStatusReport extends CommandPacket<DcpMonitorV1DcpEventStat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 
@@ -218,9 +218,9 @@ export class DcpEventStatusReport extends CommandPacket<DcpMonitorV1DcpEventStat
 };
 
 export class DcpListGet extends CommandPacket<void> {
-	public static readonly CommandClass = DcpMonitorV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DcpMonitorV1 = DcpMonitorV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "DcpListGet",
 		"help": "Dcp List Get",
@@ -228,7 +228,7 @@ export class DcpListGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 
@@ -238,9 +238,9 @@ export class DcpListGet extends CommandPacket<void> {
 };
 
 export class DcpListReport extends CommandPacket<DcpMonitorV1DcpListReportData> {
-	public static readonly CommandClass = DcpMonitorV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DcpMonitorV1 = DcpMonitorV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "DcpListReport",
 		"help": "Dcp List Report",
@@ -435,7 +435,7 @@ export class DcpListReport extends CommandPacket<DcpMonitorV1DcpListReportData> 
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DcpMonitorV1)?.command === this.command;
 	}
 

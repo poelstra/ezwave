@@ -1,6 +1,6 @@
+import { noop, toHex } from "@ezwave/shared";
 import debug from "debug";
 import { EventEmitter } from "events";
-import { noop, toHex } from "@ezwave/shared";
 import { ZwGetVersion, ZwVersionInfo } from "./commands/basis/zwGetVersion";
 import { CommandSession } from "./commands/commandSession";
 import { ICommandSessionRunner } from "./commands/ICommandSession";
@@ -457,7 +457,7 @@ export class SerialApi extends EventEmitter {
 		);
 	}
 
-	private _safeEmit(event: string, ...args: any[]): void {
+	private _safeEmit(event: string, ...args: unknown[]): void {
 		try {
 			this.emit(event, ...args);
 		} catch (err) {

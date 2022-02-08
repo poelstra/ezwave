@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum WindowCoveringV1Commands {
 	WindowCoveringSupportedGet = 0x01,
@@ -77,8 +77,8 @@ export enum ParameterIdEnum {
 }
 
 export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Commands> {
-	public static readonly commandClass = CommandClasses.WindowCovering; // 0x6a (106)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.WindowCovering; // 0x6a (106)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -90,9 +90,9 @@ export class WindowCoveringV1 extends CommandClassPacket<WindowCoveringV1Command
 }
 
 export class WindowCoveringSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = WindowCoveringV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WindowCoveringV1 = WindowCoveringV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "WindowCoveringSupportedGet",
 		"help": "Window Covering Supported Get",
@@ -100,7 +100,7 @@ export class WindowCoveringSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
@@ -110,9 +110,9 @@ export class WindowCoveringSupportedGet extends CommandPacket<void> {
 };
 
 export class WindowCoveringSupportedReport extends CommandPacket<WindowCoveringV1WindowCoveringSupportedReportData> {
-	public static readonly CommandClass = WindowCoveringV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WindowCoveringV1 = WindowCoveringV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "WindowCoveringSupportedReport",
 		"help": "Window Covering Supported Report",
@@ -159,7 +159,7 @@ export class WindowCoveringSupportedReport extends CommandPacket<WindowCoveringV
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
@@ -169,9 +169,9 @@ export class WindowCoveringSupportedReport extends CommandPacket<WindowCoveringV
 };
 
 export class WindowCoveringGet extends CommandPacket<WindowCoveringV1WindowCoveringGetData> {
-	public static readonly CommandClass = WindowCoveringV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WindowCoveringV1 = WindowCoveringV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "WindowCoveringGet",
 		"help": "Window Covering Get",
@@ -280,7 +280,7 @@ export class WindowCoveringGet extends CommandPacket<WindowCoveringV1WindowCover
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
@@ -290,9 +290,9 @@ export class WindowCoveringGet extends CommandPacket<WindowCoveringV1WindowCover
 };
 
 export class WindowCoveringReport extends CommandPacket<WindowCoveringV1WindowCoveringReportData> {
-	public static readonly CommandClass = WindowCoveringV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WindowCoveringV1 = WindowCoveringV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "WindowCoveringReport",
 		"help": "Window Covering Report",
@@ -419,7 +419,7 @@ export class WindowCoveringReport extends CommandPacket<WindowCoveringV1WindowCo
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
@@ -429,9 +429,9 @@ export class WindowCoveringReport extends CommandPacket<WindowCoveringV1WindowCo
 };
 
 export class WindowCoveringSet extends CommandPacket<WindowCoveringV1WindowCoveringSetData> {
-	public static readonly CommandClass = WindowCoveringV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WindowCoveringV1 = WindowCoveringV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "WindowCoveringSet",
 		"help": "Window Covering Set",
@@ -592,7 +592,7 @@ export class WindowCoveringSet extends CommandPacket<WindowCoveringV1WindowCover
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
@@ -602,9 +602,9 @@ export class WindowCoveringSet extends CommandPacket<WindowCoveringV1WindowCover
 };
 
 export class WindowCoveringStartLevelChange extends CommandPacket<WindowCoveringV1WindowCoveringStartLevelChangeData> {
-	public static readonly CommandClass = WindowCoveringV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WindowCoveringV1 = WindowCoveringV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "WindowCoveringStartLevelChange",
 		"help": "Window Covering Start Level Change",
@@ -747,7 +747,7 @@ export class WindowCoveringStartLevelChange extends CommandPacket<WindowCovering
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 
@@ -757,9 +757,9 @@ export class WindowCoveringStartLevelChange extends CommandPacket<WindowCovering
 };
 
 export class WindowCoveringStopLevelChange extends CommandPacket<WindowCoveringV1WindowCoveringStopLevelChangeData> {
-	public static readonly CommandClass = WindowCoveringV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof WindowCoveringV1 = WindowCoveringV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "WindowCoveringStopLevelChange",
 		"help": "Window Covering Stop Level Change",
@@ -868,7 +868,7 @@ export class WindowCoveringStopLevelChange extends CommandPacket<WindowCoveringV
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(WindowCoveringV1)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum PowerlevelV1Commands {
 	PowerlevelGet = 0x02,
@@ -62,8 +62,8 @@ export enum StatusOfOperationEnum {
 }
 
 export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
-	public static readonly commandClass = CommandClasses.Powerlevel; // 0x73 (115)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Powerlevel; // 0x73 (115)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -75,9 +75,9 @@ export class PowerlevelV1 extends CommandClassPacket<PowerlevelV1Commands> {
 }
 
 export class PowerlevelGet extends CommandPacket<void> {
-	public static readonly CommandClass = PowerlevelV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PowerlevelV1 = PowerlevelV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "PowerlevelGet",
 		"help": "Powerlevel Get",
@@ -85,7 +85,7 @@ export class PowerlevelGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
@@ -95,9 +95,9 @@ export class PowerlevelGet extends CommandPacket<void> {
 };
 
 export class PowerlevelReport extends CommandPacket<PowerlevelV1PowerlevelReportData> {
-	public static readonly CommandClass = PowerlevelV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PowerlevelV1 = PowerlevelV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "PowerlevelReport",
 		"help": "Powerlevel Report",
@@ -160,7 +160,7 @@ export class PowerlevelReport extends CommandPacket<PowerlevelV1PowerlevelReport
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
@@ -170,9 +170,9 @@ export class PowerlevelReport extends CommandPacket<PowerlevelV1PowerlevelReport
 };
 
 export class PowerlevelSet extends CommandPacket<PowerlevelV1PowerlevelSetData> {
-	public static readonly CommandClass = PowerlevelV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PowerlevelV1 = PowerlevelV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "PowerlevelSet",
 		"help": "Powerlevel Set",
@@ -235,7 +235,7 @@ export class PowerlevelSet extends CommandPacket<PowerlevelV1PowerlevelSetData> 
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
@@ -245,9 +245,9 @@ export class PowerlevelSet extends CommandPacket<PowerlevelV1PowerlevelSetData> 
 };
 
 export class PowerlevelTestNodeGet extends CommandPacket<void> {
-	public static readonly CommandClass = PowerlevelV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PowerlevelV1 = PowerlevelV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "PowerlevelTestNodeGet",
 		"help": "Powerlevel Test Node Get",
@@ -255,7 +255,7 @@ export class PowerlevelTestNodeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
@@ -265,9 +265,9 @@ export class PowerlevelTestNodeGet extends CommandPacket<void> {
 };
 
 export class PowerlevelTestNodeReport extends CommandPacket<PowerlevelV1PowerlevelTestNodeReportData> {
-	public static readonly CommandClass = PowerlevelV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PowerlevelV1 = PowerlevelV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "PowerlevelTestNodeReport",
 		"help": "Powerlevel Test Node Report",
@@ -315,7 +315,7 @@ export class PowerlevelTestNodeReport extends CommandPacket<PowerlevelV1Powerlev
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 
@@ -325,9 +325,9 @@ export class PowerlevelTestNodeReport extends CommandPacket<PowerlevelV1Powerlev
 };
 
 export class PowerlevelTestNodeSet extends CommandPacket<PowerlevelV1PowerlevelTestNodeSetData> {
-	public static readonly CommandClass = PowerlevelV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PowerlevelV1 = PowerlevelV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "PowerlevelTestNodeSet",
 		"help": "Powerlevel Test Node Set",
@@ -397,7 +397,7 @@ export class PowerlevelTestNodeSet extends CommandPacket<PowerlevelV1PowerlevelT
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PowerlevelV1)?.command === this.command;
 	}
 

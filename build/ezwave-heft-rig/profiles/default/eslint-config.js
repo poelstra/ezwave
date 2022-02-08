@@ -7,7 +7,48 @@ module.exports = {
 		{
 			files: ["*.ts", "*.tsx"],
 			rules: {
-				"@typescript-eslint/naming-convention": 0,
+				"@typescript-eslint/naming-convention": [
+					"warn",
+					{
+						selector: "default",
+						format: ["camelCase"],
+					},
+					{
+						selector: "variable",
+						format: ["camelCase", "UPPER_CASE"],
+					},
+					{
+						selector: "parameter",
+						// Adding "PascalCase" for the case of passing a contructor.
+						// This is not selectable with a "types" (yet), see https://github.com/typescript-eslint/typescript-eslint/issues/1484
+						format: ["camelCase", "PascalCase"],
+						leadingUnderscore: "allow",
+					},
+					{
+						selector: "memberLike",
+						modifiers: ["private"],
+						// Adding "PascalCase" for the case of passing a contructor.
+						// This is not selectable with a "types" (yet), see https://github.com/typescript-eslint/typescript-eslint/issues/1484
+						format: ["camelCase", "PascalCase"],
+						leadingUnderscore: "require",
+					},
+					{
+						selector: "property",
+						// Adding "PascalCase" for the case of passing a contructor.
+						// This is not selectable with a "types" (yet), see https://github.com/typescript-eslint/typescript-eslint/issues/1484
+						format: ["camelCase", "PascalCase"],
+						leadingUnderscore: "allow",
+					},
+					{
+						selector: "typeLike",
+						format: ["PascalCase"],
+					},
+					{
+						selector: "enumMember",
+						format: ["PascalCase"],
+					},
+				],
+				"no-void": ["error", { allowAsStatement: true }],
 				"@typescript-eslint/member-ordering": [
 					"warn",
 					{
@@ -80,6 +121,20 @@ module.exports = {
 
 							"method",
 						],
+					},
+				],
+			},
+		},
+		{
+			files: ["*.machine.ts"],
+			rules: {
+				"@typescript-eslint/naming-convention": [
+					"warn",
+					{
+						selector: "property",
+						// XState machines need special naming for the states etc
+						format: ["camelCase", "PascalCase", "UPPER_CASE"],
+						leadingUnderscore: "allow",
 					},
 				],
 			},

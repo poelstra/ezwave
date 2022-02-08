@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum RemoteAssociationV1Commands {
 	RemoteAssociationConfigurationGet = 0x02,
@@ -29,10 +29,10 @@ export interface RemoteAssociationV1RemoteAssociationConfigurationSetData {
 	remoteGroupingIdentifier: number; // 1 byte unsigned integer
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1Commands> {
-	public static readonly commandClass = CommandClasses.RemoteAssociation; // 0x7d (125)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.RemoteAssociation; // 0x7d (125)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -44,9 +44,9 @@ export class RemoteAssociationV1 extends CommandClassPacket<RemoteAssociationV1C
 }
 
 export class RemoteAssociationConfigurationGet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationGetData> {
-	public static readonly CommandClass = RemoteAssociationV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof RemoteAssociationV1 = RemoteAssociationV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "RemoteAssociationConfigurationGet",
 		"help": "Remote Association Configuration Get",
@@ -61,7 +61,7 @@ export class RemoteAssociationConfigurationGet extends CommandPacket<RemoteAssoc
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
 	}
 
@@ -71,9 +71,9 @@ export class RemoteAssociationConfigurationGet extends CommandPacket<RemoteAssoc
 };
 
 export class RemoteAssociationConfigurationReport extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationReportData> {
-	public static readonly CommandClass = RemoteAssociationV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof RemoteAssociationV1 = RemoteAssociationV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "RemoteAssociationConfigurationReport",
 		"help": "Remote Association Configuration Report",
@@ -113,7 +113,7 @@ export class RemoteAssociationConfigurationReport extends CommandPacket<RemoteAs
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
 	}
 
@@ -123,9 +123,9 @@ export class RemoteAssociationConfigurationReport extends CommandPacket<RemoteAs
 };
 
 export class RemoteAssociationConfigurationSet extends CommandPacket<RemoteAssociationV1RemoteAssociationConfigurationSetData> {
-	public static readonly CommandClass = RemoteAssociationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof RemoteAssociationV1 = RemoteAssociationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "RemoteAssociationConfigurationSet",
 		"help": "Remote Association Configuration Set",
@@ -165,7 +165,7 @@ export class RemoteAssociationConfigurationSet extends CommandPacket<RemoteAssoc
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(RemoteAssociationV1)?.command === this.command;
 	}
 

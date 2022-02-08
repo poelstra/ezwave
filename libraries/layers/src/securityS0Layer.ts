@@ -24,7 +24,7 @@ import { Requester } from "./requester";
 const log: debug.Debugger = debug("zwave:layers:securitys0");
 
 export class SecurityS0Layer implements Layer {
-	private _requester = new Requester();
+	private _requester: Requester = new Requester();
 	private _nonceStore: NonceStore;
 	private _codec: SecurityS0Codec;
 
@@ -80,7 +80,7 @@ export class SecurityS0Layer implements Layer {
 			// the nonce report is sent). Let's mimick that behavior here.
 			await this._handleSecurityNonceGet(event, sender);
 			sender = {
-				send(command) {
+				send(_command: LayerCommand) {
 					return false;
 				},
 				packetCapacity() {

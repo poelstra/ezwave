@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum LockV1Commands {
 	LockGet = 0x02,
@@ -21,10 +21,10 @@ export interface LockV1LockSetData {
 	lockState: number; // 1 byte unsigned integer
 }
 
-// Deprecated
+// This (version of the) command class is Deprecated
 export class LockV1 extends CommandClassPacket<LockV1Commands> {
-	public static readonly commandClass = CommandClasses.Lock; // 0x76 (118)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Lock; // 0x76 (118)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -36,9 +36,9 @@ export class LockV1 extends CommandClassPacket<LockV1Commands> {
 }
 
 export class LockGet extends CommandPacket<void> {
-	public static readonly CommandClass = LockV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof LockV1 = LockV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "LockGet",
 		"help": "Lock Get",
@@ -46,7 +46,7 @@ export class LockGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(LockV1)?.command === this.command;
 	}
 
@@ -56,9 +56,9 @@ export class LockGet extends CommandPacket<void> {
 };
 
 export class LockReport extends CommandPacket<LockV1LockReportData> {
-	public static readonly CommandClass = LockV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof LockV1 = LockV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "LockReport",
 		"help": "Lock Report",
@@ -83,7 +83,7 @@ export class LockReport extends CommandPacket<LockV1LockReportData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(LockV1)?.command === this.command;
 	}
 
@@ -93,9 +93,9 @@ export class LockReport extends CommandPacket<LockV1LockReportData> {
 };
 
 export class LockSet extends CommandPacket<LockV1LockSetData> {
-	public static readonly CommandClass = LockV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof LockV1 = LockV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "LockSet",
 		"help": "Lock Set",
@@ -120,7 +120,7 @@ export class LockSet extends CommandPacket<LockV1LockSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(LockV1)?.command === this.command;
 	}
 

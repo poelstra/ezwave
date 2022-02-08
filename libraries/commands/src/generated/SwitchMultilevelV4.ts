@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SwitchMultilevelV4Commands {
 	SwitchMultilevelGet = 0x02,
@@ -68,8 +68,8 @@ export enum IncDecEnum {
 }
 
 export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Commands> {
-	public static readonly commandClass = CommandClasses.SwitchMultilevel; // 0x26 (38)
-	public static readonly version = 4;
+	public static readonly commandClass: number = CommandClasses.SwitchMultilevel; // 0x26 (38)
+	public static readonly version: number = 4;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -81,9 +81,9 @@ export class SwitchMultilevelV4 extends CommandClassPacket<SwitchMultilevelV4Com
 }
 
 export class SwitchMultilevelGet extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchMultilevelV4;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchMultilevelV4 = SwitchMultilevelV4;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SwitchMultilevelGet",
 		"help": "Switch Multilevel Get",
@@ -91,7 +91,7 @@ export class SwitchMultilevelGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchMultilevelV4)?.command === this.command;
 	}
 
@@ -101,9 +101,9 @@ export class SwitchMultilevelGet extends CommandPacket<void> {
 };
 
 export class SwitchMultilevelReport extends CommandPacket<SwitchMultilevelV4SwitchMultilevelReportData> {
-	public static readonly CommandClass = SwitchMultilevelV4;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchMultilevelV4 = SwitchMultilevelV4;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SwitchMultilevelReport",
 		"help": "Switch Multilevel Report",
@@ -154,7 +154,7 @@ export class SwitchMultilevelReport extends CommandPacket<SwitchMultilevelV4Swit
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchMultilevelV4)?.command === this.command;
 	}
 
@@ -164,9 +164,9 @@ export class SwitchMultilevelReport extends CommandPacket<SwitchMultilevelV4Swit
 };
 
 export class SwitchMultilevelSet extends CommandPacket<SwitchMultilevelV4SwitchMultilevelSetData> {
-	public static readonly CommandClass = SwitchMultilevelV4;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchMultilevelV4 = SwitchMultilevelV4;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SwitchMultilevelSet",
 		"help": "Switch Multilevel Set",
@@ -207,7 +207,7 @@ export class SwitchMultilevelSet extends CommandPacket<SwitchMultilevelV4SwitchM
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchMultilevelV4)?.command === this.command;
 	}
 
@@ -217,9 +217,9 @@ export class SwitchMultilevelSet extends CommandPacket<SwitchMultilevelV4SwitchM
 };
 
 export class SwitchMultilevelStartLevelChange extends CommandPacket<SwitchMultilevelV4SwitchMultilevelStartLevelChangeData> {
-	public static readonly CommandClass = SwitchMultilevelV4;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchMultilevelV4 = SwitchMultilevelV4;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "SwitchMultilevelStartLevelChange",
 		"help": "Switch Multilevel Start Level Change",
@@ -315,7 +315,7 @@ export class SwitchMultilevelStartLevelChange extends CommandPacket<SwitchMultil
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchMultilevelV4)?.command === this.command;
 	}
 
@@ -325,9 +325,9 @@ export class SwitchMultilevelStartLevelChange extends CommandPacket<SwitchMultil
 };
 
 export class SwitchMultilevelStopLevelChange extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchMultilevelV4;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchMultilevelV4 = SwitchMultilevelV4;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "SwitchMultilevelStopLevelChange",
 		"help": "Switch Multilevel Stop Level Change",
@@ -335,7 +335,7 @@ export class SwitchMultilevelStopLevelChange extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchMultilevelV4)?.command === this.command;
 	}
 
@@ -345,9 +345,9 @@ export class SwitchMultilevelStopLevelChange extends CommandPacket<void> {
 };
 
 export class SwitchMultilevelSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchMultilevelV4;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchMultilevelV4 = SwitchMultilevelV4;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "SwitchMultilevelSupportedGet",
 		"help": "Switch Multilevel Supported Get",
@@ -355,7 +355,7 @@ export class SwitchMultilevelSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchMultilevelV4)?.command === this.command;
 	}
 
@@ -365,9 +365,9 @@ export class SwitchMultilevelSupportedGet extends CommandPacket<void> {
 };
 
 export class SwitchMultilevelSupportedReport extends CommandPacket<SwitchMultilevelV4SwitchMultilevelSupportedReportData> {
-	public static readonly CommandClass = SwitchMultilevelV4;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchMultilevelV4 = SwitchMultilevelV4;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "SwitchMultilevelSupportedReport",
 		"help": "Switch Multilevel Supported Report",
@@ -418,7 +418,7 @@ export class SwitchMultilevelSupportedReport extends CommandPacket<SwitchMultile
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchMultilevelV4)?.command === this.command;
 	}
 

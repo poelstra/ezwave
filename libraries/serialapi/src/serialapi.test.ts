@@ -1,6 +1,8 @@
+/* eslint-disable no-bitwise */
 import { defer, noop } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
+import { SimpleRequestBuilder } from ".";
 import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
 import { zwMemoryGetIdBuffer } from "./commands/memory/zwMemoryGetId.test";
 import { RequestRunner } from "./commands/RequestRunner";
@@ -13,19 +15,19 @@ import { IProtocol } from "./protocol";
 import { SerialApi } from "./serialapi";
 
 class FakeProtocol extends EventEmitter implements IProtocol {
-	hardResetted(): Promise<void> {
+	public hardResetted(): Promise<void> {
 		throw new Error("unexpected call during test");
 	}
 
-	softReset(): Promise<void> {
+	public softReset(): Promise<void> {
 		throw new Error("unexpected call during test");
 	}
 
-	send(cmd: SerialApiCommandCode, params?: Buffer): Promise<void> {
+	public send(cmd: SerialApiCommandCode, params?: Buffer): Promise<void> {
 		throw new Error("unexpected call during test");
 	}
 
-	request(
+	public request(
 		cmd: SerialApiCommandCode,
 		params?: Buffer,
 		timeout?: number
@@ -33,7 +35,7 @@ class FakeProtocol extends EventEmitter implements IProtocol {
 		throw new Error("unexpected call during test");
 	}
 
-	cancel(reason: Error): void {
+	public cancel(reason: Error): void {
 		throw new Error("unexpected call during test");
 	}
 }
@@ -125,6 +127,7 @@ describe("SerialAPI", () => {
 
 	describe("initialized", () => {
 		let serialApi: SerialApi;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		let serialApiEvents: any[][];
 
 		beforeEach(async () => {
@@ -169,7 +172,7 @@ describe("SerialAPI", () => {
 		});
 
 		it("prevents calling unsupported functions", async () => {
-			function requestBuilder() {
+			function requestBuilder(): SimpleRequestBuilder {
 				return () => ({
 					command: SerialApiCommandCode.ZW_SEND_SLAVE_DATA,
 				});

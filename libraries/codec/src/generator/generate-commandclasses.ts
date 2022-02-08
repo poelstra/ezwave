@@ -50,7 +50,6 @@ function generateCommandClassesEnum(json: spec.ZwaveSpec): string {
 	return classesContents;
 }
 
-// eslint-disable-next-line no-void
 void main(async () => {
 	// Read JSON ZWave specification
 	// TODO Convert reading of the spec to a helper in @ezwave/spec

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ThermostatSetbackV1Commands {
 	ThermostatSetbackGet = 0x02,
@@ -31,8 +31,8 @@ export enum SetbackTypeEnum {
 }
 
 export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1Commands> {
-	public static readonly commandClass = CommandClasses.ThermostatSetback; // 0x47 (71)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.ThermostatSetback; // 0x47 (71)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -44,9 +44,9 @@ export class ThermostatSetbackV1 extends CommandClassPacket<ThermostatSetbackV1C
 }
 
 export class ThermostatSetbackGet extends CommandPacket<void> {
-	public static readonly CommandClass = ThermostatSetbackV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatSetbackV1 = ThermostatSetbackV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ThermostatSetbackGet",
 		"help": "Thermostat Setback Get",
@@ -54,7 +54,7 @@ export class ThermostatSetbackGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
 	}
 
@@ -64,9 +64,9 @@ export class ThermostatSetbackGet extends CommandPacket<void> {
 };
 
 export class ThermostatSetbackReport extends CommandPacket<ThermostatSetbackV1ThermostatSetbackReportData> {
-	public static readonly CommandClass = ThermostatSetbackV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatSetbackV1 = ThermostatSetbackV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "ThermostatSetbackReport",
 		"help": "Thermostat Setback Report",
@@ -150,7 +150,7 @@ export class ThermostatSetbackReport extends CommandPacket<ThermostatSetbackV1Th
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
 	}
 
@@ -160,9 +160,9 @@ export class ThermostatSetbackReport extends CommandPacket<ThermostatSetbackV1Th
 };
 
 export class ThermostatSetbackSet extends CommandPacket<ThermostatSetbackV1ThermostatSetbackSetData> {
-	public static readonly CommandClass = ThermostatSetbackV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ThermostatSetbackV1 = ThermostatSetbackV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ThermostatSetbackSet",
 		"help": "Thermostat Setback Set",
@@ -246,7 +246,7 @@ export class ThermostatSetbackSet extends CommandPacket<ThermostatSetbackV1Therm
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ThermostatSetbackV1)?.command === this.command;
 	}
 

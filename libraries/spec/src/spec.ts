@@ -713,8 +713,9 @@ export enum ObsolescenceStatus {
 	Deprecated = "Deprecated",
 }
 
-export const OBSOLESCENCE_STATUS_TO_STRING = {
-	[ObsolescenceStatus.Active]: "Active",
-	[ObsolescenceStatus.Obsolete]: "Obsolete",
-	[ObsolescenceStatus.Deprecated]: "Deprecated",
-};
+export const OBSOLESCENCE_STATUS_TO_STRING: Record<ObsolescenceStatus, string> =
+	{
+		[ObsolescenceStatus.Active]: "Active",
+		[ObsolescenceStatus.Obsolete]: "Obsolete",
+		[ObsolescenceStatus.Deprecated]: "Deprecated",
+	};

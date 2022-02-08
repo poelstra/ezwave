@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum PrepaymentEncapsulationV1Commands {
 	CmdEncapsulation = 0x01,
@@ -16,8 +16,8 @@ export interface PrepaymentEncapsulationV1CmdEncapsulationData {
 }
 
 export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEncapsulationV1Commands> {
-	public static readonly commandClass = CommandClasses.PrepaymentEncapsulation; // 0x41 (65)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.PrepaymentEncapsulation; // 0x41 (65)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -29,9 +29,9 @@ export class PrepaymentEncapsulationV1 extends CommandClassPacket<PrepaymentEnca
 }
 
 export class CmdEncapsulation extends CommandPacket<PrepaymentEncapsulationV1CmdEncapsulationData> {
-	public static readonly CommandClass = PrepaymentEncapsulationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof PrepaymentEncapsulationV1 = PrepaymentEncapsulationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "CmdEncapsulation",
 		"help": "Cmd Encapsulation",
@@ -48,7 +48,7 @@ export class CmdEncapsulation extends CommandPacket<PrepaymentEncapsulationV1Cmd
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(PrepaymentEncapsulationV1)?.command === this.command;
 	}
 

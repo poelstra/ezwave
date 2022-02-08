@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SwitchColorV1Commands {
 	SwitchColorSupportedGet = 0x01,
@@ -49,8 +49,8 @@ export interface SwitchColorV1SwitchColorStopLevelChangeData {
 }
 
 export class SwitchColorV1 extends CommandClassPacket<SwitchColorV1Commands> {
-	public static readonly commandClass = CommandClasses.SwitchColor; // 0x33 (51)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SwitchColor; // 0x33 (51)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -62,9 +62,9 @@ export class SwitchColorV1 extends CommandClassPacket<SwitchColorV1Commands> {
 }
 
 export class SwitchColorSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchColorV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchColorV1 = SwitchColorV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SwitchColorSupportedGet",
 		"help": "Color Switch Supported Get",
@@ -72,7 +72,7 @@ export class SwitchColorSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchColorV1)?.command === this.command;
 	}
 
@@ -82,9 +82,9 @@ export class SwitchColorSupportedGet extends CommandPacket<void> {
 };
 
 export class SwitchColorSupportedReport extends CommandPacket<SwitchColorV1SwitchColorSupportedReportData> {
-	public static readonly CommandClass = SwitchColorV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchColorV1 = SwitchColorV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SwitchColorSupportedReport",
 		"help": "Color Switch Supported Report",
@@ -99,7 +99,7 @@ export class SwitchColorSupportedReport extends CommandPacket<SwitchColorV1Switc
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchColorV1)?.command === this.command;
 	}
 
@@ -109,9 +109,9 @@ export class SwitchColorSupportedReport extends CommandPacket<SwitchColorV1Switc
 };
 
 export class SwitchColorGet extends CommandPacket<SwitchColorV1SwitchColorGetData> {
-	public static readonly CommandClass = SwitchColorV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchColorV1 = SwitchColorV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SwitchColorGet",
 		"help": "Color Switch Get",
@@ -126,7 +126,7 @@ export class SwitchColorGet extends CommandPacket<SwitchColorV1SwitchColorGetDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchColorV1)?.command === this.command;
 	}
 
@@ -136,9 +136,9 @@ export class SwitchColorGet extends CommandPacket<SwitchColorV1SwitchColorGetDat
 };
 
 export class SwitchColorReport extends CommandPacket<SwitchColorV1SwitchColorReportData> {
-	public static readonly CommandClass = SwitchColorV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchColorV1 = SwitchColorV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "SwitchColorReport",
 		"help": "Color Switch Report",
@@ -159,7 +159,7 @@ export class SwitchColorReport extends CommandPacket<SwitchColorV1SwitchColorRep
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchColorV1)?.command === this.command;
 	}
 
@@ -169,9 +169,9 @@ export class SwitchColorReport extends CommandPacket<SwitchColorV1SwitchColorRep
 };
 
 export class SwitchColorSet extends CommandPacket<SwitchColorV1SwitchColorSetData> {
-	public static readonly CommandClass = SwitchColorV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchColorV1 = SwitchColorV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "SwitchColorSet",
 		"help": "Color Switch Set",
@@ -232,7 +232,7 @@ export class SwitchColorSet extends CommandPacket<SwitchColorV1SwitchColorSetDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchColorV1)?.command === this.command;
 	}
 
@@ -242,9 +242,9 @@ export class SwitchColorSet extends CommandPacket<SwitchColorV1SwitchColorSetDat
 };
 
 export class SwitchColorStartLevelChange extends CommandPacket<SwitchColorV1SwitchColorStartLevelChangeData> {
-	public static readonly CommandClass = SwitchColorV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchColorV1 = SwitchColorV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "SwitchColorStartLevelChange",
 		"help": "Color Switch Start Level Change",
@@ -299,7 +299,7 @@ export class SwitchColorStartLevelChange extends CommandPacket<SwitchColorV1Swit
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchColorV1)?.command === this.command;
 	}
 
@@ -309,9 +309,9 @@ export class SwitchColorStartLevelChange extends CommandPacket<SwitchColorV1Swit
 };
 
 export class SwitchColorStopLevelChange extends CommandPacket<SwitchColorV1SwitchColorStopLevelChangeData> {
-	public static readonly CommandClass = SwitchColorV1;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchColorV1 = SwitchColorV1;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "SwitchColorStopLevelChange",
 		"help": "Color Switch Stop Level Change",
@@ -326,7 +326,7 @@ export class SwitchColorStopLevelChange extends CommandPacket<SwitchColorV1Switc
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchColorV1)?.command === this.command;
 	}
 

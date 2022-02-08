@@ -1,3 +1,5 @@
+/* eslint-disable no-bitwise */
+
 export interface CommandMatcher {
 	matches(packet: Packet): boolean;
 }

@@ -1,5 +1,5 @@
 import { decodeParams } from "@ezwave/codec";
-import { convertFromJsonParams, ParameterType } from "@ezwave/spec";
+import { convertFromJsonParams, Parameter, ParameterType } from "@ezwave/spec";
 import { RequestRunner } from "../RequestRunner";
 import { ResponseRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
@@ -10,7 +10,7 @@ export interface ZwVersionInfo {
 	libraryType: ZwLibraryType;
 }
 
-const ZW_GET_VERSION_PARAMS = convertFromJsonParams([
+const ZW_GET_VERSION_PARAMS: Parameter[] = convertFromJsonParams([
 	{ type: ParameterType.Text, length: 12, name: "libraryVersion", help: "" },
 	{ type: ParameterType.Integer, length: 1, name: "libraryType", help: "" },
 ]);

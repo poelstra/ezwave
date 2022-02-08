@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum IndicatorV1Commands {
 	IndicatorGet = 0x02,
@@ -22,8 +22,8 @@ export interface IndicatorV1IndicatorSetData {
 }
 
 export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
-	public static readonly commandClass = CommandClasses.Indicator; // 0x87 (135)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Indicator; // 0x87 (135)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -35,9 +35,9 @@ export class IndicatorV1 extends CommandClassPacket<IndicatorV1Commands> {
 }
 
 export class IndicatorGet extends CommandPacket<void> {
-	public static readonly CommandClass = IndicatorV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IndicatorV1 = IndicatorV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "IndicatorGet",
 		"help": "Indicator Get",
@@ -45,7 +45,7 @@ export class IndicatorGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IndicatorV1)?.command === this.command;
 	}
 
@@ -55,9 +55,9 @@ export class IndicatorGet extends CommandPacket<void> {
 };
 
 export class IndicatorReport extends CommandPacket<IndicatorV1IndicatorReportData> {
-	public static readonly CommandClass = IndicatorV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IndicatorV1 = IndicatorV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "IndicatorReport",
 		"help": "Indicator Report",
@@ -82,7 +82,7 @@ export class IndicatorReport extends CommandPacket<IndicatorV1IndicatorReportDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IndicatorV1)?.command === this.command;
 	}
 
@@ -92,9 +92,9 @@ export class IndicatorReport extends CommandPacket<IndicatorV1IndicatorReportDat
 };
 
 export class IndicatorSet extends CommandPacket<IndicatorV1IndicatorSetData> {
-	public static readonly CommandClass = IndicatorV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof IndicatorV1 = IndicatorV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "IndicatorSet",
 		"help": "Indicator Set",
@@ -119,7 +119,7 @@ export class IndicatorSet extends CommandPacket<IndicatorV1IndicatorSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(IndicatorV1)?.command === this.command;
 	}
 

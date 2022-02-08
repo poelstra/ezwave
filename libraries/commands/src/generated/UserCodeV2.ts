@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum UserCodeV2Commands {
 	UserCodeGet = 0x02,
@@ -119,8 +119,8 @@ export enum KeypadModeEnum {
 }
 
 export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
-	public static readonly commandClass = CommandClasses.UserCode; // 0x63 (99)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.UserCode; // 0x63 (99)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -132,9 +132,9 @@ export class UserCodeV2 extends CommandClassPacket<UserCodeV2Commands> {
 }
 
 export class UserCodeGet extends CommandPacket<UserCodeV2UserCodeGetData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "UserCodeGet",
 		"help": "User Code Get",
@@ -149,7 +149,7 @@ export class UserCodeGet extends CommandPacket<UserCodeV2UserCodeGetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -159,9 +159,9 @@ export class UserCodeGet extends CommandPacket<UserCodeV2UserCodeGetData> {
 };
 
 export class UserCodeReport extends CommandPacket<UserCodeV2UserCodeReportData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "UserCodeReport",
 		"help": "User Code Report",
@@ -216,7 +216,7 @@ export class UserCodeReport extends CommandPacket<UserCodeV2UserCodeReportData> 
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -226,9 +226,9 @@ export class UserCodeReport extends CommandPacket<UserCodeV2UserCodeReportData> 
 };
 
 export class UserCodeSet extends CommandPacket<UserCodeV2UserCodeSetData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "UserCodeSet",
 		"help": "User Code Set",
@@ -283,7 +283,7 @@ export class UserCodeSet extends CommandPacket<UserCodeV2UserCodeSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -293,9 +293,9 @@ export class UserCodeSet extends CommandPacket<UserCodeV2UserCodeSetData> {
 };
 
 export class UsersNumberGet extends CommandPacket<void> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "UsersNumberGet",
 		"help": "Users Number Get",
@@ -303,7 +303,7 @@ export class UsersNumberGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -313,9 +313,9 @@ export class UsersNumberGet extends CommandPacket<void> {
 };
 
 export class UsersNumberReport extends CommandPacket<UserCodeV2UsersNumberReportData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "UsersNumberReport",
 		"help": "Users Number Report",
@@ -336,7 +336,7 @@ export class UsersNumberReport extends CommandPacket<UserCodeV2UsersNumberReport
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -346,9 +346,9 @@ export class UsersNumberReport extends CommandPacket<UserCodeV2UsersNumberReport
 };
 
 export class ExtendedUserCodeSet extends CommandPacket<UserCodeV2ExtendedUserCodeSetData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x0b; // 11
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x0b; // 11
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 11,
 		"name": "ExtendedUserCodeSet",
 		"help": "Extended User Code Set",
@@ -458,7 +458,7 @@ export class ExtendedUserCodeSet extends CommandPacket<UserCodeV2ExtendedUserCod
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -468,9 +468,9 @@ export class ExtendedUserCodeSet extends CommandPacket<UserCodeV2ExtendedUserCod
 };
 
 export class ExtendedUserCodeGet extends CommandPacket<UserCodeV2ExtendedUserCodeGetData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x0c; // 12
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x0c; // 12
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 12,
 		"name": "ExtendedUserCodeGet",
 		"help": "Extended User Code Get",
@@ -506,7 +506,7 @@ export class ExtendedUserCodeGet extends CommandPacket<UserCodeV2ExtendedUserCod
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -516,9 +516,9 @@ export class ExtendedUserCodeGet extends CommandPacket<UserCodeV2ExtendedUserCod
 };
 
 export class ExtendedUserCodeReport extends CommandPacket<UserCodeV2ExtendedUserCodeReportData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x0d; // 13
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x0d; // 13
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 13,
 		"name": "ExtendedUserCodeReport",
 		"help": "Extended User Code Report",
@@ -634,7 +634,7 @@ export class ExtendedUserCodeReport extends CommandPacket<UserCodeV2ExtendedUser
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -644,9 +644,9 @@ export class ExtendedUserCodeReport extends CommandPacket<UserCodeV2ExtendedUser
 };
 
 export class UserCodeCapabilitiesGet extends CommandPacket<void> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "UserCodeCapabilitiesGet",
 		"help": "User Code Capabilities Get",
@@ -654,7 +654,7 @@ export class UserCodeCapabilitiesGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -664,9 +664,9 @@ export class UserCodeCapabilitiesGet extends CommandPacket<void> {
 };
 
 export class UserCodeCapabilitiesReport extends CommandPacket<UserCodeV2UserCodeCapabilitiesReportData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "UserCodeCapabilitiesReport",
 		"help": "User Code Capabilities Report",
@@ -812,7 +812,7 @@ export class UserCodeCapabilitiesReport extends CommandPacket<UserCodeV2UserCode
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -822,9 +822,9 @@ export class UserCodeCapabilitiesReport extends CommandPacket<UserCodeV2UserCode
 };
 
 export class UserCodeKeypadModeSet extends CommandPacket<UserCodeV2UserCodeKeypadModeSetData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "UserCodeKeypadModeSet",
 		"help": "User Code Keypad Mode Set",
@@ -857,7 +857,7 @@ export class UserCodeKeypadModeSet extends CommandPacket<UserCodeV2UserCodeKeypa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -867,9 +867,9 @@ export class UserCodeKeypadModeSet extends CommandPacket<UserCodeV2UserCodeKeypa
 };
 
 export class UserCodeKeypadModeGet extends CommandPacket<void> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "UserCodeKeypadModeGet",
 		"help": "User Code Keypad Mode Get",
@@ -877,7 +877,7 @@ export class UserCodeKeypadModeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -887,9 +887,9 @@ export class UserCodeKeypadModeGet extends CommandPacket<void> {
 };
 
 export class UserCodeKeypadModeReport extends CommandPacket<UserCodeV2UserCodeKeypadModeReportData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x0a; // 10
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x0a; // 10
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 10,
 		"name": "UserCodeKeypadModeReport",
 		"help": "User Code Keypad Mode Report",
@@ -922,7 +922,7 @@ export class UserCodeKeypadModeReport extends CommandPacket<UserCodeV2UserCodeKe
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -932,9 +932,9 @@ export class UserCodeKeypadModeReport extends CommandPacket<UserCodeV2UserCodeKe
 };
 
 export class MasterCodeSet extends CommandPacket<UserCodeV2MasterCodeSetData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x0e; // 14
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x0e; // 14
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 14,
 		"name": "MasterCodeSet",
 		"help": "Master Code Set",
@@ -981,7 +981,7 @@ export class MasterCodeSet extends CommandPacket<UserCodeV2MasterCodeSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -991,9 +991,9 @@ export class MasterCodeSet extends CommandPacket<UserCodeV2MasterCodeSetData> {
 };
 
 export class MasterCodeGet extends CommandPacket<void> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x0f; // 15
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x0f; // 15
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 15,
 		"name": "MasterCodeGet",
 		"help": "Master Code Get",
@@ -1001,7 +1001,7 @@ export class MasterCodeGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -1011,9 +1011,9 @@ export class MasterCodeGet extends CommandPacket<void> {
 };
 
 export class MasterCodeReport extends CommandPacket<UserCodeV2MasterCodeReportData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x10; // 16
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x10; // 16
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 16,
 		"name": "MasterCodeReport",
 		"help": "Master Code Report",
@@ -1060,7 +1060,7 @@ export class MasterCodeReport extends CommandPacket<UserCodeV2MasterCodeReportDa
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -1070,9 +1070,9 @@ export class MasterCodeReport extends CommandPacket<UserCodeV2MasterCodeReportDa
 };
 
 export class UserCodeChecksumGet extends CommandPacket<void> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x11; // 17
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x11; // 17
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 17,
 		"name": "UserCodeChecksumGet",
 		"help": "User Code Checksum Get",
@@ -1080,7 +1080,7 @@ export class UserCodeChecksumGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 
@@ -1090,9 +1090,9 @@ export class UserCodeChecksumGet extends CommandPacket<void> {
 };
 
 export class UserCodeChecksumReport extends CommandPacket<UserCodeV2UserCodeChecksumReportData> {
-	public static readonly CommandClass = UserCodeV2;
-	public static readonly command = 0x12; // 18
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof UserCodeV2 = UserCodeV2;
+	public static readonly command: number = 0x12; // 18
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 18,
 		"name": "UserCodeChecksumReport",
 		"help": "User Code Checksum Report",
@@ -1107,7 +1107,7 @@ export class UserCodeChecksumReport extends CommandPacket<UserCodeV2UserCodeChec
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(UserCodeV2)?.command === this.command;
 	}
 

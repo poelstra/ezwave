@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum HumidityControlSetpointV2Commands {
 	HumidityControlSetpointSet = 0x01,
@@ -96,8 +96,8 @@ export enum Scale2Enum {
 }
 
 export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityControlSetpointV2Commands> {
-	public static readonly commandClass = CommandClasses.HumidityControlSetpoint; // 0x64 (100)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.HumidityControlSetpoint; // 0x64 (100)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -109,9 +109,9 @@ export class HumidityControlSetpointV2 extends CommandClassPacket<HumidityContro
 }
 
 export class HumidityControlSetpointSet extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointSetData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "HumidityControlSetpointSet",
 		"help": "Humidity Control Setpoint Set",
@@ -208,7 +208,7 @@ export class HumidityControlSetpointSet extends CommandPacket<HumidityControlSet
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -218,9 +218,9 @@ export class HumidityControlSetpointSet extends CommandPacket<HumidityControlSet
 };
 
 export class HumidityControlSetpointGet extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointGetData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "HumidityControlSetpointGet",
 		"help": "Humidity Control Setpoint Get",
@@ -264,7 +264,7 @@ export class HumidityControlSetpointGet extends CommandPacket<HumidityControlSet
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -274,9 +274,9 @@ export class HumidityControlSetpointGet extends CommandPacket<HumidityControlSet
 };
 
 export class HumidityControlSetpointReport extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointReportData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "HumidityControlSetpointReport",
 		"help": "Humidity Control Setpoint Report",
@@ -373,7 +373,7 @@ export class HumidityControlSetpointReport extends CommandPacket<HumidityControl
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -383,9 +383,9 @@ export class HumidityControlSetpointReport extends CommandPacket<HumidityControl
 };
 
 export class HumidityControlSetpointSupportedGet extends CommandPacket<void> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "HumidityControlSetpointSupportedGet",
 		"help": "Humidity Control Setpoint Supported Get",
@@ -393,7 +393,7 @@ export class HumidityControlSetpointSupportedGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -403,9 +403,9 @@ export class HumidityControlSetpointSupportedGet extends CommandPacket<void> {
 };
 
 export class HumidityControlSetpointSupportedReport extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointSupportedReportData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "HumidityControlSetpointSupportedReport",
 		"help": "Humidity Control Setpoint Supported Report",
@@ -434,7 +434,7 @@ export class HumidityControlSetpointSupportedReport extends CommandPacket<Humidi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -444,9 +444,9 @@ export class HumidityControlSetpointSupportedReport extends CommandPacket<Humidi
 };
 
 export class HumidityControlSetpointScaleSupportedGet extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointScaleSupportedGetData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "HumidityControlSetpointScaleSupportedGet",
 		"help": "Humidity Control Setpoint Scale Supported Get",
@@ -490,7 +490,7 @@ export class HumidityControlSetpointScaleSupportedGet extends CommandPacket<Humi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -500,9 +500,9 @@ export class HumidityControlSetpointScaleSupportedGet extends CommandPacket<Humi
 };
 
 export class HumidityControlSetpointScaleSupportedReport extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointScaleSupportedReportData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "HumidityControlSetpointScaleSupportedReport",
 		"help": "Humidity Control Setpoint Scale Supported Report",
@@ -542,7 +542,7 @@ export class HumidityControlSetpointScaleSupportedReport extends CommandPacket<H
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -552,9 +552,9 @@ export class HumidityControlSetpointScaleSupportedReport extends CommandPacket<H
 };
 
 export class HumidityControlSetpointCapabilitiesGet extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointCapabilitiesGetData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x08; // 8
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x08; // 8
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 8,
 		"name": "HumidityControlSetpointCapabilitiesGet",
 		"help": "Humidity Control Setpoint Capabilities Get",
@@ -598,7 +598,7 @@ export class HumidityControlSetpointCapabilitiesGet extends CommandPacket<Humidi
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 
@@ -608,9 +608,9 @@ export class HumidityControlSetpointCapabilitiesGet extends CommandPacket<Humidi
 };
 
 export class HumidityControlSetpointCapabilitiesReport extends CommandPacket<HumidityControlSetpointV2HumidityControlSetpointCapabilitiesReportData> {
-	public static readonly CommandClass = HumidityControlSetpointV2;
-	public static readonly command = 0x09; // 9
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof HumidityControlSetpointV2 = HumidityControlSetpointV2;
+	public static readonly command: number = 0x09; // 9
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 9,
 		"name": "HumidityControlSetpointCapabilitiesReport",
 		"help": "Humidity Control Setpoint Capabilities Report",
@@ -760,7 +760,7 @@ export class HumidityControlSetpointCapabilitiesReport extends CommandPacket<Hum
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(HumidityControlSetpointV2)?.command === this.command;
 	}
 

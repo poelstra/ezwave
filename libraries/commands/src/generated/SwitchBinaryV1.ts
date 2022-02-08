@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SwitchBinaryV1Commands {
 	SwitchBinaryGet = 0x02,
@@ -22,8 +22,8 @@ export interface SwitchBinaryV1SwitchBinarySetData {
 }
 
 export class SwitchBinaryV1 extends CommandClassPacket<SwitchBinaryV1Commands> {
-	public static readonly commandClass = CommandClasses.SwitchBinary; // 0x25 (37)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SwitchBinary; // 0x25 (37)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -35,9 +35,9 @@ export class SwitchBinaryV1 extends CommandClassPacket<SwitchBinaryV1Commands> {
 }
 
 export class SwitchBinaryGet extends CommandPacket<void> {
-	public static readonly CommandClass = SwitchBinaryV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchBinaryV1 = SwitchBinaryV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SwitchBinaryGet",
 		"help": "Switch Binary Get",
@@ -45,7 +45,7 @@ export class SwitchBinaryGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchBinaryV1)?.command === this.command;
 	}
 
@@ -55,9 +55,9 @@ export class SwitchBinaryGet extends CommandPacket<void> {
 };
 
 export class SwitchBinaryReport extends CommandPacket<SwitchBinaryV1SwitchBinaryReportData> {
-	public static readonly CommandClass = SwitchBinaryV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchBinaryV1 = SwitchBinaryV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SwitchBinaryReport",
 		"help": "Switch Binary Report",
@@ -82,7 +82,7 @@ export class SwitchBinaryReport extends CommandPacket<SwitchBinaryV1SwitchBinary
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchBinaryV1)?.command === this.command;
 	}
 
@@ -92,9 +92,9 @@ export class SwitchBinaryReport extends CommandPacket<SwitchBinaryV1SwitchBinary
 };
 
 export class SwitchBinarySet extends CommandPacket<SwitchBinaryV1SwitchBinarySetData> {
-	public static readonly CommandClass = SwitchBinaryV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SwitchBinaryV1 = SwitchBinaryV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SwitchBinarySet",
 		"help": "Switch Binary Set",
@@ -119,7 +119,7 @@ export class SwitchBinarySet extends CommandPacket<SwitchBinaryV1SwitchBinarySet
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SwitchBinaryV1)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum SensorConfigurationV1Commands {
 	SensorTriggerLevelGet = 0x02,
@@ -29,10 +29,10 @@ export interface SensorConfigurationV1SensorTriggerLevelSetData {
 	triggerValue: Buffer; // variable length
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class SensorConfigurationV1 extends CommandClassPacket<SensorConfigurationV1Commands> {
-	public static readonly commandClass = CommandClasses.SensorConfiguration; // 0x9e (158)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.SensorConfiguration; // 0x9e (158)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -44,9 +44,9 @@ export class SensorConfigurationV1 extends CommandClassPacket<SensorConfiguratio
 }
 
 export class SensorTriggerLevelGet extends CommandPacket<void> {
-	public static readonly CommandClass = SensorConfigurationV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorConfigurationV1 = SensorConfigurationV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "SensorTriggerLevelGet",
 		"help": "Sensor Trigger Level Get",
@@ -54,7 +54,7 @@ export class SensorTriggerLevelGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorConfigurationV1)?.command === this.command;
 	}
 
@@ -64,9 +64,9 @@ export class SensorTriggerLevelGet extends CommandPacket<void> {
 };
 
 export class SensorTriggerLevelReport extends CommandPacket<SensorConfigurationV1SensorTriggerLevelReportData> {
-	public static readonly CommandClass = SensorConfigurationV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorConfigurationV1 = SensorConfigurationV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "SensorTriggerLevelReport",
 		"help": "Sensor Trigger Level Report",
@@ -178,7 +178,7 @@ export class SensorTriggerLevelReport extends CommandPacket<SensorConfigurationV
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorConfigurationV1)?.command === this.command;
 	}
 
@@ -188,9 +188,9 @@ export class SensorTriggerLevelReport extends CommandPacket<SensorConfigurationV
 };
 
 export class SensorTriggerLevelSet extends CommandPacket<SensorConfigurationV1SensorTriggerLevelSetData> {
-	public static readonly CommandClass = SensorConfigurationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof SensorConfigurationV1 = SensorConfigurationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "SensorTriggerLevelSet",
 		"help": "Sensor Trigger Level Set",
@@ -329,7 +329,7 @@ export class SensorTriggerLevelSet extends CommandPacket<SensorConfigurationV1Se
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(SensorConfigurationV1)?.command === this.command;
 	}
 

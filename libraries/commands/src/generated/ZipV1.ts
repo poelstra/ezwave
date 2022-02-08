@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ZipV1Commands {
 	CommandZipPacket = 0x02,
@@ -27,10 +27,10 @@ export interface ZipV1CommandZipPacketData {
 	zWaveCommand?: Buffer; // automatic length
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class ZipV1 extends CommandClassPacket<ZipV1Commands> {
-	public static readonly commandClass = CommandClasses.Zip; // 0x23 (35)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Zip; // 0x23 (35)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -42,9 +42,9 @@ export class ZipV1 extends CommandClassPacket<ZipV1Commands> {
 }
 
 export class CommandZipPacket extends CommandPacket<ZipV1CommandZipPacketData> {
-	public static readonly CommandClass = ZipV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ZipV1 = ZipV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "CommandZipPacket",
 		"help": "Zip Packet",
@@ -218,7 +218,7 @@ export class CommandZipPacket extends CommandPacket<ZipV1CommandZipPacketData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ZipV1)?.command === this.command;
 	}
 

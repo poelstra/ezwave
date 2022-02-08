@@ -19,7 +19,7 @@ export interface ZwRequestNodeInfoRequest {
 	nodeId: number;
 }
 
-const DEFAULT_ZW_REQUEST_NODE_INFO_TIMEOUT = 10 * 1000; // TODO what should this be? I've seen a request to a dead node being timed out by the Z-Wave chip in 8s.
+const DEFAULT_ZW_REQUEST_NODE_INFO_TIMEOUT: number = 10 * 1000; // TODO what should this be? I've seen a request to a dead node being timed out by the Z-Wave chip in 8s.
 
 export function zwRequestNodeInfoBuilder(
 	request: ZwRequestNodeInfoRequest

@@ -7,6 +7,7 @@ import { Events } from "./events";
 const log: debug.Debugger = debug("zwave:serialapi:machine");
 
 export function runMachineService<TEvent extends EventObject, R>(
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	service: InterpreterWithMatches<any, any, TEvent, any>,
 	events: Events<TEvent>
 ): Promise<R> {
@@ -19,7 +20,7 @@ export function runMachineService<TEvent extends EventObject, R>(
 				)} newState=${util.inspect(state.value)}`
 			);
 		});
-		const pumpEvents = async () => {
+		const pumpEvents = async (): Promise<void> => {
 			try {
 				while (service.status === InterpreterStatus.Running) {
 					const event = await events.get();
@@ -31,7 +32,6 @@ export function runMachineService<TEvent extends EventObject, R>(
 			}
 		};
 		service.start();
-		// eslint-disable-next-line no-void
 		void pumpEvents(); // ignore result, can't fail (TM)
 	});
 }

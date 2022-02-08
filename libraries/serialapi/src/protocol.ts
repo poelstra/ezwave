@@ -32,14 +32,14 @@ import {
 } from "./framer";
 
 const log: debug.Debugger = debug("zwave:protocol");
-const logData = log.extend("data");
+const logData: debug.Debugger = log.extend("data");
 
 const ACK_FRAME: SimpleFrame = { frameType: FrameType.ACK };
 const NAK_FRAME: SimpleFrame = { frameType: FrameType.NAK };
-const ONE_BYTE_DUMMY_BUFFER = Buffer.alloc(1);
+const ONE_BYTE_DUMMY_BUFFER: Buffer = Buffer.alloc(1);
 
-const ACK_TIMEOUT_SENTINEL = "ACK_TIMEOUT_SENTINEL";
-type AckTimeoutSentinel = typeof ACK_TIMEOUT_SENTINEL;
+type AckTimeoutSentinel = "ACK_TIMEOUT_SENTINEL";
+const ACK_TIMEOUT_SENTINEL: AckTimeoutSentinel = "ACK_TIMEOUT_SENTINEL";
 
 function createDataFrame(
 	command: SerialApiCommandCode,
@@ -53,12 +53,12 @@ function createDataFrame(
 	};
 }
 
-const ACK_TIMEOUT = 1600; // INS12350-14 6.2.2 Data frame delivery timeout
-const RES_TIMEOUT = 5000; // INS12350-14 6.6.3 Host Request/Response Session
-const MAX_RETRANSMISSIONS = 3;
+const ACK_TIMEOUT: number = 1600; // INS12350-14 6.2.2 Data frame delivery timeout
+const RES_TIMEOUT: number = 5000; // INS12350-14 6.6.3 Host Request/Response Session
+const MAX_RETRANSMISSIONS: number = 3;
 
-const HARD_RESET_DELAY = 500; // INS12350 6.1.1 With hard reset
-const SOFT_RESET_DELAY = 1500; // INS12350 6.1.2 Without hard reset
+const HARD_RESET_DELAY: number = 500; // INS12350 6.1.1 With hard reset
+const SOFT_RESET_DELAY: number = 1500; // INS12350 6.1.2 Without hard reset
 
 export interface IProtocol extends EventEmitter {
 	/**
@@ -261,7 +261,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 	 * When it becomes too large, a "stuck" event is emitted to trigger
 	 * a soft or hard reset.
 	 */
-	private _invalidFrames = 0;
+	private _invalidFrames: number = 0;
 
 	/**
 	 * Resolved to result of ACK/NAK/CAN/timeout when sending a REQ.
@@ -630,7 +630,6 @@ export class Protocol extends EventEmitter implements IProtocol {
 		switch (frameError) {
 			case FrameError.ChecksumFailed:
 			case FrameError.FrameTooSmall:
-				// eslint-disable-next-line no-void
 				void this._sendRaw(NAK_FRAME).catch((err) => {}); // Ignore any errors from sending back the NACK
 
 				// INS12350 6.4.2 Persistent CRC errors
@@ -698,6 +697,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 
 	private async _send(frame: DataFrame): Promise<void> {
 		let retransmissions = 0;
+		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			const result = await this._sendDataFrameAndWaitForResponse(frame);
 			if (
@@ -759,7 +759,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 		return this._framer.send(frame);
 	}
 
-	private _safeEmit(event: string, ...args: any[]): void {
+	private _safeEmit(event: string, ...args: unknown[]): void {
 		try {
 			this.emit(event, ...args);
 		} catch (err) {

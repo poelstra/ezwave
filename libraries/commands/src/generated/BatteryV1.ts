@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum BatteryV1Commands {
 	BatteryGet = 0x02,
@@ -17,8 +17,8 @@ export interface BatteryV1BatteryReportData {
 }
 
 export class BatteryV1 extends CommandClassPacket<BatteryV1Commands> {
-	public static readonly commandClass = CommandClasses.Battery; // 0x80 (128)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Battery; // 0x80 (128)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -30,9 +30,9 @@ export class BatteryV1 extends CommandClassPacket<BatteryV1Commands> {
 }
 
 export class BatteryGet extends CommandPacket<void> {
-	public static readonly CommandClass = BatteryV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BatteryV1 = BatteryV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "BatteryGet",
 		"help": "Battery Get",
@@ -40,7 +40,7 @@ export class BatteryGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BatteryV1)?.command === this.command;
 	}
 
@@ -50,9 +50,9 @@ export class BatteryGet extends CommandPacket<void> {
 };
 
 export class BatteryReport extends CommandPacket<BatteryV1BatteryReportData> {
-	public static readonly CommandClass = BatteryV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof BatteryV1 = BatteryV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "BatteryReport",
 		"help": "Battery Report",
@@ -73,7 +73,7 @@ export class BatteryReport extends CommandPacket<BatteryV1BatteryReportData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(BatteryV1)?.command === this.command;
 	}
 

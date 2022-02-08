@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum FirmwareUpdateMdV3Commands {
 	FirmwareMdGet = 0x01,
@@ -76,8 +76,8 @@ export enum Status2Enum {
 }
 
 export class FirmwareUpdateMdV3 extends CommandClassPacket<FirmwareUpdateMdV3Commands> {
-	public static readonly commandClass = CommandClasses.FirmwareUpdateMd; // 0x7a (122)
-	public static readonly version = 3;
+	public static readonly commandClass: number = CommandClasses.FirmwareUpdateMd; // 0x7a (122)
+	public static readonly version: number = 3;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -89,9 +89,9 @@ export class FirmwareUpdateMdV3 extends CommandClassPacket<FirmwareUpdateMdV3Com
 }
 
 export class FirmwareMdGet extends CommandPacket<void> {
-	public static readonly CommandClass = FirmwareUpdateMdV3;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof FirmwareUpdateMdV3 = FirmwareUpdateMdV3;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "FirmwareMdGet",
 		"help": "Firmware Md Get",
@@ -99,7 +99,7 @@ export class FirmwareMdGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(FirmwareUpdateMdV3)?.command === this.command;
 	}
 
@@ -109,9 +109,9 @@ export class FirmwareMdGet extends CommandPacket<void> {
 };
 
 export class FirmwareMdReport extends CommandPacket<FirmwareUpdateMdV3FirmwareMdReportData> {
-	public static readonly CommandClass = FirmwareUpdateMdV3;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof FirmwareUpdateMdV3 = FirmwareUpdateMdV3;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "FirmwareMdReport",
 		"help": "Firmware Md Report",
@@ -181,7 +181,7 @@ export class FirmwareMdReport extends CommandPacket<FirmwareUpdateMdV3FirmwareMd
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(FirmwareUpdateMdV3)?.command === this.command;
 	}
 
@@ -191,9 +191,9 @@ export class FirmwareMdReport extends CommandPacket<FirmwareUpdateMdV3FirmwareMd
 };
 
 export class FirmwareUpdateMdGet extends CommandPacket<FirmwareUpdateMdV3FirmwareUpdateMdGetData> {
-	public static readonly CommandClass = FirmwareUpdateMdV3;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof FirmwareUpdateMdV3 = FirmwareUpdateMdV3;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "FirmwareUpdateMdGet",
 		"help": "Firmware Update Md Get",
@@ -234,7 +234,7 @@ export class FirmwareUpdateMdGet extends CommandPacket<FirmwareUpdateMdV3Firmwar
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(FirmwareUpdateMdV3)?.command === this.command;
 	}
 
@@ -244,9 +244,9 @@ export class FirmwareUpdateMdGet extends CommandPacket<FirmwareUpdateMdV3Firmwar
 };
 
 export class FirmwareUpdateMdReport extends CommandPacket<FirmwareUpdateMdV3FirmwareUpdateMdReportData> {
-	public static readonly CommandClass = FirmwareUpdateMdV3;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof FirmwareUpdateMdV3 = FirmwareUpdateMdV3;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "FirmwareUpdateMdReport",
 		"help": "Firmware Update Md Report",
@@ -295,7 +295,7 @@ export class FirmwareUpdateMdReport extends CommandPacket<FirmwareUpdateMdV3Firm
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(FirmwareUpdateMdV3)?.command === this.command;
 	}
 
@@ -305,9 +305,9 @@ export class FirmwareUpdateMdReport extends CommandPacket<FirmwareUpdateMdV3Firm
 };
 
 export class FirmwareUpdateMdRequestGet extends CommandPacket<FirmwareUpdateMdV3FirmwareUpdateMdRequestGetData> {
-	public static readonly CommandClass = FirmwareUpdateMdV3;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof FirmwareUpdateMdV3 = FirmwareUpdateMdV3;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "FirmwareUpdateMdRequestGet",
 		"help": "Firmware Update Md Request Get",
@@ -346,7 +346,7 @@ export class FirmwareUpdateMdRequestGet extends CommandPacket<FirmwareUpdateMdV3
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(FirmwareUpdateMdV3)?.command === this.command;
 	}
 
@@ -356,9 +356,9 @@ export class FirmwareUpdateMdRequestGet extends CommandPacket<FirmwareUpdateMdV3
 };
 
 export class FirmwareUpdateMdRequestReport extends CommandPacket<FirmwareUpdateMdV3FirmwareUpdateMdRequestReportData> {
-	public static readonly CommandClass = FirmwareUpdateMdV3;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof FirmwareUpdateMdV3 = FirmwareUpdateMdV3;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "FirmwareUpdateMdRequestReport",
 		"help": "Firmware Update Md Request Report",
@@ -395,7 +395,7 @@ export class FirmwareUpdateMdRequestReport extends CommandPacket<FirmwareUpdateM
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(FirmwareUpdateMdV3)?.command === this.command;
 	}
 
@@ -405,9 +405,9 @@ export class FirmwareUpdateMdRequestReport extends CommandPacket<FirmwareUpdateM
 };
 
 export class FirmwareUpdateMdStatusReport extends CommandPacket<FirmwareUpdateMdV3FirmwareUpdateMdStatusReportData> {
-	public static readonly CommandClass = FirmwareUpdateMdV3;
-	public static readonly command = 0x07; // 7
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof FirmwareUpdateMdV3 = FirmwareUpdateMdV3;
+	public static readonly command: number = 0x07; // 7
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 7,
 		"name": "FirmwareUpdateMdStatusReport",
 		"help": "Firmware Update Md Status Report",
@@ -446,7 +446,7 @@ export class FirmwareUpdateMdStatusReport extends CommandPacket<FirmwareUpdateMd
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(FirmwareUpdateMdV3)?.command === this.command;
 	}
 

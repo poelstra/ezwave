@@ -11,7 +11,7 @@ import { ObsolescenceStatus, Parameter, RefMode } from "./spec";
 /**
  * Major version of Z-WAVE JSON schema.
  */
-export const JSON_VERSION = 2;
+export const JSON_VERSION: number = 2;
 
 export interface ZwaveSpec {
 	xmlVersion: string; // 3-part version number of XML specification

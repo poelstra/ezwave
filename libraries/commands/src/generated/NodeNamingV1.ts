@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NodeNamingV1Commands {
 	NodeNamingNodeLocationReport = 0x06,
@@ -37,8 +37,8 @@ export interface NodeNamingV1NodeNamingNodeNameSetData {
 }
 
 export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
-	public static readonly commandClass = CommandClasses.NodeNaming; // 0x77 (119)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.NodeNaming; // 0x77 (119)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -50,9 +50,9 @@ export class NodeNamingV1 extends CommandClassPacket<NodeNamingV1Commands> {
 }
 
 export class NodeNamingNodeLocationReport extends CommandPacket<NodeNamingV1NodeNamingNodeLocationReportData> {
-	public static readonly CommandClass = NodeNamingV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeNamingV1 = NodeNamingV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "NodeNamingNodeLocationReport",
 		"help": "Node Naming Node Location  Report",
@@ -88,7 +88,7 @@ export class NodeNamingNodeLocationReport extends CommandPacket<NodeNamingV1Node
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
@@ -98,9 +98,9 @@ export class NodeNamingNodeLocationReport extends CommandPacket<NodeNamingV1Node
 };
 
 export class NodeNamingNodeLocationSet extends CommandPacket<NodeNamingV1NodeNamingNodeLocationSetData> {
-	public static readonly CommandClass = NodeNamingV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeNamingV1 = NodeNamingV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "NodeNamingNodeLocationSet",
 		"help": "Node Naming Node Location  Set",
@@ -136,7 +136,7 @@ export class NodeNamingNodeLocationSet extends CommandPacket<NodeNamingV1NodeNam
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
@@ -146,9 +146,9 @@ export class NodeNamingNodeLocationSet extends CommandPacket<NodeNamingV1NodeNam
 };
 
 export class NodeNamingNodeLocationGet extends CommandPacket<void> {
-	public static readonly CommandClass = NodeNamingV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeNamingV1 = NodeNamingV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "NodeNamingNodeLocationGet",
 		"help": "Node Naming Node Location Get",
@@ -156,7 +156,7 @@ export class NodeNamingNodeLocationGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
@@ -166,9 +166,9 @@ export class NodeNamingNodeLocationGet extends CommandPacket<void> {
 };
 
 export class NodeNamingNodeNameGet extends CommandPacket<void> {
-	public static readonly CommandClass = NodeNamingV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeNamingV1 = NodeNamingV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "NodeNamingNodeNameGet",
 		"help": "Node Naming Node Name Get",
@@ -176,7 +176,7 @@ export class NodeNamingNodeNameGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
@@ -186,9 +186,9 @@ export class NodeNamingNodeNameGet extends CommandPacket<void> {
 };
 
 export class NodeNamingNodeNameReport extends CommandPacket<NodeNamingV1NodeNamingNodeNameReportData> {
-	public static readonly CommandClass = NodeNamingV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeNamingV1 = NodeNamingV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "NodeNamingNodeNameReport",
 		"help": "Node Naming Node Name Report",
@@ -224,7 +224,7 @@ export class NodeNamingNodeNameReport extends CommandPacket<NodeNamingV1NodeNami
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 
@@ -234,9 +234,9 @@ export class NodeNamingNodeNameReport extends CommandPacket<NodeNamingV1NodeNami
 };
 
 export class NodeNamingNodeNameSet extends CommandPacket<NodeNamingV1NodeNamingNodeNameSetData> {
-	public static readonly CommandClass = NodeNamingV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof NodeNamingV1 = NodeNamingV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "NodeNamingNodeNameSet",
 		"help": "Node Naming Node Name Set",
@@ -272,7 +272,7 @@ export class NodeNamingNodeNameSet extends CommandPacket<NodeNamingV1NodeNamingN
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(NodeNamingV1)?.command === this.command;
 	}
 

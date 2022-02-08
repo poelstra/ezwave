@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum ScreenAttributesV2Commands {
 	ScreenAttributesGet = 0x01,
@@ -32,8 +32,8 @@ export interface ScreenAttributesV2ScreenAttributesReportLegacyData {
 }
 
 export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Commands> {
-	public static readonly commandClass = CommandClasses.ScreenAttributes; // 0x93 (147)
-	public static readonly version = 2;
+	public static readonly commandClass: number = CommandClasses.ScreenAttributes; // 0x93 (147)
+	public static readonly version: number = 2;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -45,9 +45,9 @@ export class ScreenAttributesV2 extends CommandClassPacket<ScreenAttributesV2Com
 }
 
 export class ScreenAttributesGet extends CommandPacket<void> {
-	public static readonly CommandClass = ScreenAttributesV2;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScreenAttributesV2 = ScreenAttributesV2;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "ScreenAttributesGet",
 		"help": "Screen Attributes Get",
@@ -55,7 +55,7 @@ export class ScreenAttributesGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScreenAttributesV2)?.command === this.command;
 	}
 
@@ -65,9 +65,9 @@ export class ScreenAttributesGet extends CommandPacket<void> {
 };
 
 export class ScreenAttributesReport extends CommandPacket<ScreenAttributesV2ScreenAttributesReportData> {
-	public static readonly CommandClass = ScreenAttributesV2;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScreenAttributesV2 = ScreenAttributesV2;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "ScreenAttributesReport",
 		"help": "Screen Attributes Report",
@@ -127,7 +127,7 @@ export class ScreenAttributesReport extends CommandPacket<ScreenAttributesV2Scre
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScreenAttributesV2)?.command === this.command;
 	}
 
@@ -137,9 +137,9 @@ export class ScreenAttributesReport extends CommandPacket<ScreenAttributesV2Scre
 };
 
 export class ScreenAttributesReportLegacy extends CommandPacket<ScreenAttributesV2ScreenAttributesReportLegacyData> {
-	public static readonly CommandClass = ScreenAttributesV2;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof ScreenAttributesV2 = ScreenAttributesV2;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "ScreenAttributesReportLegacy",
 		"help": "Screen Attributes Report",
@@ -199,7 +199,7 @@ export class ScreenAttributesReportLegacy extends CommandPacket<ScreenAttributes
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(ScreenAttributesV2)?.command === this.command;
 	}
 

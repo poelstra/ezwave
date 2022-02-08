@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum Crc16EncapV1Commands {
 	Crc16Encap = 0x01,
@@ -19,8 +19,8 @@ export interface Crc16EncapV1Crc16EncapData {
 }
 
 export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
-	public static readonly commandClass = CommandClasses.Crc16Encap; // 0x56 (86)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Crc16Encap; // 0x56 (86)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -32,9 +32,9 @@ export class Crc16EncapV1 extends CommandClassPacket<Crc16EncapV1Commands> {
 }
 
 export class Crc16Encap extends CommandPacket<Crc16EncapV1Crc16EncapData> {
-	public static readonly CommandClass = Crc16EncapV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof Crc16EncapV1 = Crc16EncapV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "Crc16Encap",
 		"help": "CRC16 Encap",
@@ -72,7 +72,7 @@ export class Crc16Encap extends CommandPacket<Crc16EncapV1Crc16EncapData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(Crc16EncapV1)?.command === this.command;
 	}
 

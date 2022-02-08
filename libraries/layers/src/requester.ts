@@ -15,6 +15,7 @@ interface Waiter<T extends Packet> {
 }
 
 export class Requester {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private _waits: Set<Waiter<any>> = new Set();
 
 	public dispatch(event: LayerEvent<Packet>): void {
@@ -51,7 +52,7 @@ export class Requester {
 			mapper,
 			resolve: d.resolve,
 		};
-		const enqueueWaiter = () => {
+		const enqueueWaiter = (): void => {
 			this._waits.add(waiter);
 		};
 		const afterSend = command.afterSend

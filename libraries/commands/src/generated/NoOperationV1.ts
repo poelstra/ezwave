@@ -5,14 +5,14 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum NoOperationV1Commands {
 }
 
 export class NoOperationV1 extends CommandClassPacket<NoOperationV1Commands> {
-	public static readonly commandClass = CommandClasses.NoOperation; // 0x00 (0)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.NoOperation; // 0x00 (0)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;

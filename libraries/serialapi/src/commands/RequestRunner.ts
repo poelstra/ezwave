@@ -11,6 +11,10 @@ import {
 	SimpleRequestBuilderFactory,
 } from "./requests";
 
+// TODO The concept of one RequestRunner to run all types of requests is nice,
+// but it's way too convoluted to specify, with all the many-leveled generics etc.
+// Need to change this to a simpler mechanism.
+
 /**
  * Convert (stateless) Z-Wave request objects into a `ICommandSessionRunner`
  * that can be executed by the Serial API.
@@ -31,17 +35,20 @@ import {
  *    request).
  */
 export class RequestRunner<
-	F extends
+	F extends  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 		| SimpleRequestBuilderFactory<any>
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		| ResponseRequestBuilderFactory<any, any>
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		| CallbackRequestBuilderFactory<any, any, any>
-> implements ICommandSessionRunner<BuilderFactoryResultTypeOf<F>> {
-	private readonly _requestBuilderFactory: F;
-
+> implements ICommandSessionRunner<BuilderFactoryResultTypeOf<F>>
+{
 	/**
 	 * Request-specific data passed to request builder factory.
 	 */
 	public readonly data: BuilderFactoryDataTypeOf<F>;
+
+	private readonly _requestBuilderFactory: F;
 
 	/**
 	 * Construct RequestRunner.
@@ -63,10 +70,13 @@ export class RequestRunner<
 	/**
 	 * @inheritdoc
 	 */
-	run(session: ICommandSession): Promise<BuilderFactoryResultTypeOf<F>> {
+	public run(
+		session: ICommandSession
+	): Promise<BuilderFactoryResultTypeOf<F>> {
 		return session.transaction(async (transactionId) => {
 			const request = this._requestBuilderFactory(this.data)(
 				transactionId
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			) as AnyRequest<any, any>;
 			if (isCallbackRequest(request)) {
 				const events = session.getEvents(request.tryParseEvent);
@@ -95,7 +105,7 @@ export class RequestRunner<
 	/**
 	 * @inheritdoc
 	 */
-	toString() {
+	public toString(): string {
 		return `<${this.constructor.name} data=${inspect(this.data)}>`;
 	}
 }

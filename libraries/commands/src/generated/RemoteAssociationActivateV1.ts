@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum RemoteAssociationActivateV1Commands {
 	RemoteAssociationActivate = 0x01,
@@ -15,10 +15,10 @@ export interface RemoteAssociationActivateV1RemoteAssociationActivateData {
 	groupingIdentifier: number; // 1 byte unsigned integer
 }
 
-// Obsolete
+// This (version of the) command class is Obsolete
 export class RemoteAssociationActivateV1 extends CommandClassPacket<RemoteAssociationActivateV1Commands> {
-	public static readonly commandClass = CommandClasses.RemoteAssociationActivate; // 0x7c (124)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.RemoteAssociationActivate; // 0x7c (124)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -30,9 +30,9 @@ export class RemoteAssociationActivateV1 extends CommandClassPacket<RemoteAssoci
 }
 
 export class RemoteAssociationActivate extends CommandPacket<RemoteAssociationActivateV1RemoteAssociationActivateData> {
-	public static readonly CommandClass = RemoteAssociationActivateV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof RemoteAssociationActivateV1 = RemoteAssociationActivateV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "RemoteAssociationActivate",
 		"help": "Remote Association Activate",
@@ -47,7 +47,7 @@ export class RemoteAssociationActivate extends CommandPacket<RemoteAssociationAc
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(RemoteAssociationActivateV1)?.command === this.command;
 	}
 

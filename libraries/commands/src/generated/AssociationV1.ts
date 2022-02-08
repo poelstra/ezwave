@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum AssociationV1Commands {
 	AssociationGet = 0x02,
@@ -42,8 +42,8 @@ export interface AssociationV1AssociationSetData {
 }
 
 export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
-	public static readonly commandClass = CommandClasses.Association; // 0x85 (133)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Association; // 0x85 (133)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -55,9 +55,9 @@ export class AssociationV1 extends CommandClassPacket<AssociationV1Commands> {
 }
 
 export class AssociationGet extends CommandPacket<AssociationV1AssociationGetData> {
-	public static readonly CommandClass = AssociationV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AssociationV1 = AssociationV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "AssociationGet",
 		"help": "Association Get",
@@ -72,7 +72,7 @@ export class AssociationGet extends CommandPacket<AssociationV1AssociationGetDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AssociationV1)?.command === this.command;
 	}
 
@@ -82,9 +82,9 @@ export class AssociationGet extends CommandPacket<AssociationV1AssociationGetDat
 };
 
 export class AssociationGroupingsGet extends CommandPacket<void> {
-	public static readonly CommandClass = AssociationV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AssociationV1 = AssociationV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "AssociationGroupingsGet",
 		"help": "Association Groupings Get",
@@ -92,7 +92,7 @@ export class AssociationGroupingsGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AssociationV1)?.command === this.command;
 	}
 
@@ -102,9 +102,9 @@ export class AssociationGroupingsGet extends CommandPacket<void> {
 };
 
 export class AssociationGroupingsReport extends CommandPacket<AssociationV1AssociationGroupingsReportData> {
-	public static readonly CommandClass = AssociationV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AssociationV1 = AssociationV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "AssociationGroupingsReport",
 		"help": "Association Groupings Report",
@@ -119,7 +119,7 @@ export class AssociationGroupingsReport extends CommandPacket<AssociationV1Assoc
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AssociationV1)?.command === this.command;
 	}
 
@@ -129,9 +129,9 @@ export class AssociationGroupingsReport extends CommandPacket<AssociationV1Assoc
 };
 
 export class AssociationRemove extends CommandPacket<AssociationV1AssociationRemoveData> {
-	public static readonly CommandClass = AssociationV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AssociationV1 = AssociationV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "AssociationRemove",
 		"help": "Association Remove",
@@ -155,7 +155,7 @@ export class AssociationRemove extends CommandPacket<AssociationV1AssociationRem
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AssociationV1)?.command === this.command;
 	}
 
@@ -165,9 +165,9 @@ export class AssociationRemove extends CommandPacket<AssociationV1AssociationRem
 };
 
 export class AssociationReport extends CommandPacket<AssociationV1AssociationReportData> {
-	public static readonly CommandClass = AssociationV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AssociationV1 = AssociationV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "AssociationReport",
 		"help": "Association Report",
@@ -203,7 +203,7 @@ export class AssociationReport extends CommandPacket<AssociationV1AssociationRep
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AssociationV1)?.command === this.command;
 	}
 
@@ -213,9 +213,9 @@ export class AssociationReport extends CommandPacket<AssociationV1AssociationRep
 };
 
 export class AssociationSet extends CommandPacket<AssociationV1AssociationSetData> {
-	public static readonly CommandClass = AssociationV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof AssociationV1 = AssociationV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "AssociationSet",
 		"help": "Association Set",
@@ -239,7 +239,7 @@ export class AssociationSet extends CommandPacket<AssociationV1AssociationSetDat
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(AssociationV1)?.command === this.command;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 import { CommandClasses, CommandClassPacket, CommandPacket, Packet } from "@ezwave/codec";
-import { convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
+import { CommandDefinition, convertFromJsonCommand, JsonCommandDefinition } from "@ezwave/spec";
 
 export enum DmxV1Commands {
 	DmxAddressSet = 0x01,
@@ -45,8 +45,8 @@ export interface DmxV1DmxDataData {
 }
 
 export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
-	public static readonly commandClass = CommandClasses.Dmx; // 0x65 (101)
-	public static readonly version = 1;
+	public static readonly commandClass: number = CommandClasses.Dmx; // 0x65 (101)
+	public static readonly version: number = 1;
 
 	public static matches(packet: Packet): boolean {
 		return packet.commandClass === this.commandClass;
@@ -58,9 +58,9 @@ export class DmxV1 extends CommandClassPacket<DmxV1Commands> {
 }
 
 export class DmxAddressSet extends CommandPacket<DmxV1DmxAddressSetData> {
-	public static readonly CommandClass = DmxV1;
-	public static readonly command = 0x01; // 1
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DmxV1 = DmxV1;
+	public static readonly command: number = 0x01; // 1
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 1,
 		"name": "DmxAddressSet",
 		"help": "DMX Address Set",
@@ -96,7 +96,7 @@ export class DmxAddressSet extends CommandPacket<DmxV1DmxAddressSetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
@@ -106,9 +106,9 @@ export class DmxAddressSet extends CommandPacket<DmxV1DmxAddressSetData> {
 };
 
 export class DmxAddressGet extends CommandPacket<void> {
-	public static readonly CommandClass = DmxV1;
-	public static readonly command = 0x02; // 2
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DmxV1 = DmxV1;
+	public static readonly command: number = 0x02; // 2
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 2,
 		"name": "DmxAddressGet",
 		"help": "DMX Address Get",
@@ -116,7 +116,7 @@ export class DmxAddressGet extends CommandPacket<void> {
 		"params": []
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
@@ -126,9 +126,9 @@ export class DmxAddressGet extends CommandPacket<void> {
 };
 
 export class DmxAddressReport extends CommandPacket<DmxV1DmxAddressReportData> {
-	public static readonly CommandClass = DmxV1;
-	public static readonly command = 0x03; // 3
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DmxV1 = DmxV1;
+	public static readonly command: number = 0x03; // 3
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 3,
 		"name": "DmxAddressReport",
 		"help": "DMX Address Report",
@@ -164,7 +164,7 @@ export class DmxAddressReport extends CommandPacket<DmxV1DmxAddressReportData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
@@ -174,9 +174,9 @@ export class DmxAddressReport extends CommandPacket<DmxV1DmxAddressReportData> {
 };
 
 export class DmxCapabilityGet extends CommandPacket<DmxV1DmxCapabilityGetData> {
-	public static readonly CommandClass = DmxV1;
-	public static readonly command = 0x04; // 4
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DmxV1 = DmxV1;
+	public static readonly command: number = 0x04; // 4
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 4,
 		"name": "DmxCapabilityGet",
 		"help": "DMX Capability Get",
@@ -191,7 +191,7 @@ export class DmxCapabilityGet extends CommandPacket<DmxV1DmxCapabilityGetData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
@@ -201,9 +201,9 @@ export class DmxCapabilityGet extends CommandPacket<DmxV1DmxCapabilityGetData> {
 };
 
 export class DmxCapabilityReport extends CommandPacket<DmxV1DmxCapabilityReportData> {
-	public static readonly CommandClass = DmxV1;
-	public static readonly command = 0x05; // 5
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DmxV1 = DmxV1;
+	public static readonly command: number = 0x05; // 5
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 5,
 		"name": "DmxCapabilityReport",
 		"help": "DMX Capability Report",
@@ -236,7 +236,7 @@ export class DmxCapabilityReport extends CommandPacket<DmxV1DmxCapabilityReportD
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 
@@ -246,9 +246,9 @@ export class DmxCapabilityReport extends CommandPacket<DmxV1DmxCapabilityReportD
 };
 
 export class DmxData extends CommandPacket<DmxV1DmxDataData> {
-	public static readonly CommandClass = DmxV1;
-	public static readonly command = 0x06; // 6
-	public static readonly definition = convertFromJsonCommand({
+	public static readonly CommandClass: typeof DmxV1 = DmxV1;
+	public static readonly command: number = 0x06; // 6
+	public static readonly definition: CommandDefinition = convertFromJsonCommand({
 		"command": 6,
 		"name": "DmxData",
 		"help": "DMX Data",
@@ -298,7 +298,7 @@ export class DmxData extends CommandPacket<DmxV1DmxDataData> {
 		]
 	} as JsonCommandDefinition);
 
-	static matches(packet: Packet): boolean {
+	public static matches(packet: Packet): boolean {
 		return packet.tryAs(DmxV1)?.command === this.command;
 	}
 

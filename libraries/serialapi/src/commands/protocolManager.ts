@@ -27,11 +27,11 @@ export interface IProtocolManager {
  * Class used internally by @see SerialApi.
  */
 export class ProtocolManager implements IProtocolManager {
-	private _requests = new Queue();
-	private _currentId = 0;
-	private _transactionIds = new Set<number>();
+	private _requests: Queue = new Queue();
+	private _currentId: number = 0;
+	private _transactionIds: Set<number> = new Set();
 	private _protocol: IProtocol;
-	private _supportedFunctions = new Set<SerialApiCommandCode>();
+	private _supportedFunctions: Set<SerialApiCommandCode> = new Set();
 
 	public constructor(protocol: IProtocol) {
 		// TODO it's probably cleaner to not directly pass in the
@@ -76,8 +76,12 @@ export class ProtocolManager implements IProtocolManager {
 		) => T | undefined,
 		onClose?: () => void
 	): Events<T> {
+		// eslint-disable-next-line prefer-const
 		let events: Events<T>;
-		const handler = (command: SerialApiCommandCode, params: Buffer) => {
+		const handler = (
+			command: SerialApiCommandCode,
+			params: Buffer
+		): void => {
 			const event = mapper(command, params);
 			if (event) {
 				events.add(event);
