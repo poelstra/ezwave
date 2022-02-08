@@ -4,7 +4,7 @@
 	"description": "TypeScript Z-Wave: model-driven command class encoding/decoding",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/codec"
+		"url": "https://github.com/poelstra/ezwave/tree/main/libraries/codec"
 	},
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",

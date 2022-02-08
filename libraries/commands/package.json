@@ -4,7 +4,7 @@
 	"description": "TypeScript Z-Wave: auto-generated Z-Wave command classes",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/commands"
+		"url": "https://github.com/poelstra/ezwave/tree/main/libraries/commands"
 	},
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",

@@ -4,7 +4,7 @@
 	"description": "TypeScript Z-Wave: Z-Wave (physical) serial port helpers",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/serialport"
+		"url": "https://github.com/poelstra/ezwave/tree/main/libraries/serialport"
 	},
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",

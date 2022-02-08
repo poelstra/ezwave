@@ -4,7 +4,7 @@
 	"description": "TypeScript Z-Wave: Z-Wave transport layers",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/layers"
+		"url": "https://github.com/poelstra/ezwave/tree/main/libraries/layers"
 	},
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",

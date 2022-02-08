@@ -4,7 +4,7 @@
 	"description": "Heft rig package for EZWave packages",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/poelstra/ezwave/tree/master/build/ezwave-heft-rig"
+		"url": "https://github.com/poelstra/ezwave/tree/main/build/ezwave-heft-rig"
 	},
 	"license": "MIT",
 	"scripts": {

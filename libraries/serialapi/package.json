@@ -4,7 +4,7 @@
 	"description": "TypeScript Z-Wave: SerialAPI library",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/poelstra/ezwave/tree/master/libraries/serialapi"
+		"url": "https://github.com/poelstra/ezwave/tree/main/libraries/serialapi"
 	},
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",

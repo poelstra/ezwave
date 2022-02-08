@@ -219,6 +219,8 @@ dependents, but if you only want to (re-)build a specific package and
 its dependencies, you can also just run e.g. `rush build --to apps/demo`
 (or `.` to build to package in current folder).
 
+To (re-)build just a single package, just run `rushx build` in that folder.
+
 ### Setting up VSCode
 
 It's highly recommended to use VSCode for development.

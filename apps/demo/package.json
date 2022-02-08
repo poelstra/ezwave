@@ -4,7 +4,7 @@
 	"description": "TypeScript Z-Wave: integration demo app",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/poelstra/ezwave/tree/master/app/demo"
+		"url": "https://github.com/poelstra/ezwave/tree/main/app/demo"
 	},
 	"author": "Martin Poelstra <martin@beryllium.net>",
 	"license": "MIT",
