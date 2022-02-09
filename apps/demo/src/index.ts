@@ -71,11 +71,25 @@ async function serialApiFromPort(port: Duplex): Promise<SerialApi> {
 	return serialApi;
 }
 
-void main(async () => {
+function prepEnvironment(): void {
 	prefixTimestamp(console, "log");
 	prefixTimestamp(console, "info");
 	prefixTimestamp(console, "warn");
 	prefixTimestamp(console, "error");
+
+	// Catch shutdown signals (e.g. when running as a daemon, in Docker, ...)
+	const shutdown = (signal: string): void => {
+		console.log(`${signal} received, shutting down...`);
+		// TODO Clean shutdown of ongoing operations
+		console.log("Terminating with exit code 0.");
+		process.exit(0);
+	};
+	process.on("SIGINT", () => shutdown("SIGINT"));
+	process.on("SIGTERM", () => shutdown("SIGTERM"));
+}
+
+void main(async () => {
+	prepEnvironment();
 
 	if (!process.env.DEBUG) {
 		console.info(

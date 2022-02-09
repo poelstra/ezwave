@@ -85,4 +85,5 @@ dist
 # EZWave development
 /todo.txt
 /klooi
+/cache
 /apps/demo/config.json

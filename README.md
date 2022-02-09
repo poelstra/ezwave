@@ -1,55 +1,14 @@
 # Modular Typescript / Javascript Z-Wave driver
 
 A Z-Wave driver written in Typescript for Node.JS with a focus on
-ease-of-use, robustness and responsiveness.
+robustness and responsiveness.
 
-Currently still in a very early proof-of-concept phase.
-
-You'll need to be familiar with Z-Wave terminology to be able
-to even read the rest of the Readme...
-
-## Why
-
-I was using Domoticz with its embedded OpenZwave (C++) driver, but
-unsatisfied with its performance: very slow (sometimes around ten
-seconds) to respond to switch commands, very long initialization
-time (tens of seconds). No ability to just unplug and re-plug the
-Aeon labs Z-Stick (which is specifically made to be moved around
-to include new devices).
-
-Also, experimenting with the network was nearly impossible due to
-the domotica software (Domoticz in this case) taking full control
-of the Z-Wave driver.
-
-Thinking "How hard can it be?" I started digging in the (by then
-recently) published Z-Wave standards. Ok, hard, but not impossible :)
-
-It's always fun to learn something new, so I started coding a Z-Wave
-driver with the following goals in mind:
-
--   Allow multiple programs to interface to the same Z-Wave controller,
-    by running the main process as a daemon.
--   Make Z-Wave command class functionality independent of a specific
-    Z-Wave driver.
--   Be auto-configuring and self-repairing by default where possible.
-
-This philosophy ensures that the system is robust in a distributed
-domotica system, encouraging the use of independent, task-oriented
-processes working together to build a larger system.
-
-It allows people to interact with Z-Wave devices on the network
-by directly sending/receiving Z-Wave command classes, even if that
-functionality is not directly provided by the current version of
-the software, or perhaps it's written in another language.
-
-Also, having the Z-Wave command class encoders/decoders separate
-allows them to be used to send command to/from other similar Z-Wave
-daemons (e.g. for use with a third party Z-Wave-to-IP gateway), and
-for creating diagnostic tooling (e.g. packet decoding in a web app).
+Currently still in an early phase of development, although some
+layers of the implementation are already usable.
 
 ## Architecture
 
-As mentioned, the system is composed of different building blocks:
+The system is composed of different building blocks/layers:
 
 -   Serial API
 -   Auto-generated command class encoding/decoding
@@ -100,6 +59,45 @@ The intention is to also provide an easy-to-use Web UI to monitor,
 control and configure your Z-Wave network, again as a standalone
 service.
 
+## Why
+
+I was using Domoticz with its embedded OpenZwave (C++) driver, but
+unsatisfied with its performance: very slow (sometimes around ten
+seconds) to respond to switch commands, very long initialization
+time (tens of seconds). No ability to just unplug and re-plug the
+Aeon labs Z-Stick (which is specifically made to be moved around
+to include new devices).
+
+Also, experimenting with the network was nearly impossible due to
+the domotica software (Domoticz in this case) taking full control
+of the Z-Wave driver.
+
+Thinking "How hard can it be?" I started digging in the (by then
+recently) published Z-Wave standards. Ok, hard, but not impossible :)
+
+It's always fun to learn something new, so I started coding a Z-Wave
+driver with the following goals in mind:
+
+-   Allow multiple programs to interface to the same Z-Wave controller,
+    by running the main process as a daemon.
+-   Make Z-Wave command class functionality independent of a specific
+    Z-Wave driver.
+-   Be auto-configuring and self-repairing by default where possible.
+
+This philosophy ensures that the system is robust in a distributed
+domotica system, encouraging the use of independent, task-oriented
+processes working together to build a larger system.
+
+It allows people to interact with Z-Wave devices on the network
+by directly sending/receiving Z-Wave command classes, even if that
+functionality is not directly provided by the current version of
+the software, or perhaps it's written in another language.
+
+Also, having the Z-Wave command class encoders/decoders separate
+allows them to be used to send command to/from other similar Z-Wave
+daemons (e.g. for use with a third party Z-Wave-to-IP gateway), and
+for creating diagnostic tooling (e.g. packet decoding in a web app).
+
 ## Status
 
 It's in a very early stadium right now, but it's already used to
@@ -111,7 +109,9 @@ The low-level Serial API decoding/encoding is pretty much done,
 and well-covered with unit tests including handling of all kinds
 of corner cases, timeout scenario's, etc.
 Not all serial commands are implemented, only the ones I currently
-need.
+need. Due to the design, you can easily implement any missing
+commands yourself, without even modifying any of the packages I
+wrote.
 
 I've also created a converter which parses the official Z-Wave
 command class specification (in XML) and converts it into another
@@ -159,11 +159,12 @@ console.log(packet.is(MultiChannelAssociationV2)); // true
 
 The JSON Z-Wave spec is set up to be easy for code generators and
 packet encoders/decoders to work with, and is intended to be useful
-outside of just JavaScript / TypeScript.
+outside of just JavaScript / TypeScript too.
 
-Similarly, because the packet encoding/decoding is completely
-'stand-alone', with no dependencies on any other part of my Z-Wave
-drivers, it is / will be usable in other (JavaScript) projects.
+Similarly, because the Z-Wave packet encoding/decoding is completely
+'stand-alone', with no dependencies on any other part of 'my' Z-Wave
+drivers, it is usable in other NodeJS projects (or e.g. a browser
+based Z-Wave packet debugging tool).
 
 All command-classes are supported right now, including 'weird' ones
 (such as Transport, which re-uses a few of the command bytes as
@@ -178,48 +179,48 @@ length signed integers, but the XML spec doesn't support them and
 instead classifies them as blobs, so they will be decoded as Buffer.
 
 Provisions are in place in the XML-to-JSON converter to fix these
-kind of cases, but only a few of them are fixed for now (the ones
-thay I need).
+kind of cases, but there are probably a few remaining.
 
-There are two proof-of-concept implementations of protocol layers:
-multi-channel and security S0. These are functional in the sense
-that they work in my home, but were created more as a playground to
-get to a better understanding of their architectural challenges.
+Multi-channel and Security S0 layers are implemented.
+Other transport layers (Multi-command, Supervision, Transport,
+Security S2) are still on the todo.
 
-However, there's no generic Z-Wave daemon yet, inclusion and
-interview of new devices isn't implemented, certain basic
-functionality (like preventing responses to multi-cast requests)
-is still lacking, and only a handful of commands from a handful
-of command classes is implemented.
+There's no generic Z-Wave daemon yet. Inclusion of devices is
+implemented (as a method call), but interviewing of new devices
+isn't implemented, nor are things like support for battery class
+devices.
 
-The code base is a single monolithic package for now, but will be
-split in separate NPM packages (as mentioned above) as soon as
-the network daemon starts to take shape.
+The codebase was split into multiple packages in a monorepo,
+and is in the process of publishing individual NPM packages.
 
 ## Development
 
 ### Initial setup
 
-This repository is a mono-repo set up using [Rush](https://rushjs.io/).
+This repository is a monorepo set up using [Rush](https://rushjs.io/).
 It uses [pnpm](https://pnpm.io/) as the package manager.
 
 In order to build all packages, you'll need to run the following:
 
--   Install NodeJS (tested on version 14)
--   Install `pnpm` package manager: `npm install -g pnpm`
--   Install `rush` build tool: `pnpm install -g @microsoft/rush`
+-   Install NodeJS (tested on version 16)
+-   Install `rush` build tool: `npm install -g @microsoft/rush`
 -   Install all (NPM) dependencies: `rush update`
 -   Build and test all packages: `rush build`
 
 Whenever you make a change to any of the `package.json` files (e.g.
 when pulling in new changes), be sure to run `rush update` again.
 
+WARNING: Do NOT run any of the 'normal' `npm` commands, nor directly
+run `pnpm`, for installing or modifying the list of installed packages!
+This will mess up the workspace-shared dependencies. Only use `rush add`.
+
 `rush build` will smartly rebuild only packages that changed or its
 dependents, but if you only want to (re-)build a specific package and
-its dependencies, you can also just run e.g. `rush build --to apps/demo`
-(or `.` to build to package in current folder).
+its dependencies, you can also just run e.g. `rush build --to .` (from
+the folder you want to build to).
 
-To (re-)build just a single package, just run `rushx build` in that folder.
+To (re-)build just a single package, just run `rushx build` in that folder
+(it's the rush equivalent to `npm run build`).
 
 ### Setting up VSCode
 
@@ -229,27 +230,71 @@ It's highly recommended to use VSCode for development.
     -   It should ask you whether to install these when you first open the repo, click Yes.
 -   Make sure you use the [workspace's version of TypeScript](https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript)
 
-### (Outdated) Developing your own customization
+### Developing your own customization
 
-**TODO This section is outdated, and still referring to the non-mono-repo approach**
+To start controlling your own home, take a look at `app/demo`
+for inspiration. It's the app that controls the devices in my
+home, connected through the MHub message broker.
 
-To start controlling your own home, take a look at `src/demo/*`
-for inspiration, copy it to another folder and start hacking ;)
+It supports connecting multiple Z-Wave USB sticks, Security S0,
+dynamically plugging and unplugging the stick(s) and a (hardcoded)
+list of Z-Wave devices. It does this without a glitch for years
+already.
 
--   Run `npm run build` to build
--   Run `node dist/demo/index` to start it
+It does not yet have a (convenient) way of e.g. onboarding new devices,
+has no support for battery class devices (yet), etc.
+
+You can run the app with your existing Z-Wave stick, it won't modify any
+configuration on it, so it's safe and easy to experiment.
+
+Anyway, in order to get started:
+
+-   Set up a config file `app/demo/config.json` (see app/demo/src/index for its format).
+
+    -   You can configure the serial port id of the devices, and add the home+node ID of
+        a stick you own (just leave it empty initially, it will print the IDs it found).
+
+    -   Example:
+
+        ```json
+        {
+        	"serial": {
+        		"ports": ["/dev/serial/by-id/usb-0658_0200-if00"]
+        	},
+        	"hosts": [
+        		{
+        			"homeId": 1234567,
+        			"nodeId": 1,
+        			"type": "StaticController",
+        			"networkKey": "abcdefabcdefabcdefabcdefabcdefab"
+        		}
+        	],
+        	"mhub": {
+        		"url": "192.168.1.1",
+        		"user": "zwave",
+        		"pass": "somepassword"
+        	}
+        }
+        ```
+
+-   Run `node apps/demo/lib/index` to start it
 
 Detailed debug information from the protocol layers can be obtained
 by enabling the `zwave` debug namespace in the `DEBUG` environment
 variable:
 
--   `DEBUG=zwave:* node dist/demo/index`
+-   `DEBUG=zwave:* node apps/demo/lib/index`
 
-VSCode is the recommended IDE to hack on it.
+### Running in Docker
 
-In the future, the library will be split across separate NPM
-packages, such that this process will become easier. Drop me a
-note (in the issues) if you're already interested in this.
+A barebones Dockerfile is provided as an example to run the demo app.
+Set up a config file (in `apps/demo/config.json`) as mentioned above,
+then run:
+
+-   `cd ~/src/ezwave` # Assuming this is where you cloned this repo
+-   `./common/scripts/prepare-docker-cache.sh`
+-   `docker build -t ezwave .`
+-   `docker run -v ~/src/ezwave/apps/demo:/config ezwave`
 
 ## Support
 

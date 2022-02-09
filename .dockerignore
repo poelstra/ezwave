@@ -1,0 +1,7 @@
+**/.heft/
+**/.rush/
+**/lib/
+**/temp/
+**/node_modules/
+**/*.build.log
+app/demo/config.json
