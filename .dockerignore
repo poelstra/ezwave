@@ -4,4 +4,7 @@
 **/temp/
 **/node_modules/
 **/*.build.log
-app/demo/config.json
+.git/
+todo.txt
+klooi/
+apps/demo/config.json
