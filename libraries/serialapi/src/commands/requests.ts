@@ -106,31 +106,39 @@ export function isCallbackRequest<C, R>(
 }
 
 // prettier-ignore
-export type SimpleRequestBuilderFactory<T> = (data: T) => (transactionId: number) => SimpleRequest;
+export type SimpleRequestBuilderFactory<T> = (data: T) => SimpleRequestBuilder;
 // prettier-ignore
-export type ResponseRequestBuilderFactory<T, R> = (data: T) => (transactionId: number) => ResponseRequest<R>;
+export type ResponseRequestBuilderFactory<T, R> = (data: T) => ResponseRequestBuilder<R>;
 // prettier-ignore
-export type CallbackRequestBuilderFactory<T, C, R> = (data: T) => (transactionId: number) => CallbackRequest<C, R>;
+export type CallbackRequestBuilderFactory<T, C, R> = (data: T) => CallbackRequestBuilder<C, R>;
 
 export type AnyRequestBuilderFactory =
-	| SimpleRequestBuilderFactory<unknown>
-	| ResponseRequestBuilderFactory<unknown, unknown>
-	| CallbackRequestBuilderFactory<unknown, unknown, unknown>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	| SimpleRequestBuilderFactory<any>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	| ResponseRequestBuilderFactory<any, any>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	| CallbackRequestBuilderFactory<any, any, any>;
 
 export type BuilderFactoryDataTypeOf<F> =
-	F extends CallbackRequestBuilderFactory<infer T, unknown, unknown>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	F extends CallbackRequestBuilderFactory<infer T, any, any>
 		? T
-		: F extends ResponseRequestBuilderFactory<infer T, unknown>
+		: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		F extends ResponseRequestBuilderFactory<infer T, any>
 		? T
 		: F extends SimpleRequestBuilderFactory<infer T>
 		? T
 		: never;
 
 export type BuilderFactoryResultTypeOf<F> =
-	F extends CallbackRequestBuilderFactory<unknown, unknown, infer T>
-		? T
-		: F extends ResponseRequestBuilderFactory<unknown, infer T>
-		? T
-		: F extends SimpleRequestBuilderFactory<unknown>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	F extends CallbackRequestBuilderFactory<any, any, infer R>
+		? R
+		: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		F extends ResponseRequestBuilderFactory<any, infer R>
+		? R
+		: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		F extends SimpleRequestBuilderFactory<any>
 		? void
 		: never;
