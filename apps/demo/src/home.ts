@@ -21,8 +21,6 @@ export enum HomeDevices {
 export class Home extends EventEmitter {
 	public controller: Controller;
 
-	private _lastAanrecht: number = 0;
-
 	public constructor(controller: Controller) {
 		super();
 		this.controller = controller;
@@ -86,21 +84,19 @@ export class Home extends EventEmitter {
 			packet: switchCmd,
 			secure: true,
 		});
-		this._lastAanrecht = level;
 	}
 
 	public async getKeukenAanrecht(): Promise<number> {
-		// prettier-ignore
 		const reply = await this.controller.sendAndWaitFor(
 			{
 				endpoint: { channel: 1, nodeId: HomeDevices.KeukenAanrecht },
 				packet: new SwitchMultilevelV1.SwitchMultilevelGet(),
 				secure: true,
 			},
-			(event) => event.packet.tryAs(SwitchMultilevelV1.SwitchMultilevelReport)
+			(event) =>
+				event.packet.tryAs(SwitchMultilevelV1.SwitchMultilevelReport)
 		);
 		const level = reply.packet.data.value;
-		this._lastAanrecht = level;
 		return level;
 	}
 
@@ -156,13 +152,14 @@ export class Home extends EventEmitter {
 				// TODO Sometimes, the node sends an unsollicited SWITCH_MULTILEVEL_REPORT,
 				// but sometimes it only does that encapsulated in a MULTI_CHANNEL message.
 				// Figure out when/why.
-				this._lastAanrecht = level;
 				this.emit("value", "aanrecht", level);
 			}
 		}
 	}
 
 	private async _handleControllerAttached(): Promise<void> {
+		// Request current value of certain lights to ensure we're in sync
+		// (i.e. in case someone manually toggled the attached light switch)
 		await this.getKeukenAanrecht();
 	}
 }

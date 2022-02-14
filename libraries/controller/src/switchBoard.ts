@@ -22,7 +22,7 @@ export type HostFactory = (
  *   etc.
  *
  * The switchboard is agnostic to the type of serial device, it is up to the
- * hostFactory to provide a suitable implementation that type of serial device.
+ * hostFactory to provide a suitable implementation for that type of serial device.
  */
 export class SwitchBoard {
 	private _hostFactory: HostFactory;

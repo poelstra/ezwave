@@ -169,8 +169,6 @@ export class SerialApi extends EventEmitter {
 
 	/**
 	 * Determine whether connected Z-Wave chip is controller or slave.
-	 *
-	 * The instance needs to be initialized with `init()` first.
 	 */
 	public isController(): boolean {
 		this._verifyInitialized(this._initData);
@@ -178,11 +176,7 @@ export class SerialApi extends EventEmitter {
 	}
 
 	/**
-	 * Get set of nodes as reported in last `serialGetInitData()` or `init()` call.
-	 *
-	 * To refresh the node list (e.g. after inclusion), call `serialGetInitData(true)`.
-	 *
-	 * The instance needs to be initialized with `init()` first.
+	 * Get set of node IDs as present when this SerialAPI instance was created.
 	 */
 	public getNodes(): Set<number> {
 		this._verifyInitialized(this._initData);
@@ -190,12 +184,7 @@ export class SerialApi extends EventEmitter {
 	}
 
 	/**
-	 * Get currently assigned home and node ID, as reported by last
-	 * call to `zwMemoryGetId()` or `init()`.
-	 *
-	 * To refresh the node list (e.g. after inclusion), call `serialGetInitData(true)`.
-	 *
-	 * The instance needs to be initialized with `init()` first.
+	 * Get currently assigned home and node ID.
 	 */
 	public getHomeAndNodeId(): HomeAndNodeId {
 		this._verifyInitialized(this._homeAndNodeId);
@@ -358,9 +347,6 @@ export class SerialApi extends EventEmitter {
 
 	/**
 	 * Retrieve Home ID and Node ID from connected serial chip.
-	 *
-	 * @param forceRefresh (Optional) when false (default) returns cached info when available,
-	 *                     when true, will always request fresh data from chip.
 	 */
 	private async _zwMemoryGetId(): Promise<HomeAndNodeId> {
 		this._homeAndNodeId = await this.execute(new ZwMemoryGetId());
