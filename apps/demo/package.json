@@ -13,6 +13,7 @@
 	"scripts": {
 		"build": "heft test --clean",
 		"build:watch": "heft test",
+		"watch": "heft build --watch",
 		"start": "heft start"
 	},
 	"keywords": [

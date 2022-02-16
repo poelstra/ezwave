@@ -12,7 +12,8 @@
 	"typings": "lib/index.d.ts",
 	"scripts": {
 		"build": "heft test --clean",
-		"build:watch": "heft test"
+		"build:watch": "heft test",
+		"watch": "heft build --watch"
 	},
 	"keywords": [
 		"zwave",

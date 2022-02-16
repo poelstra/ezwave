@@ -12,7 +12,8 @@
 	"typings": "lib/index.d.ts",
 	"scripts": {
 		"build": "heft clean && ts-node ./src/generator/generate-commandclasses.ts && heft test",
-		"build:watch": "heft test"
+		"build:watch": "heft test",
+		"watch": "heft build --watch"
 	},
 	"keywords": [
 		"zwave",
