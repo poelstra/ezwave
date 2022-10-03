@@ -88,15 +88,13 @@ export class Home extends EventEmitter {
 
 	public async getKeukenAanrecht(): Promise<number> {
 		const reply = await this.controller.sendAndWaitFor(
-			{
-				endpoint: { channel: 1, nodeId: HomeDevices.KeukenAanrecht },
-				packet: new SwitchMultilevelV1.SwitchMultilevelGet(),
-				secure: true,
-			},
-			(event) =>
-				event.packet.tryAs(SwitchMultilevelV1.SwitchMultilevelReport)
+			HomeDevices.KeukenAanrecht,
+			1,
+			new SwitchMultilevelV1.SwitchMultilevelGet(),
+			SwitchMultilevelV1.SwitchMultilevelReport,
+			{ secure: true }
 		);
-		const level = reply.packet.data.value;
+		const level = reply.value;
 		return level;
 	}
 

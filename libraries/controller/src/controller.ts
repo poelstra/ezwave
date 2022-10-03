@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Packet, packetToString } from "@ezwave/codec";
+import {
+	CommandPacket,
+	CommandPacketConstructor,
+	Packet,
+	packetToString,
+} from "@ezwave/codec";
 import {
 	LayerCommand,
 	layerCommandToString,
@@ -27,6 +32,25 @@ import { IZwaveHost } from "./IZwaveHost";
 
 const log: debug.Debugger = debug("zwave:controller");
 const logData: debug.Debugger = debug("zwave:controller:data");
+
+export interface SendAndWaitForOptions {
+	/**
+	 * Whether to send command securely.
+	 *
+	 * Defaults to true if unspecified. // TODO Currently still false, because S0 layer can't check whether other side actually supports it
+	 */
+	secure?: boolean;
+
+	/**
+	 * Timeout of request in milliseconds.
+	 */
+	timeout?: number;
+}
+
+const DEFAULT_SEND_AND_WAIT_FOR_OPTIONS: Required<SendAndWaitForOptions> = {
+	secure: false, // TODO Set this back to true
+	timeout: 10 * 1000,
+};
 
 // TODO find a better mechanism to dispatch events to other interested parties? E.g. explicit (async) dispatcher registration?
 export interface ControllerEvents {
@@ -159,10 +183,90 @@ export class Controller
 		return this._stack.send(command);
 	}
 
-	public async sendAndWaitFor<T extends Packet>(
-		command: LayerCommand,
-		mapper: Mapper<T>
-	): Promise<LayerEvent<T>> {
+	/**
+	 * Send a Z-Wave CommandClass command, and wait for its
+	 * corresponding result command.
+	 *
+	 * By default, the command will be sent securely if needed.
+	 */
+	// TODO, the Mapper leaks stuff from @ezwave/layers
+	public async sendAndWaitFor<R extends CommandPacket<void | object>>(
+		nodeId: number,
+		request: Packet,
+		expectedResponseType: CommandPacketConstructor<R> | Mapper<R>,
+		options?: SendAndWaitForOptions
+	): Promise<R["data"]>;
+	public async sendAndWaitFor<R extends CommandPacket<void | object>>(
+		nodeId: number,
+		channel: number,
+		request: Packet,
+		expectedResponseType: CommandPacketConstructor<R> | Mapper<R>,
+		options?: SendAndWaitForOptions
+	): Promise<R["data"]>;
+	public async sendAndWaitFor<R extends CommandPacket<void | object>>(
+		...args:
+			| [
+					number,
+					Packet,
+					CommandPacketConstructor<R> | Mapper<R>,
+					SendAndWaitForOptions?
+			  ]
+			| [
+					number,
+					number,
+					Packet,
+					CommandPacketConstructor<R> | Mapper<R>,
+					SendAndWaitForOptions?
+			  ]
+	): Promise<R["data"]> {
+		if (args.length < 3) {
+			throw new Error("invalid arguments to 'sendAndWaitFor()'");
+		}
+		let command: LayerCommand;
+		let expectedResponse: CommandPacketConstructor<R> | Mapper<R>;
+		if (typeof args[1] === "number") {
+			const [nodeId, channel, request, response, rawOptions] = args as [
+				number,
+				number,
+				Packet,
+				CommandPacketConstructor<R> | Mapper<R>,
+				SendAndWaitForOptions?
+			];
+			const options = {
+				...DEFAULT_SEND_AND_WAIT_FOR_OPTIONS,
+				...rawOptions,
+			};
+			command = {
+				endpoint: {
+					nodeId,
+					channel,
+				},
+				packet: request,
+				secure: options.secure,
+				requestTimeout: options.timeout,
+			};
+			expectedResponse = response;
+		} else {
+			const [nodeId, request, response, rawOptions] = args as [
+				number,
+				Packet,
+				CommandPacketConstructor<R> | Mapper<R>,
+				SendAndWaitForOptions?
+			];
+			const options = {
+				...DEFAULT_SEND_AND_WAIT_FOR_OPTIONS,
+				...rawOptions,
+			};
+			command = {
+				endpoint: {
+					nodeId,
+				},
+				packet: request,
+				secure: options.secure,
+				requestTimeout: options.timeout,
+			};
+			expectedResponse = response;
+		}
 		const transactionId = this._transactionId++;
 		if (log.enabled) {
 			log(
@@ -170,10 +274,20 @@ export class Controller
 				`id=${transactionId} ${layerCommandToString(command)}`
 			);
 		}
+		function isMapper<T extends Packet>(
+			x: CommandPacketConstructor<T> | Mapper<T>
+		): x is Mapper<T> {
+			return !("matches" in x);
+		}
 		const reply = await this._requester.sendAndWaitFor(
 			command,
 			(command) => this._stack.send(command),
-			mapper
+			isMapper(expectedResponse)
+				? expectedResponse
+				: (event) =>
+						event.packet.tryAs(
+							expectedResponse as CommandPacketConstructor<R>
+						)
 		);
 		if (!reply) {
 			// TODO inconvenient
@@ -185,7 +299,7 @@ export class Controller
 				`id=${transactionId} ${layerEventToString(reply)}`
 			);
 		}
-		return reply;
+		return reply.packet.data;
 	}
 
 	/**
@@ -234,6 +348,7 @@ export class Controller
 				nodeId: event.sourceNode,
 			},
 			packet: packet,
+			secure: false,
 		});
 	}
 }

@@ -222,6 +222,11 @@ the folder you want to build to).
 To (re-)build just a single package, just run `rushx build` in that folder
 (it's the rush equivalent to `npm run build`).
 
+In order to run all packages in watch mode, you can use e.g. `@telia/rush-select`.
+Run it as `pnpx -y @telia/rush-select`, select the `watch` target for each package,
+and press `Enter` to start to build them all. The target selection only needs to
+be performed once.
+
 ### Setting up VSCode
 
 It's highly recommended to use VSCode for development.
@@ -284,6 +289,12 @@ by enabling the `zwave` debug namespace in the `DEBUG` environment
 variable:
 
 -   `DEBUG=zwave:* node apps/demo/lib/index`
+
+Or to run the demo app in watch mode using `nodemon`:
+
+-   `DEBUG=zwave:* pnpx -y nodemon -w apps/demo/lib apps/demo/lib/index`
+    -   Note: Add any other folders you're developing on as additional `-w`
+        flags, nodemon doesn't support globs for watching folders.
 
 ### Running in Docker
 

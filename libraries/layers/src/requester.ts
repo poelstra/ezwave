@@ -1,12 +1,14 @@
 import { Packet } from "@ezwave/codec";
-import { defer } from "@ezwave/shared";
+import { defer, Timer } from "@ezwave/shared";
 import { Endpoint, LayerCommand, LayerEvent, Send } from "./layer";
 
 export type Mapper<T extends Packet> = (
 	event: LayerEvent<Packet>
 ) => undefined | T;
 
-type Resolver<T extends Packet> = (event: LayerEvent<T>) => void;
+type Resolver<T extends Packet> = (
+	event: LayerEvent<T> | Promise<never>
+) => void;
 
 interface Waiter<T extends Packet> {
 	endpoint: Endpoint;
@@ -14,9 +16,29 @@ interface Waiter<T extends Packet> {
 	resolve: Resolver<T>;
 }
 
+export interface RequesterOptions {
+	/**
+	 * Default request timeout in milliseconds, measured from when request is
+	 * actually sent on network.
+	 */
+	requestTimeout?: number;
+}
+
+const DEFAULT_REQUESTER_OPTIONS: Required<RequesterOptions> = {
+	// This is mostly there to ensure the stack doesn't get hung up if someone forgets to
+	// pass an explicit timeout. For requests that are known to take long, set an explicit
+	// timeout.
+	requestTimeout: 20 * 1000,
+};
+
 export class Requester {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private _waits: Set<Waiter<any>> = new Set();
+	private _options: Required<RequesterOptions>;
+
+	public constructor(options?: RequesterOptions) {
+		this._options = { ...DEFAULT_REQUESTER_OPTIONS, ...options };
+	}
 
 	public dispatch(event: LayerEvent<Packet>): void {
 		const eventChan = event.endpoint.channel ?? 0;
@@ -29,14 +51,19 @@ export class Requester {
 			if (eventChan !== (waiter.endpoint.channel ?? 0)) {
 				continue;
 			}
-			// Map event to wanted packet type, resolve to it if successful
-			const mapped = waiter.mapper(event);
-			if (mapped) {
-				waiter.resolve({
-					...event,
-					packet: mapped,
-				});
-				this._waits.delete(waiter);
+			try {
+				// Map event to wanted packet type, resolve to it if successful
+				const mapped = waiter.mapper(event);
+				if (mapped) {
+					waiter.resolve({
+						...event,
+						packet: mapped,
+					});
+				}
+			} catch (err) {
+				// Errors in the mapper itself need to be passed back
+				// to original requester
+				waiter.resolve(Promise.reject(err));
 			}
 		}
 	}
@@ -52,22 +79,32 @@ export class Requester {
 			mapper,
 			resolve: d.resolve,
 		};
-		const enqueueWaiter = (): void => {
+		const timeoutError = new Error("request timeout"); // created in the main control flow to ensure proper stack trace
+		const timer = new Timer(
+			command.requestTimeout ?? this._options.requestTimeout,
+			() => d.reject(timeoutError)
+		);
+		const packetSentCallback = (): void => {
 			this._waits.add(waiter);
+			timer?.start();
 		};
-		const afterSend = command.afterSend
+		const originalAfterSend = command.afterSend;
+		const afterSend = originalAfterSend
 			? () => {
-					enqueueWaiter();
-					command.afterSend!();
+					packetSentCallback();
+					originalAfterSend();
 			  }
-			: enqueueWaiter;
-		const sent = await send({ ...command, afterSend });
-		if (!sent) {
-			// Send was discarded, but theoretically it could be that afterSend
-			// callback would be called already, so make sure to remove it.
+			: packetSentCallback;
+
+		try {
+			const sent = await send({ ...command, afterSend });
+			if (!sent) {
+				return undefined;
+			}
+			return await d.promise;
+		} finally {
 			this._waits.delete(waiter);
-			return undefined;
+			timer?.stop();
 		}
-		return d.promise;
 	}
 }

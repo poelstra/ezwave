@@ -189,6 +189,7 @@ describe("layers", () => {
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0xaa),
 					}),
+					secure: false,
 				});
 			}
 			return true;
@@ -229,6 +230,7 @@ describe("layers", () => {
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0x77),
 					}),
+					secure: false,
 				});
 			}
 			// eslint-disable-next-line no-unused-expressions
@@ -241,6 +243,7 @@ describe("layers", () => {
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0x88),
 					}),
+					secure: false,
 				});
 			}
 			return true;
@@ -332,6 +335,7 @@ describe("layers", () => {
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0xaa),
 					}),
+					secure: false,
 				});
 			}
 			return true;
@@ -349,6 +353,7 @@ describe("layers", () => {
 				packetType: DestinationType.Singlecast,
 				endpoint: { nodeId: 12 },
 				packet: ev,
+				secure: false,
 			});
 			expect(actualDispatches).toEqual(expectedDispatches);
 			expect(actualSends).toEqual(expectedSends);

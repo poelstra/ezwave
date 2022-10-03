@@ -10,20 +10,15 @@ import {
 	SendNext,
 } from "./layer";
 import { layerCommandToString, layerEventToString } from "./print";
-import { Requester } from "./requester";
 
 const log: debug.Debugger = debug("zwave:layers:multichannel");
 
 export class MultiChannelLayer implements Layer {
-	private _requester: Requester = new Requester();
-
 	public async dispatch(
 		event: LayerEvent<Packet>,
 		next: DispatchNext,
 		sender: Sender
 	): Promise<void> {
-		this._requester.dispatch(event);
-
 		// Encapsulation is decoded and handled, EncapNonceGet is replied to afterwards
 		const encapPacket = event.packet.tryAs(
 			MultiChannelV3.MultiChannelCmdEncap
@@ -45,6 +40,7 @@ export class MultiChannelLayer implements Layer {
 				channel: encapPacket.data.sourceEndPoint,
 			},
 			packet: encapPacket.data.command,
+			secure: event.secure,
 		};
 
 		// TODO Force sends to always go back to the same channel?
@@ -77,7 +73,7 @@ export class MultiChannelLayer implements Layer {
 		send: Sender
 	): Promise<boolean> {
 		if (command.endpoint.channel) {
-			// TODO make source endpoint configurable
+			// TODO make source endpoint configurable, necessary when implementing Z-Wave Gateway (i.s.o. controller)
 			const encapsulated = new MultiChannelV3.MultiChannelCmdEncap({
 				sourceEndPoint: 0,
 				destinationEndPoint: command.endpoint.channel,
