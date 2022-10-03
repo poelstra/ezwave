@@ -1,6 +1,7 @@
 import { CommandClassInfo } from "@ezwave/codec";
 
 export enum ZwLibraryType {
+	Na0 = 0x00, // Not applicable
 	StaticController = 0x01,
 	Controller = 0x02,
 	EnhancedSlave = 0x03,
@@ -8,7 +9,8 @@ export enum ZwLibraryType {
 	Installer = 0x05,
 	RoutingSlave = 0x06,
 	BridgeController = 0x07,
-	Dut = 0x08,
+	Dut = 0x08, // Device Under Test
+	Na1 = 0x09, // Not applicable
 	AvRemote = 0x0a,
 	AvDevice = 0x0b,
 }
