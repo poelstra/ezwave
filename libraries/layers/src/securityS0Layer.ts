@@ -2,7 +2,11 @@
 
 import { Packet } from "@ezwave/codec";
 import { SecurityV1 } from "@ezwave/commands";
-import { NonceStore, SecurityS0Codec } from "@ezwave/security";
+import {
+	DEFAULT_NONCE_TIMEOUT,
+	NonceStore,
+	SecurityS0Codec,
+} from "@ezwave/security";
 import { bufferToString, toHex } from "@ezwave/shared";
 import { randomBytes } from "crypto";
 import debug from "debug";
@@ -23,14 +27,25 @@ import { Requester } from "./requester";
 
 const log: debug.Debugger = debug("zwave:layers:securitys0");
 
+/**
+ * Timeout (in milliseconds) for NonceGet.
+ *
+ * SDS13783-Z-Wave-Transport-Encapsulation-Command-Class-Specification, section 3.5.2 says:
+ * "The duration of this timer will depend on the application it is trying to protect."
+ *
+ * Let's set it to the same as the default nonce timeout (10s).
+ */
+const NONCE_REQUEST_TIMEOUT: number = DEFAULT_NONCE_TIMEOUT;
+
 export class SecurityS0Layer implements Layer {
-	private _requester: Requester = new Requester();
+	private _requester: Requester;
 	private _nonceStore: NonceStore;
 	private _codec: SecurityS0Codec;
 
 	public constructor(codec: SecurityS0Codec, nonceStore: NonceStore) {
 		this._nonceStore = nonceStore;
 		this._codec = codec;
+		this._requester = new Requester();
 	}
 
 	public async dispatch(
@@ -72,6 +87,7 @@ export class SecurityS0Layer implements Layer {
 			packetType: event.packetType,
 			endpoint: event.endpoint,
 			packet: decoded,
+			secure: true,
 		};
 
 		if (event.packet.is(SecurityV1.SecurityMessageEncapsulationNonceGet)) {
@@ -122,6 +138,7 @@ export class SecurityS0Layer implements Layer {
 				{
 					endpoint: command.endpoint,
 					packet: new SecurityV1.SecurityNonceGet(),
+					requestTimeout: NONCE_REQUEST_TIMEOUT,
 				},
 				send.send,
 				(evt) => evt.packet.tryAs(SecurityV1.SecurityNonceReport)
