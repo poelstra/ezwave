@@ -331,6 +331,7 @@ export class SerialApi extends EventEmitter {
 						break;
 				}
 				break;
+			// TODO Add new chipTypes (esp 0x07)
 		}
 		log(
 			`serialGetInitData:`,

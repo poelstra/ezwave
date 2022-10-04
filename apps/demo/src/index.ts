@@ -138,11 +138,17 @@ void main(async () => {
 			// inclusions performed by this new controller would become unusable after restart,
 			// if the user didn't see this message.
 			console.warn(
-				`unknown homeId / nodeId / type, got homeId=0x${toHex(
+				`unknown/new controller homeId=0x${toHex(
 					homeId,
 					8
-				)} (${homeId}), nodeId=${nodeId}, type=${typeStr}, please add and adapt the following configuration:`,
-				hostConfig
+				)} (${homeId}), nodeId=${nodeId}, type=${typeStr}`
+			);
+			console.warn(
+				`Generated new (random) network key. To keep using this device, please add the following snippet to your config's "hosts" section:\n${JSON.stringify(
+					hostConfig,
+					undefined,
+					"    "
+				)}`
 			);
 		}
 		const networkKey =
@@ -153,9 +159,14 @@ void main(async () => {
 		const nonceStore = new NonceStore();
 		const crypto = new CryptoManager(networkKey);
 
-		if (type !== ZwLibraryType.StaticController) {
+		if (
+			!(
+				type === ZwLibraryType.StaticController ||
+				type === ZwLibraryType.BridgeController
+			)
+		) {
 			throw new Error(
-				`only static controllers supported for now, connected device is ${typeStr}`
+				`only static and bridge controllers are supported, connected device is ${typeStr}`
 			);
 		}
 		const controller = new Controller(homeId, nodeId, crypto, nonceStore);
