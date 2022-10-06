@@ -27,8 +27,7 @@ export interface SecurityV1NetworkKeySetData {
 
 export interface SecurityV1SecurityCommandsSupportedReportData {
 	reportsToFollow: number; // 1 byte unsigned integer
-	supportedCommandClasses: CommandClasses[]; // automatic length
-	controlledCommandClasses: CommandClasses[]; // automatic length
+	commandClasses: Buffer; // automatic length
 }
 
 export interface SecurityV1SecurityMessageEncapsulationData {
@@ -160,24 +159,11 @@ export class SecurityCommandsSupportedReport extends CommandPacket<SecurityV1Sec
 			},
 			{
 				"type": "Blob",
-				"name": "supportedCommandClasses",
-				"help": "Supported Command Classes",
-				"length": {
-					"lengthType": "Auto",
-					"markers": [
-						239
-					]
-				},
-				"blobType": "CommandClasses"
-			},
-			{
-				"type": "Blob",
-				"name": "controlledCommandClasses",
-				"help": "Controlled Command Classes",
+				"name": "commandClasses",
+				"help": "Command Classes",
 				"length": {
 					"lengthType": "Auto"
-				},
-				"blobType": "CommandClasses"
+				}
 			}
 		]
 	} as JsonCommandDefinition);

@@ -1230,6 +1230,39 @@ function collapseCommandEncapsulation(command: spec.CommandDefinition): void {
 	encapParam.blobType = spec.BlobType.CommandEncapsulation;
 }
 
+// SecurityV1.SecurityCommandsSupportedReport is (potentially) split
+// over multiple packets. The most likely implementation is that it's
+// a single byte array (with a single marker somewhere), that is transferred
+// as individual packets. I.e. the marker isn't 'repeated' in later packets.
+// E.g. [ss...ss][ss..smc..cc][cc..cc] instead of [ss...ss][ss..smc..cc][mcc..cc]
+// Also, multi-byte classes might be split across several packets, so
+// convert all of them into a 'plain' buffer.
+function collapseMultiPacketCommandClassParams(
+	command: spec.CommandDefinition
+): void {
+	// Find the first one (with marker annotation), remove it
+	const supportedClassesParam = getParam(
+		"supportedCommandClasses",
+		command.params
+	);
+	const supportedIndex = command.params.indexOf(supportedClassesParam);
+	command.params.splice(supportedIndex, 1);
+	// 'Fix' the second one to just become a plain list of classes, including the marker (if any)
+	const controlledClassesParam = getParam(
+		"controlledCommandClasses",
+		command.params
+	);
+	const controlledIndex = command.params.indexOf(controlledClassesParam);
+	command.params[controlledIndex] = {
+		type: spec.ParameterType.Blob,
+		name: "commandClasses",
+		help: "Command Classes",
+		length: {
+			lengthType: spec.LengthType.Automatic,
+		},
+	};
+}
+
 function forEachParam(
 	params: spec.Parameter[],
 	cb: (param: spec.Parameter) => void
@@ -1336,6 +1369,8 @@ function applyFixes(defs: spec.CommandsByClassByVersion): void {
 		Security: {
 			SecurityMessageEncapsulation: collapseEncryptedPayload,
 			SecurityMessageEncapsulationNonceGet: collapseEncryptedPayload,
+			SecurityCommandsSupportedReport:
+				collapseMultiPacketCommandClassParams,
 		},
 		SimpleAvControl: {
 			SimpleAvControlSupportedReport: fixBitmaskType(
