@@ -30,8 +30,8 @@ import { SerialApiCommandCode } from "./serialApiCommandCode";
  *
  * It is possible to call callbacks or emit events from the session
  * runner (see e.g. `afterSend` callback in `ZwSendData()`), but make
- * sure that they e.g. do not call `serialapi.execute()`, as that will
- * lead to a dead-lock.
+ * sure that they e.g. do not call (or rather, await) `serialapi.execute()`,
+ * as that will lead to a dead-lock.
  */
 export interface ICommandSessionRunner<T> {
 	/**
