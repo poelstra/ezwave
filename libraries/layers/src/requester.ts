@@ -1,6 +1,7 @@
 import { Packet } from "@ezwave/codec";
 import { defer, Timer } from "@ezwave/shared";
-import { Endpoint, LayerCommand, LayerEvent, Send } from "./layer";
+import { Endpoint } from "./endpoint";
+import { LayerCommand, LayerEvent, Send } from "./layer";
 
 export type Mapper<T extends Packet> = (
 	event: LayerEvent<Packet>

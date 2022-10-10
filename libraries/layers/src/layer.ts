@@ -1,10 +1,6 @@
 import { Packet } from "@ezwave/codec";
 import { DestinationType } from "@ezwave/serialapi";
-
-export interface Endpoint {
-	nodeId: number;
-	channel?: number;
-}
+import { Endpoint } from "./endpoint";
 
 export interface LayerEvent<T extends Packet> {
 	packetType: DestinationType; // TODO remove dependency on Host?

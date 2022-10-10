@@ -1,6 +1,7 @@
 import { Packet, packetToString } from "@ezwave/codec";
 import { DestinationType } from "@ezwave/serialapi";
-import { Endpoint, LayerCommand, LayerEvent } from "./layer";
+import { Endpoint } from "./endpoint";
+import { LayerCommand, LayerEvent } from "./layer";
 
 export function endPointToString(endpoint: Endpoint): string {
 	return `${endpoint.nodeId}${
