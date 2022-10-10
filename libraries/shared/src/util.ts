@@ -6,6 +6,10 @@ export function delay(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export async function nextTick(): Promise<void> {
+	return new Promise((resolve) => setImmediate(resolve));
+}
+
 export interface Deferred<T> {
 	resolve: (value: T | PromiseLike<T>) => void;
 	reject: (reason: Error) => void;
