@@ -55,6 +55,7 @@ export enum SerialApiCommandCode {
 	ZW_SET_SLAVE_LEARN_MODE = 0xa4,
 	ZW_GET_VIRTUAL_NODES = 0xa5,
 	ZW_IS_VIRTUAL_NODE = 0xa6,
+	BRIDGE_APPLICATION_COMMAND_HANDLER = 0xa8,
 	ZW_WATCHDOG_ENABLE = 0xb6,
 	ZW_WATCHDOG_DISABLE = 0xb7,
 	ZW_WATCHDOG_KICK = 0xb8,
@@ -69,5 +70,5 @@ export function serialApiCommandToString(x: number): string {
 	if (x in SerialApiCommandCode) {
 		return SerialApiCommandCode[x];
 	}
-	return `0x${x.toString(16)}`;
+	return `UNKNOWN_CMD_0x${x.toString(16)}`;
 }

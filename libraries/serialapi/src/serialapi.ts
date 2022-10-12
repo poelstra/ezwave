@@ -1,3 +1,4 @@
+import { bufferToSet } from "@ezwave/codec";
 import { noop, toHex } from "@ezwave/shared";
 import debug from "debug";
 import { EventEmitter } from "events";
@@ -42,6 +43,26 @@ export interface SerialApiCommandEvent {
 	rxStatus: RxStatus;
 	sourceNode: number;
 	command: Buffer;
+	destinationNode?: number; // In case of Bridge Controller
+	multiCastNodes?: Set<number>; // In case of Bridge Controller, and rxStatus indicates multi-cast destination
+	rxRssi?: number | Rssi;
+}
+
+export enum Rssi {
+	/**
+	 * The RSSI is below sensitivity and could not be measured.
+	 */
+	TooLow = 0x7d,
+
+	/**
+	 * The radio receiver is saturated and the RSSI could not be measured
+	 */
+	Saturated = 0x7e,
+
+	/**
+	 * The RSSI is not available.
+	 */
+	NotAvailable = 0x7f,
 }
 
 export function rxStatusToString(rxStatus: RxStatus): string {
@@ -64,6 +85,13 @@ function parseRxStatus(value: number): RxStatus {
 		foreignFrame: (value & 0b01000000) > 0,
 		foreignHomeId: (value & 0b10000000) > 0,
 	};
+}
+
+function parseRssi(params: Buffer): number | Rssi | undefined {
+	if (params.length === 0) {
+		return undefined;
+	}
+	return params.readInt8(0);
 }
 
 // Set of functions assumed to exist on the Serial API before we
@@ -380,20 +408,75 @@ export class SerialApi extends EventEmitter {
 		command: SerialApiCommandCode,
 		params: Buffer
 	): void {
-		if (command === SerialApiCommandCode.APPLICATION_COMMAND_HANDLER) {
-			const rxStatus = parseRxStatus(params[0]);
-			const sourceNode = params[1];
-			const cmdLength = params[2];
-			const cmdPayload = params.slice(3, 3 + cmdLength);
-			// const rxRSSIVal = params[params.length - 2];
-			// const securityKey = params[params.length - 1];
-			const event: SerialApiCommandEvent = {
-				rxStatus,
-				sourceNode,
-				command: cmdPayload,
-			};
-			log("emit command", event);
-			process.nextTick(() => this._safeEmit("command", event));
+		switch (command) {
+			case SerialApiCommandCode.APPLICATION_COMMAND_HANDLER:
+				{
+					const rxStatus = parseRxStatus(params[0]);
+					const sourceNode = params[1];
+					const cmdLength = params[2];
+					const cmdPayload = params.slice(3, 3 + cmdLength);
+					const rssiParams = params.slice(3 + cmdLength);
+					const rxRssi = parseRssi(rssiParams);
+					const event: SerialApiCommandEvent = {
+						rxStatus,
+						sourceNode,
+						command: cmdPayload,
+					};
+					// Only assign non-undefined members to reduce log noise
+					if (rxRssi !== undefined) {
+						event.rxRssi = rxRssi;
+					}
+					log("emit command", event);
+					process.nextTick(() => this._safeEmit("command", event));
+				}
+				break;
+
+			case SerialApiCommandCode.BRIDGE_APPLICATION_COMMAND_HANDLER:
+				{
+					const rxStatus = parseRxStatus(params[0]);
+					const destinationNode =
+						rxStatus.destinationType !== DestinationType.Multicast
+							? params[1]
+							: undefined;
+					const sourceNode = params[2];
+					const cmdLength = params[3];
+					const cmdPayload = params.slice(4, 4 + cmdLength); // cmdLength = 1 -> 5
+					const remainingParams = params.slice(4 + cmdLength);
+					const multiCastDestLength = remainingParams[0];
+					const multiCastNodeMask = remainingParams.slice(
+						1,
+						1 + multiCastDestLength
+					);
+					const rssiParams = remainingParams.slice(
+						1 + multiCastDestLength
+					);
+					const rxRssi = parseRssi(rssiParams);
+
+					let multiCastNodes: Set<number> | undefined;
+					if (multiCastDestLength > 0) {
+						// TODO Verify that multicast mask is indeed coded with
+						// node 1 being bit 0 (as is common in most other Z-Wave
+						// NodeID masks).
+						multiCastNodes = bufferToSet(multiCastNodeMask, 1);
+					}
+					const event: SerialApiCommandEvent = {
+						rxStatus,
+						sourceNode,
+						command: cmdPayload,
+						destinationNode,
+					};
+					// Only assign non-undefined members to reduce log noise
+					if (multiCastNodes !== undefined) {
+						event.multiCastNodes = multiCastNodes;
+					}
+					if (rxRssi !== undefined) {
+						event.rxRssi = rxRssi;
+					}
+
+					log("emit command", event);
+					process.nextTick(() => this._safeEmit("command", event));
+				}
+				break;
 		}
 
 		// TODO Handle FUNC_ID_SERIAL_API_STARTED to trigger _handleProtocolReset()?
