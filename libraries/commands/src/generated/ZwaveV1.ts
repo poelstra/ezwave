@@ -68,8 +68,8 @@ export interface ZwaveV1NodeInfoData {
 
 export enum MaxBaudRateEnum {
 	Reserved = 0x0,
-	_96Kbps = 0x1,
-	_40Kbps = 0x2,
+	_9600bps = 0x1,
+	_40kbps = 0x2,
 }
 
 export enum ProtocolVersionEnum {
@@ -85,8 +85,8 @@ export enum ProtocolVersionEnum {
 
 export enum SpeedExtensionEnum {
 	Reserved = 0x0,
-	_100Kbps = 0x1,
-	_200Kbps = 0x2,
+	_100kbps = 0x1,
+	_200kbps = 0x2,
 }
 
 export class ZwaveV1 extends CommandClassPacket<ZwaveV1Commands> {
@@ -420,11 +420,11 @@ export class NodeInfo extends CommandPacket<ZwaveV1NodeInfoData> {
 								"help": "Reserved"
 							},
 							"1": {
-								"name": "96Kbps",
+								"name": "_9600bps",
 								"help": "9.6 kbps"
 							},
 							"2": {
-								"name": "40Kbps",
+								"name": "_40kbps",
 								"help": "40 kbps"
 							}
 						}
@@ -557,11 +557,11 @@ export class NodeInfo extends CommandPacket<ZwaveV1NodeInfoData> {
 								"help": "Reserved"
 							},
 							"1": {
-								"name": "100Kbps",
+								"name": "_100kbps",
 								"help": "100 kbps"
 							},
 							"2": {
-								"name": "200Kbps",
+								"name": "_200kbps",
 								"help": "200 kbps"
 							}
 						}

@@ -340,8 +340,29 @@ function isReserved(name: string): boolean {
 }
 
 function makeEnumValue(name: string): spec.EnumValue {
+	let idName;
+	switch (name) {
+		case "9.6 kbps":
+			// Otherwise it becomes 96Kbps, which is really wrong
+			idName = "_9600bps";
+			break;
+		case "40 kbps":
+			// For consistency with the 9.6 case
+			idName = "_40kbps";
+			break;
+		case "100 kbps":
+			// For consistency with the 9.6 case
+			idName = "_100kbps";
+			break;
+		case "200 kbps":
+			// For consistency with the 9.6 case
+			idName = "_200kbps";
+			break;
+		default:
+			idName = Case.pascal(name);
+	}
 	return {
-		name: Case.pascal(name),
+		name: idName,
 		help: name,
 	};
 }
