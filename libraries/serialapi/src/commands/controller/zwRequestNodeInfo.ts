@@ -21,6 +21,7 @@ export interface ZwRequestNodeInfoRequest {
 
 const DEFAULT_ZW_REQUEST_NODE_INFO_TIMEOUT: number = 10 * 1000; // TODO what should this be? I've seen a request to a dead node being timed out by the Z-Wave chip in 8s.
 
+// Internal, use the class instead
 export function zwRequestNodeInfoBuilder(
 	request: ZwRequestNodeInfoRequest
 ): CallbackRequestBuilder<NodeInfoResponse, NodeInfoResponse> {
@@ -83,6 +84,13 @@ export function zwRequestNodeInfoBuilder(
 	};
 }
 
+/**
+ * Request Node Info Frame from given node ID.
+ *
+ * @see {@link ZwGetNodeInfoProtocolData} for a version that
+ * also includes protocol-specific info (but excludes the full
+ * list of supported/controller command classes).
+ */
 export class ZwRequestNodeInfo extends RequestRunner<
 	typeof zwRequestNodeInfoBuilder
 > {

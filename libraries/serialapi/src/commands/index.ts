@@ -5,6 +5,7 @@ export * from "./events";
 export * from "./ICommandSession";
 export * from "./machineRunner";
 export * from "./memory";
+export * from "./network";
 export * from "./protocolManager";
 export * from "./RequestRunner";
 export * from "./requests";
