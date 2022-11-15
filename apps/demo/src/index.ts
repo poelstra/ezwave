@@ -20,8 +20,8 @@ import { toHex } from "@ezwave/shared";
 import main from "async-main";
 import { randomBytes } from "crypto";
 import * as path from "path";
+import SerialPort from "serialport";
 import "source-map-support/register";
-import { Duplex } from "stream";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Hub } from "./hub";
@@ -60,7 +60,7 @@ interface Config {
 	};
 }
 
-async function serialApiFromPort(port: Duplex): Promise<SerialApi> {
+async function serialApiFromPort(port: SerialPort): Promise<SerialApi> {
 	const framer = new Framer(port);
 	const protocol = new Protocol(framer);
 	// Reset port once we detect it's stuck
@@ -68,6 +68,13 @@ async function serialApiFromPort(port: Duplex): Promise<SerialApi> {
 	// We're working with a USB port, which is hard-resetted
 	await protocol.hardResetted();
 	const serialApi = await SerialApi.create(protocol);
+	serialApi.on("error", (_err) => {
+		// Apparently, calling destroy() isn't properly implemented
+		// in node-serialport: it says it closes, but actually doesn't.
+		// So use 'normal' close instead for now.
+		//port.destroy();
+		port.close();
+	});
 	return serialApi;
 }
 

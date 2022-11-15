@@ -9,7 +9,6 @@ import { InterruptibleSleep } from "@ezwave/shared";
 import debug from "debug";
 import { promises as pfs } from "fs";
 import SerialPort from "serialport";
-import { Duplex } from "stream";
 
 const log: debug.Debugger = debug("zwave:serialportscanner");
 
@@ -79,7 +78,7 @@ export const DEFAULT_SERIAL_PORT_SCANNER_OPTIONS: Required<SerialPortScannerOpti
 export class SerialPortScanner {
 	private _options: Required<SerialPortScannerOptions>;
 	private _matches: Set<string>;
-	private _onOpen: (duplex: Duplex) => void | Promise<void>;
+	private _onOpen: (duplex: SerialPort) => void | Promise<void>;
 	private _ports: Set<string> = new Set();
 
 	/**
@@ -91,7 +90,7 @@ export class SerialPortScanner {
 	 */
 	public constructor(
 		options: SerialPortScannerOptions,
-		onOpen: (duplex: Duplex) => void | Promise<void>
+		onOpen: (duplex: SerialPort) => void | Promise<void>
 	) {
 		this._options = { ...DEFAULT_SERIAL_PORT_SCANNER_OPTIONS, ...options };
 		if (
