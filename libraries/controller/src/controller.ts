@@ -25,10 +25,20 @@ import {
 	SerialApiCommandEvent,
 	ZwSendData,
 } from "@ezwave/serialapi";
-import { defer, Deferred } from "@ezwave/shared";
+import { defer, Deferred, Queue } from "@ezwave/shared";
+import assert from "assert";
 import debug from "debug";
 import { EventEmitter } from "events";
+import { Endpoint, isSameEndpoint } from "./endpoint";
 import { IZwaveHost } from "./IZwaveHost";
+import {
+	buildControllerSessionExecutor,
+	ControllerSessionRunner,
+	PacketMapper,
+	RootControllerSession,
+	SendOptions,
+	SessionExecutor,
+} from "./session";
 
 const log: debug.Debugger = debug("zwave:controller");
 const logData: debug.Debugger = debug("zwave:controller:data");
@@ -74,6 +84,11 @@ export interface ControllerEvents {
 	on(event: "detach", listener: () => void): this;
 }
 
+interface ActiveSession {
+	endpoint: Endpoint;
+	executor: SessionExecutor<unknown>;
+}
+
 export class Controller
 	extends EventEmitter
 	implements ControllerEvents, IZwaveHost
@@ -86,9 +101,10 @@ export class Controller
 	private _stack: Stack;
 	private _requester: Requester;
 	private _transactionId: number = 0; // Used for debug logging
-	private _serialApiCommandHandler = (
-		event: SerialApiCommandEvent
-	): Promise<void> =>
+	private _queue: Queue = new Queue();
+	private _rootSession: RootControllerSession;
+	private _activeSession: ActiveSession | undefined;
+	private _serialApiCommandHandler = (event: SerialApiCommandEvent): void => {
 		this._handleSerialCommand(event).catch((err: unknown) =>
 			log(
 				`warning:`,
@@ -97,6 +113,7 @@ export class Controller
 				err
 			)
 		);
+	};
 	private _serialApiCloseHandler = (): Promise<void> =>
 		this.assignSerialApi(undefined);
 
@@ -150,6 +167,31 @@ export class Controller
 		this._stack
 			.use(new SecurityS0Layer(codec, nonceStore))
 			.use(new MultiChannelLayer());
+
+		this._rootSession = {
+			send: async (
+				packet: Packet,
+				options: SendOptions
+			): Promise<void> => {
+				if (!this._activeSession) {
+					throw new Error(
+						"assertion failed: cannot send from inactive session"
+					);
+				}
+				const command: LayerCommand = {
+					endpoint: this._activeSession.endpoint,
+					packet,
+					secure: options?.secure,
+					requestTimeout: options?.timeout,
+				};
+				await this.send(command);
+			},
+			executeSerial: async <T>(
+				runner: ICommandSessionRunner<T>
+			): Promise<T> => {
+				return this.executeSerialCommand(runner);
+			},
+		};
 	}
 
 	public async assignSerialApi(
@@ -189,18 +231,18 @@ export class Controller
 	 *
 	 * By default, the command will be sent securely if needed.
 	 */
-	// TODO, the Mapper leaks stuff from @ezwave/layers
+	// TODO Replace this by session-based stuff
 	public async sendAndWaitFor<R extends CommandPacket<void | object>>(
 		nodeId: number,
 		request: Packet,
-		expectedResponseType: CommandPacketConstructor<R> | Mapper<R>,
+		expectedResponseType: CommandPacketConstructor<R> | PacketMapper<R>,
 		options?: SendAndWaitForOptions
 	): Promise<R["data"]>;
 	public async sendAndWaitFor<R extends CommandPacket<void | object>>(
 		nodeId: number,
 		channel: number,
 		request: Packet,
-		expectedResponseType: CommandPacketConstructor<R> | Mapper<R>,
+		expectedResponseType: CommandPacketConstructor<R> | PacketMapper<R>,
 		options?: SendAndWaitForOptions
 	): Promise<R["data"]>;
 	public async sendAndWaitFor<R extends CommandPacket<void | object>>(
@@ -208,14 +250,14 @@ export class Controller
 			| [
 					number,
 					Packet,
-					CommandPacketConstructor<R> | Mapper<R>,
+					CommandPacketConstructor<R> | PacketMapper<R>,
 					SendAndWaitForOptions?
 			  ]
 			| [
 					number,
 					number,
 					Packet,
-					CommandPacketConstructor<R> | Mapper<R>,
+					CommandPacketConstructor<R> | PacketMapper<R>,
 					SendAndWaitForOptions?
 			  ]
 	): Promise<R["data"]> {
@@ -223,13 +265,13 @@ export class Controller
 			throw new Error("invalid arguments to 'sendAndWaitFor()'");
 		}
 		let command: LayerCommand;
-		let expectedResponse: CommandPacketConstructor<R> | Mapper<R>;
+		let expectedResponse: CommandPacketConstructor<R> | PacketMapper<R>;
 		if (typeof args[1] === "number") {
 			const [nodeId, channel, request, response, rawOptions] = args as [
 				number,
 				number,
 				Packet,
-				CommandPacketConstructor<R> | Mapper<R>,
+				CommandPacketConstructor<R> | PacketMapper<R>,
 				SendAndWaitForOptions?
 			];
 			const options = {
@@ -250,7 +292,7 @@ export class Controller
 			const [nodeId, request, response, rawOptions] = args as [
 				number,
 				Packet,
-				CommandPacketConstructor<R> | Mapper<R>,
+				CommandPacketConstructor<R> | PacketMapper<R>,
 				SendAndWaitForOptions?
 			];
 			const options = {
@@ -275,19 +317,18 @@ export class Controller
 			);
 		}
 		function isMapper<T extends Packet>(
-			x: CommandPacketConstructor<T> | Mapper<T>
-		): x is Mapper<T> {
+			x: CommandPacketConstructor<T> | PacketMapper<T>
+		): x is PacketMapper<T> {
 			return !("matches" in x);
 		}
+		const mapper: Mapper<R> = (event) =>
+			isMapper(expectedResponse)
+				? expectedResponse(event.packet)
+				: event.packet.tryAs(expectedResponse);
 		const reply = await this._requester.sendAndWaitFor(
 			command,
 			(command) => this._stack.send(command),
-			isMapper(expectedResponse)
-				? expectedResponse
-				: (event) =>
-						event.packet.tryAs(
-							expectedResponse as CommandPacketConstructor<R>
-						)
+			mapper
 		);
 		if (!reply) {
 			// TODO inconvenient
@@ -300,6 +341,28 @@ export class Controller
 			);
 		}
 		return reply.packet.data;
+	}
+
+	public async execute<T>(
+		endpoint: Endpoint,
+		runner: ControllerSessionRunner<T>
+	): Promise<T> {
+		return this._queue.add(async () => {
+			const executor = buildControllerSessionExecutor(
+				runner,
+				this._rootSession
+			);
+			assert(!this._activeSession, "cannot have nested sessions");
+			this._activeSession = {
+				endpoint,
+				executor,
+			};
+			try {
+				return await executor.run();
+			} finally {
+				this._activeSession = undefined;
+			}
+		});
 	}
 
 	/**
@@ -325,6 +388,12 @@ export class Controller
 
 	private _handleStackDispatch(event: LayerEvent<Packet>): void {
 		this._requester.dispatch(event);
+		if (
+			this._activeSession &&
+			isSameEndpoint(this._activeSession.endpoint, event.endpoint)
+		) {
+			this._activeSession.executor.dispatch(event.packet);
+		}
 		if (log.enabled) {
 			log(`emit event ${layerEventToString(event)}`);
 		}
