@@ -541,7 +541,7 @@ export class SerialApi extends EventEmitter {
 			if (this._state === SerialApiState.Closed) {
 				// No way to report it anymore, let it explode as uncaught error
 				process.nextTick(() => {
-					throw error;
+					throw eventHandlerError;
 				});
 				return;
 			}

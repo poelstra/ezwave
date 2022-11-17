@@ -82,9 +82,13 @@ export class ProtocolManager implements IProtocolManager {
 			command: SerialApiCommandCode,
 			params: Buffer
 		): void => {
-			const event = mapper(command, params);
-			if (event) {
-				events.add(event);
+			try {
+				const event = mapper(command, params);
+				if (event) {
+					events.add(event);
+				}
+			} catch (err) {
+				events.close(err as Error);
 			}
 		};
 		events = new Events(() => {

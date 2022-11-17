@@ -2,7 +2,7 @@
 import { defer, noop } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
-import { SimpleRequestBuilder } from ".";
+import { SimpleRequestBuilder, ZwRequestNodeInfo } from ".";
 import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
 import { zwMemoryGetIdBuffer } from "./commands/memory/zwMemoryGetId.test";
 import { RequestRunner } from "./commands/RequestRunner";
@@ -568,5 +568,40 @@ describe("SerialAPI", () => {
 				).rejects.toThrowError("protocol reset");
 			});
 		}); // send() with SerialApiCallbackCommand
+
+		it("handles command with error in event parsing", async () => {
+			requestStub.onCall(0).callsFake(async (cmd, params) => {
+				expect([cmd, params]).toEqual([
+					SerialApiCommandCode.ZW_REQUEST_NODE_INFO,
+					Buffer.from([
+						2, // NodeId
+					]),
+				]);
+
+				protocol.emit(
+					"callback",
+					SerialApiCommandCode.ZW_APPLICATION_UPDATE,
+					Buffer.from([
+						0x81, // NodeInfoReqFailed
+						0x00,
+						0x00, // not sure, but received from actual controller
+					])
+				);
+
+				return Buffer.from([
+					0x01, // status queued OK
+				]);
+			});
+
+			await expect(() =>
+				serialApi.execute(
+					new ZwRequestNodeInfo({
+						nodeId: 2,
+					})
+				)
+			).rejects.toThrowError(
+				"node 2 did not respond with Node Information Frame"
+			);
+		});
 	}); // initialized
 });
