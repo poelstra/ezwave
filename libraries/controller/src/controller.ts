@@ -207,11 +207,14 @@ export class Controller
 
 		this._serialApi = serialApi;
 
-		if (this._serialApi) {
-			this._serialApi.on("command", this._serialApiCommandHandler);
-			this._serialApi.on("close", this._serialApiCloseHandler);
+		if (!this._serialApi) {
+			return;
 		}
-		// TODO initial interviews etc.
+
+		this._serialApi.on("command", this._serialApiCommandHandler);
+		this._serialApi.on("close", this._serialApiCloseHandler);
+
+		// TODO start initial interviews etc.
 
 		// TODO safeEmit
 		this.emit("attach");
