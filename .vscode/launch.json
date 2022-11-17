@@ -5,6 +5,21 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "Launch Demo",
+			"program": "${workspaceFolder}/apps/demo/lib/index",
+			"args": ["../config_new.json"],
+			"request": "launch",
+			"skipFiles": ["<node_internals>/**"],
+			"type": "node"
+		},
+		{
+			"name": "Attach",
+			"port": 9229,
+			"request": "attach",
+			"skipFiles": ["<node_internals>/**"],
+			"type": "node"
+		},
+		{
 			"type": "node",
 			"request": "launch",
 			"name": "Debug Jest tests",

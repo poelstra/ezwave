@@ -22,6 +22,7 @@ import { randomBytes } from "crypto";
 import * as path from "path";
 import SerialPort from "serialport";
 import "source-map-support/register";
+import { DevHome } from "./devhome";
 import { Home } from "./home";
 import { HomeHub } from "./homehub";
 import { Hub } from "./hub";
@@ -120,7 +121,7 @@ void main(async () => {
 		void main(() => mhub!.run());
 	}
 
-	// Auto-create host (only static controller, for now) once corresponding serial
+	// Auto-create host once corresponding serial
 	// device gets connected.
 	const hostFactory = (
 		homeId: number,
@@ -193,11 +194,25 @@ void main(async () => {
 	// My specific home only has one Z-Wave controller, which
 	// is the first entry in the config. So use that.
 	// TODO: This stuff should move to a separate process that talks
-	// to the server using MHub/MQTT/REST/etc.
-	if (mhub && controllers.length > 0) {
-		const myController = controllers[0];
-		const home = new Home(myController);
-		await HomeHub.create(home, mhub, myController);
+	// to the server using MHub/MQTT/REST/etc. (and then no longer only
+	// make things work on my specific home ID...)
+	const martinsMainController = controllers.find(
+		(controller) => controller.homeId === 3743991572
+	);
+	if (martinsMainController) {
+		const home = new Home(martinsMainController);
+		if (mhub) {
+			await HomeHub.create(home, mhub, martinsMainController);
+		}
+	}
+
+	// I have an additional 'development dongle'
+	const martinsDevController = controllers.find(
+		(controller) => controller.homeId === 3984265931
+	);
+	if (martinsDevController) {
+		const devHome = new DevHome(martinsDevController);
+		void devHome;
 	}
 
 	// Add all pre-configured hosts to switchboard

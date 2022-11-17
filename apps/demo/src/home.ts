@@ -34,7 +34,8 @@ export class Home extends EventEmitter {
 				console.log("Controller attached");
 				await this._handleControllerAttached();
 			} catch (err) {
-				console.warn("Home controller initial get failed", err);
+				// Don't close/detach controller, keep running to handle any other commands.
+				console.warn("Home initialization failed", err);
 			}
 		});
 		this.controller.on("detach", () => {
