@@ -23,12 +23,14 @@ import {
 	rxStatusToString,
 	SerialApi,
 	SerialApiCommandEvent,
+	ZwAddNodeToNetwork,
 	ZwSendData,
 } from "@ezwave/serialapi";
 import { defer, Deferred, Queue } from "@ezwave/shared";
 import assert from "assert";
 import debug from "debug";
 import { EventEmitter } from "events";
+import { Device } from "./device";
 import { Endpoint, isSameEndpoint } from "./endpoint";
 import { IZwaveHost } from "./IZwaveHost";
 import {
@@ -116,6 +118,7 @@ export class Controller
 	};
 	private _serialApiCloseHandler = (): Promise<void> =>
 		this.assignSerialApi(undefined);
+	private _devices: Map<number, Device> = new Map();
 
 	public constructor(
 		homeId: number,
@@ -202,6 +205,9 @@ export class Controller
 			this._serialApi.off("close", this._serialApiCloseHandler);
 			// TODO safeEmit
 			this.emit("detach");
+			// TODO Close open serial/controller sessions. SerialAPI is probably
+			// closing here anyway (which cancels its sessions), but better to
+			// be explicit.
 			this._attached = defer();
 		}
 
@@ -214,11 +220,49 @@ export class Controller
 		this._serialApi.on("command", this._serialApiCommandHandler);
 		this._serialApi.on("close", this._serialApiCloseHandler);
 
-		// TODO start initial interviews etc.
-
 		// TODO safeEmit
 		this.emit("attach");
 		this._attached.resolve();
+
+		await this._initDevices();
+	}
+
+	public isAttached(): boolean {
+		return this._serialApi !== undefined;
+	}
+
+	/**
+	 * Start network inclusion.
+	 *
+	 * Note: returned device will only have completed basic
+	 * inclusion at this stage, further steps such as security
+	 * setup and full node interview are performed asynchronously.
+	 *
+	 * @return Newly included `Device`. You can await its `.ready()` for
+	 *   full completion.
+	 */
+	public async includeDevice(): Promise<Device> {
+		await this._attached.promise;
+		if (!this._serialApi) {
+			throw new Error("no Z-Wave device connected");
+		}
+		const nif = await this.executeSerialCommand(
+			new ZwAddNodeToNetwork({
+				// TODO fill in correct counts based on actual nodes
+				flirsNodesCount: 0,
+				listeningNodesCount: 0,
+				totalNodes: 0,
+			})
+		);
+		log("device nif", nif);
+
+		await this._initDevices();
+		const device = this._devices.get(nif.nodeId);
+		assert(device, "Basic device init failed");
+
+		await device.initialized();
+		log(`device ${nif.nodeId} included and initialized`);
+		return device;
 	}
 
 	public send(command: LayerCommand): Promise<boolean> {
@@ -422,5 +466,36 @@ export class Controller
 			packet: packet,
 			secure: false,
 		});
+	}
+
+	private async _initDevices(): Promise<void> {
+		// Get currently known list of devices in SerialApi controller
+		const currentNodeIds = this._serialApi?.getNodes() ?? new Set();
+		const deviceKeys = [...this._devices.keys()];
+		const addedIds = [...currentNodeIds].filter(
+			(id) => !this._devices.has(id)
+		);
+		const deletedIds = deviceKeys.filter((id) => !currentNodeIds.has(id));
+
+		// Remove the ones from our own cache that no longer exist
+		for (const nodeId of deletedIds) {
+			try {
+				this._devices.get(nodeId)?.destroy();
+			} catch (err) {
+				log(`delete device id ${nodeId} failed:`, err);
+			}
+			this._devices.delete(nodeId);
+		}
+
+		// Create any devices that were newly included on the controller
+		for (const nodeId of addedIds) {
+			try {
+				const device = new Device(this, nodeId);
+				// TODO Handle cache updates from device
+				this._devices.set(nodeId, device);
+			} catch (err) {
+				log(`add device id ${nodeId} failed:`, err);
+			}
+		}
 	}
 }

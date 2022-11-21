@@ -20,12 +20,12 @@ import {
 	Session,
 } from "./session";
 
-interface FirmwareVersion {
+export interface FirmwareVersion {
 	version: number; // 1 byte unsigned integer
 	subVersion: number; // 1 byte unsigned integer
 }
 
-interface VersionInfo {
+export interface VersionInfo {
 	zWaveLibraryType: ZwLibraryType; // 1 byte unsigned integer
 	zWaveProtocolVersion: number; // 1 byte unsigned integer
 	zWaveProtocolSubVersion: number; // 1 byte unsigned integer
@@ -41,7 +41,7 @@ interface VersionInfo {
 	firmwareVersions: Array<FirmwareVersion>;
 }
 
-interface InterviewResult {
+export interface InterviewResult {
 	protocolInfo: ZwNodeInfoProtocolData;
 	versionInfo: VersionInfo | undefined;
 	supportedNonSecure: Set<CommandClasses>;
