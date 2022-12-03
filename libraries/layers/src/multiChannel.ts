@@ -19,7 +19,7 @@ export class MultiChannelLayer implements Layer {
 		next: DispatchNext,
 		sender: Sender
 	): Promise<void> {
-		// Encapsulation is decoded and handled, EncapNonceGet is replied to afterwards
+		// Encapsulation is decoded and handled
 		const encapPacket = event.packet.tryAs(
 			MultiChannelV3.MultiChannelCmdEncap
 		);
@@ -34,7 +34,7 @@ export class MultiChannelLayer implements Layer {
 		// Encapsulated packet, decode it and forward decoded event
 		// TODO Handle bitaddress...
 		const decodedEvent: LayerEvent<Packet> = {
-			packetType: event.packetType,
+			destinationType: event.destinationType,
 			endpoint: {
 				nodeId: event.endpoint.nodeId,
 				channel: encapPacket.data.sourceEndPoint,

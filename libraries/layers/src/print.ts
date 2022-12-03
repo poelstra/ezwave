@@ -11,7 +11,7 @@ export function endPointToString(endpoint: Endpoint): string {
 
 export function layerEventToString(event: LayerEvent<Packet>): string {
 	return `from=${endPointToString(event.endpoint)} type=${
-		DestinationType[event.packetType]
+		DestinationType[event.destinationType]
 	}${event.secure ? " secure=true" : ""} packet=${packetToString(
 		event.packet
 	)}`;

@@ -3,7 +3,7 @@ import { DestinationType } from "@ezwave/serialapi";
 import { Endpoint } from "./endpoint";
 
 export interface LayerEvent<T extends Packet> {
-	packetType: DestinationType; // TODO remove dependency on Host?
+	destinationType: DestinationType; // TODO remove dependency on Host?
 	endpoint: Endpoint;
 	packet: T;
 	secure: boolean; // TODO This will become more complex with SecurityS2, find a more abstract approach

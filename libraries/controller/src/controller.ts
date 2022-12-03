@@ -459,7 +459,7 @@ export class Controller
 			);
 		}
 		await this._stack.dispatch({
-			packetType: event.rxStatus.destinationType,
+			destinationType: event.rxStatus.destinationType,
 			endpoint: {
 				nodeId: event.sourceNode,
 			},

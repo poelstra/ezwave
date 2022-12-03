@@ -184,7 +184,7 @@ describe("layers", () => {
 			// Mimick response from remote device
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				await stack.dispatch({
-					packetType: DestinationType.Singlecast,
+					destinationType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0xaa),
@@ -225,7 +225,7 @@ describe("layers", () => {
 			// nonce_get.
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				await stack.dispatch({
-					packetType: DestinationType.Singlecast,
+					destinationType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0x77),
@@ -238,7 +238,7 @@ describe("layers", () => {
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				expect(afterSendCalled).toBe(0);
 				await stack.dispatch({
-					packetType: DestinationType.Singlecast,
+					destinationType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0x88),
@@ -330,7 +330,7 @@ describe("layers", () => {
 			// Mimick response from remote device
 			if (command.packet.is(SecurityV1.SecurityNonceGet)) {
 				await stack.dispatch({
-					packetType: DestinationType.Singlecast,
+					destinationType: DestinationType.Singlecast,
 					endpoint: command.endpoint,
 					packet: new SecurityV1.SecurityNonceReport({
 						nonce: Buffer.alloc(8, 0xaa),
@@ -350,7 +350,7 @@ describe("layers", () => {
 			actualDispatches = [];
 			console.log(`<-- dispatch`, ev);
 			await stack.dispatch({
-				packetType: DestinationType.Singlecast,
+				destinationType: DestinationType.Singlecast,
 				endpoint: { nodeId: 12 },
 				packet: ev,
 				secure: false,

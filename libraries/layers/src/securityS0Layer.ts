@@ -84,7 +84,7 @@ export class SecurityS0Layer implements Layer {
 			1
 		);
 		const decodedEvent: LayerEvent<Packet> = {
-			packetType: event.packetType,
+			destinationType: event.destinationType,
 			endpoint: event.endpoint,
 			packet: decoded,
 			secure: true,
