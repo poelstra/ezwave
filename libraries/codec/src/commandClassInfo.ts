@@ -1,8 +1,24 @@
 import { CommandClasses } from "./generated/CommandClasses";
 
+/**
+ * Encodes list of supported and controller command classes.
+ *
+ * For example, a bulb may support BasicSet whereas a switch
+ * may control BasicSet.
+ */
 export interface CommandClassInfo {
 	supported: CommandClasses[];
 	controlled: CommandClasses[];
+}
+
+/**
+ * Encode a specific command within a command class.
+ *
+ * Used in e.g. associations.
+ */
+export interface CommandClassCommand {
+	commandClass: CommandClasses;
+	command: number;
 }
 
 export function isSingleByteClass(commandClass: CommandClasses): boolean {
@@ -63,4 +79,35 @@ export function encodeCommandClasses(classes: CommandClasses[]): Buffer {
 		}
 	}
 	return buffer;
+}
+
+export function parseCommandClassCommands(
+	params: Buffer
+): CommandClassCommand[] {
+	let i = 0;
+	const commands: CommandClassCommand[] = [];
+	while (i < params.length) {
+		const isSingle = isSingleByteClass(params[i]);
+		if (!isSingle && i + 1 >= params.length) {
+			throw new Error(
+				"invalid list of command class commands: truncated multi-byte class"
+			);
+		}
+		const commandClassId = isSingle ? params[i] : params.readUInt16BE(i);
+		i += isSingle ? 1 : 2;
+
+		if (i >= params.length) {
+			throw new Error(
+				"invalid list of command class commands: missing command"
+			);
+		}
+		const command = params[i];
+		i++;
+
+		commands.push({
+			commandClass: commandClassId,
+			command: command,
+		});
+	}
+	return commands;
 }
