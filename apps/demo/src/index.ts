@@ -94,6 +94,12 @@ function prepEnvironment(): void {
 	};
 	process.on("SIGINT", () => shutdown("SIGINT"));
 	process.on("SIGTERM", () => shutdown("SIGTERM"));
+
+	Error.stackTraceLimit = 100;
+	process.on("uncaughtException", (err, origin) => {
+		console.error(`FATAL ERROR ${origin}:`, err);
+		process.exit(1);
+	});
 }
 
 void main(async () => {
