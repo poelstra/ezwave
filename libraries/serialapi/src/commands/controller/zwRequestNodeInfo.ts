@@ -1,8 +1,8 @@
 import { parseCommandClassInfo } from "@ezwave/codec";
+import { verifyTransmitResponse } from "../callbackRequest";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { verifyTransmitResponse } from "../transport/zwSendData";
 import { NodeInfoResponse } from "../types";
 
 enum UpdateState {

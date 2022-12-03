@@ -204,6 +204,24 @@ export class SerialApi extends EventEmitter {
 		return !this._initData.capabilities.has(NodeCapabilityFlags.SlaveAPI);
 	}
 
+	public isPrimaryController(): boolean {
+		this._verifyInitialized(this._initData);
+		return (
+			this.isController() &&
+			!this._initData.capabilities.has(
+				NodeCapabilityFlags.SecondaryController
+			)
+		);
+	}
+
+	public isSIS(): boolean {
+		this._verifyInitialized(this._initData);
+		return (
+			this.isPrimaryController() &&
+			this._initData.capabilities.has(NodeCapabilityFlags.IsSIS)
+		);
+	}
+
 	/**
 	 * Get set of node IDs as present when this SerialAPI instance was created.
 	 */

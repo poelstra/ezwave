@@ -10,12 +10,24 @@ export interface ZwGetNodeInfoProtocolDataRequest {
 }
 
 export interface ZwNodeInfoProtocolData {
+	/**
+	 * True when node is always listening (AL).
+	 * False for Frequently Listening (FL / FLiRS) and Non-Listening (NL) nodes.
+	 */
 	listening: boolean; // properties1[7]
 	routing: boolean; // properties1[6]
 	maxBaudRate: MaxBaudRateEnum; // properties1[5..3]
 	protocolVersion: ProtocolVersionEnum; // properties1[2..0]
 	optionalFunctionality: boolean; // properties2[7]
+
+	/**
+	 * FLiRS node with 1000ms wake-up beam.
+	 */
 	sensor1000ms: boolean; // properties2[6]
+
+	/**
+	 * FLiRS node with 250ms wake-up beam.
+	 */
 	sensor250ms: boolean; // properties2[5]
 	beamCapability: boolean; // properties2[4]
 	routingSlave: boolean; // properties2[3]

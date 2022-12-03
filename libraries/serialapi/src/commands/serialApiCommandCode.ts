@@ -27,7 +27,12 @@ export enum SerialApiCommandCode {
 	ZW_NEW_CONTROLLER = 0x43,
 	ZW_REPLICATION_COMMAND_COMPLETE = 0x44,
 	ZW_REPLICATION_SEND_DATA = 0x45,
+
+	/**
+	 * Assigns 4 controller computed routes between 2 nodes.
+	 */
 	ZW_ASSIGN_RETURN_ROUTE = 0x46,
+
 	ZW_DELETE_RETURN_ROUTE = 0x47,
 	ZW_REQUEST_NODE_NEIGHBOR_UPDATE = 0x48,
 	ZW_APPLICATION_UPDATE = 0x49,
@@ -35,13 +40,41 @@ export enum SerialApiCommandCode {
 	ZW_REMOVE_NODE_FROM_NETWORK = 0x4b,
 	ZW_CREATE_NEW_PRIMARY = 0x4c,
 	ZW_CONTROLLER_CHANGE = 0x4d,
+
+	/**
+	 * Assigns an Application Priority Route between 2 nodes.
+	 *
+	 * Will always be used first, before any other stored routes.
+	 * Should never automatically be emitted by the app, only on user request.
+	 * Should mostly/only be used to force nodes close to each other to try
+	 * direct communication first. Set to all-zeroes in that case.
+	 */
+	ZW_ASSIGN_PRIORITY_ROUTE = 0x4f,
+
 	ZW_SET_LEARN_MODE = 0x50,
+
+	/**
+	 * Assigns 4 controller computed routes from the end node to the controller.
+	 *
+	 * Shorthand for ZW_ASSIGN_RETURN_ROUTE, using SUC's node ID as destination node,
+	 * which is in most cases the Primary Controller.
+	 */
 	ZW_ASSIGN_SUC_RETURN_ROUTE = 0x51,
+
 	ZW_ENABLE_SUC = 0x52,
 	ZW_REQUEST_NETWORK_UPDATE = 0x53,
 	ZW_SET_SUC_NODE_ID = 0x54,
 	ZW_DELETE_SUC_RETURN_ROUTE = 0x55,
 	ZW_GET_SUC_NODE_ID = 0x56,
+
+	/**
+	 * Assigns an Application Priority Route from the controller to an end node.
+	 *
+	 * Shorthand for ZW_ASSIGN_PRIORITY_ROUTE, using SUC's node ID as destination node,
+	 * which is in most cases the Primary Controller.
+	 */
+	ZW_ASSIGN_PRIORITY_SUC_RETURN_ROUTE = 0x58,
+
 	ZW_REQUEST_NODE_NEIGHBOR_UPDATE_OPTIONS = 0x5a,
 	ZW_EXPLORE_REQUEST_INCLUSION = 0x5e,
 	ZW_REQUEST_NODE_INFO = 0x60,
@@ -49,6 +82,23 @@ export enum SerialApiCommandCode {
 	ZW_IS_FAILED_NODE_ID = 0x62,
 	ZW_REPLACE_FAILED_NODE = 0x63,
 	ZW_GET_ROUTING_INFO = 0x80,
+
+	/**
+	 * Get Application Priority Route from the controller to a node.
+	 *
+	 * Returns LWR if no route was set yet.
+	 */
+	ZW_GET_PRIORITY_ROUTE = 0x92,
+
+	/**
+	 * Assigns an Application Priority Route from the controller to a node.
+	 *
+	 * Should never automatically be emitted by the app, only on user request.
+	 * Should mostly/only be used to force nodes close to the controller to try
+	 * direct communication first. Set to all-zeroes in that case.
+	 */
+	ZW_SET_PRIORITY_ROUTE = 0x93,
+
 	SERIAL_API_SLAVE_NODE_INFO = 0xa0,
 	APPLICATION_SLAVE_COMMAND_HANDLER = 0xa1,
 	ZW_SEND_SLAVE_NODE_INFO = 0xa2,

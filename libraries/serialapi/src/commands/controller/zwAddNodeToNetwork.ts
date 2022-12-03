@@ -1,11 +1,11 @@
 /* eslint-disable no-bitwise */
 import { parseCommandClassInfo } from "@ezwave/codec";
 import { interpret } from "@xstate/compiled";
+import { buildCallbackParser } from "../callbackRequest";
 import { runMachineService } from "../machineRunner";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { buildCallbackParser } from "../transport/zwSendData";
 import { NodeInfoResponse } from "../types";
 import {
 	AddNodeMachineResult,

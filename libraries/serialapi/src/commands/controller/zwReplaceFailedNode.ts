@@ -1,9 +1,9 @@
 /* eslint-disable no-bitwise */
 import { toHex } from "@ezwave/shared";
+import { buildCallbackParser } from "../callbackRequest";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
-import { buildCallbackParser } from "../transport/zwSendData";
 
 export interface ZwReplaceFailedNodeRequest {
 	nodeId: number;
