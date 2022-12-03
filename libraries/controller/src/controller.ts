@@ -287,7 +287,7 @@ export class Controller
 			);
 			log("inclusion including", nif);
 
-			const device = new Device(this, nif.nodeId);
+			const device = await this._createDevice(nif.nodeId);
 			await device.completeInclusion();
 			log(`device ${nif.nodeId} inclusion complete`);
 			device.start();
@@ -526,21 +526,26 @@ export class Controller
 		// Load any devices that are now available
 		for (const nodeId of addedIds) {
 			try {
-				const device = new Device(
-					this,
-					nodeId,
-					await this._deviceCache?.get(nodeId)
-				);
-				device.on("cache", (cache: JsonValue) =>
-					this._handleDeviceCache(device, cache)
-				);
-				await device.initProtocolData();
-				this._devices.set(nodeId, device);
+				const cache = await this._deviceCache?.get(nodeId);
+				const device = await this._createDevice(nodeId, cache);
 				device.start();
 			} catch (err) {
 				log(`add device id ${nodeId} failed:`, err);
 			}
 		}
+	}
+
+	private async _createDevice(
+		nodeId: number,
+		cache?: JsonValue
+	): Promise<Device> {
+		const device = new Device(this, nodeId, cache);
+		device.on("cache", (cache: JsonValue) =>
+			this._handleDeviceCache(device, cache)
+		);
+		await device.initProtocolData();
+		this._devices.set(nodeId, device);
+		return device;
 	}
 
 	private _handleDeviceCache(device: Device, cache: JsonValue): void {

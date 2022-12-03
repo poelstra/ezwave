@@ -78,6 +78,9 @@ export function buildInterviewVersions(
 			// - if it's not advertised, it's not secure.
 			// - if it IS advertised, it may be secure, and we need to check (by sending SECURITY_COMMANDS_SUPPORTED_GET)
 
+			// TODO Use external knowledge about security status if already known,
+			// and cache it separately as it's expensive (due to timeout waiting)
+			// if device isn't secure
 			let isSecureS0 = supportedNonSecure.has(CommandClasses.Security);
 			const supportedSecureS0 = new Set<CommandClasses>();
 			const controlledSecureS0 = new Set<CommandClasses>();
@@ -259,9 +262,15 @@ export function buildInterviewVersions(
 export async function getSecurityCommandsSupported(
 	session: Session
 ): Promise<CommandClassInfo> {
+	// TODO Make this smarter, e.g. based on device RTT.
+	// For now, it needs to be (much) smaller than the WakeUp timeout
+	// to prevent a device going back to sleep before we complete
+	// our interview...
+	const timeout = 5000;
+
 	await session.send(new SecurityV1.SecurityCommandsSupportedGet(), {
 		secure: true,
-		timeout: 1000, // TODO remove, only for test
+		timeout,
 	});
 
 	const reports: SecurityV1SecurityCommandsSupportedReportData[] =
@@ -269,7 +278,10 @@ export async function getSecurityCommandsSupported(
 			session,
 			SecurityV1.SecurityCommandsSupportedReport,
 			() => true,
-			(report) => report.reportsToFollow
+			(report) => report.reportsToFollow,
+			{
+				timeout,
+			}
 		);
 	const rawClasses = Buffer.concat(
 		reports.map((report) => report.commandClasses)

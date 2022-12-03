@@ -138,7 +138,10 @@ export class SecurityS0Layer implements Layer {
 				{
 					endpoint: command.endpoint,
 					packet: new SecurityV1.SecurityNonceGet(),
-					requestTimeout: NONCE_REQUEST_TIMEOUT,
+					requestTimeout: Math.min(
+						command.requestTimeout ?? Infinity,
+						NONCE_REQUEST_TIMEOUT
+					),
 				},
 				send.send,
 				(evt) => evt.packet.tryAs(SecurityV1.SecurityNonceReport)

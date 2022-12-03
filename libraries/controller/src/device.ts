@@ -1,8 +1,8 @@
 import { CommandClasses, Packet } from "@ezwave/codec";
-import { WakeUpV2 } from "@ezwave/commands";
+import { NoOperationV1, WakeUpV2 } from "@ezwave/commands";
 import {
 	Profile1Enum,
-	ProfileGeneralEnum
+	ProfileGeneralEnum,
 } from "@ezwave/commands/lib/generated/AssociationGrpInfoV3";
 import { WakeUpNotification } from "@ezwave/commands/lib/generated/WakeUpV2";
 import { LayerEvent, layerEventToString } from "@ezwave/layers";
@@ -12,7 +12,7 @@ import {
 	ZwAssignReturnRoute,
 	ZwGetNodeInfoProtocolData,
 	ZwNodeInfoProtocolData,
-	ZwRequestNodeInfo
+	ZwRequestNodeInfo,
 } from "@ezwave/serialapi";
 import { defer, Deferred, delay, noop } from "@ezwave/shared";
 import assert from "assert";
@@ -23,7 +23,7 @@ import {
 	buildInterviewVersions,
 	ep,
 	InterviewedVersions,
-	VersionInfo
+	VersionInfo,
 } from ".";
 import { Controller } from "./controller";
 import {
@@ -31,7 +31,7 @@ import {
 	buildAddAssociation,
 	buildInterviewAssociations,
 	buildRemoveAssociation,
-	Profile
+	Profile,
 } from "./interview/association";
 import { ControllerSessionRunner } from "./session";
 import { JsonValue } from "./types";
@@ -58,6 +58,7 @@ export class Device extends EventEmitter {
 	private _logData: debug.Debugger;
 
 	private _needsSetup: boolean = false;
+	private _needsInit: boolean = true;
 	private _protocolData?: ZwNodeInfoProtocolData;
 	private _nodeInformationFrame?: NodeInfoResponse;
 	private _versions?: InterviewedVersions;
@@ -161,6 +162,11 @@ export class Device extends EventEmitter {
 		this._controller.off("event", this._eventHandler);
 	}
 
+	/**
+	 * After SerialAPI performed inclusion and assigned a node ID,
+	 * perform remaining inclusion steps (security bootstrap,
+	 * interviewing, etc.)
+	 */
 	public async completeInclusion(): Promise<void> {
 		// TODO Add request params to determine security level
 		await this._initNodeInformationFrame();
@@ -172,27 +178,16 @@ export class Device extends EventEmitter {
 		await this._init();
 	}
 
-	private _loadFromCache(value: JsonValue): void {
-		if (typeof value === "undefined") {
-			return;
-		}
-		if (typeof value !== "object" || !value || Array.isArray(value)) {
-			throw new Error(
-				"invalid object cache, expected an object or undefined"
-			);
-		}
-		if (!("version" in value)) {
-			throw new Error("invalid object cache, expected version field");
-		}
-		const cached = value as unknown as CachedInfo;
-		if (cached.version !== 1) {
-			return;
-		}
-		this._needsSetup = cached.needsSetup;
-		this._protocolData = cached.protocolData;
-		this._nodeInformationFrame = cached.nodeInformationFrame;
-		this._versions = fromCachedVersions(cached.versions);
-		this._associations = fromCachedAssociations(cached.associations);
+	/**
+	 * Force (re-)setup of device, such as lifeline assignment,
+	 * association return routes, etc.
+	 */
+	public async setup(): Promise<void> {
+		// Remember that someone told us to setup, even if it's
+		// prematurely interrupted.
+		this._needsSetup = true;
+		this._emitCache();
+		await this._init();
 	}
 
 	private _attach(): void {
@@ -231,6 +226,14 @@ export class Device extends EventEmitter {
 			}
 		}
 
+		if (this._needsInit || this._needsSetup) {
+			// Init also performs setup afterwards if needed.
+			await this._init();
+			// TODO Mark init as no longer needed at this stage?
+			// Otherwise, it might keep trying to interview on every node
+			// wakeup, which may be very (battery-)expensive...
+		}
+
 		// TODO Empty queue if needed
 
 		if (!isBroadcastWakeup) {
@@ -248,6 +251,14 @@ export class Device extends EventEmitter {
 		let fail: unknown;
 		for (let attempt = 1; attempt <= 3; attempt++) {
 			try {
+				const awake = await this._tryPing();
+				if (!awake) {
+					// TODO Add other forms of awake detection (e.g. receiving anything from it, in case of non-WakeUp nodes)
+					this._log(
+						"init: device unreachable, delaying init until awake"
+					);
+					return;
+				}
 				return await this._doInit(attempt);
 			} catch (err) {
 				fail = err;
@@ -260,8 +271,20 @@ export class Device extends EventEmitter {
 				}
 			}
 		}
-		// If we get here, all attempts failed, throw it
 		throw fail;
+	}
+
+	private async _tryPing(): Promise<boolean> {
+		try {
+			await this._execute(async (session) => {
+				await session.send(
+					new NoOperationV1.NoOperationV1(Buffer.alloc(0))
+				);
+			});
+			return true;
+		} catch (err) {
+			return false;
+		}
 	}
 
 	private async _doInit(attempt: number): Promise<void> {
@@ -286,6 +309,10 @@ export class Device extends EventEmitter {
 				this._emitCache();
 			}
 
+			if (this._needsInit) {
+				this._needsInit = false;
+				this._emitCache();
+			}
 			this._log("init complete");
 			this._ready.resolve();
 		} catch (err) {
@@ -308,14 +335,6 @@ export class Device extends EventEmitter {
 		await this._interviewAssociations(); // 6.3.1.1 (single channel) & 6.3.7.1 (multi channel), then 6.3.2.1 (assoc group info)
 
 		await this._batteryLevelGet(); // 6.3.3.1
-	}
-
-	private async _setup(): Promise<void> {
-		// Remember that someone told us to setup, even if it's
-		// prematurely interrupted.
-		this._needsSetup = true;
-		this._emitCache();
-		await this._init();
 	}
 
 	private async _initNodeInformationFrame(): Promise<void> {
@@ -621,6 +640,30 @@ export class Device extends EventEmitter {
 		}
 	}
 
+	private _loadFromCache(value: JsonValue): void {
+		if (typeof value === "undefined") {
+			return;
+		}
+		if (typeof value !== "object" || !value || Array.isArray(value)) {
+			throw new Error(
+				"invalid object cache, expected an object or undefined"
+			);
+		}
+		if (!("version" in value)) {
+			throw new Error("invalid object cache, expected version field");
+		}
+		const cached = value as unknown as CachedInfo;
+		if (cached.version !== 1) {
+			return;
+		}
+		this._needsSetup = cached.needsSetup;
+		this._needsInit = cached.needsInit;
+		this._protocolData = cached.protocolData;
+		this._nodeInformationFrame = cached.nodeInformationFrame;
+		this._versions = fromCachedVersions(cached.versions);
+		this._associations = fromCachedAssociations(cached.associations);
+	}
+
 	private _emitCache(): void {
 		const cachedVersions: CachedVersions | undefined = toCachedVersions(
 			this._versions
@@ -630,6 +673,7 @@ export class Device extends EventEmitter {
 		const cache: CachedInfoV1 = {
 			version: 1,
 			needsSetup: this._needsSetup,
+			needsInit: this._needsInit,
 			protocolData: this._protocolData,
 			nodeInformationFrame: this._nodeInformationFrame,
 			versions: cachedVersions,
@@ -646,6 +690,7 @@ type CachedInfo = CachedInfoV1;
 interface CachedInfoV1 {
 	version: 1;
 	needsSetup: boolean;
+	needsInit: boolean;
 	protocolData?: ZwNodeInfoProtocolData;
 	nodeInformationFrame?: NodeInfoResponse;
 	versions?: CachedVersions;
