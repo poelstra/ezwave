@@ -23,6 +23,7 @@ import { IProtocol } from "./protocol";
 /* eslint-disable no-bitwise */
 
 const log: debug.Debugger = debug("zwave:serialapi");
+const logData: debug.Debugger = debug("zwave:serialapi:data");
 
 export enum DestinationType {
 	Singlecast,
@@ -426,7 +427,7 @@ export class SerialApi extends EventEmitter {
 					if (rxRssi !== undefined) {
 						event.rxRssi = rxRssi;
 					}
-					log("emit command", event);
+					logData("emit command", event);
 					process.nextTick(() => this._safeEmit("command", event));
 				}
 				break;
@@ -473,7 +474,7 @@ export class SerialApi extends EventEmitter {
 						event.rxRssi = rxRssi;
 					}
 
-					log("emit command", event);
+					logData("emit command", event);
 					process.nextTick(() => this._safeEmit("command", event));
 				}
 				break;
