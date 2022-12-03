@@ -8,7 +8,13 @@
 
 // TODO Extract more logic into reusable @ezwave packages
 
-import { Controller, SwitchBoard } from "@ezwave/controller";
+import {
+	Controller,
+	DeviceCache,
+	SimpleFileStorage,
+	SwitchBoard,
+	ThrottledStorage,
+} from "@ezwave/controller";
 import { CryptoManager, NonceStore } from "@ezwave/security";
 import { Framer, Protocol, SerialApi, ZwLibraryType } from "@ezwave/serialapi";
 import {
@@ -19,6 +25,7 @@ import {
 import { toHex } from "@ezwave/shared";
 import main from "async-main";
 import { randomBytes } from "crypto";
+import { readFile } from "fs/promises";
 import * as path from "path";
 import SerialPort from "serialport";
 import "source-map-support/register";
@@ -115,6 +122,7 @@ void main(async () => {
 		process.argv[2] ?? path.resolve(__dirname, "../config.json");
 	console.log(`Reading configuration from ${configPath}`);
 	const config = JSON.parse(await readFile(configPath, "utf8")) as Config;
+	const cacheRoot = path.resolve(configPath, "../cache"); // TODO make configurable
 
 	// Start connection to MHub pubsub daemon
 	// TODO Right now this is only used for the 'built-in' HomeHub stuff,
@@ -129,11 +137,11 @@ void main(async () => {
 
 	// Auto-create host once corresponding serial
 	// device gets connected.
-	const hostFactory = (
+	const hostFactory = async (
 		homeId: number,
 		nodeId: number,
 		type: ZwLibraryType
-	): Controller => {
+	): Promise<Controller> => {
 		const typeStr = ZwLibraryType[type] as keyof typeof ZwLibraryType;
 		let hostConfig = config.hosts?.find(
 			(entry) =>
@@ -183,19 +191,35 @@ void main(async () => {
 				`only static and bridge controllers are supported, connected device is ${typeStr}`
 			);
 		}
-		const controller = new Controller(homeId, nodeId, crypto, nonceStore);
+
+		const controllerCacheRoot = path.resolve(
+			cacheRoot,
+			`${toHex(homeId, 8)}`
+		);
+		const fileStorage = new SimpleFileStorage(controllerCacheRoot);
+		await fileStorage.init();
+		const throttledStorage = new ThrottledStorage(fileStorage, 1000);
+		const deviceCache = new DeviceCache(throttledStorage);
+		const controller = new Controller(
+			homeId,
+			nodeId,
+			crypto,
+			nonceStore,
+			deviceCache
+		);
 		return controller;
 	};
 
 	// Instantiate all controllers from configuration file
-	const controllers =
+	const controllers = await Promise.all(
 		config.hosts?.map((hostConfig) =>
 			hostFactory(
 				hostConfig.homeId,
 				hostConfig.nodeId,
 				ZwLibraryType[hostConfig.type]
 			)
-		) ?? [];
+		) ?? []
+	);
 
 	// My specific home only has one Z-Wave controller, which
 	// is the first entry in the config. So use that.

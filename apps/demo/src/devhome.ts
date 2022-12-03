@@ -1,5 +1,5 @@
 import { Packet } from "@ezwave/codec";
-import { Controller, ep, interview } from "@ezwave/controller";
+import { Controller } from "@ezwave/controller";
 import { LayerEvent } from "@ezwave/layers";
 import { EventEmitter } from "events";
 
@@ -41,17 +41,5 @@ export class DevHome extends EventEmitter {
 		event: LayerEvent<Packet>
 	): Promise<void> {}
 
-	private async _handleControllerAttached(): Promise<void> {
-		// console.log("Start inclusion...");
-		// const includedNodeId = await this.controller.includeDevice();
-		// console.log("Done:", includedNodeId);
-		console.log(
-			"interview complete",
-			await this.controller.execute(
-				ep(HomeDevices.MiscSwitch),
-				// TODO Get rid of the repeated device ID
-				interview(HomeDevices.MiscSwitch)
-			)
-		);
-	}
+	private async _handleControllerAttached(): Promise<void> {}
 }

@@ -31,15 +31,16 @@ export class Home extends EventEmitter {
 		this.controller = controller;
 		this.controller.on("attach", async () => {
 			try {
-				console.log("Controller attached");
+				console.log("Home controller attached, initializing...");
 				await this._handleControllerAttached();
+				console.log("Home initialized");
 			} catch (err) {
 				// Don't close/detach controller, keep running to handle any other commands.
 				console.warn("Home initialization failed", err);
 			}
 		});
 		this.controller.on("detach", () => {
-			console.log("Controller detached");
+			console.log("Home controller detached");
 		});
 		this.controller.on("event", (event: LayerEvent<Packet>) => {
 			this._handleControllerEvent(event).catch((err: unknown) =>

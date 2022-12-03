@@ -30,6 +30,8 @@ import { defer, Deferred, Queue } from "@ezwave/shared";
 import assert from "assert";
 import debug from "debug";
 import { EventEmitter } from "events";
+import { FlirsMode } from ".";
+import { Cache } from "./cache/cache";
 import { Device } from "./device";
 import { Endpoint, isSameEndpoint } from "./endpoint";
 import { IZwaveHost } from "./IZwaveHost";
@@ -41,6 +43,7 @@ import {
 	SendOptions,
 	SessionExecutor,
 } from "./session";
+import { JsonValue } from "./types";
 
 const log: debug.Debugger = debug("zwave:controller");
 const logData: debug.Debugger = debug("zwave:controller:data");
@@ -91,6 +94,8 @@ interface ActiveSession {
 	executor: SessionExecutor<unknown>;
 }
 
+export type IDeviceCache = Cache<number, JsonValue>;
+
 export class Controller
 	extends EventEmitter
 	implements ControllerEvents, IZwaveHost
@@ -118,17 +123,22 @@ export class Controller
 	};
 	private _serialApiCloseHandler = (): Promise<void> =>
 		this.assignSerialApi(undefined);
+	private _deviceCache?: IDeviceCache;
 	private _devices: Map<number, Device> = new Map();
 
 	public constructor(
 		homeId: number,
 		nodeId: number,
 		crypto: CryptoManager,
-		nonceStore: NonceStore
+		nonceStore: NonceStore,
+		deviceCache?: IDeviceCache
 	) {
 		super();
+		this.setMaxListeners(Infinity); // We expect many listeners, one per Device
+
 		this.homeId = homeId;
 		this.nodeId = nodeId;
+		this._deviceCache = deviceCache;
 
 		const sender: Sender = {
 			send: async (command: LayerCommand): Promise<boolean> => {
@@ -231,43 +241,67 @@ export class Controller
 		return this._serialApi !== undefined;
 	}
 
-	/**
-	 * Start network inclusion.
-	 *
-	 * Note: returned device will only have completed basic
-	 * inclusion at this stage, further steps such as security
-	 * setup and full node interview are performed asynchronously.
-	 *
-	 * @return Newly included `Device`. You can await its `.ready()` for
-	 *   full completion.
-	 */
-	public async includeDevice(): Promise<Device> {
-		await this._attached.promise;
+	public isPrimaryController(): boolean {
 		if (!this._serialApi) {
 			throw new Error("no Z-Wave device connected");
 		}
-		const nif = await this.executeSerialCommand(
-			new ZwAddNodeToNetwork({
-				// TODO fill in correct counts based on actual nodes
-				flirsNodesCount: 0,
-				listeningNodesCount: 0,
-				totalNodes: 0,
-			})
-		);
-		log("device nif", nif);
+		return this._serialApi.isPrimaryController();
+	}
 
-		await this._initDevices();
-		const device = this._devices.get(nif.nodeId);
-		assert(device, "Basic device init failed");
+	public isSIS(): boolean {
+		if (!this._serialApi) {
+			throw new Error("no Z-Wave device connected");
+		}
+		// TODO Need to make ourselves SIS if we're the primary controller,
+		// and we're the first (only) node in the network
+		return this._serialApi.isSIS();
+	}
 
-		await device.initialized();
-		log(`device ${nif.nodeId} included and initialized`);
-		return device;
+	/**
+	 * Start network inclusion.
+	 *
+	 * @return Newly included `Device`.
+	 */
+	public async includeDevice(): Promise<Device> {
+		try {
+			log("inclusion start");
+
+			await this._attached.promise;
+			if (!this._serialApi) {
+				throw new Error("no Z-Wave device connected");
+			}
+
+			const nodes = [...this._devices.values()];
+			const flirsNodesCount = nodes.filter(
+				(dev) => dev.isFlirs() !== FlirsMode.NonFlirs
+			).length;
+			const listeningNodesCount = nodes.filter((dev) =>
+				dev.isListening()
+			).length;
+			const nif = await this.executeSerialCommand(
+				new ZwAddNodeToNetwork({
+					flirsNodesCount,
+					listeningNodesCount,
+					totalNodes: this._devices.size,
+				})
+			);
+			log("inclusion including", nif);
+
+			const device = new Device(this, nif.nodeId);
+			await device.completeInclusion();
+			log(`device ${nif.nodeId} inclusion complete`);
+			device.start();
+
+			return device;
+		} catch (err) {
+			log("inclusion failed:", err);
+			throw err;
+		}
 	}
 
 	public send(command: LayerCommand): Promise<boolean> {
-		if (log.enabled) {
-			log("send", layerCommandToString(command));
+		if (logData.enabled) {
+			logData("send", layerCommandToString(command));
 		}
 		return this._stack.send(command);
 	}
@@ -357,8 +391,8 @@ export class Controller
 			expectedResponse = response;
 		}
 		const transactionId = this._transactionId++;
-		if (log.enabled) {
-			log(
+		if (logData.enabled) {
+			logData(
 				"sendAndWaitFor send",
 				`id=${transactionId} ${layerCommandToString(command)}`
 			);
@@ -381,8 +415,8 @@ export class Controller
 			// TODO inconvenient
 			throw new Error("error waiting for packet, send filtered out");
 		}
-		if (log.enabled) {
-			log(
+		if (logData.enabled) {
+			logData(
 				"sendAndWaitFor result",
 				`id=${transactionId} ${layerEventToString(reply)}`
 			);
@@ -441,8 +475,8 @@ export class Controller
 		) {
 			this._activeSession.executor.dispatch(event.packet);
 		}
-		if (log.enabled) {
-			log(`emit event ${layerEventToString(event)}`);
+		if (logData.enabled) {
+			logData(`emit event ${layerEventToString(event)}`);
 		}
 		this.emit("event", event);
 	}
@@ -480,22 +514,41 @@ export class Controller
 		// Remove the ones from our own cache that no longer exist
 		for (const nodeId of deletedIds) {
 			try {
-				this._devices.get(nodeId)?.destroy();
+				const device = this._devices.get(nodeId);
+				device?.stop();
+				// TODO unregister cache handler
 			} catch (err) {
 				log(`delete device id ${nodeId} failed:`, err);
 			}
 			this._devices.delete(nodeId);
 		}
 
-		// Create any devices that were newly included on the controller
+		// Load any devices that are now available
 		for (const nodeId of addedIds) {
 			try {
-				const device = new Device(this, nodeId);
-				// TODO Handle cache updates from device
+				const device = new Device(
+					this,
+					nodeId,
+					await this._deviceCache?.get(nodeId)
+				);
+				device.on("cache", (cache: JsonValue) =>
+					this._handleDeviceCache(device, cache)
+				);
+				await device.initProtocolData();
 				this._devices.set(nodeId, device);
+				device.start();
 			} catch (err) {
 				log(`add device id ${nodeId} failed:`, err);
 			}
 		}
+	}
+
+	private _handleDeviceCache(device: Device, cache: JsonValue): void {
+		this._deviceCache?.set(device.nodeId, cache).catch((err) => {
+			console.warn(
+				`Device cache save failed for device ${device.nodeId}:`,
+				err
+			);
+		});
 	}
 }

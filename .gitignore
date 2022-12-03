@@ -86,4 +86,5 @@ dist
 /todo.txt
 /klooi
 /cache
-/apps/demo/config.json
+/apps/demo/config*.json
+/apps/demo/cache/

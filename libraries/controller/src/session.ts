@@ -1,15 +1,16 @@
 import { CommandPacket, CommandPacketConstructor, Packet } from "@ezwave/codec";
 import { ICommandSessionRunner } from "@ezwave/serialapi";
 import { timeout } from "@ezwave/shared";
+import { inspect } from "util";
 
-export interface SessionRunner<T> {
-	(session: Session): Promise<T>;
-	toString?(): string;
+export interface SessionRunner<Result> {
+	(session: Session): Promise<Result>;
+	inspect?(): string;
 }
 
 export interface ControllerSessionRunner<T> {
 	(session: ControllerSession): Promise<T>;
-	toString?(): string;
+	inspect?(): string;
 }
 
 export interface SessionExecutor<T> {
@@ -267,4 +268,99 @@ export function buildControllerSessionExecutor<T>(
 	rootSession: RootControllerSession
 ): SessionExecutor<T> {
 	return new SessionManager(runner, rootSession);
+}
+
+export function named<T>(
+	name: string,
+	runner: ControllerSessionRunner<T>
+): ControllerSessionRunner<T> {
+	const namedRunner: ControllerSessionRunner<T> = (
+		session: ControllerSession
+	): Promise<T> => runner(session);
+	namedRunner.inspect = () => name;
+	return namedRunner;
+}
+
+// TODO Anonymous lambda's are nice to type, but a mess to get a name for.
+// Not sure the current approach is better/nicer than explicitly passing name/args
+// to e.g. execute(), or passing an object to execute().
+export function namedSessionRunner<Result, Request = void>(
+	name: string,
+	request: Request,
+	runner: (session: Session, request: Request) => Promise<Result>
+): SessionRunner<Result> {
+	const functionNamer: { [name: string]: SessionRunner<Result> } = {
+		[name]: (session: Session): Promise<Result> => runner(session, request),
+	};
+	const namedRunner = functionNamer[name];
+	if (request === undefined) {
+		namedRunner.inspect = () => `<${name}>`;
+	} else {
+		namedRunner.inspect = () =>
+			`<${name} request=${inspect(request, { depth: 10 })}>`;
+	}
+	return namedRunner;
+}
+
+export async function waitForFiltered<R extends CommandPacket<void | object>>(
+	session: Session,
+	expectedResponseType: CommandPacketConstructor<R>,
+	filter: (data: R["data"]) => boolean,
+	options?: WaitForOptions
+): Promise<R["data"]> {
+	return session.waitFor((packet) => {
+		const parsedPacket = packet.tryAs(expectedResponseType);
+		return parsedPacket && filter(parsedPacket.data)
+			? parsedPacket.data
+			: undefined;
+	}, options);
+}
+
+// TODO Consider moving elsewhere, e.g. commands
+// TODO Consider adding metadata to CommandPackets to automatically return
+//      the right type of responses for a given request
+export async function waitForAll<R extends CommandPacket<void | object>>(
+	session: Session,
+	expectedResponseType: CommandPacketConstructor<R>,
+	matcher: (data: R["data"]) => boolean,
+	reportsToFollowMapper: (report: R["data"]) => number,
+	waitForOptions?: WaitForOptions
+): Promise<R["data"][]> {
+	const rawReports = new Map<number, R["data"]>();
+	// eslint-disable-next-line no-constant-condition
+	while (true) {
+		const report = await waitForFiltered(
+			session,
+			expectedResponseType,
+			matcher,
+			waitForOptions
+		);
+		const reportsToFollow = reportsToFollowMapper(report);
+		rawReports.set(reportsToFollow, report);
+		if (reportsToFollow === 0) {
+			// Done
+			break;
+		}
+	}
+	const numReports = Math.max(...rawReports.keys()) + 1;
+	if (numReports !== rawReports.size) {
+		throw new Error(
+			`invalid number of reports received, expected ${numReports}, got ${rawReports.size}`
+		);
+	}
+
+	const reports: R["data"][] = [];
+	for (let i = 0; i < numReports; i++) {
+		// We stored the reports in reverse order of retrieval, so iterate
+		// backwards
+		const report = rawReports.get(numReports - i - 1);
+		if (!report) {
+			throw new Error(
+				`invalid number of reports received, missing report ${i} out of ${numReports}`
+			);
+		}
+		reports.push(report);
+	}
+
+	return reports;
 }
