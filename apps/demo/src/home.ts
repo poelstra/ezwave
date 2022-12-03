@@ -5,7 +5,7 @@ import {
 	SwitchMultilevelV1,
 	ThermostatModeV3,
 } from "@ezwave/commands";
-import { Controller } from "@ezwave/controller";
+import { Controller, ep } from "@ezwave/controller";
 import { LayerEvent } from "@ezwave/layers";
 import { EventEmitter } from "events";
 
@@ -66,7 +66,7 @@ export class Home extends EventEmitter {
 		// Note: Manufacturer-specific mode works, but isn't reported in
 		// ThermostatModeSupportedReport
 		await this.controller.send({
-			endpoint: { nodeId: HomeDevices.BadkamerThermostaat },
+			endpoint: ep(HomeDevices.BadkamerThermostaat),
 			packet: new ThermostatModeV3.ThermostatModeSet({
 				mode: ThermostatModeV3.ModeEnum.ManufacturerSpecifc,
 				manufacturerData: Buffer.alloc(0),
@@ -77,7 +77,7 @@ export class Home extends EventEmitter {
 
 	public async setZolderAfzuiging(level: 0 | 1): Promise<void> {
 		await this.controller.send({
-			endpoint: { nodeId: HomeDevices.ZolderAfzuiging, channel: 1 },
+			endpoint: ep(HomeDevices.ZolderAfzuiging, 1),
 			packet: new SwitchBinaryV1.SwitchBinarySet({
 				switchValue: level === 1 ? 0xff : 0x00,
 			}),
@@ -97,7 +97,7 @@ export class Home extends EventEmitter {
 			value: level < 100 ? level : 99,
 		});
 		await this.controller.send({
-			endpoint: { nodeId: HomeDevices.KeukenAanrecht, channel: 1 },
+			endpoint: ep(HomeDevices.KeukenAanrecht, 1),
 			packet: switchCmd,
 			secure: true,
 		});
@@ -129,7 +129,7 @@ export class Home extends EventEmitter {
 			level = 99;
 		}
 		await this.controller.send({
-			endpoint: { nodeId: node },
+			endpoint: ep(node),
 			packet: new SwitchMultilevelV1.SwitchMultilevelSet({
 				value: level,
 			}),
@@ -138,7 +138,7 @@ export class Home extends EventEmitter {
 
 	private async _setBasic(node: number, on: boolean): Promise<void> {
 		await this.controller.send({
-			endpoint: { nodeId: node },
+			endpoint: ep(node),
 			packet: new BasicV1.BasicSet({ value: on ? 0xff : 0x00 }),
 		});
 	}
