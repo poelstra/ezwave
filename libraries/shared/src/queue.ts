@@ -1,3 +1,5 @@
+import { neverRejects } from ".";
+
 /**
  * Simple promise-based callback queue with option to cancel remaining requests.
  * (In-progress requests need to be determined in another way.)
@@ -15,8 +17,7 @@ export class Queue {
 				resolve,
 				reject,
 			});
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			this._pump();
+			neverRejects(this._pump());
 		});
 	}
 
@@ -44,8 +45,7 @@ export class Queue {
 			entry.reject(err as Error);
 		} finally {
 			this._inProgress--;
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			this._pump();
+			neverRejects(this._pump());
 		}
 	}
 }

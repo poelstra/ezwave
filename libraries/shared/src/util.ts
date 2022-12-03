@@ -10,6 +10,13 @@ export async function nextTick(): Promise<void> {
 	return new Promise((resolve) => setImmediate(resolve));
 }
 
+export function neverRejects(promise: PromiseLike<unknown>): void {
+	promise.then(undefined, (err) => {
+		console.error("FATAL ERROR: unhandled promise rejected:", err);
+		process.exit(1);
+	});
+}
+
 export interface Deferred<T> {
 	resolve: (value: T | PromiseLike<T>) => void;
 	reject: (reason: Error) => void;
