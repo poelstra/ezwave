@@ -7,7 +7,7 @@
 		{
 			"name": "Launch Demo",
 			"program": "${workspaceFolder}/apps/demo/lib/index",
-			"args": ["../config_new.json"],
+			"args": ["apps/demo/config_new.json"],
 			"request": "launch",
 			"skipFiles": ["<node_internals>/**"],
 			"type": "node"

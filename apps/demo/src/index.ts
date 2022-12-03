@@ -108,7 +108,7 @@ void main(async () => {
 	const configPath =
 		process.argv[2] ?? path.resolve(__dirname, "../config.json");
 	console.log(`Reading configuration from ${configPath}`);
-	const config = require(configPath) as Config;
+	const config = JSON.parse(await readFile(configPath, "utf8")) as Config;
 
 	// Start connection to MHub pubsub daemon
 	// TODO Right now this is only used for the 'built-in' HomeHub stuff,
