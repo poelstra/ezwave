@@ -251,15 +251,25 @@ export class Device extends EventEmitter {
 		let fail: unknown;
 		for (let attempt = 1; attempt <= 3; attempt++) {
 			try {
-				const awake = await this._tryPing();
-				if (!awake) {
-					// TODO Add other forms of awake detection (e.g. receiving anything from it, in case of non-WakeUp nodes)
-					this._log(
-						"init: device unreachable, delaying init until awake"
-					);
-					return;
+				if (this._needsInit || this._needsSetup) {
+					const awake = await this._tryPing();
+					if (!awake) {
+						// TODO Add other forms of awake detection (e.g. receiving anything from it, in case of non-WakeUp nodes)
+						this._log(
+							"init: device unreachable, delaying init until awake"
+						);
+						return;
+					}
+					await this._doInit(attempt);
 				}
-				return await this._doInit(attempt);
+				// If we didn't need init, or it was just completed, we're now ready
+				if (!(this._needsInit || this._needsSetup)) {
+					this._log("ready");
+					this._ready.resolve();
+					// Allow re-initialization and waiting for it
+					this._ready = defer();
+				}
+				return;
 			} catch (err) {
 				fail = err;
 				if (attempt > 1) {
@@ -271,6 +281,10 @@ export class Device extends EventEmitter {
 				}
 			}
 		}
+		this._ready.promise.catch(noop); // Prevent unhandled rejection
+		this._ready.reject(fail as Error);
+		// Allow re-initialization and waiting for it
+		this._ready = defer();
 		throw fail;
 	}
 
@@ -290,7 +304,7 @@ export class Device extends EventEmitter {
 	private async _doInit(attempt: number): Promise<void> {
 		try {
 			this._log(
-				`init begin attempt=${attempt} needsSetup=${this._needsSetup}`
+				`init begin attempt=${attempt} needsInit=${this._needsInit} needsSetup=${this._needsSetup}`
 			);
 			await this.initProtocolData();
 
@@ -314,16 +328,9 @@ export class Device extends EventEmitter {
 				this._emitCache();
 			}
 			this._log("init complete");
-			this._ready.resolve();
 		} catch (err) {
 			this._log("init failed", err);
-			this._ready.promise.catch(noop); // Prevent unhandled rejection
-			this._ready.reject(err as Error);
 			throw err;
-		} finally {
-			// Allow re-initialization, promise is definitely
-			// resolved or rejected above
-			this._ready = defer();
 		}
 	}
 
