@@ -485,13 +485,6 @@ export class Controller
 		event: SerialApiCommandEvent
 	): Promise<void> {
 		const packet = new Packet(event.command);
-		if (logData.enabled) {
-			logData(
-				`receive from=${event.sourceNode} rxStatus=${rxStatusToString(
-					event.rxStatus
-				)} packet=${packetToString(packet)}`
-			);
-		}
 		await this._stack.dispatch({
 			destinationType: event.rxStatus.destinationType,
 			endpoint: {
