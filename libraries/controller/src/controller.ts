@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import {
-	CommandPacket,
-	CommandPacketConstructor,
-	Packet,
-	packetToString,
-} from "@ezwave/codec";
+import { CommandPacket, CommandPacketConstructor, Packet } from "@ezwave/codec";
 import {
 	LayerCommand,
 	layerCommandToString,
@@ -20,7 +15,6 @@ import {
 import { CryptoManager, NonceStore, SecurityS0Codec } from "@ezwave/security";
 import {
 	ICommandSessionRunner,
-	rxStatusToString,
 	SerialApi,
 	SerialApiCommandEvent,
 	ZwAddNodeToNetwork,
@@ -78,7 +72,8 @@ export interface ControllerEvents {
 
 	/**
 	 * Emitted whenever a Z-Wave device is successfully attached and initialized,
-	 * such that the controller can actually be used to send commands.
+	 * such that SerialAPI can be used to send commands.
+	 * Note: Z-Wave devices might not fully be initialized at this stage.
 	 */
 	on(event: "attach", listener: () => void): this;
 
@@ -87,6 +82,12 @@ export interface ControllerEvents {
 	 * e.g. when it is (temporarily) unplugged or reset.
 	 */
 	on(event: "detach", listener: () => void): this;
+
+	/**
+	 * Emitted whenever controller has finished initialization of attached
+	 * Z-Wave device and all remote devices.
+	 */
+	on(event: "ready", listener: () => void): this;
 }
 
 interface ActiveSession {
@@ -235,6 +236,7 @@ export class Controller
 		this._attached.resolve();
 
 		await this._initDevices();
+		this.emit("ready");
 	}
 
 	public isAttached(): boolean {
@@ -257,6 +259,14 @@ export class Controller
 		return this._serialApi.isSIS();
 	}
 
+	public getDevice(nodeId: number): Device {
+		const device = this._devices.get(nodeId);
+		if (!device) {
+			throw new Error(`unknown device ${nodeId}`);
+		}
+		return device;
+	}
+
 	/**
 	 * Start network inclusion.
 	 *
@@ -276,7 +286,7 @@ export class Controller
 				(dev) => dev.isFlirs() !== FlirsMode.NonFlirs
 			).length;
 			const listeningNodesCount = nodes.filter((dev) =>
-				dev.isListening()
+				dev.isAlwaysListening()
 			).length;
 			const nif = await this.executeSerialCommand(
 				new ZwAddNodeToNetwork({

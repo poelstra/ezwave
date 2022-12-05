@@ -3,6 +3,7 @@ export * from "./controller";
 export * from "./device";
 export * from "./endpoint";
 export * from "./interview/association";
+export * from "./interview/configuration";
 export * from "./interview/versions";
 export * from "./IZwaveHost";
 export * from "./session";

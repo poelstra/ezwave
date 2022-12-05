@@ -33,6 +33,13 @@ import {
 	buildRemoveAssociation,
 	Profile,
 } from "./interview/association";
+import {
+	buildInterviewConfiguration,
+	buildInterviewConfigurationParameter,
+	buildSetConfigurationParameter,
+	ConfigurationInfo,
+	ParameterInfo,
+} from "./interview/configuration";
 import { ControllerSessionRunner } from "./session";
 import { JsonValue } from "./types";
 
@@ -63,6 +70,9 @@ export class Device extends EventEmitter {
 	private _nodeInformationFrame?: NodeInfoResponse;
 	private _versions?: InterviewedVersions;
 	private _associations?: Map<number, AssociationGroupInfo>;
+	private _configuration?: ConfigurationInfo;
+	// TODO Probably change this to generic 'serializable tasks'
+	private _parameterChanges: ParameterChanges = new Map();
 
 	public constructor(
 		controller: Controller,
@@ -76,7 +86,11 @@ export class Device extends EventEmitter {
 		this._logData = debug(`zwave:device:${nodeId}:data`);
 
 		if (cached) {
-			this._loadFromCache(cached);
+			try {
+				this._loadFromCache(cached);
+			} catch (err) {
+				this._log("cache load failed, ignored:", err);
+			}
 		}
 	}
 
@@ -113,7 +127,7 @@ export class Device extends EventEmitter {
 	 * True when node is always listening (AL).
 	 * False for Frequently Listening (FL / FLiRS) and Non-Listening (NL) nodes.
 	 */
-	public isListening(): boolean {
+	public isAlwaysListening(): boolean {
 		if (!this._protocolData) {
 			throw new Error("protocolData not initialized");
 		}
@@ -134,6 +148,12 @@ export class Device extends EventEmitter {
 			return FlirsMode.Flirs1000ms;
 		}
 		return FlirsMode.NonFlirs;
+	}
+
+	public isNonListening(): boolean {
+		return (
+			!this.isAlwaysListening() && this.isFlirs() === FlirsMode.NonFlirs
+		);
 	}
 
 	public supports(commandClass: CommandClasses): undefined | number {
@@ -190,6 +210,26 @@ export class Device extends EventEmitter {
 		await this._init();
 	}
 
+	public async setConfiguration(
+		parameterNumber: number,
+		value: number
+	): Promise<void> {
+		let paramChange = this._parameterChanges.get(parameterNumber);
+		if (paramChange) {
+			if (paramChange.newValue === value) {
+				return paramChange.deferred.promise;
+			}
+			paramChange.deferred.reject(new Error("cancelled by newer value"));
+		}
+		paramChange = {
+			newValue: value,
+			deferred: defer(),
+		};
+		this._parameterChanges.set(parameterNumber, paramChange);
+		await this._tryFlush();
+		return paramChange.deferred.promise;
+	}
+
 	private _attach(): void {
 		this._init().catch((err) => {
 			this._log("initialization failed", err);
@@ -226,17 +266,43 @@ export class Device extends EventEmitter {
 			}
 		}
 
+		const preventNoMoreInformation = isBroadcastWakeup;
+		await this._flush(preventNoMoreInformation);
+	}
+
+	/**
+	 * Try to flush.
+	 *
+	 * @returns false if flushing was skipped (due to node being asleep).
+	 * @returns true if flush was successful
+	 * @throws Error node is/should be awake but flush failed.
+	 */
+	private async _tryFlush(): Promise<boolean> {
+		if (this.isNonListening() && !this._tryPing()) {
+			return false;
+		}
+		await this._flush();
+		return true;
+	}
+
+	private async _flush(
+		preventNoMoreInformation: boolean = false
+	): Promise<void> {
 		if (this._needsInit || this._needsSetup) {
 			// Init also performs setup afterwards if needed.
 			await this._init();
 			// TODO Mark init as no longer needed at this stage?
 			// Otherwise, it might keep trying to interview on every node
-			// wakeup, which may be very (battery-)expensive...
+			// wakeup / flush, which may be very expensive and annoying in case of repetitive failure
+		}
+
+		if (this._parameterChanges.size > 0) {
+			await this._flushParameters();
 		}
 
 		// TODO Empty queue if needed
 
-		if (!isBroadcastWakeup) {
+		if (this.supports(CommandClasses.WakeUp) && !preventNoMoreInformation) {
 			// CC:0084.01.07.11.002 - A receiving node MUST NOT return a Wake Up No More Information Command in response to
 			// this command issued via broadcast.
 			await this._execute((session) =>
@@ -340,6 +406,7 @@ export class Device extends EventEmitter {
 		await this._interviewVersions();
 		await this._interviewEndpoints();
 		await this._interviewAssociations(); // 6.3.1.1 (single channel) & 6.3.7.1 (multi channel), then 6.3.2.1 (assoc group info)
+		await this._interviewConfiguration();
 
 		await this._batteryLevelGet(); // 6.3.3.1
 	}
@@ -623,9 +690,82 @@ export class Device extends EventEmitter {
 		this._emitCache();
 	}
 
+	private async _interviewConfiguration(): Promise<void> {
+		if (this._configuration) {
+			return;
+		}
+		const supportedVersion = this.supports(CommandClasses.Configuration);
+		if (!supportedVersion) {
+			this._log("interviewConfiguration skipped, not supported");
+			return;
+		}
+		this._configuration = await this._execute(
+			buildInterviewConfiguration({ supportedVersion: supportedVersion })
+		);
+		this._log(
+			"configuration parameters",
+			inspect(this._configuration.parameters, { depth: 10 })
+		);
+	}
+
 	private _getSucId(): number {
 		// TODO Determine actual SUC id (via controller, via SerialAPI)
 		return this._controller.nodeId;
+	}
+
+	private async _flushParameters(): Promise<void> {
+		while (this._parameterChanges.size > 0) {
+			// 'Pop' first pending change off of queue, to prevent race condition
+			// when new change comes in while we're processing this one
+			const first = this._parameterChanges.entries().next();
+			assert(!first.done);
+			const [parameterNumber, change] = first.value;
+			this._parameterChanges.delete(parameterNumber);
+
+			// TODO Use bulk updates if possible
+			try {
+				let paramInfo: ParameterInfo | undefined =
+					this._configuration?.parameters.get(parameterNumber);
+				if (!paramInfo) {
+					// Determine parameter info on-demand (mostly for V1/V2 nodes which don't
+					// support capability interview). We still need to determine their parameter
+					// size and encoding correctly.
+					const paramResult = await this._execute(
+						buildInterviewConfigurationParameter({
+							parameterNumber,
+							supportedVersion: this.supports(
+								CommandClasses.Configuration
+							),
+						})
+					);
+					paramInfo = paramResult.info;
+					if (!paramInfo) {
+						throw new Error(
+							`cannot set configuration parameter ${parameterNumber}: cannot determine size/format`
+						);
+					}
+					this._configuration?.parameters.set(
+						parameterNumber,
+						paramInfo
+					);
+					this._emitCache();
+				}
+				await this._execute(
+					buildSetConfigurationParameter({
+						parameterNumber,
+						info: paramInfo,
+						newValue: change.newValue,
+					})
+				);
+				change.deferred.resolve();
+			} catch (err) {
+				this._log(
+					`cannot set parameter ${parameterNumber} to value ${change.newValue}:`,
+					err
+				);
+				change.deferred.reject(err as Error);
+			}
+		}
 	}
 
 	private async _execute<T>(runner: ControllerSessionRunner<T>): Promise<T> {
@@ -660,7 +800,7 @@ export class Device extends EventEmitter {
 			throw new Error("invalid object cache, expected version field");
 		}
 		const cached = value as unknown as CachedInfo;
-		if (cached.version !== 1) {
+		if (cached.version !== 1 && cached.version !== 2) {
 			return;
 		}
 		this._needsSetup = cached.needsSetup;
@@ -669,28 +809,43 @@ export class Device extends EventEmitter {
 		this._nodeInformationFrame = cached.nodeInformationFrame;
 		this._versions = fromCachedVersions(cached.versions);
 		this._associations = fromCachedAssociations(cached.associations);
+		if (cached.version === 2) {
+			this._configuration = fromCachedConfiguration(cached.configuration);
+			this._parameterChanges = fromCachedParamChanges(
+				cached.parameterChanges
+			);
+		}
+
+		if (cached.version < 2) {
+			this._needsInit = true;
+			this._emitCache();
+		}
 	}
 
 	private _emitCache(): void {
-		const cachedVersions: CachedVersions | undefined = toCachedVersions(
-			this._versions
-		);
-		const cachedAssociations: CachedAssociations | undefined =
-			toCachedAssociations(this._associations);
-		const cache: CachedInfoV1 = {
-			version: 1,
+		const cache: CachedInfoV2 = {
+			version: 2,
 			needsSetup: this._needsSetup,
 			needsInit: this._needsInit,
 			protocolData: this._protocolData,
 			nodeInformationFrame: this._nodeInformationFrame,
-			versions: cachedVersions,
-			associations: cachedAssociations,
+			versions: toCachedVersions(this._versions),
+			associations: toCachedAssociations(this._associations),
+			configuration: toCachedConfiguration(this._configuration),
+			parameterChanges: toCachedParamChanges(this._parameterChanges),
 		};
 		this.emit("cache", cache);
 	}
 }
 
-type CachedInfo = CachedInfoV1;
+type ParameterChanges = Map<number, ParameterChange>;
+
+interface ParameterChange {
+	newValue: number;
+	deferred: Deferred<void>;
+}
+
+type CachedInfo = CachedInfoV1 | CachedInfoV2;
 
 // TODO It's probably better to explicitly copy the referenced types, such
 // that their serialization remains correct.
@@ -702,6 +857,18 @@ interface CachedInfoV1 {
 	nodeInformationFrame?: NodeInfoResponse;
 	versions?: CachedVersions;
 	associations?: CachedAssociations;
+}
+
+interface CachedInfoV2 {
+	version: 2;
+	needsSetup: boolean;
+	needsInit: boolean;
+	protocolData?: ZwNodeInfoProtocolData;
+	nodeInformationFrame?: NodeInfoResponse;
+	versions?: CachedVersions;
+	associations?: CachedAssociations;
+	configuration?: CachedConfigurationInfo;
+	parameterChanges: CachedParameterChanges;
 }
 
 interface CachedVersions {
@@ -724,6 +891,10 @@ interface CachedAssociation {
 	name?: string;
 	profile?: Profile;
 	controlledCommands?: Partial<Record<CommandClasses, number[]>>;
+}
+
+interface CachedConfigurationInfo {
+	parameters: Record<number, ParameterInfo>;
 }
 
 function toCachedVersions(
@@ -750,12 +921,7 @@ function toCachedAssociations(
 	if (!assocs) {
 		return undefined;
 	}
-	return Object.fromEntries(
-		Array.from(assocs.entries()).map(([groupId, assoc]) => [
-			groupId,
-			toCachedAssociation(assoc),
-		])
-	);
+	return toCachedNumericMap(assocs, toCachedAssociation);
 }
 
 function toCachedAssociation(assoc: AssociationGroupInfo): CachedAssociation {
@@ -794,12 +960,7 @@ function fromCachedAssociations(
 	if (!cached) {
 		return undefined;
 	}
-	return new Map(
-		Array.from(Object.entries(cached)).map(([k, v]) => [
-			parseInt(k, 10),
-			fromCachedAssociation(parseInt(k, 10), v),
-		])
-	);
+	return fromCachedNumericMap(cached, (v, k) => fromCachedAssociation(k, v));
 }
 
 function fromCachedAssociation(
@@ -820,10 +981,96 @@ function fromCachedAssociation(
 
 function fromCachedNumericMap<K extends number, V>(
 	cached: Partial<Record<K, V>>
-): Map<K, V> {
+): Map<K, V>;
+function fromCachedNumericMap<K extends number, VIn, VOut>(
+	cached: Partial<Record<K, VIn>>,
+	mapper: (cached: VIn, key: K) => VOut
+): Map<K, VOut>;
+function fromCachedNumericMap<K extends number, VIn, VOut>(
+	cached: Partial<Record<K, VIn>>,
+	mapper?: (cached: VIn, key: K) => VOut
+): Map<K, VOut> {
+	const theMapper =
+		mapper ?? ((value: VIn): VOut => value as unknown as VOut);
 	return new Map(
-		Array.from(Object.entries(cached as { [k: string]: V })).map(
-			([k, v]) => [parseInt(k, 10) as K, v]
+		Array.from(Object.entries(cached as { [k: string]: VIn })).map(
+			([k, v]) => {
+				const key = (typeof k === "string" ? parseInt(k, 10) : k) as K;
+				return [key, theMapper(v, key)];
+			}
 		)
 	);
+}
+
+function toCachedNumericMap<K extends number, V>(
+	object: Map<K, V>
+): Record<K, V>;
+function toCachedNumericMap<K extends number, VIn, VOut>(
+	object: Map<K, VIn>,
+	mapper: (value: VIn, key: K) => VOut
+): Record<K, VOut>;
+function toCachedNumericMap<K extends number, VIn, VOut>(
+	object: Map<K, VIn>,
+	mapper?: (value: VIn, key: K) => VOut
+): Record<string, VOut> {
+	const theMapper =
+		mapper ?? ((value: VIn): VOut => value as unknown as VOut);
+	return Object.fromEntries(
+		Array.from(object.entries()).map(([key, value]) => [
+			key,
+			theMapper(value, key),
+		])
+	);
+}
+
+function toCachedConfiguration(
+	config: ConfigurationInfo | undefined
+): CachedConfigurationInfo | undefined {
+	if (!config) {
+		return undefined;
+	}
+	return {
+		parameters: Object.fromEntries(
+			Array.from(config.parameters.entries()).map(
+				([paramNumber, param]) => [paramNumber, param]
+			)
+		),
+	};
+}
+
+function fromCachedConfiguration(
+	cached: CachedConfigurationInfo | undefined
+): ConfigurationInfo | undefined {
+	if (!cached) {
+		return undefined;
+	}
+	return {
+		parameters: fromCachedNumericMap(cached.parameters),
+	};
+}
+
+interface CachedParameterChange {
+	newValue: number;
+}
+
+type CachedParameterChanges = Record<number, CachedParameterChange>;
+
+function toCachedParamChanges(
+	changes: ParameterChanges
+): CachedParameterChanges {
+	return toCachedNumericMap(changes, (change) => ({
+		newValue: change.newValue,
+	}));
+}
+
+function fromCachedParamChanges(
+	cached: CachedParameterChanges
+): ParameterChanges {
+	// Note: this only works correctly for initial loading (which is the
+	// only case supported), otherwise any existing promise should be
+	// preserved.
+	return fromCachedNumericMap(cached, (change) => ({
+		deferred: defer(),
+		newValue: change.newValue,
+	}));
 }
