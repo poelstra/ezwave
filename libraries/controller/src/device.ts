@@ -37,6 +37,7 @@ import {
 	Profile,
 } from "./interview/association";
 import {
+	buildGetConfigurationParameter,
 	buildInterviewConfiguration,
 	buildInterviewConfigurationParameter,
 	buildSetConfigurationParameter,
@@ -837,7 +838,6 @@ export class Device extends EventEmitter {
 			assert(!first.done);
 			const [parameterNumber, change] = first.value;
 			this._parameterChanges.delete(parameterNumber);
-			this._emitCache();
 
 			// TODO Use bulk updates if possible
 			try {
@@ -865,8 +865,9 @@ export class Device extends EventEmitter {
 						parameterNumber,
 						paramInfo
 					);
-					this._emitCache();
 				}
+				// Read back new value, just to make sure (and in case it was
+				// e.g. clipped to valid values by remote device)
 				await this._execute(
 					buildSetConfigurationParameter({
 						parameterNumber,
@@ -874,6 +875,13 @@ export class Device extends EventEmitter {
 						newValue: change.newValue,
 					})
 				);
+				const changedParam = await this._execute(
+					buildGetConfigurationParameter({
+						parameterNumber,
+						info: paramInfo,
+					})
+				);
+				paramInfo.value = changedParam;
 				change.deferred.resolve();
 			} catch (err) {
 				this._log(
@@ -881,6 +889,8 @@ export class Device extends EventEmitter {
 					err
 				);
 				change.deferred.reject(err as Error);
+			} finally {
+				this._emitCache();
 			}
 		}
 	}

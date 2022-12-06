@@ -19,12 +19,7 @@ export interface ConfigurationInfo {
 	parameters: Map<number, ParameterInfo>;
 }
 
-export interface ParameterInfo {
-	/**
-	 * Current value of parameter.
-	 */
-	value: number;
-
+export interface ParameterFormatInfo {
 	/**
 	 * Size (in bytes) of parameter as stored in device.
 	 */
@@ -36,6 +31,13 @@ export interface ParameterInfo {
 	 * Note: V1/V2 parameters will always be `SignedInteger`.
 	 */
 	format: FormatEnum;
+}
+
+export interface ParameterInfo extends ParameterFormatInfo {
+	/**
+	 * Current value of parameter.
+	 */
+	value: number;
 
 	/**
 	 * Name of parameter (if supported by device).
@@ -465,9 +467,8 @@ export interface SetConfigurationParameterBaseRequest {
 	 * Parameter configuration info.
 	 *
 	 * Used to encode value into correct format and size.
-	 * (It's existing value is ignored.)
 	 */
-	info: ParameterInfo;
+	info: ParameterFormatInfo;
 }
 
 export interface SetConfigurationParameterValueRequest
@@ -516,6 +517,77 @@ export function buildSetConfigurationParameter(
 						default: isResetToDefaultRequest,
 					})
 				);
+			} else {
+				await session.send(
+					new ConfigurationV4.ConfigurationBulkSet({
+						parameterOffset: request.parameterNumber,
+						default: false,
+						handshake: false,
+						vg: [{ parameter: value }],
+					})
+				);
+			}
+		}
+	);
+}
+
+export interface GetConfigurationParameterRequest {
+	/**
+	 * Parameter number to update.
+	 *
+	 * Parameter index usually starts at 1.
+	 */
+	parameterNumber: number;
+
+	/**
+	 * Parameter configuration info.
+	 *
+	 * Used to decode value from correct format and size.
+	 */
+	info: ParameterFormatInfo;
+}
+
+/**
+ * Get current value of given parameter.
+ */
+export function buildGetConfigurationParameter(
+	request: GetConfigurationParameterRequest
+): SessionRunner<number> {
+	return namedSessionRunner(
+		"GetConfigurationParameter",
+		request,
+		async (session) => {
+			if (request.parameterNumber <= 0xff) {
+				await session.send(
+					new ConfigurationV4.ConfigurationGet({
+						parameterNumber: request.parameterNumber,
+					})
+				);
+				const result = await waitForFiltered(
+					session,
+					ConfigurationV4.ConfigurationReport,
+					(report) =>
+						report.parameterNumber === request.parameterNumber
+				);
+				return decodeValue(
+					result.configurationValue,
+					request.info.format
+				);
+			} else {
+				await session.send(
+					new ConfigurationV4.ConfigurationBulkGet({
+						parameterOffset: request.parameterNumber,
+						numberOfParameters: 1,
+					})
+				);
+				const result = await waitForFiltered(
+					session,
+					ConfigurationV4.ConfigurationBulkReport,
+					(report) =>
+						report.parameterOffset === request.parameterNumber &&
+						report.vg.length > 0
+				);
+				return decodeValue(result.vg[0].parameter, request.info.format);
 			}
 		}
 	);
