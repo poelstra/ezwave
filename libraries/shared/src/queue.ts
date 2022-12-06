@@ -1,4 +1,4 @@
-import { neverRejects } from ".";
+import { appendStack, defer, neverRejects } from ".";
 
 /**
  * Simple promise-based callback queue with option to cancel remaining requests.
@@ -10,15 +10,23 @@ export class Queue {
 	private _inProgress: number = 0;
 	private readonly _concurrency: number = 1;
 
-	public add<T>(callback: () => T | Promise<T>): Promise<T> {
-		return new Promise((resolve, reject) => {
-			this._entries.push({
-				callback,
-				resolve,
-				reject,
-			});
-			neverRejects(this._pump());
+	public async add<T>(callback: () => T | Promise<T>): Promise<T> {
+		// Provide (much) more meaningful stack trace in case of failures
+		// while running pump
+		const trace = new Error();
+		const d = defer<T>();
+		this._entries.push({
+			callback,
+			resolve: d.resolve,
+			reject: d.reject,
 		});
+		neverRejects(this._pump());
+		try {
+			return await d.promise;
+		} catch (err) {
+			appendStack(err, trace);
+			throw err;
+		}
 	}
 
 	public abortPending(error: Error): void {
