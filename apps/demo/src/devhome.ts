@@ -1,6 +1,6 @@
 import { Packet } from "@ezwave/codec";
 import { Controller } from "@ezwave/controller";
-import { LayerEvent } from "@ezwave/layers";
+import { Endpoint, LayerEvent } from "@ezwave/layers";
 import { EventEmitter } from "events";
 
 export enum HomeDevices {
@@ -45,6 +45,7 @@ export class DevHome extends EventEmitter {
 	): Promise<void> {}
 
 	private async _setupThermostat(nodeId: number): Promise<void> {
+		// https://eurotronic.org/wp-content/uploads/2021/07/Spirit_Z-Wave_Plus_Installation-and-Operation-Guide_web.pdf
 		const device = this.controller.getDevice(nodeId);
 
 		// Configure battery reports once a day
@@ -55,11 +56,28 @@ export class DevHome extends EventEmitter {
 		await device.setConfiguration(6, 10);
 		// Window open detection (0 = disable, 1..3 = low,medium,high sensitivity)
 		await device.setConfiguration(7, 0);
-		// Temperature offset compensation in 0.1C steps (-50..50, 0x80 = external sensor)
-		await device.setConfiguration(8, 0);
+		// Temperature offset compensation in 0.1C steps (-50..50, -128 = external sensor)
+		await device.setConfiguration(8, -128);
+	}
+
+	private async _setupAerQ(
+		sensorNodeId: number,
+		thermostatEndpoints: Endpoint[]
+	): Promise<void> {
+		// https://aeotec.freshdesk.com/support/solutions/articles/6000227918-a%C3%ABrq-temperature-and-humidity-sensor-user-guide-
+		const device = this.controller.getDevice(sensorNodeId);
+
+		// Lifeline temperature reports in 0.1C steps (0, 1..100), default 20
+		await device.setConfiguration(1, 2);
+		// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
+		await device.setConfiguration(65, 7);
+
+		// Associate temp sensor to valve
+		await device.addAssociations(6, thermostatEndpoints);
 	}
 
 	private async _handleControllerReady(): Promise<void> {
-		await this._setupThermostat(HomeDevices.Thermostat1);
+		// await this._setupThermostat(HomeDevices.Thermostat1);
+		// await this._setupAerQ(HomeDevices.AerQ1, [ep(HomeDevices.Thermostat1)]);
 	}
 }

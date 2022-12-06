@@ -1,5 +1,5 @@
 import { CommandClasses, Packet } from "@ezwave/codec";
-import { NoOperationV1, WakeUpV2 } from "@ezwave/commands";
+import { AssociationV2, NoOperationV1, WakeUpV2 } from "@ezwave/commands";
 import {
 	Profile1Enum,
 	ProfileGeneralEnum,
@@ -14,15 +14,18 @@ import {
 	ZwNodeInfoProtocolData,
 	ZwRequestNodeInfo,
 } from "@ezwave/serialapi";
-import { defer, Deferred, delay, noop } from "@ezwave/shared";
+import { defer, Deferred, delay, neverRejects, noop } from "@ezwave/shared";
 import assert from "assert";
 import debug from "debug";
 import EventEmitter from "events";
 import { inspect } from "util";
 import {
 	buildInterviewVersions,
+	Endpoint,
 	ep,
 	InterviewedVersions,
+	namedSessionRunner,
+	SessionRunner,
 	VersionInfo,
 } from ".";
 import { Controller } from "./controller";
@@ -40,7 +43,7 @@ import {
 	ConfigurationInfo,
 	ParameterInfo,
 } from "./interview/configuration";
-import { ControllerSessionRunner } from "./session";
+import { ControllerSessionRunner, waitForAll } from "./session";
 import { JsonValue } from "./types";
 
 export enum FlirsMode {
@@ -73,6 +76,8 @@ export class Device extends EventEmitter {
 	private _configuration?: ConfigurationInfo;
 	// TODO Probably change this to generic 'serializable tasks'
 	private _parameterChanges: ParameterChanges = new Map();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	private _tasks: Task<any>[] = [];
 
 	public constructor(
 		controller: Controller,
@@ -90,6 +95,7 @@ export class Device extends EventEmitter {
 				this._loadFromCache(cached);
 			} catch (err) {
 				this._log("cache load failed, ignored:", err);
+				this._needsInit = true;
 			}
 		}
 	}
@@ -108,6 +114,7 @@ export class Device extends EventEmitter {
 				nodeId: this.nodeId,
 			})
 		);
+		this._emitCache();
 	}
 
 	/**
@@ -226,8 +233,108 @@ export class Device extends EventEmitter {
 			deferred: defer(),
 		};
 		this._parameterChanges.set(parameterNumber, paramChange);
+		this._emitCache();
 		await this._tryFlush();
 		return paramChange.deferred.promise;
+	}
+
+	/**
+	 * Add association from an association group on this root device to another endpoint.
+	 */
+	public async addAssociations(
+		groupId: number,
+		destinations: Endpoint[]
+	): Promise<void> {
+		const request = { groupId, destinations };
+		if (request.destinations.some((dest) => (dest.channel ?? 0) !== 0)) {
+			throw new Error("MultiChannel associations not supported yet");
+		}
+		// TODO Verify source/destination node compatibility (controlled/supported commands)
+		// TODO Verify available space in source (this) node
+		return this.executeTask(
+			namedSessionRunner(
+				"DeviceAddAssociation",
+				request,
+				async (session) => {
+					// Add assocation
+					await session.execute(
+						buildAddAssociation({
+							groupingIdentifier: request.groupId,
+							nodeIds: request.destinations.map(
+								(dest) => dest.nodeId
+							),
+						})
+					);
+
+					// Fetch new list of associations
+					// Move this 'syncing' logic to a more sensible place?
+					await session.send(
+						new AssociationV2.AssociationGet({
+							groupingIdentifier: request.groupId,
+						})
+					);
+					const reports = await waitForAll(
+						session,
+						AssociationV2.AssociationReport,
+						(report) =>
+							report.groupingIdentifier === request.groupId,
+						(report) => report.reportsToFollow
+					);
+					const finalGroupIds = reports.flatMap(
+						(report) => report.nodeIds
+					);
+
+					// Update our cached copy of the association
+					const group = this._associations?.get(groupId);
+					if (group) {
+						group.nodeIds = finalGroupIds;
+						this._emitCache();
+					}
+
+					// Assign return routes
+					for (const dest of request.destinations) {
+						await this._controller.executeSerialCommand(
+							new ZwAssignReturnRoute({
+								sourceId: this.nodeId,
+								destinationId: dest.nodeId,
+							})
+						);
+					}
+
+					// Double-check whether some associations were missed
+					const missingDests = request.destinations.filter(
+						(dest) => !finalGroupIds.includes(dest.nodeId)
+					);
+					if (missingDests.length > 0) {
+						throw new Error(
+							`not all assocations could be added, missing ${inspect(
+								missingDests
+							)}`
+						);
+					}
+				}
+			)
+		);
+	}
+
+	/**
+	 * Execute a runner.
+	 *
+	 * If the node is awake or can be woken (FLiRS), the task will be
+	 * executed immediately.
+	 * If the node is asleep, the task will be queued instead until
+	 * the node wakes up.
+	 */
+	// Note: This is a placeholder API, to be replaced with a more generic
+	// mechanism (e.g. parameter changes will be merged in)
+	public async executeTask<T>(runner: SessionRunner<T>): Promise<T> {
+		const task: Task<T> = {
+			runner,
+			deferred: defer(),
+		};
+		this._tasks.push(task);
+		await this._tryFlush();
+		return task.deferred.promise;
 	}
 
 	private _attach(): void {
@@ -274,14 +381,21 @@ export class Device extends EventEmitter {
 	 * Try to flush.
 	 *
 	 * @returns false if flushing was skipped (due to node being asleep).
-	 * @returns true if flush was successful
-	 * @throws Error node is/should be awake but flush failed.
+	 * @returns true if flush was started (but may fail later).
 	 */
 	private async _tryFlush(): Promise<boolean> {
-		if (this.isNonListening() && !this._tryPing()) {
+		// If node is a sleeping node, ping it first, otherwise
+		// we'll just direct calls or beaming
+		if (this.isNonListening() && !(await this._tryPing())) {
 			return false;
 		}
-		await this._flush();
+
+		// Start a flush in the background, but don't wait for it
+		neverRejects(
+			this._flush().catch((err) => {
+				this._log("_tryFlush failed:", err);
+			})
+		);
 		return true;
 	}
 
@@ -300,7 +414,9 @@ export class Device extends EventEmitter {
 			await this._flushParameters();
 		}
 
-		// TODO Empty queue if needed
+		if (this._tasks.length > 0) {
+			await this._flushTasks();
+		}
 
 		if (this.supports(CommandClasses.WakeUp) && !preventNoMoreInformation) {
 			// CC:0084.01.07.11.002 - A receiving node MUST NOT return a Wake Up No More Information Command in response to
@@ -721,6 +837,7 @@ export class Device extends EventEmitter {
 			assert(!first.done);
 			const [parameterNumber, change] = first.value;
 			this._parameterChanges.delete(parameterNumber);
+			this._emitCache();
 
 			// TODO Use bulk updates if possible
 			try {
@@ -764,6 +881,19 @@ export class Device extends EventEmitter {
 					err
 				);
 				change.deferred.reject(err as Error);
+			}
+		}
+	}
+
+	private async _flushTasks(): Promise<void> {
+		while (this._tasks.length > 0) {
+			const task = this._tasks.pop()!;
+			try {
+				const result = await this._execute(task.runner);
+				task.deferred.resolve(result);
+			} catch (err) {
+				// Error already logged by _execute()
+				task.deferred.reject(err as Error);
 			}
 		}
 	}
@@ -843,6 +973,13 @@ type ParameterChanges = Map<number, ParameterChange>;
 interface ParameterChange {
 	newValue: number;
 	deferred: Deferred<void>;
+}
+
+// TODO change this to something (de-)serializable to remember across invocations,
+// then move ParameterChange over to it.
+interface Task<T> {
+	runner: SessionRunner<T>;
+	deferred: Deferred<T>;
 }
 
 type CachedInfo = CachedInfoV1 | CachedInfoV2;
@@ -1069,8 +1206,14 @@ function fromCachedParamChanges(
 	// Note: this only works correctly for initial loading (which is the
 	// only case supported), otherwise any existing promise should be
 	// preserved.
-	return fromCachedNumericMap(cached, (change) => ({
-		deferred: defer(),
-		newValue: change.newValue,
-	}));
+	return fromCachedNumericMap(cached, (cachedChange) => {
+		const change: ParameterChange = {
+			deferred: defer(),
+			newValue: cachedChange.newValue,
+		};
+		// Prevent crash if (after startup) no-one listens to this
+		// task anymore
+		change.deferred.promise.catch(noop);
+		return change;
+	});
 }

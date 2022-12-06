@@ -225,8 +225,6 @@ export interface AddAssociationRequest {
 
 	/**
 	 * One or more node IDs to add.
-	 *
-	 * Omit or leave empty to remove all groups.
 	 */
 	nodeIds: number[];
 }
