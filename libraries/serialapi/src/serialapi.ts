@@ -378,7 +378,12 @@ export class SerialApi extends EventEmitter {
 						break;
 				}
 				break;
-			// TODO Add new chipTypes (esp 0x07)
+			case 0x07:
+				switch (init.chipVersion) {
+					case 0x00:
+						chipName = "EFR32ZG14/ZGM130S";
+						break;
+				}
 		}
 		log(
 			`serialGetInitData:`,
