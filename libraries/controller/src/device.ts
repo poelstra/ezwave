@@ -1,10 +1,18 @@
-import { CommandClasses, Packet } from "@ezwave/codec";
-import { AssociationV2, NoOperationV1, WakeUpV2 } from "@ezwave/commands";
+import {
+	CommandClasses,
+	CommandPacketConstructor,
+	Packet,
+} from "@ezwave/codec";
+import {
+	AssociationV2,
+	NoOperationV1,
+	SensorMultilevelV11,
+	WakeUpV2,
+} from "@ezwave/commands";
 import {
 	Profile1Enum,
 	ProfileGeneralEnum,
 } from "@ezwave/commands/lib/generated/AssociationGrpInfoV3";
-import { WakeUpNotification } from "@ezwave/commands/lib/generated/WakeUpV2";
 import { LayerEvent, layerEventToString } from "@ezwave/layers";
 import {
 	DestinationType,
@@ -53,6 +61,17 @@ export enum FlirsMode {
 	Flirs1000ms,
 }
 
+interface EventDispatcher<T extends Packet> {
+	PacketConstructor: CommandPacketConstructor<T>;
+	eventHandler: (this: Device, event: LayerEvent<T>) => Promise<void>;
+}
+
+export interface SensorValue {
+	sensorType: SensorMultilevelV11.SensorTypeEnum;
+	scale: number;
+	value: number;
+}
+
 export class Device extends EventEmitter {
 	public readonly nodeId: number;
 	private readonly _controller: Controller;
@@ -79,6 +98,17 @@ export class Device extends EventEmitter {
 	private _parameterChanges: ParameterChanges = new Map();
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private _tasks: Task<any>[] = [];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	private _dispatchers: Set<EventDispatcher<any>> = new Set([
+		{
+			PacketConstructor: WakeUpV2.WakeUpNotification,
+			eventHandler: this._handleWakeUpNotification,
+		},
+		{
+			PacketConstructor: SensorMultilevelV11.SensorMultilevelReport,
+			eventHandler: this._handleSensorMultiLevelReport,
+		},
+	]);
 
 	public constructor(
 		controller: Controller,
@@ -352,16 +382,72 @@ export class Device extends EventEmitter {
 		if (event.endpoint.nodeId !== this.nodeId) {
 			return;
 		}
-		this._logData("event", layerEventToString(event));
-		if (event.packet.is(WakeUpNotification)) {
-			this._handleWakeUpNotification(event).catch((err) => {
-				this._log("handleWakeUpNotification failed:", err);
-			});
+
+		const dispatchAll = async (): Promise<void> => {
+			for (const dispatcher of this._dispatchers) {
+				const packetConstructor = dispatcher.PacketConstructor;
+				try {
+					const decoded = event.packet.tryAs(packetConstructor);
+					if (decoded) {
+						this._logData(
+							`dispatch ${packetConstructor.name}`,
+							layerEventToString(event)
+						);
+						await dispatcher.eventHandler.bind(this)({
+							...event,
+							packet: decoded,
+						});
+					}
+				} catch (err) {
+					this._log(
+						`dispatchEvent failed for ${packetConstructor.name}:`,
+						err
+					);
+				}
+			}
+		};
+
+		neverRejects(dispatchAll());
+	}
+
+	private async _handleSensorMultiLevelReport(
+		event: LayerEvent<SensorMultilevelV11.SensorMultilevelReport>
+	): Promise<void> {
+		const data = event.packet.data;
+		// Decode value as signed integer
+		let value: number;
+		switch (data.sensorValue.length) {
+			case 1:
+				value = data.sensorValue.readInt8();
+				break;
+			case 2:
+				value = data.sensorValue.readInt16BE();
+				break;
+			case 4:
+				value = data.sensorValue.readInt32BE();
+				break;
+			default:
+				throw new Error(
+					`unsupported value size ${data.sensorValue.length}`
+				);
 		}
+		// Apply precision (i.e. decimal places)
+		value /= Math.pow(10, data.precision);
+		this._logData(
+			`handleMultiLevelReport sensorType=${
+				SensorMultilevelV11.SensorTypeEnum[data.sensorType]
+			} precision=${data.precision} scale=${data.scale} value=${value}`
+		);
+		const sensorValue: SensorValue = {
+			sensorType: data.sensorType,
+			scale: data.scale,
+			value,
+		};
+		this.emit("sensor", sensorValue);
 	}
 
 	private async _handleWakeUpNotification(
-		event: LayerEvent<Packet>
+		event: LayerEvent<WakeUpV2.WakeUpNotification>
 	): Promise<void> {
 		const isBroadcastWakeup =
 			event.destinationType === DestinationType.Broadcast;
