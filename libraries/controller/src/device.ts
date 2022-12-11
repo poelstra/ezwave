@@ -36,14 +36,13 @@ import {
 	SessionRunner,
 	VersionInfo,
 } from ".";
-import { Controller } from "./controller";
 import {
 	AssociationGroupInfo,
 	buildAddAssociation,
 	buildInterviewAssociations,
 	buildRemoveAssociation,
 	Profile,
-} from "./interview/association";
+} from "./cc/association";
 import {
 	buildGetConfigurationParameter,
 	buildInterviewConfiguration,
@@ -51,7 +50,8 @@ import {
 	buildSetConfigurationParameter,
 	ConfigurationInfo,
 	ParameterInfo,
-} from "./interview/configuration";
+} from "./cc/configuration";
+import { Controller } from "./controller";
 import { ControllerSessionRunner, waitForAll } from "./session";
 import { JsonValue } from "./types";
 
