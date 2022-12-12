@@ -6,7 +6,7 @@ import {
 	ThermostatModeV3,
 } from "@ezwave/commands";
 import { Controller, ep } from "@ezwave/controller";
-import { LayerEvent } from "@ezwave/layers";
+import { Endpoint, LayerEvent } from "@ezwave/layers";
 import { EventEmitter } from "events";
 
 export enum HomeDevices {
@@ -21,6 +21,49 @@ export enum HomeDevices {
 	KeukenKoelkast = 24, // LBR, Routing Slave, Multilevel Power Switch, FIBARO System FGRGBWM441 RGBW Controller, Leds Koelkast, Keuken, 0, 8:51:43 AM, Ready
 	EetkamerLamp = 25, // LBR+, Z-Wave+ node Always On Slave, Light Dimmer Switch, FIBARO System FGD212 Dimmer 2, Lamp tafel, Eetkamer, 0, 3:30:57 PM, Ready
 	BadkamerSensor = 26, // BR, Routing Slave, Routing Multilevel Sensor, , Multisensor, Badkamer, , 8:51:06 AM, Probe (sleeping)
+}
+
+export enum DevHomeDevices {
+	Controller = 1,
+	MiscSwitch = 3,
+	Thermostat1 = 4,
+	AerQ1 = 5,
+}
+
+export async function setupThermostat(
+	controller: Controller,
+	nodeId: number
+): Promise<void> {
+	// https://eurotronic.org/wp-content/uploads/2021/07/Spirit_Z-Wave_Plus_Installation-and-Operation-Guide_web.pdf
+	const device = controller.getDevice(nodeId);
+
+	// Configure battery reports once a day
+	await device.setConfiguration(4, 1);
+	// Temperature reporting in 0.1C steps (0, 1..50)
+	await device.setConfiguration(5, 5); // TODO set back to 0 when using external sensor?
+	// Valve opening reporting in percent (0, 1..100)
+	await device.setConfiguration(6, 1);
+	// Window open detection (0 = disable, 1..3 = low,medium,high sensitivity)
+	await device.setConfiguration(7, 0);
+	// Temperature offset compensation in 0.1C steps (-50..50, -128 = external sensor)
+	await device.setConfiguration(8, -128);
+}
+
+export async function setupAerQ(
+	controller: Controller,
+	sensorNodeId: number,
+	thermostatEndpoints: Endpoint[]
+): Promise<void> {
+	// https://aeotec.freshdesk.com/support/solutions/articles/6000227918-a%C3%ABrq-temperature-and-humidity-sensor-user-guide-
+	const device = controller.getDevice(sensorNodeId);
+
+	// Lifeline temperature reports in 0.1C steps (0, 1..100), default 20
+	await device.setConfiguration(1, 2);
+	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
+	await device.setConfiguration(65, 7);
+
+	// Associate temp sensor to valve
+	await device.addAssociations(6, thermostatEndpoints);
 }
 
 export class Home extends EventEmitter {

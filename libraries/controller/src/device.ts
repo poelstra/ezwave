@@ -6,7 +6,14 @@ import {
 import {
 	AssociationV2,
 	NoOperationV1,
+	SceneActivationV1,
 	SensorMultilevelV11,
+	SwitchMultilevelV1,
+	SwitchMultilevelV2,
+	SwitchMultilevelV3,
+	SwitchMultilevelV4,
+	ThermostatModeV3,
+	ThermostatSetpointV3,
 	WakeUpV2,
 } from "@ezwave/commands";
 import {
@@ -22,7 +29,14 @@ import {
 	ZwNodeInfoProtocolData,
 	ZwRequestNodeInfo,
 } from "@ezwave/serialapi";
-import { defer, Deferred, delay, neverRejects, noop } from "@ezwave/shared";
+import {
+	defer,
+	Deferred,
+	delay,
+	enumToString,
+	neverRejects,
+	noop,
+} from "@ezwave/shared";
 import assert from "assert";
 import debug from "debug";
 import EventEmitter from "events";
@@ -67,9 +81,55 @@ interface EventDispatcher<T extends Packet> {
 }
 
 export interface SensorValue {
-	sensorType: SensorMultilevelV11.SensorTypeEnum;
-	scale: number;
+	sensorType: keyof typeof SensorMultilevelV11.SensorTypeEnum;
+	scale: keyof typeof TemperatureScale;
 	value: number;
+}
+
+export interface SwitchValue {
+	/**
+	 * Current value.
+	 * 0 = off, 1..99 = on percentage, 0xFE = unknown, 0xFF = 'on' (deprecated)
+	 */
+	currentValue: number;
+
+	/**
+	 * Target value.
+	 * 0 = off, 1..99 = on percentage, 0xFE = unknown, 0xFF = 'on' (deprecated)
+	 */
+	targetValue?: number;
+
+	/**
+	 * Duration to reach target value from current value in seconds,
+	 * or "default"
+	 */
+	duration?: number | "default";
+}
+
+export interface ThermostatMode {
+	mode: keyof typeof ThermostatModeV3.ModeEnum;
+}
+
+export enum TemperatureScale {
+	Celsius = 0x00,
+	Fahrenheit = 0x01,
+}
+
+export interface ThermostatSetPoint {
+	setpointType: keyof typeof ThermostatSetpointV3.SetpointTypeEnum;
+	scale: keyof typeof TemperatureScale;
+	value: number;
+}
+
+export interface SceneActivation {
+	sceneId: number;
+
+	/**
+	 * Dimming duration in seconds, or "default" for value specified
+	 * using Scene Actuator Configuration Set or Scene Controller
+	 * Configuration Set.
+	 */
+	duration: number | "default";
 }
 
 export class Device extends EventEmitter {
@@ -107,6 +167,22 @@ export class Device extends EventEmitter {
 		{
 			PacketConstructor: SensorMultilevelV11.SensorMultilevelReport,
 			eventHandler: this._handleSensorMultiLevelReport,
+		},
+		{
+			PacketConstructor: SwitchMultilevelV4.SwitchMultilevelReport,
+			eventHandler: this._handleSwitchMultiLevelReport,
+		},
+		{
+			PacketConstructor: ThermostatModeV3.ThermostatModeReport,
+			eventHandler: this._handleThermostatModeReport,
+		},
+		{
+			PacketConstructor: ThermostatSetpointV3.ThermostatSetpointReport,
+			eventHandler: this._handleThermostatSetPointReport,
+		},
+		{
+			PacketConstructor: SceneActivationV1.SceneActivationSet,
+			eventHandler: this._handleSceneActivationSet,
 		},
 	]);
 
@@ -383,16 +459,13 @@ export class Device extends EventEmitter {
 			return;
 		}
 
+		this._logData(`event`, layerEventToString(event));
 		const dispatchAll = async (): Promise<void> => {
 			for (const dispatcher of this._dispatchers) {
 				const packetConstructor = dispatcher.PacketConstructor;
 				try {
 					const decoded = event.packet.tryAs(packetConstructor);
 					if (decoded) {
-						this._logData(
-							`dispatch ${packetConstructor.name}`,
-							layerEventToString(event)
-						);
 						await dispatcher.eventHandler.bind(this)({
 							...event,
 							packet: decoded,
@@ -415,35 +488,118 @@ export class Device extends EventEmitter {
 	): Promise<void> {
 		const data = event.packet.data;
 		// Decode value as signed integer
-		let value: number;
-		switch (data.sensorValue.length) {
-			case 1:
-				value = data.sensorValue.readInt8();
-				break;
-			case 2:
-				value = data.sensorValue.readInt16BE();
-				break;
-			case 4:
-				value = data.sensorValue.readInt32BE();
-				break;
-			default:
-				throw new Error(
-					`unsupported value size ${data.sensorValue.length}`
-				);
-		}
+		let value = parseSignedValue(data.sensorValue);
 		// Apply precision (i.e. decimal places)
 		value /= Math.pow(10, data.precision);
-		this._logData(
-			`handleMultiLevelReport sensorType=${
-				SensorMultilevelV11.SensorTypeEnum[data.sensorType]
-			} precision=${data.precision} scale=${data.scale} value=${value}`
+		this._log(
+			`handleSensorMultiLevelReport sensorType=${enumToString(
+				data.sensorType,
+				SensorMultilevelV11.SensorTypeEnum
+			)} precision=${data.precision} scale=${data.scale} value=${value}`
 		);
 		const sensorValue: SensorValue = {
-			sensorType: data.sensorType,
-			scale: data.scale,
+			sensorType: enumName(
+				data.sensorType,
+				SensorMultilevelV11.SensorTypeEnum
+			),
+			scale: enumName(data.scale, TemperatureScale),
 			value,
 		};
 		this.emit("sensor", sensorValue);
+	}
+
+	private async _handleSwitchMultiLevelReport(
+		event: LayerEvent<SwitchMultilevelV4.SwitchMultilevelReport>
+	): Promise<void> {
+		const packetConstructor = [
+			SwitchMultilevelV1.SwitchMultilevelReport,
+			SwitchMultilevelV2.SwitchMultilevelReport,
+			SwitchMultilevelV3.SwitchMultilevelReport,
+			SwitchMultilevelV4.SwitchMultilevelReport,
+		][this.supports(CommandClasses.SwitchMultilevel) ?? 1];
+		const packet = event.packet.tryAs(packetConstructor);
+		if (!packet) {
+			throw new Error("Cannot parse SwitchMultiLevelReport");
+		}
+		const data = packet.data;
+		this._log(`handleSwitchMultiLevelReport ${inspect(data)}`);
+		let duration: number | "default" | undefined;
+		if ("duration" in data) {
+			duration = durationToSeconds(data.duration);
+		}
+		const switchValue: SwitchValue = {
+			currentValue:
+				"currentValue" in data ? data.currentValue : data.value,
+		};
+		if ("targetValue" in data) {
+			switchValue.targetValue = data.targetValue;
+		}
+		if ("duration" in data) {
+			switchValue.duration = duration;
+		}
+		this._log(
+			[
+				`handleSwitchMultiLevelReport`,
+				`currentValue=${switchValue.currentValue}`,
+				switchValue.targetValue !== undefined
+					? `targetValue=${switchValue.targetValue}`
+					: undefined,
+				"duration" in data
+					? `duration=${durationToText(data.duration)}`
+					: undefined,
+			]
+				.filter((s) => !!s)
+				.join(" ")
+		);
+		this.emit("switch", switchValue);
+	}
+
+	private async _handleThermostatModeReport(
+		event: LayerEvent<ThermostatModeV3.ThermostatModeReport>
+	): Promise<void> {
+		const mode: ThermostatMode = {
+			mode: enumName(event.packet.data.mode, ThermostatModeV3.ModeEnum),
+		};
+		this._log(`handleThermostatModeReport mode=${mode.mode}`);
+		this.emit("thermostatMode", mode);
+	}
+
+	private async _handleThermostatSetPointReport(
+		event: LayerEvent<ThermostatSetpointV3.ThermostatSetpointReport>
+	): Promise<void> {
+		const data = event.packet.data;
+		let value = parseSignedValue(data.value);
+		// Apply precision (i.e. decimal places)
+		value /= Math.pow(10, data.precision);
+		const setpoint: ThermostatSetPoint = {
+			setpointType: enumName(
+				data.setpointType,
+				ThermostatSetpointV3.SetpointTypeEnum
+			),
+			scale: enumName(data.scale, TemperatureScale),
+			value,
+		};
+		this._log(
+			`handleThermostatSetPointReport setPointType=${setpoint.setpointType} scale=${setpoint.scale} value=${value}`
+		);
+		this.emit("thermostatSetpoint", setpoint);
+	}
+
+	private async _handleSceneActivationSet(
+		event: LayerEvent<SceneActivationV1.SceneActivationSet>
+	): Promise<void> {
+		const data = event.packet.data;
+		const duration = durationToSeconds(data.dimmingDuration);
+		this._log(
+			`handleSceneActivationSet sceneId=${
+				data.sceneId
+			} dimmingDuration=${durationToText(data.dimmingDuration)}`
+		);
+		const sceneActivation: SceneActivation = {
+			sceneId: data.sceneId,
+			duration: duration,
+		};
+		this.emit("sceneActivation", sceneActivation);
 	}
 
 	private async _handleWakeUpNotification(
@@ -1312,4 +1468,86 @@ function fromCachedParamChanges(
 		change.deferred.promise.catch(noop);
 		return change;
 	});
+}
+
+function parseSignedValue(buffer: Buffer): number {
+	switch (buffer.length) {
+		case 1:
+			return buffer.readInt8();
+			break;
+		case 2:
+			return buffer.readInt16BE();
+			break;
+		case 4:
+			return buffer.readInt32BE();
+			break;
+		default:
+			throw new Error(`unsupported value size ${buffer.length}`);
+	}
+}
+
+/**
+ * Convert duration value to number of seconds.
+ *
+ * Duration value are typically used to specify dimming durations.
+ * If the input value is `0xff`, the factory default value is returned.
+ */
+function durationToSeconds(duration: number, factoryDefault: number): number;
+function durationToSeconds(
+	duration: number,
+	factoryDefault?: number
+): number | "default";
+function durationToSeconds(
+	duration: number,
+	factoryDefault?: number
+): number | "default" {
+	// * 0x00 = instantly
+	// * 0x01..0x7F = 1 second to 127 seconds in 1 second resolution
+	// * 0x80..0xFE = 1 minute to 127 minutes in 1 minute resolution
+	// * 0xFF = Factory default duration
+	if (duration === 0) {
+		return 0;
+	} else if (duration >= 0x01 && duration <= 0x7f) {
+		return duration;
+	} else if (duration >= 0x80 && duration <= 0xfe) {
+		return (duration - 0x7f) * 60;
+	} else {
+		return factoryDefault ?? "default";
+	}
+}
+
+function durationToText(duration: number): string {
+	if (duration === 0) {
+		return "instantly";
+	} else if (duration >= 0x01 && duration <= 0x7f) {
+		return `${duration}s`;
+	} else if (duration >= 0x80 && duration <= 0xfe) {
+		return `${duration}m`;
+	} else {
+		return "default";
+	}
+}
+
+// const x: number | keyof typeof TemperatureScale = enum2(
+// 	TemperatureScale.Celsius,
+// 	TemperatureScale
+// );
+// void x;
+
+// function enum2<E, K extends E>(key: keyof typeof E, enumType: E): keyof E | E {
+// 	return 0 as any;
+// }
+
+// type Enum<E> = Record<keyof E, string>;
+
+const x: keyof typeof TemperatureScale = enumName(
+	TemperatureScale.Celsius,
+	TemperatureScale
+);
+void x;
+
+function enumName<E, K extends E[keyof E]>(key: K, enumType: E): keyof E {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const name = (enumType as any)[key];
+	return name ?? key;
 }

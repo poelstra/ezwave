@@ -29,9 +29,8 @@ import { readFile } from "fs/promises";
 import * as path from "path";
 import SerialPort from "serialport";
 import "source-map-support/register";
-import { DevHome } from "./devhome";
 import { Home } from "./home";
-import { HomeHub } from "./homehub";
+import { ControllerIds, HomeHub } from "./homehub";
 import { Hub } from "./hub";
 
 function prefixTimestamp(console: Console, method: keyof Console): void {
@@ -227,22 +226,39 @@ void main(async () => {
 	// to the server using MHub/MQTT/REST/etc. (and then no longer only
 	// make things work on my specific home ID...)
 	const martinsMainController = controllers.find(
-		(controller) => controller.homeId === 3743991572
+		(controller) => controller.homeId === ControllerIds.MainController
 	);
-	if (martinsMainController) {
-		const home = new Home(martinsMainController);
-		if (mhub) {
-			await HomeHub.create(home, mhub, martinsMainController);
-		}
-	}
+	const home = martinsMainController
+		? new Home(martinsMainController)
+		: undefined;
 
 	// I have an additional 'development dongle'
 	const martinsDevController = controllers.find(
-		(controller) => controller.homeId === 3984265931
+		(controller) => controller.homeId === ControllerIds.DevController
 	);
 	if (martinsDevController) {
-		const devHome = new DevHome(martinsDevController);
-		void devHome;
+		// This is mainly for sending one-off initialization commands, and
+		// should be removed some day.
+		martinsDevController.once("ready", async () => {
+			try {
+				console.log(`Initializing DevController...`);
+				// await setupThermostat(DevHomeDevices.Thermostat1);
+				// await setupAerQ(HomeDevices.AerQ1, [ep(HomeDevices.Thermostat1)]);
+				console.log(`Initializing DevController done`);
+			} catch (err) {
+				// Don't close/detach controller, keep running to handle any other commands.
+				console.warn("Initialization failed", err);
+			}
+		});
+	}
+
+	if (home && mhub && martinsMainController && martinsDevController) {
+		await HomeHub.create(
+			home,
+			mhub,
+			martinsMainController,
+			martinsDevController
+		);
 	}
 
 	// Add all pre-configured hosts to switchboard

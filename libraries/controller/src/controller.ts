@@ -267,6 +267,10 @@ export class Controller
 		return device;
 	}
 
+	public getDevices(): Set<Device> {
+		return new Set(this._devices.values());
+	}
+
 	/**
 	 * Start network inclusion.
 	 *
@@ -301,6 +305,7 @@ export class Controller
 			await device.completeInclusion();
 			log(`device ${nif.nodeId} inclusion complete`);
 			device.start();
+			this.emit("deviceAdded", device);
 
 			return device;
 		} catch (err) {
@@ -532,6 +537,7 @@ export class Controller
 				const cache = await this._deviceCache?.get(nodeId);
 				const device = await this._createDevice(nodeId, cache);
 				device.start();
+				this.emit("deviceAdded", device);
 			} catch (err) {
 				log(`add device id ${nodeId} failed:`, err);
 			}
