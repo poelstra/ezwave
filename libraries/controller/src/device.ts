@@ -5,7 +5,9 @@ import {
 } from "@ezwave/codec";
 import {
 	AssociationV2,
+	BatteryV1,
 	NoOperationV1,
+	NotificationV8,
 	SceneActivationV1,
 	SensorMultilevelV11,
 	SwitchMultilevelV1,
@@ -132,6 +134,14 @@ export interface SceneActivation {
 	duration: number | "default";
 }
 
+export interface BatteryReport {
+	/**
+	 * Remaining battery percentage, or value "low" in case
+	 * of battery low warning.
+	 */
+	batteryLevel: number | "low";
+}
+
 export class Device extends EventEmitter {
 	public readonly nodeId: number;
 	private readonly _controller: Controller;
@@ -183,6 +193,14 @@ export class Device extends EventEmitter {
 		{
 			PacketConstructor: SceneActivationV1.SceneActivationSet,
 			eventHandler: this._handleSceneActivationSet,
+		},
+		{
+			PacketConstructor: BatteryV1.BatteryReport,
+			eventHandler: this._handleBatteryReport,
+		},
+		{
+			PacketConstructor: NotificationV8.NotificationReport,
+			eventHandler: this._handleNotificationReport,
 		},
 	]);
 
@@ -424,6 +442,16 @@ export class Device extends EventEmitter {
 		);
 	}
 
+	public async pollBattery(): Promise<BatteryReport> {
+		const task = this._tasks.find((t) => t.runner === pollBattery);
+		if (task) {
+			// Already enqueued, no need for a new task
+			return task.deferred.promise;
+		}
+		// Create a new task
+		return this.executeTask(pollBattery);
+	}
+
 	/**
 	 * Execute a runner.
 	 *
@@ -600,6 +628,29 @@ export class Device extends EventEmitter {
 			duration: duration,
 		};
 		this.emit("sceneActivation", sceneActivation);
+	}
+
+	private async _handleBatteryReport(
+		event: LayerEvent<BatteryV1.BatteryReport>
+	): Promise<void> {
+		const data = event.packet.data;
+		const batteryReport = formatBatteryReport(data);
+		const batteryLevelText =
+			batteryReport.batteryLevel === "low"
+				? "low"
+				: `${data.batteryLevel}%`;
+		this._log(`handleBatteryReport batteryLevel=${batteryLevelText}`);
+		this.emit("battery", batteryReport);
+	}
+
+	private async _handleNotificationReport(
+		event: LayerEvent<NotificationV8.NotificationReport>
+	): Promise<void> {
+		const data = event.packet.data;
+		this._log(`handleNotificationReport`, data);
+		// TODO
+		const notificationReport = data;
+		this.emit("notification", notificationReport);
 	}
 
 	private async _handleWakeUpNotification(
@@ -1550,4 +1601,19 @@ function enumName<E, K extends E[keyof E]>(key: K, enumType: E): keyof E {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const name = (enumType as any)[key];
 	return name ?? key;
+}
+
+function formatBatteryReport(
+	report: BatteryV1.BatteryV1BatteryReportData
+): BatteryReport {
+	return {
+		batteryLevel:
+			report.batteryLevel === 0xff ? "low" : report.batteryLevel,
+	};
+}
+
+async function pollBattery(session: Session): Promise<BatteryReport> {
+	await session.send(new BatteryV1.BatteryGet());
+	const report = await session.waitFor(BatteryV1.BatteryReport);
+	return formatBatteryReport(report);
 }

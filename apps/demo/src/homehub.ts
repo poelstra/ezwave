@@ -1,6 +1,7 @@
 import { Packet } from "@ezwave/codec";
 import { SceneActivationV1 } from "@ezwave/commands";
 import {
+	BatteryReport,
 	Controller,
 	Device,
 	SceneActivation,
@@ -146,6 +147,9 @@ export class HomeHub {
 		);
 		device.on("sceneActivation", (sceneActivation: SceneActivation) =>
 			doPublish(0, "state", "sceneActivation", sceneActivation)
+		);
+		device.on("battery", (batteryReport: BatteryReport) =>
+			doPublish(0, "state", "battery", batteryReport)
 		);
 	}
 
