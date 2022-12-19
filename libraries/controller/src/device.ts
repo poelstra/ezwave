@@ -35,11 +35,13 @@ import {
 	isDefined,
 	neverRejects,
 	noop,
+	toHex,
 } from "@ezwave/shared";
 import assert from "assert";
 import debug from "debug";
 import EventEmitter from "events";
 import { inspect } from "util";
+import { getScaleName } from ".";
 import {
 	AddAssociationTask,
 	AssociationGroupInfo,
@@ -57,13 +59,16 @@ import {
 	ConfigurationInfo,
 	ParameterInfo,
 } from "./cc/configuration";
+import { SensorMultilevelValue } from "./cc/sensorMultilevel";
 import {
-	formatSwitchMultiLevelReport,
-	parseSwitchMultiLevelReport,
-} from "./cc/switchMultiLevel";
+	formatSwitchMultilevelReport,
+	parseSwitchMultilevelReport,
+} from "./cc/switchMultilevel";
 import {
+	SetpointType,
 	TemperatureScale,
 	ThermostatMode,
+	ThermostatModeEnum,
 	ThermostatSetPoint,
 } from "./cc/thermostat";
 import {
@@ -73,9 +78,12 @@ import {
 } from "./cc/versions";
 import { Controller } from "./controller";
 import { durationToSeconds, durationToText } from "./conversion";
+import { ScaleIndex } from "./scales";
+import { SensorType } from "./sensorTypes";
 import { ControllerSessionRunner } from "./session";
 import { ControllerTask, Task } from "./task";
 import { JsonValue } from "./types";
+import { enumName } from "./util";
 
 export enum FlirsMode {
 	NonFlirs,
@@ -86,12 +94,6 @@ export enum FlirsMode {
 interface EventDispatcher<T extends Packet> {
 	PacketConstructor: CommandPacketConstructor<T>;
 	eventHandler: (this: Device, event: LayerEvent<T>) => Promise<void>;
-}
-
-export interface SensorMultiLevelValue {
-	sensorType: keyof typeof SensorMultilevelV11.SensorTypeEnum;
-	scale: keyof typeof TemperatureScale; // TODO This is wrong (for non-temperature sensors)
-	value: number;
 }
 
 export interface SceneActivation {
@@ -175,8 +177,13 @@ export class Device extends EventEmitter {
 		super();
 		this._controller = controller;
 		this.nodeId = nodeId;
-		this._log = debug(`zwave:device:${nodeId}`);
-		this._logData = debug(`zwave:device:${nodeId}:data`);
+		// TODO Change homeID to its name
+		this._log = debug(
+			`zwave:device:${toHex(controller.homeId, 8)}:${nodeId}`
+		);
+		this._logData = debug(
+			`zwave:device:${toHex(controller.homeId, 8)}:${nodeId}:data`
+		);
 
 		if (cached) {
 			try {
@@ -432,21 +439,21 @@ export class Device extends EventEmitter {
 		let value = parseSignedValue(data.sensorValue);
 		// Apply precision (i.e. decimal places)
 		value /= Math.pow(10, data.precision);
-		this._log(
-			`handleSensorMultiLevelReport sensorType=${enumToString(
-				data.sensorType,
-				SensorMultilevelV11.SensorTypeEnum
-			)} precision=${data.precision} scale=${data.scale} value=${value}`
-		);
-		const sensorValue: SensorMultiLevelValue = {
-			sensorType: enumName(
-				data.sensorType,
-				SensorMultilevelV11.SensorTypeEnum
-			),
-			scale: enumName(data.scale, TemperatureScale),
+		const sensorValue: SensorMultilevelValue = {
+			sensorType: data.sensorType as number as SensorType,
+			scaleIndex: data.scale as number as ScaleIndex,
 			value,
 		};
-		this.emit("sensorMultiLevel", sensorValue);
+		const scaleName =
+			getScaleName(sensorValue.sensorType, sensorValue.scaleIndex) ??
+			`0x${toHex(sensorValue.scaleIndex)}`;
+		this._log(
+			`handleSensorMultilevelReport sensorType=${enumToString(
+				sensorValue.sensorType,
+				SensorType
+			)} precision=${data.precision} scale=${scaleName} value=${value}`
+		);
+		this.emit("sensorMultilevel", sensorValue);
 	}
 
 	private async _handleSwitchMultiLevelReport(
@@ -456,14 +463,14 @@ export class Device extends EventEmitter {
 		if (version > 4) {
 			version = 4;
 		}
-		const packet = parseSwitchMultiLevelReport(
+		const packet = parseSwitchMultilevelReport(
 			event.packet,
 			version as 1 | 2 | 3 | 4
 		);
-		const switchValue = formatSwitchMultiLevelReport(packet.data);
+		const switchValue = formatSwitchMultilevelReport(packet.data);
 		this._log(
 			[
-				`handleSwitchMultiLevelReport`,
+				`handleSwitchMultilevelReport`,
 				`currentValue=${switchValue.currentValue}`,
 				switchValue.targetValue !== undefined
 					? `targetValue=${switchValue.targetValue}`
@@ -475,16 +482,21 @@ export class Device extends EventEmitter {
 				.filter(isDefined)
 				.join(" ")
 		);
-		this.emit("switchMultiLevel", switchValue);
+		this.emit("switchMultilevel", switchValue);
 	}
 
 	private async _handleThermostatModeReport(
 		event: LayerEvent<ThermostatModeV3.ThermostatModeReport>
 	): Promise<void> {
 		const mode: ThermostatMode = {
-			mode: enumName(event.packet.data.mode, ThermostatModeV3.ModeEnum),
+			mode: event.packet.data.mode as number as ThermostatModeEnum,
 		};
-		this._log(`handleThermostatModeReport mode=${mode.mode}`);
+		this._log(
+			`handleThermostatModeReport mode=${enumName(
+				mode.mode,
+				ThermostatModeEnum
+			)}`
+		);
 		this.emit("thermostatMode", mode);
 	}
 
@@ -496,15 +508,15 @@ export class Device extends EventEmitter {
 		// Apply precision (i.e. decimal places)
 		value /= Math.pow(10, data.precision);
 		const setpoint: ThermostatSetPoint = {
-			setpointType: enumName(
-				data.setpointType,
-				ThermostatSetpointV3.SetpointTypeEnum
-			),
-			scale: enumName(data.scale, TemperatureScale),
+			setpointType: data.setpointType as number as SetpointType,
+			scale: data.scale,
 			value,
 		};
 		this._log(
-			`handleThermostatSetPointReport setPointType=${setpoint.setpointType} scale=${setpoint.scale} value=${value}`
+			`handleThermostatSetPointReport setPointType=${enumName(
+				setpoint.setpointType,
+				SetpointType
+			)} scale=${enumName(data.scale, TemperatureScale)} value=${value}`
 		);
 		this.emit("thermostatSetpoint", setpoint);
 	}
@@ -1429,16 +1441,4 @@ function parseSignedValue(buffer: Buffer): number {
 		default:
 			throw new Error(`unsupported value size ${buffer.length}`);
 	}
-}
-
-const x: keyof typeof TemperatureScale = enumName(
-	TemperatureScale.Celsius,
-	TemperatureScale
-);
-void x;
-
-function enumName<E, K extends E[keyof E]>(key: K, enumType: E): keyof E {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const name = (enumType as any)[key];
-	return name ?? key;
 }

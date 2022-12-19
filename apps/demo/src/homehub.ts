@@ -1,23 +1,25 @@
 import { CommandClasses, Packet } from "@ezwave/codec";
-import {
-	SceneActivationV1,
-	ThermostatModeV3,
-	ThermostatSetpointV3,
-} from "@ezwave/commands";
+import { SceneActivationV1 } from "@ezwave/commands";
 import {
 	BasicSetTask,
 	BatteryGetTask,
 	BatteryReport,
 	Controller,
 	Device,
+	enumName,
+	getScaleName,
 	SceneActivation,
-	SensorMultiLevelValue,
-	SwitchMultiLevelGetTask,
-	SwitchMultiLevelSetTask,
-	SwitchMultiLevelValue,
-	SwitchMultiLevelVersions,
+	SensorMultilevelReportTask,
+	SensorMultilevelValue,
+	SensorType,
+	SetpointType,
+	SwitchMultilevelGetTask,
+	SwitchMultilevelSetTask,
+	SwitchMultilevelValue,
+	SwitchMultilevelVersions,
 	TemperatureScale,
 	ThermostatMode,
+	ThermostatModeEnum,
 	ThermostatModeSetTask,
 	ThermostatSetPoint,
 	ThermostatSetpointSetTask,
@@ -157,17 +159,31 @@ export class HomeHub {
 				console.warn(`Failed to publish ${topic}@${node}:`, err);
 			});
 		};
-		device.on("sensorMultiLevel", (sensorValue: SensorMultiLevelValue) =>
-			doPublish(0, "state", "sensorMultiLevel/report", sensorValue)
-		);
-		device.on("switchMultiLevel", (switchValue: SwitchMultiLevelValue) =>
-			doPublish(0, "state", "switchMultiLevel/report", switchValue)
+		device.on("sensorMultilevel", (sensorValue: SensorMultilevelValue) => {
+			return doPublish(0, "state", "sensorMultilevel/report", {
+				sensorType: enumName(sensorValue.sensorType, SensorType),
+				scale:
+					getScaleName(
+						sensorValue.sensorType,
+						sensorValue.scaleIndex
+					) ?? sensorValue.scaleIndex,
+				value: sensorValue.value,
+			});
+		});
+		device.on("switchMultilevel", (switchValue: SwitchMultilevelValue) =>
+			doPublish(0, "state", "switchMultilevel/report", switchValue)
 		);
 		device.on("thermostatMode", (mode: ThermostatMode) =>
-			doPublish(0, "state", "thermostatMode/report", mode)
+			doPublish(0, "state", "thermostatMode/report", {
+				mode: enumName(mode.mode, ThermostatModeEnum),
+			})
 		);
 		device.on("thermostatSetpoint", (setpoint: ThermostatSetPoint) =>
-			doPublish(0, "state", "thermostatSetpoint/report", setpoint)
+			doPublish(0, "state", "thermostatSetpoint/report", {
+				setpointType: enumName(setpoint.setpointType, SetpointType),
+				scale: enumName(setpoint.scale, TemperatureScale),
+				value: setpoint.value,
+			})
 		);
 		device.on("sceneActivation", (sceneActivation: SceneActivation) =>
 			doPublish(0, "state", "sceneActivation/report", sceneActivation)
@@ -405,7 +421,18 @@ export class HomeHub {
 				await device.executeTask(new BatteryGetTask());
 				return;
 			}
-			case "switchMultiLevel/get": {
+			case "sensorMultilevel/report": {
+				await device.executeTask(
+					new SensorMultilevelReportTask(
+						message.data.sensorType,
+						message.data.scale,
+						message.data.value,
+						message.data.precision
+					)
+				);
+				return;
+			}
+			case "switchMultilevel/get": {
 				// TODO Get rid of this manual version stuff
 				let version =
 					device.supports(CommandClasses.SwitchMultilevel) ?? 1;
@@ -415,13 +442,13 @@ export class HomeHub {
 					version = 4;
 				}
 				await device.executeTask(
-					new SwitchMultiLevelGetTask(
-						version as SwitchMultiLevelVersions
+					new SwitchMultilevelGetTask(
+						version as SwitchMultilevelVersions
 					)
 				);
 				return;
 			}
-			case "switchMultiLevel/set": {
+			case "switchMultilevel/set": {
 				if (typeof message.data !== "object") {
 					throw new Error("Invalid payload, object expected");
 				}
@@ -441,7 +468,7 @@ export class HomeHub {
 					);
 				}
 				await device.executeTask(
-					new SwitchMultiLevelSetTask(value, dimmingDuration)
+					new SwitchMultilevelSetTask(value, dimmingDuration)
 				);
 				return;
 			}
@@ -450,17 +477,14 @@ export class HomeHub {
 					throw new Error("Invalid payload, object expected");
 				}
 				const mode = message.data
-					.mode as keyof typeof ThermostatModeV3.ModeEnum;
-				if (
-					typeof mode !== "string" ||
-					ThermostatModeV3.ModeEnum[mode]
-				) {
+					.mode as keyof typeof ThermostatModeEnum;
+				if (typeof mode !== "string" || ThermostatModeEnum[mode]) {
 					throw new Error(
 						`Missing/invalid '.mode', expected ModeEnum literal`
 					);
 				}
 				await device.executeTask(
-					new ThermostatModeSetTask(ThermostatModeV3.ModeEnum[mode])
+					new ThermostatModeSetTask(ThermostatModeEnum[mode])
 				);
 				return;
 			}
@@ -470,9 +494,9 @@ export class HomeHub {
 				}
 				await device.executeTask(
 					new ThermostatSetpointSetTask(
-						ThermostatSetpointV3.SetpointTypeEnum[
+						SetpointType[
 							message.data
-								.setpointType as keyof typeof ThermostatSetpointV3.SetpointTypeEnum
+								.setpointType as keyof typeof SetpointType
 						],
 						TemperatureScale[
 							message.data.scale as keyof typeof TemperatureScale

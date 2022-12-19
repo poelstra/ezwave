@@ -4,5 +4,8 @@ export * from "./controller";
 export * from "./device";
 export * from "./endpoint";
 export * from "./IZwaveHost";
+export * from "./scales";
+export * from "./sensorTypes";
 export * from "./session";
 export * from "./switchBoard";
+export * from "./util";
