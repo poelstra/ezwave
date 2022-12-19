@@ -1,16 +1,32 @@
-import { Packet } from "@ezwave/codec";
-import { SceneActivationV1 } from "@ezwave/commands";
+import { CommandClasses, Packet } from "@ezwave/codec";
 import {
+	SceneActivationV1,
+	ThermostatModeV3,
+	ThermostatSetpointV3,
+} from "@ezwave/commands";
+import {
+	BasicSetTask,
+	BatteryGetTask,
 	BatteryReport,
 	Controller,
 	Device,
 	SceneActivation,
-	SensorValue,
+	SensorMultiLevelValue,
+	SwitchMultiLevelGetTask,
+	SwitchMultiLevelSetTask,
+	SwitchMultiLevelValue,
+	SwitchMultiLevelVersions,
+	TemperatureScale,
+	ThermostatMode,
+	ThermostatModeSetTask,
+	ThermostatSetPoint,
+	ThermostatSetpointSetTask,
 } from "@ezwave/controller";
-import { LayerEvent } from "@ezwave/layers";
+import { Endpoint, ep, LayerEvent } from "@ezwave/layers";
 import { toHex } from "@ezwave/shared";
+import assert from "assert";
 import { Headers, Message } from "mhub";
-import { DevHomeDevices, Home } from "./home";
+import { Home } from "./home";
 import { Hub } from "./hub";
 
 export enum ControllerIds {
@@ -39,39 +55,42 @@ export interface ChannelMapping {
 	name: string;
 }
 
-// TODO move to configuration
-const controllerMappings: ControllerMappings = {
-	[ControllerIds.DevController]: {
-		name: "dev",
-		devices: {
-			[DevHomeDevices.Controller]: { name: "devController" },
-			[DevHomeDevices.MiscSwitch]: { name: "miscSwitch" },
-			[DevHomeDevices.Thermostat1]: { name: "thermostat1" },
-			[DevHomeDevices.AerQ1]: { name: "aerq1" },
-		},
-	},
-};
+interface ReverseMapping {
+	controller: Controller;
+	endpoint: Endpoint;
+}
 
 export class HomeHub {
 	private _hub: Hub;
 	private _home: Home;
+	private _controllers: Controller[];
+	private _controllerMappings: ControllerMappings;
+	private _reverseMappings: Map<string, ReverseMapping> = new Map();
 
 	public static async create(
 		home: Home,
-		hub: Hub,
 		mainController: Controller,
-		devController: Controller
+		hub: Hub,
+		controllers: Controller[],
+		controllerMappings: ControllerMappings
 	): Promise<HomeHub> {
-		const homeHub = new this(home, hub, mainController, devController);
+		const homeHub = new this(
+			home,
+			mainController,
+			hub,
+			controllers,
+			controllerMappings
+		);
 		await homeHub._initMhub();
 		return homeHub;
 	}
 
 	private constructor(
 		home: Home,
-		hub: Hub,
 		mainController: Controller,
-		devController: Controller
+		hub: Hub,
+		controllers: Controller[],
+		controllerMappings: ControllerMappings
 	) {
 		this._home = home;
 		this._home.on("value", (name: string, value: number) =>
@@ -86,10 +105,14 @@ export class HomeHub {
 			)
 		);
 
-		this._initController(mainController);
-		this._initController(devController);
-
 		this._hub = hub;
+		this._controllerMappings = controllerMappings;
+		this._controllers = controllers.slice();
+
+		this._updateReverseMappings();
+		for (const controller of controllers) {
+			this._initController(controller);
+		}
 	}
 
 	private _initController(controller: Controller): void {
@@ -114,6 +137,7 @@ export class HomeHub {
 		controller: Controller,
 		device: Device
 	): Promise<void> {
+		this._updateReverseMappings();
 		const doPublish = (
 			channel: number | undefined,
 			node: string,
@@ -133,23 +157,23 @@ export class HomeHub {
 				console.warn(`Failed to publish ${topic}@${node}:`, err);
 			});
 		};
-		device.on("sensor", (sensorValue: SensorValue) =>
-			doPublish(0, "state", "sensor", sensorValue)
+		device.on("sensorMultiLevel", (sensorValue: SensorMultiLevelValue) =>
+			doPublish(0, "state", "sensorMultiLevel/report", sensorValue)
 		);
-		device.on("switch", (switchValue: SensorValue) =>
-			doPublish(0, "state", "switch", switchValue)
+		device.on("switchMultiLevel", (switchValue: SwitchMultiLevelValue) =>
+			doPublish(0, "state", "switchMultiLevel/report", switchValue)
 		);
-		device.on("thermostatMode", (mode: SensorValue) =>
-			doPublish(0, "state", "thermostatMode", mode)
+		device.on("thermostatMode", (mode: ThermostatMode) =>
+			doPublish(0, "state", "thermostatMode/report", mode)
 		);
-		device.on("thermostatSetpoint", (setpoint: SensorValue) =>
-			doPublish(0, "state", "thermostatSetpoint", setpoint)
+		device.on("thermostatSetpoint", (setpoint: ThermostatSetPoint) =>
+			doPublish(0, "state", "thermostatSetpoint/report", setpoint)
 		);
 		device.on("sceneActivation", (sceneActivation: SceneActivation) =>
-			doPublish(0, "state", "sceneActivation", sceneActivation)
+			doPublish(0, "state", "sceneActivation/report", sceneActivation)
 		);
 		device.on("battery", (batteryReport: BatteryReport) =>
-			doPublish(0, "state", "battery", batteryReport)
+			doPublish(0, "state", "battery/report", batteryReport)
 		);
 	}
 
@@ -158,7 +182,7 @@ export class HomeHub {
 		nodeId?: number,
 		channelId?: number
 	): string {
-		const controllerMapping = controllerMappings[homeId];
+		const controllerMapping = this._controllerMappings[homeId];
 		const controllerName = controllerMapping?.name ?? `${toHex(homeId, 8)}`;
 		if (nodeId === undefined) {
 			return controllerName;
@@ -177,11 +201,61 @@ export class HomeHub {
 		return endpointName;
 	}
 
+	private _updateReverseMappings(): void {
+		this._reverseMappings.clear();
+		// Add numeric / fallback IDs for all devices
+		for (const controller of this._controllers) {
+			const controllerName = this._controllerMappings[controller.homeId];
+			const devices = controller.getDevices();
+			for (const device of devices) {
+				const rev: ReverseMapping = {
+					controller,
+					endpoint: ep(device.nodeId),
+				};
+				if (controllerName) {
+					this._reverseMappings.set(
+						`${toHex(controller.homeId, 8)}:${toHex(
+							device.nodeId,
+							2
+						)}`,
+						rev
+					);
+				}
+				this._reverseMappings.set(
+					`${toHex(controller.homeId, 8)}:${toHex(device.nodeId, 2)}`,
+					rev
+				);
+			}
+		}
+		// Add explicit mappings
+		const controllerMap: Map<number, Controller> = new Map();
+		for (const controller of this._controllers) {
+			controllerMap.set(controller.homeId, controller);
+		}
+		for (const [homeId, controllerMapping] of Object.entries(
+			this._controllerMappings
+		)) {
+			const controller = controllerMap.get(parseInt(homeId, 10));
+			if (!controller || !controllerMapping?.devices) {
+				continue;
+			}
+			for (const [nodeId, deviceMapping] of Object.entries(
+				controllerMapping.devices
+			)) {
+				this._reverseMappings.set(deviceMapping!.name, {
+					controller,
+					endpoint: ep(parseInt(nodeId, 10)),
+				});
+			}
+		}
+	}
+
 	private async _initMhub(): Promise<void> {
-		// TODO Current logic means that homehub will permanently fail
-		// if subscribing fails during initialization, whereas it should
-		// be fine to just add it to a list of 'wanted subscriptions'.
-		// Requires different way of working in Hub though.
+		await this._hub.subscribe("command", "/dev/zwave/**", (message) =>
+			this._handleZwaveCommand(message)
+		);
+
+		// Old 'home-specific' subscriptions, to be moved to external system
 		await this._hub.subscribe("command", "/home/lights/*", (message) =>
 			this._handleLights(message)
 		);
@@ -297,6 +371,123 @@ export class HomeHub {
 	private async _handleEvent(event: LayerEvent<Packet>): Promise<void> {
 		if (event.packet.is(SceneActivationV1.SceneActivationSet)) {
 			await this._handleSceneActivationSet(event);
+		}
+	}
+
+	private async _handleZwaveCommand(message: Message): Promise<void> {
+		const prefix = "/dev/zwave/";
+		assert(message.topic.startsWith(prefix));
+		const [deviceName, cc, ccCmd] = message.topic
+			.slice(prefix.length)
+			.split("/", 3);
+		const command = `${cc}/${ccCmd}`;
+		const mapping = this._reverseMappings.get(deviceName);
+		if (!mapping) {
+			console.warn(`Ignoring command for unknown device '${deviceName}`);
+			return;
+		}
+		const device = mapping.controller.getDevice(mapping.endpoint.nodeId);
+		switch (command) {
+			case "basic/set": {
+				if (typeof message.data !== "object") {
+					throw new Error("Invalid payload, object expected");
+				}
+				const value = message.data.value;
+				if (typeof value !== "number") {
+					throw new Error(
+						"Missing/invalid '.value', number expected"
+					);
+				}
+				await device.executeTask(new BasicSetTask(value));
+				return;
+			}
+			case "battery/get": {
+				await device.executeTask(new BatteryGetTask());
+				return;
+			}
+			case "switchMultiLevel/get": {
+				// TODO Get rid of this manual version stuff
+				let version =
+					device.supports(CommandClasses.SwitchMultilevel) ?? 1;
+				if (version < 1) {
+					version = 1;
+				} else if (version > 4) {
+					version = 4;
+				}
+				await device.executeTask(
+					new SwitchMultiLevelGetTask(
+						version as SwitchMultiLevelVersions
+					)
+				);
+				return;
+			}
+			case "switchMultiLevel/set": {
+				if (typeof message.data !== "object") {
+					throw new Error("Invalid payload, object expected");
+				}
+				const value = message.data.value;
+				if (typeof value !== "number") {
+					throw new Error(
+						"Missing/invalid '.value', number expected"
+					);
+				}
+				const dimmingDuration = message.data.dimmingDuration;
+				if (
+					dimmingDuration !== undefined &&
+					typeof dimmingDuration !== "number"
+				) {
+					throw new Error(
+						"Missing/invalid '.dimmingDuration', number or undefined expected"
+					);
+				}
+				await device.executeTask(
+					new SwitchMultiLevelSetTask(value, dimmingDuration)
+				);
+				return;
+			}
+			case "thermostatMode/set": {
+				if (typeof message.data !== "object") {
+					throw new Error("Invalid payload, object expected");
+				}
+				const mode = message.data
+					.mode as keyof typeof ThermostatModeV3.ModeEnum;
+				if (
+					typeof mode !== "string" ||
+					ThermostatModeV3.ModeEnum[mode]
+				) {
+					throw new Error(
+						`Missing/invalid '.mode', expected ModeEnum literal`
+					);
+				}
+				await device.executeTask(
+					new ThermostatModeSetTask(ThermostatModeV3.ModeEnum[mode])
+				);
+				return;
+			}
+			case "thermostatSetpoint/set": {
+				if (typeof message.data !== "object") {
+					throw new Error("Invalid payload, object expected");
+				}
+				await device.executeTask(
+					new ThermostatSetpointSetTask(
+						ThermostatSetpointV3.SetpointTypeEnum[
+							message.data
+								.setpointType as keyof typeof ThermostatSetpointV3.SetpointTypeEnum
+						],
+						TemperatureScale[
+							message.data.scale as keyof typeof TemperatureScale
+						],
+						message.data.value,
+						message.data.precision
+					)
+				);
+				return;
+			}
+			default: {
+				console.warn(
+					`Ignoring unknown command '${command}' for device '${deviceName}'`
+				);
+			}
 		}
 	}
 }

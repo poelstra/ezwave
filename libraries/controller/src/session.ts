@@ -36,6 +36,11 @@ export interface Session {
 }
 
 export interface ControllerSession extends Session {
+	/**
+	 * NodeId of the controller.
+	 */
+	readonly controllerId: number;
+
 	execute<T>(runner: ControllerSessionRunner<T>): Promise<T>;
 
 	executeSerialCommand<T>(
@@ -45,6 +50,7 @@ export interface ControllerSession extends Session {
 }
 
 export interface RootControllerSession {
+	readonly controllerId: number;
 	send(packet: Packet, sendOptions?: SendOptions): Promise<void>;
 	executeSerial<T>(runner: ICommandSessionRunner<T>): Promise<T>;
 }
@@ -129,6 +135,10 @@ class SessionManager<T> implements ControllerSession, SessionExecutor<T> {
 	}
 
 	/* Session interface */
+
+	public get controllerId(): number {
+		return this._rootSession.controllerId;
+	}
 
 	public async send(
 		packet: Packet,

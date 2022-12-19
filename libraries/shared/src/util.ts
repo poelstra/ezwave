@@ -2,6 +2,10 @@ export function noop(): void {
 	/* no-operation */
 }
 
+export function isDefined<T>(value: T | undefined): value is T {
+	return value !== undefined;
+}
+
 export function delay(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }

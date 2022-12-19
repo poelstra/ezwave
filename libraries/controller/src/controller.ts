@@ -183,6 +183,7 @@ export class Controller
 			.use(new MultiChannelLayer());
 
 		this._rootSession = {
+			controllerId: this.nodeId,
 			send: async (
 				packet: Packet,
 				options: SendOptions

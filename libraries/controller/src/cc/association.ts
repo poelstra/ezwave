@@ -8,12 +8,17 @@ import {
 	ProfileNotificationEnum,
 	ProfileSensorEnum,
 } from "@ezwave/commands/lib/generated/AssociationGrpInfoV3";
+import { ZwAssignReturnRoute } from "@ezwave/serialapi";
+import { inspect } from "util";
+import { Endpoint, ep } from "../endpoint";
 import {
+	ControllerSession,
 	namedSessionRunner,
 	SessionRunner,
 	waitForAll,
 	waitForFiltered,
 } from "../session";
+import { ControllerTask } from "../task";
 
 export type Profile =
 	| {
@@ -244,4 +249,81 @@ export function buildAddAssociation(
 			);
 		}
 	);
+}
+
+export class AddAssociationTask implements ControllerTask<void> {
+	private _sourceId: number;
+	private _groupId: number;
+	private _destinations: Endpoint[];
+	private _onNewDestinations: (
+		destinations: Endpoint[]
+	) => void | Promise<void>;
+
+	public constructor(
+		sourceId: number,
+		groupId: number,
+		destinations: Endpoint[],
+		onNewDestinations: (destinations: Endpoint[]) => void | Promise<void>
+	) {
+		// TODO: Move sourceId to Session (i.e. create EndpointSession)
+		this._sourceId = sourceId;
+		this._groupId = groupId;
+		this._destinations = destinations;
+		this._onNewDestinations = onNewDestinations;
+	}
+
+	public async execute(session: ControllerSession): Promise<void> {
+		// Add assocation
+		await session.execute(
+			buildAddAssociation({
+				groupingIdentifier: this._groupId,
+				nodeIds: this._destinations.map((dest) => dest.nodeId),
+			})
+		);
+
+		// Fetch new list of associations
+		// Move this 'syncing' logic to a more sensible place?
+		await session.send(
+			new AssociationV2.AssociationGet({
+				groupingIdentifier: this._groupId,
+			})
+		);
+		const reports = await waitForAll(
+			session,
+			AssociationV2.AssociationReport,
+			(report) => report.groupingIdentifier === this._groupId,
+			(report) => report.reportsToFollow
+		);
+		const finalGroupIds = reports.flatMap((report) => report.nodeIds);
+
+		await this._onNewDestinations(finalGroupIds.map((id) => ep(id)));
+
+		// Assign return routes
+		for (const dest of this._destinations) {
+			await session.executeSerialCommand(
+				new ZwAssignReturnRoute({
+					sourceId: this._sourceId,
+					destinationId: dest.nodeId,
+				})
+			);
+		}
+
+		// Double-check whether some associations were missed
+		const missingDests = this._destinations.filter(
+			(dest) => !finalGroupIds.includes(dest.nodeId)
+		);
+		if (missingDests.length > 0) {
+			throw new Error(
+				`not all assocations could be added, missing ${inspect(
+					missingDests
+				)}`
+			);
+		}
+	}
+
+	public inspect(): string {
+		return `<AddAssociation sourceId=${this._sourceId} groupId=${
+			this._groupId
+		} destinations=${inspect(this._destinations)}>`;
+	}
 }

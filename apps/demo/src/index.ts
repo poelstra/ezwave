@@ -29,8 +29,8 @@ import { readFile } from "fs/promises";
 import * as path from "path";
 import SerialPort from "serialport";
 import "source-map-support/register";
-import { Home } from "./home";
-import { ControllerIds, HomeHub } from "./homehub";
+import { DevHomeDevices, Home } from "./home";
+import { ControllerIds, ControllerMappings, HomeHub } from "./homehub";
 import { Hub } from "./hub";
 
 function prefixTimestamp(console: Console, method: keyof Console): void {
@@ -253,11 +253,24 @@ void main(async () => {
 	}
 
 	if (home && mhub && martinsMainController && martinsDevController) {
+		// TODO move to configuration
+		const controllerMappings: ControllerMappings = {
+			[ControllerIds.DevController]: {
+				name: "dev",
+				devices: {
+					[DevHomeDevices.Controller]: { name: "devController" },
+					[DevHomeDevices.MiscSwitch]: { name: "miscSwitch" },
+					[DevHomeDevices.Thermostat1]: { name: "thermostat1" },
+					[DevHomeDevices.AerQ1]: { name: "aerq1" },
+				},
+			},
+		};
 		await HomeHub.create(
 			home,
-			mhub,
 			martinsMainController,
-			martinsDevController
+			mhub,
+			[martinsMainController, martinsDevController],
+			controllerMappings
 		);
 	}
 

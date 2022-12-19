@@ -4,15 +4,11 @@ import {
 	Packet,
 } from "@ezwave/codec";
 import {
-	AssociationV2,
 	BatteryV1,
 	NoOperationV1,
 	NotificationV8,
 	SceneActivationV1,
 	SensorMultilevelV11,
-	SwitchMultilevelV1,
-	SwitchMultilevelV2,
-	SwitchMultilevelV3,
 	SwitchMultilevelV4,
 	ThermostatModeV3,
 	ThermostatSetpointV3,
@@ -22,7 +18,7 @@ import {
 	Profile1Enum,
 	ProfileGeneralEnum,
 } from "@ezwave/commands/lib/generated/AssociationGrpInfoV3";
-import { LayerEvent, layerEventToString } from "@ezwave/layers";
+import { Endpoint, ep, LayerEvent, layerEventToString } from "@ezwave/layers";
 import {
 	DestinationType,
 	NodeInfoResponse,
@@ -36,6 +32,7 @@ import {
 	Deferred,
 	delay,
 	enumToString,
+	isDefined,
 	neverRejects,
 	noop,
 } from "@ezwave/shared";
@@ -44,21 +41,14 @@ import debug from "debug";
 import EventEmitter from "events";
 import { inspect } from "util";
 import {
-	buildInterviewVersions,
-	Endpoint,
-	ep,
-	InterviewedVersions,
-	namedSessionRunner,
-	SessionRunner,
-	VersionInfo,
-} from ".";
-import {
+	AddAssociationTask,
 	AssociationGroupInfo,
 	buildAddAssociation,
 	buildInterviewAssociations,
 	buildRemoveAssociation,
 	Profile,
 } from "./cc/association";
+import { formatBatteryReport } from "./cc/battery";
 import {
 	buildGetConfigurationParameter,
 	buildInterviewConfiguration,
@@ -67,8 +57,24 @@ import {
 	ConfigurationInfo,
 	ParameterInfo,
 } from "./cc/configuration";
+import {
+	formatSwitchMultiLevelReport,
+	parseSwitchMultiLevelReport,
+} from "./cc/switchMultiLevel";
+import {
+	TemperatureScale,
+	ThermostatMode,
+	ThermostatSetPoint,
+} from "./cc/thermostat";
+import {
+	buildInterviewVersions,
+	InterviewedVersions,
+	VersionInfo,
+} from "./cc/versions";
 import { Controller } from "./controller";
-import { ControllerSessionRunner, waitForAll } from "./session";
+import { durationToSeconds, durationToText } from "./conversion";
+import { ControllerSessionRunner } from "./session";
+import { ControllerTask, Task } from "./task";
 import { JsonValue } from "./types";
 
 export enum FlirsMode {
@@ -82,44 +88,9 @@ interface EventDispatcher<T extends Packet> {
 	eventHandler: (this: Device, event: LayerEvent<T>) => Promise<void>;
 }
 
-export interface SensorValue {
+export interface SensorMultiLevelValue {
 	sensorType: keyof typeof SensorMultilevelV11.SensorTypeEnum;
-	scale: keyof typeof TemperatureScale;
-	value: number;
-}
-
-export interface SwitchValue {
-	/**
-	 * Current value.
-	 * 0 = off, 1..99 = on percentage, 0xFE = unknown, 0xFF = 'on' (deprecated)
-	 */
-	currentValue: number;
-
-	/**
-	 * Target value.
-	 * 0 = off, 1..99 = on percentage, 0xFE = unknown, 0xFF = 'on' (deprecated)
-	 */
-	targetValue?: number;
-
-	/**
-	 * Duration to reach target value from current value in seconds,
-	 * or "default"
-	 */
-	duration?: number | "default";
-}
-
-export interface ThermostatMode {
-	mode: keyof typeof ThermostatModeV3.ModeEnum;
-}
-
-export enum TemperatureScale {
-	Celsius = 0x00,
-	Fahrenheit = 0x01,
-}
-
-export interface ThermostatSetPoint {
-	setpointType: keyof typeof ThermostatSetpointV3.SetpointTypeEnum;
-	scale: keyof typeof TemperatureScale;
+	scale: keyof typeof TemperatureScale; // TODO This is wrong (for non-temperature sensors)
 	value: number;
 }
 
@@ -132,14 +103,6 @@ export interface SceneActivation {
 	 * Configuration Set.
 	 */
 	duration: number | "default";
-}
-
-export interface BatteryReport {
-	/**
-	 * Remaining battery percentage, or value "low" in case
-	 * of battery low warning.
-	 */
-	batteryLevel: number | "low";
 }
 
 export class Device extends EventEmitter {
@@ -167,7 +130,7 @@ export class Device extends EventEmitter {
 	// TODO Probably change this to generic 'serializable tasks'
 	private _parameterChanges: ParameterChanges = new Map();
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	private _tasks: Task<any>[] = [];
+	private _tasks: QueuedTask<any>[] = [];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private _dispatchers: Set<EventDispatcher<any>> = new Set([
 		{
@@ -374,86 +337,31 @@ export class Device extends EventEmitter {
 		if (request.destinations.some((dest) => (dest.channel ?? 0) !== 0)) {
 			throw new Error("MultiChannel associations not supported yet");
 		}
-		// TODO Verify source/destination node compatibility (controlled/supported commands)
-		// TODO Verify available space in source (this) node
+		// TODO:
+		// - Verify groupId. Must be >0.
+		// - Verify nodes have same security level
+		// - Use AGI to check which commands will be sent, and ensure destination supports these (unless
+		//   destination is a gateway)
+		// - Verify available space in source node?
 		return this.executeTask(
-			namedSessionRunner(
-				"DeviceAddAssociation",
-				request,
-				async (session) => {
-					// Add assocation
-					await session.execute(
-						buildAddAssociation({
-							groupingIdentifier: request.groupId,
-							nodeIds: request.destinations.map(
-								(dest) => dest.nodeId
-							),
-						})
-					);
-
-					// Fetch new list of associations
-					// Move this 'syncing' logic to a more sensible place?
-					await session.send(
-						new AssociationV2.AssociationGet({
-							groupingIdentifier: request.groupId,
-						})
-					);
-					const reports = await waitForAll(
-						session,
-						AssociationV2.AssociationReport,
-						(report) =>
-							report.groupingIdentifier === request.groupId,
-						(report) => report.reportsToFollow
-					);
-					const finalGroupIds = reports.flatMap(
-						(report) => report.nodeIds
-					);
-
+			new AddAssociationTask(
+				this.nodeId,
+				groupId,
+				destinations,
+				(newDestinations) => {
 					// Update our cached copy of the association
 					const group = this._associations?.get(groupId);
 					if (group) {
-						group.nodeIds = finalGroupIds;
+						group.nodeIds = newDestinations.map((ep) => ep.nodeId);
 						this._emitCache();
-					}
-
-					// Assign return routes
-					for (const dest of request.destinations) {
-						await this._controller.executeSerialCommand(
-							new ZwAssignReturnRoute({
-								sourceId: this.nodeId,
-								destinationId: dest.nodeId,
-							})
-						);
-					}
-
-					// Double-check whether some associations were missed
-					const missingDests = request.destinations.filter(
-						(dest) => !finalGroupIds.includes(dest.nodeId)
-					);
-					if (missingDests.length > 0) {
-						throw new Error(
-							`not all assocations could be added, missing ${inspect(
-								missingDests
-							)}`
-						);
 					}
 				}
 			)
 		);
 	}
 
-	public async pollBattery(): Promise<BatteryReport> {
-		const task = this._tasks.find((t) => t.runner === pollBattery);
-		if (task) {
-			// Already enqueued, no need for a new task
-			return task.deferred.promise;
-		}
-		// Create a new task
-		return this.executeTask(pollBattery);
-	}
-
 	/**
-	 * Execute a runner.
+	 * Execute a task.
 	 *
 	 * If the node is awake or can be woken (FLiRS), the task will be
 	 * executed immediately.
@@ -462,14 +370,19 @@ export class Device extends EventEmitter {
 	 */
 	// Note: This is a placeholder API, to be replaced with a more generic
 	// mechanism (e.g. parameter changes will be merged in)
-	public async executeTask<T>(runner: SessionRunner<T>): Promise<T> {
-		const task: Task<T> = {
-			runner,
-			deferred: defer(),
-		};
-		this._tasks.push(task);
-		await this._tryFlush();
-		return task.deferred.promise;
+	public async executeTask<T>(task: Task<T>): Promise<T> {
+		let queuedTask = this._tasks.find(
+			(qt) => task instanceof qt.task.constructor && qt.task.merge?.(task)
+		);
+		if (!queuedTask) {
+			queuedTask = {
+				task,
+				deferred: defer(),
+			};
+			this._tasks.push(queuedTask);
+			await this._tryFlush();
+		}
+		return queuedTask.deferred.promise;
 	}
 
 	private _attach(): void {
@@ -525,7 +438,7 @@ export class Device extends EventEmitter {
 				SensorMultilevelV11.SensorTypeEnum
 			)} precision=${data.precision} scale=${data.scale} value=${value}`
 		);
-		const sensorValue: SensorValue = {
+		const sensorValue: SensorMultiLevelValue = {
 			sensorType: enumName(
 				data.sensorType,
 				SensorMultilevelV11.SensorTypeEnum
@@ -533,38 +446,21 @@ export class Device extends EventEmitter {
 			scale: enumName(data.scale, TemperatureScale),
 			value,
 		};
-		this.emit("sensor", sensorValue);
+		this.emit("sensorMultiLevel", sensorValue);
 	}
 
 	private async _handleSwitchMultiLevelReport(
 		event: LayerEvent<SwitchMultilevelV4.SwitchMultilevelReport>
 	): Promise<void> {
-		const packetConstructor = [
-			SwitchMultilevelV1.SwitchMultilevelReport,
-			SwitchMultilevelV2.SwitchMultilevelReport,
-			SwitchMultilevelV3.SwitchMultilevelReport,
-			SwitchMultilevelV4.SwitchMultilevelReport,
-		][this.supports(CommandClasses.SwitchMultilevel) ?? 1];
-		const packet = event.packet.tryAs(packetConstructor);
-		if (!packet) {
-			throw new Error("Cannot parse SwitchMultiLevelReport");
+		let version = this.supports(CommandClasses.SwitchMultilevel) ?? 1;
+		if (version > 4) {
+			version = 4;
 		}
-		const data = packet.data;
-		this._log(`handleSwitchMultiLevelReport ${inspect(data)}`);
-		let duration: number | "default" | undefined;
-		if ("duration" in data) {
-			duration = durationToSeconds(data.duration);
-		}
-		const switchValue: SwitchValue = {
-			currentValue:
-				"currentValue" in data ? data.currentValue : data.value,
-		};
-		if ("targetValue" in data) {
-			switchValue.targetValue = data.targetValue;
-		}
-		if ("duration" in data) {
-			switchValue.duration = duration;
-		}
+		const packet = parseSwitchMultiLevelReport(
+			event.packet,
+			version as 1 | 2 | 3 | 4
+		);
+		const switchValue = formatSwitchMultiLevelReport(packet.data);
 		this._log(
 			[
 				`handleSwitchMultiLevelReport`,
@@ -572,14 +468,14 @@ export class Device extends EventEmitter {
 				switchValue.targetValue !== undefined
 					? `targetValue=${switchValue.targetValue}`
 					: undefined,
-				"duration" in data
-					? `duration=${durationToText(data.duration)}`
+				switchValue.duration !== undefined
+					? `duration=${switchValue.duration}`
 					: undefined,
 			]
-				.filter((s) => !!s)
+				.filter(isDefined)
 				.join(" ")
 		);
-		this.emit("switch", switchValue);
+		this.emit("switchMultiLevel", switchValue);
 	}
 
 	private async _handleThermostatModeReport(
@@ -901,14 +797,6 @@ export class Device extends EventEmitter {
 		this._log("interviewAssociations complete", this._associations);
 	}
 
-	// public async addAssociation(groupId: number, source: EndPoint, destination: EndPoint): Promise<void> {
-	// 	// Verify groupId. Must be >0, and consecutively assigned (i.e. first ID1 is used, then ID2, etc).
-	// 	// Verify nodes have same security level
-	// 	// Use AGI to check which commands will be sent, and ensure destination supports these (unless
-	// 	// destination is a gateway)
-	// 	// Assign routes
-	// }
-
 	private async _setupLifeline(): Promise<void> {
 		assert(this._associations);
 		const lifelineGroups = new Set(
@@ -1191,11 +1079,19 @@ export class Device extends EventEmitter {
 	private async _flushTasks(): Promise<void> {
 		while (this._tasks.length > 0) {
 			const task = this._tasks.pop()!;
+			const description = task.task.inspect();
 			try {
-				const result = await this._execute(task.runner);
+				this._logData(`execute start ${description}`);
+				const result = await this._controller.execute(
+					ep(this.nodeId),
+					(session) => task.task.execute(session)
+				);
+				this._logData(`execute end`, result);
 				task.deferred.resolve(result);
 			} catch (err) {
-				// Error already logged by _execute()
+				// Log the error, which is also returned to the original caller,
+				// so swallow it here
+				this._log(`execute failed ${description}:`, err);
 				task.deferred.reject(err as Error);
 			}
 		}
@@ -1278,10 +1174,8 @@ interface ParameterChange {
 	deferred: Deferred<void>;
 }
 
-// TODO change this to something (de-)serializable to remember across invocations,
-// then move ParameterChange over to it.
-interface Task<T> {
-	runner: SessionRunner<T>;
+interface QueuedTask<T> {
+	task: ControllerTask<T>;
 	deferred: Deferred<T>;
 }
 
@@ -1537,60 +1431,6 @@ function parseSignedValue(buffer: Buffer): number {
 	}
 }
 
-/**
- * Convert duration value to number of seconds.
- *
- * Duration value are typically used to specify dimming durations.
- * If the input value is `0xff`, the factory default value is returned.
- */
-function durationToSeconds(duration: number, factoryDefault: number): number;
-function durationToSeconds(
-	duration: number,
-	factoryDefault?: number
-): number | "default";
-function durationToSeconds(
-	duration: number,
-	factoryDefault?: number
-): number | "default" {
-	// * 0x00 = instantly
-	// * 0x01..0x7F = 1 second to 127 seconds in 1 second resolution
-	// * 0x80..0xFE = 1 minute to 127 minutes in 1 minute resolution
-	// * 0xFF = Factory default duration
-	if (duration === 0) {
-		return 0;
-	} else if (duration >= 0x01 && duration <= 0x7f) {
-		return duration;
-	} else if (duration >= 0x80 && duration <= 0xfe) {
-		return (duration - 0x7f) * 60;
-	} else {
-		return factoryDefault ?? "default";
-	}
-}
-
-function durationToText(duration: number): string {
-	if (duration === 0) {
-		return "instantly";
-	} else if (duration >= 0x01 && duration <= 0x7f) {
-		return `${duration}s`;
-	} else if (duration >= 0x80 && duration <= 0xfe) {
-		return `${duration}m`;
-	} else {
-		return "default";
-	}
-}
-
-// const x: number | keyof typeof TemperatureScale = enum2(
-// 	TemperatureScale.Celsius,
-// 	TemperatureScale
-// );
-// void x;
-
-// function enum2<E, K extends E>(key: keyof typeof E, enumType: E): keyof E | E {
-// 	return 0 as any;
-// }
-
-// type Enum<E> = Record<keyof E, string>;
-
 const x: keyof typeof TemperatureScale = enumName(
 	TemperatureScale.Celsius,
 	TemperatureScale
@@ -1601,19 +1441,4 @@ function enumName<E, K extends E[keyof E]>(key: K, enumType: E): keyof E {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const name = (enumType as any)[key];
 	return name ?? key;
-}
-
-function formatBatteryReport(
-	report: BatteryV1.BatteryV1BatteryReportData
-): BatteryReport {
-	return {
-		batteryLevel:
-			report.batteryLevel === 0xff ? "low" : report.batteryLevel,
-	};
-}
-
-async function pollBattery(session: Session): Promise<BatteryReport> {
-	await session.send(new BatteryV1.BatteryGet());
-	const report = await session.waitFor(BatteryV1.BatteryReport);
-	return formatBatteryReport(report);
 }
