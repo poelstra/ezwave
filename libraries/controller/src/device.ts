@@ -49,6 +49,7 @@ import {
 	buildInterviewAssociations,
 	buildRemoveAssociation,
 	Profile,
+	RemoveAssociationTask,
 } from "./cc/association";
 import { formatBatteryReport } from "./cc/battery";
 import {
@@ -354,12 +355,39 @@ export class Device extends EventEmitter {
 			new AddAssociationTask(
 				this.nodeId,
 				groupId,
-				destinations,
-				(newDestinations) => {
+				destinations.map((dest) => dest.nodeId),
+				(updatedDestinations) => {
 					// Update our cached copy of the association
 					const group = this._associations?.get(groupId);
 					if (group) {
-						group.nodeIds = newDestinations.map((ep) => ep.nodeId);
+						group.nodeIds = updatedDestinations;
+						this._emitCache();
+					}
+				}
+			)
+		);
+	}
+
+	/**
+	 * Remove association from an association group on this root device to another endpoint.
+	 */
+	public async removeAssociations(
+		groupId: number,
+		destinations?: Endpoint[]
+	): Promise<void> {
+		const request = { groupId, destinations };
+		if (request.destinations?.some((dest) => (dest.channel ?? 0) !== 0)) {
+			throw new Error("MultiChannel associations not supported yet");
+		}
+		return this.executeTask(
+			new RemoveAssociationTask(
+				groupId,
+				destinations?.map((dest) => dest.nodeId),
+				(updatedDestinations) => {
+					// Update our cached copy of the association
+					const group = this._associations?.get(groupId);
+					if (group) {
+						group.nodeIds = updatedDestinations;
 						this._emitCache();
 					}
 				}

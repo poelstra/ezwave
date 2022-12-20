@@ -10,7 +10,6 @@ import {
 } from "@ezwave/commands/lib/generated/AssociationGrpInfoV3";
 import { ZwAssignReturnRoute } from "@ezwave/serialapi";
 import { inspect } from "util";
-import { Endpoint, ep } from "../endpoint";
 import {
 	ControllerSession,
 	namedSessionRunner,
@@ -254,22 +253,22 @@ export function buildAddAssociation(
 export class AddAssociationTask implements ControllerTask<void> {
 	private _sourceId: number;
 	private _groupId: number;
-	private _destinations: Endpoint[];
-	private _onNewDestinations: (
-		destinations: Endpoint[]
+	private _destinations: number[];
+	private _onAssociationsUpdated?: (
+		destinations: number[]
 	) => void | Promise<void>;
 
 	public constructor(
 		sourceId: number,
 		groupId: number,
-		destinations: Endpoint[],
-		onNewDestinations: (destinations: Endpoint[]) => void | Promise<void>
+		destinations: number[],
+		onAssociationsUpdated?: (destinations: number[]) => void | Promise<void>
 	) {
 		// TODO: Move sourceId to Session (i.e. create EndpointSession)
 		this._sourceId = sourceId;
 		this._groupId = groupId;
 		this._destinations = destinations;
-		this._onNewDestinations = onNewDestinations;
+		this._onAssociationsUpdated = onAssociationsUpdated;
 	}
 
 	public async execute(session: ControllerSession): Promise<void> {
@@ -277,12 +276,11 @@ export class AddAssociationTask implements ControllerTask<void> {
 		await session.execute(
 			buildAddAssociation({
 				groupingIdentifier: this._groupId,
-				nodeIds: this._destinations.map((dest) => dest.nodeId),
+				nodeIds: this._destinations,
 			})
 		);
 
 		// Fetch new list of associations
-		// Move this 'syncing' logic to a more sensible place?
 		await session.send(
 			new AssociationV2.AssociationGet({
 				groupingIdentifier: this._groupId,
@@ -296,21 +294,21 @@ export class AddAssociationTask implements ControllerTask<void> {
 		);
 		const finalGroupIds = reports.flatMap((report) => report.nodeIds);
 
-		await this._onNewDestinations(finalGroupIds.map((id) => ep(id)));
+		await this._onAssociationsUpdated?.(finalGroupIds);
 
 		// Assign return routes
 		for (const dest of this._destinations) {
 			await session.executeSerialCommand(
 				new ZwAssignReturnRoute({
 					sourceId: this._sourceId,
-					destinationId: dest.nodeId,
+					destinationId: dest,
 				})
 			);
 		}
 
 		// Double-check whether some associations were missed
 		const missingDests = this._destinations.filter(
-			(dest) => !finalGroupIds.includes(dest.nodeId)
+			(dest) => !finalGroupIds.includes(dest)
 		);
 		if (missingDests.length > 0) {
 			throw new Error(
@@ -325,5 +323,63 @@ export class AddAssociationTask implements ControllerTask<void> {
 		return `<AddAssociation sourceId=${this._sourceId} groupId=${
 			this._groupId
 		} destinations=${inspect(this._destinations)}>`;
+	}
+}
+
+export class RemoveAssociationTask implements ControllerTask<void> {
+	private _groupId: number;
+	private _nodeIds?: number[];
+	private _onAssociationsUpdated?: (
+		destinations: number[]
+	) => void | Promise<void>;
+
+	public constructor(
+		/**
+		 * Association group to remove node IDs from.
+		 *
+		 * Version 2 and higher support passing grouping ID 0 to remove
+		 * a specific set of node IDs or all node IDs in one command.
+		 */
+		groupId: number,
+		/**
+		 * One or more node IDs to remove, or omit or leave empty to remove all groups.
+		 */
+		nodeIds?: number[],
+		onAssociationsUpdated?: (destinations: number[]) => void | Promise<void>
+	) {
+		this._groupId = groupId;
+		this._nodeIds = nodeIds;
+		this._onAssociationsUpdated = onAssociationsUpdated;
+	}
+
+	public async execute(session: ControllerSession): Promise<void> {
+		await session.execute(
+			buildRemoveAssociation({
+				groupingIdentifier: this._groupId,
+				nodeIds: this._nodeIds,
+			})
+		);
+
+		// Fetch new list of associations
+		await session.send(
+			new AssociationV2.AssociationGet({
+				groupingIdentifier: this._groupId,
+			})
+		);
+		const reports = await waitForAll(
+			session,
+			AssociationV2.AssociationReport,
+			(report) => report.groupingIdentifier === this._groupId,
+			(report) => report.reportsToFollow
+		);
+		const finalGroupIds = reports.flatMap((report) => report.nodeIds);
+
+		await this._onAssociationsUpdated?.(finalGroupIds);
+	}
+
+	public inspect(): string {
+		return `<RemoveAssociation groupId=${this._groupId} nodeIds=${inspect(
+			this._nodeIds
+		)}>`;
 	}
 }
