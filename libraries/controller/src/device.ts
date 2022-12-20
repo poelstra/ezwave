@@ -34,6 +34,7 @@ import {
 	enumToString,
 	isDefined,
 	neverRejects,
+	nextTick,
 	noop,
 	toHex,
 } from "@ezwave/shared";
@@ -41,7 +42,7 @@ import assert from "assert";
 import debug from "debug";
 import EventEmitter from "events";
 import { inspect } from "util";
-import { getScaleName } from ".";
+import { getScaleName, namedSessionRunner } from ".";
 import {
 	AddAssociationTask,
 	AssociationGroupInfo,
@@ -119,12 +120,19 @@ export class Device extends EventEmitter {
 	private readonly _eventHandler: typeof this._handleEvent =
 		this._handleEvent.bind(this);
 
+	private _running: boolean = false;
+	private _stopped: boolean = false;
 	private _ready: Deferred<void> = defer();
 	private _log: debug.Debugger;
 	private _logData: debug.Debugger;
 
-	private _needsSetup: boolean = false;
+	private _preventNoMoreInformation: boolean = true;
+	private _skipPing: boolean = false;
+	private _triggerDeferred: Deferred<void> = defer();
+
 	private _needsInit: boolean = true;
+	private _needsSetup: boolean = false;
+	private _needsInterview: boolean = true;
 	private _protocolData?: ZwNodeInfoProtocolData;
 	private _nodeInformationFrame?: NodeInfoResponse;
 	private _versions?: InterviewedVersions;
@@ -191,7 +199,7 @@ export class Device extends EventEmitter {
 				this._loadFromCache(cached);
 			} catch (err) {
 				this._log("cache load failed, ignored:", err);
-				this._needsInit = true;
+				this._needsInterview = true;
 			}
 		}
 	}
@@ -267,9 +275,20 @@ export class Device extends EventEmitter {
 	}
 
 	public start(): void {
+		if (this._stopped) {
+			// Note: cannot be re-used anymore, too tricky right now
+			// to be 100% sure the loop is running exactly once.
+			throw new Error("Device was stopped, but cannot be restarted");
+		}
+		if (this._running) {
+			throw new Error("Device already started");
+		}
+		this._running = true;
 		this._controller.on("attach", this._attachHandler);
 		this._controller.on("detach", this._detachHandler);
 		this._controller.on("event", this._eventHandler);
+
+		neverRejects(this._loop());
 
 		if (this._controller.isAttached()) {
 			this._attach();
@@ -277,6 +296,12 @@ export class Device extends EventEmitter {
 	}
 
 	public stop(): void {
+		if (this._stopped) {
+			// Note: cannot be re-used anymore, too tricky right now
+			// to be 100% sure the loop is running exactly once.
+			throw new Error("Device already stopped");
+		}
+		this._running = false;
 		if (this._controller.isAttached()) {
 			this._detach();
 		}
@@ -289,6 +314,9 @@ export class Device extends EventEmitter {
 	 * After SerialAPI performed inclusion and assigned a node ID,
 	 * perform remaining inclusion steps (security bootstrap,
 	 * interviewing, etc.)
+	 *
+	 * This needs to be performed (and awaited) before start()'ing the
+	 * device.
 	 */
 	public async completeInclusion(): Promise<void> {
 		// TODO Add request params to determine security level
@@ -310,7 +338,8 @@ export class Device extends EventEmitter {
 		// prematurely interrupted.
 		this._needsSetup = true;
 		this._emitCache();
-		await this._init();
+		this._trigger();
+		await this._ready.promise;
 	}
 
 	public async setConfiguration(
@@ -330,7 +359,7 @@ export class Device extends EventEmitter {
 		};
 		this._parameterChanges.set(parameterNumber, paramChange);
 		this._emitCache();
-		await this._tryFlush();
+		this._trigger();
 		return paramChange.deferred.promise;
 	}
 
@@ -403,8 +432,6 @@ export class Device extends EventEmitter {
 	 * If the node is asleep, the task will be queued instead until
 	 * the node wakes up.
 	 */
-	// Note: This is a placeholder API, to be replaced with a more generic
-	// mechanism (e.g. parameter changes will be merged in)
 	public async executeTask<T>(task: Task<T>): Promise<T> {
 		let queuedTask = this._tasks.find(
 			(qt) => task instanceof qt.task.constructor && qt.task.merge?.(task)
@@ -415,20 +442,28 @@ export class Device extends EventEmitter {
 				deferred: defer(),
 			};
 			this._tasks.push(queuedTask);
-			await this._tryFlush();
+			this._log(`enqueue task ${task.inspect()}`);
+			this._trigger();
+		} else {
+			this._log(`merge task ${task.inspect()}`);
 		}
-		return queuedTask.deferred.promise;
+		try {
+			const result = await queuedTask.deferred.promise;
+			this._log(`task done`, result ?? "ok");
+			return result;
+		} catch (err) {
+			this._log(`task failed`, err);
+			throw err;
+		}
 	}
 
 	private _attach(): void {
-		this._init().catch((err) => {
-			this._log("initialization failed", err);
-			// Ignore error, no need to redo the interview right now,
-			// just keep going until user explicitly requests something
-		});
+		this._trigger();
 	}
 
-	private _detach(): void {}
+	private _detach(): void {
+		this._trigger();
+	}
 
 	private _handleEvent(event: LayerEvent<Packet>): void {
 		if (event.endpoint.nodeId !== this.nodeId) {
@@ -603,67 +638,142 @@ export class Device extends EventEmitter {
 			}
 		}
 
-		const preventNoMoreInformation = isBroadcastWakeup;
-		await this._flush(preventNoMoreInformation);
-	}
-
-	/**
-	 * Try to flush.
-	 *
-	 * @returns false if flushing was skipped (due to node being asleep).
-	 * @returns true if flush was started (but may fail later).
-	 */
-	private async _tryFlush(): Promise<boolean> {
-		// If node is a sleeping node, ping it first, otherwise
-		// we'll just direct calls or beaming
-		if (this.isNonListening() && !(await this._tryPing())) {
-			return false;
+		if (isBroadcastWakeup) {
+			this._preventNoMoreInformation = true;
 		}
-
-		// Start a flush in the background, but don't wait for it
-		neverRejects(
-			this._flush().catch((err) => {
-				this._log("_tryFlush failed:", err);
-			})
-		);
-		return true;
+		this._trigger(true);
 	}
 
-	private async _flush(
-		preventNoMoreInformation: boolean = false
-	): Promise<void> {
-		if (this._needsInit || this._needsSetup) {
+	private _trigger(skipPing: boolean = false): void {
+		if (skipPing) {
+			this._skipPing = true;
+		}
+		this._triggerDeferred.resolve();
+		this._triggerDeferred = defer();
+	}
+
+	private async _loop(): Promise<void> {
+		while (this._running) {
+			await this._triggerDeferred.promise;
+
+			try {
+				await this._doLoop();
+			} catch (err) {
+				this._log("loop failed", err);
+			}
+
+			// When we went through the loop, we skipped the ping,
+			// and we also would have sent the NoMoreInformation message.
+			// No need to remember it anymore.
+			this._skipPing = false;
+			this._preventNoMoreInformation = false;
+
+			// Force a call to _init() once during startup, to mark previously
+			// (cached) initialized device as ready by default, then let normal
+			// triggers take over.
+			this._needsInit = false;
+		}
+	}
+
+	private async _doLoop(): Promise<void> {
+		// Check if we need any init. This will first ping if needed.
+		if (this._needsInit || this._needsInterview || this._needsSetup) {
 			// Init also performs setup afterwards if needed.
-			await this._init();
-			// TODO Mark init as no longer needed at this stage?
-			// Otherwise, it might keep trying to interview on every node
-			// wakeup / flush, which may be very expensive and annoying in case of repetitive failure
+			try {
+				await this._init();
+				if (this._needsInterview || this._needsSetup) {
+					// Node sleeping, try again later.
+					return;
+				}
+			} catch (err) {
+				// Mark init as no longer needed at this stage?
+				// Otherwise, it might keep trying to interview on every node
+				// wakeup / flush, which may be very expensive and annoying in case of repetitive failure
+				this._log("warning: init failed, giving up");
+				this._needsInterview = false;
+				this._needsSetup = false;
+				return;
+			}
 		}
 
-		if (this._parameterChanges.size > 0) {
-			await this._flushParameters();
-		}
+		await this._flush();
 
-		if (this._tasks.length > 0) {
-			await this._flushTasks();
-		}
-
-		if (this.supports(CommandClasses.WakeUp) && !preventNoMoreInformation) {
+		if (
+			this.isNonListening() &&
+			this.supports(CommandClasses.WakeUp) &&
+			!this._preventNoMoreInformation
+		) {
 			// CC:0084.01.07.11.002 - A receiving node MUST NOT return a Wake Up No More Information Command in response to
 			// this command issued via broadcast.
-			await this._execute((session) =>
-				// TODO Configure send options to not wait for ACK / don't resend?
-				// And/or tune the timeout to the typical node's response time
-				session.send(new WakeUpV2.WakeUpNoMoreInformation())
+			await this._execute(
+				namedSessionRunner(
+					"WakeUpNoMoreInformation",
+					undefined,
+					(session) =>
+						// TODO Configure send options to not wait for ACK / don't resend?
+						// And/or tune the timeout to the typical node's response time
+						session.send(new WakeUpV2.WakeUpNoMoreInformation())
+				)
 			);
 		}
+	}
+
+	private async _flush(): Promise<void> {
+		if (this._tasks.length === 0 && this._parameterChanges.size === 0) {
+			return;
+		}
+
+		// If node is a sleeping node, ping it first, otherwise
+		// we'll just use direct calls or beaming
+		if (this.isNonListening() && !this._skipPing) {
+			const awake = await this._tryPing();
+			if (!awake) {
+				// Wait until we're triggered again
+				return;
+			}
+		}
+
+		let didWork: boolean;
+		do {
+			didWork = await this._doFlush();
+
+			// Delay sending NoMoreInfo by one macro tick, as it's typical to write code like
+			// await dev.executeTask(something); await dev.executeTask(somethingElse);
+			// In this case, the second task is injected shortly after the first, but only when
+			// the queue is first emptied.
+			if (didWork) {
+				await nextTick();
+			}
+		} while (didWork);
+	}
+
+	private async _doFlush(): Promise<boolean> {
+		let didWork: boolean = false;
+
+		const paramChangesBefore = this._parameterChanges.size;
+		if (paramChangesBefore > 0) {
+			await this._flushParameters();
+			if (this._parameterChanges.size < paramChangesBefore) {
+				didWork = true;
+			}
+		}
+
+		const tasksBefore = this._tasks.length;
+		if (tasksBefore > 0) {
+			await this._flushTasks();
+			if (this._tasks.length < tasksBefore) {
+				didWork = true;
+			}
+		}
+
+		return didWork;
 	}
 
 	private async _init(): Promise<void> {
 		let fail: unknown;
 		for (let attempt = 1; attempt <= 3; attempt++) {
 			try {
-				if (this._needsInit || this._needsSetup) {
+				if (this._needsInterview || this._needsSetup) {
 					const awake = await this._tryPing();
 					if (!awake) {
 						// TODO Add other forms of awake detection (e.g. receiving anything from it, in case of non-WakeUp nodes)
@@ -675,7 +785,7 @@ export class Device extends EventEmitter {
 					await this._doInit(attempt);
 				}
 				// If we didn't need init, or it was just completed, we're now ready
-				if (!(this._needsInit || this._needsSetup)) {
+				if (!(this._needsInterview || this._needsSetup)) {
 					this._log("ready");
 					this._ready.resolve();
 					// Allow re-initialization and waiting for it
@@ -702,13 +812,16 @@ export class Device extends EventEmitter {
 
 	private async _tryPing(): Promise<boolean> {
 		try {
-			await this._execute(async (session) => {
-				await session.send(
-					new NoOperationV1.NoOperationV1(Buffer.alloc(0))
-				);
-			});
+			// Don't use `this._execute()` to greatly reduce logging noise in
+			// case of failures
+			this._logData("ping start");
+			await this._controller.execute(ep(this.nodeId), (session) =>
+				session.send(new NoOperationV1.NoOperationV1(Buffer.alloc(0)))
+			);
+			this._logData("ping ok");
 			return true;
 		} catch (err) {
+			this._logData("ping failed");
 			return false;
 		}
 	}
@@ -716,7 +829,7 @@ export class Device extends EventEmitter {
 	private async _doInit(attempt: number): Promise<void> {
 		try {
 			this._log(
-				`init begin attempt=${attempt} needsInit=${this._needsInit} needsSetup=${this._needsSetup}`
+				`init begin attempt=${attempt} needsInterview=${this._needsInterview} needsSetup=${this._needsSetup}`
 			);
 			await this.initProtocolData();
 
@@ -735,8 +848,8 @@ export class Device extends EventEmitter {
 				this._emitCache();
 			}
 
-			if (this._needsInit) {
-				this._needsInit = false;
+			if (this._needsInterview) {
+				this._needsInterview = false;
 				this._emitCache();
 			}
 			this._log("init complete");
@@ -1126,7 +1239,7 @@ export class Device extends EventEmitter {
 					ep(this.nodeId),
 					(session) => task.task.execute(session)
 				);
-				this._logData(`execute end`, result);
+				this._logData(`execute end`, result ?? "ok");
 				task.deferred.resolve(result);
 			} catch (err) {
 				// Log the error, which is also returned to the original caller,
@@ -1148,7 +1261,7 @@ export class Device extends EventEmitter {
 				ep(this.nodeId),
 				runner
 			);
-			this._logData(`execute end`, result);
+			this._logData(`execute end`, result ?? "ok");
 			return result;
 		} catch (err) {
 			this._log(`execute failed ${description}:`, err);
@@ -1173,7 +1286,7 @@ export class Device extends EventEmitter {
 			return;
 		}
 		this._needsSetup = cached.needsSetup;
-		this._needsInit = cached.needsInit;
+		this._needsInterview = cached.needsInit;
 		this._protocolData = cached.protocolData;
 		this._nodeInformationFrame = cached.nodeInformationFrame;
 		this._versions = fromCachedVersions(cached.versions);
@@ -1186,7 +1299,7 @@ export class Device extends EventEmitter {
 		}
 
 		if (cached.version < 2) {
-			this._needsInit = true;
+			this._needsInterview = true;
 			this._emitCache();
 		}
 	}
@@ -1195,7 +1308,7 @@ export class Device extends EventEmitter {
 		const cache: CachedInfoV2 = {
 			version: 2,
 			needsSetup: this._needsSetup,
-			needsInit: this._needsInit,
+			needsInit: this._needsInterview,
 			protocolData: this._protocolData,
 			nodeInformationFrame: this._nodeInformationFrame,
 			versions: toCachedVersions(this._versions),
@@ -1236,6 +1349,7 @@ interface CachedInfoV1 {
 interface CachedInfoV2 {
 	version: 2;
 	needsSetup: boolean;
+	// TODO Rename this to needsInterview on next version
 	needsInit: boolean;
 	protocolData?: ZwNodeInfoProtocolData;
 	nodeInformationFrame?: NodeInfoResponse;
