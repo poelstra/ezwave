@@ -35,7 +35,7 @@ export enum ThermostatModeEnum {
 	ReservedC = 0x1c,
 	ReservedD = 0x1d,
 	ReservedE = 0x1e,
-	ManufacturerSpecifc = 0x1f,
+	ManufacturerSpecific = 0x1f,
 }
 
 export interface ThermostatMode {

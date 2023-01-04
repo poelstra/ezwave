@@ -476,7 +476,7 @@ export class HomeHub {
 				}
 				const mode = message.data
 					.mode as keyof typeof ThermostatModeEnum;
-				if (typeof mode !== "string" || ThermostatModeEnum[mode]) {
+				if (typeof mode !== "string" || !ThermostatModeEnum[mode]) {
 					throw new Error(
 						`Missing/invalid '.mode', expected ModeEnum literal`
 					);
