@@ -152,12 +152,17 @@ export class Home extends EventEmitter {
 	}
 
 	public async getKeukenAanrecht(): Promise<number> {
-		const reply = await this.controller.sendAndWaitFor(
-			HomeDevices.KeukenAanrecht,
-			1,
-			new SwitchMultilevelV1.SwitchMultilevelGet(),
-			SwitchMultilevelV1.SwitchMultilevelReport,
-			{ secure: true }
+		const reply = await this.controller.execute(
+			ep(HomeDevices.KeukenAanrecht, 1),
+			async (session) => {
+				await session.send(
+					new SwitchMultilevelV1.SwitchMultilevelGet(),
+					{ secure: true }
+				);
+				return session.waitFor(
+					SwitchMultilevelV1.SwitchMultilevelReport
+				);
+			}
 		);
 		const level = reply.value;
 		return level;
