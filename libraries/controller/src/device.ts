@@ -728,7 +728,9 @@ export class Device extends EventEmitter {
 		if (this.isNonListening() && !this._skipPing) {
 			const awake = await this._tryPing();
 			if (!awake) {
-				// Wait until we're triggered again
+				// Wait until we're triggered again, and don't send WakeUpNoMoreInformation
+				// because that will also fail.
+				this._preventNoMoreInformation = true;
 				return;
 			}
 		}
