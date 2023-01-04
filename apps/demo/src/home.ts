@@ -54,6 +54,32 @@ export async function setupThermostat(
 	await device.setConfiguration(8, -128);
 }
 
+export async function setupThermostatNew(device: Device): Promise<void> {
+	// https://eurotronic.org/wp-content/uploads/2021/07/Spirit_Z-Wave_Plus_Installation-and-Operation-Guide_web.pdf
+
+	// Configure battery reports once a day
+	await device.setConfiguration(4, 1);
+	// Temperature reporting in 0.1C steps (0, 1..50)
+	await device.setConfiguration(5, 5);
+	// Valve opening reporting in percent (0, 1..100)
+	await device.setConfiguration(6, 0);
+	// Window open detection (0 = disable, 1..3 = low,medium,high sensitivity)
+	await device.setConfiguration(7, 0);
+	// Temperature offset compensation in 0.1C steps (-50..50, -128 = external sensor)
+	//await device.setConfiguration(8, -128);
+}
+
+export async function setupAerQNew(device: Device): Promise<void> {
+	// https://aeotec.freshdesk.com/support/solutions/articles/6000227918-a%C3%ABrq-temperature-and-humidity-sensor-user-guide-
+
+	// Lifeline temperature reports in 0.1C steps (0, 1..100), default 20
+	await device.setConfiguration(1, 1);
+	// Checking period for param 1&2 in minutes (1..255), default 15
+	await device.setConfiguration(3, 5);
+	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
+	//await device.setConfiguration(65, 0b1011);
+}
+
 export async function setupAerQ(
 	controller: Controller,
 	sensorNodeId: number,
@@ -63,9 +89,9 @@ export async function setupAerQ(
 	const device = controller.getDevice(sensorNodeId);
 
 	// Lifeline temperature reports in 0.1C steps (0, 1..100), default 20
-	await device.setConfiguration(1, 2);
+	await device.setConfiguration(1, 1);
 	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
-	await device.setConfiguration(65, 7);
+	await device.setConfiguration(65, 0b1011);
 
 	// Associate temp sensor to valve
 	await device.addAssociations(6, thermostatEndpoints);
