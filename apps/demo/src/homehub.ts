@@ -31,24 +31,19 @@ import { Headers, Message } from "mhub";
 import { Home } from "./home";
 import { Hub } from "./hub";
 
-export enum ControllerIds {
-	MainController = 3743991572,
-	DevController = 3984265931,
-}
-
 /**
  * Map specific home/node IDs to human-readable names.
  * Home/node IDs not present in this list will use their
  * numeric identifiers.
  */
-export type ControllerMappings = Partial<Record<number, ControllerMapping>>;
+export type NetworkMappings = Partial<Record<number, NetworkMapping>>;
 
-export interface ControllerMapping {
+export interface NetworkMapping {
 	name: string;
-	devices: Partial<Record<number, DeviceMapping>>;
+	nodes: Partial<Record<number, NodeMapping>>;
 }
 
-export interface DeviceMapping {
+export interface NodeMapping {
 	name: string;
 	channels?: Partial<Record<number, ChannelMapping>>;
 }
@@ -66,7 +61,7 @@ export class HomeHub {
 	private _hub: Hub;
 	private _home: Home;
 	private _controllers: Controller[];
-	private _controllerMappings: ControllerMappings;
+	private _networkMappings: NetworkMappings;
 	private _reverseMappings: Map<string, ReverseMapping> = new Map();
 
 	public static async create(
@@ -74,14 +69,14 @@ export class HomeHub {
 		mainController: Controller,
 		hub: Hub,
 		controllers: Controller[],
-		controllerMappings: ControllerMappings
+		networkMappings: NetworkMappings
 	): Promise<HomeHub> {
 		const homeHub = new this(
 			home,
 			mainController,
 			hub,
 			controllers,
-			controllerMappings
+			networkMappings
 		);
 		await homeHub._initMhub();
 		return homeHub;
@@ -92,7 +87,7 @@ export class HomeHub {
 		mainController: Controller,
 		hub: Hub,
 		controllers: Controller[],
-		controllerMappings: ControllerMappings
+		networkMappings: NetworkMappings
 	) {
 		this._home = home;
 		this._home.on("value", (name: string, value: number) =>
@@ -108,7 +103,7 @@ export class HomeHub {
 		);
 
 		this._hub = hub;
-		this._controllerMappings = controllerMappings;
+		this._networkMappings = networkMappings;
 		this._controllers = controllers.slice();
 
 		this._updateReverseMappings();
@@ -198,22 +193,22 @@ export class HomeHub {
 		nodeId?: number,
 		channelId?: number
 	): string {
-		const controllerMapping = this._controllerMappings[homeId];
-		const controllerName = controllerMapping?.name ?? `${toHex(homeId, 8)}`;
+		const networkMapping = this._networkMappings[homeId];
+		const networkName = networkMapping?.name ?? `${toHex(homeId, 8)}`;
 		if (nodeId === undefined) {
-			return controllerName;
+			return networkName;
 		}
 
-		const deviceMapping = controllerMapping?.devices[nodeId];
-		const deviceName =
-			deviceMapping?.name ?? `${controllerName}:${toHex(nodeId, 2)}`;
+		const nodeMapping = networkMapping?.nodes[nodeId];
+		const nodeName =
+			nodeMapping?.name ?? `${networkName}:${toHex(nodeId, 2)}`;
 		if (channelId === undefined || channelId === 0) {
-			return deviceName;
+			return nodeName;
 		}
 
-		const channelMapping = deviceMapping?.channels?.[channelId];
+		const channelMapping = nodeMapping?.channels?.[channelId];
 		const endpointName =
-			channelMapping?.name ?? `${deviceName}.${toHex(channelId, 2)}`;
+			channelMapping?.name ?? `${nodeName}.${toHex(channelId, 2)}`;
 		return endpointName;
 	}
 
@@ -221,19 +216,16 @@ export class HomeHub {
 		this._reverseMappings.clear();
 		// Add numeric / fallback IDs for all devices
 		for (const controller of this._controllers) {
-			const controllerName = this._controllerMappings[controller.homeId];
+			const networkName = this._networkMappings[controller.homeId];
 			const devices = controller.getDevices();
 			for (const device of devices) {
 				const rev: ReverseMapping = {
 					controller,
 					endpoint: ep(device.nodeId),
 				};
-				if (controllerName) {
+				if (networkName) {
 					this._reverseMappings.set(
-						`${toHex(controller.homeId, 8)}:${toHex(
-							device.nodeId,
-							2
-						)}`,
+						`${networkName}:${toHex(device.nodeId, 2)}`,
 						rev
 					);
 				}
@@ -248,17 +240,17 @@ export class HomeHub {
 		for (const controller of this._controllers) {
 			controllerMap.set(controller.homeId, controller);
 		}
-		for (const [homeId, controllerMapping] of Object.entries(
-			this._controllerMappings
+		for (const [homeId, networkMapping] of Object.entries(
+			this._networkMappings
 		)) {
 			const controller = controllerMap.get(parseInt(homeId, 10));
-			if (!controller || !controllerMapping?.devices) {
+			if (!controller || !networkMapping?.nodes) {
 				continue;
 			}
-			for (const [nodeId, deviceMapping] of Object.entries(
-				controllerMapping.devices
+			for (const [nodeId, nodeMapping] of Object.entries(
+				networkMapping.nodes
 			)) {
-				this._reverseMappings.set(deviceMapping!.name, {
+				this._reverseMappings.set(nodeMapping!.name, {
 					controller,
 					endpoint: ep(parseInt(nodeId, 10)),
 				});

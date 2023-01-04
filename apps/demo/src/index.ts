@@ -29,8 +29,13 @@ import { readFile } from "fs/promises";
 import * as path from "path";
 import SerialPort from "serialport";
 import "source-map-support/register";
-import { DevHomeDevices, Home } from "./home";
-import { ControllerIds, ControllerMappings, HomeHub } from "./homehub";
+import { ControllerIds, Home } from "./home";
+import {
+	HomeHub,
+	NetworkMapping,
+	NetworkMappings,
+	NodeMapping,
+} from "./homehub";
 import { Hub } from "./hub";
 
 function prefixTimestamp(console: Console, method: keyof Console): void {
@@ -54,12 +59,83 @@ interface HostConfig {
 	/**
 	 * 16 bytes as array of 16 numbers, or string of 32 hex chars
 	 */
+	// TODO Move to NetworkConfig
 	networkKey: number[] | string;
 }
 
+interface NetworkConfig {
+	/**
+	 * Home ID of network.
+	 */
+	homeId: number;
+
+	/**
+	 * Network name.
+	 *
+	 * If not given, its homeId is used instead, formatted as an 8-digit hexadecimal
+	 * number.
+	 * Note: the controller device itself can be given an explicit name by listing
+	 * its nodeId in `devices`.
+	 */
+	name: string;
+
+	/**
+	 * Specify specific info about each device.
+	 *
+	 * Devices not specified in the list, but available in the controller(s)
+	 * will use default values.
+	 */
+	nodes: NodeConfig[];
+}
+
+interface NodeConfig {
+	/**
+	 * Node ID of ZWave node.
+	 */
+	nodeId: number;
+
+	/**
+	 * Name of device on message bus.
+	 *
+	 * The default device name is <controller_name_or_id>:<device_id>,
+	 * where device_id is a 2-digit hex number without '0x' prefix.
+	 */
+	name: string;
+}
+
 interface Config {
+	/**
+	 * Serial port configuration.
+	 *
+	 * Determines which serial devices (ports) will be considered for
+	 * opening to see whether they are in fact a ZWave SerialAPI device.
+	 */
 	serial?: SerialPortScannerOptions;
+
+	/**
+	 * ZWave Serial API hosts (aka controllers) configuration.
+	 */
 	hosts?: HostConfig[];
+
+	/**
+	 * Network configuration.
+	 *
+	 * Multiple networks can be active at the same time, each with
+	 * at least one controller.
+	 */
+	networks: NetworkConfig[];
+
+	/**
+	 * Folder to store persistent information about controllers and
+	 * devices. Path is given relative to folder of configuration file.
+	 *
+	 * Default is "./cache".
+	 */
+	cacheDir?: string;
+
+	/**
+	 * MHub message bus configuration.
+	 */
 	mhub?: {
 		url: string;
 		user: string;
@@ -117,11 +193,33 @@ void main(async () => {
 		);
 	}
 
+	// Parse configuration
 	const configPath =
 		process.argv[2] ?? path.resolve(__dirname, "../config.json");
 	console.log(`Reading configuration from ${configPath}`);
 	const config = JSON.parse(await readFile(configPath, "utf8")) as Config;
-	const cacheRoot = path.resolve(configPath, "../cache"); // TODO make configurable
+	const configFolder = path.dirname(configPath);
+	const cacheRoot = path.resolve(configFolder, config.cacheDir ?? "./cache");
+
+	const networkMappings: NetworkMappings = {};
+	for (const networkConfig of config.networks ?? []) {
+		if (!networkConfig.homeId) {
+			throw new Error("missing 'homeId' in networkConfig");
+		}
+		const networkMapping: NetworkMapping = {
+			name: networkConfig.name ?? toHex(networkConfig.homeId, 8),
+			nodes: {},
+		};
+		networkMappings[networkConfig.homeId] = networkMapping;
+		for (const nodeConfig of networkConfig.nodes) {
+			const nodeMapping: NodeMapping = {
+				name:
+					nodeConfig.name ??
+					`${networkMapping.name}.${toHex(nodeConfig.nodeId, 2)}`,
+			};
+			networkMapping.nodes[nodeConfig.nodeId] = nodeMapping;
+		}
+	}
 
 	// Start connection to MHub pubsub daemon
 	// TODO Right now this is only used for the 'built-in' HomeHub stuff,
@@ -253,24 +351,12 @@ void main(async () => {
 	}
 
 	if (home && mhub && martinsMainController && martinsDevController) {
-		// TODO move to configuration
-		const controllerMappings: ControllerMappings = {
-			[ControllerIds.DevController]: {
-				name: "dev",
-				devices: {
-					[DevHomeDevices.Controller]: { name: "devController" },
-					[DevHomeDevices.MiscSwitch]: { name: "miscSwitch" },
-					[DevHomeDevices.Thermostat1]: { name: "thermostat1" },
-					[DevHomeDevices.AerQ1]: { name: "aerq1" },
-				},
-			},
-		};
 		await HomeHub.create(
 			home,
 			martinsMainController,
 			mhub,
 			[martinsMainController, martinsDevController],
-			controllerMappings
+			networkMappings
 		);
 	}
 

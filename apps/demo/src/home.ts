@@ -5,9 +5,14 @@ import {
 	SwitchMultilevelV1,
 	ThermostatModeV3,
 } from "@ezwave/commands";
-import { Controller, ep } from "@ezwave/controller";
+import { Controller, Device, ep } from "@ezwave/controller";
 import { Endpoint, LayerEvent } from "@ezwave/layers";
 import { EventEmitter } from "events";
+
+export enum ControllerIds {
+	MainController = 3743991572,
+	DevController = 3984265931,
+}
 
 export enum HomeDevices {
 	Controller = 1, // *LB, Static Controller, Static PC Controller, AEON Labs ZW090 Z-Stick Gen5 EU, Stick, Meterkast, , 9:42:29 PM, Ready
