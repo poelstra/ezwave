@@ -181,18 +181,14 @@ export class Device extends EventEmitter {
 	public constructor(
 		controller: Controller,
 		nodeId: number,
+		name: string,
 		cached?: JsonValue
 	) {
 		super();
 		this._controller = controller;
 		this.nodeId = nodeId;
-		// TODO Change homeID to its name
-		this._log = debug(
-			`zwave:device:${toHex(controller.homeId, 8)}:${nodeId}`
-		);
-		this._logData = debug(
-			`zwave:device:${toHex(controller.homeId, 8)}:${nodeId}:data`
-		);
+		this._log = debug(`zwave:device:${name}`);
+		this._logData = debug(`zwave:device:${name}:data`);
 
 		if (cached) {
 			try {

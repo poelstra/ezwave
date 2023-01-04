@@ -20,7 +20,7 @@ import {
 	ZwAddNodeToNetwork,
 	ZwSendData,
 } from "@ezwave/serialapi";
-import { defer, Deferred, Queue } from "@ezwave/shared";
+import { defer, Deferred, Queue, toHex } from "@ezwave/shared";
 import assert from "assert";
 import debug from "debug";
 import { EventEmitter } from "events";
@@ -302,7 +302,10 @@ export class Controller
 			);
 			log("inclusion including", nif);
 
-			const device = await this._createDevice(nif.nodeId);
+			const device = await this._createDevice(
+				nif.nodeId,
+				`${toHex(this.homeId, 8)}:${nif.nodeId}`
+			);
 			await device.completeInclusion();
 			log(`device ${nif.nodeId} inclusion complete`);
 			device.start();
@@ -536,7 +539,8 @@ export class Controller
 		for (const nodeId of addedIds) {
 			try {
 				const cache = await this._deviceCache?.get(nodeId);
-				const device = await this._createDevice(nodeId, cache);
+				const name = `${toHex(this.homeId, 8)}:${nodeId}`;
+				const device = await this._createDevice(nodeId, name, cache);
 				device.start();
 				this.emit("deviceAdded", device);
 			} catch (err) {
@@ -547,9 +551,10 @@ export class Controller
 
 	private async _createDevice(
 		nodeId: number,
+		name: string,
 		cache?: JsonValue
 	): Promise<Device> {
-		const device = new Device(this, nodeId, cache);
+		const device = new Device(this, nodeId, name, cache);
 		device.on("cache", (cache: JsonValue) =>
 			this._handleDeviceCache(device, cache)
 		);
