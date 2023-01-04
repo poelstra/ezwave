@@ -402,6 +402,12 @@ export class HomeHub {
 			console.warn(`Ignoring command for unknown device '${deviceName}`);
 			return;
 		}
+		if (!mapping.controller.isAttached()) {
+			// Slightly more informative message than if `getDevice()` crashes below.
+			console.warn(
+				`Ignoring command for unattached device '${deviceName}`
+			);
+		}
 		const device = mapping.controller.getDevice(mapping.endpoint.nodeId);
 		switch (command) {
 			case "basic/set": {
