@@ -320,7 +320,6 @@ export class Device extends EventEmitter {
 		this._needsSetup = true;
 		this._emitCache();
 		await this._bootstrapSecurity();
-		await this._assignReturnRoute();
 		await this._init();
 	}
 
@@ -834,6 +833,7 @@ export class Device extends EventEmitter {
 				await this._interview();
 
 				if (this._needsSetup) {
+					await this._assignReturnRoute();
 					await this._setupLifeline();
 					await this._assignAssociationRoutes();
 					await this._setupWakeUpCommandClass(); // 6.3.9.1
