@@ -46,7 +46,6 @@ import { getScaleName, namedSessionRunner } from ".";
 import {
 	AddAssociationTask,
 	AssociationGroupInfo,
-	buildAddAssociation,
 	buildInterviewAssociations,
 	buildRemoveAssociation,
 	Profile,
@@ -994,12 +993,22 @@ export class Device extends EventEmitter {
 			this._logData(
 				`setupLifeline assign groupId=${group.groupingIdentifier}`
 			);
-			await this._execute(
-				buildAddAssociation({
-					groupingIdentifier: group.groupingIdentifier,
-					nodeIds: [sucId],
-				})
+			const addAssocTask = new AddAssociationTask(
+				this.nodeId,
+				group.groupingIdentifier,
+				[sucId],
+				(updatedDestinations) => {
+					// Update our cached copy of the association
+					const cachedGroup = this._associations?.get(
+						group.groupingIdentifier
+					);
+					if (cachedGroup) {
+						cachedGroup.nodeIds = updatedDestinations;
+						this._emitCache();
+					}
+				}
 			);
+			await this._execute((runner) => addAssocTask.execute(runner));
 		}
 	}
 
