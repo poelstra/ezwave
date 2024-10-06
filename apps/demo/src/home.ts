@@ -18,7 +18,7 @@ export enum HomeDevices {
 	Controller = 1, // *LB, Static Controller, Static PC Controller, AEON Labs ZW090 Z-Stick Gen5 EU, Stick, Meterkast, , 9:42:29 PM, Ready
 	Misc = 10, // LBR, Routing Slave, Binary Power Switch, Unknown: id=0000 Unknown: type=0000, id=0000, Misc, Garage, off, 9:42:52 PM, Ready
 	BadkamerLeds = 11, // LBR+, Z-Wave+ node Always On Slave, On/Off Power Switch, FIBARO System FGWPE/F Wall Plug Gen5, Leds badkamer, Badkamer, on, 3:26:05 PM, Ready
-	BadkamerThermostaat = 13, // FBR+, Z-Wave+ node Listening Sleeping Slave, Thermostat HVAC, EUROtronic EUR_SPIRITZ Wall Radiator Thermostat, Verwarming, Badkamer, 0, 10:26:19 AM, Ready
+	// BadkamerThermostaat = 13, // FBR+, Z-Wave+ node Listening Sleeping Slave, Thermostat HVAC, EUROtronic EUR_SPIRITZ Wall Radiator Thermostat, Verwarming, Badkamer, 0, 10:26:19 AM, Ready
 	ZolderAfzuiging = 15, // LBR+, Z-Wave+ node Always On Slave, On/Off Power Switch, AEON Labs ZW132 Dual Nano Switch, Afzuiging, Zolder, on, 7:30:02 AM, Ready
 	KeukenBar = 16, // LBR+, Z-Wave+ node Always On Slave, Light Dimmer Switch, FIBARO System FGD212 Dimmer 2, Spots Bar, Keuken, 0, 3:45:46 PM, Ready
 	BijkeukenBuitenlamp = 22, // LBR+, Z-Wave+ node Always On Slave, On/Off Power Switch, AEON Labs ZW116 Nano Switch, Buitenlamp acht, Bijkeuken, off, 3:47:32 PM, Ready
@@ -26,6 +26,7 @@ export enum HomeDevices {
 	KeukenKoelkast = 24, // LBR, Routing Slave, Multilevel Power Switch, FIBARO System FGRGBWM441 RGBW Controller, Leds Koelkast, Keuken, 0, 8:51:43 AM, Ready
 	EetkamerLamp = 25, // LBR+, Z-Wave+ node Always On Slave, Light Dimmer Switch, FIBARO System FGD212 Dimmer 2, Lamp tafel, Eetkamer, 0, 3:30:57 PM, Ready
 	BadkamerSensor = 26, // BR, Routing Slave, Routing Multilevel Sensor, , Multisensor, Badkamer, , 8:51:06 AM, Probe (sleeping)
+	BadkamerThermostaat = 38, // FBR+, Z-Wave+ node Listening Sleeping Slave, Thermostat HVAC, EUROtronic EUR_SPIRITZ Wall Radiator Thermostat, Verwarming, Badkamer, 0, 10:26:19 AM, Ready
 }
 
 export enum DevHomeDevices {
@@ -69,6 +70,21 @@ export async function setupThermostatNew(device: Device): Promise<void> {
 	//await device.setConfiguration(8, -128);
 }
 
+export async function setupThermostatBadkamer(device: Device): Promise<void> {
+	// https://eurotronic.org/wp-content/uploads/2021/07/Spirit_Z-Wave_Plus_Installation-and-Operation-Guide_web.pdf
+
+	// Configure battery reports once a day
+	await device.setConfiguration(4, 1);
+	// Temperature reporting in 0.1C steps (0, 1..50)
+	await device.setConfiguration(5, 10);
+	// Valve opening reporting in percent (0, 1..100)
+	await device.setConfiguration(6, 0);
+	// Window open detection (0 = disable, 1..3 = low,medium,high sensitivity)
+	await device.setConfiguration(7, 0);
+	// Temperature offset compensation in 0.1C steps (-50..50, -128 = external sensor)
+	//await device.setConfiguration(8, -128);
+}
+
 export async function setupAerQNew(device: Device): Promise<void> {
 	// https://aeotec.freshdesk.com/support/solutions/articles/6000227918-a%C3%ABrq-temperature-and-humidity-sensor-user-guide-
 
@@ -77,7 +93,8 @@ export async function setupAerQNew(device: Device): Promise<void> {
 	// Checking period for param 1&2 in minutes (1..255), default 15
 	await device.setConfiguration(3, 5);
 	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
-	//await device.setConfiguration(65, 0b1011);
+	// Note: seems humidity and dew point are swapped in the docs, so 2 = dew point, 3 = humidity
+	await device.setConfiguration(65, 0b1011);
 }
 
 export async function setupAerQ(
