@@ -223,7 +223,7 @@ To (re-)build just a single package, just run `rushx build` in that folder
 (it's the rush equivalent to `npm run build`).
 
 In order to run all packages in watch mode, you can use e.g. `@telia/rush-select`.
-Run it as `pnpx -y @telia/rush-select`, select the `watch` target for each package,
+Run it as `pnpx @telia/rush-select`, select the `watch` target for each package,
 and press `Enter` to start to build them all. The target selection only needs to
 be performed once.
 
