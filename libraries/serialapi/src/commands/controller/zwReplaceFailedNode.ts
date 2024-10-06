@@ -9,7 +9,7 @@ export interface ZwReplaceFailedNodeRequest {
 	nodeId: number;
 
 	// TODO mentioned in C-interface docs, but not in SerialAPI structure?!
-	//normalPower?: boolean; // default true, false means low power
+	//lowPower?: boolean; // default false (normal power)
 }
 
 enum ReplaceFailedNodeResponse {

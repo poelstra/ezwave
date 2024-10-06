@@ -175,14 +175,14 @@ export function zwAddNodeToNetworkBuilder(
 ): CallbackRequestBuilder<Event, NodeInfoResponse> {
 	return (transactionId) => {
 		const command = SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK;
-		let mode = AddNodeMode.Any;
+		let flags = AddNodeMode.Any;
 		if (!request.lowPower) {
-			mode |= AddNodeFlags.NormalPower;
+			flags |= AddNodeFlags.NormalPower;
 		}
-		mode |= AddNodeFlags.NetworkWide; // "MUST be used" (INS13954-7 4.4.1.1)
+		flags |= AddNodeFlags.NetworkWide; // "MUST be used" (INS13954-7 4.4.1.1)
 		return {
 			command,
-			params: Buffer.from([mode, transactionId]),
+			params: Buffer.from([flags, transactionId]),
 			tryParseEvent: buildCallbackParser(
 				command,
 				transactionId,

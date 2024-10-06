@@ -18,6 +18,7 @@ import {
 	SerialApi,
 	SerialApiCommandEvent,
 	ZwAddNodeToNetwork,
+	ZwRemoveNodeFromNetwork,
 	ZwSendData,
 } from "@ezwave/serialapi";
 import { defer, Deferred, Queue, toHex } from "@ezwave/shared";
@@ -314,6 +315,34 @@ export class Controller
 			return device;
 		} catch (err) {
 			log("inclusion failed:", err);
+			throw err;
+		}
+	}
+
+	/**
+	 * Start network exclusion.
+	 *
+	 * @return NodeId of excluded device, or 0 if device was not part of this network.
+	 */
+	public async excludeDevice(): Promise<number> {
+		try {
+			log("exclusion start");
+
+			const nodeId = await this.executeSerialCommand(
+				new ZwRemoveNodeFromNetwork({})
+			);
+
+			if (nodeId > 0) {
+				const device = this.getDevice(nodeId);
+				device.stop();
+				this._devices.delete(nodeId);
+				this.emit("deviceRemoved", device);
+			}
+
+			log(`exclusion completed, nodeId=${nodeId}`);
+			return nodeId;
+		} catch (err) {
+			log("exclusion failed:", err);
 			throw err;
 		}
 	}
