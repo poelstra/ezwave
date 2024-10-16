@@ -1,10 +1,5 @@
 import { Packet } from "@ezwave/codec";
-import {
-	BasicV1,
-	SwitchBinaryV1,
-	SwitchMultilevelV1,
-	ThermostatModeV3,
-} from "@ezwave/commands";
+import { BasicV1, SwitchBinaryV1, SwitchMultilevelV1 } from "@ezwave/commands";
 import { Controller, Device, ep } from "@ezwave/controller";
 import { Endpoint, LayerEvent } from "@ezwave/layers";
 import { EventEmitter } from "events";
@@ -153,16 +148,6 @@ export class Home extends EventEmitter {
 	}
 
 	public async setBadkamerThermostaat(value: number): Promise<void> {
-		// Make sure to set thermostat in Manufacturer-specific mode first
-		// Note: Manufacturer-specific mode works, but isn't reported in
-		// ThermostatModeSupportedReport
-		await this.controller.send({
-			endpoint: ep(HomeDevices.BadkamerThermostaat),
-			packet: new ThermostatModeV3.ThermostatModeSet({
-				mode: ThermostatModeV3.ModeEnum.ManufacturerSpecifc,
-				manufacturerData: Buffer.alloc(0),
-			}),
-		});
 		await this._setMultilevel(HomeDevices.BadkamerThermostaat, value);
 	}
 
