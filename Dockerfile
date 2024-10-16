@@ -5,7 +5,7 @@
 #
 # common/scripts/prepare-docker-cache.sh
 
-FROM node:16
+FROM node:20
 
 VOLUME /config
 
