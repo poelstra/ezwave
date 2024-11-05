@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
       - "main"
+  workflow_dispatch:
 
 env:
   docker_repo: ${{ secrets.DOCKER_HUB_USERNAME }}/ezwave-demo
