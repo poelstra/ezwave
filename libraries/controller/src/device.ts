@@ -269,6 +269,20 @@ export class Device extends EventEmitter {
 		return this._versions.supportedVersions.get(commandClass);
 	}
 
+	/**
+	 * Try to communicate with the node (sends a NOP).
+	 *
+	 * @return `true` when the node responded, `false` otherwise.
+	 *
+	 * Note: this is also useful to get the Z-Wave stick's internal
+	 * list of 'failing nodes' up to date, e.g. before calling
+	 * `Controller.replaceDevice()`, which requires the node to
+	 * actually be on that list first.
+	 */
+	public async ping(): Promise<boolean> {
+		return this._tryPing();
+	}
+
 	public start(): void {
 		if (this._stopped) {
 			// Note: cannot be re-used anymore, too tricky right now

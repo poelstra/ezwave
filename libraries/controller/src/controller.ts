@@ -18,7 +18,9 @@ import {
 	SerialApi,
 	SerialApiCommandEvent,
 	ZwAddNodeToNetwork,
+	ZwIsFailedNode,
 	ZwRemoveNodeFromNetwork,
+	ZwReplaceFailedNode,
 	ZwSendData,
 } from "@ezwave/serialapi";
 import { defer, Deferred, Queue, toHex } from "@ezwave/shared";
@@ -347,6 +349,88 @@ export class Controller
 		}
 	}
 
+	/**
+	 * Check whether the controller currently considers the given node
+	 * to be on its internal list of failing nodes.
+	 *
+	 * This list is maintained by the Z-Wave protocol itself: a node is
+	 * only added to it after the controller has actually tried (and
+	 * failed) to communicate with it. `replaceDevice()` and the
+	 * (currently unimplemented) 'remove failed node' command both
+	 * require the node to be on this list first.
+	 */
+	public async isFailedNode(nodeId: number): Promise<boolean> {
+		return this.executeSerialCommand(new ZwIsFailedNode({ nodeId }));
+	}
+
+	/**
+	 * Replace an existing failed node with a new device.
+	 *
+	 * Note: the Z-Wave stick only allows this when it already
+	 * considers the node 'failing' (see `isFailedNode()`). It does
+	 * NOT determine this on the fly: something must have actually
+	 * tried, and failed, to communicate with the node first. If the
+	 * node is not yet recognized as failing, this tries a single
+	 * ping (NOP) to it, to give the stick a chance to notice.
+	 *
+	 * @return Newly included replacement `Device` with the same nodeId.
+	 */
+	public async replaceDevice(nodeId: number): Promise<Device> {
+		try {
+			log(`replace start nodeId=${nodeId}`);
+
+			if (!(await this.isFailedNode(nodeId))) {
+				log(
+					`replace nodeId=${nodeId} not yet on failing nodes list, pinging to find out...`
+				);
+				const existingDevice = this._devices.get(nodeId);
+				const reachable = existingDevice
+					? await existingDevice.ping()
+					: false;
+				const isFailedNodeNow = await this.isFailedNode(nodeId);
+				log(
+					`replace nodeId=${nodeId} ping reachable=${reachable} isFailedNode=${isFailedNodeNow}`
+				);
+				if (!isFailedNodeNow) {
+					throw new Error(
+						`node ${nodeId} is not (yet) on the controller's failing nodes list, so it cannot be replaced` +
+							(reachable
+								? "; the node responded to a ping, so it is not actually failing"
+								: "; a ping to the node failed, but the controller still doesn't consider it failing yet - it may need more time/attempts, or a factory reset of the device")
+					);
+				}
+			}
+
+			await this.executeSerialCommand(
+				new ZwReplaceFailedNode({
+					nodeId,
+				})
+			);
+			log(`replace including nodeId=${nodeId}`);
+
+			const existingDevice = this._devices.get(nodeId);
+			if (existingDevice) {
+				existingDevice.stop();
+				this._devices.delete(nodeId);
+				this.emit("deviceRemoved", existingDevice);
+			}
+
+			const device = await this._createDevice(
+				nodeId,
+				`${toHex(this.homeId, 8)}:${nodeId}`
+			);
+			await device.completeInclusion();
+			log(`device ${nodeId} replacement complete`);
+			device.start();
+			this.emit("deviceAdded", device);
+
+			return device;
+		} catch (err) {
+			log(`replace failed nodeId=${nodeId}:`, err);
+			throw err;
+		}
+	}
+
 	public send(command: LayerCommand): Promise<boolean> {
 		if (logData.enabled) {
 			logData("send", layerCommandToString(command));
@@ -380,14 +464,14 @@ export class Controller
 					number,
 					Packet,
 					CommandPacketConstructor<R> | PacketMapper<R>,
-					SendAndWaitForOptions?
+					SendAndWaitForOptions?,
 			  ]
 			| [
 					number,
 					number,
 					Packet,
 					CommandPacketConstructor<R> | PacketMapper<R>,
-					SendAndWaitForOptions?
+					SendAndWaitForOptions?,
 			  ]
 	): Promise<R["data"]> {
 		if (args.length < 3) {
@@ -401,7 +485,7 @@ export class Controller
 				number,
 				Packet,
 				CommandPacketConstructor<R> | PacketMapper<R>,
-				SendAndWaitForOptions?
+				SendAndWaitForOptions?,
 			];
 			const options = {
 				...DEFAULT_SEND_AND_WAIT_FOR_OPTIONS,
@@ -422,7 +506,7 @@ export class Controller
 				number,
 				Packet,
 				CommandPacketConstructor<R> | PacketMapper<R>,
-				SendAndWaitForOptions?
+				SendAndWaitForOptions?,
 			];
 			const options = {
 				...DEFAULT_SEND_AND_WAIT_FOR_OPTIONS,
