@@ -402,6 +402,11 @@ export class HomeHub {
 		}
 		const device = mapping.controller.getDevice(mapping.endpoint.nodeId);
 		switch (command) {
+			case "noop/noop": {
+				// aka "ping"
+				await device.ping();
+				return;
+			}
 			case "basic/set": {
 				if (typeof message.data !== "object") {
 					throw new Error("Invalid payload, object expected");
