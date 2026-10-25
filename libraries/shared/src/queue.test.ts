@@ -5,11 +5,11 @@ describe("common/queue", () => {
 	describe("Queue", () => {
 		it("should start callback", async () => {
 			const q = new Queue();
-			const stub = jest.fn();
+			const stub = vi.fn();
 			// eslint-disable-next-line @typescript-eslint/no-floating-promises
 			q.add(stub);
-			expect(stub).toBeCalledTimes(1);
-			expect(stub).toBeCalledWith();
+			expect(stub).toHaveBeenCalledTimes(1);
+			expect(stub).toHaveBeenCalledWith();
 			expect(stub.mock.instances).toEqual([undefined]);
 		});
 
@@ -35,19 +35,19 @@ describe("common/queue", () => {
 				.add(() => d1.promise)
 				.then((value) => (done1 = value));
 
-			const stub2 = jest.fn();
+			const stub2 = vi.fn();
 			// eslint-disable-next-line @typescript-eslint/no-floating-promises
 			q.add(stub2);
 
 			await Promise.resolve(); // tick
 			expect(done1).toBeUndefined();
-			expect(stub2).toBeCalledTimes(0);
+			expect(stub2).toHaveBeenCalledTimes(0);
 
 			d1.resolve(42);
 			await result1;
 			expect(done1).toBe(42);
 
-			expect(stub2).toBeCalledTimes(1);
+			expect(stub2).toHaveBeenCalledTimes(1);
 		});
 	});
 });

@@ -83,7 +83,7 @@ export function enumToString(key: number, enumType: EnumType): string {
 export class Timer {
 	private _timeout: number;
 	private _onTimeout: () => void;
-	private _handle: NodeJS.Timer | undefined;
+	private _handle: NodeJS.Timeout | undefined;
 
 	/**
 	 * Construct new timer, setting the timeout and callback
@@ -167,7 +167,7 @@ export class InterruptibleSleep {
 	private _trigger: Deferred<void> = defer<void>();
 
 	public async sleep(timeoutInMs: number): Promise<void> {
-		let handle: NodeJS.Timer;
+		let handle: NodeJS.Timeout;
 		try {
 			await Promise.race([
 				this._trigger.promise,
