@@ -1,9 +1,6 @@
-**/.heft/
-**/.rush/
+**/.turbo/
 **/lib/
-**/temp/
 **/node_modules/
-**/*.build.log
 .git/
 todo.txt
 klooi/

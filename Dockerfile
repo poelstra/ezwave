@@ -1,11 +1,11 @@
-# Sample Dockerfile to build app/demo
+# Sample Dockerfile to build apps/demo
 #
 # In order to cache the installation of node modules, make
 # sure to first run (in the host, before running `docker build`):
 #
 # common/scripts/prepare-docker-cache.sh
 
-FROM node:16
+FROM node:24
 
 VOLUME /config
 
@@ -16,13 +16,13 @@ VOLUME /config
 ENV CI=true
 WORKDIR /app
 
-COPY ./common ./common
 COPY ./cache .
-COPY ./rush.json .
-RUN node ./common/scripts/install-run-rush.js install --max-install-attempts 1
+COPY pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+RUN npm install --global pnpm@$(node -p "require('./package.json').packageManager.split('@')[1]")
+RUN pnpm install --frozen-lockfile
 
 COPY . .
-RUN node common/scripts/install-run-rush.js build
+RUN pnpm turbo run build
 
 ENTRYPOINT ["node", "/app/apps/demo/lib/index"]
 CMD ["/config/config.json"]
