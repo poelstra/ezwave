@@ -4,9 +4,13 @@
 // via:
 //
 //   import { defineConfig } from "vitest/config";
-//   import base from "@ezwave/build-config/vitest.config.base.js";
+//   import base from "@ezwave/build-config/vitest-base.js";
 //
 //   export default defineConfig(base);
+//
+// Deliberately not named "vitest.config.*": that pattern makes VSCode's
+// Vitest extension treat this package itself as a project root (it has no
+// vitest dependency of its own, since it never runs any tests).
 
 module.exports = {
 	test: {

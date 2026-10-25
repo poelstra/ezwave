@@ -7,7 +7,7 @@
 	"files": [
 		"tsconfig-base.json",
 		"eslint.config.js",
-		"vitest.config.base.js"
+		"vitest-base.js"
 	],
 	"dependencies": {
 		"@eslint/js": "catalog:",
