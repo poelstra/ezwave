@@ -141,17 +141,16 @@ export interface Refs {
  */
 export type Reference<
 	Mode extends RefMode,
-	T extends Parameter<Mode> | BitfieldElement<Mode>
+	T extends Parameter<Mode> | BitfieldElement<Mode>,
 > = Mode extends RefMode.Json ? Ref : T;
 
 export type References<
 	Mode extends RefMode,
-	T extends Parameter<Mode> | BitfieldElement<Mode>
+	T extends Parameter<Mode> | BitfieldElement<Mode>,
 > = Mode extends RefMode.Json ? Refs : T[];
 
 export type Parameter<Mode extends RefMode = RefMode.Direct> =
-	| LocalParameter<Mode>
-	| ParameterGroup<Mode>;
+	LocalParameter<Mode> | ParameterGroup<Mode>;
 
 export type LocalParameter<Mode extends RefMode = RefMode.Direct> =
 	| IntegerParameter<Mode>
@@ -167,8 +166,9 @@ export type LocalParameter<Mode extends RefMode = RefMode.Direct> =
  *
  * Equivalent to VARIANT_GROUP in XML.
  */
-export interface ParameterGroup<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface ParameterGroup<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.ParameterGroup;
 
 	/**
@@ -239,8 +239,9 @@ export interface ParameterBase<Mode extends RefMode = RefMode.Direct> {
  *
  * Equivalent to BYTE, WORD, BIT_24 or DWORD in XML.
  */
-export interface IntegerParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface IntegerParameter<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.Integer;
 
 	/**
@@ -320,8 +321,9 @@ export interface IntegerParameter<Mode extends RefMode = RefMode.Direct>
  *
  * Equivalent to CONST in XML.
  */
-export interface EnumParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface EnumParameter<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.Enum;
 
 	/**
@@ -342,8 +344,9 @@ export interface EnumParameter<Mode extends RefMode = RefMode.Direct>
  *
  * Equivalent to STRUCT_BYTE in XML.
  */
-export interface BitfieldParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface BitfieldParameter<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.Bitfield;
 	fields: BitfieldElement<Mode>[];
 	/**
@@ -368,8 +371,9 @@ export interface BitfieldParameter<Mode extends RefMode = RefMode.Direct>
  *
  * Equivalent to MULTI_ARRAY in XML, always 1 byte.
  */
-export interface EnumUnionParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface EnumUnionParameter<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.EnumUnion;
 	reference: Reference<Mode, EnumParameter<Mode>>;
 	enums: {
@@ -380,16 +384,18 @@ export interface EnumUnionParameter<Mode extends RefMode = RefMode.Direct>
 /**
  * Equivalent to ARRAY and VARIANT in XML, when is_ascii === true.
  */
-export interface TextParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface TextParameter<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.Text;
 }
 
 /**
  * Equivalent to ARRAY and VARIANT in XML, when is_ascii === false, and encaptype is not enum-like.
  */
-export interface BlobParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface BlobParameter<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.Blob;
 	blobType?: BlobType;
 }
@@ -571,8 +577,9 @@ export interface BitfieldElement<Mode extends RefMode = RefMode.Direct> {
  * Bitmasks can encode a set of plain numbers, or a set of a specific
  * set of numbers if `values` is set.
  */
-export interface BitmaskParameter<Mode extends RefMode = RefMode.Direct>
-	extends ParameterBase<Mode> {
+export interface BitmaskParameter<
+	Mode extends RefMode = RefMode.Direct,
+> extends ParameterBase<Mode> {
 	type: ParameterType.Bitmask;
 
 	/**

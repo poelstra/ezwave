@@ -336,10 +336,10 @@ export class SerialApi extends EventEmitter {
 		const roleText = init.capabilities.has(NodeCapabilityFlags.SlaveAPI)
 			? "slave"
 			: init.capabilities.has(NodeCapabilityFlags.SecondaryController)
-			? "secondaryController"
-			: `primaryController isSIS=${init.capabilities.has(
-					NodeCapabilityFlags.IsSIS
-			  )}`;
+				? "secondaryController"
+				: `primaryController isSIS=${init.capabilities.has(
+						NodeCapabilityFlags.IsSIS
+					)}`;
 		// Determine readable chip name (INS12350-Serial-API-Host-Appl.-Prg.-Guide - section 7.4)
 		let chipName: string = "unknown";
 		switch (init.chipType) {

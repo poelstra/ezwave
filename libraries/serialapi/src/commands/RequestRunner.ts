@@ -35,14 +35,14 @@ import {
  *    request).
  */
 export class RequestRunner<
-	F extends  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+	F extends
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		| SimpleRequestBuilderFactory<any>
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		| ResponseRequestBuilderFactory<any, any>
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		| CallbackRequestBuilderFactory<any, any, any>
-> implements ICommandSessionRunner<BuilderFactoryResultTypeOf<F>>
-{
+		| CallbackRequestBuilderFactory<any, any, any>,
+> implements ICommandSessionRunner<BuilderFactoryResultTypeOf<F>> {
 	/**
 	 * Request-specific data passed to request builder factory.
 	 */

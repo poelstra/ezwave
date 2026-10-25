@@ -4,8 +4,9 @@ export interface CommandMatcher {
 	matches(packet: Packet): boolean;
 }
 
-export interface CommandPacketConstructor<T extends Packet>
-	extends CommandMatcher {
+export interface CommandPacketConstructor<
+	T extends Packet,
+> extends CommandMatcher {
 	new (commandAndPayload: Buffer): T;
 }
 

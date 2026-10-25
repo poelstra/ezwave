@@ -52,7 +52,7 @@ export class SwitchMultilevelSetTask implements Task<void> {
 				? new SwitchMultilevelV2.SwitchMultilevelSet({
 						value: value,
 						dimmingDuration: this._dimmingDuration,
-				  })
+					})
 				: new SwitchMultilevelV1.SwitchMultilevelSet({ value: value });
 		await session.send(packet);
 	}
@@ -122,7 +122,9 @@ export function parseSwitchMultilevelReport(
 	version: SwitchMultilevelVersions
 ): SwitchMultilevelReports {
 	return packet.as(
-		switchMultilevelReports[version] as CommandPacketConstructor<SwitchMultilevelReports>
+		switchMultilevelReports[
+			version
+		] as CommandPacketConstructor<SwitchMultilevelReports>
 	);
 }
 

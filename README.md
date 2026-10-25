@@ -10,11 +10,11 @@ layers of the implementation are already usable.
 
 The system is composed of different building blocks/layers:
 
--   Serial API
--   Auto-generated command class encoding/decoding
--   Host driver including Z-Wave transport layers
--   (Future) Network daemon exposing the Host driver to other
-    programs using HTTP, MQTT, etc.
+- Serial API
+- Auto-generated command class encoding/decoding
+- Host driver including Z-Wave transport layers
+- (Future) Network daemon exposing the Host driver to other
+  programs using HTTP, MQTT, etc.
 
 The Serial API driver is handling the low-level communication to
 the Z-Wave controller (USB-stick) that enables a PC to talk to the
@@ -78,11 +78,11 @@ recently) published Z-Wave standards. Ok, hard, but not impossible :)
 It's always fun to learn something new, so I started coding a Z-Wave
 driver with the following goals in mind:
 
--   Allow multiple programs to interface to the same Z-Wave controller,
-    by running the main process as a daemon.
--   Make Z-Wave command class functionality independent of a specific
-    Z-Wave driver.
--   Be auto-configuring and self-repairing by default where possible.
+- Allow multiple programs to interface to the same Z-Wave controller,
+  by running the main process as a daemon.
+- Make Z-Wave command class functionality independent of a specific
+  Z-Wave driver.
+- Be auto-configuring and self-repairing by default where possible.
 
 This philosophy ensures that the system is robust in a distributed
 domotica system, encouraging the use of independent, task-oriented
@@ -203,17 +203,17 @@ builds/lint/tests across packages.
 
 In order to build all packages, you'll need to run the following:
 
--   Install NodeJS (tested on version 24; see `.nvmrc` for the exact version)
--   Install `pnpm`, if you don't already have some version of it:
-    `curl -fsSL https://get.pnpm.io/install.sh | sh -`
-    -   You only need _some_ pnpm to bootstrap with. The first time you run it inside
-        this repo, it reads the `packageManager` field in the root `package.json` and
-        transparently re-execs itself as that exact pinned version (installing it if
-        needed), regardless of what's globally installed. This is what keeps builds
-        reproducible over time.
--   Install all dependencies: `pnpm install`
--   Build, lint and test all packages: `pnpm turbo run build lint test`
--   Check formatting: `pnpm format:check` (or `pnpm format` to fix in place)
+- Install NodeJS (tested on version 24; see `.nvmrc` for the exact version)
+- Install `pnpm`, if you don't already have some version of it:
+  `curl -fsSL https://get.pnpm.io/install.sh | sh -`
+    - You only need _some_ pnpm to bootstrap with. The first time you run it inside
+      this repo, it reads the `packageManager` field in the root `package.json` and
+      transparently re-execs itself as that exact pinned version (installing it if
+      needed), regardless of what's globally installed. This is what keeps builds
+      reproducible over time.
+- Install all dependencies: `pnpm install`
+- Build, lint and test all packages: `pnpm turbo run build lint test`
+- Check formatting: `pnpm format:check` (or `pnpm format` to fix in place)
 
 Whenever you make a change to any of the `package.json` files (e.g.
 when pulling in new changes), be sure to run `pnpm install` again.
@@ -237,9 +237,9 @@ order, and keeps rebuilding whichever packages change - no extra tooling needed.
 
 It's highly recommended to use VSCode for development.
 
--   Ensure you install the [Workspace Recommended Extensions](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions)
-    -   It should ask you whether to install these when you first open the repo, click Yes.
--   Make sure you use the [workspace's version of TypeScript](https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript)
+- Ensure you install the [Workspace Recommended Extensions](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions)
+    - It should ask you whether to install these when you first open the repo, click Yes.
+- Make sure you use the [workspace's version of TypeScript](https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript)
 
 ### Developing your own customization
 
@@ -260,12 +260,12 @@ configuration on it, so it's safe and easy to experiment.
 
 Anyway, in order to get started:
 
--   Set up a config file `apps/demo/config.json` (see apps/demo/src/index for its format).
+- Set up a config file `apps/demo/config.json` (see apps/demo/src/index for its format).
 
-    -   You can configure the serial port id of the devices, and add the home+node ID of
-        a stick you own (just leave it empty initially, it will print the IDs it found).
+    - You can configure the serial port id of the devices, and add the home+node ID of
+      a stick you own (just leave it empty initially, it will print the IDs it found).
 
-    -   Example:
+    - Example:
 
         ```json
         {
@@ -288,19 +288,19 @@ Anyway, in order to get started:
         }
         ```
 
--   Run `node apps/demo/lib/index` to start it
+- Run `node apps/demo/lib/index` to start it
 
 Detailed debug information from the protocol layers can be obtained
 by enabling the `zwave` debug namespace in the `DEBUG` environment
 variable:
 
--   `DEBUG=zwave:* node apps/demo/lib/index`
+- `DEBUG=zwave:* node apps/demo/lib/index`
 
 Or to run the demo app in watch mode using `nodemon`:
 
--   `DEBUG=zwave:* pnpx -y nodemon -w apps/demo/lib apps/demo/lib/index`
-    -   Note: Add any other folders you're developing on as additional `-w`
-        flags, nodemon doesn't support globs for watching folders.
+- `DEBUG=zwave:* pnpx -y nodemon -w apps/demo/lib apps/demo/lib/index`
+    - Note: Add any other folders you're developing on as additional `-w`
+      flags, nodemon doesn't support globs for watching folders.
 
 ### Running in Docker
 
@@ -308,10 +308,10 @@ A barebones Dockerfile is provided as an example to run the demo app.
 Set up a config file (in `apps/demo/config.json`) as mentioned above,
 then run:
 
--   `cd ~/src/ezwave` # Assuming this is where you cloned this repo
--   `./common/scripts/prepare-docker-cache.sh`
--   `docker build -t ezwave .`
--   `docker run -v ~/src/ezwave/apps/demo:/config ezwave`
+- `cd ~/src/ezwave` # Assuming this is where you cloned this repo
+- `./common/scripts/prepare-docker-cache.sh`
+- `docker build -t ezwave .`
+- `docker run -v ~/src/ezwave/apps/demo:/config ezwave`
 
 ## Support
 

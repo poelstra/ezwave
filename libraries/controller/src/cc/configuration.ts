@@ -471,8 +471,7 @@ export interface SetConfigurationParameterBaseRequest {
 	info: ParameterFormatInfo;
 }
 
-export interface SetConfigurationParameterValueRequest
-	extends SetConfigurationParameterBaseRequest {
+export interface SetConfigurationParameterValueRequest extends SetConfigurationParameterBaseRequest {
 	/**
 	 * New value to write.
 	 *
@@ -481,8 +480,7 @@ export interface SetConfigurationParameterValueRequest
 	newValue: number;
 }
 
-export interface SetConfigurationParameterDefaultRequest
-	extends SetConfigurationParameterBaseRequest {
+export interface SetConfigurationParameterDefaultRequest extends SetConfigurationParameterBaseRequest {
 	/**
 	 * Change the parameter back to default value.
 	 */

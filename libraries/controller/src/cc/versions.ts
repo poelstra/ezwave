@@ -161,12 +161,10 @@ export function buildInterviewVersions(
 						version: rawVersion.firmware0Version,
 						subVersion: rawVersion.firmware0SubVersion,
 					},
-					...rawVersion.vg.map(
-						(v): FirmwareVersion => ({
-							version: v.firmwareVersion,
-							subVersion: v.firmwareSubVersion,
-						})
-					),
+					...rawVersion.vg.map((v): FirmwareVersion => ({
+						version: v.firmwareVersion,
+						subVersion: v.firmwareSubVersion,
+					})),
 				];
 				versionInfo = {
 					zWaveLibraryType: rawVersion.zWaveLibraryType,

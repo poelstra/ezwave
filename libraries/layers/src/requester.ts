@@ -94,7 +94,7 @@ export class Requester {
 			? () => {
 					packetSentCallback();
 					originalAfterSend();
-			  }
+				}
 			: packetSentCallback;
 
 		try {

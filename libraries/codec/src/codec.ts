@@ -359,10 +359,10 @@ export class Context {
 				ref.length === 1
 					? 0xff
 					: ref.length === 2
-					? 0xffff
-					: ref.length === 3
-					? 0xffffff
-					: 0xffffffff;
+						? 0xffff
+						: ref.length === 3
+							? 0xffffff
+							: 0xffffffff;
 		} else {
 			maxValue = ref.mask >> ref.shift;
 		}

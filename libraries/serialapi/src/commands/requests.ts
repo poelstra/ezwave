@@ -73,9 +73,7 @@ export interface CallbackRequest<C, R> extends SimpleRequest {
 }
 
 export type AnyRequest<C, R> =
-	| SimpleRequest
-	| ResponseRequest<R>
-	| CallbackRequest<C, R>;
+	SimpleRequest | ResponseRequest<R> | CallbackRequest<C, R>;
 
 export type SimpleRequestBuilder = () => SimpleRequest;
 
@@ -125,20 +123,20 @@ export type BuilderFactoryDataTypeOf<F> =
 	F extends CallbackRequestBuilderFactory<infer T, any, any>
 		? T
 		: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-		F extends ResponseRequestBuilderFactory<infer T, any>
-		? T
-		: F extends SimpleRequestBuilderFactory<infer T>
-		? T
-		: never;
+			F extends ResponseRequestBuilderFactory<infer T, any>
+			? T
+			: F extends SimpleRequestBuilderFactory<infer T>
+				? T
+				: never;
 
 export type BuilderFactoryResultTypeOf<F> =
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	F extends CallbackRequestBuilderFactory<any, any, infer R>
 		? R
 		: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-		F extends ResponseRequestBuilderFactory<any, infer R>
-		? R
-		: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-		F extends SimpleRequestBuilderFactory<any>
-		? void
-		: never;
+			F extends ResponseRequestBuilderFactory<any, infer R>
+			? R
+			: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+				F extends SimpleRequestBuilderFactory<any>
+				? void
+				: never;

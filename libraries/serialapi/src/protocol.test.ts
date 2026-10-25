@@ -333,8 +333,12 @@ describe("SerialAPI protocol", () => {
 		expect(protocolEvents).toEqual([]);
 		expect(protocolMessages).toEqual([]);
 
-		await expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError("not idle");
-		await expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError("not idle");
+		await expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("not idle");
+		await expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("not idle");
 		await expect(protocol.hardResetted()).rejects.toThrowError("closed");
 		await expect(protocol.softReset()).rejects.toThrowError("closed");
 	});
@@ -351,20 +355,30 @@ describe("SerialAPI protocol", () => {
 		expect(protocolEvents).toEqual([]);
 		expect(protocolMessages).toEqual([]);
 
-		await expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError("not idle");
-		await expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError("not idle");
+		await expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("not idle");
+		await expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("not idle");
 		await expect(protocol.hardResetted()).rejects.toThrowError("closed");
 		await expect(protocol.softReset()).rejects.toThrowError("closed");
 	});
 
 	it("waits for reset to be triggered on startup", async () => {
 		const newProtocol = new Protocol(framer);
-		await expect(newProtocol.send(1 as SerialApiCommandCode)).rejects.toThrowError("not idle");
-		await expect(newProtocol.request(1 as SerialApiCommandCode)).rejects.toThrowError("not idle");
+		await expect(
+			newProtocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("not idle");
+		await expect(
+			newProtocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("not idle");
 	});
 
 	it("prevents send/request while already sending", async () => {
-		const sendResult = expect(protocol.send(1 as SerialApiCommandCode)).resolves.toBeUndefined();
+		const sendResult = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).resolves.toBeUndefined();
 		await clock.tickAsync(0);
 		expect(framer.received).toEqual([BASIC_REQ_FRAME]);
 		framer.received = [];
@@ -391,9 +405,9 @@ describe("SerialAPI protocol", () => {
 	});
 
 	it("prevents send/request while already requesting", async () => {
-		const sendResult = expect(protocol.request(1 as SerialApiCommandCode)).resolves.toEqual(
-			Buffer.from([0])
-		);
+		const sendResult = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).resolves.toEqual(Buffer.from([0]));
 		await clock.tickAsync(0);
 		expect(framer.received).toEqual([BASIC_REQ_FRAME]);
 		framer.received = [];
@@ -432,10 +446,14 @@ describe("SerialAPI protocol", () => {
 		framer.send = (_frame): Promise<void> => {
 			throw new Error("boom");
 		};
-		await expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError("boom");
+		await expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("boom");
 
 		framer.send = origSender;
-		const sendResult = expect(protocol.send(1 as SerialApiCommandCode)).resolves.toBeUndefined();
+		const sendResult = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).resolves.toBeUndefined();
 		framer.received = [];
 		framer.emitAck();
 		await sendResult;
@@ -446,7 +464,9 @@ describe("SerialAPI protocol", () => {
 		framer.send = (_frame): Promise<void> => {
 			throw new Error("boom");
 		};
-		await expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError("boom");
+		await expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("boom");
 
 		framer.send = origSender;
 		const requestResult = expect(protocol.request(2)).resolves.toEqual(
@@ -460,9 +480,9 @@ describe("SerialAPI protocol", () => {
 	});
 
 	it("handles soft reset while send", async () => {
-		const sendResult = expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"reset"
-		);
+		const sendResult = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("reset");
 		const resetResult = expect(
 			protocol.softReset()
 		).resolves.toBeUndefined();
@@ -470,7 +490,9 @@ describe("SerialAPI protocol", () => {
 		await clock.nextAsync(); // tick reset delay
 		await resetResult;
 
-		const send2Result = expect(protocol.send(1 as SerialApiCommandCode)).resolves.toBeUndefined();
+		const send2Result = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).resolves.toBeUndefined();
 		framer.received = [];
 		framer.emitAck();
 		await send2Result;
@@ -478,9 +500,9 @@ describe("SerialAPI protocol", () => {
 
 	it("handles abort while framer's send is pending", async () => {
 		framer.send = never;
-		const sendResult = expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"reset"
-		);
+		const sendResult = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("reset");
 		const reset = protocol.hardResetted();
 		await clock.runAllAsync();
 		await reset;
@@ -488,9 +510,9 @@ describe("SerialAPI protocol", () => {
 	});
 
 	it("handles soft reset while request, during send", async () => {
-		const requestResult = expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"reset"
-		);
+		const requestResult = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("reset");
 		const resetResult = expect(
 			protocol.softReset()
 		).resolves.toBeUndefined();
@@ -498,9 +520,9 @@ describe("SerialAPI protocol", () => {
 		await clock.nextAsync(); // tick reset delay
 		await resetResult;
 
-		const request2Result = expect(protocol.request(1 as SerialApiCommandCode)).resolves.toEqual(
-			Buffer.from([0])
-		);
+		const request2Result = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).resolves.toEqual(Buffer.from([0]));
 		framer.received = [];
 		framer.emitAck();
 		framer.emitData(DataType.RES, 1);
@@ -510,9 +532,9 @@ describe("SerialAPI protocol", () => {
 	});
 
 	it("handles soft reset while request, during result", async () => {
-		const requestResult = expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"reset"
-		);
+		const requestResult = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("reset");
 		framer.emitAck();
 		//await clock.tickAsync(0); // Without it, state resolve logic is trickier, which is good for a test :)
 
@@ -523,9 +545,9 @@ describe("SerialAPI protocol", () => {
 		await clock.nextAsync(); // await reset delay
 		await resetResult;
 
-		const request2Result = expect(protocol.request(1 as SerialApiCommandCode)).resolves.toEqual(
-			Buffer.from([0])
-		);
+		const request2Result = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).resolves.toEqual(Buffer.from([0]));
 		framer.received = [];
 		framer.emitAck();
 		framer.emitData(DataType.RES, 1);
@@ -597,9 +619,9 @@ describe("SerialAPI protocol", () => {
 
 		it("on consecutive timeouts", async () => {
 			// Trigger a command that gets stuck
-			const sendResult = expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError(
-				"send failed"
-			);
+			const sendResult = expect(
+				protocol.send(1 as SerialApiCommandCode)
+			).rejects.toThrowError("send failed");
 			await clock.runAllAsync();
 			expect(framer.received).toEqual([
 				BASIC_REQ_FRAME,
@@ -644,13 +666,15 @@ describe("SerialAPI protocol", () => {
 	});
 
 	it("handles cancel() during send() while waiting for ACK", async () => {
-		const sendResult = expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"cancelled"
-		);
+		const sendResult = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("cancelled");
 		protocol.cancel(new Error("cancelled"));
 		await sendResult;
 
-		const send2Result = expect(protocol.send(1 as SerialApiCommandCode)).resolves.toBeUndefined();
+		const send2Result = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).resolves.toBeUndefined();
 		framer.received = [];
 		framer.emitAck();
 		await send2Result;
@@ -659,29 +683,31 @@ describe("SerialAPI protocol", () => {
 	it("handles cancel() during send() while framer's send is pending", async () => {
 		const oldSend = framer.send;
 		framer.send = never;
-		const sendResult = expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"cancelled"
-		);
+		const sendResult = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).rejects.toThrowError("cancelled");
 		protocol.cancel(new Error("cancelled"));
 		await sendResult;
 
 		framer.send = oldSend;
-		const send2Result = expect(protocol.send(1 as SerialApiCommandCode)).resolves.toBeUndefined();
+		const send2Result = expect(
+			protocol.send(1 as SerialApiCommandCode)
+		).resolves.toBeUndefined();
 		framer.received = [];
 		framer.emitAck();
 		await send2Result;
 	});
 
 	it("handles cancel() during request(), during send", async () => {
-		const requestResult = expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"cancelled"
-		);
+		const requestResult = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("cancelled");
 		protocol.cancel(new Error("cancelled"));
 		await requestResult;
 
-		const request2Result = expect(protocol.request(1 as SerialApiCommandCode)).resolves.toEqual(
-			Buffer.from([0])
-		);
+		const request2Result = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).resolves.toEqual(Buffer.from([0]));
 		framer.received = [];
 		framer.emitAck();
 		framer.emitData(DataType.RES, 1);
@@ -691,17 +717,17 @@ describe("SerialAPI protocol", () => {
 	});
 
 	it("handles cancel() during request(), during result", async () => {
-		const requestResult = expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError(
-			"cancelled"
-		);
+		const requestResult = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).rejects.toThrowError("cancelled");
 		framer.emitAck();
 
 		protocol.cancel(new Error("cancelled"));
 		await requestResult;
 
-		const request2Result = expect(protocol.request(1 as SerialApiCommandCode)).resolves.toEqual(
-			Buffer.from([0])
-		);
+		const request2Result = expect(
+			protocol.request(1 as SerialApiCommandCode)
+		).resolves.toEqual(Buffer.from([0]));
 		framer.received = [];
 		framer.emitAck();
 		framer.emitData(DataType.RES, 1);

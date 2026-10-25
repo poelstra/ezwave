@@ -34,7 +34,7 @@ export abstract class CommandClassPacket<C extends number> extends Packet {
 }
 
 export abstract class CommandPacket<
-	T extends object | void
+	T extends object | void,
 > extends CommandClassPacket<number> {
 	public readonly data: T; // TODO make 'immutable'
 

@@ -153,12 +153,9 @@ export class NonceStore implements INonceLookup {
 		requestingNode: number,
 		timeoutInMs: number = DEFAULT_NONCE_TIMEOUT
 	): Nonce {
-		if (
-			!(
-				timeoutInMs >= MIN_NONCE_TIMEOUT &&
-				timeoutInMs <= MAX_NONCE_TIMEOUT
-			)
-		) {
+		if (!(
+			timeoutInMs >= MIN_NONCE_TIMEOUT && timeoutInMs <= MAX_NONCE_TIMEOUT
+		)) {
 			throw new Error(
 				`invalid nonce timeout, must be in range [${MIN_NONCE_TIMEOUT}..${MAX_NONCE_TIMEOUT}]ms`
 			);

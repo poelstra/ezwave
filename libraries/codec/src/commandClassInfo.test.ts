@@ -10,9 +10,9 @@ describe("commandClassInfo", () => {
 	describe("parseCommandClasses", () => {
 		it("supports good cases", () => {
 			expect(parseCommandClasses(Buffer.from([]))).toEqual([]);
-			expect(
-				parseCommandClasses(Buffer.from([0x12, 0x13]))
-			).toEqual([0x12, 0x13]);
+			expect(parseCommandClasses(Buffer.from([0x12, 0x13]))).toEqual([
+				0x12, 0x13,
+			]);
 			expect(
 				parseCommandClasses(
 					Buffer.from([0x12, 0x13, 0xf0, 0xf1, 0x12, 0xf1, 0xf2])
@@ -21,7 +21,9 @@ describe("commandClassInfo", () => {
 		});
 
 		it("throws on truncated multi-byte", () => {
-			expect(() => parseCommandClasses(Buffer.from([0xf1]))).toThrowError("truncated");
+			expect(() => parseCommandClasses(Buffer.from([0xf1]))).toThrowError(
+				"truncated"
+			);
 		});
 	});
 
@@ -35,9 +37,7 @@ describe("commandClassInfo", () => {
 				supported: [0x12, 0x13],
 				controlled: [0x14, 0x15],
 			});
-			expect(
-				parseCommandClassInfo(Buffer.from([0x12, 0x13]))
-			).toEqual({
+			expect(parseCommandClassInfo(Buffer.from([0x12, 0x13]))).toEqual({
 				supported: [0x12, 0x13],
 				controlled: [],
 			});
@@ -67,9 +67,9 @@ describe("commandClassInfo", () => {
 	describe("encodeCommandClasses", () => {
 		it("works", () => {
 			expect(
-				encodeCommandClasses(
-					[0x12, 0x13, 0xf114] as unknown as CommandClasses[]
-				)
+				encodeCommandClasses([
+					0x12, 0x13, 0xf114,
+				] as unknown as CommandClasses[])
 			).toEqual(Buffer.from([0x12, 0x13, 0xf1, 0x14]));
 		});
 	});

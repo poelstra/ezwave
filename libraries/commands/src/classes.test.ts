@@ -27,8 +27,9 @@ import {
 
 /* eslint-disable no-bitwise -- this file exercises low-level byte/bit-level codec logic */
 
-interface CommandConstructor<T extends object | void>
-	extends CommandPacketConstructor<CommandPacket<T>> {
+interface CommandConstructor<
+	T extends object | void,
+> extends CommandPacketConstructor<CommandPacket<T>> {
 	new (data: T): CommandPacket<T>;
 	new (commandAndPayload: Buffer): CommandPacket<T>;
 }

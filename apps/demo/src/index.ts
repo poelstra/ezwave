@@ -278,12 +278,10 @@ void main(async () => {
 		const nonceStore = new NonceStore();
 		const crypto = new CryptoManager(networkKey);
 
-		if (
-			!(
-				type === ZwLibraryType.StaticController ||
-				type === ZwLibraryType.BridgeController
-			)
-		) {
+		if (!(
+			type === ZwLibraryType.StaticController ||
+			type === ZwLibraryType.BridgeController
+		)) {
 			throw new Error(
 				`only static and bridge controllers are supported, connected device is ${typeStr}`
 			);
