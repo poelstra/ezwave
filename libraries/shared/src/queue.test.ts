@@ -7,8 +7,7 @@ describe("common/queue", () => {
 		it("should start callback", async () => {
 			const q = new Queue();
 			const stub = vi.fn();
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			q.add(stub);
+			void q.add(stub);
 			expect(stub).toHaveBeenCalledTimes(1);
 			expect(stub).toHaveBeenCalledWith();
 			expect(stub.mock.instances).toEqual([undefined]);
@@ -37,8 +36,7 @@ describe("common/queue", () => {
 				.then((value) => (done1 = value));
 
 			const stub2 = vi.fn();
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			q.add(stub2);
+			void q.add(stub2);
 
 			await Promise.resolve(); // tick
 			expect(done1).toBeUndefined();

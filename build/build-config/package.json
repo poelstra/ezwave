@@ -10,7 +10,7 @@
 		"vitest.config.base.js"
 	],
 	"dependencies": {
-		"@rushstack/eslint-config": "catalog:",
+		"@eslint/js": "catalog:",
 		"@typescript-eslint/eslint-plugin": "catalog:",
 		"@typescript-eslint/parser": "catalog:",
 		"eslint": "catalog:",

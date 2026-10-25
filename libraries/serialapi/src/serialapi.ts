@@ -20,7 +20,7 @@ import { SerialApiCommandCode } from "./commands/serialApiCommandCode";
 import { HomeAndNodeId, ZwLibraryType } from "./commands/types";
 import { IProtocol } from "./protocol";
 
-/* eslint-disable no-bitwise */
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level serial API protocol logic */
 
 const log: debug.Debugger = debug("zwave:serialapi");
 const logData: debug.Debugger = debug("zwave:serialapi:data");

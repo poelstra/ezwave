@@ -78,7 +78,6 @@ export class SwitchMultilevelSetTask implements Task<void> {
 	}
 }
 
-// eslint-disable-next-line @rushstack/typedef-var
 const switchMultilevelReports = {
 	1: SwitchMultilevelV1.SwitchMultilevelReport,
 	2: SwitchMultilevelV2.SwitchMultilevelReport,

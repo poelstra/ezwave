@@ -1,5 +1,4 @@
 {
-	"typescript.tsdk": "./build/build-config/node_modules/typescript/lib",
 	"files.associations": {
 		"*.json": "jsonc"
 	},
@@ -7,5 +6,6 @@
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": "explicit"
-	}
+	},
+	"js/ts.tsdk.path": "./build/build-config/node_modules/typescript/lib"
 }

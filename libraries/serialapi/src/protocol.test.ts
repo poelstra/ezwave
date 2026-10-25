@@ -14,8 +14,6 @@ import {
 import { Protocol } from "./protocol";
 import { SerialApiCommandCode } from "./commands/serialApiCommandCode";
 
-/* eslint-disable require-atomic-updates */
-
 const ACK_FRAME: SimpleFrame = { frameType: FrameType.ACK };
 const NAK_FRAME: SimpleFrame = { frameType: FrameType.NAK };
 const CAN_FRAME: SimpleFrame = { frameType: FrameType.CAN };
@@ -431,7 +429,7 @@ describe("SerialAPI protocol", () => {
 
 	it("handles send error from framer in send()", async () => {
 		const origSender = framer.send;
-		framer.send = (frame): Promise<void> => {
+		framer.send = (_frame): Promise<void> => {
 			throw new Error("boom");
 		};
 		await expect(protocol.send(1 as SerialApiCommandCode)).rejects.toThrowError("boom");
@@ -445,7 +443,7 @@ describe("SerialAPI protocol", () => {
 
 	it("handles send error from framer in request()", async () => {
 		const origSender = framer.send;
-		framer.send = (frame): Promise<void> => {
+		framer.send = (_frame): Promise<void> => {
 			throw new Error("boom");
 		};
 		await expect(protocol.request(1 as SerialApiCommandCode)).rejects.toThrowError("boom");

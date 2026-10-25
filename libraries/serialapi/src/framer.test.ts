@@ -363,7 +363,7 @@ describe("SerialAPI Framer", () => {
 
 	it("survives error thrown in event handler", async () => {
 		const errors: Error[] = [];
-		framer.on("frame", (frame) => {
+		framer.on("frame", (_frame) => {
 			throw new Error("boom");
 		});
 		framer.on("error", (err) => errors.push(err));

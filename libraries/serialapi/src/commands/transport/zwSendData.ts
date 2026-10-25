@@ -61,7 +61,8 @@ export enum TransmitOptions {
 }
 
 export const ZW_SEND_DATA_TIMEOUT: number = 65 * 1000; // See INS13954-Instruction-Z-Wave-500-Series-Appl-Programmers-Guide-v6_81_0x.pdf, fig 9
-export const ZW_SEND_DATA_DEFAULT_TRANSMIT_OPTIONS: TransmitOptions = // eslint-disable-next-line no-bitwise
+export const ZW_SEND_DATA_DEFAULT_TRANSMIT_OPTIONS: TransmitOptions =
+	// eslint-disable-next-line no-bitwise -- combining transmit-option bit flags
 	TransmitOptions.Ack | TransmitOptions.AutoRoute | TransmitOptions.Explore;
 
 export interface ZwSendDataRequest {

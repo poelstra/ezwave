@@ -17,7 +17,7 @@ ENV CI=true
 WORKDIR /app
 
 COPY ./cache .
-COPY pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml ./
 RUN npm install --global pnpm@$(node -p "require('./package.json').packageManager.split('@')[1]")
 RUN pnpm install --frozen-lockfile
 

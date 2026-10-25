@@ -290,8 +290,10 @@ function deepCopy<T>(x: T): T {
 		case "number":
 		case "string":
 			return x;
-		case "object":
+		case "object": {
+			// eslint-disable-next-line no-restricted-syntax -- distinguishing JSON null from undefined
 			if (x === null) {
+				// eslint-disable-next-line no-restricted-syntax -- distinguishing JSON null from undefined
 				return null as unknown as T;
 			}
 			if (Array.isArray(x)) {
@@ -302,6 +304,7 @@ function deepCopy<T>(x: T): T {
 				result[key] = deepCopy(x[key]);
 			}
 			return result;
+		}
 		default:
 			throw new Error("unsupported type for deepCopy");
 	}
@@ -317,8 +320,10 @@ function deepCopyWithRefs<T>(x: T): T {
 			case "number":
 			case "string":
 				return x;
-			case "object":
+			case "object": {
+				// eslint-disable-next-line no-restricted-syntax -- distinguishing JSON null from undefined
 				if (x === null) {
+					// eslint-disable-next-line no-restricted-syntax -- distinguishing JSON null from undefined
 					return null as unknown as X;
 				}
 				if (Array.isArray(x)) {
@@ -333,6 +338,7 @@ function deepCopyWithRefs<T>(x: T): T {
 					result[key] = doCopy(x[key]);
 				}
 				return result;
+			}
 			default:
 				throw new Error("unsupported type for deepCopy");
 		}

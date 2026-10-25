@@ -4,6 +4,8 @@ import { encodeCommandAndPayload } from "./encode";
 import { CommandClasses } from "./generated/CommandClasses";
 import { CommandMatcher, Packet } from "./packet";
 
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level codec logic */
+
 export interface CommandClassDescriptor extends CommandMatcher {
 	commandClass: CommandClasses;
 	version: number;
@@ -26,7 +28,6 @@ export abstract class CommandClassPacket<C extends number> extends Packet {
 	) {
 		super(CommandClass.commandClass, commandAndPayload);
 		const mask = CommandClass.commandMask ?? 0xff;
-		// eslint-disable-next-line no-bitwise
 		this.command = (this.commandAndPayload[0] & mask) as C;
 		this.version = CommandClass.version;
 	}

@@ -210,7 +210,7 @@ In order to build all packages, you'll need to run the following:
         this repo, it reads the `packageManager` field in the root `package.json` and
         transparently re-execs itself as that exact pinned version (installing it if
         needed), regardless of what's globally installed. This is what keeps builds
-        reproducible over time, the same way `rush update` used to.
+        reproducible over time.
 -   Install all dependencies: `pnpm install`
 -   Build, lint and test all packages: `pnpm turbo run build lint test`
 

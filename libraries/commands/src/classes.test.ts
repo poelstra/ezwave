@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 /**
  * Tests for the Z-Wave commands that are automatically generated,
  * and the corresponding decoder/encoder.
@@ -25,6 +24,8 @@ import {
 	VersionV3,
 	ZipV4,
 } from "./generated/index";
+
+/* eslint-disable no-bitwise -- this file exercises low-level byte/bit-level codec logic */
 
 interface CommandConstructor<T extends object | void>
 	extends CommandPacketConstructor<CommandPacket<T>> {

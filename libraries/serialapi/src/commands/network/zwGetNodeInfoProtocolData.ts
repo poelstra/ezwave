@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { decodeParams } from "@ezwave/codec";
 import { convertFromJsonParams, Parameter, RefMode } from "@ezwave/spec";
 import { RequestRunner } from "../RequestRunner";

@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import { defer, noop } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
@@ -15,6 +14,8 @@ import { ZwLibraryType } from "./commands/types";
 import { IProtocol } from "./protocol";
 import { SerialApi } from "./serialapi";
 
+/* eslint-disable no-bitwise -- this file exercises low-level byte/bit-level protocol logic */
+
 class FakeProtocol extends EventEmitter implements IProtocol {
 	public hardResetted(): Promise<void> {
 		throw new Error("unexpected call during test");
@@ -24,19 +25,19 @@ class FakeProtocol extends EventEmitter implements IProtocol {
 		throw new Error("unexpected call during test");
 	}
 
-	public send(cmd: SerialApiCommandCode, params?: Buffer): Promise<void> {
+	public send(_cmd: SerialApiCommandCode, _params?: Buffer): Promise<void> {
 		throw new Error("unexpected call during test");
 	}
 
 	public request(
-		cmd: SerialApiCommandCode,
-		params?: Buffer,
-		timeout?: number
+		_cmd: SerialApiCommandCode,
+		_params?: Buffer,
+		_timeout?: number
 	): Promise<Buffer> {
 		throw new Error("unexpected call during test");
 	}
 
-	public cancel(reason: Error): void {
+	public cancel(_reason: Error): void {
 		throw new Error("unexpected call during test");
 	}
 }

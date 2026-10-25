@@ -84,7 +84,6 @@ export class Hub extends EventEmitter implements HubEvents {
 
 	public async run(): Promise<never> {
 		let lastSuccess = false;
-		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			try {
 				console.log(`Hub connecting to ${this._hub.url} ...`);

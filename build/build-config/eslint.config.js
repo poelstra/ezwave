@@ -11,55 +11,71 @@
 //     { languageOptions: { parserOptions: { tsconfigRootDir: __dirname } } },
 //   ];
 
-const nodeProfile = require("@rushstack/eslint-config/flat/profile/node");
+const js = require("@eslint/js");
+const tsPlugin = require("@typescript-eslint/eslint-plugin");
 
 module.exports = [
-	...nodeProfile,
+	js.configs.recommended,
+	...tsPlugin.configs["flat/recommended"],
 	{
 		files: ["**/*.ts", "**/*.tsx"],
+		languageOptions: {
+			parserOptions: {
+				project: "./tsconfig.json",
+			},
+		},
 		rules: {
-			"@typescript-eslint/naming-convention": [
+			"no-void": ["error", { allowAsStatement: true }],
+			"@typescript-eslint/no-unused-vars": [
 				"warn",
+				{ argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+			],
+			// `class Foo extends EventEmitter` + `interface Foo { on(...): this }` is the
+			// standard pattern for typing EventEmitter subclasses' events; it's deliberate here.
+			"@typescript-eslint/no-unsafe-declaration-merging": "off",
+			"@typescript-eslint/no-floating-promises": "error",
+			// Equivalent of @rushstack/no-new-null, without the extra dependency.
+			"no-restricted-syntax": [
+				"error",
 				{
-					selector: "default",
-					format: ["camelCase"],
+					selector: "TSNullKeyword",
+					message:
+						'Usage of "null" is deprecated except when describing legacy APIs; use "undefined" instead.',
 				},
 				{
-					selector: "variable",
-					format: ["camelCase", "UPPER_CASE"],
-				},
-				{
-					selector: "parameter",
-					// Adding "PascalCase" for the case of passing a contructor.
-					// This is not selectable with a "types" (yet), see https://github.com/typescript-eslint/typescript-eslint/issues/1484
-					format: ["camelCase", "PascalCase"],
-					leadingUnderscore: "allow",
-				},
-				{
-					selector: "memberLike",
-					modifiers: ["private"],
-					// Adding "PascalCase" for the case of passing a contructor.
-					// This is not selectable with a "types" (yet), see https://github.com/typescript-eslint/typescript-eslint/issues/1484
-					format: ["camelCase", "PascalCase"],
-					leadingUnderscore: "require",
-				},
-				{
-					selector: "property",
-					// Adding "PascalCase" for the case of passing a contructor.
-					// This is not selectable with a "types" (yet), see https://github.com/typescript-eslint/typescript-eslint/issues/1484
-					format: ["camelCase", "PascalCase"],
-					leadingUnderscore: "allow",
-				},
-				{
-					selector: "typeLike",
-					format: ["PascalCase"],
-				},
-				{
-					selector: "enumMember",
-					format: ["PascalCase"],
+					selector: "Literal[value=null]",
+					message:
+						'Usage of "null" is deprecated except when describing legacy APIs; use "undefined" instead.',
 				},
 			],
-			"no-void": ["error", { allowAsStatement: true }],
+			"no-bitwise": "warn",
+			// Core correctness/security rules enabled by the old Rush-based config
+			// that plain eslint/typescript-eslint "recommended" don't include.
+			"accessor-pairs": "error",
+			"dot-notation": "error",
+			eqeqeq: "error",
+			"guard-for-in": "error",
+			"no-caller": "error",
+			"no-eval": "error",
+			"no-extend-native": "error",
+			"no-extra-label": "error",
+			"no-implied-eval": "error",
+			"no-label-var": "error",
+			"no-lone-blocks": "error",
+			"no-multi-str": "error",
+			"no-new": "error",
+			"no-new-func": "error",
+			"no-new-object": "error",
+			"no-new-wrappers": "error",
+			"no-octal-escape": "error",
+			"no-return-assign": "error",
+			"no-script-url": "error",
+			"no-self-compare": "error",
+			"no-sequences": "error",
+			"no-throw-literal": "error",
+			"no-unmodified-loop-condition": "error",
+			"no-useless-concat": "error",
+			"require-atomic-updates": "error",
 			"@typescript-eslint/member-ordering": [
 				"warn",
 				{
@@ -135,17 +151,23 @@ module.exports = [
 		},
 	},
 	{
-		files: ["**/*.machine.ts"],
+		// Generated from external data (e.g. the official Z-Wave XML spec) and
+		// regenerated on every build, so its contents aren't ours to "fix".
+		files: ["**/generated/**"],
 		rules: {
-			"@typescript-eslint/naming-convention": [
-				"warn",
-				{
-					selector: "property",
-					// XState machines need special naming for the states etc
-					format: ["camelCase", "PascalCase", "UPPER_CASE"],
-					leadingUnderscore: "allow",
-				},
-			],
+			"@typescript-eslint/no-duplicate-enum-values": "off",
+			// The generator's templates emit a fixed set of imports per file,
+			// not all of which end up used by every generated command class.
+			"@typescript-eslint/no-unused-vars": "off",
+		},
+	},
+	{
+		// Reassigning properties on a shared fake/mock between awaits is the
+		// normal way tests drive a mock's behavior step by step; there's no
+		// real concurrency here for the rule to protect against.
+		files: ["**/*.test.ts"],
+		rules: {
+			"require-atomic-updates": "off",
 		},
 	},
 ];

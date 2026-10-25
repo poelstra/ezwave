@@ -38,7 +38,6 @@ export enum SensorType {
 	Frequency = 0x20,
 	Time = 0x21,
 	TargetTemperature = 0x22,
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	ParticulateMatter2_5 = 0x23,
 	FormaldehydeCH2OLevel = 0x24,
 	RadonConcentration = 0x25,

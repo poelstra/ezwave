@@ -693,7 +693,7 @@ export class Device extends EventEmitter {
 					// Node sleeping, try again later.
 					return;
 				}
-			} catch (err) {
+			} catch (_err) {
 				// Mark init as no longer needed at this stage?
 				// Otherwise, it might keep trying to interview on every node
 				// wakeup / flush, which may be very expensive and annoying in case of repetitive failure
@@ -830,7 +830,7 @@ export class Device extends EventEmitter {
 			);
 			this._logData("ping ok");
 			return true;
-		} catch (err) {
+		} catch (_err) {
 			this._logData("ping failed");
 			return false;
 		}

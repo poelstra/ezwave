@@ -11,6 +11,8 @@ import { EventEmitter } from "events";
 import * as stream from "stream";
 import { promisify } from "util";
 
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level frame codec logic */
+
 const log: debug.Debugger = debug("zwave:framer");
 const logData: debug.Debugger = log.extend("data");
 
@@ -334,7 +336,7 @@ export class Framer extends EventEmitter implements IFramer {
 					this._inSync = true;
 					this._buf = this._buf.slice(1);
 					return { frameType };
-				case FrameType.SOF:
+				case FrameType.SOF: {
 					const dataFrame = this._decodeSOF();
 					if (dataFrame === true) {
 						// Frame not complete yet, stop decoding for now
@@ -346,6 +348,7 @@ export class Framer extends EventEmitter implements IFramer {
 					// Error encountered while decoding, invalid frame was
 					// removed from buffer, try decoding the rest.
 					break;
+				}
 				default:
 					// Probably garbage byte, skip to the next one
 					this._buf = this._buf.slice(1);
@@ -447,7 +450,7 @@ export class Framer extends EventEmitter implements IFramer {
 				return NAK_FRAME;
 			case FrameType.CAN:
 				return CAN_FRAME;
-			case FrameType.SOF:
+			case FrameType.SOF: {
 				if (
 					frame.dataType !== DataType.REQ &&
 					frame.dataType !== DataType.RES
@@ -485,6 +488,7 @@ export class Framer extends EventEmitter implements IFramer {
 				}
 				buffer[length + 1] = checksum;
 				return buffer;
+			}
 			default:
 				throw new FramerError(
 					"cannot encode frame: invalid frame type"

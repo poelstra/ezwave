@@ -17,7 +17,7 @@ export class DeviceCache implements Cache<number, JsonValue> {
 		return this._storage.save(key.toString(), value);
 	}
 
-	public async delete(key: number): Promise<void> {
+	public async delete(_key: number): Promise<void> {
 		// TODO implement
 		throw new Error("Method not implemented.");
 	}

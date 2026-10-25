@@ -44,19 +44,18 @@ export class DuplexSource<T> extends Duplex {
 	 * Indicate that no further chunks will be emitted from this Duplex stream.
 	 */
 	public sendEnd(): void {
+		// eslint-disable-next-line no-restricted-syntax -- Node's stream.Readable uses push(null) to signal EOF
 		this.push(null);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	public _read(size: number): void {
+	public _read(_size: number): void {
 		/* no-op */
 	}
 
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public _write(
 		chunk: unknown,
 		encoding: string,
-		// eslint-disable-next-line @rushstack/no-new-null
+		// eslint-disable-next-line no-restricted-syntax -- matches Node's stream.Duplex callback signature
 		callback: (error?: Error | null) => void
 	): void {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,7 +63,7 @@ export class DuplexSource<T> extends Duplex {
 		callback();
 	}
 
-	// eslint-disable-next-line @typescript-eslint/naming-convention, @rushstack/no-new-null
+	// eslint-disable-next-line no-restricted-syntax -- matches Node's stream.Duplex callback signature
 	public _final(callback: (error?: Error | null) => void): void {
 		this.events.push("end");
 		callback();

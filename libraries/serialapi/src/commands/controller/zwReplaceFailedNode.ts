@@ -1,9 +1,10 @@
-/* eslint-disable no-bitwise */
 import { toHex } from "@ezwave/shared";
 import { buildCallbackParser } from "../callbackRequest";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
+
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level protocol logic */
 
 export interface ZwReplaceFailedNodeRequest {
 	nodeId: number;
@@ -170,7 +171,6 @@ export function zwReplaceFailedNodeBuilder(
 				}
 			),
 			handleEvents: async (events): Promise<void> => {
-				// eslint-disable-next-line no-constant-condition
 				while (true) {
 					const event = await events.get(60 * 1000);
 					switch (event) {

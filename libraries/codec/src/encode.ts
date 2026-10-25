@@ -31,7 +31,7 @@ import {
 import { encodeCommandClasses } from "./commandClassInfo";
 import { Packet } from "./packet";
 
-/* eslint-disable no-bitwise */
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level codec logic */
 
 export function encodeCommandAndPayload(
 	commandDef: CommandDefinition,

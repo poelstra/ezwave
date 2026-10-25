@@ -82,7 +82,6 @@ function getAddControllerNodeTimeout(
 	);
 }
 
-// eslint-disable-next-line @rushstack/typedef-var
 export const machine = createMachine<Context, Event, "addNodeToNetwork">(
 	{
 		id: "addNodeToNetwork",

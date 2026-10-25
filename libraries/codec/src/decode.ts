@@ -27,7 +27,7 @@ import {
 import { parseCommandClasses } from "./commandClassInfo";
 import { Packet } from "./packet";
 
-/* eslint-disable no-bitwise */
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level codec logic */
 
 export function decodeCommandAndPayload<T extends object | void>(
 	commandDef: CommandDefinition,
@@ -54,6 +54,7 @@ export function decodeParams<T extends object | void>(
 	params: Parameter[],
 	payload: Buffer
 ): T {
+	// eslint-disable-next-line no-restricted-syntax -- Object.create() requires null, not undefined
 	const context = new Context(Object.create(null));
 
 	// Determine payload start: use command byte as data byte in case of
@@ -324,7 +325,6 @@ function decodeGroup(
 
 	let oldProcessed = -1;
 	let processed = 0;
-	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		if (oldProcessed === processed) {
 			// Prevent against infinite loops in case of programming errors.
@@ -346,6 +346,7 @@ function decodeGroup(
 			}
 			break;
 		}
+		// eslint-disable-next-line no-restricted-syntax -- Object.create() requires null, not undefined
 		const groupElement = Object.create(null);
 		context.addGroupElement(groupElement);
 		for (const groupParam of param.params) {

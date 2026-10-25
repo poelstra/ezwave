@@ -54,6 +54,7 @@ describe("util", () => {
 
 		it("should start disabled", async () => {
 			let triggered: boolean | Error = false;
+			// eslint-disable-next-line no-new -- only the scheduled side effect is under test here
 			new Timer(1000, () => (triggered = true));
 			await clock.tickAsync(2000);
 			expect(triggered).toBe(false);

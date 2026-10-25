@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import { parseCommandClassInfo } from "@ezwave/codec";
 import { interpret } from "@xstate/compiled";
 import { buildCallbackParser } from "../callbackRequest";
@@ -13,6 +12,8 @@ import {
 	Event,
 	machine,
 } from "./zwAddNodeToNetwork.machine";
+
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level protocol logic */
 
 export interface ZwAddNodeToNetworkRequest {
 	lowPower?: boolean; // default false
@@ -209,7 +210,7 @@ export function zwAddNodeToNetworkBuilder(
 								type: "DONE",
 							};
 						case AddNodeStatus.AddingSlave:
-						case AddNodeStatus.AddingController:
+						case AddNodeStatus.AddingController: {
 							if (payload.length < 3) {
 								throw new Error(
 									`invalid ZwAddNodeToNetwork callback: missing nodeId / len`
@@ -242,6 +243,7 @@ export function zwAddNodeToNetworkBuilder(
 									commandClasses,
 								},
 							};
+						}
 					}
 				}
 			),
@@ -266,7 +268,7 @@ export function zwAddNodeToNetworkBuilder(
 								command,
 								Buffer.from([AddNodeMode.Stop, 0])
 							),
-						assignSucIfNeeded: async (context) => {
+						assignSucIfNeeded: async (_context) => {
 							// TODO If has no SUC in network -> SetSUCNodeId(context.nif.nodeId)
 						},
 						controllerReplication: async () => {
@@ -276,7 +278,6 @@ export function zwAddNodeToNetworkBuilder(
 					actions: {
 						indicateCancellable: () => {
 							request.onCancellable?.(() =>
-								// eslint-disable-next-line @typescript-eslint/no-use-before-define
 								service.send({ type: "CANCEL" })
 							);
 						},

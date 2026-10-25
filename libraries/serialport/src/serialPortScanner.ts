@@ -113,7 +113,6 @@ export class SerialPortScanner {
 		);
 
 		const sleeper = new InterruptibleSleep();
-		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			const newPorts = await this._scan();
 

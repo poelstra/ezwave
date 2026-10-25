@@ -157,6 +157,7 @@ describe("encode", () => {
 
 				[
 					undefined,
+					// eslint-disable-next-line no-restricted-syntax -- deliberately testing rejection of null
 					null,
 					Infinity,
 					-Infinity,
@@ -331,6 +332,7 @@ describe("encode", () => {
 
 		[
 			undefined,
+			// eslint-disable-next-line no-restricted-syntax -- deliberately testing rejection of null
 			null,
 			Infinity,
 			-Infinity,

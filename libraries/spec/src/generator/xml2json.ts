@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 /**
  * Converter for 'official' ZWave XML specification into something more easily
  * usable.
@@ -438,7 +437,9 @@ function generateBitfields(
 
 	// Sanity check
 	for (const field of result) {
+		// eslint-disable-next-line no-bitwise -- bit-shift math on spec field metadata
 		const len = Math.log2((field.mask >> field.shift) + 1);
+		// eslint-disable-next-line no-bitwise -- bit-shift math on spec field metadata
 		assert((Math.pow(2, len) - 1) << field.shift === field.mask);
 	}
 
@@ -854,6 +855,7 @@ function generateParameter(
 					// Iterate over each enum
 					const enums: {
 						[enumIndex: number]: spec.EnumValues;
+						// eslint-disable-next-line no-restricted-syntax -- Object.create() requires null, not undefined
 					} = Object.create(null);
 					for (const e of valuedefs) {
 						let key: number | undefined;
@@ -889,7 +891,7 @@ function generateParameter(
 				}
 				break;
 
-			case ParamType.MARKER:
+			case ParamType.MARKER: {
 				const prevParam = params[params.length - 1];
 				assert(prevParam);
 				assert(prevParam.type === spec.ParameterType.Blob);
@@ -903,6 +905,7 @@ function generateParameter(
 					(constValue) => constValue.flagmask
 				);
 				return undefined;
+			}
 
 			default:
 				throw new Error(`unknown parameter type`);
@@ -1048,7 +1051,7 @@ function generateCommand(
 		// so it's probably better to move it to the CommandClass
 		// instead.
 		command.cmdMask = cmd.cmd_mask;
-		// eslint-disable-next-line no-bitwise
+		// eslint-disable-next-line no-bitwise -- computing the inverse command-mask byte
 		const paramMask = ~cmd.cmd_mask & 0xff;
 		if (command.params.length > 0) {
 			const firstParam = command.params[0];
@@ -1142,6 +1145,7 @@ function encaptypeToValueType(encaptype?: string): spec.ValueType | undefined {
 }
 
 function createEnumValues(): spec.EnumValues {
+	// eslint-disable-next-line no-restricted-syntax -- Object.create() requires null, not undefined
 	return Object.create(null);
 }
 

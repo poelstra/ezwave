@@ -1,9 +1,10 @@
-/* eslint-disable no-bitwise */
 import { neverRejects, noop, toHex } from "@ezwave/shared";
 import { buildCallbackParser } from "../callbackRequest";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
+
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level protocol logic */
 
 export interface ZwRemoveNodeFromNetworkRequest {
 	/**
@@ -184,7 +185,6 @@ export function zwRemoveNodeFromNetworkBuilder(
 				let excludedNode: number | undefined;
 
 				try {
-					// eslint-disable-next-line no-constant-condition
 					while (true) {
 						const event = await events.get(60 * 1000);
 						switch (event.status) {

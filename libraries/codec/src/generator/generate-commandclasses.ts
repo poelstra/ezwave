@@ -3,7 +3,7 @@
  */
 
 import * as spec from "@ezwave/spec";
-import { ZwaveSpec } from "@ezwave/spec";
+import { loadZwaveSpec } from "@ezwave/spec";
 import assert from "assert";
 import main from "async-main";
 import { promises as pfs } from "fs";
@@ -52,8 +52,7 @@ function generateCommandClassesEnum(json: spec.ZwaveSpec): string {
 
 void main(async () => {
 	// Read JSON ZWave specification
-	// TODO Convert reading of the spec to a helper in @ezwave/spec
-	const jsonSpec = require("@ezwave/spec/lib/zwave.json") as ZwaveSpec;
+	const jsonSpec = loadZwaveSpec();
 	assert(
 		jsonSpec.jsonVersion === spec.JSON_VERSION,
 		"Unsupported JSON spec version"

@@ -7,7 +7,7 @@ import {
 	CommandDefinition,
 	CommandsByClassByVersion,
 	convertFromJsonCommandClasses,
-	ZwaveSpec,
+	loadZwaveSpec,
 } from "@ezwave/spec";
 import { inspect } from "util";
 import { CommandClassPacket, CommandPacket } from "./command";
@@ -126,7 +126,7 @@ export function autoDecode(packet: Packet): Packet {
 
 	// We now know what the command is supposed to be, so let's
 	// again build the command-specific class and decode to that.
-	class DecodedCommandPacket extends CommandPacket<{}> {
+	class DecodedCommandPacket extends CommandPacket<object> {
 		public static readonly CommandClass: typeof DecodedCommandClassPacket =
 			DecodedCommandClassPacket;
 		public static readonly command: number = cmdDef!.command;
@@ -139,7 +139,7 @@ export function autoDecode(packet: Packet): Packet {
 			);
 		}
 
-		public constructor(data: Buffer | {}) {
+		public constructor(data: Buffer | object) {
 			super(DecodedCommandPacket, data);
 		}
 	}
@@ -161,7 +161,7 @@ function getSpec(): CommandsByClassByVersion {
 		return loadedSpec;
 	}
 
-	const jsonSpec = require("@ezwave/spec/lib/zwave.json") as ZwaveSpec;
+	const jsonSpec = loadZwaveSpec();
 	loadedSpec = convertFromJsonCommandClasses(jsonSpec.classes);
 	return loadedSpec;
 }

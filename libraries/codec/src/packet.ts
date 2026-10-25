@@ -1,4 +1,4 @@
-/* eslint-disable no-bitwise */
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level codec logic */
 
 export interface CommandMatcher {
 	matches(packet: Packet): boolean;

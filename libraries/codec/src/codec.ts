@@ -15,7 +15,7 @@ import {
 	ParamRefLengthInfo,
 } from "@ezwave/spec";
 
-/* eslint-disable no-bitwise */
+/* eslint-disable no-bitwise -- this file is low-level byte/bit-level codec logic */
 
 /**
  * Error thrown when encoder/decoder encounters an error in the

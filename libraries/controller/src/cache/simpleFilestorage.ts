@@ -29,7 +29,7 @@ export class SimpleFileStorage<T extends JsonValue> implements Storage<T> {
 		try {
 			contents = await readFile(this._getFilename(key), "utf8");
 		} catch (err) {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/consistent-type-assertions
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			if ((<any>err).code === "ENOENT") {
 				// Return `undefined` when key does not exist (yet)
 				return;

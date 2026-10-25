@@ -87,7 +87,7 @@ export async function setupAerQNew(device: Device): Promise<void> {
 	await device.setConfiguration(1, 1);
 	// Checking period for param 1&2 in minutes (1..255), default 15
 	await device.setConfiguration(3, 5);
-	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
+	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
 	// Note: seems humidity and dew point are swapped in the docs, so 2 = dew point, 3 = humidity
 	await device.setConfiguration(65, 0b1011);
 }
@@ -102,7 +102,7 @@ export async function setupAerQ(
 
 	// Lifeline temperature reports in 0.1C steps (0, 1..100), default 20
 	await device.setConfiguration(1, 1);
-	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
+	// Sensor report after inclusion. (ZWA039 V2.0 or higher) (bit 0 = battery, 1 = temp, 2 = humidity, 3 = dew point), default 15
 	await device.setConfiguration(65, 0b1011);
 
 	// Associate temp sensor to valve

@@ -51,6 +51,7 @@ export class CryptoManager {
 	 * @returns Encrypted buffer (16 bytes)
 	 */
 	public static aesEncodeRaw(key: Buffer, plain: Buffer): Buffer {
+		// eslint-disable-next-line no-restricted-syntax -- Node's crypto API requires null for "no IV"
 		const cipher = createCipheriv("AES-128-ECB", key, null);
 		return cipher.update(plain);
 	}

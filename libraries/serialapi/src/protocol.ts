@@ -463,7 +463,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 			this._resTimer = new Timer(timeout, () => this._handleResTimeout());
 			this._resTimer.start(); // According to spec, RES timer needs to be started before the send
 			await this._send(request);
-			// @ts-ignore Typescript thinks this._state must be Sending by now, but see explanation below
+			// @ts-expect-error Typescript thinks this._state must be Sending by now, but see explanation below
 			if (this._state === ProtocolState.Uninitialized) {
 				// There's a small window where ack is received, but the
 				// send() above did not return yet, and *then* the protocol
@@ -598,7 +598,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 							);
 						}
 						break;
-					default:
+					default: {
 						// INS12350 5.4.3 Type
 						// A receiving end MUST ignore reserved Type values
 						const dataType = frame.dataType as number;
@@ -607,6 +607,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 						)}`;
 						log("warning", msg);
 						this._safeEmit("warning", msg);
+					}
 				}
 				break;
 		}
@@ -630,7 +631,7 @@ export class Protocol extends EventEmitter implements IProtocol {
 		switch (frameError) {
 			case FrameError.ChecksumFailed:
 			case FrameError.FrameTooSmall:
-				void this._sendRaw(NAK_FRAME).catch((err) => {}); // Ignore any errors from sending back the NACK
+				void this._sendRaw(NAK_FRAME).catch((_err) => {}); // Ignore any errors from sending back the NACK
 
 				// INS12350 6.4.2 Persistent CRC errors
 				// SHOULD issue a hard reset, or soft reset if hard reset is not available.
@@ -697,7 +698,6 @@ export class Protocol extends EventEmitter implements IProtocol {
 
 	private async _send(frame: DataFrame): Promise<void> {
 		let retransmissions = 0;
-		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			const result = await this._sendDataFrameAndWaitForResponse(frame);
 			if (

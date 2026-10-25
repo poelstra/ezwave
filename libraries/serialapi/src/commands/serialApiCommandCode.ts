@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */ // TODO Just change the naming of the enum members, below?
-
 /**
  * List of Serial API command / response codes.
  */

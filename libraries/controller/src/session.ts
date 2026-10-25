@@ -337,7 +337,6 @@ export async function waitForAll<R extends CommandPacket<void | object>>(
 	waitForOptions?: WaitForOptions
 ): Promise<R["data"][]> {
 	const rawReports = new Map<number, R["data"]>();
-	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		const report = await waitForFiltered(
 			session,
