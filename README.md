@@ -197,35 +197,40 @@ and is in the process of publishing individual NPM packages.
 
 ### Initial setup
 
-This repository is a monorepo set up using [Rush](https://rushjs.io/).
-It uses [pnpm](https://pnpm.io/) as the package manager.
+This repository is a monorepo set up using [pnpm workspaces](https://pnpm.io/workspaces)
+for dependency management and [Turborepo](https://turborepo.com/) to orchestrate
+builds/lint/tests across packages.
 
 In order to build all packages, you'll need to run the following:
 
--   Install NodeJS (tested on version 16)
--   Install `rush` build tool: `npm install -g @microsoft/rush`
--   Install all (NPM) dependencies: `rush update`
--   Build and test all packages: `rush build`
+-   Install NodeJS (tested on version 24; see `.nvmrc` for the exact version)
+-   Install `pnpm`, if you don't already have some version of it:
+    `curl -fsSL https://get.pnpm.io/install.sh | sh -`
+    -   You only need _some_ pnpm to bootstrap with. The first time you run it inside
+        this repo, it reads the `packageManager` field in the root `package.json` and
+        transparently re-execs itself as that exact pinned version (installing it if
+        needed), regardless of what's globally installed. This is what keeps builds
+        reproducible over time, the same way `rush update` used to.
+-   Install all dependencies: `pnpm install`
+-   Build, lint and test all packages: `pnpm turbo run build lint test`
 
 Whenever you make a change to any of the `package.json` files (e.g.
-when pulling in new changes), be sure to run `rush update` again.
+when pulling in new changes), be sure to run `pnpm install` again.
 
-WARNING: Do NOT run any of the 'normal' `npm` commands, nor directly
-run `pnpm`, for installing or modifying the list of installed packages!
-This will mess up the workspace-shared dependencies. Only use `rush add`.
+To add, remove or update a dependency, use the normal `pnpm add` / `pnpm remove` /
+`pnpm update` commands, optionally with `--filter <package>` to target a single
+package (e.g. `pnpm add --filter @ezwave/shared debug`). Shared devDependency
+versions (TypeScript, ESLint, Vitest, ...) are centralized in the `catalog:` block
+of `pnpm-workspace.yaml` instead of being repeated per package.
 
-`rush build` will smartly rebuild only packages that changed or its
-dependents, but if you only want to (re-)build a specific package and
-its dependencies, you can also just run e.g. `rush build --to .` (from
-the folder you want to build to).
+Turborepo caches task results and only rebuilds what actually changed (and its
+dependents). To (re-)build just a single package and its dependencies, run e.g.
+`pnpm turbo run build --filter=...@ezwave/<package>`, or `pnpm --filter @ezwave/<package> build`
+to build only that one package by itself.
 
-To (re-)build just a single package, just run `rushx build` in that folder
-(it's the rush equivalent to `npm run build`).
-
-In order to run all packages in watch mode, you can use e.g. `@telia/rush-select`.
-Run it as `pnpx @telia/rush-select`, select the `watch` target for each package,
-and press `Enter` to start to build them all. The target selection only needs to
-be performed once.
+In order to run all packages in watch mode together, run `pnpm watch` from the repo
+root. It runs every package's `watch` script (`tsc --watch`) together, in dependency
+order, and keeps rebuilding whichever packages change - no extra tooling needed.
 
 ### Setting up VSCode
 

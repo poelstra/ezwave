@@ -22,10 +22,10 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Debug Jest tests",
-			"program": "${workspaceFolder}/build/ezwave-heft-rig/node_modules/@rushstack/heft/lib/start.js",
+			"name": "Debug Vitest tests",
+			"program": "${fileDirname}/node_modules/vitest/vitest.mjs",
 			"cwd": "${fileDirname}",
-			"args": ["--debug", "test", "--clean"],
+			"args": ["run"],
 			"console": "integratedTerminal",
 			"sourceMaps": true
 		}
