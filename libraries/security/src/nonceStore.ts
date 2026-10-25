@@ -41,7 +41,7 @@ interface NonceEntry {
 	/**
 	 * Timeout timer.
 	 */
-	timer: NodeJS.Timer;
+	timer: NodeJS.Timeout;
 }
 
 /**

@@ -82,6 +82,10 @@ dist
 */*/.heft/
 */*/.heft/
 
+# Turborepo
+.turbo
+*/*/.turbo/
+
 # EZWave development
 /todo.txt
 /klooi

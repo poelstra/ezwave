@@ -9,7 +9,7 @@ import {
 
 function makeFakeSession(): ICommandSession {
 	return {
-		send: jest.fn(() => Promise.resolve()),
+		send: vi.fn(() => Promise.resolve()),
 	} as unknown as ICommandSession;
 }
 

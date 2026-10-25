@@ -46,11 +46,10 @@ describe("Packet", () => {
 	});
 
 	it("throws on casting to incompatible command class without command byte", () => {
-		class TestClass {
+		class TestClass extends Packet {
 			public static matches(_packet: Packet): boolean {
 				return false;
 			}
-			public constructor(_commandAndPayload: Buffer) {}
 		}
 		const packet = new Packet(Buffer.from([0x12]));
 		expect(() => packet.as(TestClass)).toThrowError(
@@ -59,11 +58,10 @@ describe("Packet", () => {
 	});
 
 	it("throws on casting to incompatible command class", () => {
-		class TestClass {
+		class TestClass extends Packet {
 			public static matches(_packet: Packet): boolean {
 				return false;
 			}
-			public constructor(_commandAndPayload: Buffer) {}
 		}
 		const packet = new Packet(Buffer.from([0x12, 0x13]));
 		expect(() => packet.as(TestClass)).toThrowError(

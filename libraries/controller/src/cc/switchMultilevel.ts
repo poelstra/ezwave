@@ -122,7 +122,9 @@ export function parseSwitchMultilevelReport(
 	packet: Packet,
 	version: SwitchMultilevelVersions
 ): SwitchMultilevelReports {
-	return packet.as(switchMultilevelReports[version]);
+	return packet.as(
+		switchMultilevelReports[version] as CommandPacketConstructor<SwitchMultilevelReports>
+	);
 }
 
 export function formatSwitchMultilevelReport(

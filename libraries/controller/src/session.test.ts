@@ -15,8 +15,8 @@ const basicReportPacket = new BasicV1.BasicReport({ value: 42 });
 function createMockSession(): RootControllerSession {
 	return {
 		controllerId: 1,
-		executeSerial: jest.fn(),
-		send: jest.fn(),
+		executeSerial: vi.fn(),
+		send: vi.fn(),
 	};
 }
 

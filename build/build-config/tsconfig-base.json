@@ -14,6 +14,7 @@
 		"experimentalDecorators": true,
 		"strict": true,
 		"esModuleInterop": true,
+		"skipLibCheck": true,
 		"types": [],
 
 		"module": "commonjs",

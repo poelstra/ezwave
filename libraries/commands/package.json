@@ -11,9 +11,10 @@
 	"main": "lib/generated/index.js",
 	"typings": "lib/generated/index.d.ts",
 	"scripts": {
-		"build": "rm -rf src/generated/ && heft clean && ts-node src/generator/generate_commands.ts && heft test",
-		"build:watch": "heft test",
-		"watch": "heft build --watch"
+		"build": "rm -rf src/generated/ && tsx src/generator/generate_commands.ts && tsc",
+		"watch": "tsc --watch",
+		"lint": "eslint src",
+		"test": "vitest run"
 	},
 	"keywords": [
 		"zwave",
@@ -26,15 +27,14 @@
 		"@ezwave/codec": "workspace:*"
 	},
 	"devDependencies": {
-		"@ezwave/ezwave-heft-rig": "workspace:*",
-		"@rushstack/heft": "0.44.2",
-		"eslint": "~8.7.0",
-		"typescript": "4.4.4",
-		"@types/heft-jest": "1.0.2",
-		"@types/node": "16.11.7",
+		"@ezwave/build-config": "workspace:*",
+		"eslint": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:",
+		"tsx": "catalog:",
+		"@types/node": "catalog:",
 		"async-main": "^1.0.2",
 		"case": "^1.6.3",
-		"ts-node": "~10.4.0",
 		"source-map-support": "^0.5.21"
 	}
 }

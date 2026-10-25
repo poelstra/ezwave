@@ -11,9 +11,10 @@
 	"main": "lib/index.js",
 	"typings": "lib/index.d.ts",
 	"scripts": {
-		"build": "BROWSERSLIST_IGNORE_OLD_DATA=true xstate-codegen 'src/**/*.machine.ts' --once && heft test --clean",
-		"build:watch": "heft test",
-		"watch": "heft build --watch"
+		"build": "BROWSERSLIST_IGNORE_OLD_DATA=true xstate-codegen 'src/**/*.machine.ts' --once && tsc",
+		"watch": "tsc --watch",
+		"lint": "eslint src",
+		"test": "vitest run"
 	},
 	"keywords": [
 		"zwave",
@@ -28,13 +29,12 @@
 		"xstate": "~4.16.2"
 	},
 	"devDependencies": {
-		"@ezwave/ezwave-heft-rig": "workspace:*",
+		"@ezwave/build-config": "workspace:*",
 		"@ezwave/test-util": "workspace:*",
-		"@rushstack/heft": "0.44.2",
-		"eslint": "~8.7.0",
-		"typescript": "4.4.4",
-		"@types/heft-jest": "1.0.2",
-		"@types/node": "16.11.7",
+		"eslint": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:",
+		"@types/node": "catalog:",
 		"sinon": "~9.2.4",
 		"@types/sinon": "~9.0.11",
 		"@types/debug": "~4.1.5",

@@ -3,6 +3,7 @@ import {
 	parseCommandClasses,
 	parseCommandClassInfo,
 } from "./commandClassInfo";
+import { CommandClasses } from "./generated/CommandClasses";
 
 describe("commandClassInfo", () => {
 	describe("parseCommandClasses", () => {
@@ -64,7 +65,11 @@ describe("commandClassInfo", () => {
 
 	describe("encodeCommandClasses", () => {
 		it("works", () => {
-			expect(encodeCommandClasses([0x12, 0x13, 0xf114])).toEqual(Buffer.from([0x12, 0x13, 0xf1, 0x14]));
+			expect(
+				encodeCommandClasses(
+					[0x12, 0x13, 0xf114] as unknown as CommandClasses[]
+				)
+			).toEqual(Buffer.from([0x12, 0x13, 0xf1, 0x14]));
 		});
 	});
 });

@@ -15,4 +15,5 @@ catalog:
 
 allowBuilds:
   '@serialport/bindings': true
+  esbuild: true
   highlight.js: true

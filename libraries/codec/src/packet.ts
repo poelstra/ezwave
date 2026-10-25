@@ -61,9 +61,9 @@ export class Packet {
 		return command.matches(this);
 	}
 
-	public tryAs<C extends CommandPacketConstructor<InstanceType<C>>>(
-		CommandPacketConstructor: C
-	): InstanceType<C> | undefined {
+	public tryAs<T extends Packet>(
+		CommandPacketConstructor: CommandPacketConstructor<T>
+	): T | undefined {
 		if (!this.is(CommandPacketConstructor)) {
 			return undefined;
 		}
@@ -71,9 +71,9 @@ export class Packet {
 		return new CommandPacketConstructor(this.commandAndPayload);
 	}
 
-	public as<C extends CommandPacketConstructor<InstanceType<C>>>(
-		CommandPacketConstructor: C
-	): InstanceType<C> {
+	public as<T extends Packet>(
+		CommandPacketConstructor: CommandPacketConstructor<T>
+	): T {
 		const instance = this.tryAs(CommandPacketConstructor);
 		if (instance) {
 			return instance;

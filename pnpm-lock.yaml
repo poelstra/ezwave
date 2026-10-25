@@ -179,6 +179,9 @@ catalogs:
     eslint:
       specifier: 9.39.5
       version: 9.39.5
+    tsx:
+      specifier: 4.23.15
+      version: 4.23.15
     typescript:
       specifier: 6.0.3
       version: 6.0.3
@@ -299,24 +302,18 @@ importers:
 
   build/test-util:
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
+        version: link:../build-config
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
 
   libraries/codec:
     dependencies:
@@ -327,30 +324,27 @@ importers:
         specifier: workspace:*
         version: link:../spec
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
+        version: link:../../build/build-config
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       async-main:
         specifier: ^1.0.2
         version: 1.0.2
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
-      ts-node:
-        specifier: ~10.4.0
-        version: 10.4.0(@types/node@16.11.7)(typescript@4.4.4)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.15
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
 
   libraries/commands:
     dependencies:
@@ -364,18 +358,12 @@ importers:
         specifier: workspace:*
         version: link:../spec
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
+        version: link:../../build/build-config
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       async-main:
         specifier: ^1.0.2
         version: 1.0.2
@@ -383,17 +371,20 @@ importers:
         specifier: ^1.6.3
         version: 1.6.3
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
-      ts-node:
-        specifier: ~10.4.0
-        version: 10.4.0(@types/node@16.11.7)(typescript@4.4.4)
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.15
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
 
   libraries/controller:
     dependencies:
@@ -419,27 +410,24 @@ importers:
         specifier: ~4.3.1
         version: 4.3.7(supports-color@8.1.1)
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
+        version: link:../../build/build-config
       '@types/debug':
         specifier: ~4.1.5
         version: 4.1.13
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
 
   libraries/layers:
     dependencies:
@@ -462,27 +450,24 @@ importers:
         specifier: ~4.3.1
         version: 4.3.7(supports-color@8.1.1)
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
+        version: link:../../build/build-config
       '@types/debug':
         specifier: ~4.1.5
         version: 4.1.13
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
 
   libraries/security:
     dependencies:
@@ -499,27 +484,24 @@ importers:
         specifier: ~4.3.1
         version: 4.3.7(supports-color@8.1.1)
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
+        version: link:../../build/build-config
       '@types/debug':
         specifier: ~4.1.5
         version: 4.1.13
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
 
   libraries/serialapi:
     dependencies:
@@ -539,36 +521,33 @@ importers:
         specifier: ~4.16.2
         version: 4.16.2
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
+        version: link:../../build/build-config
       '@ezwave/test-util':
         specifier: workspace:*
         version: link:../../build/test-util
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
       '@types/debug':
         specifier: ~4.1.5
         version: 4.1.13
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       '@types/sinon':
         specifier: ~9.0.11
         version: 9.0.11
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       sinon:
         specifier: ~9.2.4
         version: 9.2.4
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
       xstate-codegen:
         specifier: ^0.3.0
         version: 0.3.0(@types/babel__core@7.20.5)(supports-color@8.1.1)
@@ -585,30 +564,24 @@ importers:
         specifier: ^9.0.4
         version: 9.2.8(supports-color@8.1.1)
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
+        version: link:../../build/build-config
       '@types/debug':
         specifier: ~4.1.5
         version: 4.1.13
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       '@types/serialport':
         specifier: ~8.0.2
         version: 8.0.5
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
 
   libraries/shared:
     devDependencies:
@@ -632,22 +605,16 @@ importers:
         version: 6.0.3
       vitest:
         specifier: 'catalog:'
-        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2))
+        version: 5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
 
   libraries/spec:
     devDependencies:
-      '@ezwave/ezwave-heft-rig':
+      '@ezwave/build-config':
         specifier: workspace:*
-        version: link:../../build/ezwave-heft-rig
-      '@rushstack/heft':
-        specifier: 0.44.2
-        version: 0.44.2
-      '@types/heft-jest':
-        specifier: 1.0.2
-        version: 1.0.2
+        version: link:../../build/build-config
       '@types/node':
-        specifier: 16.11.7
-        version: 16.11.7
+        specifier: 'catalog:'
+        version: 24.19.2
       async-main:
         specifier: ^1.0.2
         version: 1.0.2
@@ -655,14 +622,14 @@ importers:
         specifier: ^1.6.3
         version: 1.6.3
       eslint:
-        specifier: ~8.7.0
-        version: 8.7.0(supports-color@8.1.1)
+        specifier: 'catalog:'
+        version: 9.39.5(supports-color@8.1.1)
       fast-xml-parser:
         specifier: ^3.12.7
         version: 3.21.1
       typescript:
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 'catalog:'
+        version: 6.0.3
 
 packages:
 
@@ -888,6 +855,162 @@ packages:
   '@cspotcode/source-map-support@0.7.0':
     resolution: {integrity: sha512-X4xqRHqN8ACt2aHVe51OxeA2HjbcL4MqFqXkrmQszJ1NOUuUu5u6Vqx/0lZSVNku7velL5FC/s5uEAj1lsBMhA==}
     engines: {node: '>=12'}
+
+  '@esbuild/aix-ppc64@0.28.2':
+    resolution: {integrity: sha512-XExcO+dvLKvVtNTibSTBej1NCAbaGhWn9Ww1ZPx80qsahhPFe/8jgWP0IchNe0F3HwkU7n8ejhH8bjonqht8mQ==}
+    engines: {node: '>=18'}
+    cpu: [ppc64]
+    os: [aix]
+
+  '@esbuild/android-arm64@0.28.2':
+    resolution: {integrity: sha512-5YfKeeI8qWfBZIX+u2xZC3Zlb3Os/gLS2sbEKM+I4ZOcsWmHS2WLysCcQZDAFRslDUU5Oiq44gf6PYN1vGwG5A==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [android]
+
+  '@esbuild/android-arm@0.28.2':
+    resolution: {integrity: sha512-kXXoiPVVGQcnIYGOeaovwOURpniDBpSq4A03qkQ+BMQqtGG6HYap3xne9C1O1yo4TR3qxlCX5IqqmX6fFo2Lqg==}
+    engines: {node: '>=18'}
+    cpu: [arm]
+    os: [android]
+
+  '@esbuild/android-x64@0.28.2':
+    resolution: {integrity: sha512-O387ite7SzUyCcy3JQX4P4bLtEA7bLLkx+esve5JHnyYfNTxcVpXZo9jhdB0lTKN44gztELTdU7nS8Nr16Fs1Q==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [android]
+
+  '@esbuild/darwin-arm64@0.28.2':
+    resolution: {integrity: sha512-n4KqkOQrraxHJcgjM1RvwbigfQKIKJVpM7xp+KsxiyUSrRdIXnt73VhrPAx0fV44hgfmIVKjxMN9J1t5jySVkw==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@esbuild/darwin-x64@0.28.2':
+    resolution: {integrity: sha512-uq6suIWYP37qzGddBKPw5QEQPi6HiLGsO7UmkpfyaYNQ3D+rN6w6WfwH+nuqcGXWvawGwxOEroO4YGnFh95azw==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@esbuild/freebsd-arm64@0.28.2':
+    resolution: {integrity: sha512-n+I0BTSRIoy+d6RPKnEVwql5UwBJolytvY4mAOIEJorKlqgPII8ix6slVVrfZ5Tnj7glIZvloylbB/EJPMWEXw==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [freebsd]
+
+  '@esbuild/freebsd-x64@0.28.2':
+    resolution: {integrity: sha512-78XJTJkvPs0kz2w61301PJjXl4g7q3JqiYMZ/M/yVI73EHBrCRTgkhu9oqG7vPqq+a/yadEW8aD+agKlk5xrmg==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@esbuild/linux-arm64@0.28.2':
+    resolution: {integrity: sha512-pW4AC0P3it8c7do9MVM4p51FzHzdM/TZrerurgRcHJ2WTa1VQ1CIq18xncfpBJw4ojkiZZrKW2yIBWBP92j6Ug==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@esbuild/linux-arm@0.28.2':
+    resolution: {integrity: sha512-XlDnu2q5yoqems+xay6wSAcg9DDD7K9RLKZEBOMZm3ckNpJBvOX20tSfby8KfrrhINDyv9V2YVZKY/SpoGJI8w==}
+    engines: {node: '>=18'}
+    cpu: [arm]
+    os: [linux]
+
+  '@esbuild/linux-ia32@0.28.2':
+    resolution: {integrity: sha512-CYbnj78HsIeA+DhgUKgFCfvNsTHFhMMrinUrMZpDXJXKN8T3XViTZ/+wtHeVxEWY8ewSzTFN+nRmSwO2tZaLUQ==}
+    engines: {node: '>=18'}
+    cpu: [ia32]
+    os: [linux]
+
+  '@esbuild/linux-loong64@0.28.2':
+    resolution: {integrity: sha512-buwkd8nsph4R+ajRvw0qM5Hja/TXQow3ptzWO2EbG/cqcIkHloRrdlBtQlshyYGTNFvfkfJ5tpPLVkY4DtsPfQ==}
+    engines: {node: '>=18'}
+    cpu: [loong64]
+    os: [linux]
+
+  '@esbuild/linux-mips64el@0.28.2':
+    resolution: {integrity: sha512-ZVykbDyk7519VwiNb9Lcj9m8XM6v5V9uKPvrEMkkEedVewf+0itkhahp4HDpgERXhwLRpWFypsGbG/J8s0QjJA==}
+    engines: {node: '>=18'}
+    cpu: [mips64el]
+    os: [linux]
+
+  '@esbuild/linux-ppc64@0.28.2':
+    resolution: {integrity: sha512-CAXl+Dtd9UUuJd8pKKdwh6MLm3MUMiqMPmhZ3tTSXPqfyQ3vDl6R5hZdZ/kYojK4ofXtdfSv1tFq8XzWx3heNQ==}
+    engines: {node: '>=18'}
+    cpu: [ppc64]
+    os: [linux]
+
+  '@esbuild/linux-riscv64@0.28.2':
+    resolution: {integrity: sha512-GeXCej4IQtU1B+QlDV8W/RRvbzI3O/Stss+/bCXv4lZls5WGRtu2a+3JkA3i4qIUlMXpcHebWpF8AkJhATowuA==}
+    engines: {node: '>=18'}
+    cpu: [riscv64]
+    os: [linux]
+
+  '@esbuild/linux-s390x@0.28.2':
+    resolution: {integrity: sha512-3H1weTYZPxt/WOhByszQZybS9w5lKzUn1FDMsgEChbHWQwHYQQRfBxgCcZvPhjHfKyJjIievvMmEUawJrdY9Dg==}
+    engines: {node: '>=18'}
+    cpu: [s390x]
+    os: [linux]
+
+  '@esbuild/linux-x64@0.28.2':
+    resolution: {integrity: sha512-4xTZr1FUmSoQW4XIWmit3tzQrUTZM+N3P0XV8xROKYF50XfI7xeO90+1bZvNwxIufQ9hDQVRJH5YhgPVF8A/HQ==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [linux]
+
+  '@esbuild/netbsd-arm64@0.28.2':
+    resolution: {integrity: sha512-sSATRjPeDBg3pdgHoQfoYBob11Kk1FGa9lui5RIHZCoCkJa9QKlvl3/vKz2usCmYYjs7ymJR/2Nnsqe+Hjt5nw==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [netbsd]
+
+  '@esbuild/netbsd-x64@0.28.2':
+    resolution: {integrity: sha512-lqnzCV+mM0gIADaKihiCg6ifgfU2L3h5E33rNQBN1Y4MaVGnzryzmvvf7UHxprpQdE8hpqLolJ9Rl+SkIRDpyw==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [netbsd]
+
+  '@esbuild/openbsd-arm64@0.28.2':
+    resolution: {integrity: sha512-AL2qJILH7lNjrDmCQDvdxMfAUIv8KMNZOvrwAQ8i8//ntL9FflhOyMJ8OZSMBb8/AWXe3/5v5S20y3zCoZWKoQ==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [openbsd]
+
+  '@esbuild/openbsd-x64@0.28.2':
+    resolution: {integrity: sha512-QtiuPytchRyC4rwUKhexJdQKvDuZ6hWloi3igqPQNUJCS1/v9EiO3UTOXR6A3FoMo4fnAKbWJdqaIwhOzh8qEw==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [openbsd]
+
+  '@esbuild/openharmony-arm64@0.28.2':
+    resolution: {integrity: sha512-WkhYDmpTjLvGlScA1rwjRUmhl4k8oXR3cIbtqWmELgU/dFeHHlEllxDvdWcNJV9rbzCexB5vz8gtNewWLgCT7Q==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@esbuild/sunos-x64@0.28.2':
+    resolution: {integrity: sha512-GPMSkTOtMnv2U2F8gxe4Io6qmVs+YKyp832Etqqxr0hFngmXQ3rzwytelm3GIn7T4VviRUlf3sOgBOiTdvaf7g==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [sunos]
+
+  '@esbuild/win32-arm64@0.28.2':
+    resolution: {integrity: sha512-PIhhEkE9uPBleRBrQEJpUn7MBnibZzbGzYWPmY3x+YoVg/95zbjB4CxPPOQ8l5tYYM4mMaCthF8/1DIfBQQyWQ==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@esbuild/win32-ia32@0.28.2':
+    resolution: {integrity: sha512-YmJbfTlvU7Sdn9BB+4PRES4oB6pxgS37MAONj+hBr/cpXS1aBPKXxNnDbu+QCWPj0o9dgyxeq79g6c5P8KeuYA==}
+    engines: {node: '>=18'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@esbuild/win32-x64@0.28.2':
+    resolution: {integrity: sha512-5ebpxr3nWMzrL/rnUI755Jkuee0bHL/Gq0WTF9lvcpv73wAp5eu8MfBUgWK9bhWvZjj7yX8etf/8tI8Ney695g==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [win32]
 
   '@eslint-community/eslint-utils@4.10.1':
     resolution: {integrity: sha512-cuadcxVFE8sDK6iWJbs8Sn0av2Nrh2QSGQhVlBW9AaAHqHwjWsZHT8LJ4hFGPh7ASBV2deFdM7H/DPjulmh8rg==}
@@ -2436,6 +2559,11 @@ packages:
   es-to-primitive@1.3.4:
     resolution: {integrity: sha512-yPDz7wqpg1/mmHLmS3tcfTfbw5f1eryXvyghYBffGdERwe+mV7ZcWzTR8LR17Kvqt3qfPurjlonmnq3MKXIOXw==}
     engines: {node: '>= 0.4'}
+
+  esbuild@0.28.2:
+    resolution: {integrity: sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   escalade@3.2.0:
     resolution: {integrity: sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==}
@@ -4468,6 +4596,11 @@ packages:
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
 
+  tsx@4.23.15:
+    resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
@@ -5083,11 +5216,91 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@cspotcode/source-map-consumer@0.8.0': {}
+  '@cspotcode/source-map-consumer@0.8.0':
+    optional: true
 
   '@cspotcode/source-map-support@0.7.0':
     dependencies:
       '@cspotcode/source-map-consumer': 0.8.0
+    optional: true
+
+  '@esbuild/aix-ppc64@0.28.2':
+    optional: true
+
+  '@esbuild/android-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/android-arm@0.28.2':
+    optional: true
+
+  '@esbuild/android-x64@0.28.2':
+    optional: true
+
+  '@esbuild/darwin-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/darwin-x64@0.28.2':
+    optional: true
+
+  '@esbuild/freebsd-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/freebsd-x64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-arm@0.28.2':
+    optional: true
+
+  '@esbuild/linux-ia32@0.28.2':
+    optional: true
+
+  '@esbuild/linux-loong64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-mips64el@0.28.2':
+    optional: true
+
+  '@esbuild/linux-ppc64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-riscv64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-s390x@0.28.2':
+    optional: true
+
+  '@esbuild/linux-x64@0.28.2':
+    optional: true
+
+  '@esbuild/netbsd-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/netbsd-x64@0.28.2':
+    optional: true
+
+  '@esbuild/openbsd-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/openbsd-x64@0.28.2':
+    optional: true
+
+  '@esbuild/openharmony-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/sunos-x64@0.28.2':
+    optional: true
+
+  '@esbuild/win32-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/win32-ia32@0.28.2':
+    optional: true
+
+  '@esbuild/win32-x64@0.28.2':
+    optional: true
 
   '@eslint-community/eslint-utils@4.10.1(eslint@9.39.5(supports-color@8.1.1))':
     dependencies:
@@ -5741,13 +5954,17 @@ snapshots:
 
   '@tootallnate/once@1.1.2': {}
 
-  '@tsconfig/node10@1.0.13': {}
+  '@tsconfig/node10@1.0.13':
+    optional: true
 
-  '@tsconfig/node12@1.0.11': {}
+  '@tsconfig/node12@1.0.11':
+    optional: true
 
-  '@tsconfig/node14@1.0.3': {}
+  '@tsconfig/node14@1.0.3':
+    optional: true
 
-  '@tsconfig/node16@1.0.4': {}
+  '@tsconfig/node16@1.0.4':
+    optional: true
 
   '@turbo/darwin-64@2.11.10':
     optional: true
@@ -5852,7 +6069,7 @@ snapshots:
 
   '@types/resolve@1.17.1':
     dependencies:
-      '@types/node': 16.11.7
+      '@types/node': 24.19.2
 
   '@types/serialport@8.0.5':
     dependencies:
@@ -6156,14 +6373,14 @@ snapshots:
       '@typescript-eslint/types': 8.72.0
       eslint-visitor-keys: 5.0.1
 
-  '@vitest/mocker@5.0.5(vite@8.3.5(@types/node@24.19.2))':
+  '@vitest/mocker@5.0.5(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.5
       estree-walker: 3.0.3
       magic-string: 1.4.3
     optionalDependencies:
-      vite: 8.3.5(@types/node@24.19.2)
+      vite: 8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15)
 
   '@vitest/spy@5.0.5': {}
 
@@ -6183,6 +6400,7 @@ snapshots:
   acorn-walk@8.3.5:
     dependencies:
       acorn: 8.19.0
+    optional: true
 
   acorn@7.4.1: {}
 
@@ -6368,7 +6586,8 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.2
 
-  arg@4.1.3: {}
+  arg@4.1.3:
+    optional: true
 
   argparse@1.0.10:
     dependencies:
@@ -6762,7 +6981,8 @@ snapshots:
       isobject: 3.0.1
       lazy-cache: 2.0.2
 
-  create-require@1.1.1: {}
+  create-require@1.1.1:
+    optional: true
 
   cross-spawn@7.0.6:
     dependencies:
@@ -7046,6 +7266,35 @@ snapshots:
       is-callable: 1.2.7
       is-date-object: 1.1.0
       is-symbol: 1.1.1
+
+  esbuild@0.28.2:
+    optionalDependencies:
+      '@esbuild/aix-ppc64': 0.28.2
+      '@esbuild/android-arm': 0.28.2
+      '@esbuild/android-arm64': 0.28.2
+      '@esbuild/android-x64': 0.28.2
+      '@esbuild/darwin-arm64': 0.28.2
+      '@esbuild/darwin-x64': 0.28.2
+      '@esbuild/freebsd-arm64': 0.28.2
+      '@esbuild/freebsd-x64': 0.28.2
+      '@esbuild/linux-arm': 0.28.2
+      '@esbuild/linux-arm64': 0.28.2
+      '@esbuild/linux-ia32': 0.28.2
+      '@esbuild/linux-loong64': 0.28.2
+      '@esbuild/linux-mips64el': 0.28.2
+      '@esbuild/linux-ppc64': 0.28.2
+      '@esbuild/linux-riscv64': 0.28.2
+      '@esbuild/linux-s390x': 0.28.2
+      '@esbuild/linux-x64': 0.28.2
+      '@esbuild/netbsd-arm64': 0.28.2
+      '@esbuild/netbsd-x64': 0.28.2
+      '@esbuild/openbsd-arm64': 0.28.2
+      '@esbuild/openbsd-x64': 0.28.2
+      '@esbuild/openharmony-arm64': 0.28.2
+      '@esbuild/sunos-x64': 0.28.2
+      '@esbuild/win32-arm64': 0.28.2
+      '@esbuild/win32-ia32': 0.28.2
+      '@esbuild/win32-x64': 0.28.2
 
   escalade@3.2.0: {}
 
@@ -8645,7 +8894,8 @@ snapshots:
     dependencies:
       semver: 7.8.5
 
-  make-error@1.3.6: {}
+  make-error@1.3.6:
+    optional: true
 
   makeerror@1.0.12:
     dependencies:
@@ -9574,23 +9824,6 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  ts-node@10.4.0(@types/node@16.11.7)(typescript@4.4.4):
-    dependencies:
-      '@cspotcode/source-map-support': 0.7.0
-      '@tsconfig/node10': 1.0.13
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 16.11.7
-      acorn: 8.19.0
-      acorn-walk: 8.3.5
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.4
-      make-error: 1.3.6
-      typescript: 4.4.4
-      yn: 3.1.1
-
   ts-node@10.4.0(@types/node@24.19.2)(typescript@4.4.4):
     dependencies:
       '@cspotcode/source-map-support': 0.7.0
@@ -9615,6 +9848,12 @@ snapshots:
     dependencies:
       tslib: 1.14.1
       typescript: 4.4.4
+
+  tsx@4.23.15:
+    dependencies:
+      esbuild: 0.28.2
+    optionalDependencies:
+      fsevents: 2.3.3
 
   tunnel-agent@0.6.0:
     dependencies:
@@ -9744,7 +9983,7 @@ snapshots:
 
   validator@13.15.35: {}
 
-  vite@8.3.5(@types/node@24.19.2):
+  vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -9753,12 +9992,14 @@ snapshots:
       tinyglobby: 0.2.17
     optionalDependencies:
       '@types/node': 24.19.2
+      esbuild: 0.28.2
       fsevents: 2.3.3
+      tsx: 4.23.15
 
-  vitest@5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)):
+  vitest@5.0.5(@types/node@24.19.2)(jsdom@16.7.0(supports-color@8.1.1))(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.5(vite@8.3.5(@types/node@24.19.2))
+      '@vitest/mocker': 5.0.5(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15))
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -9769,7 +10010,7 @@ snapshots:
       tinybench: 6.2.2
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
-      vite: 8.3.5(@types/node@24.19.2)
+      vite: 8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(tsx@4.23.15)
       why-is-node-running: 3.2.1
     optionalDependencies:
       '@types/node': 24.19.2
@@ -9938,7 +10179,8 @@ snapshots:
 
   year@0.2.1: {}
 
-  yn@3.1.1: {}
+  yn@3.1.1:
+    optional: true
 
   yocto-queue@0.1.0: {}
 
