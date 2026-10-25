@@ -237,7 +237,7 @@ It's highly recommended to use VSCode for development.
 
 ### Developing your own customization
 
-To start controlling your own home, take a look at `app/demo`
+To start controlling your own home, take a look at `apps/demo`
 for inspiration. It's the app that controls the devices in my
 home, connected through the MHub message broker.
 
@@ -254,7 +254,7 @@ configuration on it, so it's safe and easy to experiment.
 
 Anyway, in order to get started:
 
--   Set up a config file `app/demo/config.json` (see app/demo/src/index for its format).
+-   Set up a config file `apps/demo/config.json` (see apps/demo/src/index for its format).
 
     -   You can configure the serial port id of the devices, and add the home+node ID of
         a stick you own (just leave it empty initially, it will print the IDs it found).
