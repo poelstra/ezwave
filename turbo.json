@@ -6,10 +6,10 @@
 			"outputs": ["lib/**", "dist/**"]
 		},
 		"lint": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "build"]
 		},
 		"test": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "build"]
 		},
 		"watch": {
 			"dependsOn": ["^build"],

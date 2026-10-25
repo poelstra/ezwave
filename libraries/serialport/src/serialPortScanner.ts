@@ -8,7 +8,7 @@
 import { InterruptibleSleep } from "@ezwave/shared";
 import debug from "debug";
 import { promises as pfs } from "fs";
-import SerialPort from "serialport";
+import { SerialPort } from "serialport";
 
 const log: debug.Debugger = debug("zwave:serialportscanner");
 
@@ -199,8 +199,8 @@ export class SerialPortScanner {
 	private async _open(comName: string): Promise<SerialPort> {
 		return new Promise<SerialPort>((resolve, reject) => {
 			const port: SerialPort = new SerialPort(
-				comName,
 				{
+					path: comName,
 					baudRate: 115200,
 					parity: "none",
 					dataBits: 8,

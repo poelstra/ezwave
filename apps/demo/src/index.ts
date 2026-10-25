@@ -27,7 +27,7 @@ import main from "async-main";
 import { randomBytes } from "crypto";
 import { readFile } from "fs/promises";
 import * as path from "path";
-import SerialPort from "serialport";
+import { SerialPort } from "serialport";
 import "source-map-support/register";
 import { ControllerIds, Home } from "./home";
 import {
