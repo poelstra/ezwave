@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build output
+**/lib/
+**/.turbo/
+
+# Generated from external data (the official Z-Wave XML spec) on every
+# build; not hand-written, so not ours to reformat.
+libraries/codec/src/generated/
+libraries/commands/src/generated/
+
+# Package manager
+pnpm-lock.yaml
+
+# EZWave development / local runtime data
+/todo.txt
+/klooi
+/cache
+/apps/demo/config*.json
+/apps/demo/cache/

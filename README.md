@@ -213,6 +213,7 @@ In order to build all packages, you'll need to run the following:
         reproducible over time.
 -   Install all dependencies: `pnpm install`
 -   Build, lint and test all packages: `pnpm turbo run build lint test`
+-   Check formatting: `pnpm format:check` (or `pnpm format` to fix in place)
 
 Whenever you make a change to any of the `package.json` files (e.g.
 when pulling in new changes), be sure to run `pnpm install` again.
