@@ -1,0 +1,19 @@
+{
+	"name": "ezwave-monorepo",
+	"version": "1.0.0",
+	"private": true,
+	"license": "MIT",
+	"engines": {
+		"node": ">=24"
+	},
+	"packageManager": "pnpm@12.15.0",
+	"scripts": {
+		"build": "turbo run build",
+		"watch": "turbo watch watch",
+		"lint": "turbo run lint",
+		"test": "turbo run test"
+	},
+	"devDependencies": {
+		"turbo": "2.11.10"
+	}
+}

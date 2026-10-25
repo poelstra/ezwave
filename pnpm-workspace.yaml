@@ -1,0 +1,18 @@
+packages:
+  - "apps/*"
+  - "build/*"
+  - "libraries/*"
+
+catalog:
+  typescript: 6.0.3
+  eslint: 9.39.5
+  "@typescript-eslint/eslint-plugin": 8.72.0
+  "@typescript-eslint/parser": 8.72.0
+  "@rushstack/eslint-config": 4.9.0
+  vitest: 5.0.5
+  "@types/node": 24.19.2
+  tsx: 4.23.15
+
+allowBuilds:
+  '@serialport/bindings': true
+  highlight.js: true
