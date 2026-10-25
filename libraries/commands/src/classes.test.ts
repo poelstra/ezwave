@@ -9,6 +9,7 @@
  */
 
 import { CommandPacket, CommandPacketConstructor, Packet } from "@ezwave/codec";
+import { describe, expect, it } from "vitest";
 import {
 	AlarmV2,
 	AssociationGrpInfoV3,

@@ -2,6 +2,7 @@ import { BasicV1 } from "@ezwave/commands";
 import { BasicV1BasicReportData } from "@ezwave/commands/lib/generated/BasicV1";
 import { ZwGetVersion } from "@ezwave/serialapi";
 import { defer, nextTick } from "@ezwave/shared";
+import { describe, expect, it, vi } from "vitest";
 import {
 	buildControllerSessionExecutor,
 	ControllerSessionRunner,

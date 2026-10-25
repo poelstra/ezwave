@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from "vitest";
 import { Queue } from "./queue";
 import { defer } from "./util";
 

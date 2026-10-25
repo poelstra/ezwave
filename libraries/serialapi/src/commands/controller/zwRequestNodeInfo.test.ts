@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { zwRequestNodeInfoBuilder } from ".";
 import { SerialApiCommandCode } from "..";
 

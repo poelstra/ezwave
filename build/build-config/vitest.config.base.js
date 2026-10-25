@@ -12,9 +12,5 @@ module.exports = {
 	test: {
 		environment: "node",
 		include: ["src/**/*.test.ts"],
-		// Matches the ambient describe/it/expect/jest-style globals the test
-		// suite was written against under Jest, so migrating off Jest doesn't
-		// require touching every test file's imports.
-		globals: true,
 	},
 };

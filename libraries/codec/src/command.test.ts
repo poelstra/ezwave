@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 // TODO These tests must be re-instated somehow, testing just the basic
 // behavior of the CommmandPacket and CommandClassPacket classes, without
 // dependency on an actual (auto-generated) command class. Tests for that

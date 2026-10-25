@@ -2,6 +2,7 @@
 import { defer, noop } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { SimpleRequestBuilder, ZwRequestNodeInfo } from ".";
 import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
 import { zwMemoryGetIdBuffer } from "./commands/memory/zwMemoryGetId.test";

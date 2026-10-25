@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { CryptoManager } from "./cryptoManager";
 
 const networkKey = Buffer.from("101112131415161718191a1b1c1d1e1f", "hex");

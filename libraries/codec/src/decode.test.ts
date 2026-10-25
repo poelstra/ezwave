@@ -1,4 +1,5 @@
 import * as spec from "@ezwave/spec";
+import { describe, expect, it } from "vitest";
 import { decodeCommandAndPayload } from "./decode";
 
 function createCommand(

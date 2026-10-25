@@ -1,5 +1,6 @@
 import { DuplexSource } from "@ezwave/test-util";
 import * as sinon from "sinon";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { DataType, Frame, FrameError, Framer, FrameType } from "./framer";
 
 describe("SerialAPI Framer", () => {

@@ -1,4 +1,5 @@
 import * as spec from "@ezwave/spec";
+import { describe, expect, it } from "vitest";
 import { CodecDataError } from "./codec";
 import { encodeCommandAndPayload } from "./encode";
 

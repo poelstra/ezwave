@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { zwIsFailedNodeBuilder } from "./zwIsFailedNode";
 
 describe("serialapi/commands/controller/zwIsFailedNode", () => {

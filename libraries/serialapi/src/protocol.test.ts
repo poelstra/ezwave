@@ -1,6 +1,7 @@
 import { never } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	DataFrame,
 	DataType,

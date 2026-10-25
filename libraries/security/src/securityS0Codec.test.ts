@@ -1,5 +1,6 @@
 import { Packet } from "@ezwave/codec";
 import { SecurityV1 } from "@ezwave/commands";
+import { describe, expect, it } from "vitest";
 import { CryptoManager } from "./cryptoManager";
 import { bufferToNonce, INonceLookup, Nonce } from "./nonceStore";
 import { SecurityS0Codec } from "./securityS0Codec";

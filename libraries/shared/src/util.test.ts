@@ -1,4 +1,5 @@
 import * as sinon from "sinon";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { defer, never, timeout, Timer } from "./util";
 
 describe("util", () => {

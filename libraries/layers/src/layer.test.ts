@@ -1,6 +1,7 @@
 import { Packet } from "@ezwave/codec";
 import { SecurityV1, SwitchMultilevelV1 } from "@ezwave/commands";
 import { DestinationType } from "@ezwave/serialapi";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
 	Dispatch,
 	DispatchNext,

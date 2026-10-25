@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from "vitest";
 import { Events } from "../events";
 import { ICommandSession } from "../ICommandSession";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
