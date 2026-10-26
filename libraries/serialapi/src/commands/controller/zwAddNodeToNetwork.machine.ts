@@ -1,5 +1,4 @@
-import { assign, createMachine } from "@xstate/compiled";
-import { ErrorPlatformEvent } from "xstate";
+import { assign, ErrorActorEvent, fromPromise, setup } from "xstate";
 import { NodeInfoResponse } from "../types";
 
 export enum AddNodeResultStatus {
@@ -20,6 +19,12 @@ export interface AddNodeMachineResult {
 	 * `Failed`.
 	 */
 	error?: unknown;
+}
+
+export interface Input {
+	listeningNodesCount: number;
+	flirsNodesCount: number;
+	totalNodes: number;
 }
 
 export interface Context {
@@ -95,252 +100,245 @@ function getAddControllerNodeTimeout(
  * be done to stop the Serial API in that case, so abort immediately.
  */
 const abortOnError = {
-	target: "#addNodeToNetwork.Done" as const,
-	actions: assign<Context, ErrorPlatformEvent>({
-		status: (_context: Context) => AddNodeResultStatus.Failed,
-		error: (_context: Context, event: ErrorPlatformEvent) => event.data,
+	target: "#addNodeToNetwork.Done",
+	actions: "recordError",
+} as const;
+
+const notImplemented = (): Promise<void> =>
+	Promise.reject(new Error("not implemented"));
+
+export const machine = setup({
+	types: {
+		context: {} as Context,
+		events: {} as Event,
+		input: {} as Input,
+		output: {} as AddNodeMachineResult,
+	},
+	actors: {
+		invokeStop: fromPromise<void>(notImplemented),
+		invokeStopNoCallback: fromPromise<void>(notImplemented),
+		assignSucIfNeeded: fromPromise<void>(notImplemented),
+		controllerReplication: fromPromise<void>(notImplemented),
+	},
+	delays: {
+		ADD_NODE_TIMEOUT: ({ context }) => context.addNodeTimeout!,
+		NODE_FOUND_TIMEOUT,
+		PROTOCOL_READY_TIMEOUT,
+		NODE_STOP_TIMEOUT,
+		SLAVE_OR_CONTROLLER_FOUND_TIMEOUT,
+	},
+	actions: {
+		recordError: assign({
+			status: AddNodeResultStatus.Failed,
+			error: ({ event }) => (event as unknown as ErrorActorEvent).error,
+		}),
+		indicateCancellable: () => {},
+		indicateNonCancellable: () => {},
+		assignNif: assign({
+			nif: ({ event }) => {
+				// Only used for ADDING_SLAVE and ADDING_CONTROLLER events
+				return (event as Extract<Event, { nif: NodeInfoResponse }>).nif;
+			},
+		}),
+		assignSlaveTimeout: assign({
+			addNodeTimeout: ({ context }) =>
+				getAddSlaveNodeTimeout(
+					context.listeningNodesCount,
+					context.flirsNodesCount
+				),
+		}),
+		assignControllerTimeout: assign({
+			addNodeTimeout: ({ context }) =>
+				getAddControllerNodeTimeout(
+					context.listeningNodesCount,
+					context.flirsNodesCount,
+					context.totalNodes
+				),
+		}),
+	},
+}).createMachine({
+	id: "addNodeToNetwork",
+	initial: "Waiting",
+	context: ({ input }) => ({ ...input }),
+	output: ({ context }) => ({
+		status: context.status!,
+		nif: context.nif,
+		error: context.error,
 	}),
-};
-
-export const machine = createMachine<Context, Event, "addNodeToNetwork">(
-	{
-		id: "addNodeToNetwork",
-		initial: "Waiting",
-		context: {
-			flirsNodesCount: 0,
-			listeningNodesCount: 0,
-			totalNodes: 0,
+	states: {
+		Waiting: {
+			initial: "WaitingForProtocol",
+			entry: "indicateCancellable",
+			exit: "indicateNonCancellable",
+			on: {
+				CANCEL: "Cancelling",
+				NOT_PRIMARY: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.NotPrimary,
+					}),
+				},
+			},
+			after: {
+				// This timeout is basically that we give up waiting for
+				// inclusion by a node to be started, so perhaps this
+				// should actually be a timeout to (optionally) be specified
+				// by end-user. For now, we use the timeout from the spec.
+				// INS13954-7 4.4.1.3.2 - MUST implement timeout, SHOULD not
+				// wait longer than 60s.
+				NODE_FOUND_TIMEOUT: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.TimedOut,
+					}),
+				},
+			},
+			states: {
+				WaitingForProtocol: {
+					on: {
+						LEARN_READY: "WaitingForNode",
+					},
+					after: {
+						PROTOCOL_READY_TIMEOUT: {
+							target: "#addNodeToNetwork.Finalizing",
+							actions: assign({
+								status: AddNodeResultStatus.TimedOut,
+							}),
+						},
+					},
+				},
+				WaitingForNode: {
+					on: {
+						NODE_FOUND: "#addNodeToNetwork.NodeFound",
+					},
+				},
+			},
 		},
-		states: {
-			Waiting: {
-				initial: "WaitingForProtocol",
-				entry: "indicateCancellable",
-				exit: "indicateNonCancellable",
-				on: {
-					CANCEL: "Cancelling",
-					NOT_PRIMARY: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) =>
-								AddNodeResultStatus.NotPrimary,
-						}),
-					},
-				},
-				after: {
-					// This timeout is basically that we give up waiting for
-					// inclusion by a node to be started, so perhaps this
-					// should actually be a timeout to (optionally) be specified
-					// by end-user. For now, we use the timeout from the spec.
-					// INS13954-7 4.4.1.3.2 - MUST implement timeout, SHOULD not
-					// wait longer than 60s.
-					NODE_FOUND_TIMEOUT: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) => AddNodeResultStatus.TimedOut,
-						}),
-					},
-				},
-				states: {
-					WaitingForProtocol: {
-						on: {
-							LEARN_READY: "WaitingForNode",
-						},
-						after: {
-							PROTOCOL_READY_TIMEOUT: {
-								target: "#addNodeToNetwork.Finalizing",
-								actions: assign({
-									status: (_context) =>
-										AddNodeResultStatus.TimedOut,
-								}),
-							},
-						},
-					},
-					WaitingForNode: {
-						on: {
-							NODE_FOUND: "#addNodeToNetwork.NodeFound",
-						},
-					},
-				},
-			},
 
-			Cancelling: {
-				invoke: { src: "invokeStop", onError: abortOnError },
-				on: {
-					NODE_FOUND: "NodeFound",
-					DONE: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) => AddNodeResultStatus.Cancelled,
-						}),
-					},
-				},
-				after: {
-					NODE_STOP_TIMEOUT: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) => AddNodeResultStatus.TimedOut,
-						}),
-					},
+		Cancelling: {
+			invoke: { src: "invokeStop", onError: abortOnError },
+			on: {
+				NODE_FOUND: "NodeFound",
+				DONE: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.Cancelled,
+					}),
 				},
 			},
+			after: {
+				NODE_STOP_TIMEOUT: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.TimedOut,
+					}),
+				},
+			},
+		},
 
-			NodeFound: {
-				on: {
-					ADDING_SLAVE: {
-						target: "Including.SlaveFound",
-						actions: ["assignNif", "assignSlaveTimeout"],
-					},
-					ADDING_CONTROLLER: {
-						target: "Including.ControllerFound",
-						actions: ["assignNif", "assignControllerTimeout"],
-					},
+		NodeFound: {
+			on: {
+				ADDING_SLAVE: {
+					target: "Including.SlaveFound",
+					actions: ["assignNif", "assignSlaveTimeout"],
 				},
-				after: {
-					SLAVE_OR_CONTROLLER_FOUND_TIMEOUT: "CleaningUpErrors",
+				ADDING_CONTROLLER: {
+					target: "Including.ControllerFound",
+					actions: ["assignNif", "assignControllerTimeout"],
 				},
 			},
+			after: {
+				SLAVE_OR_CONTROLLER_FOUND_TIMEOUT: "CleaningUpErrors",
+			},
+		},
 
-			Including: {
-				on: {
-					PROTOCOL_FAILED: "CleaningUpErrors",
+		Including: {
+			// Never entered directly, but required by XState
+			initial: "SlaveFound",
+			on: {
+				PROTOCOL_FAILED: "CleaningUpErrors",
+			},
+			after: {
+				ADD_NODE_TIMEOUT: "CleaningUpErrors",
+			},
+			states: {
+				SlaveFound: {
+					on: {
+						PROTOCOL_DONE: "#addNodeToNetwork.Finishing",
+					},
 				},
-				after: {
-					ADD_NODE_TIMEOUT: "CleaningUpErrors",
+				ControllerFound: {
+					on: {
+						PROTOCOL_DONE: "ControllerReplication",
+					},
 				},
-				states: {
-					SlaveFound: {
-						on: {
-							PROTOCOL_DONE: "#addNodeToNetwork.Finishing",
-						},
+				ControllerReplication: {
+					invoke: {
+						src: "controllerReplication",
+						onDone: "AssignSuc",
+						// TODO chart says to just send STOP, but text suggests to use STOP_FAILED,
+						// but should that be just STOP_FAILED, or STOP_FAILED and then STOP?
+						onError: "#addNodeToNetwork.CleaningUpErrors",
 					},
-					ControllerFound: {
-						on: {
-							PROTOCOL_DONE: "ControllerReplication",
-						},
-					},
-					ControllerReplication: {
-						invoke: {
-							src: "controllerReplication",
-							onDone: "AssignSuc",
-							// TODO chart says to just send STOP, but text suggests to use STOP_FAILED,
-							// but should that be just STOP_FAILED, or STOP_FAILED and then STOP?
-							onError: "#addNodeToNetwork.CleaningUpErrors",
-						},
-					},
-					AssignSuc: {
-						invoke: {
-							src: "assignSucIfNeeded",
-							onDone: "#addNodeToNetwork.Finishing",
-							onError: "#addNodeToNetwork.CleaningUpErrors",
-						},
+				},
+				AssignSuc: {
+					invoke: {
+						src: "assignSucIfNeeded",
+						onDone: "#addNodeToNetwork.Finishing",
+						onError: "#addNodeToNetwork.CleaningUpErrors",
 					},
 				},
 			},
+		},
 
-			CleaningUpErrors: {
-				invoke: { src: "invokeStop", onError: abortOnError },
-				on: {
-					DONE: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) =>
-								AddNodeResultStatus.AddedFailed,
-						}),
-					},
-				},
-				after: {
-					NODE_STOP_TIMEOUT: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) =>
-								AddNodeResultStatus.AddedFailed,
-						}),
-					},
+		CleaningUpErrors: {
+			invoke: { src: "invokeStop", onError: abortOnError },
+			on: {
+				DONE: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.AddedFailed,
+					}),
 				},
 			},
-			Finishing: {
-				invoke: { src: "invokeStop", onError: abortOnError },
-				on: {
-					DONE: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) => AddNodeResultStatus.Ok,
-						}),
-					},
-				},
-				after: {
-					NODE_STOP_TIMEOUT: {
-						target: "#addNodeToNetwork.Finalizing",
-						actions: assign({
-							status: (_context) =>
-								AddNodeResultStatus.AddedFailed,
-						}),
-					},
+			after: {
+				NODE_STOP_TIMEOUT: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.AddedFailed,
+					}),
 				},
 			},
+		},
+		Finishing: {
+			invoke: { src: "invokeStop", onError: abortOnError },
+			on: {
+				DONE: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.Ok,
+					}),
+				},
+			},
+			after: {
+				NODE_STOP_TIMEOUT: {
+					target: "#addNodeToNetwork.Finalizing",
+					actions: assign({
+						status: AddNodeResultStatus.AddedFailed,
+					}),
+				},
+			},
+		},
 
-			Finalizing: {
-				invoke: {
-					src: "invokeStopNoCallback",
-					onDone: "Done",
-					onError: abortOnError,
-				},
+		Finalizing: {
+			invoke: {
+				src: "invokeStopNoCallback",
+				onDone: "Done",
+				onError: abortOnError,
 			},
-			Done: {
-				type: "final",
-				data: (context): AddNodeMachineResult => ({
-					status: context.status!,
-					nif: context.nif,
-					error: context.error,
-				}),
-			},
+		},
+		Done: {
+			type: "final",
 		},
 	},
-	{
-		services: {
-			invokeStop: () => {
-				throw new Error("not implemented");
-			},
-			invokeStopNoCallback: () => {
-				throw new Error("not implemented");
-			},
-			assignSucIfNeeded: () => {
-				throw new Error("not implemented");
-			},
-			controllerReplication: () => {
-				throw new Error("not implemented");
-			},
-		},
-		delays: {
-			ADD_NODE_TIMEOUT: (context) => context.addNodeTimeout!,
-			NODE_FOUND_TIMEOUT,
-			PROTOCOL_READY_TIMEOUT,
-			NODE_STOP_TIMEOUT,
-			SLAVE_OR_CONTROLLER_FOUND_TIMEOUT,
-		},
-		actions: {
-			indicateCancellable: () => {},
-			indicateNonCancellable: () => {},
-			assignNif: assign({
-				nif: (_context, event) => {
-					return event.nif;
-				},
-			}),
-			assignSlaveTimeout: assign({
-				addNodeTimeout: (context, _event) =>
-					getAddSlaveNodeTimeout(
-						context.listeningNodesCount,
-						context.flirsNodesCount
-					),
-			}),
-			assignControllerTimeout: assign({
-				addNodeTimeout: (context, _event) =>
-					getAddControllerNodeTimeout(
-						context.listeningNodesCount,
-						context.flirsNodesCount,
-						context.totalNodes
-					),
-			}),
-		},
-	}
-);
+});

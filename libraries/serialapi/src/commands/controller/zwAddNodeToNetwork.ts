@@ -1,9 +1,9 @@
 import { parseCommandClassInfo } from "@ezwave/codec";
-import { interpret } from "@xstate/compiled";
 import { buildCallbackParser } from "../callbackRequest";
-import { runMachineService } from "../machineRunner";
+import { runMachineActor } from "../machineRunner";
 import { RequestRunner } from "../RequestRunner";
 import { CallbackRequestBuilder } from "../requests";
+import { createActor, fromPromise } from "xstate";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 import { NodeInfoResponse } from "../types";
 import {
@@ -251,34 +251,31 @@ export function zwAddNodeToNetworkBuilder(
 				events,
 				session
 			): Promise<NodeInfoResponse> => {
-				const boundMachine = machine.withConfig({
-					context: {
-						listeningNodesCount: request.listeningNodesCount,
-						flirsNodesCount: request.flirsNodesCount,
-						totalNodes: request.totalNodes,
-					},
-					services: {
-						invokeStop: () =>
-							session.send(
+				const boundMachine = machine.provide({
+					actors: {
+						invokeStop: fromPromise(async () => {
+							await session.send(
 								command,
 								Buffer.from([AddNodeMode.Stop, transactionId])
-							),
-						invokeStopNoCallback: () =>
-							session.send(
+							);
+						}),
+						invokeStopNoCallback: fromPromise(async () => {
+							await session.send(
 								command,
 								Buffer.from([AddNodeMode.Stop, 0])
-							),
-						assignSucIfNeeded: async (_context) => {
+							);
+						}),
+						assignSucIfNeeded: fromPromise(async () => {
 							// TODO If has no SUC in network -> SetSUCNodeId(context.nif.nodeId)
-						},
-						controllerReplication: async () => {
+						}),
+						controllerReplication: fromPromise(async () => {
 							// TODO Implement
-						},
+						}),
 					},
 					actions: {
-						indicateCancellable: () => {
+						indicateCancellable: ({ self }) => {
 							request.onCancellable?.(() =>
-								service.send({ type: "CANCEL" })
+								self.send({ type: "CANCEL" })
 							);
 						},
 						indicateNonCancellable: () => {
@@ -286,9 +283,15 @@ export function zwAddNodeToNetworkBuilder(
 						},
 					},
 				});
-				const service = interpret(boundMachine);
-				const result: AddNodeMachineResult = await runMachineService(
-					service,
+				const actor = createActor(boundMachine, {
+					input: {
+						listeningNodesCount: request.listeningNodesCount,
+						flirsNodesCount: request.flirsNodesCount,
+						totalNodes: request.totalNodes,
+					},
+				});
+				const result: AddNodeMachineResult = await runMachineActor(
+					actor,
 					events
 				);
 				if (result.error !== undefined) {

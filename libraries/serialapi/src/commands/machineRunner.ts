@@ -1,37 +1,60 @@
-import { InterpreterWithMatches } from "@xstate/compiled";
 import debug from "debug";
 import * as util from "util";
-import { EventObject, InterpreterStatus } from "xstate";
+import {
+	Actor,
+	AnyActor,
+	AnyStateMachine,
+	EventFromLogic,
+	OutputFrom,
+} from "xstate";
 import { Events } from "./events";
 
 const log: debug.Debugger = debug("zwave:serialapi:machine");
 
-export function runMachineService<TEvent extends EventObject, R>(
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	service: InterpreterWithMatches<any, any, TEvent, any>,
-	events: Events<TEvent>
-): Promise<R> {
-	return new Promise<R>((resolve, reject) => {
-		service.onDone((event) => resolve(event.data));
-		service.onTransition((state, event) => {
-			log(
-				`transition service=${service.id} event=${util.inspect(
-					event
-				)} newState=${util.inspect(state.value)}`
-			);
+/**
+ * Run a state machine actor to completion, feeding it with the given events.
+ *
+ * @param typedActor Actor to start (must not have been started yet).
+ * @param events Events to forward to the actor.
+ * @returns Output of the machine when it reaches its final state.
+ *     Rejects when getting events fails, or when the machine itself fails.
+ */
+export function runMachineActor<TMachine extends AnyStateMachine>(
+	typedActor: Actor<TMachine>,
+	events: Events<EventFromLogic<TMachine>>
+): Promise<OutputFrom<TMachine>> {
+	// Snapshot type of a generic machine can't be resolved here
+	const actor: AnyActor = typedActor;
+	return new Promise<OutputFrom<TMachine>>((resolve, reject) => {
+		actor.subscribe({
+			next: (snapshot) => {
+				log(
+					`transition actor=${actor.id} newState=${util.inspect(
+						snapshot.value
+					)}`
+				);
+				if (snapshot.status === "done") {
+					resolve(snapshot.output as OutputFrom<TMachine>);
+				}
+			},
+			error: reject,
 		});
 		const pumpEvents = async (): Promise<void> => {
 			try {
-				while (service.status === InterpreterStatus.Running) {
+				while (actor.getSnapshot().status === "active") {
 					const event = await events.get();
-					service.send(event);
+					if (actor.getSnapshot().status !== "active") {
+						break;
+					}
+					log(`event actor=${actor.id} event=${util.inspect(event)}`);
+					actor.send(event);
 				}
 			} catch (err) {
 				reject(err);
-				service.stop();
+				actor.stop();
 			}
 		};
-		service.start();
+		actor.start();
 		void pumpEvents(); // ignore result, can't fail (TM)
 	});
 }
