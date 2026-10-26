@@ -336,7 +336,6 @@ function encodeText(param: TextParameter, context: Context): Buffer {
 	} else {
 		switch (param.length.lengthType) {
 			case LengthType.Automatic:
-				expectedLength = undefined;
 				buffer = rawBuffer;
 				break;
 			case LengthType.ParameterReference:

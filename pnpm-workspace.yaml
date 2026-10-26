@@ -7,8 +7,8 @@ strictPeerDependencies: true
 
 catalog:
   typescript: 6.0.3
-  eslint: 9.39.5
-  "@eslint/js": 9.39.5
+  eslint: 10.13.0
+  "@eslint/js": 10.0.1
   "@typescript-eslint/eslint-plugin": 8.72.0
   "@typescript-eslint/parser": 8.72.0
   prettier: 3.9.10
