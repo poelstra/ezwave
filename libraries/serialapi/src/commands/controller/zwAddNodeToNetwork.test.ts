@@ -6,11 +6,12 @@ import { ICommandSession } from "../ICommandSession";
 import { SerialApiCommandCode } from "../serialApiCommandCode";
 import { NodeInfoResponse } from "../types";
 import {
+	AddNodeError,
 	AddNodeMode,
 	zwAddNodeToNetworkBuilder,
 	ZwAddNodeToNetworkRequest,
 } from "./zwAddNodeToNetwork";
-import { Event } from "./zwAddNodeToNetwork.machine";
+import { AddNodeResultStatus, Event } from "./zwAddNodeToNetwork.machine";
 
 const testNif: NodeInfoResponse = {
 	nodeId: 4,
@@ -207,5 +208,241 @@ describe("serialapi/commands/controller/zwAddNodeToNetwork", () => {
 
 		await testResult;
 		expect(sendStub.calledOnce).toBe(true);
+	});
+
+	describe("failure paths", () => {
+		const STOP_TIMEOUT = 60 * 1000;
+
+		const stopWithCallback = [
+			SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
+			Buffer.from([AddNodeMode.Stop, 1]),
+		];
+		const stopWithoutCallback = [
+			SerialApiCommandCode.ZW_ADD_NODE_TO_NETWORK,
+			Buffer.from([AddNodeMode.Stop, 0]),
+		];
+
+		function setup(): {
+			events: Events<Event>;
+			sendStub: sinon.SinonStub;
+			cancel: () => void;
+			run: () => Promise<NodeInfoResponse>;
+		} {
+			let doCancel: (() => void) | undefined;
+			const cmd = zwAddNodeToNetworkBuilder({
+				...defaultRequest,
+				onCancellable: (cancel) => (doCancel = cancel),
+			})(1);
+			const events = new Events<Event>();
+			const sendStub = sinon.stub().resolves();
+			const fakeSession = {
+				send: sendStub,
+			} as unknown as ICommandSession;
+			return {
+				events,
+				sendStub,
+				// Late/repeated calls to a stale cancel callback must be harmless
+				cancel: () => doCancel?.(),
+				run: () => cmd.handleEvents(events, fakeSession),
+			};
+		}
+
+		/** Expect an AddNodeError with the given status (and optional nif). */
+		async function expectAddNodeError(
+			result: Promise<unknown>,
+			status: AddNodeResultStatus,
+			nif?: NodeInfoResponse
+		): Promise<void> {
+			const err: unknown = await result.then(
+				() => undefined,
+				(e: unknown) => e
+			);
+			expect(err).toBeInstanceOf(AddNodeError);
+			expect((err as AddNodeError).status).toBe(status);
+			expect((err as AddNodeError).nif).toEqual(nif);
+		}
+
+		it("times out when no Done is received after cancel", async () => {
+			const { events, sendStub, cancel, run } = setup();
+			const testResult = run();
+			const checked = expectAddNodeError(
+				testResult,
+				AddNodeResultStatus.TimedOut
+			);
+
+			events.add({ type: "LEARN_READY" });
+			await clock.tickAsync(100);
+			cancel();
+
+			await clock.tickAsync(STOP_TIMEOUT - 1);
+			expect(sendStub.callCount).toBe(1);
+			await clock.tickAsync(1);
+
+			await checked;
+			// Still tells the chip to stop, without waiting for a callback
+			expect(sendStub.callCount).toBe(2);
+			expect(sendStub.getCall(0).args).toEqual(stopWithCallback);
+			expect(sendStub.getCall(1).args).toEqual(stopWithoutCallback);
+		});
+
+		it("times out when protocol never becomes ready", async () => {
+			const { sendStub, run } = setup();
+			const checked = expectAddNodeError(
+				run(),
+				AddNodeResultStatus.TimedOut
+			);
+
+			await clock.tickAsync(10 * 1000);
+
+			await checked;
+			expect(sendStub.callCount).toBe(1);
+			expect(sendStub.getCall(0).args).toEqual(stopWithoutCallback);
+		});
+
+		it("fails when node is not primary", async () => {
+			const { events, sendStub, run } = setup();
+			const checked = expectAddNodeError(
+				run(),
+				AddNodeResultStatus.NotPrimary
+			);
+
+			events.add({ type: "NOT_PRIMARY" });
+
+			await checked;
+			expect(sendStub.callCount).toBe(1);
+			expect(sendStub.getCall(0).args).toEqual(stopWithoutCallback);
+		});
+
+		it("reports node as failed when no Done is received after success", async () => {
+			const { events, sendStub, run } = setup();
+			const checked = expectAddNodeError(
+				run(),
+				AddNodeResultStatus.AddedFailed,
+				testNif
+			);
+
+			events.add({ type: "LEARN_READY" });
+			events.add({ type: "NODE_FOUND" });
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			events.add({ type: "PROTOCOL_DONE" });
+			await clock.tickAsync(STOP_TIMEOUT);
+
+			await checked;
+			expect(sendStub.callCount).toBe(2);
+			expect(sendStub.getCall(0).args).toEqual(stopWithCallback);
+			expect(sendStub.getCall(1).args).toEqual(stopWithoutCallback);
+		});
+
+		it("cleans up when protocol reports failure", async () => {
+			const { events, sendStub, run } = setup();
+			const checked = expectAddNodeError(
+				run(),
+				AddNodeResultStatus.AddedFailed,
+				testNif
+			);
+
+			events.add({ type: "LEARN_READY" });
+			events.add({ type: "NODE_FOUND" });
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			events.add({ type: "PROTOCOL_FAILED" });
+			events.add({ type: "DONE" });
+
+			await checked;
+			expect(sendStub.callCount).toBe(2);
+			expect(sendStub.getCall(0).args).toEqual(stopWithCallback);
+			expect(sendStub.getCall(1).args).toEqual(stopWithoutCallback);
+		});
+
+		it("cleans up when no Done is received after protocol failure", async () => {
+			const { events, sendStub, run } = setup();
+			const checked = expectAddNodeError(
+				run(),
+				AddNodeResultStatus.AddedFailed,
+				testNif
+			);
+
+			events.add({ type: "LEARN_READY" });
+			events.add({ type: "NODE_FOUND" });
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			events.add({ type: "PROTOCOL_FAILED" });
+			await clock.tickAsync(STOP_TIMEOUT);
+
+			await checked;
+			expect(sendStub.callCount).toBe(2);
+		});
+
+		it("cleans up when node is found but never identified", async () => {
+			const { events, sendStub, run } = setup();
+			const checked = expectAddNodeError(
+				run(),
+				AddNodeResultStatus.AddedFailed
+			);
+
+			events.add({ type: "LEARN_READY" });
+			events.add({ type: "NODE_FOUND" });
+			await clock.tickAsync(60 * 1000);
+			events.add({ type: "DONE" });
+
+			await checked;
+			expect(sendStub.callCount).toBe(2);
+			expect(sendStub.getCall(0).args).toEqual(stopWithCallback);
+			expect(sendStub.getCall(1).args).toEqual(stopWithoutCallback);
+		});
+
+		it("cleans up when including takes too long", async () => {
+			const { events, sendStub, run } = setup();
+			const checked = expectAddNodeError(
+				run(),
+				AddNodeResultStatus.AddedFailed,
+				testNif
+			);
+
+			events.add({ type: "LEARN_READY" });
+			events.add({ type: "NODE_FOUND" });
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			await clock.tickAsync(76 * 1000 - 1);
+			expect(sendStub.callCount).toBe(0);
+			await clock.tickAsync(1);
+			events.add({ type: "DONE" });
+
+			await checked;
+			expect(sendStub.callCount).toBe(2);
+		});
+
+		it("completes inclusion when a node is found while cancelling", async () => {
+			const { events, sendStub, cancel, run } = setup();
+			const testResult = expect(run()).resolves.toEqual(testNif);
+
+			events.add({ type: "LEARN_READY" });
+			await clock.tickAsync(100);
+			cancel();
+			events.add({ type: "NODE_FOUND" });
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			events.add({ type: "PROTOCOL_DONE" });
+			events.add({ type: "DONE" });
+
+			await testResult;
+			// Last send must be the final Stop without callback
+			expect(sendStub.lastCall.args).toEqual(stopWithoutCallback);
+		});
+
+		it("ignores cancel once a node was found", async () => {
+			const { events, cancel, run } = setup();
+			const testResult = expect(run()).resolves.toEqual(testNif);
+
+			events.add({ type: "LEARN_READY" });
+			await clock.tickAsync(100);
+			// Grab cancel callback while still valid, use it too late
+			const staleCancel = cancel;
+			events.add({ type: "NODE_FOUND" });
+			await clock.tickAsync(0);
+			staleCancel();
+			await clock.tickAsync(0);
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			events.add({ type: "PROTOCOL_DONE" });
+			events.add({ type: "DONE" });
+
+			await testResult;
+		});
 	});
 });
