@@ -1,6 +1,7 @@
 import { never } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
+import { FAKE_TIMERS } from "./fakeTimers.testutil";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	DataFrame,
@@ -92,7 +93,7 @@ describe("SerialAPI protocol", () => {
 	let protocolEvents: string[];
 
 	beforeEach(async () => {
-		clock = sinon.useFakeTimers();
+		clock = sinon.useFakeTimers({ toFake: FAKE_TIMERS });
 		framer = new FakeFramer();
 		protocol = new Protocol(framer);
 		protocolMessages = [];

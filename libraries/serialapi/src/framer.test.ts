@@ -1,5 +1,6 @@
 import { DuplexSource } from "@ezwave/test-util";
 import * as sinon from "sinon";
+import { FAKE_TIMERS } from "./fakeTimers.testutil";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { DataType, Frame, FrameError, Framer, FrameType } from "./framer";
 
@@ -12,7 +13,7 @@ describe("SerialAPI Framer", () => {
 	let framerEvents: string[];
 
 	beforeEach(() => {
-		clock = sinon.useFakeTimers();
+		clock = sinon.useFakeTimers({ toFake: FAKE_TIMERS });
 		chip = new DuplexSource();
 		framer = new Framer(chip);
 		frameErrors = [];

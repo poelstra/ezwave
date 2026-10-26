@@ -35,8 +35,8 @@
 		"typescript": "catalog:",
 		"vitest": "catalog:",
 		"@types/node": "catalog:",
-		"sinon": "~9.2.4",
-		"@types/sinon": "~9.0.11",
+		"sinon": "^22.1.0",
+		"@types/sinon": "^22.0.2",
 		"@types/debug": "^4.1.13",
 		"xstate-codegen": "^0.3.0"
 	}

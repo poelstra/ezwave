@@ -1,4 +1,5 @@
 import * as sinon from "sinon";
+import { FAKE_TIMERS } from "../../fakeTimers.testutil";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { Events } from "../events";
 import { ICommandSession } from "../ICommandSession";
@@ -32,7 +33,7 @@ const COMMAND_CLASSES_MARK = 0xef; // (239)
 
 describe("serialapi/commands/controller/zwAddNodeToNetwork", () => {
 	let clock: sinon.SinonFakeTimers;
-	beforeEach(() => (clock = sinon.useFakeTimers()));
+	beforeEach(() => (clock = sinon.useFakeTimers({ toFake: FAKE_TIMERS })));
 	afterEach(() => clock.restore());
 
 	it("encodes correct request", () => {

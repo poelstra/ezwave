@@ -1,6 +1,7 @@
 import { defer, noop } from "@ezwave/shared";
 import { EventEmitter } from "events";
 import * as sinon from "sinon";
+import { FAKE_TIMERS } from "./fakeTimers.testutil";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { SimpleRequestBuilder, ZwRequestNodeInfo } from ".";
 import { zwGetVersionBuffer } from "./commands/basis/zwGetVersion.test";
@@ -63,7 +64,7 @@ describe("SerialAPI", () => {
 	) => Promise<Buffer>;
 
 	beforeEach(async () => {
-		clock = sinon.useFakeTimers();
+		clock = sinon.useFakeTimers({ toFake: FAKE_TIMERS });
 		protocol = new FakeProtocol();
 		requestStub = sinon.stub(protocol, "request");
 		requestStub.throws(new Error("unexpected call to protocol.request()"));
