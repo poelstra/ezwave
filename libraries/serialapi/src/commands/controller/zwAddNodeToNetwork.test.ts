@@ -262,6 +262,52 @@ describe("serialapi/commands/controller/zwAddNodeToNetwork", () => {
 			expect((err as AddNodeError).nif).toEqual(nif);
 		}
 
+		it("fails with the underlying error when stop fails during cancel", async () => {
+			const { events, sendStub, cancel, run } = setup();
+			sendStub.onFirstCall().rejects(new Error("serial failure"));
+			const testResult = expect(run()).rejects.toThrow("serial failure");
+
+			events.add({ type: "LEARN_READY" });
+			await clock.tickAsync(100);
+			cancel();
+			await clock.tickAsync(0);
+
+			// Must fail immediately, not hang until some timeout
+			await testResult;
+			expect(sendStub.getCall(0).args).toEqual(stopWithCallback);
+		});
+
+		it("fails with the underlying error when final stop fails", async () => {
+			const { events, sendStub, run } = setup();
+			// 1st call: Stop with callback, 2nd call: final Stop without callback
+			sendStub.onSecondCall().rejects(new Error("serial failure"));
+			const testResult = expect(run()).rejects.toThrow("serial failure");
+
+			events.add({ type: "LEARN_READY" });
+			events.add({ type: "NODE_FOUND" });
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			events.add({ type: "PROTOCOL_DONE" });
+			events.add({ type: "DONE" });
+			await clock.tickAsync(0);
+
+			await testResult;
+			expect(sendStub.getCall(1).args).toEqual(stopWithoutCallback);
+		});
+
+		it("fails with underlying error when stop fails after protocol failure", async () => {
+			const { events, sendStub, run } = setup();
+			sendStub.onFirstCall().rejects(new Error("serial failure"));
+			const testResult = expect(run()).rejects.toThrow("serial failure");
+
+			events.add({ type: "LEARN_READY" });
+			events.add({ type: "NODE_FOUND" });
+			events.add({ type: "ADDING_SLAVE", nif: testNif });
+			events.add({ type: "PROTOCOL_FAILED" });
+			await clock.tickAsync(0);
+
+			await testResult;
+		});
+
 		it("times out when no Done is received after cancel", async () => {
 			const { events, sendStub, cancel, run } = setup();
 			const testResult = run();

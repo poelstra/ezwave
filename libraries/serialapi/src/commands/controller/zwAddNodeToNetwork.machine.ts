@@ -1,4 +1,5 @@
 import { assign, createMachine } from "@xstate/compiled";
+import { ErrorPlatformEvent } from "xstate";
 import { NodeInfoResponse } from "../types";
 
 export enum AddNodeResultStatus {
@@ -13,6 +14,12 @@ export enum AddNodeResultStatus {
 export interface AddNodeMachineResult {
 	status: AddNodeResultStatus;
 	nif?: NodeInfoResponse;
+	/**
+	 * Set when the process was aborted by an unexpected error (e.g. failure
+	 * to send a command to the Serial API), in which case `status` is
+	 * `Failed`.
+	 */
+	error?: unknown;
 }
 
 export interface Context {
@@ -23,6 +30,7 @@ export interface Context {
 	addNodeTimeout?: number;
 	status?: AddNodeResultStatus;
 	nif?: NodeInfoResponse;
+	error?: unknown;
 }
 
 export type Event =
@@ -81,6 +89,18 @@ function getAddControllerNodeTimeout(
 		totalNodes * 732
 	);
 }
+
+/**
+ * Transition for failures of the invoked stop commands: nothing more can
+ * be done to stop the Serial API in that case, so abort immediately.
+ */
+const abortOnError = {
+	target: "#addNodeToNetwork.Done" as const,
+	actions: assign<Context, ErrorPlatformEvent>({
+		status: (_context: Context) => AddNodeResultStatus.Failed,
+		error: (_context: Context, event: ErrorPlatformEvent) => event.data,
+	}),
+};
 
 export const machine = createMachine<Context, Event, "addNodeToNetwork">(
 	{
@@ -144,7 +164,7 @@ export const machine = createMachine<Context, Event, "addNodeToNetwork">(
 			},
 
 			Cancelling: {
-				invoke: { src: "invokeStop" },
+				invoke: { src: "invokeStop", onError: abortOnError },
 				on: {
 					NODE_FOUND: "NodeFound",
 					DONE: {
@@ -218,7 +238,7 @@ export const machine = createMachine<Context, Event, "addNodeToNetwork">(
 			},
 
 			CleaningUpErrors: {
-				invoke: { src: "invokeStop" },
+				invoke: { src: "invokeStop", onError: abortOnError },
 				on: {
 					DONE: {
 						target: "#addNodeToNetwork.Finalizing",
@@ -239,7 +259,7 @@ export const machine = createMachine<Context, Event, "addNodeToNetwork">(
 				},
 			},
 			Finishing: {
-				invoke: { src: "invokeStop" },
+				invoke: { src: "invokeStop", onError: abortOnError },
 				on: {
 					DONE: {
 						target: "#addNodeToNetwork.Finalizing",
@@ -260,13 +280,18 @@ export const machine = createMachine<Context, Event, "addNodeToNetwork">(
 			},
 
 			Finalizing: {
-				invoke: { src: "invokeStopNoCallback", onDone: "Done" },
+				invoke: {
+					src: "invokeStopNoCallback",
+					onDone: "Done",
+					onError: abortOnError,
+				},
 			},
 			Done: {
 				type: "final",
 				data: (context): AddNodeMachineResult => ({
 					status: context.status!,
 					nif: context.nif,
+					error: context.error,
 				}),
 			},
 		},

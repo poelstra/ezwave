@@ -291,6 +291,9 @@ export function zwAddNodeToNetworkBuilder(
 					service,
 					events
 				);
+				if (result.error !== undefined) {
+					throw result.error;
+				}
 				if (result.nif && result.status === AddNodeResultStatus.Ok) {
 					return result.nif;
 				} else {
