@@ -27,7 +27,7 @@
 		"@ezwave/commands": "workspace:*",
 		"@ezwave/security": "workspace:*",
 		"@ezwave/serialapi": "workspace:*",
-		"debug": "~4.3.1"
+		"debug": "^4.4.3"
 	},
 	"devDependencies": {
 		"@ezwave/build-config": "workspace:*",
@@ -35,6 +35,6 @@
 		"typescript": "catalog:",
 		"vitest": "catalog:",
 		"@types/node": "catalog:",
-		"@types/debug": "~4.1.5"
+		"@types/debug": "^4.1.13"
 	}
 }
